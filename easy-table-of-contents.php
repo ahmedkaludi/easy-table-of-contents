@@ -877,7 +877,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					do_action( 'ez_toc_before' );
 					$html .= ob_get_clean();
 
-					$html .= '<ul class="ez-toc-list">' . tidy_repair_string( $items, array( 'indent' => 'yes', 'indent-spaces' => 4 ) ) . '</ul>';
+					$html .= '<ul class="ez-toc-list">' . $items . '</ul>';
 
 					ob_start();
 					do_action( 'ez_toc_after' );
