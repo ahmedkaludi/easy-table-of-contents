@@ -281,74 +281,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		/**
-		 * Display the post content. Optionally allows post ID to be passed
-		 *
-		 * @link http://stephenharris.info/get-post-content-by-id/
-		 * @link http://wordpress.stackexchange.com/a/143316
-		 *
-		 * @uses the_content()
-		 *
-		 * @param int $post_id Optional. Post ID.
-		 *
-		 * @return string
-		 */
-		private static function getPostContent( $post_id = 0 ) {
-
-			//global $post;
-
-			remove_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
-
-			$post = get_post( $post_id );
-
-			setup_postdata( $post );
-
-			ob_start();
-
-			the_content();
-			$content = ob_get_clean();
-
-			wp_reset_postdata();
-
-			add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
-
-			return $content;
-		}
-
-		public static function generate( $post_id = 0 ) {
-
-			$find    = $replace = array();
-			$content = self::getPostContent( $post_id );
-			$html    = '';
-
-			if ( self::is_eligible( $post_id ) ) {
-
-				$toc = self::extract_headings( $find, $replace, $content, $post_id );
-
-				if ( 0 < strlen( $toc ) ) {
-
-					$html = '<ul class="ez-toc-list">' . PHP_EOL . $toc . '</ul>' . PHP_EOL;
-				}
-			}
-
-			return $html;
-		}
-
-		public static function get( $post_id = 0 ) {
-
-			if ( 0 == strlen( $html = get_post_meta( $post_id, '_ez-toc-html', TRUE ) ) ) {
-
-				$html = self::generate( $post_id );
-
-				if ( 0 < strlen( $html ) ) {
-
-					update_post_meta( $post_id, '_ez-toc-html', $html );
-				}
-			}
-
-			return $html;
-		}
-
-		/**
 		 * Returns a clean url to be used as the destination anchor target
 		 *
 		 * @param $title
@@ -580,12 +512,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 *
 		 * @return bool|string
 		 */
-		public static function extract_headings( &$find, &$replace, $content = '', $post_id ) {
+		public static function extract_headings( &$find, &$replace, $content = '' ) {
 
-			//global $wp_query;
-			//
-			//$post = $wp_query->post;
-			$post = get_post( $post_id );
+			global $wp_query;
+
+			$post = $wp_query->post;
 
 			$matches = array();
 			$anchor  = '';
@@ -750,12 +681,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 *
 		 * @return bool
 		 */
-		public static function is_eligible( $post_id ) {
+		public static function is_eligible() {
 
-			//global $wp_query;
-			//
-			//$post = $wp_query->post;
-			$post = get_post( $post_id );
+			global $wp_query;
+
+			$post = $wp_query->post;
 			$type = get_post_type( $post->ID );
 
 			// do not trigger the TOC when displaying an XML/RSS feed
@@ -809,21 +739,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 		public static function the_content( $content ) {
 
-			global $post;
-
-			if ( is_admin() ) return $content;
-
 			$css_classes = '';
 
 			$html    = '';
 			$find    = array();
 			$replace = array();
-			//$items   = self::extract_headings( $find, $replace, $content );
-			//$items   = ezTOC::get( $post->ID );
+			$items   = self::extract_headings( $find, $replace, $content );
 
-			if ( TRUE ) {
+			if ( $items ) {
 
-				if ( self::is_eligible( $post->ID ) ) {
+				if ( self::is_eligible() ) {
 
 					// wrapping css classes
 					switch ( ezTOC_Option::get( 'wrapping' ) ) {
@@ -915,58 +840,53 @@ if ( ! class_exists( 'ezTOC' ) ) {
 						$css_classes = ' ';
 					}
 
-					if ( 0 < strlen( $toc = ezTOC::get( $post->ID ) ) ) {
+					// add container, toc title and list items
+					$html .= '<div id="ez-toc-container" class="' . $css_classes . '">' . PHP_EOL;
 
-						// add container, toc title and list items
-						$html .= '<div id="ez-toc-container" class="' . $css_classes . '">' . PHP_EOL;
+					if ( ezTOC_Option::get( 'show_heading_text' ) ) {
 
-						if ( ezTOC_Option::get( 'show_heading_text' ) ) {
+						$toc_title = ezTOC_Option::get( 'heading_text' );
 
-							$toc_title = ezTOC_Option::get( 'heading_text' );
+						if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== FALSE ) {
 
-							if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== FALSE ) {
-
-								$toc_title = str_replace( '%PAGE_TITLE%', get_the_title(), $toc_title );
-							}
-
-							if ( strpos( $toc_title, '%PAGE_NAME%' ) !== FALSE ) {
-
-								$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
-							}
-
-							$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
-
-							$html .= '<p class="ez-toc-title">' . htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ) . '</p>' . PHP_EOL;
-
-							$html .= '<span class="ez-toc-title-toggle">';
-
-							if ( ezTOC_Option::get( 'visibility' ) ) {
-
-								$html .= '<a class="pull-right btn btn-xs btn-default ez-toc-toggle"><i class="glyphicon ez-toc-icon-toggle"></i></a>';
-							}
-
-							$html .= '</span>';
-
-							$html .= '</div>' . PHP_EOL;
+							$toc_title = str_replace( '%PAGE_TITLE%', get_the_title(), $toc_title );
 						}
 
-						ob_start();
-						do_action( 'ez_toc_before' );
-						$html .= ob_get_clean();
+						if ( strpos( $toc_title, '%PAGE_NAME%' ) !== FALSE ) {
 
-						//$html .= '<ul class="ez-toc-list">' . PHP_EOL . $items . '</ul>' . PHP_EOL;
-						$html .= $toc;
+							$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
+						}
 
-						ob_start();
-						do_action( 'ez_toc_after' );
-						$html .= ob_get_clean();
+						$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
+
+						$html .= '<p class="ez-toc-title">' . htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ) . '</p>' . PHP_EOL;
+
+						$html .= '<span class="ez-toc-title-toggle">';
+
+						if ( ezTOC_Option::get( 'visibility' ) ) {
+
+							$html .= '<a class="pull-right btn btn-xs btn-default ez-toc-toggle"><i class="glyphicon ez-toc-icon-toggle"></i></a>';
+						}
+
+						$html .= '</span>';
 
 						$html .= '</div>' . PHP_EOL;
 					}
+
+					ob_start();
+					do_action( 'ez_toc_before' );
+					$html .= ob_get_clean();
+
+					$html .= '<ul class="ez-toc-list">' . tidy_repair_string( $items, array( 'indent' => 'yes', 'indent-spaces' => 4 ) ) . '</ul>';
+
+					ob_start();
+					do_action( 'ez_toc_after' );
+					$html .= ob_get_clean();
+
+					$html .= '</div>' . PHP_EOL;
 				}
 
-				//if ( count( $find ) > 0 ) {
-				if ( 0 < strlen( $html ) ) {
+				if ( count( $find ) > 0 ) {
 
 					switch ( ezTOC_Option::get( 'position' ) ) {
 

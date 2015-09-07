@@ -284,14 +284,6 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 					update_post_meta( $post_id, '_ez-toc-exclude', '' );
 				}
 
-				if ( 0 < strlen( $toc = ezTOC::generate( $post_id ) ) ) {
-
-					update_post_meta( $post_id, '_ez-toc-html', $toc );
-
-				} else {
-
-					update_post_meta( $post_id, '_ez-toc-html', '' );
-				}
 			}
 
 		}

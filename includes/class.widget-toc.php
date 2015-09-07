@@ -98,7 +98,30 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 			<?php
 		}
 
+		/**
+		 * Display the post content. Optionally allows post ID to be passed
+		 *
+		 * @link http://stephenharris.info/get-post-content-by-id/
+		 * @link http://wordpress.stackexchange.com/a/143316
+		 *
+		 * @uses the_content()
+		 *
+		 * @param int $post_id Optional. Post ID.
+		 *
+		 * @return string
+		 */
+		function the_content( $post_id = 0 ) {
 
+			global $post;
+			$post = get_post( $post_id );
+			setup_postdata( $post );
+			ob_start();
+			the_content();
+			$content = ob_get_clean();
+			wp_reset_postdata();
+
+			return $content;
+		}
 
 		/**
 		 * Widget output to the public
@@ -124,8 +147,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 			extract( $args );
 
 			$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
-			//$items = ezTOC::extract_headings( $find, $replace, $this->the_content() );
-			$items = ezTOC::get( $post->ID );
+			$items = ezTOC::extract_headings( $find, $replace, $this->the_content() );
 
 			if ( FALSE !== strpos( $title, '%PAGE_TITLE%' ) || FALSE !== strpos( $title, '%PAGE_NAME%' ) ) {
 
@@ -204,12 +226,14 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 						<span class="ez-toc-title"><?php echo $title; ?></span>
 
 						<span class="ez-toc-title-toggle">
+
 							<?php
 							if ( ezTOC_Option::get( 'visibility' ) ) {
 
 								echo '<a class="pull-right btn btn-xs btn-default ez-toc-toggle"><i class="glyphicon ez-toc-icon-toggle"></i></a>';
 							}
 							?>
+
 						</span>
 
 					</span>
