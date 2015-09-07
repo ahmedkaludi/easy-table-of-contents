@@ -135,8 +135,9 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
 			$css_classes = '';
 
-			$find  = $replace = array();
-			$post  = get_post( $wp_query->post->ID );
+			$find    = $replace = array();
+			$post    = get_post( $wp_query->post->ID );
+			$content = apply_filters( 'the_content', $post->post_content );
 
 			/**
 			 * @var string $before_widget
@@ -147,7 +148,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 			extract( $args );
 
 			$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
-			$items = ezTOC::extract_headings( $find, $replace, $this->the_content() );
+			$items = ezTOC::extract_headings( $find, $replace, $content );
 
 			if ( FALSE !== strpos( $title, '%PAGE_TITLE%' ) || FALSE !== strpos( $title, '%PAGE_NAME%' ) ) {
 
