@@ -1,0 +1,75 @@
+{
+	"IcoMoonType": "selection",
+	"icons": [
+		{
+			"icon": {
+				"paths": [
+					"M0 384h704v128h-704v-128zM0 192h704v128h-704v-128zM0 576h704v128h-704v-128zM0 768h704v128h-704v-128zM768 576l128 192 128-192h-256zM1024 512l-128-192-128 192h256z"
+				],
+				"attrs": [],
+				"isMulticolor": false,
+				"tags": [
+					"menu",
+					"options"
+				],
+				"grid": 16
+			},
+			"attrs": [],
+			"properties": {
+				"order": 6,
+				"id": 184,
+				"prevSize": 32,
+				"code": 59514,
+				"name": "menu",
+				"ligatures": ""
+			},
+			"setIdx": 0,
+			"setId": 4,
+			"iconIdx": 183
+		}
+	],
+	"height": 1024,
+	"metadata": {
+		"name": "ez-toc-icomoon"
+	},
+	"preferences": {
+		"showGlyphs": true,
+		"showQuickUse": true,
+		"showQuickUse2": true,
+		"showSVGs": true,
+		"fontPref": {
+			"prefix": "icon-",
+			"metadata": {
+				"fontFamily": "ez-toc-icomoon",
+				"majorVersion": 1,
+				"minorVersion": 0
+			},
+			"metrics": {
+				"emSize": 1024,
+				"baseline": 6.25,
+				"whitespace": 50
+			},
+			"embed": false,
+			"showVersion": true,
+			"showMetadata": false,
+			"showMetrics": false,
+			"showSelector": true,
+			"selector": "i",
+			"autoHost": true
+		},
+		"imagePref": {
+			"prefix": "icon-",
+			"png": true,
+			"useClassSelector": true,
+			"color": 4473924,
+			"bgColor": 16777215
+		},
+		"historySize": 100,
+		"showCodes": false,
+		"quickUsageToken": {
+			"UntitledProject": "MmZiZGU0YzgwOTdlM2VkNTRjNzYwNDE0OTQ5MTA5MzkjMSMxNDQxMDMwMjM1IyMj"
+		},
+		"fontHostingName": false,
+		"gridSize": 16
+	}
+}

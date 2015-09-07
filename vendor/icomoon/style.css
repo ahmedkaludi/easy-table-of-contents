@@ -1,0 +1,28 @@
+@font-face {
+	font-family: 'ez-toc-icomoon';
+	src:url('fonts/ez-toc-icomoon.eot?-5j7dhv');
+	src:url('fonts/ez-toc-icomoon.eot?#iefix-5j7dhv') format('embedded-opentype'),
+		url('fonts/ez-toc-icomoon.ttf?-5j7dhv') format('truetype'),
+		url('fonts/ez-toc-icomoon.woff?-5j7dhv') format('woff'),
+		url('fonts/ez-toc-icomoon.svg?-5j7dhv#ez-toc-icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+i {
+	font-family: 'ez-toc-icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-menu:before {
+	content: "\e87a";
+}

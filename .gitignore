@@ -1,0 +1,63 @@
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+#Icon?
+ehthumbs.db
+Thumbs.db
+
+# i18n #
+############
+connections.mo
+connections-en_US.mo
+*.po
+
+# Sublime Text #
+################
+*.sublime-project
+*.sublime-workspace
+sftp-config.json
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+
+# phpStorm #
+############
+.idea
+
+# Eclipse #
+###########
+.project
+*.pydevproject
+.metadata
+.gradle
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+
+# Dreamweaver #
+###############
+_notes
+dwsync.xml
+
+# Transifex #
+#############
+tx.exe
+
+# Grunt #
+#########
+node_modules
+
+# Misc #
+########
+build
+logs
