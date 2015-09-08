@@ -19,7 +19,7 @@ jQuery( document ).ready( function( $ ) {
 				display: 'table'
 			});
 
-			if ( $.browser.msie && parseInt( $.browser.version ) == 7 )
+			if ( /MSIE 7\./.test( navigator.userAgent ) )
 				$( this ).css( 'width', '' );
 		};
 
