@@ -169,7 +169,8 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'auto_insert_post_types' => array(
 							'id' => 'auto_insert_post_types',
 							'name' => __( 'Auto Insert', 'ez_toc' ),
-							'desc' => __( 'Select the post types which will have the table of contents automatically inserted.', 'ez_toc' ),
+							'desc' => __( 'Select the post types which will have the table of contents automatically inserted.', 'ez_toc' ) .
+							          '<br><span class="description">' . __( 'NOTE: The table of contents will only be automatically inserted on post types for which it has been enabled.', 'ez_toc' ) . '<span>',
 							'type' => 'checkboxgroup',
 							'options' => self::getPostTypes(),
 							'default' => array(),
