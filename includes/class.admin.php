@@ -35,19 +35,28 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			add_action( 'admin_init', array( $this, 'registerScripts' ) );
 			add_action( 'admin_menu', array( $this, 'menu' ) );
 			add_action( 'init', array( $this, 'registerMetaboxes' ), 99 );
-
-			//add_filter( 'plugin_action_links', array( $this, 'pluginActionLinks' ), 10, 2 );
+			add_filter( 'plugin_action_links_' . EZ_TOC_BASE_NAME, array( $this, 'pluginActionLinks' ), 10, 2 );
 		}
 
-		//public  function pluginActionLinks( $links, $file ) {
-		//
-		//	if ( $file == 'table-of-contents-plus/' . basename( __FILE__ ) ) {
-		//		$settings_link = '<a href="options-general.php?page=toc">' . __( 'Settings', 'toc+' ) . '</a>';
-		//		$links         = array_merge( array( $settings_link ), $links );
-		//	}
-		//
-		//	return $links;
-		//}
+		/**
+		 * Callback to add the Settings link to the plugin action links.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */
+		public  function pluginActionLinks( $links, $file ) {
+
+			$action = array();
+
+			$action[] = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( add_query_arg( 'page', 'table-of-contents', self_admin_url( 'options-general.php' ) ) ),
+				esc_html( __( 'Settings', 'ez_toc' ) )
+			);
+
+			return array_merge( $action, $links );
+		}
 
 		/**
 		 * Register the scripts used in the admin.
@@ -78,7 +87,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 				__( 'Table of Contents', 'ez_toc' ),
 				__( 'Table of Contents', 'ez_toc' ),
 				'manage_options',
-				'connections-toc',
+				'table-of-contents',
 				array( $this, 'page' )
 			);
 
