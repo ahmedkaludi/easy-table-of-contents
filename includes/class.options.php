@@ -531,7 +531,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'position'                           => 'before',
 				'start'                              => 4,
 				'show_heading_text'                  => TRUE,
-				'heading_text'                       => 'Contents',
+				'heading_text'                       => 'Table of Contents',
 				'enabled_post_types'                 => array( 'page' ),
 				'auto_insert_post_types'             => array(),
 				'show_hierarchy'                     => TRUE,
