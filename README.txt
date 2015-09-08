@@ -81,7 +81,7 @@ None yet.
 
 = 1.0 09/08/2015 =
 * Initial release.
-  - Complete refactor and restructure of the original code for better design separation of function to make code base much easier to maintain.
+  - Complete refactor and restructure of the original code for better design and separation of function to make code base much easier to maintain.
   - Update all third party libraries.
   - Make much better use of the WordPress Settings API.
   - Minified CSS and JS files are used by default. Using SCRIPT_DEBUG will use the un-minified versions.
@@ -89,6 +89,7 @@ None yet.
   - Add many hooks to permit third party integrations.
   - Widget can be affixed/stuck to the page so it is always visible.
   - Widget will highlight the table of content sections that are currently visible in the browser viewport.
+  - Widget will now generate table of contents using output from third party shortcodes.
   - Use wpColorPicker instead of farbtastic.
   - Remove all shortcodes.
   - Per post options are saved in post meta instead of set by shortcode.
