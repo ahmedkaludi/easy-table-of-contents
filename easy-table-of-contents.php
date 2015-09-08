@@ -436,7 +436,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				// list item
 				if ( in_array( $matches[ $i ][2], ezTOC_Option::get( 'heading_levels' ) ) ) {
 
-					$html .= '<a href="#' . self::url_anchor_target( $matches[ $i ][0] ) . '">';
+					//$html .= '<a href="#' . self::url_anchor_target( $matches[ $i ][0] ) . '">';
+					$html .= sprintf(
+						'<a href="#%1$s" title="%2$s">',
+						self::url_anchor_target( $matches[ $i ][0] ),
+						esc_attr( strip_tags( $matches[ $i ][0] ) )
+					);
 
 					//if ( 'decimal' == ezTOC_Option::get( 'counter' ) ) {
 					//
