@@ -721,10 +721,21 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 */
 		public static function getPostTypes() {
 
-			$exclude = apply_filters( 'ez_toc_exclude_post_types', array( 'attachment', 'revision', 'nav_menu_item', 'safecss' ) );
-			$types   = get_post_types();
+			$exclude    = apply_filters( 'ez_toc_exclude_post_types', array( 'attachment', 'revision', 'nav_menu_item', 'safecss' ) );
+			$registered = get_post_types( array(), 'objects' );
+			$types      = array();
 
-			return array_diff( $types, $exclude );
+			foreach ( $registered as $post ) {
+
+				if ( in_array( $post->name, $exclude ) ) {
+
+					continue;
+				}
+
+				$types[ $post->name ] = $post->label;
+			}
+
+			return $types;
 		}
 
 		/**
