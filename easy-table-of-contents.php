@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Easy Table of Contents
  * Plugin URI: http://connections-pro.com/
- * Description: Adds a user friendly and fully automatic way to create and display a table of contents from the page content.
+ * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
  * Version: 1.0
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
