@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Easy Table of Contents
  * Plugin URI: http://connections-pro.com/
- * Description: Adds a user friendly shortcode and widget to automatically create and display a table of contents from  the page content.
+ * Description: Adds a user friendly and fully automatic way to create and display a table of contents from the page content.
  * Version: 1.0
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
@@ -32,16 +32,6 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-/**
- * FOR CONSIDERATION:
- * - back to top links
- * - sitemap
- * - easier exclude pages/categories
- * - support other taxonomies
- * - advanced options
- * - highlight target css
- */
-
 if ( ! class_exists( 'ezTOC' ) ) {
 
 	/**
@@ -49,6 +39,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 	 */
 	final class ezTOC {
 
+		/**
+		 * Current version.
+		 *
+		 * @since 1.0
+		 * @var string
+		 */
 		const VERSION = '1.0';
 
 		/**
@@ -56,13 +52,18 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 *
 		 * @access private
 		 * @since  1.0
+		 * @static
 		 *
 		 * @var ezTOC
 		 */
 		private static $instance;
 
 		/**
-		 * keeps a track of used anchors for collision detecting
+		 * Keeps a track of used anchors for collision detecting.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
 		 *
 		 * @var array
 		 */
@@ -72,13 +73,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * A dummy constructor to prevent the class from being loaded more than once.
 		 *
 		 * @access public
-		 * @since  0.7.9
+		 * @since  1.0
 		 */
 		public function __construct() { /* Do nothing here */ }
 
 		/**
 		 * @access private
-		 * @since  unknown
+		 * @since  1.0
 		 * @static
 		 *
 		 * @return ezTOC
@@ -95,6 +96,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 		}
 
+		/**
+		 * Define the plugin constants.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */
 		private static function defineConstants() {
 
 			define( 'EZ_TOC_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );
@@ -103,6 +111,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			define( 'EZ_TOC_URL', plugin_dir_url( __FILE__ ) );
 		}
 
+		/**
+		 * Includes the plugin dependency files.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */
 		private static function includes() {
 
 			require_once( EZ_TOC_PATH . 'includes/class.options.php' );
@@ -116,12 +131,19 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			require_once( EZ_TOC_PATH . 'includes/class.widget-toc.php' );
 		}
 
+		/**
+		 * Add the core action filter hook.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */
 		private static function hooks() {
 
 			add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
 
-			// run after shortcodes are interpreted (level 10)
+			// Run after shortcodes are interpreted (priority 10).
 			add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
 		}
 
@@ -175,7 +197,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		/**
-		 * Register and load CSS and javascript files for frontend.
+		 * Register and enqueue CSS and javascript files for frontend.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
 		 */
 		public static function enqueueScripts() {
 
@@ -228,6 +254,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 		}
 
+		/**
+		 * Prints out inline CSS after the core CSS file to allow overriding core styles via options.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */
 		public static function inlineCSS() {
 
 			$css = '';
@@ -281,11 +314,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		/**
-		 * Returns a clean url to be used as the destination anchor target
+		 * Returns a URL to be used as the destination anchor target.
 		 *
-		 * @param $title
+		 * @access private
+		 * @since  1.0
+		 * @static
 		 *
-		 * @return mixed|void
+		 * @param string $title
+		 *
+		 * @return bool|string
 		 */
 		private static function url_anchor_target( $title ) {
 
@@ -348,6 +385,17 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			return apply_filters( 'ez_toc_url_anchor_target', $return );
 		}
 
+		/**
+		 * Generates a nested unordered list for the table of contents.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 *
+		 * @param array $matches
+		 *
+		 * @return string
+		 */
 		private static function build_hierarchy( &$matches ) {
 
 			$current_depth      = 100;    // headings can't be larger than h6 but 100 as a default to be sure
@@ -444,13 +492,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 		/**
 		 * Returns a string with all items from the $find array replaced with their matching
-		 * items in the $replace array.  This does a one to one replacement (rather than
-		 * globally).
+		 * items in the $replace array.  This does a one to one replacement (rather than globally).
 		 *
 		 * This function is multibyte safe.
 		 *
 		 * $find and $replace are arrays, $string is the haystack.  All variables are
 		 * passed by reference.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
 		 *
 		 * @param bool   $find
 		 * @param bool   $replace
@@ -472,7 +523,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 							          0,
 							          mb_strpos( $string, $find[ $i ] )
 						          ) .    // everything before $find
-						          $replace[ $i ] .                                                // its replacement
+						          $replace[ $i ] . // its replacement
 						          mb_substr(
 							          $string,
 							          mb_strpos( $string, $find[ $i ] ) + mb_strlen( $find[ $i ] )
@@ -503,11 +554,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * this function populates the $find and $replace arrays (both passed by reference)
 		 * with what to search and replace with.
 		 *
-		 * Returns a html formatted string of list items for each qualifying heading.  This
+		 * Returns a HTML formatted string of list items for each qualifying heading.  This
 		 * is everything between and NOT including <ul> and </ul>
 		 *
-		 * @param        $find
-		 * @param        $replace
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 *
+		 * @param array  $find
+		 * @param array  $replace
 		 * @param string $content
 		 *
 		 * @return bool|string
@@ -679,6 +734,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		/**
 		 * Returns true if the table of contents is eligible to be printed, false otherwise.
 		 *
+		 * @access public
+		 * @since  1.0
+		 * @static
+		 *
 		 * @return bool
 		 */
 		public static function is_eligible() {
@@ -737,6 +796,20 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 		}
 
+		/**
+		 * Callback for the `the_content` filter.
+		 *
+		 * This will add the inline table of contents page anchors to the post content. It will also insert the
+		 * table of contents inline with the post content as defined by the user defined preference.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 *
+		 * @param string $content
+		 *
+		 * @return string
+		 */
 		public static function the_content( $content ) {
 
 			$css_classes = '';

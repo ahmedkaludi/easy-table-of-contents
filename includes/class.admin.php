@@ -10,13 +10,27 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 	 */
 	final class ezTOC_Admin {
 
+		/**
+		 * Setup plugin for admin use.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */
 		public function __construct() {
 
 			$this->hooks();
 			//$this->registerMetaboxes();
 		}
 
-		public function hooks() {
+		/**
+		 * Add the core admin hooks.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */
+		private function hooks() {
 
 			add_action( 'admin_init', array( $this, 'registerScripts' ) );
 			add_action( 'admin_menu', array( $this, 'menu' ) );
@@ -35,12 +49,28 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		//	return $links;
 		//}
 
+		/**
+		 * Register the scripts used in the admin.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */
 		public function registerScripts() {
 
 			wp_register_script( 'cn_toc_admin_script', EZ_TOC_URL . 'assets/js/admin.js', array( 'jquery', 'wp-color-picker' ), ezTOC::VERSION, TRUE );
 			wp_register_style( 'cn_toc_admin_style', EZ_TOC_URL . 'assets/css/admin.css', array( 'wp-color-picker' ), ezTOC::VERSION );
 		}
 
+		/**
+		 * Callback to add plugin as a submenu page of the Options page.
+		 *
+		 * This also adds the action to enqueue the scripts to be loaded on plugin's admin pages only.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */
 		public function menu() {
 
 			$page = add_submenu_page(
@@ -56,7 +86,11 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		}
 
 		/**
-		 * Load needed scripts and styles only on the toc administration interface.
+		 * Enqueue the scripts.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
 		 */
 		public function enqueueScripts() {
 
@@ -64,6 +98,15 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			wp_enqueue_style( 'cn_toc_admin_style' );
 		}
 
+		/**
+		 * Callback to add the action which will register the table of contents post  metaboxes.
+		 *
+		 * Metaboxes will only be registered for the post types per user preferences.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */
 		public function registerMetaboxes() {
 
 			foreach ( get_post_types() as $type ) {
@@ -76,12 +119,25 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			}
 		}
 
+		/**
+		 * Callback to register the table of contents metaboxes.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */
 		public function metabox() {
 
 			add_meta_box( 'ez-toc', __( 'Table of Contents', 'ez-toc' ), array( $this, 'displayMetabox' ) );
 		}
 
 		/**
+		 * Callback to render the content of the table of contents metaboxes.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 *
 		 * @param object $post The post object.
 		 * @param        $atts
 		 */
@@ -220,6 +276,12 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		}
 
 		/**
+		 * Callback which saves the user preferences from the table of contents metaboxes.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 *
 		 * @param int    $post_id The post ID.
 		 * @param object $post    The post object.
 		 * @param bool   $update  Whether this is an existing post being updated or not.
@@ -288,6 +350,13 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 
 		}
 
+		/**
+		 * Callback used to render the admin options page.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */
 		public function page() {
 
 			include EZ_TOC_PATH . 'includes/inc.admin-options-page.php';

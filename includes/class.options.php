@@ -7,9 +7,18 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 
 	/**
 	 * Class ezTOC_Option
+	 *
+	 * Credit: Adapted from Easy Digital Downloads.
 	 */
 	final class ezTOC_Option {
 
+		/**
+		 * Register the plugins core settings and options.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */
 		public static function register() {
 
 			if ( FALSE === get_option( 'ez-toc-settings' ) ) {
@@ -63,16 +72,15 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		}
 
 		/**
-		 * Settings Sanitization
+		 * Callback for settings sanitization.
 		 *
-		 * Adds a settings error (for the updated message)
-		 * At some point this will validate input
+		 * @access private
+		 * @since  1.0
+		 * @static
 		 *
-		 * @since 1.0
+		 * @param array $input The value inputted in the field.
 		 *
-		 * @param array $input The value inputted in the field
-		 *
-		 * @return string $input Sanitized value
+		 * @return string $input Sanitized value.
 		 */
 		public static function sanitize( $input = array() ) {
 
@@ -135,6 +143,15 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			return $output;
 		}
 
+		/**
+		 * The core registered settings and options.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 *
+		 * @return array
+		 */
 		private static function getRegistered() {
 
 			$options = array(
@@ -497,6 +514,15 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			return apply_filters( 'ez_toc_registered_settings', $options );
 		}
 
+		/**
+		 * The default values for the registered settings and options.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 *
+		 * @return array
+		 */
 		private static function getDefaults() {
 
 			$defaults = array(
@@ -545,6 +571,15 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			return apply_filters( 'ez_toc_get_default_options', $defaults );
 		}
 
+		/**
+		 * Get the default options array.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 *
+		 * @return array
+		 */
 		private static function getOptions() {
 
 			$defaults = self::getDefaults();
@@ -554,6 +589,18 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			return apply_filters( 'ez_toc_get_options', $options );
 		}
 
+		/**
+		 * Get option value by key name.
+		 *
+		 * @access public
+		 * @since  1.0
+		 * @static
+		 *
+		 * @param string     $key
+		 * @param bool|FALSE $default
+		 *
+		 * @return mixed|void
+		 */
 		public static function get( $key, $default = FALSE ) {
 
 			$options = self::getOptions();
@@ -564,6 +611,18 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			return apply_filters( 'ez_toc_get_option_' . $key, $value, $key, $default );
 		}
 
+		/**
+		 * Set an option value by key name.
+		 *
+		 * @access public
+		 * @since  1.0
+		 * @static
+		 *
+		 * @param string     $key
+		 * @param bool|FALSE $value
+		 *
+		 * @return bool
+		 */
 		public static function set( $key, $value = FALSE ) {
 
 			if ( empty( $value ) ) {
@@ -580,6 +639,17 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			return update_option( 'ez-toc-settings', $options );
 		}
 
+		/**
+		 * Delete an option from the options table by option key name.
+		 *
+		 * @access public
+		 * @since  1.0
+		 * @static
+		 *
+		 * @param string $key
+		 *
+		 * @return bool
+		 */
 		public static function delete( $key ) {
 
 			// First let's grab the current settings
@@ -595,8 +665,19 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		}
 
 		/**
+		 * Sanitize a hex color from user input.
+		 *
 		 * Tries to convert $string into a valid hex colour.
 		 * Returns $default if $string is not a hex value, otherwise returns verified hex.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 *
+		 * @param string $string
+		 * @param string $default
+		 *
+		 * @return mixed|string
 		 */
 		private static function hex_value( $string = '', $default = '#' ) {
 
@@ -628,6 +709,15 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			return $return;
 		}
 
+		/**
+		 * Get the registered post types minus excluded core types.
+		 *
+		 * @access public
+		 * @since  1.0
+		 * @static
+		 *
+		 * @return array
+		 */
 		public static function getPostTypes() {
 
 			$exclude = apply_filters( 'ez_toc_exclude_post_types', array( 'attachment', 'revision', 'nav_menu_item', 'safecss' ) );
@@ -639,9 +729,11 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		/**
 		 * Missing Callback
 		 *
-		 * If a function is missing for settings callbacks alert the user.
+		 * If a settings field type callback is not callable, alert the user.
 		 *
-		 * @since 1.0
+		 * @access public
+		 * @since  1.0
+		 * @static
 		 *
 		 * @param array $args Arguments passed by the setting
 		 */
@@ -658,7 +750,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 *
 		 * Renders text fields.
 		 *
-		 * @since 1.0
+		 * @access public
+		 * @since  1.0
+		 * @static
 		 *
 		 * @param array $args Arguments passed by the setting
 		 * @param null  $value
@@ -699,7 +793,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 *
 		 * Renders number fields.
 		 *
-		 * @since 1.0
+		 * @access public
+		 * @since  1.0
+		 * @static
 		 *
 		 * @param array $args        Arguments passed by the setting
 		 */
@@ -736,7 +832,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 *
 		 * Renders checkboxes.
 		 *
-		 * @since 1.0
+		 * @access public
+		 * @since  1.0
+		 * @static
 		 *
 		 * @param array $args Arguments passed by the setting
 		 * @param null  $value
@@ -774,7 +872,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 *
 		 * Renders multiple checkboxes.
 		 *
-		 * @since 1.0
+		 * @access public
+		 * @since  1.0
+		 * @static
 		 *
 		 * @param array $args Arguments passed by the setting
 		 * @param null  $value
@@ -816,7 +916,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 *
 		 * Renders radio groups.
 		 *
-		 * @since 1.3.3
+		 * @access public
+		 * @since  1.0
+		 * @static
 		 *
 		 * @param array $args Arguments passed by the setting
 		 */
@@ -841,7 +943,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 *
 		 * Renders select fields.
 		 *
-		 * @since 1.0
+		 * @access public
+		 * @since  1.0
+		 * @static
 		 *
 		 * @param array $args Arguments passed by the setting.
 		 */
@@ -879,11 +983,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		}
 
 		/**
-		 * Select Group Callback
+		 * Select Drop Down Callback
 		 *
 		 * Renders select with option group fields.
 		 *
-		 * @since 1.0
+		 * @access public
+		 * @since  1.0
+		 * @static
 		 *
 		 * @param array $args Arguments passed by the setting.
 		 */
@@ -933,7 +1039,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 *
 		 * Renders the header.
 		 *
-		 * @since 1.0
+		 * @access public
+		 * @since  1.0
+		 * @static
 		 *
 		 * @param array $args Arguments passed by the setting
 		 */
@@ -952,7 +1060,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 *
 		 * Renders descriptive text onto the settings field.
 		 *
-		 * @since 1.0
+		 * @access public
+		 * @since  1.0
+		 * @static
 		 *
 		 * @param array $args Arguments passed by the setting
 		 */
@@ -966,7 +1076,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 *
 		 * Renders color picker fields.
 		 *
-		 * @since 1.0
+		 * @access public
+		 * @since  1.0
+		 * @static
 		 *
 		 * @param array $args Arguments passed by the setting
 		 */
@@ -986,6 +1098,15 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			echo $html;
 		}
 
+		/**
+		 * Custom table of contents width.
+		 *
+		 * @access public
+		 * @since  1.0
+		 * @static
+		 *
+		 * @param array $args
+		 */
 		public static function custom_width( $args ) {
 
 			//$value = self::get( $args['id'], $args['default'] );
@@ -1018,6 +1139,15 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			}
 		}
 
+		/**
+		 * Custom font size callback.
+		 *
+		 * @access public
+		 * @since  1.0
+		 * @static
+		 *
+		 * @param array $args
+		 */
 		public static function font_size( $args ) {
 
 			//$value = self::get( $args['id'], $args['default'] );

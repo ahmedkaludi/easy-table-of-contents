@@ -4,20 +4,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
+	/**
+	 * Class ezTOC_Widget
+	 */
 	class ezTOC_Widget extends WP_Widget {
 
+		/**
+		 * Setup and register the table of contents widget.
+		 *
+		 * @access public
+		 * @since  1.0
+		 */
 		public function __construct() {
-
-			//$widget_options  = array(
-			//	'classname'   => 'ez-toc-widget',
-			//	'description' => __( ' with this widget', 'ez_toc' )
-			//);
-			//$control_options = array(
-			//	'width'   => 250,
-			//	'height'  => 350,
-			//	'id_base' => 'toc-widget'
-			//);
-			//$this->WP_Widget( 'toc-widget', 'TOC+', $widget_options, $control_options );
 
 			$options = array(
 				'classname'   => 'ez-toc',
@@ -35,10 +33,11 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 		}
 
 		/**
-		 * Registers the widget with the WordPress Widget API.
+		 * Callback which registers the widget with the Widget API.
 		 *
 		 * @access public
-		 * @since  2.0
+		 * @since  1.0
+		 * @static
 		 *
 		 * @return void
 		 */
@@ -48,9 +47,10 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 		}
 
 		/**
-		 * Enqueue scripts.
+		 * Callback to enqueue scripts on the Widgets admin page.
 		 *
-		 * @since 1.0
+		 * @access private
+		 * @since  1.0
 		 *
 		 * @param string $hook_suffix
 		 */
@@ -66,9 +66,10 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 		}
 
 		/**
-		 * Print scripts.
+		 * Callback to print the scripts to the Widgets admin page footer.
 		 *
-		 * @since 1.0
+		 * @access private
+		 * @since  1.0
 		 */
 		public function printScripts() {
 			?>
@@ -104,13 +105,14 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 		 * @link http://stephenharris.info/get-post-content-by-id/
 		 * @link http://wordpress.stackexchange.com/a/143316
 		 *
-		 * @uses the_content()
+		 * @access public
+		 * @since  1.0
 		 *
 		 * @param int $post_id Optional. Post ID.
 		 *
 		 * @return string
 		 */
-		function the_content( $post_id = 0 ) {
+		public function the_content( $post_id = 0 ) {
 
 			global $post;
 			$post = get_post( $post_id );
@@ -124,12 +126,15 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 		}
 
 		/**
-		 * Widget output to the public
+		 * Renders the widgets.
+		 *
+		 * @access private
+		 * @since  1.0
 		 *
 		 * @param array $args
 		 * @param array $instance
 		 */
-		function widget( $args, $instance ) {
+		public function widget( $args, $instance ) {
 
 			global $wp_query;
 
@@ -258,14 +263,17 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 		}
 
 		/**
-		 * Update the widget settings
+		 * Update the widget settings.
+		 *
+		 * @access private
+		 * @since  1.0
 		 *
 		 * @param array $new_instance
 		 * @param array $old_instance
 		 *
 		 * @return array
 		 */
-		function update( $new_instance, $old_instance ) {
+		public function update( $new_instance, $old_instance ) {
 
 			$instance = $old_instance;
 
@@ -284,13 +292,16 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 		}
 
 		/**
-		 * Displays the widget settings on the widget panel.
+		 * Displays the widget settings on the Widgets admin page.
+		 *
+		 * @access private
+		 * @since  1.0
 		 *
 		 * @param array $instance
 		 *
 		 * @return string|void
 		 */
-		function form( $instance ) {
+		public function form( $instance ) {
 
 			$defaults = array(
 				'affix' => '0',
