@@ -332,6 +332,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				$return = trim( strip_tags( $title ) );
 
+				// Convert accented characters to ASCII.
+				$return = remove_accents( $return );
+
 				// replace newlines with spaces (eg when headings are split over multiple lines)
 				$return = str_replace( array( "\r", "\n", "\n\r", "\r\n" ), ' ', $return );
 
