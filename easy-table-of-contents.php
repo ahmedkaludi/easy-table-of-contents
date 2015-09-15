@@ -461,7 +461,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					//	$numbered_items[ $current_depth ] ++;
 					//}
 
-					$html .= strip_tags( $matches[ $i ][0] ) . '</a>';
+					$html .= strip_tags( wp_kses_post( $matches[ $i ][0] ) ) . '</a>';
 				}
 
 				// end lists
@@ -723,7 +723,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 								//	$items .= count( $replace ) . ' ';
 								//}
 
-								$items .= strip_tags( $matches[ $i ][0] ) . '</a></li>';
+								$items .= strip_tags( wp_kses_post( $matches[ $i ][0] ) ) . '</a></li>';
 							}
 						}
 
