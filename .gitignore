@@ -11,9 +11,6 @@ Thumbs.db
 
 # i18n #
 ############
-connections.mo
-connections-en_US.mo
-*.po
 
 # Sublime Text #
 ################
