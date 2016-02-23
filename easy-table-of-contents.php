@@ -772,13 +772,25 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				if ( ezTOC_Option::get( 'restrict_path' ) ) {
 
-					if ( strpos( $_SERVER['REQUEST_URI'], ezTOC_Option::get( 'restrict_path' ) ) === 0 ) {
+					//if ( strpos( $_SERVER['REQUEST_URI'], ezTOC_Option::get( 'restrict_path' ) ) === 0 ) {
+					//
+					//	return TRUE;
+					//
+					//} else {
+					//
+					//	return FALSE;
+					//}
 
-						return TRUE;
+					/**
+					 * @link https://wordpress.org/support/topic/restrict-path-logic-does-not-work-correctly?
+					 */
+					if ( FALSE !== strpos( ezTOC_Option::get( 'restrict_path' ), $_SERVER['REQUEST_URI'] ) ) {
+
+						return FALSE;
 
 					} else {
 
-						return FALSE;
+						return TRUE;
 					}
 
 				} else {
