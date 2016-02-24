@@ -443,8 +443,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 					//$html .= '<a href="#' . self::url_anchor_target( $title ) . '">';
 					$html .= sprintf(
-						'<a href="#%1$s" title="%2$s">',
-						self::url_anchor_target( $matches[ $i ][0] ),
+						'<a href="%1$s" title="%2$s">',
+						esc_url( '#' . self::url_anchor_target( $matches[ $i ][0] ) ),
 						esc_attr( $title )
 					);
 
