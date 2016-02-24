@@ -248,7 +248,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php _e( 'Exclude Headings', 'ez_toc' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Exclude Headings', 'ez_toc' ); ?></th>
 					<td>
 						<?php
 						ezTOC_Option::text(
