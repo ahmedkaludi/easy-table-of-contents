@@ -958,7 +958,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 						$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
 
-						$html .= '<p class="ez-toc-title">' . htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ) . '</p>' . PHP_EOL;
+						$html .= '<p class="ez-toc-title">' . esc_html( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ) ). '</p>' . PHP_EOL;
 
 						$html .= '<span class="ez-toc-title-toggle">';
 

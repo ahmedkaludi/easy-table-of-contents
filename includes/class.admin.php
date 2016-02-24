@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			$action[] = sprintf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( add_query_arg( 'page', 'table-of-contents', self_admin_url( 'options-general.php' ) ) ),
-				esc_html( __( 'Settings', 'ez_toc' ) )
+				esc_html__( 'Settings', 'ez_toc' )
 			);
 
 			return array_merge( $action, $links );
@@ -84,8 +84,8 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 
 			$page = add_submenu_page(
 				'options-general.php',
-				__( 'Table of Contents', 'ez_toc' ),
-				__( 'Table of Contents', 'ez_toc' ),
+				esc_html__( 'Table of Contents', 'ez_toc' ),
+				esc_html__( 'Table of Contents', 'ez_toc' ),
 				'manage_options',
 				'table-of-contents',
 				array( $this, 'page' )
@@ -137,7 +137,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 */
 		public function metabox() {
 
-			add_meta_box( 'ez-toc', __( 'Table of Contents', 'ez-toc' ), array( $this, 'displayMetabox' ) );
+			add_meta_box( 'ez-toc', esc_html__( 'Table of Contents', 'ez-toc' ), array( $this, 'displayMetabox' ) );
 		}
 
 		/**
@@ -179,7 +179,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 							ezTOC_Option::checkbox(
 								array(
 									'id'      => 'disabled-toc',
-									'desc'    => __( 'Disable the automatic insertion of the table of contents.', 'ez_toc' ),
+									'desc'    => esc_html__( 'Disable the automatic insertion of the table of contents.', 'ez_toc' ),
 									'default' => $suppress,
 								),
 								$suppress
@@ -190,7 +190,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 							ezTOC_Option::checkbox(
 								array(
 									'id'      => 'insert-toc',
-									'desc'    => __( 'Insert table of contents.', 'ez_toc' ),
+									'desc'    => esc_html__( 'Insert table of contents.', 'ez_toc' ),
 									'default' => $insert,
 								),
 								$insert
@@ -202,16 +202,16 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 				</tr>
 
 				<tr>
-					<th scope="row"><?php _e( 'Advanced:', 'ez_toc' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Advanced:', 'ez_toc' ); ?></th>
 					<td>
 						<?php
 						ezTOC_Option::descriptive_text(
 							array(
 								'id' => 'exclude-desc',
 								'name' => '',
-								'desc' => '<p><strong>' . __( 'NOTE:', 'ez_toc' ) . '</strong></p>' .
+								'desc' => '<p><strong>' . esc_html__( 'NOTE:', 'ez_toc' ) . '</strong></p>' .
 								          '<ul>' .
-								          '<li>' . __( 'Using the advanced options below will override the global advanced settings.', 'ez_toc' ) . '</li>' .
+								          '<li>' . esc_html__( 'Using the advanced options below will override the global advanced settings.', 'ez_toc' ) . '</li>' .
 								          '</ul>',
 							)
 						);
@@ -220,13 +220,13 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 				</tr>
 
 				<tr>
-					<th scope="row"><?php _e( 'Headings:', 'ez_toc' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Headings:', 'ez_toc' ); ?></th>
 					<td>
 						<?php
 						ezTOC_Option::checkboxgroup(
 							array(
 								'id' => 'heading-levels',
-								'desc' => __( 'Select the heading to consider when generating the table of contents. Deselecting a heading will exclude it.', 'ez_toc' ),
+								'desc' => esc_html__( 'Select the heading to consider when generating the table of contents. Deselecting a heading will exclude it.', 'ez_toc' ),
 								'options' => array(
 									'1' => __( 'Heading 1 (h1)', 'ez_toc' ),
 									'2' => __( 'Heading 2 (h2)', 'ez_toc' ),
@@ -266,7 +266,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 							array(
 								'id' => 'exclude-desc',
 								'name' => '',
-								'desc' => '<p><strong>' . __( 'Examples:', 'ez_toc' ) . '</strong></p>' .
+								'desc' => '<p><strong>' . esc_html__( 'Examples:', 'ez_toc' ) . '</strong></p>' .
 								          '<ul>' .
 								          '<li>' . __( '<code>Fruit*</code> Ignore headings starting with "Fruit".', 'ez_toc' ) . '</li>' .
 								          '<li>' . __( '<code>*Fruit Diet*</code> Ignore headings with "Fruit Diet" somewhere in the heading.', 'ez_toc' ) . '</li>' .
