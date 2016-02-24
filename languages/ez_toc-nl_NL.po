@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Eazy TOC\n"
-"POT-Creation-Date: 2015-11-09 22:25+0100\n"
-"PO-Revision-Date: 2015-11-09 22:26+0100\n"
-"Last-Translator: Niko Strijbol <strijbol.niko@gmail.com>\n"
+"POT-Creation-Date: 2016-02-24 13:41-0500\n"
+"PO-Revision-Date: 2016-02-24 13:41-0500\n"
+"Last-Translator: Steven A. Zahm <helpdesk@connections-pro.com>\n"
 "Language-Team: Niko Strijbol <strijbol.niko AT gmail.com>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.7\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n_noop:1,2;_x:1,2c;_nx:4c,1,2;"
 "_nx_noop:4c,1,2;_ex:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;"
 "esc_html_e;esc_html_x:1,2c\n"
@@ -18,44 +18,44 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: includes/class.admin.php:55
+#: includes/class.admin.php:60
 msgid "Settings"
 msgstr "Instellingen"
 
-#: includes/class.admin.php:87 includes/class.admin.php:88
-#: includes/class.admin.php:140 includes/class.widget-toc.php:27
+#: includes/class.admin.php:92 includes/class.admin.php:93
+#: includes/class.admin.php:145 includes/class.widget-toc.php:27
 #: includes/inc.admin-options-page.php:2
 msgid "Table of Contents"
 msgstr "Inhoudsopgave"
 
-#: includes/class.admin.php:182
+#: includes/class.admin.php:188
 msgid "Disable the automatic insertion of the table of contents."
 msgstr "Automatisch invoegen van de inhoudsopgave uitschakelen."
 
-#: includes/class.admin.php:193
+#: includes/class.admin.php:199
 msgid "Insert table of contents."
 msgstr "Inhoudsopgave invoegen."
 
-#: includes/class.admin.php:205
+#: includes/class.admin.php:211
 msgid "Advanced:"
 msgstr "Geavanceerd;"
 
-#: includes/class.admin.php:212
+#: includes/class.admin.php:218
 msgid "NOTE:"
 msgstr "OPMERKING:"
 
-#: includes/class.admin.php:214
+#: includes/class.admin.php:220
 msgid ""
 "Using the advanced options below will override the global advanced settings."
 msgstr ""
 "het gebruik van de geavanceerde opties zal de globale instellingen "
 "overschrijven."
 
-#: includes/class.admin.php:223 includes/class.options.php:445
+#: includes/class.admin.php:229 includes/class.options.php:445
 msgid "Headings:"
 msgstr "Koppen:"
 
-#: includes/class.admin.php:229 includes/class.options.php:446
+#: includes/class.admin.php:235 includes/class.options.php:446
 msgid ""
 "Select the heading to consider when generating the table of contents. "
 "Deselecting a heading will exclude it."
@@ -63,35 +63,64 @@ msgstr ""
 "Selecteer de koppen die gebruikt moeten worden om de inhoudsopgave te "
 "genereren. Een kop niet selecteren zal hem uitsluiten."
 
-#: includes/class.admin.php:231 includes/class.options.php:449
+#: includes/class.admin.php:237 includes/class.options.php:449
 msgid "Heading 1 (h1)"
 msgstr "Kop 1 (h1)"
 
-#: includes/class.admin.php:232 includes/class.options.php:450
+#: includes/class.admin.php:238 includes/class.options.php:450
 msgid "Heading 2 (h2)"
 msgstr "Kop 2 (h2)"
 
-#: includes/class.admin.php:233 includes/class.options.php:451
+#: includes/class.admin.php:239 includes/class.options.php:451
 msgid "Heading 3 (h3)"
 msgstr "Kop 3 (h3)"
 
-#: includes/class.admin.php:234 includes/class.options.php:452
+#: includes/class.admin.php:240 includes/class.options.php:452
 msgid "Heading 4 (h4)"
 msgstr "Kop 4 (h4)"
 
-#: includes/class.admin.php:235 includes/class.options.php:453
+#: includes/class.admin.php:241 includes/class.options.php:453
 msgid "Heading 5 (h5)"
 msgstr "Kop 5 (h5)"
 
-#: includes/class.admin.php:236 includes/class.options.php:454
+#: includes/class.admin.php:242 includes/class.options.php:454
 msgid "Heading 6 (h6)"
 msgstr "Kop 6 (h6)"
 
-#: includes/class.admin.php:246 includes/class.options.php:460
+#: includes/class.admin.php:252
+#, fuzzy
+msgid "Alternate Headings"
+msgstr "Na de eerste kop"
+
+#: includes/class.admin.php:258
+msgid ""
+"Specify alternate table of contents header string. Add the header to be "
+"replaced and the alternate header on a single line separated with a pipe "
+"<code>|</code>. Put each additional original and alternate header on its own "
+"line."
+msgstr ""
+
+#: includes/class.admin.php:275 includes/class.admin.php:309
+#: includes/class.options.php:469
+msgid "Examples:"
+msgstr "Voorbeelden:"
+
+#: includes/class.admin.php:277
+msgid ""
+"<code>Level [1.1]|Alternate TOC Header</code> Replaces Level [1.1] in the "
+"table of contents with Alternate TOC Header."
+msgstr ""
+
+#: includes/class.admin.php:279
+#, fuzzy
+msgid "<strong>Note:</strong> This is case sensitive."
+msgstr "<strong>Opmerking:</strong> Dit is niet hoofdlettergevoelig."
+
+#: includes/class.admin.php:286 includes/class.options.php:460
 msgid "Exclude Headings"
 msgstr "Koppen uitsluiten"
 
-#: includes/class.admin.php:252 includes/class.options.php:461
+#: includes/class.admin.php:292 includes/class.options.php:461
 msgid ""
 "Specify headings to be excluded from appearing in the table of contents. "
 "Separate multiple headings with a pipe <code>|</code>. Use an asterisk "
@@ -101,21 +130,17 @@ msgstr ""
 "sluisteken <code>|</code> tussen verschillende koppen en gebruik een "
 "asterisk <code>*</code> als een carte blanche om andere tekst te vinden."
 
-#: includes/class.admin.php:269 includes/class.options.php:469
-msgid "Examples:"
-msgstr "Voorbeelden:"
-
-#: includes/class.admin.php:271 includes/class.options.php:471
+#: includes/class.admin.php:311 includes/class.options.php:471
 msgid "<code>Fruit*</code> Ignore headings starting with \"Fruit\"."
 msgstr "<code>Fruit*</code> Negeer koppen startende met \"Fruit\"."
 
-#: includes/class.admin.php:272 includes/class.options.php:472
+#: includes/class.admin.php:312 includes/class.options.php:472
 msgid ""
 "<code>*Fruit Diet*</code> Ignore headings with \"Fruit Diet\" somewhere in "
 "the heading."
 msgstr "<code>*Fruitdieet*</code> Negeer koppen die \"Fruitdieet\" bevatten."
 
-#: includes/class.admin.php:273 includes/class.options.php:473
+#: includes/class.admin.php:313 includes/class.options.php:473
 msgid ""
 "<code>Apple Tree|Oranges|Yellow Bananas</code> Ignore headings that are "
 "exactly \"Apple Tree\", \"Oranges\" or \"Yellow Bananas\"."
@@ -123,7 +148,7 @@ msgstr ""
 "<code>De appelboom|Appelsienen|Gele bananen</code> Negeer koppen die exact "
 "overeenkomen met \"De appelboom\", \"Appelsienen\" or \"Gele bananen\"."
 
-#: includes/class.admin.php:275 includes/class.options.php:475
+#: includes/class.admin.php:315 includes/class.options.php:475
 msgid "<strong>Note:</strong> This is not case sensitive."
 msgstr "<strong>Opmerking:</strong> Dit is niet hoofdlettergevoelig."
 
@@ -544,23 +569,18 @@ msgstr "Geavanceerd"
 msgid "Save Changes"
 msgstr "Wijzigingen opslaan"
 
-#. Plugin Name of the plugin/theme
-msgid "Easy Table of Contents"
-msgstr "Easy Inhoudsopgave"
+#~ msgid "Easy Table of Contents"
+#~ msgstr "Easy Inhoudsopgave"
 
-#. Plugin URI of the plugin/theme
-#. Author URI of the plugin/theme
-msgid "http://connections-pro.com/"
-msgstr "http://connections-pro.com/"
+#~ msgid "http://connections-pro.com/"
+#~ msgstr "http://connections-pro.com/"
 
-#. Description of the plugin/theme
-msgid ""
-"Adds a user friendly and fully automatic way to create and display a table "
-"of contents generated from the page content."
-msgstr ""
-"Voegt een gebruiksvriendelijke en volledig automatische manier toe om een "
-"inhoudsopgave te maken en te tonen, op basis van de inhoud van de pagina."
+#~ msgid ""
+#~ "Adds a user friendly and fully automatic way to create and display a "
+#~ "table of contents generated from the page content."
+#~ msgstr ""
+#~ "Voegt een gebruiksvriendelijke en volledig automatische manier toe om een "
+#~ "inhoudsopgave te maken en te tonen, op basis van de inhoud van de pagina."
 
-#. Author of the plugin/theme
-msgid "Steven A. Zahm"
-msgstr "Steven A. Zahm"
+#~ msgid "Steven A. Zahm"
+#~ msgstr "Steven A. Zahm"
