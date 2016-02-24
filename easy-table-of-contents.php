@@ -635,10 +635,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					if ( $exclude ) {
 
 						$excluded_headings = explode( '|', $exclude );
+						$excluded_count    = count( $excluded_headings );
 
-						if ( count( $excluded_headings ) > 0 ) {
+						if ( $excluded_count > 0 ) {
 
-							for ( $j = 0; $j < count( $excluded_headings ); $j++ ) {
+							for ( $j = 0; $j < $excluded_count; $j++ ) {
 
 								$excluded_headings[ $j ] = preg_quote( $excluded_headings[ $j ] );
 
@@ -657,7 +658,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 								$found = FALSE;
 
-								for ( $j = 0; $j < count( $excluded_headings ); $j++ ) {
+								for ( $j = 0; $j < $excluded_count; $j++ ) {
 
 									if ( @preg_match( '/^' . $excluded_headings[ $j ] . '$/imU', strip_tags( $matches[ $i ][0] ) ) ) {
 
