@@ -44,6 +44,11 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 * @access private
 		 * @since  1.0
 		 * @static
+		 *
+		 * @param $links
+		 * @param $file
+		 *
+		 * @return array
 		 */
 		public  function pluginActionLinks( $links, $file ) {
 
