@@ -796,6 +796,29 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		/**
+		 * Array search deep.
+		 *
+		 * Search an array recursively for a value.
+		 *
+		 * @param        $search
+		 * @param array  $array
+		 * @param string $mode
+		 *
+		 * @return bool
+		 */
+		public static function array_search_deep( $search, array $array, $mode = 'value' ) {
+
+			foreach ( new RecursiveIteratorIterator( new RecursiveArrayIterator( $array ) ) as $key => $value ) {
+
+				if ( $search === ${${"mode"}} ) {
+					return TRUE;
+				}
+			}
+
+			return FALSE;
+		}
+
+		/**
 		 * Returns true if the table of contents is eligible to be printed, false otherwise.
 		 *
 		 * @access public
