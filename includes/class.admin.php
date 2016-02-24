@@ -346,7 +346,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 
 					if ( is_string( $_REQUEST['ez-toc-settings']['exclude'] ) ) {
 
-						$exclude = stripslashes( trim( $_REQUEST['ez-toc-settings']['exclude'] ) );
+						$exclude = wp_unslash( trim( $_REQUEST['ez-toc-settings']['exclude'] ) );
 
 					} else {
 
