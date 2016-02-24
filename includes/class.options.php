@@ -801,6 +801,51 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		}
 
 		/**
+		 * Textarea Callback.
+		 *
+		 * Renders a textarea.
+		 *
+		 * @access public
+		 * @since  1.1
+		 * @static
+		 *
+		 * @param array $args  Arguments passed by the setting
+		 * @param null  $value
+		 */
+		public static function textarea( $args, $value = NULL ) {
+
+			$html = '';
+
+			if ( is_null( $value ) ) {
+
+				$value = self::get( $args['id'], $args['default'] );
+			}
+
+			if ( isset( $args['faux'] ) && TRUE === $args['faux'] ) {
+
+				$args['readonly'] = TRUE;
+				$value            = isset( $args['default'] ) ? $args['default'] : '';
+				$name             = '';
+
+			} else {
+
+				$name = 'name="ez-toc-settings[' . $args['id'] . ']"';
+			}
+
+			$readonly = isset( $args['readonly'] ) && $args['readonly'] === TRUE ? ' readonly="readonly"' : '';
+			$size     = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
+
+			if ( 0 < strlen( $args['desc'] ) ) {
+
+				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+			}
+
+			$html .= '<textarea rows="10" cols="50" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name .  $readonly . '/>' . esc_textarea( stripslashes( $value ) ) . '</textarea>';
+
+			echo $html;
+		}
+
+		/**
 		 * Number Callback
 		 *
 		 * Renders number fields.
