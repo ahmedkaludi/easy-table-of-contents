@@ -89,6 +89,24 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 1.1 02/24/2016 =
+* FEATURE: Add option to replace header wither alternate header text in the table of content.
+* NEW: Introduce the ez_toc_filter.
+* NEW: Introduce ezTOC_Option::textarea() to render textareas.
+* NEW: Introduce array_search_deep() to recursively search an array for a value.
+* TWEAK: Run table of contents headers thru wp_kses_post().
+* TWEAK: Escape URL.
+* TWEAK: Count excluded headings only once instead of multiple times.
+* TWEAK: Escape translated string before rendering.
+* TWEAK: Use wp_unslash() instead of stripslashes().
+* TWEAK: Escape translated string.
+* BUG: Fix restrict path logic.
+* OTHER: Readme tweaks.
+* I18N: Add POT file.
+* I18N: Add Dutch translation.
+* DEV: Update .gitignore to allow PO files.
+* DEV: phpDoc fix.
+
 = 1.0 09/08/2015 =
 * Initial release.
   - Complete refactor and restructure of the original code for better design and separation of function to make code base much easier to maintain and extend.
