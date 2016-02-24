@@ -164,6 +164,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			$insert   = get_post_meta( $post->ID, '_ez-toc-insert', TRUE ) == 1 ? TRUE : FALSE;
 			$headings = get_post_meta( $post->ID, '_ez-toc-heading-levels', TRUE );
 			$exclude  = get_post_meta( $post->ID, '_ez-toc-exclude', TRUE );
+			$altText  = get_post_meta( $post->ID, '_ez-toc-alttext', TRUE );
 
 			if ( ! is_array( $headings ) ) {
 
@@ -243,6 +244,40 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 								'default' => array(),
 							),
 							array_map( 'absint', $headings )
+						);
+						?>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Alternate Headings', 'ez_toc' ); ?></th>
+					<td>
+						<?php
+						ezTOC_Option::textarea(
+							array(
+								'id' => 'alttext',
+								'desc' => __( 'Specify alternate table of contents header string. Add the header to be replaced and the alternate header on a single line separated with a pipe <code>|</code>. Put each additional original and alternate header on its own line.', 'ez_toc' ),
+								'size' => 'large',
+								'default' => '',
+							),
+							esc_textarea( $altText )
+						);
+						?>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"></th>
+					<td>
+						<?php
+						ezTOC_Option::descriptive_text(
+							array(
+								'id' => 'alttext-desc',
+								'name' => '',
+								'desc' => '<p><strong>' . esc_html__( 'Examples:', 'ez_toc' ) . '</strong></p>' .
+								          '<ul>' .
+								          '<li>' . __( '<code>Level [1.1]|Alternate TOC Header</code> Replaces Level [1.1] in the table of contents with Alternate TOC Header.', 'ez_toc' ) . '</li>' .
+								          '</ul>' .
+								          '<p>' . __( '<strong>Note:</strong> This is case sensitive.', 'ez_toc' ) . '</p>',
+							)
 						);
 						?>
 					</td>
@@ -340,6 +375,24 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 				} else {
 
 					update_post_meta( $post_id, '_ez-toc-heading-levels', array() );
+				}
+
+				if ( isset( $_REQUEST['ez-toc-settings']['alttext'] ) && ! empty( $_REQUEST['ez-toc-settings']['alttext'] ) ) {
+
+					if ( is_string( $_REQUEST['ez-toc-settings']['alttext'] ) ) {
+
+						$alttext = wp_unslash( trim( $_REQUEST['ez-toc-settings']['alttext'] ) );
+
+					} else {
+
+						$alttext = '';
+					}
+
+					update_post_meta( $post_id, '_ez-toc-alttext', wp_kses_data( $alttext ) );
+
+				} else {
+
+					update_post_meta( $post_id, '_ez-toc-alttext', '' );
 				}
 
 				if ( isset( $_REQUEST['ez-toc-settings']['exclude'] ) && ! empty( $_REQUEST['ez-toc-settings']['exclude'] ) ) {

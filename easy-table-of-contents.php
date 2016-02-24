@@ -589,6 +589,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			$headings = get_post_meta( $post->ID, '_ez-toc-heading-levels', TRUE );
 			$exclude  = get_post_meta( $post->ID, '_ez-toc-exclude', TRUE );
+			$altText  = get_post_meta( $post->ID, '_ez-toc-alttext', TRUE );
 
 			if ( ! is_array( $headings ) ) {
 
@@ -696,18 +697,67 @@ if ( ! class_exists( 'ezTOC' ) ) {
 						$matches = $new_matches;
 					}
 
+					$toc = $matches;
+
+					// Replace headers with toc alt text.
+					if ( $altText ) {
+
+						$alt_headings         = array();
+						$split_headings       = preg_split( '/\r\n|[\r\n]/', $altText );
+						$split_headings_count = count( $split_headings );
+
+						if ( $split_headings ) {
+
+							for ( $k = 0; $k < $split_headings_count; $k++ ) {
+
+								$explode_headings = explode( '|', $split_headings[ $k ] );
+
+								if ( 0 < strlen( $explode_headings[0] ) && 0 < strlen( $explode_headings[1] ) ) {
+
+									$alt_headings[ $explode_headings[0] ] = $explode_headings[1];
+								}
+							}
+
+						}
+
+						if ( 0 <  count( $alt_headings ) ) {
+
+							for ( $i = 0; $i < count( $toc ); $i++ ) {
+
+								foreach ( $alt_headings as $original_heading => $alt_heading ) {
+
+									$original_heading = preg_quote( $original_heading );
+
+									// escape some regular expression characters
+									// others: http://www.php.net/manual/en/regexp.reference.meta.php
+									$original_heading = str_replace(
+										array( '\*' ),
+										array( '.*' ),
+										trim( $original_heading )
+									);
+
+									if ( @preg_match( '/^' . $original_heading . '$/imU', strip_tags( $toc[ $i ][0] ) ) ) {
+
+										//$matches[ $i ][0] = str_replace( $original_heading, $alt_heading, $matches[ $i ][0] );
+										$toc[ $i ][0] = $alt_heading;
+									}
+								}
+							}
+						}
+					}
+
 					// check minimum number of headings
 					if ( count( $matches ) >= ezTOC_Option::get( 'start' ) ) {
 
-						for ( $i = 0; $i < count( $matches ); $i ++ ) {
+						for ( $i = 0; $i < count( $matches ); $i++ ) {
 
 							// get anchor and add to find and replace arrays
-							$anchor    = self::url_anchor_target( $matches[ $i ][0] );
+							$anchor    = isset( $toc[ $i ][0] ) ? self::url_anchor_target( $toc[ $i ][0] ) : self::url_anchor_target( $matches[ $i ][0] );
 							$find[]    = $matches[ $i ][0];
 							$replace[] = str_replace(
 								array(
 									$matches[ $i ][1],                // start of heading
-									'</h' . $matches[ $i ][2] . '>'    // end of heading
+									'</h' . $matches[ $i ][2] . '>'   // end of heading
 								),
 								array(
 									$matches[ $i ][1] . '<span class="ez-toc-section" id="' . $anchor . '">',
@@ -719,8 +769,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 							// assemble flat list
 							if ( ! ezTOC_Option::get( 'show_hierarchy' ) ) {
 
-								$items .= '<li><a href="#' . $anchor . '">';
-								$title  = apply_filters( 'ez_toc_title', strip_tags( wp_kses_post( $matches[ $i ][0] ) ) );
+								$items .= '<li><a href="' . esc_url( '#' . $anchor ) . '">';
+								$title  = apply_filters( 'ez_toc_title', strip_tags( wp_kses_post( $toc[ $i ][0] ) ) );
 
 								//if ( 'decimal' == ezTOC_Option::get( 'counter' ) ) {
 								//
@@ -735,7 +785,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 						// we could have tested for $items but that var can be quite large in some cases
 						if ( ezTOC_Option::get( 'show_hierarchy' ) ) {
 
-							$items = self::build_hierarchy( $matches );
+							$items = self::build_hierarchy( $toc );
 						}
 
 					}
