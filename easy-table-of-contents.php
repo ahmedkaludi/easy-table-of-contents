@@ -439,7 +439,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				// list item
 				if ( in_array( $matches[ $i ][2], ezTOC_Option::get( 'heading_levels' ) ) ) {
 
-					$title = apply_filters( 'ez_toc_title', strip_tags( wp_kses_post( $matches[ $i ][0] ) ) );
+					//$title = apply_filters( 'ez_toc_title', strip_tags( wp_kses_post( $matches[ $i ][0] ) ) );
+					$title = strip_tags( apply_filters( 'ez_toc_title', $matches[ $i ][0] ) );
 
 					//$html .= '<a href="#' . self::url_anchor_target( $title ) . '">';
 					$html .= sprintf(
@@ -770,7 +771,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 							if ( ! ezTOC_Option::get( 'show_hierarchy' ) ) {
 
 								$items .= '<li><a href="' . esc_url( '#' . $anchor ) . '">';
-								$title  = apply_filters( 'ez_toc_title', strip_tags( wp_kses_post( $toc[ $i ][0] ) ) );
+								//$title  = apply_filters( 'ez_toc_title', strip_tags( wp_kses_post( $toc[ $i ][0] ) ) );
+								$title  = strip_tags( apply_filters( 'ez_toc_title', $toc[ $i ][0] ) );
 
 								//if ( 'decimal' == ezTOC_Option::get( 'counter' ) ) {
 								//
