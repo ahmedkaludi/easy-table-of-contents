@@ -159,7 +159,7 @@ jQuery( document ).ready( function( $ ) {
 
 		// Get link by section or article id
 		function getRelatedNavigation( element ) {
-			return $( '.ez-toc-widget-container .ez-toc-list a[href=#' + $( element ).attr( 'id' ) + ']' );
+			return $( '.ez-toc-widget-container .ez-toc-list a[href="#' + $( element ).attr( 'id' ) + '"]' );
 		}
 
 		function getScrollOffset( element ) {
