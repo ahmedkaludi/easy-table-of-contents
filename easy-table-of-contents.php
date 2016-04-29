@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Steven A. Zahm
- * @version  1.1
+ * @version  1.2
  */
 
 // Exit if accessed directly
@@ -45,7 +45,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '1.1';
+		const VERSION = '1.2';
 
 		/**
 		 * Stores the instance of this class.
