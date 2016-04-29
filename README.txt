@@ -89,6 +89,11 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 1.2 04/29/2016 =
+* TWEAK: Remove the font family from styling the TOC title header.
+* TWEAK: Pass the raw title to the `ez_toc_title` filter.
+* BUG: A jQuery 1.12 fix for WordPress 4.5.
+
 = 1.1 02/24/2016 =
 * FEATURE: Add option to replace header wither alternate header text in the table of content.
 * NEW: Introduce the ez_toc_filter.
