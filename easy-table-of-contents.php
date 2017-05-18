@@ -145,6 +145,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			// Run after shortcodes are interpreted (priority 10).
 			add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
+			add_shortcode("easy-toc", array( __CLASS__, 'shortcode' ));
 		}
 
 		/**
@@ -897,23 +898,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 		}
 
-		/**
-		 * Callback for the `the_content` filter.
-		 *
-		 * This will add the inline table of contents page anchors to the post content. It will also insert the
-		 * table of contents inline with the post content as defined by the user defined preference.
-		 *
-		 * @access private
-		 * @since  1.0
-		 * @static
-		 *
-		 * @param string $content
-		 *
-		 * @return string
-		 */
-		public static function the_content( $content ) {
-
-			$css_classes = '';
+		public static function the_summary($content) {
+                        $css_classes = '';
 
 			$html    = '';
 			$find    = array();
@@ -991,16 +977,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 							// do nothing
 					}
 
-					// bullets?
-					//if ( ezTOC_Option::get( 'bullet_spacing' ) ) {
-					//
-					//	$css_classes .= ' have_bullets';
-					//
-					//} else {
-					//
-					//	$css_classes .= ' no_bullets';
-					//}
-
 					if ( ezTOC_Option::get( 'css_container_class' ) ) {
 
 						$css_classes .= ' ' . ezTOC_Option::get( 'css_container_class' );
@@ -1059,34 +1035,67 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 					$html .= '</div>' . PHP_EOL;
 				}
+                            }
+                            return array('find'=> $find,'replace'=> $replace, 'content'=> $html);
+		}
 
-				if ( count( $find ) > 0 ) {
+		public static function shortcode($atts) {
+                    extract(shortcode_atts(array(
+                        "id" => get_the_ID()
+                    ), $atts));
 
-					switch ( ezTOC_Option::get( 'position' ) ) {
+                    $args = self::the_summary(get_the_content($id));
 
-						case 'top':
-							$content = $html . self::mb_find_replace( $find, $replace, $content );
-							break;
+                    // Enqueue the script.
+                    wp_enqueue_script( 'ez-toc-js' );
+                    return $args['content'];
+                }
 
-						case 'bottom':
-							$content = self::mb_find_replace( $find, $replace, $content ) . $html;
-							break;
+		/**
+		 * Callback for the `the_content` filter.
+		 *
+		 * This will add the inline table of contents page anchors to the post content. It will also insert the
+		 * table of contents inline with the post content as defined by the user defined preference.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 *
+		 * @param string $content
+		 *
+		 * @return string
+		 */
+		public static function the_content( $content ) {
+                        $args = self::the_summary();
+                        $find = $args['find'];
+                        $replace = $args['replace'];
+                        $content = $args['content'];
+                        if ( count( $find ) > 0 ) {
 
-						case 'after':
-							$replace[0] = $replace[0] . $html;
-							$content    = self::mb_find_replace( $find, $replace, $content );
-							break;
+                                switch ( ezTOC_Option::get( 'position' ) ) {
 
-						case 'before':
-						default:
-							$replace[0] = $html . $replace[0];
-							$content    = self::mb_find_replace( $find, $replace, $content );
-					}
-				}
+                                        case 'top':
+                                                $content = $html . self::mb_find_replace( $find, $replace, $content );
+                                                break;
 
-				// Enqueue the script.
-				wp_enqueue_script( 'ez-toc-js' );
-			}
+                                        case 'bottom':
+                                                $content = self::mb_find_replace( $find, $replace, $content ) . $html;
+                                                break;
+
+                                        case 'after':
+                                                $replace[0] = $replace[0] . $html;
+                                                $content    = self::mb_find_replace( $find, $replace, $content );
+                                                break;
+
+                                        case 'before':
+                                        default:
+                                                $replace[0] = $html . $replace[0];
+                                                $content    = self::mb_find_replace( $find, $replace, $content );
+                                }
+
+                                // Enqueue the script.
+                                wp_enqueue_script( 'ez-toc-js' );
+                        }
 
 			return $content;
 		}
