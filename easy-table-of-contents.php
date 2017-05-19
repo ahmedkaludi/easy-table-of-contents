@@ -608,7 +608,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$exclude = ezTOC_Option::get( 'exclude' );
 			}
 
-			// reset the internal collision collection as the_content may have been triggered elsewhere
+			// reset the internal collision collection as 
+			may have been triggered elsewhere
 			// eg by themes or other plugins that need to read in content such as metadata fields in
 			// the head html tag, or to provide descriptions to twitter/facebook
 			self::$collision_collector = array();
@@ -1066,10 +1067,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @return string
 		 */
 		public static function the_content( $content ) {
-                        $args = self::the_summary();
+                        $args = self::the_summary($content);
                         $find = $args['find'];
                         $replace = $args['replace'];
-                        $content = $args['content'];
+                        $html = $args['content'];
                         if ( count( $find ) > 0 ) {
 
                                 switch ( ezTOC_Option::get( 'position' ) ) {
