@@ -612,6 +612,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			// the head html tag, or to provide descriptions to twitter/facebook
 			self::$collision_collector = array();
 
+			$content = apply_filters( 'ez_toc_extract_headings_content', $content );
+
 			if ( is_array( $find ) && is_array( $replace ) && $content ) {
 
 				// get all headings
