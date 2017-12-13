@@ -136,7 +136,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 		 */
 		public function widget( $args, $instance ) {
 
-			if ( is_404() || is_archive() || is_search() ) return;
+			if ( is_404() || is_archive() || is_search() || ( ! is_front_page() && is_home() )  ) return;
 
 			global $wp_query;
 
