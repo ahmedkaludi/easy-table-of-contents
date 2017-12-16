@@ -1079,6 +1079,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 							$content    = self::mb_find_replace( $find, $replace, $content );
 							break;
 
+						case 'placeholder':
+							$content = self::mb_find_replace( $find, $replace, $content );
+							$content = preg_replace( '/\[toc.*\]/i', $html, $content );
+							break;
+
 						case 'before':
 						default:
 							$replace[0] = $html . $replace[0];

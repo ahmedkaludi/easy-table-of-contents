@@ -185,6 +185,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 								'after' => __( 'After first heading', 'ez_toc' ),
 								'top' => __( 'Top', 'ez_toc' ),
 								'bottom' => __( 'Bottom', 'ez_toc' ),
+								'placeholder' => __( 'Replace [toc] Placeholder', 'ez_toc' ),
 							),
 							'default' => 1,
 						),
