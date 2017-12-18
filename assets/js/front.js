@@ -56,6 +56,8 @@ jQuery( document ).ready( function( $ ) {
 						target = 'a[name="' + anchor + '"]';
 						// verify it exists
 						if ( $( target ).length == 0 )
+                                                    target = jQuery('.entry-content h2:eq('+ jQuery(this).closest('li').index() +')')
+                                                    if ( $( target ).length == 0 )
 							target = '';
 					}
 
