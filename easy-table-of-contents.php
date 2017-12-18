@@ -147,6 +147,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			// Run after shortcodes are interpreted (priority 10).
 			add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
+			add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
 		}
 
 		/**
@@ -901,20 +902,17 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		/**
-		 * Callback for the `the_content` filter.
-		 *
-		 * This will add the inline table of contents page anchors to the post content. It will also insert the
-		 * table of contents inline with the post content as defined by the user defined preference.
+		 * Build the table of contents.
 		 *
 		 * @access private
-		 * @since  1.0
+		 * @since  1.3
 		 * @static
 		 *
-		 * @param string $content
+		 * @param string $content The page/post content.
 		 *
-		 * @return string
+		 * @return array
 		 */
-		public static function the_content( $content ) {
+		public static function build( $content ) {
 
 			$css_classes = '';
 
@@ -1052,33 +1050,87 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 					$html .= '</div>' . PHP_EOL;
 				}
+			}
 
-				if ( count( $find ) > 0 ) {
+			// Enqueue the script.
+			wp_enqueue_script( 'ez-toc-js' );
 
-					switch ( ezTOC_Option::get( 'position' ) ) {
+			return array( 'find' => $find, 'replace' => $replace, 'content' => $html );
+		}
 
-						case 'top':
-							$content = $html . self::mb_find_replace( $find, $replace, $content );
-							break;
+		/**
+		 * Callback for the registered shortcode `[ez-toc]`
+		 *
+		 * NOTE: Shortcode is run before the callback @see ezTOC::the_content() for the `the_content` filter
+		 *
+		 * @access private
+		 * @since  1.3
+		 * @static
+		 *
+		 * @param array|string $atts    Shortcode attributes array or empty string.
+		 * @param string       $content The enclosed content (if the shortcode is used in its enclosing form)
+		 * @param string       $tag     Shortcode name.
+		 *
+		 * @return mixed
+		 */
+		public static function shortcode( $atts, $content, $tag ) {
 
-						case 'bottom':
-							$content = self::mb_find_replace( $find, $replace, $content ) . $html;
-							break;
+			$id   = get_the_ID();
+			$args = self::build( get_the_content( $id ) );
 
-						case 'after':
-							$replace[0] = $replace[0] . $html;
-							$content    = self::mb_find_replace( $find, $replace, $content );
-							break;
+			return $args['content'];
+		}
 
-						case 'before':
-						default:
-							$replace[0] = $html . $replace[0];
-							$content    = self::mb_find_replace( $find, $replace, $content );
-					}
+		/**
+		 * Callback for the `the_content` filter.
+		 *
+		 * This will add the inline table of contents page anchors to the post content. It will also insert the
+		 * table of contents inline with the post content as defined by the user defined preference.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 *
+		 * @param string $content
+		 *
+		 * @return string
+		 */
+		public static function the_content( $content ) {
+
+			// If the TOC was embedded in the content using the `[ez-toc]` shortcode, skip. TOC should only exist once.
+			if ( strpos( $content, 'ez-toc-container' ) ) {
+
+				return $content;
+			}
+
+			$args    = self::build( $content );
+			$find    = $args['find'];
+			$replace = $args['replace'];
+			$html    = $args['content'];
+
+			if ( count( $find ) > 0  ) {
+
+				switch ( ezTOC_Option::get( 'position' ) ) {
+
+					case 'top':
+						$content = $html . self::mb_find_replace( $find, $replace, $content );
+						break;
+
+					case 'bottom':
+						$content = self::mb_find_replace( $find, $replace, $content ) . $html;
+						break;
+
+					case 'after':
+						$replace[0] = $replace[0] . $html;
+						$content    = self::mb_find_replace( $find, $replace, $content );
+						break;
+
+					case 'before':
+					default:
+						$replace[0] = $html . $replace[0];
+						$content    = self::mb_find_replace( $find, $replace, $content );
 				}
 
-				// Enqueue the script.
-				wp_enqueue_script( 'ez-toc-js' );
 			}
 
 			return $content;
