@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: http://connections-pro.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 1.1
+ * Version: 1.3
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: ez_toc
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Steven A. Zahm
- * @version  1.2
+ * @version  1.3
  */
 
 // Exit if accessed directly
@@ -45,7 +45,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '1.2';
+		const VERSION = '1.3';
 
 		/**
 		 * Stores the instance of this class.
