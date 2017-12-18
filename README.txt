@@ -90,6 +90,14 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 1.3 12/18/1017 =
+* FEATURE: Add support for the `[ez-toc]` shortcode.
+* NEW: For backwards compatibility with "Table of Content Plus", register the `[toc]` shortcode.
+* NEW: Introduce the `ez_toc_extract_headings_content` filter.
+* TWEAK: Update the tested to and required readme header text.
+* TWEAK: Do not show the widget on the 404, archive, search and posts pages.
+* I18N: Add the nl_NL translation.
+
 = 1.2 04/29/2016 =
 * TWEAK: Remove the font family from styling the TOC title header.
 * TWEAK: Pass the raw title to the `ez_toc_title` filter.
@@ -189,3 +197,6 @@ You can nest up 6 levels deep if needed. I hope this helps you understand how to
 
 = 1.0 =
 Initial release.
+
+= 1.3 =
+Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
