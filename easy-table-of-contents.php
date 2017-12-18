@@ -509,8 +509,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 *
 		 * This function is multibyte safe.
 		 *
-		 * $find and $replace are arrays, $string is the haystack.  All variables are
-		 * passed by reference.
+		 * $find and $replace are arrays, $string is the haystack.  All variables are passed by reference.
 		 *
 		 * @access private
 		 * @since  1.0
