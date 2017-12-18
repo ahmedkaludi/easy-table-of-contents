@@ -94,6 +94,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				self::includes();
 				self::hooks();
 			}
+
+			return self::$instance;
 		}
 
 		/**
