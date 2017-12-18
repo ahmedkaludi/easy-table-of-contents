@@ -185,6 +185,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 								'after' => __( 'After first heading', 'ez_toc' ),
 								'top' => __( 'Top', 'ez_toc' ),
 								'bottom' => __( 'Bottom', 'ez_toc' ),
+								//'placeholder' => __( 'Replace [toc] placeholder. For backwards compatibility with Table of Content Plus.', 'ez_toc' ),
 							),
 							'default' => 1,
 						),
