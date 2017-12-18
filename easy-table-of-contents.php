@@ -9,7 +9,7 @@
  * Text Domain: ez_toc
  * Domain Path: languages
  *
- * Copyright 2016  Steven A. Zahm  ( email : helpdesk@connections-pro.com )
+ * Copyright 2017  Steven A. Zahm  ( email : helpdesk@connections-pro.com )
  *
  * Easy Table of Contents is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 2, as
