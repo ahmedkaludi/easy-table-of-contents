@@ -849,8 +849,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$enabled = in_array( $type, ezTOC_Option::get( 'enabled_post_types', array() ) );
 			$insert  = in_array( $type, ezTOC_Option::get( 'auto_insert_post_types', array() ) );
 
-			if ( ( ( $insert || $enabled ) &&
-			       ! is_search() && ! is_archive() && ! is_front_page() ) ||
+			if ( ( ( $insert || $enabled ) && ! is_search() && ! is_archive() && ! is_front_page() ) ||
 			     ( ezTOC_Option::get( 'include_homepage' ) && is_front_page() ) ) {
 
 				if ( ezTOC_Option::get( 'restrict_path' ) ) {
