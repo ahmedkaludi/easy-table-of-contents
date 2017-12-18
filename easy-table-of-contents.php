@@ -993,16 +993,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 							// do nothing
 					}
 
-					// bullets?
-					//if ( ezTOC_Option::get( 'bullet_spacing' ) ) {
-					//
-					//	$css_classes .= ' have_bullets';
-					//
-					//} else {
-					//
-					//	$css_classes .= ' no_bullets';
-					//}
-
 					if ( ezTOC_Option::get( 'css_container_class' ) ) {
 
 						$css_classes .= ' ' . ezTOC_Option::get( 'css_container_class' );
