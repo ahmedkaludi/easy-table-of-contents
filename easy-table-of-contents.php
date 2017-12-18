@@ -1074,10 +1074,18 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function shortcode( $atts, $content, $tag ) {
 
-			$id   = get_the_ID();
-			$args = self::build( get_the_content( $id ) );
+			static $run = TRUE;
+			$out = '';
 
-			return $args['content'];
+			if ( $run ) {
+
+				$id   = get_the_ID();
+				$args = self::build( get_the_content( $id ) );
+				$out  = $args['content'];
+				$run  = FALSE;
+			}
+
+			return $out;
 		}
 
 		/**
