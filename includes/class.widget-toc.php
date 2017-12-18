@@ -191,16 +191,6 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				$css_classes .= ' ez-toc-affix';
 			}
 
-			// bullets?
-			//if ( ezTOC_Option::get( 'bullet_spacing' ) ) {
-			//
-			//	$css_classes = ' have_bullets';
-			//
-			//} else {
-			//
-			//	$css_classes = ' no_bullets';
-			//}
-
 			$css_classes = trim( $css_classes );
 
 			// an empty class="" is invalid markup!
