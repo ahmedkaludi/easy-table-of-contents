@@ -1120,6 +1120,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				switch ( ezTOC_Option::get( 'position' ) ) {
 
+					//case 'placeholder':
+					//	$content = self::mb_find_replace( $find, $replace, $content );
+					//	$content = preg_replace( '/\[toc.*\]/i', $html, $content );
+					//	break;
+
 					case 'top':
 						$content = $html . self::mb_find_replace( $find, $replace, $content );
 						break;
