@@ -807,6 +807,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 *
 		 * Search an array recursively for a value.
 		 *
+		 * @link https://stackoverflow.com/a/5427665/5351316
+		 *
 		 * @param        $search
 		 * @param array  $array
 		 * @param string $mode
