@@ -19,12 +19,12 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
 			$options = array(
 				'classname'   => 'ez-toc',
-				'description' => __( 'Display the table of contents.', 'ez_toc' )
+				'description' => __( 'Display the table of contents.', 'easy-table-of-contents' )
 			);
 
 			parent::__construct(
 				'ezw_tco',
-				__( 'Table of Contents', 'ez_toc' ),
+				__( 'Table of Contents', 'easy-table-of-contents' ),
 				$options
 			);
 
@@ -307,14 +307,14 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
 			?>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'ez_toc' ); ?>:</label>
+				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'easy-table-of-contents' ); ?>:</label>
 				<input type="text" id="<?php echo $this->get_field_id( 'title' ); ?>"
 				       name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>"
 				       style="width:100%;"/>
 			</p>
 
 			<p>
-				<label for="<?php echo $this->get_field_id( 'highlight_color' ); ?>"><?php _e( 'Active Section Highlight Color:', 'ez_toc' ); ?></label><br>
+				<label for="<?php echo $this->get_field_id( 'highlight_color' ); ?>"><?php _e( 'Active Section Highlight Color:', 'easy-table-of-contents' ); ?></label><br>
 				<input type="text" name="<?php echo $this->get_field_name( 'highlight_color' ); ?>" class="color-picker" id="<?php echo $this->get_field_id( 'highlight_color' ); ?>" value="<?php echo $highlight_color; ?>" data-default-color="<?php echo $defaults['highlight_color']; ?>" />
 			</p>
 
@@ -322,11 +322,11 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				<input class="checkbox" type="checkbox" <?php checked( $instance['affix'], 1 ); ?>
 				       id="<?php echo $this->get_field_id( 'affix' ); ?>"
 				       name="<?php echo $this->get_field_name( 'affix' ); ?>" value="1"/>
-				<label for="<?php echo $this->get_field_id( 'affix' ); ?>"> <?php _e( 'Affix or pin the widget.', 'ez_toc' ); ?></label>
+				<label for="<?php echo $this->get_field_id( 'affix' ); ?>"> <?php _e( 'Affix or pin the widget.', 'easy-table-of-contents' ); ?></label>
 			</p>
 
 			<p class="description" style="display: <?php echo ezTOC_Option::get( 'widget_affix_selector' ) ? 'block' : 'none'; ?>;">
-				<?php _e( 'If you choose to affix the widget, do not add any other widgets on the sidebar. Also, make sure you have only one instance Table of Contents widget on the page.', 'ez_toc' ); ?>
+				<?php _e( 'If you choose to affix the widget, do not add any other widgets on the sidebar. Also, make sure you have only one instance Table of Contents widget on the page.', 'easy-table-of-contents' ); ?>
 			</p>
 			<?php
 		}

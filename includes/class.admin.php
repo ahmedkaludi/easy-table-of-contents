@@ -57,7 +57,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			$action[] = sprintf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( add_query_arg( 'page', 'table-of-contents', self_admin_url( 'options-general.php' ) ) ),
-				esc_html__( 'Settings', 'ez_toc' )
+				esc_html__( 'Settings', 'easy-table-of-contents' )
 			);
 
 			return array_merge( $action, $links );
@@ -89,8 +89,8 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 
 			$page = add_submenu_page(
 				'options-general.php',
-				esc_html__( 'Table of Contents', 'ez_toc' ),
-				esc_html__( 'Table of Contents', 'ez_toc' ),
+				esc_html__( 'Table of Contents', 'easy-table-of-contents' ),
+				esc_html__( 'Table of Contents', 'easy-table-of-contents' ),
 				'manage_options',
 				'table-of-contents',
 				array( $this, 'page' )
@@ -185,7 +185,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 							ezTOC_Option::checkbox(
 								array(
 									'id'      => 'disabled-toc',
-									'desc'    => esc_html__( 'Disable the automatic insertion of the table of contents.', 'ez_toc' ),
+									'desc'    => esc_html__( 'Disable the automatic insertion of the table of contents.', 'easy-table-of-contents' ),
 									'default' => $suppress,
 								),
 								$suppress
@@ -196,7 +196,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 							ezTOC_Option::checkbox(
 								array(
 									'id'      => 'insert-toc',
-									'desc'    => esc_html__( 'Insert table of contents.', 'ez_toc' ),
+									'desc'    => esc_html__( 'Insert table of contents.', 'easy-table-of-contents' ),
 									'default' => $insert,
 								),
 								$insert
@@ -208,16 +208,16 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 				</tr>
 
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Advanced:', 'ez_toc' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Advanced:', 'easy-table-of-contents' ); ?></th>
 					<td>
 						<?php
 						ezTOC_Option::descriptive_text(
 							array(
 								'id' => 'exclude-desc',
 								'name' => '',
-								'desc' => '<p><strong>' . esc_html__( 'NOTE:', 'ez_toc' ) . '</strong></p>' .
+								'desc' => '<p><strong>' . esc_html__( 'NOTE:', 'easy-table-of-contents' ) . '</strong></p>' .
 								          '<ul>' .
-								          '<li>' . esc_html__( 'Using the advanced options below will override the global advanced settings.', 'ez_toc' ) . '</li>' .
+								          '<li>' . esc_html__( 'Using the advanced options below will override the global advanced settings.', 'easy-table-of-contents' ) . '</li>' .
 								          '</ul>',
 							)
 						);
@@ -226,20 +226,20 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 				</tr>
 
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Headings:', 'ez_toc' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Headings:', 'easy-table-of-contents' ); ?></th>
 					<td>
 						<?php
 						ezTOC_Option::checkboxgroup(
 							array(
 								'id' => 'heading-levels',
-								'desc' => esc_html__( 'Select the heading to consider when generating the table of contents. Deselecting a heading will exclude it.', 'ez_toc' ),
+								'desc' => esc_html__( 'Select the heading to consider when generating the table of contents. Deselecting a heading will exclude it.', 'easy-table-of-contents' ),
 								'options' => array(
-									'1' => __( 'Heading 1 (h1)', 'ez_toc' ),
-									'2' => __( 'Heading 2 (h2)', 'ez_toc' ),
-									'3' => __( 'Heading 3 (h3)', 'ez_toc' ),
-									'4' => __( 'Heading 4 (h4)', 'ez_toc' ),
-									'5' => __( 'Heading 5 (h5)', 'ez_toc' ),
-									'6' => __( 'Heading 6 (h6)', 'ez_toc' ),
+									'1' => __( 'Heading 1 (h1)', 'easy-table-of-contents' ),
+									'2' => __( 'Heading 2 (h2)', 'easy-table-of-contents' ),
+									'3' => __( 'Heading 3 (h3)', 'easy-table-of-contents' ),
+									'4' => __( 'Heading 4 (h4)', 'easy-table-of-contents' ),
+									'5' => __( 'Heading 5 (h5)', 'easy-table-of-contents' ),
+									'6' => __( 'Heading 6 (h6)', 'easy-table-of-contents' ),
 								),
 								'default' => array(),
 							),
@@ -249,13 +249,13 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Alternate Headings', 'ez_toc' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Alternate Headings', 'easy-table-of-contents' ); ?></th>
 					<td>
 						<?php
 						ezTOC_Option::textarea(
 							array(
 								'id' => 'alttext',
-								'desc' => __( 'Specify alternate table of contents header string. Add the header to be replaced and the alternate header on a single line separated with a pipe <code>|</code>. Put each additional original and alternate header on its own line.', 'ez_toc' ),
+								'desc' => __( 'Specify alternate table of contents header string. Add the header to be replaced and the alternate header on a single line separated with a pipe <code>|</code>. Put each additional original and alternate header on its own line.', 'easy-table-of-contents' ),
 								'size' => 'large',
 								'default' => '',
 							),
@@ -272,24 +272,24 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 							array(
 								'id' => 'alttext-desc',
 								'name' => '',
-								'desc' => '<p><strong>' . esc_html__( 'Examples:', 'ez_toc' ) . '</strong></p>' .
+								'desc' => '<p><strong>' . esc_html__( 'Examples:', 'easy-table-of-contents' ) . '</strong></p>' .
 								          '<ul>' .
-								          '<li>' . __( '<code>Level [1.1]|Alternate TOC Header</code> Replaces Level [1.1] in the table of contents with Alternate TOC Header.', 'ez_toc' ) . '</li>' .
+								          '<li>' . __( '<code>Level [1.1]|Alternate TOC Header</code> Replaces Level [1.1] in the table of contents with Alternate TOC Header.', 'easy-table-of-contents' ) . '</li>' .
 								          '</ul>' .
-								          '<p>' . __( '<strong>Note:</strong> This is case sensitive.', 'ez_toc' ) . '</p>',
+								          '<p>' . __( '<strong>Note:</strong> This is case sensitive.', 'easy-table-of-contents' ) . '</p>',
 							)
 						);
 						?>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php esc_html_e( 'Exclude Headings', 'ez_toc' ); ?></th>
+					<th scope="row"><?php esc_html_e( 'Exclude Headings', 'easy-table-of-contents' ); ?></th>
 					<td>
 						<?php
 						ezTOC_Option::text(
 							array(
 								'id' => 'exclude',
-								'desc' => __( 'Specify headings to be excluded from appearing in the table of contents. Separate multiple headings with a pipe <code>|</code>. Use an asterisk <code>*</code> as a wildcard to match other text.', 'ez_toc' ),
+								'desc' => __( 'Specify headings to be excluded from appearing in the table of contents. Separate multiple headings with a pipe <code>|</code>. Use an asterisk <code>*</code> as a wildcard to match other text.', 'easy-table-of-contents' ),
 								'size' => 'large',
 								'default' => '',
 							),
@@ -306,13 +306,13 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 							array(
 								'id' => 'exclude-desc',
 								'name' => '',
-								'desc' => '<p><strong>' . esc_html__( 'Examples:', 'ez_toc' ) . '</strong></p>' .
+								'desc' => '<p><strong>' . esc_html__( 'Examples:', 'easy-table-of-contents' ) . '</strong></p>' .
 								          '<ul>' .
-								          '<li>' . __( '<code>Fruit*</code> Ignore headings starting with "Fruit".', 'ez_toc' ) . '</li>' .
-								          '<li>' . __( '<code>*Fruit Diet*</code> Ignore headings with "Fruit Diet" somewhere in the heading.', 'ez_toc' ) . '</li>' .
-								          '<li>' . __( '<code>Apple Tree|Oranges|Yellow Bananas</code> Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".', 'ez_toc' ) . '</li>' .
+								          '<li>' . __( '<code>Fruit*</code> Ignore headings starting with "Fruit".', 'easy-table-of-contents' ) . '</li>' .
+								          '<li>' . __( '<code>*Fruit Diet*</code> Ignore headings with "Fruit Diet" somewhere in the heading.', 'easy-table-of-contents' ) . '</li>' .
+								          '<li>' . __( '<code>Apple Tree|Oranges|Yellow Bananas</code> Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".', 'easy-table-of-contents' ) . '</li>' .
 								          '</ul>' .
-								          '<p>' . __( '<strong>Note:</strong> This is not case sensitive.', 'ez_toc' ) . '</p>',
+								          '<p>' . __( '<strong>Note:</strong> This is not case sensitive.', 'easy-table-of-contents' ) . '</p>',
 							)
 						);
 						?>

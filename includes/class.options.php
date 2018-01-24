@@ -160,108 +160,108 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 					array(
 						'enabled_post_types' => array(
 							'id' => 'enabled_post_types',
-							'name' => __( 'Enable Support', 'ez_toc' ),
-							'desc' => __( 'Select the post types to enable the support for table of contents.', 'ez_toc' ),
+							'name' => __( 'Enable Support', 'easy-table-of-contents' ),
+							'desc' => __( 'Select the post types to enable the support for table of contents.', 'easy-table-of-contents' ),
 							'type' => 'checkboxgroup',
 							'options' => self::getPostTypes(),
 							'default' => array(),
 						),
 						'auto_insert_post_types' => array(
 							'id' => 'auto_insert_post_types',
-							'name' => __( 'Auto Insert', 'ez_toc' ),
-							'desc' => __( 'Select the post types which will have the table of contents automatically inserted.', 'ez_toc' ) .
-							          '<br><span class="description">' . __( 'NOTE: The table of contents will only be automatically inserted on post types for which it has been enabled.', 'ez_toc' ) . '<span>',
+							'name' => __( 'Auto Insert', 'easy-table-of-contents' ),
+							'desc' => __( 'Select the post types which will have the table of contents automatically inserted.', 'easy-table-of-contents' ) .
+							          '<br><span class="description">' . __( 'NOTE: The table of contents will only be automatically inserted on post types for which it has been enabled.', 'easy-table-of-contents' ) . '<span>',
 							'type' => 'checkboxgroup',
 							'options' => self::getPostTypes(),
 							'default' => array(),
 						),
 						'position' => array(
 							'id' => 'position',
-							'name' => __( 'Position', 'ez_toc' ),
-							'desc' => __( 'Choose where where you want to display the table of contents.', 'ez_toc' ),
+							'name' => __( 'Position', 'easy-table-of-contents' ),
+							'desc' => __( 'Choose where where you want to display the table of contents.', 'easy-table-of-contents' ),
 							'type' => 'select',
 							'options' => array(
-								'before' => __( 'Before first heading (default)', 'ez_toc' ),
-								'after' => __( 'After first heading', 'ez_toc' ),
-								'top' => __( 'Top', 'ez_toc' ),
-								'bottom' => __( 'Bottom', 'ez_toc' ),
-								//'placeholder' => __( 'Replace [toc] placeholder. For backwards compatibility with Table of Content Plus.', 'ez_toc' ),
+								'before' => __( 'Before first heading (default)', 'easy-table-of-contents' ),
+								'after' => __( 'After first heading', 'easy-table-of-contents' ),
+								'top' => __( 'Top', 'easy-table-of-contents' ),
+								'bottom' => __( 'Bottom', 'easy-table-of-contents' ),
+								//'placeholder' => __( 'Replace [toc] placeholder. For backwards compatibility with Table of Content Plus.', 'easy-table-of-contents' ),
 							),
 							'default' => 1,
 						),
 						'start' => array(
 							'id' => 'start',
-							'name' => __( 'Show when', 'ez_toc' ),
-							'desc' => __( 'or more headings are present', 'ez_toc' ),
+							'name' => __( 'Show when', 'easy-table-of-contents' ),
+							'desc' => __( 'or more headings are present', 'easy-table-of-contents' ),
 							'type' => 'select',
 							'options' => array_combine( range( 2, 10 ), range( 2, 10 ) ),
 							'default' => 4,
 						),
 						'show_heading_text' => array(
 							'id' => 'show_heading_text',
-							'name' => __( 'Display Header Label', 'ez_toc' ),
-							'desc' => __( 'Show header text above the table of contents.', 'ez_toc' ),
+							'name' => __( 'Display Header Label', 'easy-table-of-contents' ),
+							'desc' => __( 'Show header text above the table of contents.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => TRUE,
 						),
 						'heading_text' => array(
 							'id' => 'heading_text',
-							'name' => __( 'Header Label', 'ez_toc' ),
-							'desc' => __( 'Eg: Contents, Table of Contents, Page Contents', 'ez_toc' ),
+							'name' => __( 'Header Label', 'easy-table-of-contents' ),
+							'desc' => __( 'Eg: Contents, Table of Contents, Page Contents', 'easy-table-of-contents' ),
 							'type' => 'text',
-							'default' => __( 'Contents', 'ez_toc' ),
+							'default' => __( 'Contents', 'easy-table-of-contents' ),
 						),
 						'visibility' => array(
 							'id' => 'visibility',
-							'name' => __( 'Toggle View', 'ez_toc' ),
-							'desc' => __( 'Allow the user to toggle the visibility of the table of contents.', 'connection_toc' ),
+							'name' => __( 'Toggle View', 'easy-table-of-contents' ),
+							'desc' => __( 'Allow the user to toggle the visibility of the table of contents.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => TRUE,
 						),
 						//'visibility_show' => array(
 						//	'id' => 'visibility_show',
-						//	'name' => __( 'Show Label', 'ez_toc' ),
-						//	'desc' => __( 'Eg: show', 'ez_toc' ),
+						//	'name' => __( 'Show Label', 'easy-table-of-contents' ),
+						//	'desc' => __( 'Eg: show', 'easy-table-of-contents' ),
 						//	'type' => 'text',
-						//	'default' => __( 'show', 'ez_toc' ),
+						//	'default' => __( 'show', 'easy-table-of-contents' ),
 						//),
 						//'visibility_hide' => array(
 						//	'id' => 'visibility_hide',
-						//	'name' => __( 'Hide Label', 'ez_toc' ),
-						//	'desc' => __( 'Eg: hide', 'ez_toc' ),
+						//	'name' => __( 'Hide Label', 'easy-table-of-contents' ),
+						//	'desc' => __( 'Eg: hide', 'easy-table-of-contents' ),
 						//	'type' => 'text',
-						//	'default' => __( 'hide', 'ez_toc' ),
+						//	'default' => __( 'hide', 'easy-table-of-contents' ),
 						//),
 						'visibility_hide_by_default' => array(
 							'id' => 'visibility_hide_by_default',
-							'name' => __( 'Initial View', 'ez_toc' ),
-							'desc' => __( 'Initially hide the table of contents.', 'connection_toc' ),
+							'name' => __( 'Initial View', 'easy-table-of-contents' ),
+							'desc' => __( 'Initially hide the table of contents.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => FALSE,
 						),
 						'show_hierarchy' => array(
 							'id' => 'show_hierarchy',
-							'name' => __( 'Show as Hierarchy', 'ez_toc' ),
+							'name' => __( 'Show as Hierarchy', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'checkbox',
 							'default' => TRUE,
 						),
 						'counter' => array(
 							'id' => 'counter',
-							'name' => __( 'Counter', 'ez_toc' ),
+							'name' => __( 'Counter', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'select',
 							'options' => array(
-								'decimal' => __( 'Decimal (default)', 'ez_toc' ),
-								'numeric' => __( 'Numeric', 'ez_toc' ),
-								'roman' => __( 'Roman', 'ez_toc' ),
-								'none' => __( 'None', 'ez_toc' ),
+								'decimal' => __( 'Decimal (default)', 'easy-table-of-contents' ),
+								'numeric' => __( 'Numeric', 'easy-table-of-contents' ),
+								'roman' => __( 'Roman', 'easy-table-of-contents' ),
+								'none' => __( 'None', 'easy-table-of-contents' ),
 							),
 							'default' => 'decimal',
 						),
 						'smooth_scroll' => array(
 							'id' => 'smooth_scroll',
-							'name' => __( 'Smooth Scroll', 'ez_toc' ),
+							'name' => __( 'Smooth Scroll', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'checkbox',
 							'default' => TRUE,
@@ -273,12 +273,12 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 					array(
 						'width' => array(
 							'id' => 'width',
-							'name' => __( 'Width', 'ez_toc' ),
+							'name' => __( 'Width', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'selectgroup',
 							'options' => array(
 								'fixed' => array(
-									'name' => __( 'Fixed', 'ez_toc' ),
+									'name' => __( 'Fixed', 'easy-table-of-contents' ),
 									'options' => array(
 										'200px' => '200px',
 										'225px' => '225px',
@@ -292,7 +292,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 									),
 								),
 								'relative' => array(
-									'name' => __( 'Relative', 'ez_toc' ),
+									'name' => __( 'Relative', 'easy-table-of-contents' ),
 									'options' => array(
 										'auto' => 'Auto',
 										'25%' => '25%',
@@ -304,9 +304,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 									),
 								),
 								'other' => array(
-									'name' => __( 'Custom', 'ez_toc' ),
+									'name' => __( 'Custom', 'easy-table-of-contents' ),
 									'options' => array(
-										'custom' => __( 'User Defined', 'ez_toc' ),
+										'custom' => __( 'User Defined', 'easy-table-of-contents' ),
 									),
 								),
 							),
@@ -314,89 +314,89 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						),
 						'width_custom' => array(
 							'id' => 'width_custom',
-							'name' => __( 'Custom Width', 'ez_toc' ),
-							'desc' => __( 'Select the User Defined option from the Width option to utilitze the custom width.', 'ez_toc' ),
+							'name' => __( 'Custom Width', 'easy-table-of-contents' ),
+							'desc' => __( 'Select the User Defined option from the Width option to utilitze the custom width.', 'easy-table-of-contents' ),
 							'type' => 'custom_width',
 							'default' => 275,
 						),
 						'wrapping' => array(
 							'id' => 'wrapping',
-							'name' => __( 'Float', 'ez_toc' ),
+							'name' => __( 'Float', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'select',
 							'options' => array(
-								'none' => __( 'None (Default)', 'ez_toc' ),
-								'left' => __( 'Left', 'ez_toc' ),
-								'right' => __( 'Right', 'ez_toc' ),
+								'none' => __( 'None (Default)', 'easy-table-of-contents' ),
+								'left' => __( 'Left', 'easy-table-of-contents' ),
+								'right' => __( 'Right', 'easy-table-of-contents' ),
 							),
 							'default' => 'none',
 						),
 						'font_size' => array(
 							'id' => 'font_size',
-							'name' => __( 'Font Size', 'ez_toc' ),
+							'name' => __( 'Font Size', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'font_size',
 							'default' => 95,
 						),
 						'theme' => array(
 							'id' => 'theme',
-							'name' => __( 'Theme', 'ez_toc' ),
-							'desc' => __( 'The theme is only applied to the table of contents which is auto inserted into the post. The Table of Contents widget will inherit the theme widget styles.', 'ez_toc' ),
+							'name' => __( 'Theme', 'easy-table-of-contents' ),
+							'desc' => __( 'The theme is only applied to the table of contents which is auto inserted into the post. The Table of Contents widget will inherit the theme widget styles.', 'easy-table-of-contents' ),
 							'type' => 'radio',
 							'options' => array(
-								'grey' => __( 'Grey', 'ez_toc' ),
-								'light-blue' => __( 'Light Blue', 'ez_toc' ),
-								'white' => __( 'White', 'ez_toc' ),
-								'black' => __( 'Black', 'ez_toc' ),
-								'transparent' => __( 'Transparent', 'ez_toc' ),
-								'custom' => __( 'Custom', 'ez_toc' ),
+								'grey' => __( 'Grey', 'easy-table-of-contents' ),
+								'light-blue' => __( 'Light Blue', 'easy-table-of-contents' ),
+								'white' => __( 'White', 'easy-table-of-contents' ),
+								'black' => __( 'Black', 'easy-table-of-contents' ),
+								'transparent' => __( 'Transparent', 'easy-table-of-contents' ),
+								'custom' => __( 'Custom', 'easy-table-of-contents' ),
 							),
 							'default' => 'grey',
 						),
 						'custom_theme_header' => array(
 							'id' => 'custom_theme_header',
-							'name' => '<strong>' . __( 'Custom Theme', 'ez_toc' ) . '</strong>',
-							'desc' => __( 'For the following settings to apply, select the Custom Theme option.', 'ez_toc' ),
+							'name' => '<strong>' . __( 'Custom Theme', 'easy-table-of-contents' ) . '</strong>',
+							'desc' => __( 'For the following settings to apply, select the Custom Theme option.', 'easy-table-of-contents' ),
 							'type' => 'header',
 						),
 						'custom_background_colour' => array(
 							'id' => 'custom_background_colour',
-							'name' => __( 'Background Color', 'ez_toc' ),
+							'name' => __( 'Background Color', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'color',
 							'default' => '#fff',
 						),
 						'custom_border_colour' => array(
 							'id' => 'custom_border_colour',
-							'name' => __( 'Border Color', 'ez_toc' ),
+							'name' => __( 'Border Color', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'color',
 							'default' => '#ddd',
 						),
 						'custom_title_colour' => array(
 							'id' => 'custom_title_colour',
-							'name' => __( 'Title Color', 'ez_toc' ),
+							'name' => __( 'Title Color', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'color',
 							'default' => '#999',
 						),
 						'custom_link_colour' => array(
 							'id' => 'custom_link_colour',
-							'name' => __( 'Link Color', 'ez_toc' ),
+							'name' => __( 'Link Color', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'color',
 							'default' => '#428bca',
 						),
 						'custom_link_hover_colour' => array(
 							'id' => 'custom_link_hover_colour',
-							'name' => __( 'Link Hover Color', 'ez_toc' ),
+							'name' => __( 'Link Hover Color', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'color',
 							'default' => '#2a6496',
 						),
 						'custom_link_visited_colour' => array(
 							'id' => 'custom_link_visited_colour',
-							'name' => __( 'Link Visited Color', 'ez_toc' ),
+							'name' => __( 'Link Visited Color', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'color',
 							'default' => '#428bca',
@@ -408,58 +408,58 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 					array(
 						'lowercase' => array(
 							'id' => 'lowercase',
-							'name' => __( 'Lowercase', 'ez_toc' ),
-							'desc' => __( 'Ensure anchors are in lowercase.', 'ez_toc' ),
+							'name' => __( 'Lowercase', 'easy-table-of-contents' ),
+							'desc' => __( 'Ensure anchors are in lowercase.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => FALSE,
 						),
 						'hyphenate' => array(
 							'id' => 'hyphenate',
-							'name' => __( 'Hyphenate', 'ez_toc' ),
-							'desc' => __( 'Use - rather than _ in anchors.', 'ez_toc' ),
+							'name' => __( 'Hyphenate', 'easy-table-of-contents' ),
+							'desc' => __( 'Use - rather than _ in anchors.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => FALSE,
 						),
 						'include_homepage' => array(
 							'id' => 'include_homepage',
-							'name' => __( 'Homepage', 'ez_toc' ),
-							'desc' => __( 'Show the table of contents for qualifying items on the homepage.', 'ez_toc' ),
+							'name' => __( 'Homepage', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the table of contents for qualifying items on the homepage.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => FALSE,
 						),
 						'exclude_css' => array(
 							'id' => 'exclude_css',
-							'name' => __( 'CSS', 'ez_toc' ),
-							'desc' => __( "Prevent the loading the core CSS styles. When selected, the appearance options from above will be ignored.", 'ez_toc' ),
+							'name' => __( 'CSS', 'easy-table-of-contents' ),
+							'desc' => __( "Prevent the loading the core CSS styles. When selected, the appearance options from above will be ignored.", 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => FALSE,
 						),
 						//'bullet_spacing' => array(
 						//	'id' => 'bullet_spacing',
-						//	'name' => __( 'Theme Bullets', 'ez_toc' ),
-						//	'desc' => __( 'If your theme includes background images for unordered list elements, enable this option to support them.', 'ez_toc' ),
+						//	'name' => __( 'Theme Bullets', 'easy-table-of-contents' ),
+						//	'desc' => __( 'If your theme includes background images for unordered list elements, enable this option to support them.', 'easy-table-of-contents' ),
 						//	'type' => 'checkbox',
 						//	'default' => FALSE,
 						//),
 						'heading_levels' => array(
 							'id' => 'heading_levels',
-							'name' => __( 'Headings:', 'ez_toc' ),
-							'desc' => __( 'Select the heading to consider when generating the table of contents. Deselecting a heading will exclude it.', 'ez_toc' ),
+							'name' => __( 'Headings:', 'easy-table-of-contents' ),
+							'desc' => __( 'Select the heading to consider when generating the table of contents. Deselecting a heading will exclude it.', 'easy-table-of-contents' ),
 							'type' => 'checkboxgroup',
 							'options' => array(
-								'1' => __( 'Heading 1 (h1)', 'ez_toc' ),
-								'2' => __( 'Heading 2 (h2)', 'ez_toc' ),
-								'3' => __( 'Heading 3 (h3)', 'ez_toc' ),
-								'4' => __( 'Heading 4 (h4)', 'ez_toc' ),
-								'5' => __( 'Heading 5 (h5)', 'ez_toc' ),
-								'6' => __( 'Heading 6 (h6)', 'ez_toc' ),
+								'1' => __( 'Heading 1 (h1)', 'easy-table-of-contents' ),
+								'2' => __( 'Heading 2 (h2)', 'easy-table-of-contents' ),
+								'3' => __( 'Heading 3 (h3)', 'easy-table-of-contents' ),
+								'4' => __( 'Heading 4 (h4)', 'easy-table-of-contents' ),
+								'5' => __( 'Heading 5 (h5)', 'easy-table-of-contents' ),
+								'6' => __( 'Heading 6 (h6)', 'easy-table-of-contents' ),
 							),
 							'default' => array( '1', '2', '3', '4', '5', '6' ),
 						),
 						'exclude' => array(
 							'id' => 'exclude',
-							'name' => __( 'Exclude Headings', 'ez_toc' ),
-							'desc' => __( 'Specify headings to be excluded from appearing in the table of contents. Separate multiple headings with a pipe <code>|</code>. Use an asterisk <code>*</code> as a wildcard to match other text.', 'ez_toc' ),
+							'name' => __( 'Exclude Headings', 'easy-table-of-contents' ),
+							'desc' => __( 'Specify headings to be excluded from appearing in the table of contents. Separate multiple headings with a pipe <code>|</code>. Use an asterisk <code>*</code> as a wildcard to match other text.', 'easy-table-of-contents' ),
 							'type' => 'text',
 							'size' => 'large',
 							'default' => '',
@@ -467,45 +467,45 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'exclude_desc' => array(
 							'id' => 'exclude_desc',
 							'name' => '',
-							'desc' => '<p><strong>' . __( 'Examples:', 'ez_toc' ) . '</strong></p>' .
+							'desc' => '<p><strong>' . __( 'Examples:', 'easy-table-of-contents' ) . '</strong></p>' .
 							          '<ul>' .
-							          '<li>' . __( '<code>Fruit*</code> Ignore headings starting with "Fruit".', 'ez_toc' ) . '</li>' .
-							          '<li>' . __( '<code>*Fruit Diet*</code> Ignore headings with "Fruit Diet" somewhere in the heading.', 'ez_toc' ) . '</li>' .
-							          '<li>' . __( '<code>Apple Tree|Oranges|Yellow Bananas</code> Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".', 'ez_toc' ) . '</li>' .
+							          '<li>' . __( '<code>Fruit*</code> Ignore headings starting with "Fruit".', 'easy-table-of-contents' ) . '</li>' .
+							          '<li>' . __( '<code>*Fruit Diet*</code> Ignore headings with "Fruit Diet" somewhere in the heading.', 'easy-table-of-contents' ) . '</li>' .
+							          '<li>' . __( '<code>Apple Tree|Oranges|Yellow Bananas</code> Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".', 'easy-table-of-contents' ) . '</li>' .
 							          '</ul>' .
-							          '<p>' . __( '<strong>Note:</strong> This is not case sensitive.', 'ez_toc' ) . '</p>',
+							          '<p>' . __( '<strong>Note:</strong> This is not case sensitive.', 'easy-table-of-contents' ) . '</p>',
 							'type' => 'descriptive_text',
 						),
 						'smooth_scroll_offset' => array(
 							'id' => 'smooth_scroll_offset',
-							'name' => __( 'Smooth Scroll Offset', 'ez_toc' ),
-							'desc' => 'px<br/>' . __( 'If you have a consistent menu across the top of your site, you can adjust the top offset to stop the headings from appearing underneath the top menu. A setting of 30 accommodates the WordPress admin bar. This setting only has an effect after you have enabled Smooth Scroll option.', 'ez_toc' ),
+							'name' => __( 'Smooth Scroll Offset', 'easy-table-of-contents' ),
+							'desc' => 'px<br/>' . __( 'If you have a consistent menu across the top of your site, you can adjust the top offset to stop the headings from appearing underneath the top menu. A setting of 30 accommodates the WordPress admin bar. This setting only has an effect after you have enabled Smooth Scroll option.', 'easy-table-of-contents' ),
 							'type' => 'number',
 							'size' => 'small',
 							'default' => 30
 						),
 						'restrict_path' => array(
 							'id' => 'restrict_path',
-							'name' => __( 'Limit Path', 'ez_toc' ),
-							'desc' => '<br/>' . __( 'Restrict generation of the table of contents to pages that match the required path. This path is from the root of your site and always begins with a forward slash.', 'ez_toc' ) .
-							          '<br/><span class="description">' . __( 'Eg: /wiki/, /corporate/annual-reports/', 'ez_toc' ) . '</span>',
+							'name' => __( 'Limit Path', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . __( 'Restrict generation of the table of contents to pages that match the required path. This path is from the root of your site and always begins with a forward slash.', 'easy-table-of-contents' ) .
+							          '<br/><span class="description">' . __( 'Eg: /wiki/, /corporate/annual-reports/', 'easy-table-of-contents' ) . '</span>',
 							'type' => 'text',
 						),
 						'fragment_prefix' => array(
 							'id' => 'fragment_prefix',
-							'name' => __( 'Default Anchor Prefix', 'ez_toc' ),
-							'desc' => '<br/>' . __( 'Anchor targets are restricted to alphanumeric characters as per HTML specification (see readme for more detail). The default anchor prefix will be used when no characters qualify. When left blank, a number will be used instead.', 'ez_toc' ) .
-							          '<br/>' . __( 'This option normally applies to content written in character sets other than ASCII.', 'ez_toc' ) .
-							          '<br/><span class="description">' . __( 'Eg: i, toc_index, index, _', 'ez_toc' ) . '</span>',
+							'name' => __( 'Default Anchor Prefix', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . __( 'Anchor targets are restricted to alphanumeric characters as per HTML specification (see readme for more detail). The default anchor prefix will be used when no characters qualify. When left blank, a number will be used instead.', 'easy-table-of-contents' ) .
+							          '<br/>' . __( 'This option normally applies to content written in character sets other than ASCII.', 'easy-table-of-contents' ) .
+							          '<br/><span class="description">' . __( 'Eg: i, toc_index, index, _', 'easy-table-of-contents' ) . '</span>',
 							'type' => 'text',
 							'default' => 'i',
 						),
 						'widget_affix_selector' => array(
 							'id' => 'widget_affix_selector',
-							'name' => __( 'Widget Affix Selector', 'ez_toc' ),
-							'desc' => '<br/>' . __( 'To enable the option to affix or pin the Table of Contents widget enter the theme\'s sidebar class or id.', 'ez_toc' ) .
-							          '<br/>' . __( 'Since every theme is different, this can not be determined automatically. If you are unsure how to find the sidebar\'s class or id, please ask the theme\'s support persons.', 'ez_toc' ) .
-							          '<br/><span class="description">' . __( 'Eg: .widget-area or #sidebar', 'ez_toc' ) . '</span>',
+							'name' => __( 'Widget Affix Selector', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . __( 'To enable the option to affix or pin the Table of Contents widget enter the theme\'s sidebar class or id.', 'easy-table-of-contents' ) .
+							          '<br/>' . __( 'Since every theme is different, this can not be determined automatically. If you are unsure how to find the sidebar\'s class or id, please ask the theme\'s support persons.', 'easy-table-of-contents' ) .
+							          '<br/><span class="description">' . __( 'Eg: .widget-area or #sidebar', 'easy-table-of-contents' ) . '</span>',
 							'type' => 'text',
 							'default' => '',
 						),
@@ -753,7 +753,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		public static function missingCallback( $args ) {
 
 			printf(
-				__( 'The callback function used for the <strong>%s</strong> setting is missing.', 'ez_toc' ),
+				__( 'The callback function used for the <strong>%s</strong> setting is missing.', 'easy-table-of-contents' ),
 				$args['id']
 			);
 		}

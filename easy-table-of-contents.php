@@ -6,7 +6,7 @@
  * Version: 1.3
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
- * Text Domain: ez_toc
+ * Text Domain: easy-table-of-contents
  * Domain Path: /languages
  *
  * Copyright 2017  Steven A. Zahm  ( email : helpdesk@connections-pro.com )
@@ -170,7 +170,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		public static function loadTextdomain() {
 
 			// Plugin textdomain. This should match the one set in the plugin header.
-			$domain = 'ez_toc';
+			$domain = 'easy-table-of-contents';
 
 			// Set filter for plugin's languages directory
 			$languagesDirectory = apply_filters( "ez_{$domain}_languages_directory", EZ_TOC_DIR_NAME . '/languages/' );

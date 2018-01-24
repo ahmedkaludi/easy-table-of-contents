@@ -1,12 +1,12 @@
 <div id='toc' class='wrap'>
-	<h1><?php _e( 'Table of Contents', 'ez_toc' ); ?></h1>
+	<h1><?php _e( 'Table of Contents', 'easy-table-of-contents' ); ?></h1>
 
 	<form method="post" action="<?php echo esc_url( self_admin_url( 'options.php' ) ); ?>">
 
 		<div class="metabox-holder">
 
 			<div class="postbox">
-				<h3><span><?php _e( 'General', 'ez_toc' ); ?></span></h3>
+				<h3><span><?php _e( 'General', 'easy-table-of-contents' ); ?></span></h3>
 
 				<div class="inside">
 
@@ -24,7 +24,7 @@
 		<div class="metabox-holder">
 
 			<div class="postbox">
-				<h3><span><?php _e( 'Appearance', 'ez_toc' ); ?></span></h3>
+				<h3><span><?php _e( 'Appearance', 'easy-table-of-contents' ); ?></span></h3>
 
 				<div class="inside">
 
@@ -42,7 +42,7 @@
 		<div class="metabox-holder">
 
 			<div class="postbox">
-				<h3><span><?php _e( 'Advanced', 'ez_toc' ); ?></span></h3>
+				<h3><span><?php _e( 'Advanced', 'easy-table-of-contents' ); ?></span></h3>
 
 				<div class="inside">
 
@@ -58,6 +58,6 @@
 		</div><!-- /.metabox-holder -->
 
 		<?php settings_fields( 'ez-toc-settings' ); ?>
-		<?php submit_button( __( 'Save Changes', 'ez_toc' ) ); ?>
+		<?php submit_button( __( 'Save Changes', 'easy-table-of-contents' ) ); ?>
 	</form>
 </div>
