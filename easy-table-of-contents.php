@@ -7,7 +7,7 @@
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: ez_toc
- * Domain Path: languages
+ * Domain Path: /languages
  *
  * Copyright 2017  Steven A. Zahm  ( email : helpdesk@connections-pro.com )
  *
