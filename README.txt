@@ -90,7 +90,15 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
-= 1.3 12/18/1017 =
+= 1.4 01/29/2018 =
+* TWEAK: Change text domain from ez_toc to easy-table-of-contents.
+* TWEAK: Rename translation files with correct text domain.
+* BUG: Ensure page headers are processed to add the in page header link when using the shortcodes.
+* BUG: Add forward slash to domain path in the plugin header.
+* I18N: Update POT file.
+* I18N: Update Dutch (nl_NL) translation.
+
+= 1.3 12/18/2017 =
 * FEATURE: Add support for the `[ez-toc]` shortcode.
 * NEW: For backwards compatibility with "Table of Content Plus", register the `[toc]` shortcode.
 * NEW: Introduce the `ez_toc_extract_headings_content` filter.
@@ -200,3 +208,7 @@ Initial release.
 
 = 1.3 =
 Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 1.4 =
+Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
