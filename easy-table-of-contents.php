@@ -1107,18 +1107,18 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function the_content( $content ) {
 
-			// If the TOC was embedded in the content using the `[ez-toc]` shortcode, skip. TOC should only exist once.
-			if ( strpos( $content, 'ez-toc-container' ) ) {
-
-				return $content;
-			}
-
 			$args    = self::build( $content );
 			$find    = $args['find'];
 			$replace = $args['replace'];
 			$html    = $args['content'];
 
 			if ( count( $find ) > 0  ) {
+
+				// If the TOC was embedded in the content using the `[ez-toc]` shortcode, skip. TOC should only exist once.
+				if ( strpos( $content, 'ez-toc-container' ) ) {
+
+					return self::mb_find_replace( $find, $replace, $content );
+				}
 
 				switch ( ezTOC_Option::get( 'position' ) ) {
 
