@@ -207,6 +207,14 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
 				do_action( 'ez_toc_before_widget' );
 
+				/**
+				 * @todo Instead of inline style, use the shadow DOM.
+				 * @link https://css-tricks.com/playing-shadow-dom/
+				 *
+				 * @todo Consider not outputting the style if CSS is disabled.
+				 * @link https://wordpress.org/support/topic/inline-styling-triggers-html-validation-error/
+				 */
+
 				if ( 0 < strlen( $title ) ) {
 
 					?>
