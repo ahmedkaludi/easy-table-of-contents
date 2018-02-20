@@ -90,6 +90,11 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 1.5 02/20/2018 =
+* BUG: Correct CSS selector to properly target the link color.
+* OTHER: Update the WayPoints library.
+* DEV: Add a couple @todo's.
+
 = 1.4 01/29/2018 =
 * TWEAK: Change text domain from ez_toc to easy-table-of-contents.
 * TWEAK: Rename translation files with correct text domain.
@@ -210,5 +215,8 @@ Initial release.
 Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 1.4 =
+Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 1.5 =
 Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
