@@ -98,7 +98,7 @@
 	/*font-size: 90%;*/
 /*}*/
 
-#ez-toc-container p.ez-toc-title + ul.ez-toc-list {
+#ez-toc-container div.ez-toc-title-container + ul.ez-toc-list {
 	margin-top: 1em;
 }
 
