@@ -1229,7 +1229,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'%'  => '%',
 						'em' => 'em',
 					),
-					'default' => 'px',
+					'default' => '%',
 				)
 			);
 
