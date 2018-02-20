@@ -601,7 +601,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 * @param string     $key
 		 * @param bool|FALSE $default
 		 *
-		 * @return mixed|void
+		 * @return mixed
 		 */
 		public static function get( $key, $default = FALSE ) {
 
