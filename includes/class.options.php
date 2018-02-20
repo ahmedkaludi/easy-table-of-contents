@@ -1225,6 +1225,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 					'desc'    => '',
 					'options' => array(
 						'pt' => 'pt',
+						'px' => 'px',
 						'%'  => '%',
 						'em' => 'em',
 					),
