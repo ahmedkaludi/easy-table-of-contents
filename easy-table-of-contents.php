@@ -435,7 +435,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				// start lists
 				if ( $current_depth != (int) $matches[ $i ][2] ) {
 
-					for ( $current_depth; $current_depth < (int) $matches[ $i ][2]; $current_depth ++ ) {
+					for ( $current_depth; $current_depth < (int) $matches[ $i ][2]; $current_depth++ ) {
 
 						$numbered_items[ $current_depth + 1 ] = 0;
 						$html .= '<ul><li>';
@@ -478,7 +478,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 					if ( $current_depth > (int) $matches[ $i + 1 ][2] ) {
 
-						for ( $current_depth; $current_depth > (int) $matches[ $i + 1 ][2]; $current_depth -- ) {
+						for ( $current_depth; $current_depth > (int) $matches[ $i + 1 ][2]; $current_depth-- ) {
 
 							$html .= '</li></ul>';
 							$numbered_items[ $current_depth ] = 0;
