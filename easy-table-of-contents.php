@@ -446,7 +446,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if ( in_array( $matches[ $i ][2], ezTOC_Option::get( 'heading_levels' ) ) ) {
 
 					//$title = apply_filters( 'ez_toc_title', strip_tags( wp_kses_post( $matches[ $i ][0] ) ) );
-					$title = apply_filters( 'ez_toc_title', strip_tags( $matches[ $i ][0], '<wbr>' ) );
+					$title = apply_filters( 'ez_toc_title', $matches[ $i ][0] );
+					$title = preg_replace( '/^<h[^>]*>|<\/h\d>$/muU', '', $title );
 
 					//$html .= '<a href="#' . self::url_anchor_target( $title ) . '">';
 					$html .= sprintf(
@@ -779,7 +780,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 								$items .= '<li><a href="' . esc_url( '#' . $anchor ) . '">';
 								//$title  = apply_filters( 'ez_toc_title', strip_tags( wp_kses_post( $toc[ $i ][0] ) ) );
-								$title = apply_filters( 'ez_toc_title', strip_tags( $matches[ $i ][0], '<wbr>' ) );
+								$title = apply_filters( 'ez_toc_title', $matches[ $i ][0] );
+								$title = preg_replace( '/^<h[^>]*>|<\/h\d>$/muU', '', $title );
 
 								//if ( 'decimal' == ezTOC_Option::get( 'counter' ) ) {
 								//
