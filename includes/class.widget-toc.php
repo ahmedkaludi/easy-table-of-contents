@@ -144,7 +144,13 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
 			$find    = $replace = array();
 			$post    = get_post( $wp_query->post->ID );
+
+			/*
+			 * Ensure the ezTOC content filter is not applied when running `the_content` filter.
+			 */
+			remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 			$content = apply_filters( 'the_content', $post->post_content );
+			add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
 			/**
 			 * @var string $before_widget
