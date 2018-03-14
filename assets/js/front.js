@@ -6,9 +6,23 @@ jQuery( document ).ready( function( $ ) {
 
 		if ( 0 !== affix.length ) {
 
+			/**
+			 * The smooth scroll offset needs to be taken into account when defining the offset_top property.
+			 * @link https://github.com/shazahm1/Easy-Table-of-Contents/issues/19
+			 *
+			 * @type {number}
+			 */
+			var affixOffset = 30;
+
+			// check offset setting
+			if ( typeof ezTOC.scroll_offset != 'undefined' ) {
+
+				affixOffset =  ezTOC.scroll_offset;
+			}
+
 			$( ezTOC.affixSelector ).stick_in_parent({
 				inner_scrolling : false,
-				offset_top : 30
+				offset_top : affixOffset
 			});
 		}
 
