@@ -1055,11 +1055,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$html .= ob_get_clean();
 
 					$html .= '</div>' . PHP_EOL;
+
+					// Enqueue the script.
+					wp_enqueue_script( 'ez-toc-js' );
 				}
 			}
-
-			// Enqueue the script.
-			wp_enqueue_script( 'ez-toc-js' );
 
 			return array( 'find' => $find, 'replace' => $replace, 'content' => $html );
 		}
