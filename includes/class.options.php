@@ -509,6 +509,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'size' => 'small',
 							'default' => 30
 						),
+						'mobile_smooth_scroll_offset' => array(
+							'id' => 'mobile_smooth_scroll_offset',
+							'name' => __( 'Mobile Smooth Scroll Offset', 'easy-table-of-contents' ),
+							'desc' => 'px<br/>' . __( 'This provides the same function as the Smooth Scroll Offset option above but applied when the user is visiting your site on a mobile device.', 'easy-table-of-contents' ),
+							'type' => 'number',
+							'size' => 'small',
+							'default' => 0
+						),
 						'restrict_path' => array(
 							'id' => 'restrict_path',
 							'name' => __( 'Limit Path', 'easy-table-of-contents' ),
@@ -564,6 +572,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'counter'                            => 'decimal',
 				'smooth_scroll'                      => TRUE,
 				'smooth_scroll_offset'               => 30,
+				'moile_smooth_scroll_offset'         => 0,
 				'visibility'                         => TRUE,
 				//'visibility_show'                    => 'show',
 				//'visibility_hide'                    => 'hide',

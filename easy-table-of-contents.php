@@ -245,7 +245,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$js_vars['width'] = esc_js( $width );
 			}
 
-			$js_vars['scroll_offset'] = esc_js( ezTOC_Option::get( 'smooth_scroll_offset' ) );
+			$offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
+
+			$js_vars['scroll_offset'] = esc_js( $offset );
 
 			if ( ezTOC_Option::get( 'widget_affix_selector' ) ) {
 
