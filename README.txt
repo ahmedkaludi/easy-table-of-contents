@@ -90,6 +90,21 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 1.6 03/15/2018 =
+* NEW: Add `px` option for font size unit.
+* NEW: Add title font size and weight settings options.
+* NEW: Add the Mobile Smooth Scroll Offset option.
+* TWEAK: Change default for font size unit from `px` to `%` to match the default options values.
+* TWEAK: Correct CSS selector so margin is properly applied between the title and TOC items.
+* TWEAK: Honor HTML added via `ez_toc_title` filter.
+* TWEAK: Ensure the ezTOC content filter is not applied when running `the_content` filter.
+* TWEAK: Only enqueue the javascript if the page is eligible for a TOC.
+* TWEAK: Update icomoon CSS to remove unecessary CSS selectors to prevent possible conflicts.
+* TWEAK: The smooth scroll offset needs to be taken into account when defining the offset_top property when affixing the widget.
+* OTHER: Update frontend minified CSS file.
+* OTHER: Update the frontend minified javascript file.
+* DEV: phpDoc corrections.
+
 = 1.5 02/20/2018 =
 * BUG: Correct CSS selector to properly target the link color.
 * OTHER: Update the WayPoints library.
@@ -220,3 +235,5 @@ Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 = 1.5 =
 Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
+= 1.6 =
+Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
