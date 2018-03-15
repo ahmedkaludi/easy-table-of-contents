@@ -22,7 +22,7 @@ jQuery( document ).ready( function( $ ) {
 
 			$( ezTOC.affixSelector ).stick_in_parent({
 				inner_scrolling : false,
-				offset_top : affixOffset
+				offset_top : parseInt( affixOffset )
 			});
 		}
 
