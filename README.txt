@@ -90,6 +90,10 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 1.6.1 03/16/2018 =
+* TWEAK: Revert change made to allow HTML added via the `ez_toc_title` filter as it caused undesirable side effects.
+* BUG: Ensure Smooth Scroll Offset is parsed as an integer.
+
 = 1.6 03/15/2018 =
 * NEW: Add `px` option for font size unit.
 * NEW: Add title font size and weight settings options.
@@ -236,4 +240,7 @@ Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 1.6 =
+Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 1.6.1 =
 Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
