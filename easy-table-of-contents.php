@@ -34,6 +34,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists( 'ezTOC' ) ) {
 
+	// Start Easy Table of Contents.
+	add_action( 'init', array( 'ezTOC', 'instance' ) );
+
 	/**
 	 * Class ezTOC
 	 */
@@ -68,6 +71,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @var array
 		 */
 		private static $collision_collector = array();
+
+		/**
+		 * Name of the Shortcode to show toc.
+		 *
+		 * Should only be modified through the filter hook 'eztoc_shortcode'.
+		 *
+		 * @since 1.7.0
+		 * @var string
+		 */
+		public static $shortcode = 'toc';
 
 		/**
 		 * A dummy constructor to prevent the class from being loaded more than once.
@@ -142,13 +155,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		private static function hooks() {
 
+			self::$shortcode = apply_filters( 'eztoc_shortcode', self::$shortcode );
+
 			add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
 
 			// Run after shortcodes are interpreted (priority 10).
 			add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
 			add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
-			add_shortcode( 'toc', array( __CLASS__, 'shortcode' ) );
+			add_shortcode( self::$shortcode, array( __CLASS__, 'shortcode' ) );
 		}
 
 		/**
@@ -1173,9 +1188,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 		return ezTOC::instance();
 	}
-
-	// Start Easy Table of Contents.
-	ezTOC();
 }
 
 
