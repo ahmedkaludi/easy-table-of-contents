@@ -933,7 +933,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 *
 		 * @return array
 		 */
-		public static function build( $content ) {
+		public static function build( $content, $is_shortcode = false ) {
 
 			$css_classes = '';
 
@@ -944,7 +944,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( $items ) {
 
-				if ( self::is_eligible() ) {
+				if ( $is_shortcode || self::is_eligible() ) {
 
 					// wrapping css classes
 					switch ( ezTOC_Option::get( 'wrapping' ) ) {
@@ -1102,7 +1102,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if ( $run ) {
 
 				$id   = get_the_ID();
-				$args = self::build( get_the_content( $id ) );
+				$args = self::build( get_the_content( $id ), true );
 				$out  = $args['content'];
 				$run  = FALSE;
 			}
