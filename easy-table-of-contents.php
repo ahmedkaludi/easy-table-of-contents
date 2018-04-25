@@ -404,10 +404,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @static
 		 *
 		 * @param array $matches
+		 * @param array $headings Array of headers to be considered for a TOC item.
 		 *
 		 * @return string
 		 */
-		private static function build_hierarchy( &$matches ) {
+		private static function build_hierarchy( &$matches, $headings ) {
 
 			$current_depth      = 100;    // headings can't be larger than h6 but 100 as a default to be sure
 			$html               = '';
@@ -445,7 +446,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}
 
 				// list item
-				if ( in_array( $matches[ $i ][2], ezTOC_Option::get( 'heading_levels' ) ) ) {
+				if ( in_array( $matches[ $i ][2], $headings ) ) {
 
 					//$title = apply_filters( 'ez_toc_title', strip_tags( wp_kses_post( $matches[ $i ][0] ) ) );
 					$title = strip_tags( apply_filters( 'ez_toc_title', $matches[ $i ][0] ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
@@ -796,7 +797,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 						// we could have tested for $items but that var can be quite large in some cases
 						if ( ezTOC_Option::get( 'show_hierarchy' ) ) {
 
-							$items = self::build_hierarchy( $toc );
+							$items = self::build_hierarchy( $toc, $headings );
 						}
 
 					}
