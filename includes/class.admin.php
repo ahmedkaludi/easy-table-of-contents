@@ -337,7 +337,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 */
 		public function save( $post_id, $post, $update ) {
 
-			if ( current_user_can( 'edit_post', $post_id ) && wp_verify_nonce( $_REQUEST['_ez_toc_nonce'], 'ez_toc_save' ) ) {
+			if ( current_user_can( 'edit_post', $post_id ) && isset( $_REQUEST['_ez_toc_nonce'] ) && wp_verify_nonce( $_REQUEST['_ez_toc_nonce'], 'ez_toc_save' ) ) {
 
 				// Checkboxes are present if checked, absent if not.
 				if ( isset( $_REQUEST['ez-toc-settings']['disabled-toc'] ) ) {
