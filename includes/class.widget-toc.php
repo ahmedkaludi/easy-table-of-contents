@@ -242,7 +242,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 							<?php
 							if ( ezTOC_Option::get( 'visibility' ) ) {
 
-								echo '<a class="pull-right btn btn-xs btn-default ez-toc-toggle"><i class="glyphicon ez-toc-icon-toggle"></i></a>';
+								echo '<a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></a>';
 							}
 							?>
 
