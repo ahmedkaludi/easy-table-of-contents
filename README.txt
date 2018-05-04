@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 4.3
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 1.6
+Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,10 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 1.6.1 03/16/2018 =
+* TWEAK: Revert change made to allow HTML added via the `ez_toc_title` filter as it caused undesirable side effects.
+* BUG: Ensure Smooth Scroll Offset is parsed as an integer.
 
 = 1.6 03/15/2018 =
 * NEW: Add `px` option for font size unit.
@@ -236,4 +240,7 @@ Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 1.6 =
+Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 1.6.1 =
 Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.

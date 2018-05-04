@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: http://connections-pro.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 1.6
+ * Version: 1.6.1
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Steven A. Zahm
- * @version  1.6
+ * @version  1.6.1
  */
 
 // Exit if accessed directly
@@ -45,7 +45,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '1.6';
+		const VERSION = '1.6.1';
 
 		/**
 		 * Stores the instance of this class.
@@ -404,10 +404,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @static
 		 *
 		 * @param array $matches
+		 * @param array $headings Array of headers to be considered for a TOC item.
 		 *
 		 * @return string
 		 */
-		private static function build_hierarchy( &$matches ) {
+		private static function build_hierarchy( &$matches, $headings ) {
 
 			$current_depth      = 100;    // headings can't be larger than h6 but 100 as a default to be sure
 			$html               = '';
@@ -445,11 +446,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}
 
 				// list item
-				if ( in_array( $matches[ $i ][2], ezTOC_Option::get( 'heading_levels' ) ) ) {
+				if ( in_array( $matches[ $i ][2], $headings ) ) {
 
 					//$title = apply_filters( 'ez_toc_title', strip_tags( wp_kses_post( $matches[ $i ][0] ) ) );
-					$title = apply_filters( 'ez_toc_title', $matches[ $i ][0] );
-					$title = preg_replace( '/<\/?h\d[^>]*>/muU', '', $title );
+					$title = strip_tags( apply_filters( 'ez_toc_title', $matches[ $i ][0] ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
 					//$html .= '<a href="#' . self::url_anchor_target( $title ) . '">';
 					$html .= sprintf(
@@ -782,8 +782,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 								$items .= '<li><a href="' . esc_url( '#' . $anchor ) . '">';
 								//$title  = apply_filters( 'ez_toc_title', strip_tags( wp_kses_post( $toc[ $i ][0] ) ) );
-								$title = apply_filters( 'ez_toc_title', $matches[ $i ][0] );
-								$title = preg_replace( '/<\/?h\d[^>]*>/muU', '', $title );
+								$title = strip_tags( apply_filters( 'ez_toc_title', $matches[ $i ][0] ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
 								//if ( 'decimal' == ezTOC_Option::get( 'counter' ) ) {
 								//
@@ -798,7 +797,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 						// we could have tested for $items but that var can be quite large in some cases
 						if ( ezTOC_Option::get( 'show_hierarchy' ) ) {
 
-							$items = self::build_hierarchy( $toc );
+							$items = self::build_hierarchy( $toc, $headings );
 						}
 
 					}
@@ -1038,7 +1037,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 					if ( ezTOC_Option::get( 'visibility' ) ) {
 
-						$html .= '<a class="pull-right btn btn-xs btn-default ez-toc-toggle"><i class="glyphicon ez-toc-icon-toggle"></i></a>';
+							$html .= '<a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></a>';
 					}
 
 					$html .= '</span>';
