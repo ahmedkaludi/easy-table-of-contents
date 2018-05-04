@@ -596,9 +596,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$anchor  = '';
 			$items   = '';
 
-			$headings = get_post_meta( $post->ID, '_ez-toc-heading-levels', TRUE );
-			$exclude  = get_post_meta( $post->ID, '_ez-toc-exclude', TRUE );
-			$altText  = get_post_meta( $post->ID, '_ez-toc-alttext', TRUE );
+			$headings = empty( $post ) ? false : get_post_meta( $post->ID, '_ez-toc-heading-levels', TRUE );
+			$exclude  = empty( $post ) ? false : get_post_meta( $post->ID, '_ez-toc-exclude', TRUE );
+			$altText  = empty( $post ) ? false : get_post_meta( $post->ID, '_ez-toc-alttext', TRUE );
 
 			if ( ! is_array( $headings ) ) {
 
