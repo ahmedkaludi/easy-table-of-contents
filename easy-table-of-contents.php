@@ -930,7 +930,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$replace = array();
 			$items   = self::extract_headings( $find, $replace, $content );
 
-			if ( $items ) {
+			if ( $items && self::is_eligible() ) {
 
 				// wrapping css classes
 				switch ( ezTOC_Option::get( 'wrapping' ) ) {
