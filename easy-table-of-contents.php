@@ -1121,7 +1121,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 
 			// bail if post not eligible and widget is not active
-			if ( !self::is_eligible() && !is_active_widget( false, false, 'ezw_tco' ) ) {
+			$is_eligible = self::is_eligible();
+			if ( !$is_eligible && !is_active_widget( false, false, 'ezw_tco' ) ) {
 				return $content;
 			}
 
@@ -1136,7 +1137,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 
 			// if shortcode used or post not eligible, return content with anchored headings
-			if ( strpos( $content, 'ez-toc-container' ) || !self::is_eligible() ) {
+			if ( strpos( $content, 'ez-toc-container' ) || !$is_eligible ) {
 				return self::mb_find_replace( $find, $replace, $content );
 			}
 
