@@ -855,6 +855,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return FALSE;
 			}
 
+			if ( is_active_widget( false, false, 'ezw_tco' ) ) {
+				return TRUE;
+			}
+
 			$type = get_post_type( $post->ID );
 
 			$enabled = in_array( $type, ezTOC_Option::get( 'enabled_post_types', array() ) );
@@ -1081,6 +1085,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function shortcode( $atts, $content, $tag ) {
 
+			if ( ! self::is_eligible() ) {
+				return '';
+			}
+
 			static $run = TRUE;
 			$out = '';
 
@@ -1111,6 +1119,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function the_content( $content ) {
 
+			if ( ! self::is_eligible() ) {
+				return $content;
+			}
+
 			$args    = self::build( $content );
 			$find    = $args['find'];
 			$replace = $args['replace'];
@@ -1119,8 +1131,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if ( count( $find ) > 0  ) {
 
 				// If the TOC was embedded in the content using the `[ez-toc]` shortcode, skip. TOC should only exist once.
-				// Even if the post is not eligible, the find/replace still needs to occur to support the TOC widget.
-				if ( strpos( $content, 'ez-toc-container' ) || ! self::is_eligible() ) {
+				if ( strpos( $content, 'ez-toc-container' ) ) {
 
 					return self::mb_find_replace( $find, $replace, $content );
 				}
