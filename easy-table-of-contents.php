@@ -851,6 +851,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return FALSE;
 			}
 
+			if ( has_shortcode( $post->post_content, 'toc' ) || has_shortcode( $post->post_content, 'ez-toc' ) ) {
+				return TRUE;
+			}
+
 			if ( is_front_page() && ! ezTOC_Option::get( 'include_homepage' ) ) {
 				return FALSE;
 			}
