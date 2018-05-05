@@ -843,10 +843,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function is_eligible() {
 
-			if ( is_feed() || is_search() || is_archive() || is_front_page() && ! ezTOC_Option::get( 'include_homepage' ) ) {
-				return FALSE;
-			}
-
 			global $wp_query;
 
 			$post = $wp_query->post;
@@ -855,8 +851,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return FALSE;
 			}
 
-			if ( is_active_widget( false, false, 'ezw_tco' ) ) {
-				return TRUE;
+			if ( is_front_page() && ! ezTOC_Option::get( 'include_homepage' ) ) {
+				return FALSE;
 			}
 
 			$type = get_post_type( $post->ID );
@@ -1085,10 +1081,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function shortcode( $atts, $content, $tag ) {
 
-			if ( ! self::is_eligible() ) {
-				return '';
-			}
-
 			static $run = TRUE;
 			$out = '';
 
@@ -1119,7 +1111,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function the_content( $content ) {
 
-			if ( ! self::is_eligible() ) {
+			// bail if feed, search or archive
+			if ( is_feed() || is_search() || is_archive() ) {
+				return $content;
+			}
+
+			// bail if post not eligible and widget is not active
+			if ( !self::is_eligible() && !is_active_widget( false, false, 'ezw_tco' ) ) {
 				return $content;
 			}
 
@@ -1128,40 +1126,41 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$replace = $args['replace'];
 			$html    = $args['content'];
 
-			if ( count( $find ) > 0  ) {
+			// bail if no headings found
+			if ( empty( $find ) ) {
+				return $content;
+			}
 
-				// If the TOC was embedded in the content using the `[ez-toc]` shortcode, skip. TOC should only exist once.
-				if ( strpos( $content, 'ez-toc-container' ) ) {
+			// if shortcode used or post not eligible, return content with anchored headings
+			if ( strpos( $content, 'ez-toc-container' ) || !self::is_eligible() ) {
+				return self::mb_find_replace( $find, $replace, $content );
+			}
 
-					return self::mb_find_replace( $find, $replace, $content );
-				}
+			// else add toc
+			switch ( ezTOC_Option::get( 'position' ) ) {
 
-				switch ( ezTOC_Option::get( 'position' ) ) {
+				//case 'placeholder':
+				//	$content = self::mb_find_replace( $find, $replace, $content );
+				//	$content = preg_replace( '/\[toc.*\]/i', $html, $content );
+				//	break;
 
-					//case 'placeholder':
-					//	$content = self::mb_find_replace( $find, $replace, $content );
-					//	$content = preg_replace( '/\[toc.*\]/i', $html, $content );
-					//	break;
+				case 'top':
+					$content = $html . self::mb_find_replace( $find, $replace, $content );
+					break;
 
-					case 'top':
-						$content = $html . self::mb_find_replace( $find, $replace, $content );
-						break;
+				case 'bottom':
+					$content = self::mb_find_replace( $find, $replace, $content ) . $html;
+					break;
 
-					case 'bottom':
-						$content = self::mb_find_replace( $find, $replace, $content ) . $html;
-						break;
+				case 'after':
+					$replace[0] = $replace[0] . $html;
+					$content    = self::mb_find_replace( $find, $replace, $content );
+					break;
 
-					case 'after':
-						$replace[0] = $replace[0] . $html;
-						$content    = self::mb_find_replace( $find, $replace, $content );
-						break;
-
-					case 'before':
-					default:
-						$replace[0] = $html . $replace[0];
-						$content    = self::mb_find_replace( $find, $replace, $content );
-				}
-
+				case 'before':
+				default:
+					$replace[0] = $html . $replace[0];
+					$content    = self::mb_find_replace( $find, $replace, $content );
 			}
 
 			return $content;
