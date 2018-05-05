@@ -1126,6 +1126,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return $content;
 			}
 
+			// build toc
 			$args    = self::build( $content );
 			$find    = $args['find'];
 			$replace = $args['replace'];
@@ -1141,7 +1142,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return self::mb_find_replace( $find, $replace, $content );
 			}
 
-			// else add toc
+			// else also add toc to content
 			switch ( ezTOC_Option::get( 'position' ) ) {
 
 				//case 'placeholder':
