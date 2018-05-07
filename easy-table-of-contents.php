@@ -843,15 +843,19 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function is_eligible() {
 
-			if ( is_feed() || is_search() || is_archive() || is_front_page() && ! ezTOC_Option::get( 'include_homepage' ) ) {
-				return FALSE;
-			}
-
 			global $wp_query;
 
 			$post = $wp_query->post;
 
 			if ( empty( $post ) ) {
+				return FALSE;
+			}
+
+			if ( has_shortcode( $post->post_content, 'toc' ) || has_shortcode( $post->post_content, 'ez-toc' ) ) {
+				return TRUE;
+			}
+
+			if ( is_front_page() && ! ezTOC_Option::get( 'include_homepage' ) ) {
 				return FALSE;
 			}
 
@@ -1111,46 +1115,58 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function the_content( $content ) {
 
+			// bail if feed, search or archive
+			if ( is_feed() || is_search() || is_archive() ) {
+				return $content;
+			}
+
+			// bail if post not eligible and widget is not active
+			$is_eligible = self::is_eligible();
+			if ( !$is_eligible && !is_active_widget( false, false, 'ezw_tco' ) ) {
+				return $content;
+			}
+
+			// build toc
 			$args    = self::build( $content );
 			$find    = $args['find'];
 			$replace = $args['replace'];
 			$html    = $args['content'];
 
-			if ( count( $find ) > 0  ) {
+			// bail if no headings found
+			if ( empty( $find ) ) {
+				return $content;
+			}
 
-				// If the TOC was embedded in the content using the `[ez-toc]` shortcode, skip. TOC should only exist once.
-				// Even if the post is not eligible, the find/replace still needs to occur to support the TOC widget.
-				if ( strpos( $content, 'ez-toc-container' ) || ! self::is_eligible() ) {
+			// if shortcode used or post not eligible, return content with anchored headings
+			if ( strpos( $content, 'ez-toc-container' ) || !$is_eligible ) {
+				return self::mb_find_replace( $find, $replace, $content );
+			}
 
-					return self::mb_find_replace( $find, $replace, $content );
-				}
+			// else also add toc to content
+			switch ( ezTOC_Option::get( 'position' ) ) {
 
-				switch ( ezTOC_Option::get( 'position' ) ) {
+				//case 'placeholder':
+				//	$content = self::mb_find_replace( $find, $replace, $content );
+				//	$content = preg_replace( '/\[toc.*\]/i', $html, $content );
+				//	break;
 
-					//case 'placeholder':
-					//	$content = self::mb_find_replace( $find, $replace, $content );
-					//	$content = preg_replace( '/\[toc.*\]/i', $html, $content );
-					//	break;
+				case 'top':
+					$content = $html . self::mb_find_replace( $find, $replace, $content );
+					break;
 
-					case 'top':
-						$content = $html . self::mb_find_replace( $find, $replace, $content );
-						break;
+				case 'bottom':
+					$content = self::mb_find_replace( $find, $replace, $content ) . $html;
+					break;
 
-					case 'bottom':
-						$content = self::mb_find_replace( $find, $replace, $content ) . $html;
-						break;
+				case 'after':
+					$replace[0] = $replace[0] . $html;
+					$content    = self::mb_find_replace( $find, $replace, $content );
+					break;
 
-					case 'after':
-						$replace[0] = $replace[0] . $html;
-						$content    = self::mb_find_replace( $find, $replace, $content );
-						break;
-
-					case 'before':
-					default:
-						$replace[0] = $html . $replace[0];
-						$content    = self::mb_find_replace( $find, $replace, $content );
-				}
-
+				case 'before':
+				default:
+					$replace[0] = $html . $replace[0];
+					$content    = self::mb_find_replace( $find, $replace, $content );
 			}
 
 			return $content;
