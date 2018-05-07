@@ -580,17 +580,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since  1.0
 		 * @static
 		 *
-		 * @param array  $find
-		 * @param array  $replace
-		 * @param string $content
+		 * @param array   $find
+		 * @param array   $replace
+		 * @param WP_Post $post
 		 *
 		 * @return bool|string
 		 */
-		public static function extract_headings( &$find, &$replace, $content = '' ) {
-
-			global $wp_query;
-
-			$post = $wp_query->post;
+		public static function extract_headings( &$find, &$replace, $post ) {
 
 			$matches = array();
 			$anchor  = '';
@@ -620,7 +616,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			// the head html tag, or to provide descriptions to twitter/facebook
 			self::$collision_collector = array();
 
-			$content = apply_filters( 'ez_toc_extract_headings_content', $content );
+			$content = apply_filters( 'ez_toc_extract_headings_content', $post->post_content );
 
 			if ( is_array( $find ) && is_array( $replace ) && $content ) {
 
@@ -921,18 +917,18 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since  1.3
 		 * @static
 		 *
-		 * @param string $content The page/post content.
+		 * @param WP_Post $post The page/post content.
 		 *
 		 * @return array
 		 */
-		public static function build( $content ) {
+		public static function build( $post ) {
 
 			$css_classes = '';
 
 			$html    = '';
 			$find    = array();
 			$replace = array();
-			$items   = self::extract_headings( $find, $replace, $content );
+			$items   = self::extract_headings( $find, $replace, $post );
 
 			if ( $items ) {
 
@@ -1090,8 +1086,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( $run ) {
 
-				$id   = get_the_ID();
-				$args = self::build( get_the_content( $id ) );
+				//$id   = get_the_ID();
+				$args = self::build( get_post( get_the_ID() ) );
 				$out  = $args['content'];
 				$run  = FALSE;
 			}
@@ -1128,8 +1124,20 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return $content;
 			}
 
+			/*
+			 * get_post() does not return post_content filtered via `the_conten`t filter, which is good otherwise this
+			 * might cause an infinite loop.
+			 *
+			 * Since the ezTOC `the_content` filter is added at priority 100, it should run last in most situations
+			 * and already be filtered by other plugins/themes which ezTOC should take into account when building the
+			 * TOC. So, take the post content past via `the_content` filter callback and replace the post_content with
+			 * it before building the TOC.
+			 */
+			$post = get_post( get_the_ID() );
+			$post->post_content = $content;
+
 			// build toc
-			$args    = self::build( $content );
+			$args    = self::build( $post );
 			$find    = $args['find'];
 			$replace = $args['replace'];
 			$html    = $args['content'];
