@@ -1086,7 +1086,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( $run ) {
 
-				//$id   = get_the_ID();
 				$args = self::build( get_post( get_the_ID() ) );
 				$out  = $args['content'];
 				$run  = FALSE;
@@ -1156,11 +1155,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			// else also add toc to content
 			switch ( ezTOC_Option::get( 'position' ) ) {
-
-				//case 'placeholder':
-				//	$content = self::mb_find_replace( $find, $replace, $content );
-				//	$content = preg_replace( '/\[toc.*\]/i', $html, $content );
-				//	break;
 
 				case 'top':
 					$content = $html . self::mb_find_replace( $find, $replace, $content );
