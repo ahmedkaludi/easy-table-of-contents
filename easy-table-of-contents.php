@@ -1136,11 +1136,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			// bail if no headings found
 			if ( empty( $find ) ) {
+
 				return $content;
 			}
 
 			// if shortcode used or post not eligible, return content with anchored headings
-			if ( strpos( $content, 'ez-toc-container' ) || !$is_eligible ) {
+			if ( strpos( $content, 'ez-toc-container' ) || ! $is_eligible ) {
+
 				return self::mb_find_replace( $find, $replace, $content );
 			}
 
