@@ -1125,7 +1125,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 
 			/*
-			 * get_post() does not return post_content filtered via `the_conten`t filter, which is good otherwise this
+			 * get_post() does not return post_content filtered via `the_content` filter, which is good otherwise this
 			 * might cause an infinite loop.
 			 *
 			 * Since the ezTOC `the_content` filter is added at priority 100, it should run last in most situations
