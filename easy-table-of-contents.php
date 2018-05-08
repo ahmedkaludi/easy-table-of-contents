@@ -391,7 +391,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				self::$collision_collector[ $return ] = 1;
 			}
 
-			return apply_filters( 'ez_toc_url_anchor_target', $return );
+			return apply_filters( 'ez_toc_url_anchor_target', $return, $title );
 		}
 
 		/**
