@@ -259,7 +259,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 								'size' => 'large',
 								'default' => '',
 							),
-							esc_textarea( $altText )
+							$altText
 						);
 						?>
 					</td>
@@ -293,7 +293,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 								'size' => 'large',
 								'default' => '',
 							),
-							esc_textarea( $exclude )
+							$exclude
 						);
 						?>
 					</td>
