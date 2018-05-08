@@ -383,7 +383,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( array_key_exists( $return, self::$collision_collector ) ) {
 
-				self::$collision_collector[ $return ] ++;
+				self::$collision_collector[ $return ]++;
 				$return .= '-' . self::$collision_collector[ $return ];
 
 			} else {
