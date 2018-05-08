@@ -338,7 +338,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( $title ) {
 
-				$return = trim( strip_tags( $title ) );
+				$return = wp_kses_normalize_entities( $title );
+
+				$return = trim( strip_tags( $return ) );
 
 				// Convert accented characters to ASCII.
 				$return = remove_accents( $return );
