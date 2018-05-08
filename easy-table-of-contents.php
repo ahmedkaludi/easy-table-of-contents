@@ -348,8 +348,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				// replace newlines with spaces (eg when headings are split over multiple lines)
 				$return = str_replace( array( "\r", "\n", "\n\r", "\r\n" ), ' ', $return );
 
-				// remove &amp;
-				$return = str_replace( '&amp;', '', $return );
+				$return = htmlentities2( $return );
+
+				// remove `&amp;` and `&nbsp;` NOTE: in order to strip "hidden" `&nbsp;`, title needs to be converted to HTML entities.
+				// @link https://stackoverflow.com/a/21801444/5351316
+				$return = str_replace( array( '&amp;', '&nbsp;' ), ' ', $return );
+
+				$return = html_entity_decode( $return );
 
 				// remove non alphanumeric chars
 				$return = preg_replace( '/[^a-zA-Z0-9 \-_]*/', '', $return );
