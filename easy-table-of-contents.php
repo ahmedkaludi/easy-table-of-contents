@@ -745,8 +745,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 										array( '.*' ),
 										trim( $original_heading )
 									);
+									
+									$toc_title = html_entity_decode(str_replace( '&#8217;', "'", strip_tags( $toc[ $i ][0] ) ));
 
-									if ( @preg_match( '/^' . $original_heading . '$/imU', strip_tags( $toc[ $i ][0] ) ) ) {
+									if ( @preg_match( '/^' . $original_heading . '$/imU', $toc_title ) ) {
 
 										//$matches[ $i ][0] = str_replace( $original_heading, $alt_heading, $matches[ $i ][0] );
 										$toc[ $i ][0] = $alt_heading;
