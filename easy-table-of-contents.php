@@ -1066,7 +1066,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				do_action( 'ez_toc_before' );
 				$html .= ob_get_clean();
 
-				$html .= '<ul class="ez-toc-list">' . $items . '</ul>';
+				$html .= '<nav><ul class="ez-toc-list">' . $items . '</ul></nav>';
 
 				ob_start();
 				do_action( 'ez_toc_after' );

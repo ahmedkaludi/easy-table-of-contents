@@ -255,7 +255,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 					<?php
 				}
 
-				echo '<ul class="ez-toc-list">'. PHP_EOL . $items . '</ul>' . PHP_EOL;
+				echo '<nav><ul class="ez-toc-list">'. PHP_EOL . $items . '</ul></nav>' . PHP_EOL;
 
 				do_action( 'ez_toc_after_widget' );
 
