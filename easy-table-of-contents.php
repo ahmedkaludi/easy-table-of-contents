@@ -93,6 +93,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				self::defineConstants();
 				self::includes();
 				self::hooks();
+
+				self::loadTextdomain();
 			}
 
 			return self::$instance;
@@ -142,7 +144,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		private static function hooks() {
 
-			add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
+			//add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
 
 			// Run after shortcodes are interpreted (priority 10).
@@ -1215,7 +1217,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 	}
 
 	// Start Easy Table of Contents.
-	ezTOC();
+	add_action( 'plugins_loaded', 'ezTOC' );
 }
 
 
