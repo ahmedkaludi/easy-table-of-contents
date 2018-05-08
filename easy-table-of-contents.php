@@ -338,7 +338,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( $title ) {
 
-				$return = wp_kses_normalize_entities( $title );
+				// WP entity encodes the post content.
+				$return = html_entity_decode( $title, ENT_QUOTES, get_option( 'blog_charset' ) );
 
 				$return = trim( strip_tags( $return ) );
 
@@ -348,13 +349,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				// replace newlines with spaces (eg when headings are split over multiple lines)
 				$return = str_replace( array( "\r", "\n", "\n\r", "\r\n" ), ' ', $return );
 
-				$return = htmlentities2( $return );
-
-				// remove `&amp;` and `&nbsp;` NOTE: in order to strip "hidden" `&nbsp;`, title needs to be converted to HTML entities.
+				// Remove `&amp;` and `&nbsp;` NOTE: in order to strip "hidden" `&nbsp;`,
+				// title needs to be converted to HTML entities.
 				// @link https://stackoverflow.com/a/21801444/5351316
+				$return = htmlentities2( $return );
 				$return = str_replace( array( '&amp;', '&nbsp;' ), ' ', $return );
-
-				$return = html_entity_decode( $return );
+				$return = html_entity_decode( $return, ENT_QUOTES, get_option( 'blog_charset' ) );
 
 				// remove non alphanumeric chars
 				$return = preg_replace( '/[^a-zA-Z0-9 \-_]*/', '', $return );
