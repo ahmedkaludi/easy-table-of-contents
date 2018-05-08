@@ -355,11 +355,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$return = preg_replace( '/[^a-zA-Z0-9 \-_]*/', '', $return );
 
 				// convert spaces to _
-				$return = str_replace(
-					array( '  ', ' ' ),
-					'_',
-					$return
-				);
+				$return = preg_replace( '/\s+/', '_', $return );
 
 				// remove trailing - and _
 				$return = rtrim( $return, '-_' );
