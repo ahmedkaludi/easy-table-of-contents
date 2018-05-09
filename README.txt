@@ -2,10 +2,10 @@
 Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
 Tags: table of contents, toc
-Requires at least: 4.3
+Requires at least: 4.4
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 1.6.1
+Stable tag: 1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
