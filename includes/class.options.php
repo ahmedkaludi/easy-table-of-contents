@@ -194,7 +194,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'name' => __( 'Show when', 'easy-table-of-contents' ),
 							'desc' => __( 'or more headings are present', 'easy-table-of-contents' ),
 							'type' => 'select',
-							'options' => array_combine( range( 2, 10 ), range( 2, 10 ) ),
+							'options' => array_combine( range( 1, 10 ), range( 1, 10 ) ),
 							'default' => 4,
 						),
 						'show_heading_text' => array(
