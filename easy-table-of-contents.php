@@ -867,7 +867,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return FALSE;
 			}
 
-			if ( has_shortcode( $post->post_content, 'toc' ) || has_shortcode( $post->post_content, 'ez-toc' ) ) {
+			if ( has_shortcode( $post->post_content, apply_filters( 'ez_toc_shortcode', 'toc' ) ) ||
+			     has_shortcode( $post->post_content, 'ez-toc' ) ) {
 				return TRUE;
 			}
 
