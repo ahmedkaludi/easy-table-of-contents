@@ -132,6 +132,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				require_once( EZ_TOC_PATH . 'includes/class.admin.php' );
 			}
 
+			require_once( EZ_TOC_PATH . 'includes/class.post.php' );
 			require_once( EZ_TOC_PATH . 'includes/class.widget-toc.php' );
 			require_once( EZ_TOC_PATH . 'includes/inc.functions.php' );
 		}
@@ -150,6 +151,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			// Run after shortcodes are interpreted (priority 10).
 			add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
+			//add_filter( 'content_pagination', array( __CLASS__, 'content_pagination' ), 100, 2);
 			add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
 			add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
 		}
@@ -327,7 +329,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		/**
 		 * Returns a URL to be used as the destination anchor target.
 		 *
-		 * @access private
+		 * @access public
 		 * @since  1.0
 		 * @static
 		 *
@@ -335,7 +337,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 *
 		 * @return bool|string
 		 */
-		private static function url_anchor_target( $title ) {
+		public static function url_anchor_target( $title ) {
 
 			$return = FALSE;
 
@@ -1109,6 +1111,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				$args = self::build( get_post( get_the_ID() ) );
 				$out  = $args['content'];
+
+				//$post = ezTOC_Post::get( get_the_ID() );
+				//$out  = $post->getTOC();
+
 				$run  = FALSE;
 			}
 
@@ -1153,14 +1159,19 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			 * TOC. So, take the post content past via `the_content` filter callback and replace the post_content with
 			 * it before building the TOC.
 			 */
-			$post = get_post( get_the_ID() );
-			$post->post_content = $content;
+			//$post = get_post( get_the_ID() );
+			//$post->post_content = $content;
+
+			$post    = ezTOC_Post::get( get_the_ID() );
+			$find    = $post->getHeadings();
+			$replace = $post->getHeadingsWithAnchors();
+			$html    = $post->getTOC();
 
 			// build toc
-			$args    = self::build( $post );
-			$find    = $args['find'];
-			$replace = $args['replace'];
-			$html    = $args['content'];
+			//$args    = self::build( $post );
+			//$find    = $args['find'];
+			//$replace = $args['replace'];
+			//$html    = $args['content'];
 
 			// bail if no headings found
 			if ( empty( $find ) ) {
