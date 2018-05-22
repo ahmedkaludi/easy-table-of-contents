@@ -853,6 +853,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		/**
 		 * Returns true if the table of contents is eligible to be printed, false otherwise.
 		 *
+		 * NOTE: Must bve use only within the loop.
+		 *
 		 * @access public
 		 * @since  1.0
 		 * @static
@@ -861,16 +863,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function is_eligible() {
 
-			global $wp_query;
+			$post = get_queried_object();
 
-			$post = $wp_query->post;
-
-			if ( empty( $post ) ) {
+			if ( empty( $post ) || ! $post instanceof WP_Post ) {
 				return FALSE;
 			}
 
-			if ( has_shortcode( $post->post_content, apply_filters( 'ez_toc_shortcode', 'toc' ) ) ||
-			     has_shortcode( $post->post_content, 'ez-toc' ) ) {
+			$content = get_the_content();
+
+			if ( has_shortcode( $content, apply_filters( 'ez_toc_shortcode', 'toc' ) ) ||
+			     has_shortcode( $content, 'ez-toc' ) ) {
 				return TRUE;
 			}
 
@@ -1109,11 +1111,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( $run ) {
 
-				$args = self::build( get_post( get_the_ID() ) );
-				$out  = $args['content'];
+				//$args = self::build( get_post( get_the_ID() ) );
+				//$out  = $args['content'];
 
-				//$post = ezTOC_Post::get( get_the_ID() );
-				//$out  = $post->getTOC();
+				$post = ezTOC_Post::get( get_the_ID() );
+				$out  = $post->getTOC();
 
 				$run  = FALSE;
 			}
