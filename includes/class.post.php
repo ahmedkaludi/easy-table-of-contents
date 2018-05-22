@@ -55,8 +55,6 @@ class ezTOC_Post {
 
 		$this->post      = $post;
 		$this->permalink = get_permalink( $post );
-
-		$this->processPages();
 	}
 
 	/**
@@ -80,29 +78,49 @@ class ezTOC_Post {
 	}
 
 	/**
+	 * Process post content for headings.
+	 *
+	 * This must be run after object init or after @see ezTOC_Post::applyContentFilter().
+	 *
+	 * @access public
+	 * @since  2.0
+	 *
+	 * @return static
+	 */
+	public function process() {
+
+		$this->processPages();
+
+		return $this;
+	}
+
+	/**
 	 * Apply `the_content` filter to the post content.
 	 *
 	 * The `the_content` filter will only be applied once, even if this method is called multiple times.
 	 *
 	 * @access public
 	 * @since  2.0
+	 *
+	 * @return static
 	 */
 	public function applyContentFilter() {
 
 		static $run = TRUE;
-		$post = &$this->post;
 
-		if ( $run && $post instanceof WP_Post ) {
+		if ( $run && $this->post instanceof WP_Post ) {
 
 			/*
 			 * Ensure the ezTOC content filter is not applied when running `the_content` filter.
 			 */
 			remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
-			$post->post_content = apply_filters( 'the_content', $post->post_content );
+			$this->post->post_content = apply_filters( 'the_content', $this->post->post_content );
 			add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
 			$run = FALSE;
 		}
+
+		return $this;
 	}
 
 	/**

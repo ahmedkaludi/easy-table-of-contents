@@ -1114,7 +1114,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				//$args = self::build( get_post( get_the_ID() ) );
 				//$out  = $args['content'];
 
-				$post = ezTOC_Post::get( get_the_ID() );
+				$post = ezTOC_Post::get( get_the_ID() )->process();
 				$out  = $post->getTOC();
 
 				$run  = FALSE;
@@ -1164,9 +1164,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			//$post = get_post( get_the_ID() );
 			//$post->post_content = $content;
 
-			$post = ezTOC_Post::get( get_the_ID() );
-
-			$post->applyContentFilter();
+			$post = ezTOC_Post::get( get_the_ID() )->applyContentFilter()->process();
 
 			$find    = $post->getHeadings();
 			$replace = $post->getHeadingsWithAnchors();
