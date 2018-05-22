@@ -3,11 +3,13 @@
 class ezTOC_Post {
 
 	/**
+	 * @since 2.0
 	 * @var WP_Post
 	 */
 	private $post;
 
 	/**
+	 * @since 2.0
 	 * @var false|string
 	 */
 	private $permalink;
@@ -15,6 +17,7 @@ class ezTOC_Post {
 	/**
 	 * The post content broken into pages by user inserting `<!--nextpage-->` into the post content.
 	 * @see ezTOC_Post::extractPages()
+	 * @since 2.0
 	 * @var array
 	 */
 	private $pages = array();
@@ -22,6 +25,7 @@ class ezTOC_Post {
 	/**
 	 * The user defined heading levels to be included in the TOC.
 	 * @see ezTOC_Post::getHeadingLevels()
+	 * @since 2.0
 	 * @var array
 	 */
 	private $headingLevels = array();
@@ -29,23 +33,30 @@ class ezTOC_Post {
 	/**
 	 * The user defined strings to be used in the TOC in place of the post content headings.
 	 * @see ezTOC_Post::getAlternateHeadings()
+	 * @since 2.0
 	 * @var array
 	 */
 	private $alternateHeadings = array();
 
-	public function __construct( WP_Post $post ) {
+	/**
+	 * Keeps a track of used anchors for collision detecting.
+	 * @see ezTOC_Post::generateHeadingIDFromTitle()
+	 * @since 2.0
+	 * @var array
+	 */
+	private $collision_collector = array();
 
-		/*
-		 * Ensure the ezTOC content filter is not applied when running `the_content` filter.
-		 */
-		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
-		$post->post_content = apply_filters( 'the_content', $post->post_content );
-		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
+	/**
+	 * @var bool
+	 */
+	private $hasTOCItems = FALSE;
+
+	public function __construct( WP_Post $post ) {
 
 		$this->post      = $post;
 		$this->permalink = get_permalink( $post );
 
-		$this->extractPages();
+		$this->processPages();
 	}
 
 	/**
@@ -66,6 +77,32 @@ class ezTOC_Post {
 		}
 
 		return new static( $post );
+	}
+
+	/**
+	 * Apply `the_content` filter to the post content.
+	 *
+	 * The `the_content` filter will only be applied once, even if this method is called multiple times.
+	 *
+	 * @access public
+	 * @since  2.0
+	 */
+	public function applyContentFilter() {
+
+		static $run = TRUE;
+		$post = &$this->post;
+
+		if ( $run && $post instanceof WP_Post ) {
+
+			/*
+			 * Ensure the ezTOC content filter is not applied when running `the_content` filter.
+			 */
+			remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
+			$post->post_content = apply_filters( 'the_content', $post->post_content );
+			add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
+
+			$run = FALSE;
+		}
 	}
 
 	/**
@@ -143,7 +180,7 @@ class ezTOC_Post {
 	 * @access private
 	 * @since  2.0
 	 */
-	private function extractPages() {
+	private function processPages() {
 
 		$split = preg_split( '/<!--nextpage-->/msuU', $this->post->post_content );
 		$pages = array();
@@ -215,6 +252,7 @@ class ezTOC_Post {
 				$this->removeEmptyHeadings( $matches );
 				$this->alternateHeadings( $matches );
 				$this->headingIDs( $matches );
+				$this->hasTOCItems = TRUE;
 
 				//$headingsCount = count( $matches );
 
@@ -523,10 +561,87 @@ class ezTOC_Post {
 
 		for ( $i = 0; $i < $count; $i++ ) {
 
-			$matches[ $i ]['id'] = ezTOC::url_anchor_target( $matches[ $i ][0] );
+			$matches[ $i ]['id'] = $this->generateHeadingIDFromTitle( $matches[ $i ][0] );
 		}
 
 		return $matches;
+	}
+
+	/**
+	 * Create unique heading ID from heading string.
+	 *
+	 * @access private
+	 * @since  2.0
+	 *
+	 * @param string $heading
+	 *
+	 * @return bool|string
+	 */
+	private function generateHeadingIDFromTitle( $heading ) {
+
+		$return = FALSE;
+
+		if ( $heading ) {
+
+			// WP entity encodes the post content.
+			$return = html_entity_decode( $heading, ENT_QUOTES, get_option( 'blog_charset' ) );
+
+			$return = trim( strip_tags( $return ) );
+
+			// Convert accented characters to ASCII.
+			$return = remove_accents( $return );
+
+			// replace newlines with spaces (eg when headings are split over multiple lines)
+			$return = str_replace( array( "\r", "\n", "\n\r", "\r\n" ), ' ', $return );
+
+			// Remove `&amp;` and `&nbsp;` NOTE: in order to strip "hidden" `&nbsp;`,
+			// title needs to be converted to HTML entities.
+			// @link https://stackoverflow.com/a/21801444/5351316
+			$return = htmlentities2( $return );
+			$return = str_replace( array( '&amp;', '&nbsp;' ), ' ', $return );
+			$return = html_entity_decode( $return, ENT_QUOTES, get_option( 'blog_charset' ) );
+
+			// remove non alphanumeric chars
+			$return = preg_replace( '/[^a-zA-Z0-9 \-_]*/', '', $return );
+
+			// convert spaces to _
+			$return = preg_replace( '/\s+/', '_', $return );
+
+			// remove trailing - and _
+			$return = rtrim( $return, '-_' );
+
+			// lowercase everything?
+			if ( ezTOC_Option::get( 'lowercase' ) ) {
+
+				$return = strtolower( $return );
+			}
+
+			// if blank, then prepend with the fragment prefix
+			// blank anchors normally appear on sites that don't use the latin charset
+			if ( ! $return ) {
+
+				$return = ( ezTOC_Option::get( 'fragment_prefix' ) ) ? ezTOC_Option::get( 'fragment_prefix' ) : '_';
+			}
+
+			// hyphenate?
+			if ( ezTOC_Option::get( 'hyphenate' ) ) {
+
+				$return = str_replace( '_', '-', $return );
+				$return = str_replace( '--', '-', $return );
+			}
+		}
+
+		if ( array_key_exists( $return, $this->collision_collector ) ) {
+
+			$this->collision_collector[ $return ]++;
+			$return .= '-' . $this->collision_collector[ $return ];
+
+		} else {
+
+			$this->collision_collector[ $return ] = 1;
+		}
+
+		return apply_filters( 'ez_toc_url_anchor_target', $return, $heading );
 	}
 
 	/**
@@ -558,6 +673,21 @@ class ezTOC_Post {
 		}
 
 		return $matches;
+	}
+
+	/**
+	 * Whether or not the post has TOC items.
+	 *
+	 * @see ezTOC_Post::extractHeadings()
+	 *
+	 * @access public
+	 * @since  2.0
+	 *
+	 * @return bool
+	 */
+	public function hasTOCItems() {
+
+		return $this->hasTOCItems;
 	}
 
 	/**
@@ -632,7 +762,31 @@ class ezTOC_Post {
 	}
 
 	/**
-	 * Get the posts TOC.
+	 * Get the post TOC list.
+	 * @access public
+	 * @since  2.0
+	 *
+	 * @return string
+	 */
+	public function getTOCList() {
+
+		$html = '';
+
+		if ( $this->hasTOCItems ) {
+
+			foreach ( $this->pages as $page => $attribute ) {
+
+				$html .= $this->createTOC( $page, $attribute['headings'] );
+			}
+
+			$html  = '<ul class="ez-toc-list">' . $html . '</ul>';
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Get the post TOC content block.
 	 *
 	 * @access public
 	 * @since  2.0
@@ -642,18 +796,9 @@ class ezTOC_Post {
 	public function getTOC() {
 
 		$css_classes = '';
+		$html        = '';
 
-		$html  = '';
-		$items = '';
-
-		foreach ( $this->pages as $page => $attribute ) {
-
-			$items .= $this->createTOC( $page, $attribute['headings'] );
-		}
-
-		$list  = '<ul class="ez-toc-list">' . $items . '</ul>';
-
-		if ( $list ) {
+		if ( $this->hasTOCItems() ) {
 
 			// wrapping css classes
 			switch ( ezTOC_Option::get( 'wrapping' ) ) {
@@ -772,7 +917,7 @@ class ezTOC_Post {
 			do_action( 'ez_toc_before' );
 			$html .= ob_get_clean();
 
-			$html .= '<nav><ul class="ez-toc-list">' . $items . '</ul></nav>';
+			$html .= '<nav>' . $this->getTOCList() . '</nav>';
 
 			ob_start();
 			do_action( 'ez_toc_after' );
@@ -799,15 +944,17 @@ class ezTOC_Post {
 	}
 
 	/**
+	 * Generate the TOC list items for a given page within a post.
+	 *
 	 * @access private
 	 * @since  2.0
 	 *
-	 * @param int   $page         The page of the post to create the TOC items for.
-	 * @param array $matches      The heading from the post content extracted with preg_match_all().
+	 * @param int   $page    The page of the post to create the TOC items for.
+	 * @param array $matches The heading from the post content extracted with preg_match_all().
 	 *
 	 * @return string The HTML list of TOC items.
 	 */
-	private function createTOC( $page, $matches) {
+	private function createTOC( $page, $matches ) {
 
 		// Whether or not the TOC should be built flat or hierarchical.
 		$hierarchical = ezTOC_Option::get( 'show_hierarchy' );
@@ -862,6 +1009,14 @@ class ezTOC_Post {
 						$html .= sprintf(
 							'<a href="%1$s" title="%2$s">' . $title . '</a>',
 							esc_url( '#' . $matches[ $i ]['id'] ),
+							esc_attr( strip_tags( $title ) )
+						);
+
+					} elseif ( 1 === $page ) {
+
+						$html .= sprintf(
+							'<a href="%1$s" title="%2$s">' . $title . '</a>',
+							esc_url( $this->permalink . '#' . $matches[ $i ]['id'] ),
 							esc_attr( strip_tags( $title ) )
 						);
 

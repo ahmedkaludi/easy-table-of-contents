@@ -138,74 +138,77 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
 			if ( is_404() || is_archive() || is_search() || ( ! is_front_page() && is_home() )  ) return;
 
-			global $wp_query;
+			//global $wp_query;
 
-			$css_classes = '';
+			//$find    = $replace = array();
+			//$post    = get_post( $wp_query->post->ID );
+			$post = ezTOC_Post::get( get_the_ID() );
 
-			$find    = $replace = array();
-			$post    = get_post( $wp_query->post->ID );
+			$post->applyContentFilter();
 
 			/*
 			 * Ensure the ezTOC content filter is not applied when running `the_content` filter.
 			 */
-			remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
-			$post->post_content = apply_filters( 'the_content', $post->post_content );
-			add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
+			//remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
+			//$post->post_content = apply_filters( 'the_content', $post->post_content );
+			//add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
-			/**
-			 * @var string $before_widget
-			 * @var string $after_widget
-			 * @var string $before_title
-			 * @var string $after_title
-			 */
-			extract( $args );
+			if ( $post->hasTOCItems() ) {
 
-			$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
-			$items = ezTOC::extract_headings( $find, $replace, $post );
+				$css_classes = '';
 
-			if ( FALSE !== strpos( $title, '%PAGE_TITLE%' ) || FALSE !== strpos( $title, '%PAGE_NAME%' ) ) {
+				/**
+				 * @var string $before_widget
+				 * @var string $after_widget
+				 * @var string $before_title
+				 * @var string $after_title
+				 */
+				extract( $args );
 
-				$title = str_replace( '%PAGE_TITLE%', get_the_title(), $title );
-			}
+				$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
+				//$items = ezTOC::extract_headings( $find, $replace, $post );
 
-			if ( ezTOC_Option::get( 'show_hierarchy' ) ) {
+				if ( FALSE !== strpos( $title, '%PAGE_TITLE%' ) || FALSE !== strpos( $title, '%PAGE_NAME%' ) ) {
 
-				$css_classes = ' counter-hierarchy';
+					$title = str_replace( '%PAGE_TITLE%', get_the_title(), $title );
+				}
 
-			} else {
+				if ( ezTOC_Option::get( 'show_hierarchy' ) ) {
 
-				$css_classes .= ' counter-flat';
-			}
+					$css_classes = ' counter-hierarchy';
 
-			switch ( ezTOC_Option::get( 'counter' ) ) {
+				} else {
 
-				case 'numeric':
-					$css_classes .= ' counter-numeric';
-					break;
+					$css_classes .= ' counter-flat';
+				}
 
-				case 'roman':
-					$css_classes .= ' counter-roman';
-					break;
+				switch ( ezTOC_Option::get( 'counter' ) ) {
 
-				case 'decimal':
-					$css_classes .= ' counter-decimal';
-					break;
-			}
+					case 'numeric':
+						$css_classes .= ' counter-numeric';
+						break;
 
-			if ( $instance['affix'] ) {
+					case 'roman':
+						$css_classes .= ' counter-roman';
+						break;
 
-				$css_classes .= ' ez-toc-affix';
-			}
+					case 'decimal':
+						$css_classes .= ' counter-decimal';
+						break;
+				}
 
-			$css_classes = trim( $css_classes );
+				if ( $instance['affix'] ) {
 
-			// an empty class="" is invalid markup!
-			if ( ! $css_classes ) {
+					$css_classes .= ' ez-toc-affix';
+				}
 
-				$css_classes = ' ';
-			}
+				$css_classes = trim( $css_classes );
 
-			if ( $items ) {
+				// an empty class="" is invalid markup!
+				if ( ! $css_classes ) {
+
+					$css_classes = ' ';
+				}
 
 				echo $before_widget;
 
@@ -255,7 +258,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 					<?php
 				}
 
-				echo '<nav><ul class="ez-toc-list">'. PHP_EOL . $items . '</ul></nav>' . PHP_EOL;
+				echo '<nav>'. PHP_EOL . $post->getTOCList() . '</nav>' . PHP_EOL;
 
 				do_action( 'ez_toc_after_widget' );
 

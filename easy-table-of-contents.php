@@ -1162,7 +1162,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			//$post = get_post( get_the_ID() );
 			//$post->post_content = $content;
 
-			$post    = ezTOC_Post::get( get_the_ID() );
+			$post = ezTOC_Post::get( get_the_ID() );
+
+			$post->applyContentFilter();
+
 			$find    = $post->getHeadings();
 			$replace = $post->getHeadingsWithAnchors();
 			$html    = $post->getTOC();
@@ -1174,7 +1177,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			//$html    = $args['content'];
 
 			// bail if no headings found
-			if ( empty( $find ) ) {
+			if ( ! $post->hasTOCItems() ) {
 
 				return $content;
 			}
