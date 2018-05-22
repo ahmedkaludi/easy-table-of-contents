@@ -1051,7 +1051,7 @@ class ezTOC_Post {
 				} else {
 
 					// this is the last item, make sure we close off all tags
-					for ( $current_depth; $current_depth >= $numbered_items_min; $current_depth -- ) {
+					for ( $current_depth; $current_depth >= $numbered_items_min; $current_depth-- ) {
 
 						$html .= '</li>';
 
