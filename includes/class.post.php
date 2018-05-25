@@ -922,11 +922,11 @@ class ezTOC_Post {
 
 		// Whether or not the TOC should be built flat or hierarchical.
 		$hierarchical = ezTOC_Option::get( 'show_hierarchy' );
+		$html         = '';
 
 		if ( $hierarchical ) {
 
 			$current_depth      = 100;    // headings can't be larger than h6 but 100 as a default to be sure
-			$html               = '';
 			$numbered_items     = array();
 			$numbered_items_min = NULL;
 
@@ -998,8 +998,6 @@ class ezTOC_Post {
 			}
 
 		} else {
-
-			$html = '';
 
 			for ( $i = 0; $i < count( $matches ); $i++ ) {
 
