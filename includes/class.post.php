@@ -922,7 +922,6 @@ class ezTOC_Post {
 
 		// Whether or not the TOC should be built flat or hierarchical.
 		$hierarchical = ezTOC_Option::get( 'show_hierarchy' );
-		$current_page = $this->getCurrentPage();
 
 		if ( $hierarchical ) {
 
@@ -965,30 +964,7 @@ class ezTOC_Post {
 				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
 				$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
-				if ( $page === $current_page ) {
-
-					$html .= sprintf(
-						'<a href="%1$s" title="%2$s">' . $title . '</a>',
-						esc_url( '#' . $matches[ $i ]['id'] ),
-						esc_attr( strip_tags( $title ) )
-					);
-
-				} elseif ( 1 === $page ) {
-
-					$html .= sprintf(
-						'<a href="%1$s" title="%2$s">' . $title . '</a>',
-						esc_url( $this->permalink . '#' . $matches[ $i ]['id'] ),
-						esc_attr( strip_tags( $title ) )
-					);
-
-				} else {
-
-					$html .= sprintf(
-						'<a href="%1$s" title="%2$s">' . $title . '</a>',
-						esc_url( $this->permalink . $page . '/#' . $matches[ $i ]['id'] ),
-						esc_attr( strip_tags( $title ) )
-					);
-				}
+				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title );
 
 				// end lists
 				if ( $i != count( $matches ) - 1 ) {
@@ -1027,24 +1003,62 @@ class ezTOC_Post {
 
 			for ( $i = 0; $i < count( $matches ); $i++ ) {
 
-				// get anchor and add to find and replace arrays
-				$anchor    = $matches[ $i ]['id'];
-
 				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
 				$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
-				if ( $page === $current_page ) {
+				$html .= '<li>';
 
-					$html .= '<li><a href="' . esc_url( '#' . $anchor ) . '">' . $title . '</a></li>';
+				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title );
 
-				} else {
-
-					$html .= '<li><a href="' . esc_url( $this->permalink . $page . '/#' . $matches[ $i ]['id'] ) . '">' . $title . '</a></li>';
-				}
-
+				$html .= '</li>';
 			}
 		}
 
 		return $html;
+	}
+
+	/**
+	 * @access private
+	 * @since  2.0
+	 *
+	 * @param int    $page
+	 * @param string $id
+	 * @param string $title
+	 *
+	 * @return string
+	 */
+	private function createTOCItemAnchor( $page, $id, $title ) {
+
+		return sprintf(
+			'<a href="%1$s" title="%2$s">' . $title . '</a>',
+			esc_url( $this->createTOCItemURL( $id, $page ) ),
+			esc_attr( strip_tags( $title ) )
+		);
+	}
+
+	/**
+	 * @access private
+	 * @since  2.0
+	 *
+	 * @param string $id
+	 * @param int    $page
+	 *
+	 * @return string
+	 */
+	private function createTOCItemURL( $id, $page ) {
+
+		$current_page = $this->getCurrentPage();
+
+		if ( $page === $current_page ) {
+
+			return '#' . $id;
+
+		} elseif ( 1 === $page ) {
+
+			return $this->permalink . '#' . $id;
+
+		}
+
+		return $this->permalink . $page . '/#' . $id;
 	}
 }
