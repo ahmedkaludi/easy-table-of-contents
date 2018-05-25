@@ -4,6 +4,12 @@ class ezTOC_Post {
 
 	/**
 	 * @since 2.0
+	 * @var int
+	 */
+	private $queriedObjectID;
+
+	/**
+	 * @since 2.0
 	 * @var WP_Post
 	 */
 	private $post;
@@ -53,8 +59,9 @@ class ezTOC_Post {
 
 	public function __construct( WP_Post $post ) {
 
-		$this->post      = $post;
-		$this->permalink = get_permalink( $post );
+		$this->post            = $post;
+		$this->permalink       = get_permalink( $post );
+		$this->queriedObjectID = get_queried_object_id();
 	}
 
 	/**
@@ -1045,9 +1052,10 @@ class ezTOC_Post {
 	 */
 	private function createTOCItemURL( $id, $page ) {
 
+		$current_post = $this->post->ID === $this->queriedObjectID;
 		$current_page = $this->getCurrentPage();
 
-		if ( $page === $current_page ) {
+		if ( $page === $current_page && $current_post ) {
 
 			return '#' . $id;
 
