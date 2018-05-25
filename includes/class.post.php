@@ -248,8 +248,6 @@ class ezTOC_Post {
 	private function extractHeadings( $content ) {
 
 		$matches = array();
-		//$find    = array();
-		//$replace = array();
 
 		// reset the internal collision collection as the_content may have been triggered elsewhere
 		// eg by themes or other plugins that need to read in content such as metadata fields in
@@ -259,71 +257,18 @@ class ezTOC_Post {
 
 		$content = apply_filters( 'ez_toc_extract_headings_content', $content );
 
-		//if ( is_array( $find ) && is_array( $replace ) && $content ) {
-
 			// get all headings
 			// the html spec allows for a maximum of 6 heading depths
-			if ( preg_match_all( '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuU', $content, $matches, PREG_SET_ORDER ) ) {
+		if ( preg_match_all( '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuU', $content, $matches, PREG_SET_ORDER ) ) {
 
-				$this->removeHeadings( $matches );
-				$this->excludeHeadings( $matches );
-				$this->removeEmptyHeadings( $matches );
-				$this->alternateHeadings( $matches );
-				$this->headingIDs( $matches );
-				$this->hasTOCItems = TRUE;
+			$this->removeHeadings( $matches );
+			$this->excludeHeadings( $matches );
+			$this->removeEmptyHeadings( $matches );
+			$this->alternateHeadings( $matches );
+			$this->headingIDs( $matches );
+			$this->hasTOCItems = TRUE;
+		}
 
-				//$headingsCount = count( $matches );
-
-				// check minimum number of headings NOTE: Perhaps this check should be is_eligible()  ???
-				//if ( count( $matches ) >= ezTOC_Option::get( 'start' ) ) {
-
-					//for ( $i = 0; $i < $headingsCount; $i++ ) {
-
-						// get anchor and add to find and replace arrays
-						//$anchor    = ezTOC::url_anchor_target( $matches[ $i ][0] );
-						//$find[]    = $matches[ $i ][0];
-						//$replace[] = str_replace(
-						//	array(
-						//		$matches[ $i ][1],                // start of heading
-						//		'</h' . $matches[ $i ][2] . '>'   // end of heading
-						//	),
-						//	array(
-						//		$matches[ $i ][1] . '<span class="ez-toc-section" id="' . $anchor . '">',
-						//		'</span></h' . $matches[ $i ][2] . '>'
-						//	),
-						//	$matches[ $i ][0]
-						//);
-
-						// assemble flat list
-						//if ( ! ezTOC_Option::get( 'show_hierarchy' ) ) {
-						//
-						//	$items = '';
-						//
-						//	$items .= '<li><a href="' . esc_url( '#' . $anchor ) . '">';
-						//	$title = strip_tags( apply_filters( 'ez_toc_title', $matches[ $i ][0] ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
-						//
-						//	$items .= $title . '</a></li>';
-						//}
-					//}
-
-					// build a hierarchical toc?
-					// we could have tested for $items but that var can be quite large in some cases
-					//if ( ezTOC_Option::get( 'show_hierarchy' ) ) {
-					//
-					//	$items = ezTOC::build_hierarchy( $matches, $this->getHeadingLevels() );
-					//}
-
-				//}
-			}
-		//}
-
-		//return array(
-		//	'rendered' => isset( $items ) && ! empty( $items ) ? '<ul class="ez-toc-list">' . $items . '</ul>' : '',
-		//	'headings' => array(
-		//		'original' => $find,
-		//		'anchored' => $replace,
-		//	),
-		//);
 		return $matches;
 	}
 
@@ -781,6 +726,7 @@ class ezTOC_Post {
 
 	/**
 	 * Get the post TOC list.
+	 *
 	 * @access public
 	 * @since  2.0
 	 *
@@ -1016,38 +962,33 @@ class ezTOC_Post {
 					}
 				}
 
-				// list item
-				//if ( in_array( $matches[ $i ][2], $headings ) ) {
+				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
+				$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
-					$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
-					$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
+				if ( $page === $current_page ) {
 
-					if ( $page === $current_page ) {
+					$html .= sprintf(
+						'<a href="%1$s" title="%2$s">' . $title . '</a>',
+						esc_url( '#' . $matches[ $i ]['id'] ),
+						esc_attr( strip_tags( $title ) )
+					);
 
-						$html .= sprintf(
-							'<a href="%1$s" title="%2$s">' . $title . '</a>',
-							esc_url( '#' . $matches[ $i ]['id'] ),
-							esc_attr( strip_tags( $title ) )
-						);
+				} elseif ( 1 === $page ) {
 
-					} elseif ( 1 === $page ) {
+					$html .= sprintf(
+						'<a href="%1$s" title="%2$s">' . $title . '</a>',
+						esc_url( $this->permalink . '#' . $matches[ $i ]['id'] ),
+						esc_attr( strip_tags( $title ) )
+					);
 
-						$html .= sprintf(
-							'<a href="%1$s" title="%2$s">' . $title . '</a>',
-							esc_url( $this->permalink . '#' . $matches[ $i ]['id'] ),
-							esc_attr( strip_tags( $title ) )
-						);
+				} else {
 
-					} else {
-
-						$html .= sprintf(
-							'<a href="%1$s" title="%2$s">' . $title . '</a>',
-							esc_url( $this->permalink . $page . '/#' . $matches[ $i ]['id'] ),
-							esc_attr( strip_tags( $title ) )
-						);
-					}
-
-				//}
+					$html .= sprintf(
+						'<a href="%1$s" title="%2$s">' . $title . '</a>',
+						esc_url( $this->permalink . $page . '/#' . $matches[ $i ]['id'] ),
+						esc_attr( strip_tags( $title ) )
+					);
+				}
 
 				// end lists
 				if ( $i != count( $matches ) - 1 ) {
@@ -1088,34 +1029,19 @@ class ezTOC_Post {
 
 				// get anchor and add to find and replace arrays
 				$anchor    = $matches[ $i ]['id'];
-				//$find[]    = $matches[ $i ][0];
-				//$replace[] = str_replace(
-				//	array(
-				//		$matches[ $i ][1],                // start of heading
-				//		'</h' . $matches[ $i ][2] . '>'   // end of heading
-				//	),
-				//	array(
-				//		$matches[ $i ][1] . '<span class="ez-toc-section" id="' . $anchor . '">',
-				//		'</span></h' . $matches[ $i ][2] . '>'
-				//	),
-				//	$matches[ $i ][0]
-				//);
 
-				// assemble flat list
-				//if ( ! ezTOC_Option::get( 'show_hierarchy' ) ) {
+				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
+				$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
-					$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
-					$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
+				if ( $page === $current_page ) {
 
-					if ( $page === $current_page ) {
+					$html .= '<li><a href="' . esc_url( '#' . $anchor ) . '">' . $title . '</a></li>';
 
-						$html .= '<li><a href="' . esc_url( '#' . $anchor ) . '">' . $title . '</a></li>';
+				} else {
 
-					} else {
+					$html .= '<li><a href="' . esc_url( $this->permalink . $page . '/#' . $matches[ $i ]['id'] ) . '">' . $title . '</a></li>';
+				}
 
-						$html .= '<li><a href="' . esc_url( $this->permalink . $page . '/#' . $matches[ $i ]['id'] ) . '">' . $title . '</a></li>';
-					}
-				//}
 			}
 		}
 
