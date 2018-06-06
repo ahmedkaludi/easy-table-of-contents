@@ -420,7 +420,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function is_eligible() {
 
-			$post = get_queried_object();
+			$post = get_post();
 
 			if ( empty( $post ) || ! $post instanceof WP_Post ) {
 				return FALSE;
