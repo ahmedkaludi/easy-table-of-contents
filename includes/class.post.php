@@ -282,6 +282,10 @@ class ezTOC_Post {
 				$this->alternateHeadings( $matches );
 				$this->headingIDs( $matches );
 				$this->hasTOCItems = TRUE;
+
+			} else {
+
+				return array();
 			}
 
 		}
