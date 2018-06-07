@@ -120,7 +120,7 @@ class ezTOC_Post {
 		 * Ensure the ezTOC shortcodes are not processed when applying `the_content` filter
 		 * otherwise an infinite loop may occur.
 		 */
-		remove_shortcode( 'ez-toc' ) ;
+		remove_shortcode( 'ez-toc' );
 		remove_shortcode( 'toc' );
 
 		$this->post->post_content = apply_filters( 'the_content', $this->post->post_content );
