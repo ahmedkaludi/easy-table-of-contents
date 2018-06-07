@@ -104,8 +104,6 @@ class ezTOC_Post {
 	/**
 	 * Apply `the_content` filter to the post content.
 	 *
-	 * The `the_content` filter will only be applied once, even if this method is called multiple times.
-	 *
 	 * @access public
 	 * @since  2.0
 	 *
@@ -113,19 +111,12 @@ class ezTOC_Post {
 	 */
 	public function applyContentFilter() {
 
-		static $run = TRUE;
-
-		if ( $run && $this->post instanceof WP_Post ) {
-
-			/*
-			 * Ensure the ezTOC content filter is not applied when running `the_content` filter.
-			 */
-			remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
-			$this->post->post_content = apply_filters( 'the_content', $this->post->post_content );
-			add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
-
-			$run = FALSE;
-		}
+		/*
+		 * Ensure the ezTOC content filter is not applied when running `the_content` filter.
+		 */
+		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
+		$this->post->post_content = apply_filters( 'the_content', $this->post->post_content );
+		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
 		return $this;
 	}
