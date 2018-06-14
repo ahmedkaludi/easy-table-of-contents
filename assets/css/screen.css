@@ -12,8 +12,8 @@
 	width: auto;
 }
 
-.ez-toc-widget-container {
-	/*padding: 0 10px;*/
+div.ez-toc-widget-container {
+	padding: 0;
 	position: relative;
 	white-space: nowrap;
 }
@@ -34,8 +34,17 @@
 	background: none transparent;
 }
 
-.ez-toc-widget-container ul.ez-toc-list {
-	padding: 0 10px;
+div.ez-toc-widget-container ul {
+	display: block;
+}
+
+div.ez-toc-widget-container li {
+	border: none;
+	padding: 0;
+}
+
+div.ez-toc-widget-container ul.ez-toc-list {
+	padding: 10px;
 }
 
 #ez-toc-container ul ul,
@@ -52,11 +61,10 @@
 #ez-toc-container ul,
 #ez-toc-container li,
 #ez-toc-container ul li,
-.ez-toc-widget-container,
-.ez-toc-widget-container li {
+div.ez-toc-widget-container,
+div.ez-toc-widget-container li {
 	background: none;
-	list-style-type: none;
-	list-style: none;
+	list-style: none none;
 	line-height: 1.6;
 	margin: 0;
 	overflow: hidden;
