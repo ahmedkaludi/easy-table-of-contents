@@ -1,4 +1,4 @@
-jQuery( document ).ready( function( $ ) {
+jQuery( function( $ ) {
 
 	if ( typeof ezTOC != 'undefined' ) {
 
@@ -99,8 +99,11 @@ jQuery( document ).ready( function( $ ) {
 					if ( target ) {
 						$.smoothScroll( {
 							scrollTarget: target,
-							offset:       offset
+							offset:       offset,
+                            beforeScroll: deactivateSetActiveEzTocListElement,
+                            afterScroll: function() { setActiveEzTocListElement(); activateSetActiveEzTocListElement(); }
 						} );
+
 					}
 				}
 			} );
@@ -167,54 +170,127 @@ jQuery( document ).ready( function( $ ) {
 			} );
 		}
 
-		// ======================================
-		// Waypoints helper functions
-		// ======================================
 
-		// Get link by section or article id
-		function getRelatedNavigation( element ) {
-			return $( '.ez-toc-widget-container .ez-toc-list a[href="#' + $( element ).attr( 'id' ) + '"]' );
-		}
+        // ======================================
+        // Set active heading in ez-toc-widget list
+        // ======================================
 
-		function getScrollOffset( element ) {
+        var headings = $( 'span.ez-toc-section' ).toArray();
+        var headingToListElementLinkMap = getHeadingToListElementLinkMap( headings );
+        var listElementLinks = $.map( headingToListElementLinkMap, function ( value, key ) {
+            return value
+        } );
+        var scrollOffset = getScrollOffset();
 
-			var scrollOffset = ( typeof ezTOC.scroll_offset != 'undefined' ) ? parseInt( ezTOC.scroll_offset ) : 30;
-			var offset       = $( element ).height() + scrollOffset;
+        activateSetActiveEzTocListElement();
 
-			var adminbar = $( '#wpadminbar' );
+        function setActiveEzTocListElement() {
+            var activeHeading = getActiveHeading( scrollOffset, headings );
+            if ( activeHeading ) {
+                var activeListElementLink = headingToListElementLinkMap[ activeHeading.id ];
+                removeStyleFromNonActiveListElement( activeListElementLink, listElementLinks );
+                setStyleForActiveListElementElement( activeListElementLink );
+            }
+        };
 
-			if ( 0 === adminbar.length ) {
+        function activateSetActiveEzTocListElement() {
+            if ( headings.length > 0 && $('.ez-toc-widget-container').length) {
+                $( window ).on( 'load resize scroll', setActiveEzTocListElement );
+            }
+        }
 
-				offset = offset-30;
-			}
+        function deactivateSetActiveEzTocListElement() {
+            $( window ).off( 'load resize scroll', setActiveEzTocListElement );
+        }
 
-			return parseInt( offset );
-		}
+        function getEzTocListElementLinkByHeading( heading ) {
+            return $( '.ez-toc-widget-container .ez-toc-list a[href="#' + $( heading ).attr( 'id' ) + '"]' );
+        }
 
-		// ======================================
-		// Waypoints
-		// ======================================
+        function getHeadingToListElementLinkMap( headings ) {
+            return headings.reduce( function ( map, heading ) {
+                map[ heading.id ] = getEzTocListElementLinkByHeading( heading );
+                return map;
+            }, {} );
+        }
 
-		$('span.ez-toc-section')
-			.waypoint( function( direction ) {
-				// Highlight element when related content is 10% percent from the bottom - remove if below.
-				var item = getRelatedNavigation( this.element ).toggleClass( 'active', direction === 'down' );
-				item.toggleClass( 'active', direction === 'down' ).parent().toggleClass( 'active', direction === 'down' );
-			}, {
-				offset: '90%' //
-			});
-		$('span.ez-toc-section')
-			.waypoint( function( direction ) {
-				// Highlight element when bottom of related content is 30px from the top - remove if less.
-				var item = getRelatedNavigation( this.element ).toggleClass( 'active', direction === 'up' );
-				item.toggleClass( 'active', direction === 'up' ).parent().toggleClass( 'active', direction === 'up' );
-			}, {
-				offset: getScrollOffset( this.element )
-			});
+        function getScrollOffset() {
+            var scrollOffset = 5; // so if smooth offset is off, the correct title is set as active
+            if ( typeof ezTOC.smooth_scroll != 'undefined' && parseInt( ezTOC.smooth_scroll ) === 1 ) {
+                scrollOffset = ( typeof ezTOC.scroll_offset != 'undefined' ) ? parseInt( ezTOC.scroll_offset ) : 30;
+            }
 
+            var adminbar = $( '#wpadminbar' );
 
-		var div_height = $('.ez-toc-widget-container ul.ez-toc-list li').css('line-height');
+            if ( adminbar.length ) {
+                scrollOffset += adminbar.height();
+            }
+            return scrollOffset;
+        }
 
-		$('<style>.ez-toc-widget-container ul.ez-toc-list li::before{line-height:' + div_height + ';height:' + div_height + '}</style>').appendTo('head');
-	}
+        function getActiveHeading( topOffset, headings ) {
+            var scrollTop = $( window ).scrollTop();
+            var relevantOffset = scrollTop + topOffset + 1;
+            var activeHeading = headings[ 0 ];
+            var closestHeadingAboveOffset = relevantOffset - $( activeHeading ).offset().top;
+            headings.forEach( function ( section ) {
+                var topOffset = relevantOffset - $( section ).offset().top;
+                if ( topOffset > 0 && topOffset < closestHeadingAboveOffset ) {
+                    closestHeadingAboveOffset = topOffset;
+                    activeHeading = section;
+                }
+            } );
+            return activeHeading;
+        }
+
+        function removeStyleFromNonActiveListElement( activeListElementLink, listElementLinks ) {
+            listElementLinks.forEach( function ( listElementLink ) {
+                if ( activeListElementLink !== listElementLink && listElementLink.parent().hasClass( 'active' ) ) {
+                    listElementLink.parent().removeClass( 'active' );
+                }
+            } );
+        }
+
+        function correctActiveListElementBackgroundColorHeight( activeListElement ) {
+            var listElementHeight = getListElementHeightWithoutUlChildren( activeListElement );
+            addListElementBackgroundColorHeightStyleToHead( listElementHeight );
+        }
+
+        function getListElementHeightWithoutUlChildren( listElement ) {
+            var $listElement = $( listElement );
+            var content = $listElement.html();
+            // Adding list item with class '.active' to get the real height.
+            // When adding a class to an existing element and using jQuery(..).height() directly afterwards,
+            // the height is the 'old' height. The height might change due to text-wraps when setting the text-weight bold for example
+            // When adding a new item, the height is calculated correctly.
+            // But only when it might be visible (so display:none; is not possible...)
+            // But because it get's directly removed afterwards it never will be rendered by the browser
+            // (at least in my tests in FF, Chrome, IE11 and Edge)
+            $listElement.parent().append( '<li id="ez-toc-height-test" class="active">' + content + '</li>' );
+            var height = jQuery( '#ez-toc-height-test' ).height();
+            jQuery( '#ez-toc-height-test' ).remove();
+            return height - $listElement.children( 'ul' ).first().height();
+        }
+
+        function addListElementBackgroundColorHeightStyleToHead( listElementHeight ) {
+            // Remove existing
+            $( '#ez-toc-active-height' ).remove();
+            // jQuery(..).css(..) doesn't work, because ::before is a pseudo element and not part of the DOM
+            // Workaround is to add it to head
+            $( '<style id="ez-toc-active-height">' +
+                '.ez-toc-widget-container ul.ez-toc-list li.active::before {' +
+                // 'line-heigh:' + listElementHeight + 'px; ' +
+                'height:' + listElementHeight + 'px;' +
+                '} </style>' )
+                .appendTo( 'head' );
+        }
+
+        function setStyleForActiveListElementElement( activeListElementLink ) {
+            var activeListElement = activeListElementLink.parent();
+            if ( !activeListElement.hasClass( 'active' ) ) {
+                activeListElement.addClass( 'active' );
+            }
+            correctActiveListElementBackgroundColorHeight( activeListElement );
+        }
+    }
 } );
