@@ -541,7 +541,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return $content;
 			}
 
-			$post = ezTOC_Post::get( get_the_ID() )->applyContentFilter()->process();
+			if ( is_null( $post = ezTOC_Post::get( get_the_ID() ) ) ) {
+
+				return $content;
+			}
+
+			$post->applyContentFilter()->process();
 
 			$find    = $post->getHeadings();
 			$replace = $post->getHeadingsWithAnchors();
