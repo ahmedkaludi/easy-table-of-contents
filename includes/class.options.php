@@ -572,7 +572,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'counter'                            => 'decimal',
 				'smooth_scroll'                      => TRUE,
 				'smooth_scroll_offset'               => 30,
-				'moile_smooth_scroll_offset'         => 0,
+				'mobile_smooth_scroll_offset'        => 0,
 				'visibility'                         => TRUE,
 				//'visibility_show'                    => 'show',
 				//'visibility_hide'                    => 'hide',
