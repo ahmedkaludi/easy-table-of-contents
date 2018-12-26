@@ -822,7 +822,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 
 			} else {
 
-				$name = 'name="ez-toc-settings[' . $args['id'] . ']"';
+				$name = ' name="ez-toc-settings[' . $args['id'] . ']"';
 			}
 
 			$readonly = isset( $args['readonly'] ) && $args['readonly'] === TRUE ? ' readonly="readonly"' : '';
@@ -867,7 +867,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 
 			} else {
 
-				$name = 'name="ez-toc-settings[' . $args['id'] . ']"';
+				$name = ' name="ez-toc-settings[' . $args['id'] . ']"';
 			}
 
 			$readonly = isset( $args['readonly'] ) && $args['readonly'] === TRUE ? ' readonly="readonly"' : '';
@@ -906,7 +906,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 
 			} else {
 
-				$name = 'name="ez-toc-settings[' . $args['id'] . ']"';
+				$name = ' name="ez-toc-settings[' . $args['id'] . ']"';
 			}
 
 			$readonly = isset( $args['readonly'] ) && $args['readonly'] === TRUE ? ' readonly="readonly"' : '';
@@ -947,7 +947,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 
 			} else {
 
-				$name = 'name="ez-toc-settings[' . $args['id'] . ']"';
+				$name = ' name="ez-toc-settings[' . $args['id'] . ']"';
 			}
 
 			$checked = $value ? checked( 1, $value, FALSE ) : '';
