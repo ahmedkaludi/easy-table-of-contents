@@ -966,10 +966,13 @@ class ezTOC_Post {
 			$numbered_items_min               = $current_depth;
 
 			for ( $i = 0; $i < count( $matches ); $i ++ ) {
+				
+				$headningscounter = $i + 1;
+				$headingslevel = $matches[ $i ][2];
 
 				if ( $current_depth == (int) $matches[ $i ][2] ) {
 
-					$html .= '<li>';
+					$html .= '<li class="ez-toc ez-toc-headings-main ez-toc-heading-level-' . $current_depth . '">';
 				}
 
 				// start lists
@@ -978,14 +981,14 @@ class ezTOC_Post {
 					for ( $current_depth; $current_depth < (int) $matches[ $i ][2]; $current_depth++ ) {
 
 						$numbered_items[ $current_depth + 1 ] = 0;
-						$html .= '<ul><li>';
+						$html .= '<ul class="ez-toc ez-toc-main-parent-list ez-toc-heading-level-' . $headingslevel . '"><li class="ez-toc  ez-toc-parent-list ez-toc-heading-level-' . $headingslevel . '">';
 					}
 				}
 
 				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
 				$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
-				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title );
+				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title, $headningscounter, $headingslevel );
 
 				// end lists
 				if ( $i != count( $matches ) - 1 ) {
@@ -1046,10 +1049,10 @@ class ezTOC_Post {
 	 *
 	 * @return string
 	 */
-	private function createTOCItemAnchor( $page, $id, $title ) {
+	private function createTOCItemAnchor( $page, $id, $title, $headningscounter, $headingslevel ) {
 
 		return sprintf(
-			'<a href="%1$s" title="%2$s">' . $title . '</a>',
+			'<a class="ez-toc ez-toc-link ez-toc-heading-level-' . $headingslevel . ' ez-toc-Headning-Number-' . $headningscounter . '" href="%1$s" title="%2$s">' . $title . '</a>',
 			esc_url( $this->createTOCItemURL( $id, $page ) ),
 			esc_attr( strip_tags( $title ) )
 		);
