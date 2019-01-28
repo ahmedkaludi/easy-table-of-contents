@@ -510,7 +510,7 @@ class ezTOC_Post {
 
 					// escape some regular expression characters
 					// others: http://www.php.net/manual/en/regexp.reference.meta.php
-					$original_heading = wp_texturize(str_replace(
+					$original_heading = wptexturize(str_replace(
 						array( '\*' ),
 						array( '.*' ),
 						trim( $original_heading )
