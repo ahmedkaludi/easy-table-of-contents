@@ -424,6 +424,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if ( empty( $post ) || ! $post instanceof WP_Post ) {
 				return FALSE;
 			}
+			
+			global $wp_current_filter;
+			if ( $wp_current_filter[0] === 'wp_head' ) {
+				return false;
+			}
 
 			$content = get_the_content();
 
