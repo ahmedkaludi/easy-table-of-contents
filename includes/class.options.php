@@ -21,7 +21,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 */
 		public static function register() {
 
-			if ( FALSE === get_option( 'ez-toc-settings' ) ) {
+			if ( false === get_option( 'ez-toc-settings' ) ) {
 
 				add_option( 'ez-toc-settings', self::getDefaults() );
 			}
@@ -47,20 +47,20 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'ez_toc_settings_' . $section,
 						array(
 							'section'     => $section,
-							'id'          => isset( $option['id'] ) ? $option['id'] : NULL,
+							'id'          => isset( $option['id'] ) ? $option['id'] : null,
 							'desc'        => ! empty( $option['desc'] ) ? $option['desc'] : '',
-							'name'        => isset( $option['name'] ) ? $option['name'] : NULL,
-							'size'        => isset( $option['size'] ) ? $option['size'] : NULL,
+							'name'        => isset( $option['name'] ) ? $option['name'] : null,
+							'size'        => isset( $option['size'] ) ? $option['size'] : null,
 							'options'     => isset( $option['options'] ) ? $option['options'] : '',
 							'default'     => isset( $option['default'] ) ? $option['default'] : '',
-							'min'         => isset( $option['min'] ) ? $option['min'] : NULL,
-							'max'         => isset( $option['max'] ) ? $option['max'] : NULL,
-							'step'        => isset( $option['step'] ) ? $option['step'] : NULL,
-							'chosen'      => isset( $option['chosen'] ) ? $option['chosen'] : NULL,
-							'placeholder' => isset( $option['placeholder'] ) ? $option['placeholder'] : NULL,
-							'allow_blank' => isset( $option['allow_blank'] ) ? $option['allow_blank'] : TRUE,
-							'readonly'    => isset( $option['readonly'] ) ? $option['readonly'] : FALSE,
-							'faux'        => isset( $option['faux'] ) ? $option['faux'] : FALSE,
+							'min'         => isset( $option['min'] ) ? $option['min'] : null,
+							'max'         => isset( $option['max'] ) ? $option['max'] : null,
+							'step'        => isset( $option['step'] ) ? $option['step'] : null,
+							'chosen'      => isset( $option['chosen'] ) ? $option['chosen'] : null,
+							'placeholder' => isset( $option['placeholder'] ) ? $option['placeholder'] : null,
+							'allow_blank' => isset( $option['allow_blank'] ) ? $option['allow_blank'] : true,
+							'readonly'    => isset( $option['readonly'] ) ? $option['readonly'] : false,
+							'faux'        => isset( $option['faux'] ) ? $option['faux'] : false,
 						)
 					);
 				}
@@ -102,7 +102,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				foreach ( $input as $key => $value ) {
 
 					// Get the setting type (checkbox, select, etc)
-					$type = isset( $registered[ $sectionID ][ $key ]['type'] ) ? $registered[ $sectionID ][ $key ]['type'] : FALSE;
+					$type = isset( $registered[ $sectionID ][ $key ]['type'] ) ? $registered[ $sectionID ][ $key ]['type'] : false;
 
 					if ( $type ) {
 
@@ -202,7 +202,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'name' => __( 'Display Header Label', 'easy-table-of-contents' ),
 							'desc' => __( 'Show header text above the table of contents.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
-							'default' => TRUE,
+							'default' => true,
 						),
 						'heading_text' => array(
 							'id' => 'heading_text',
@@ -216,7 +216,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'name' => __( 'Toggle View', 'easy-table-of-contents' ),
 							'desc' => __( 'Allow the user to toggle the visibility of the table of contents.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
-							'default' => TRUE,
+							'default' => true,
 						),
 						//'visibility_show' => array(
 						//	'id' => 'visibility_show',
@@ -237,14 +237,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'name' => __( 'Initial View', 'easy-table-of-contents' ),
 							'desc' => __( 'Initially hide the table of contents.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
-							'default' => FALSE,
+							'default' => false,
 						),
 						'show_hierarchy' => array(
 							'id' => 'show_hierarchy',
 							'name' => __( 'Show as Hierarchy', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'checkbox',
-							'default' => TRUE,
+							'default' => true,
 						),
 						'counter' => array(
 							'id' => 'counter',
@@ -264,7 +264,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'name' => __( 'Smooth Scroll', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'checkbox',
-							'default' => TRUE,
+							'default' => true,
 						),
 					)
 				),
@@ -436,28 +436,28 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'name' => __( 'Lowercase', 'easy-table-of-contents' ),
 							'desc' => __( 'Ensure anchors are in lowercase.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
-							'default' => FALSE,
+							'default' => false,
 						),
 						'hyphenate' => array(
 							'id' => 'hyphenate',
 							'name' => __( 'Hyphenate', 'easy-table-of-contents' ),
 							'desc' => __( 'Use - rather than _ in anchors.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
-							'default' => FALSE,
+							'default' => false,
 						),
 						'include_homepage' => array(
 							'id' => 'include_homepage',
 							'name' => __( 'Homepage', 'easy-table-of-contents' ),
 							'desc' => __( 'Show the table of contents for qualifying items on the homepage.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
-							'default' => FALSE,
+							'default' => false,
 						),
 						'exclude_css' => array(
 							'id' => 'exclude_css',
 							'name' => __( 'CSS', 'easy-table-of-contents' ),
 							'desc' => __( "Prevent the loading the core CSS styles. When selected, the appearance options from above will be ignored.", 'easy-table-of-contents' ),
 							'type' => 'checkbox',
-							'default' => FALSE,
+							'default' => false,
 						),
 						//'bullet_spacing' => array(
 						//	'id' => 'bullet_spacing',
@@ -564,19 +564,19 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'fragment_prefix'                    => 'i',
 				'position'                           => 'before',
 				'start'                              => 4,
-				'show_heading_text'                  => TRUE,
+				'show_heading_text'                  => true,
 				'heading_text'                       => 'Table of Contents',
 				'enabled_post_types'                 => array( 'page' ),
 				'auto_insert_post_types'             => array(),
-				'show_hierarchy'                     => TRUE,
+				'show_hierarchy'                     => true,
 				'counter'                            => 'decimal',
-				'smooth_scroll'                      => TRUE,
+				'smooth_scroll'                      => true,
 				'smooth_scroll_offset'               => 30,
 				'mobile_smooth_scroll_offset'        => 0,
-				'visibility'                         => TRUE,
+				'visibility'                         => true,
 				//'visibility_show'                    => 'show',
 				//'visibility_hide'                    => 'hide',
-				'visibility_hide_by_default'         => FALSE,
+				'visibility_hide_by_default'         => false,
 				'width'                              => 'auto',
 				'width_custom'                       => 275,
 				'width_custom_units'                 => 'px',
@@ -593,11 +593,11 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'custom_link_colour'                 => '#428bca',
 				'custom_link_hover_colour'           => '#2a6496',
 				'custom_link_visited_colour'         => '#428bca',
-				'lowercase'                          => FALSE,
-				'hyphenate'                          => FALSE,
+				'lowercase'                          => false,
+				'hyphenate'                          => false,
 				//'bullet_spacing'                     => FALSE,
-				'include_homepage'                   => FALSE,
-				'exclude_css'                        => FALSE,
+				'include_homepage'                   => false,
+				'exclude_css'                        => false,
 				'exclude'                            => '',
 				'heading_levels'                     => array( '1', '2', '3', '4', '5', '6' ),
 				'restrict_path'                      => '',
@@ -640,7 +640,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 *
 		 * @return mixed
 		 */
-		public static function get( $key, $default = FALSE ) {
+		public static function get( $key, $default = false ) {
 
 			$options = self::getOptions();
 
@@ -662,7 +662,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 *
 		 * @return bool
 		 */
-		public static function set( $key, $value = FALSE ) {
+		public static function set( $key, $value = false ) {
 
 			if ( empty( $value ) ) {
 
@@ -807,16 +807,16 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 * @param array $args Arguments passed by the setting
 		 * @param null  $value
 		 */
-		public static function text( $args, $value = NULL ) {
+		public static function text( $args, $value = null ) {
 
 			if ( is_null( $value ) ) {
 
 				$value = self::get( $args['id'], $args['default'] );
 			}
 
-			if ( isset( $args['faux'] ) && TRUE === $args['faux'] ) {
+			if ( isset( $args['faux'] ) && true === $args['faux'] ) {
 
-				$args['readonly'] = TRUE;
+				$args['readonly'] = true;
 				$value            = isset( $args['default'] ) ? $args['default'] : '';
 				$name             = '';
 
@@ -825,7 +825,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				$name = ' name="ez-toc-settings[' . $args['id'] . ']"';
 			}
 
-			$readonly = isset( $args['readonly'] ) && $args['readonly'] === TRUE ? ' readonly="readonly"' : '';
+			$readonly = isset( $args['readonly'] ) && $args['readonly'] === true ? ' readonly="readonly"' : '';
 			$size     = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 
 			$html = '<input type="text" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( stripslashes( $value ) ) . '"' . $readonly . '/>';
@@ -850,7 +850,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 * @param array $args  Arguments passed by the setting
 		 * @param null  $value
 		 */
-		public static function textarea( $args, $value = NULL ) {
+		public static function textarea( $args, $value = null ) {
 
 			$html = '';
 
@@ -859,9 +859,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				$value = self::get( $args['id'], $args['default'] );
 			}
 
-			if ( isset( $args['faux'] ) && TRUE === $args['faux'] ) {
+			if ( isset( $args['faux'] ) && true === $args['faux'] ) {
 
-				$args['readonly'] = TRUE;
+				$args['readonly'] = true;
 				$value            = isset( $args['default'] ) ? $args['default'] : '';
 				$name             = '';
 
@@ -870,7 +870,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				$name = ' name="ez-toc-settings[' . $args['id'] . ']"';
 			}
 
-			$readonly = isset( $args['readonly'] ) && $args['readonly'] === TRUE ? ' readonly="readonly"' : '';
+			$readonly = isset( $args['readonly'] ) && $args['readonly'] === true ? ' readonly="readonly"' : '';
 			$size     = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 
 			if ( 0 < strlen( $args['desc'] ) ) {
@@ -898,9 +898,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 
 			$value = self::get( $args['id'], $args['default'] );
 
-			if ( isset( $args['faux'] ) && TRUE === $args['faux'] ) {
+			if ( isset( $args['faux'] ) && true === $args['faux'] ) {
 
-				$args['readonly'] = TRUE;
+				$args['readonly'] = true;
 				$value            = isset( $args['default'] ) ? $args['default'] : '';
 				$name             = '';
 
@@ -909,7 +909,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				$name = ' name="ez-toc-settings[' . $args['id'] . ']"';
 			}
 
-			$readonly = isset( $args['readonly'] ) && $args['readonly'] === TRUE ? ' readonly="readonly"' : '';
+			$readonly = isset( $args['readonly'] ) && $args['readonly'] === true ? ' readonly="readonly"' : '';
 			$size     = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 
 			$html = '<input type="number" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( stripslashes( $value ) ) . '"' . $readonly . '/>';
@@ -934,14 +934,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 * @param array $args Arguments passed by the setting
 		 * @param null  $value
 		 */
-		public static function checkbox( $args, $value = NULL ) {
+		public static function checkbox( $args, $value = null ) {
 
 			if ( is_null( $value ) ) {
 
 				$value = self::get( $args['id'], $args['default'] );
 			}
 
-			if ( isset( $args['faux'] ) && TRUE === $args['faux'] ) {
+			if ( isset( $args['faux'] ) && true === $args['faux'] ) {
 
 				$name = '';
 
@@ -950,7 +950,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				$name = ' name="ez-toc-settings[' . $args['id'] . ']"';
 			}
 
-			$checked = $value ? checked( 1, $value, FALSE ) : '';
+			$checked = $value ? checked( 1, $value, false ) : '';
 
 			$html = '<input type="checkbox" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="1" ' . $checked . '/>';
 
@@ -974,7 +974,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 * @param array $args Arguments passed by the setting
 		 * @param null  $value
 		 */
-		public static function checkboxgroup( $args, $value = NULL ) {
+		public static function checkboxgroup( $args, $value = null ) {
 
 			if ( is_null( $value ) ) {
 
@@ -991,10 +991,10 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 
 					} else {
 
-						$enabled = NULL;
+						$enabled = null;
 					}
 
-					echo '<input name="ez-toc-settings[' . $args['id'] . '][' . $key . ']" id="ez-toc-settings[' . $args['id'] . '][' . $key . ']" type="checkbox" value="' . $key . '" ' . checked( $option, $enabled, FALSE ) . '/>&nbsp;';
+					echo '<input name="ez-toc-settings[' . $args['id'] . '][' . $key . ']" id="ez-toc-settings[' . $args['id'] . '][' . $key . ']" type="checkbox" value="' . $key . '" ' . checked( $option, $enabled, false ) . '/>&nbsp;';
 					echo '<label for="ez-toc-settings[' . $args['id'] . '][' . $key . ']">' . $option . '</label><br/>';
 
 				endforeach;
@@ -1023,7 +1023,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 
 			foreach ( $args['options'] as $key => $option ) {
 
-				echo '<input name="ez-toc-settings[' . $args['id'] . ']"" id="ez-toc-settings[' . $args['id'] . '][' . $key . ']" type="radio" value="' . $key . '" ' . checked( $key, $value, FALSE ) . '/>&nbsp;';
+				echo '<input name="ez-toc-settings[' . $args['id'] . ']"" id="ez-toc-settings[' . $args['id'] . '][' . $key . ']" type="radio" value="' . $key . '" ' . checked( $key, $value, false ) . '/>&nbsp;';
 				echo '<label for="ez-toc-settings[' . $args['id'] . '][' . $key . ']">' . $option . '</label><br/>';
 			}
 
@@ -1063,7 +1063,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			$html = '<select id="ez-toc-settings[' . $args['id'] . ']" name="ez-toc-settings[' . $args['id'] . ']" ' . $chosen . 'data-placeholder="' . $placeholder . '" />';
 
 			foreach ( $args['options'] as $option => $name ) {
-				$selected = selected( $option, $value, FALSE );
+				$selected = selected( $option, $value, false );
 				$html .= '<option value="' . $option . '" ' . $selected . '>' . $name . '</option>';
 			}
 
@@ -1112,7 +1112,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 
 				foreach ( $group['options'] as $option => $name ) {
 
-					$selected = selected( $option, $value, FALSE );
+					$selected = selected( $option, $value, false );
 					$html .= '<option value="' . $option . '" ' . $selected . '>' . $name . '</option>';
 				}
 

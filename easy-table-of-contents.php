@@ -200,7 +200,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			} else {
 
 				// Load the default language files
-				load_plugin_textdomain( $domain, FALSE, $languagesDirectory );
+				load_plugin_textdomain( $domain, false, $languagesDirectory );
 			}
 		}
 
@@ -221,10 +221,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			wp_register_style( 'ez-icomoon', EZ_TOC_URL . "vendor/icomoon/style$min.css", array(), ezTOC::VERSION );
 			wp_register_style( 'ez-toc', EZ_TOC_URL . "assets/css/screen$min.css", array( 'ez-icomoon' ), ezTOC::VERSION );
 
-			wp_register_script( 'js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.0.3', TRUE );
-			wp_register_script( 'jquery-smooth-scroll', EZ_TOC_URL . "vendor/smooth-scroll/jquery.smooth-scroll$min.js", array( 'jquery' ), '1.5.5', TRUE );
-			wp_register_script( 'jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', TRUE );
-			wp_register_script( 'ez-toc-js', EZ_TOC_URL . "assets/js/front$min.js", array( 'jquery-smooth-scroll', 'js-cookie', 'jquery-sticky-kit'), ezTOC::VERSION, TRUE );
+			wp_register_script( 'js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.0.3', true );
+			wp_register_script( 'jquery-smooth-scroll', EZ_TOC_URL . "vendor/smooth-scroll/jquery.smooth-scroll$min.js", array( 'jquery' ), '1.5.5', true );
+			wp_register_script( 'jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', true );
+			wp_register_script( 'ez-toc-js', EZ_TOC_URL . "assets/js/front$min.js", array( 'jquery-smooth-scroll', 'js-cookie', 'jquery-sticky-kit'), ezTOC::VERSION, true );
 
 			if ( ! ezTOC_Option::get( 'exclude_css' ) ) {
 
@@ -234,7 +234,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
 
-				$js_vars['smooth_scroll'] = TRUE;
+				$js_vars['smooth_scroll'] = true;
 			}
 
 			//wp_enqueue_script( 'ez-toc-js' );
@@ -243,7 +243,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				$width = ezTOC_Option::get( 'width' ) != 'custom' ? ezTOC_Option::get( 'width' ) : ezTOC_Option::get( 'width_custom' ) . ezTOC_Option::get( 'width_custom_units' );
 
-				$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? TRUE : FALSE;
+				$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
 
 				$js_vars['width'] = esc_js( $width );
 			}
@@ -342,7 +342,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 *
 		 * @return mixed|string
 		 */
-		private static function mb_find_replace( &$find = FALSE, &$replace = FALSE, &$string = '' ) {
+		private static function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 
 			if ( is_array( $find ) && is_array( $replace ) && $string ) {
 
@@ -399,11 +399,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			foreach ( new RecursiveIteratorIterator( new RecursiveArrayIterator( $array ) ) as $key => $value ) {
 
 				if ( $search === ${${"mode"}} ) {
-					return TRUE;
+					return true;
 				}
 			}
 
-			return FALSE;
+			return false;
 		}
 
 		/**
@@ -422,18 +422,18 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$post = get_post();
 
 			if ( empty( $post ) || ! $post instanceof WP_Post ) {
-				return FALSE;
+				return false;
 			}
 
 			$content = get_the_content();
 
 			if ( has_shortcode( $content, apply_filters( 'ez_toc_shortcode', 'toc' ) ) ||
 			     has_shortcode( $content, 'ez-toc' ) ) {
-				return TRUE;
+				return true;
 			}
 
 			if ( is_front_page() && ! ezTOC_Option::get( 'include_homepage' ) ) {
-				return FALSE;
+				return false;
 			}
 
 			$type = get_post_type( $post->ID );
@@ -448,36 +448,36 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					/**
 					 * @link https://wordpress.org/support/topic/restrict-path-logic-does-not-work-correctly?
 					 */
-					if ( FALSE !== strpos( ezTOC_Option::get( 'restrict_path' ), $_SERVER['REQUEST_URI'] ) ) {
+					if ( false !== strpos( ezTOC_Option::get( 'restrict_path' ), $_SERVER['REQUEST_URI'] ) ) {
 
-						return FALSE;
+						return false;
 
 					} else {
 
-						return TRUE;
+						return true;
 					}
 
 				} else {
 
-					if ( $insert && 1 == get_post_meta( $post->ID, '_ez-toc-disabled', TRUE ) ) {
+					if ( $insert && 1 == get_post_meta( $post->ID, '_ez-toc-disabled', true ) ) {
 
-						return FALSE;
+						return false;
 
-					} elseif ( $insert && 0 == get_post_meta( $post->ID, '_ez-toc-disabled', TRUE ) ) {
+					} elseif ( $insert && 0 == get_post_meta( $post->ID, '_ez-toc-disabled', true ) ) {
 
-						return TRUE;
+						return true;
 
-					} elseif ( $enabled && 1 == get_post_meta( $post->ID, '_ez-toc-insert', TRUE ) ) {
+					} elseif ( $enabled && 1 == get_post_meta( $post->ID, '_ez-toc-insert', true ) ) {
 
-						return TRUE;
+						return true;
 					}
 
-					return FALSE;
+					return false;
 				}
 
 			} else {
 
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -498,7 +498,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function shortcode( $atts, $content, $tag ) {
 
-			static $run = TRUE;
+			static $run = true;
 			$out = '';
 
 			if ( $run ) {
@@ -506,7 +506,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$post = ezTOC_Post::get( get_the_ID() )->applyContentFilter()->process();
 				$out  = $post->getTOC();
 
-				$run  = FALSE;
+				$run  = false;
 			}
 
 			return $out;
