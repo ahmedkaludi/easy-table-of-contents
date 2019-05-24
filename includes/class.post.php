@@ -511,8 +511,8 @@ class ezTOC_Post {
 					// escape some regular expression characters
 					// others: http://www.php.net/manual/en/regexp.reference.meta.php
 					$original_heading = str_replace(
-						array( '\*', '/', '%' ),
-						array( '.*', '\/', '\%' ),
+						array( '\*', '/', '%', '-' ),
+						array( '.*', '\/', '\%', '\-' ),
 						trim( $original_heading )
 					);
 
