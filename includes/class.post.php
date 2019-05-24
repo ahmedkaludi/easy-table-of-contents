@@ -514,7 +514,7 @@ class ezTOC_Post {
 						array( '\*', '/', '%' ),
 						array( '.*', '\/', '\%' ),
 						trim( $original_heading )
-					));
+					);
 
 					if ( @preg_match( '/^' . $original_heading . '$/imU', strip_tags( $matches[ $i ][0] ) ) ) {
 
