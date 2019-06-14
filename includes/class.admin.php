@@ -343,24 +343,17 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			) {
 
 				// Checkboxes are present if checked, absent if not.
-				if ( isset( $_REQUEST['ez-toc-settings']['disabled-toc'] ) ) {
+				if ( !empty( $_REQUEST['ez-toc-settings']['disabled-toc'] ) ) {
 
 					update_post_meta( $post_id, '_ez-toc-disabled', TRUE );
 
-				} else {
-
-					update_post_meta( $post_id, '_ez-toc-disabled', FALSE );
-
 				}
 
-				if ( isset( $_REQUEST['ez-toc-settings']['insert-toc'] ) ) {
+				if ( !empty( $_REQUEST['ez-toc-settings']['insert-toc'] ) ) {
 
 					update_post_meta( $post_id, '_ez-toc-insert', TRUE );
 
-				} else {
-
-					update_post_meta( $post_id, '_ez-toc-insert', FALSE );
-				}
+				} 
 
 				if ( isset( $_REQUEST['ez-toc-settings']['heading-levels'] ) && ! empty( $_REQUEST['ez-toc-settings']['heading-levels'] ) ) {
 

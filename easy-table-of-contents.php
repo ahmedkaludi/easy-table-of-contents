@@ -464,16 +464,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				} else {
 
-					if ( $insert && 1 == get_post_meta( $post->ID, '_ez-toc-disabled', TRUE ) ) {
-
-						return FALSE;
-
-					} elseif ( $insert && 0 == get_post_meta( $post->ID, '_ez-toc-disabled', TRUE ) ) {
-
+					if ( $insert ) {
+						if ( empty( get_post_meta( $post->ID, '_ez-toc-disabled' ) ) ) {
+							return;
+						}
 						return TRUE;
-
-					} elseif ( $enabled && 1 == get_post_meta( $post->ID, '_ez-toc-insert', TRUE ) ) {
-
+					} elseif ( $enabled && empty( get_post_meta( $post->ID, '_ez-toc-insert' ) ) ) {
 						return TRUE;
 					}
 
