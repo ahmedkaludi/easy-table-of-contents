@@ -413,11 +413,11 @@ class ezTOC_Post {
 							get_option( 'blog_charset' )
 						);
 
-						$against = html_entity_decode(
+						$against = str_replace(array("\r", "\n"), ' ', html_entity_decode(
 							wptexturize( strip_tags( $matches[ $i ][0] ) ),
 							ENT_NOQUOTES,
 							get_option( 'blog_charset' )
-						);
+						));
 
 						if ( @preg_match( '/^' . $pattern . '$/imU', $against ) ) {
 
