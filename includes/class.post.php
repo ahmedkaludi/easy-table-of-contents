@@ -506,7 +506,7 @@ class ezTOC_Post {
 
 				foreach ( $alt_headings as $original_heading => $alt_heading ) {
 
-					$original_heading = preg_quote( wptexturize( $original_heading ) );
+					$original_heading = str_replace( ' ', ' ', preg_quote( wptexturize( $original_heading ) ) );
 
 					// escape some regular expression characters
 					// others: http://www.php.net/manual/en/regexp.reference.meta.php
@@ -516,7 +516,7 @@ class ezTOC_Post {
 						trim( $original_heading )
 					);
 
-					if ( @preg_match( '/^' . $original_heading . '$/imU', strip_tags( $matches[ $i ][0] ) ) ) {
+					if ( @preg_match( '/^' . $original_heading . '$/imU', str_replace( ' ', ' ', strip_tags( $matches[ $i ][0] ) ) ) ) {
 
 						$matches[ $i ]['alternate'] = $alt_heading;
 					}
