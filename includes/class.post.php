@@ -53,6 +53,15 @@ class ezTOC_Post {
 	private $collision_collector = array();
 
 	/**
+	 * Signals polylang support.
+	 *
+	 * @access private
+\		 *
+	 * @var bool
+	 */
+	private $polylang_enabled = false;
+
+	/**
 	 * @var bool
 	 */
 	private $hasTOCItems = FALSE;
@@ -62,6 +71,12 @@ class ezTOC_Post {
 		$this->post            = $post;
 		$this->permalink       = get_permalink( $post );
 		$this->queriedObjectID = get_queried_object_id();
+
+		if (function_exists('pll_register_string'))
+		{
+			pll_register_string('ez_toc', 'ez_toc_heading_text');
+			$this->polylang_enabled = true;
+		}
 	}
 
 	/**
@@ -870,7 +885,12 @@ class ezTOC_Post {
 
 			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
 
-				$toc_title = ezTOC_Option::get( 'heading_text' );
+				if ($this->polylang_enabled) {
+					$toc_title = pll__('ez_toc_heading_text');
+				}
+				else {
+					$toc_title = ezTOC_Option::get( 'heading_text' );
+				}
 
 				if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== FALSE ) {
 
