@@ -56,7 +56,7 @@ class ezTOC_Post {
 	 * Signals polylang support.
 	 *
 	 * @access private
-\		 *
+	 *
 	 * @var bool
 	 */
 	private $polylang_enabled = false;
