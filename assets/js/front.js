@@ -41,7 +41,7 @@ jQuery( function( $ ) {
 
 			var target = hostname = pathname = qs = hash = null;
 
-			$( 'body a' ).click( function( event ) {
+			$( '.ez-toc-list a' ).click( function( event ) {
 
 				hostname = $( this ).prop( 'hostname' );
 				pathname = $( this ).prop( 'pathname' );
@@ -287,8 +287,19 @@ jQuery( function( $ ) {
 
         function setStyleForActiveListElementElement( activeListElementLink ) {
             var activeListElement = activeListElementLink.parent();
+            var activeListElementParent = activeListElement.parent().parent();
+
+            if ( !activeListElementParent.hasClass( 'active' ) ) {
+              activeListElementParent.addClass( 'active' );
+            }else{
+              $('aside .ez-toc-list li:not(.active) ul').collapse('hide');
+            }
+
             if ( !activeListElement.hasClass( 'active' ) ) {
-                activeListElement.addClass( 'active' );
+              activeListElement.addClass( 'active' );
+              $('aside .ez-toc-list li.active ul').collapse('show');
+            }else{
+              $('aside .ez-toc-list li:not(.active) ul').collapse('hide');
             }
             correctActiveListElementBackgroundColorHeight( activeListElement );
         }

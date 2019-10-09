@@ -146,8 +146,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		private static function hooks() {
 
-			//add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
-			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
+      //add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
+      if ( !wp_is_mobile() ) {
+        add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
+      }
 
 			// Run after shortcodes are interpreted (priority 10).
 			add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );

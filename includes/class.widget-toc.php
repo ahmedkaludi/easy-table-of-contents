@@ -195,7 +195,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 						break;
 				}
 
-				if ( $instance['affix'] ) {
+				if ( !empty( $instance['affix'] ) ) {
 
 					$css_classes .= ' ez-toc-affix';
 				}
@@ -229,12 +229,6 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 					<?php echo $before_title; ?>
 
 					<span class="ez-toc-title-container">
-
-						<style type="text/css">
-							#<?php echo $this->id ?> .ez-toc-widget-container ul.ez-toc-list li.active::before {
-								background-color: <?php echo esc_attr( $instance['highlight_color'] ); ?>;
-							}
-						</style>
 
 						<span class="ez-toc-title"><?php echo $title; ?></span>
 
