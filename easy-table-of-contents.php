@@ -308,7 +308,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$css .= '}';
 				}
 
-				if ( 'custom' ==  ezTOC_Option::get( 'theme' ) ) {
+				if ( 'custom' == ezTOC_Option::get( 'theme' ) ) {
 
 					$css .= 'div#ez-toc-container p.ez-toc-title {color: ' . ezTOC_Option::get( 'custom_title_colour' ) . ';}';
 					//$css .= 'div#ez-toc-container p.ez-toc-title a,div#ez-toc-container ul.ez-toc-list a {color: ' . ezTOC_Option::get( 'custom_link_colour' ) . ';}';
