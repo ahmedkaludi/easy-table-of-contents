@@ -267,8 +267,8 @@ class ezTOC_Post {
 
 		$content = apply_filters( 'ez_toc_extract_headings_content', $content );
 
-			// get all headings
-			// the html spec allows for a maximum of 6 heading depths
+		// get all headings
+		// the html spec allows for a maximum of 6 heading depths
 		if ( preg_match_all( '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuU', $content, $matches, PREG_SET_ORDER ) ) {
 
 			$minimum = absint( ezTOC_Option::get( 'start' ) );
