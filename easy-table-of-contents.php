@@ -214,7 +214,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		public static function enqueueScripts() {
 
 			// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
-			$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+			$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 			$js_vars = array();
 
