@@ -764,7 +764,7 @@ class ezTOC_Post {
 				$html .= $this->createTOC( $page, $attribute['headings'] );
 			}
 
-			$html  = '<ul class="ez-toc-list">' . $html . '</ul>';
+			$html  = '<ul class="ez-toc-list ez-toc-list-level-1">' . $html . '</ul>';
 		}
 
 		return $html;
@@ -967,9 +967,12 @@ class ezTOC_Post {
 
 			for ( $i = 0; $i < count( $matches ); $i ++ ) {
 
+				$level = $matches[ $i ][2];
+				$count = $i + 1;
+
 				if ( $current_depth == (int) $matches[ $i ][2] ) {
 
-					$html .= '<li>';
+					$html .= '<li class="ez-toc-page-' . $page . ' ez-toc-heading-level-' . $current_depth . '">';
 				}
 
 				// start lists
@@ -978,14 +981,14 @@ class ezTOC_Post {
 					for ( $current_depth; $current_depth < (int) $matches[ $i ][2]; $current_depth++ ) {
 
 						$numbered_items[ $current_depth + 1 ] = 0;
-						$html .= '<ul><li>';
+						$html .= '<ul class="ez-toc-list-level-' . $level . '"><li class="ez-toc-heading-level-' . $level . '">';
 					}
 				}
 
 				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
 				$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
-				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title );
+				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title, $count );
 
 				// end lists
 				if ( $i != count( $matches ) - 1 ) {
@@ -1022,12 +1025,14 @@ class ezTOC_Post {
 
 			for ( $i = 0; $i < count( $matches ); $i++ ) {
 
+				$count = $i + 1;
+
 				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
 				$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
-				$html .= '<li>';
+				$html .= '<li class="ez-toc-page-' . $page . '">';
 
-				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title );
+				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title, $count );
 
 				$html .= '</li>';
 			}
@@ -1043,13 +1048,14 @@ class ezTOC_Post {
 	 * @param int    $page
 	 * @param string $id
 	 * @param string $title
+	 * @param int    $count
 	 *
 	 * @return string
 	 */
-	private function createTOCItemAnchor( $page, $id, $title ) {
+	private function createTOCItemAnchor( $page, $id, $title, $count ) {
 
 		return sprintf(
-			'<a href="%1$s" title="%2$s">' . $title . '</a>',
+			'<a class="ez-toc-link ez-toc-heading-' . $count . '" href="%1$s" title="%2$s">' . $title . '</a>',
 			esc_url( $this->createTOCItemURL( $id, $page ) ),
 			esc_attr( strip_tags( $title ) )
 		);
