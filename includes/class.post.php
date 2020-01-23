@@ -186,7 +186,7 @@ class ezTOC_Post {
 	 */
 	protected function getNumberOfPages() {
 
-		 return count( $this->pages );
+		return count( $this->pages );
 	}
 
 	/**
