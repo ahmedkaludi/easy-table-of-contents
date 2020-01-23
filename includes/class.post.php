@@ -55,7 +55,7 @@ class ezTOC_Post {
 	/**
 	 * @var bool
 	 */
-	private $hasTOCItems = FALSE;
+	private $hasTOCItems = false;
 
 	public function __construct( WP_Post $post ) {
 
@@ -78,7 +78,7 @@ class ezTOC_Post {
 
 		if ( ! $post instanceof WP_Post ) {
 
-			return NULL;
+			return null;
 		}
 
 		return new static( $post );
@@ -281,7 +281,7 @@ class ezTOC_Post {
 
 				$this->alternateHeadings( $matches );
 				$this->headingIDs( $matches );
-				$this->hasTOCItems = TRUE;
+				$this->hasTOCItems = true;
 
 			} else {
 
@@ -303,7 +303,7 @@ class ezTOC_Post {
 	 */
 	private function getHeadingLevels() {
 
-		$levels = get_post_meta( $this->post->ID, '_ez-toc-heading-levels', TRUE );
+		$levels = get_post_meta( $this->post->ID, '_ez-toc-heading-levels', true );
 
 		if ( ! is_array( $levels ) ) {
 
@@ -369,7 +369,7 @@ class ezTOC_Post {
 	 */
 	private function excludeHeadings( &$matches ) {
 
-		$exclude = get_post_meta( $this->post->ID, '_ez-toc-exclude', TRUE );
+		$exclude = get_post_meta( $this->post->ID, '_ez-toc-exclude', true );
 
 		if ( empty( $exclude ) ) {
 
@@ -401,7 +401,7 @@ class ezTOC_Post {
 
 				for ( $i = 0; $i < $count; $i++ ) {
 
-					$found = FALSE;
+					$found = false;
 
 					for ( $j = 0; $j < $excluded_count; $j++ ) {
 
@@ -421,7 +421,7 @@ class ezTOC_Post {
 
 						if ( @preg_match( '/^' . $pattern . '$/imU', $against ) ) {
 
-							$found = TRUE;
+							$found = true;
 							break;
 						}
 					}
@@ -455,7 +455,7 @@ class ezTOC_Post {
 	 */
 	private function getAlternateHeadings() {
 
-		$value = get_post_meta( $this->post->ID, '_ez-toc-alttext', TRUE );
+		$value = get_post_meta( $this->post->ID, '_ez-toc-alttext', true );
 
 		if ( $value ) {
 
@@ -563,7 +563,7 @@ class ezTOC_Post {
 	 */
 	private function generateHeadingIDFromTitle( $heading ) {
 
-		$return = FALSE;
+		$return = false;
 
 		if ( $heading ) {
 
@@ -645,7 +645,7 @@ class ezTOC_Post {
 
 		for ( $i = 0; $i < $count; $i ++ ) {
 
-			if ( trim( strip_tags( $matches[ $i ][0] ) ) != FALSE ) {
+			if ( trim( strip_tags( $matches[ $i ][0] ) ) != false ) {
 
 				$new_matches[] = $matches[ $i ];
 			}
@@ -684,7 +684,7 @@ class ezTOC_Post {
 	 *
 	 * @return array
 	 */
-	public function getHeadings( $page = NULL ) {
+	public function getHeadings( $page = null ) {
 
 		$headings = array();
 
@@ -711,7 +711,7 @@ class ezTOC_Post {
 	 *
 	 * @return array
 	 */
-	public function getHeadingsWithAnchors( $page = NULL ) {
+	public function getHeadingsWithAnchors( $page = null ) {
 
 		$headings = array();
 
@@ -872,12 +872,12 @@ class ezTOC_Post {
 
 				$toc_title = ezTOC_Option::get( 'heading_text' );
 
-				if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== FALSE ) {
+				if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
 
 					$toc_title = str_replace( '%PAGE_TITLE%', get_the_title(), $toc_title );
 				}
 
-				if ( strpos( $toc_title, '%PAGE_NAME%' ) !== FALSE ) {
+				if ( strpos( $toc_title, '%PAGE_NAME%' ) !== false ) {
 
 					$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 				}
@@ -949,7 +949,7 @@ class ezTOC_Post {
 
 			$current_depth      = 100;    // headings can't be larger than h6 but 100 as a default to be sure
 			$numbered_items     = array();
-			$numbered_items_min = NULL;
+			$numbered_items_min = null;
 
 			// reset the internal collision collection
 			/** @todo does this need to be used??? */

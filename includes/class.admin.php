@@ -72,7 +72,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 */
 		public function registerScripts() {
 
-			wp_register_script( 'cn_toc_admin_script', EZ_TOC_URL . 'assets/js/admin.js', array( 'jquery', 'wp-color-picker' ), ezTOC::VERSION, TRUE );
+			wp_register_script( 'cn_toc_admin_script', EZ_TOC_URL . 'assets/js/admin.js', array( 'jquery', 'wp-color-picker' ), ezTOC::VERSION, true );
 			wp_register_style( 'cn_toc_admin_style', EZ_TOC_URL . 'assets/css/admin.css', array( 'wp-color-picker' ), ezTOC::VERSION );
 		}
 
@@ -160,11 +160,11 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			// Add an nonce field so we can check for it on save.
 			wp_nonce_field( 'ez_toc_save', '_ez_toc_nonce' );
 
-			$suppress = get_post_meta( $post->ID, '_ez-toc-disabled', TRUE ) == 1 ? TRUE : FALSE;
-			$insert   = get_post_meta( $post->ID, '_ez-toc-insert', TRUE ) == 1 ? TRUE : FALSE;
-			$headings = get_post_meta( $post->ID, '_ez-toc-heading-levels', TRUE );
-			$exclude  = get_post_meta( $post->ID, '_ez-toc-exclude', TRUE );
-			$altText  = get_post_meta( $post->ID, '_ez-toc-alttext', TRUE );
+			$suppress = get_post_meta( $post->ID, '_ez-toc-disabled', true ) == 1 ? true : false;
+			$insert   = get_post_meta( $post->ID, '_ez-toc-insert', true ) == 1 ? true : false;
+			$headings = get_post_meta( $post->ID, '_ez-toc-heading-levels', true );
+			$exclude  = get_post_meta( $post->ID, '_ez-toc-exclude', true );
+			$altText  = get_post_meta( $post->ID, '_ez-toc-alttext', true );
 
 			if ( ! is_array( $headings ) ) {
 
@@ -345,21 +345,21 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 				// Checkboxes are present if checked, absent if not.
 				if ( isset( $_REQUEST['ez-toc-settings']['disabled-toc'] ) ) {
 
-					update_post_meta( $post_id, '_ez-toc-disabled', TRUE );
+					update_post_meta( $post_id, '_ez-toc-disabled', true );
 
 				} else {
 
-					update_post_meta( $post_id, '_ez-toc-disabled', FALSE );
+					update_post_meta( $post_id, '_ez-toc-disabled', false );
 
 				}
 
 				if ( isset( $_REQUEST['ez-toc-settings']['insert-toc'] ) ) {
 
-					update_post_meta( $post_id, '_ez-toc-insert', TRUE );
+					update_post_meta( $post_id, '_ez-toc-insert', true );
 
 				} else {
 
-					update_post_meta( $post_id, '_ez-toc-insert', FALSE );
+					update_post_meta( $post_id, '_ez-toc-insert', false );
 				}
 
 				if ( isset( $_REQUEST['ez-toc-settings']['heading-levels'] ) && ! empty( $_REQUEST['ez-toc-settings']['heading-levels'] ) ) {

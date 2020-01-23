@@ -166,7 +166,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 				//$items = ezTOC::extract_headings( $find, $replace, $post );
 
-				if ( FALSE !== strpos( $title, '%PAGE_TITLE%' ) || FALSE !== strpos( $title, '%PAGE_NAME%' ) ) {
+				if ( false !== strpos( $title, '%PAGE_TITLE%' ) || false !== strpos( $title, '%PAGE_NAME%' ) ) {
 
 					$title = str_replace( '%PAGE_TITLE%', get_the_title(), $title );
 				}
