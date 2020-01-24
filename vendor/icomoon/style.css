@@ -1,4 +1,5 @@
 @font-face {
+	font-display: swap;
 	font-family: 'ez-toc-icomoon';
 	src:url('fonts/ez-toc-icomoon.eot');
 	src:url('fonts/ez-toc-icomoon.eot?#iefix') format('embedded-opentype'),
