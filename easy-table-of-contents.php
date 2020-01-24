@@ -59,17 +59,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		private static $instance;
 
 		/**
-		 * Keeps a track of used anchors for collision detecting.
-		 *
-		 * @access private
-		 * @since  1.0
-		 * @static
-		 *
-		 * @var array
-		 */
-		private static $collision_collector = array();
-
-		/**
 		 * A dummy constructor to prevent the class from being loaded more than once.
 		 *
 		 * @access public
