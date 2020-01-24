@@ -525,7 +525,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			// bail if post not eligible and widget is not active
 			$is_eligible = self::is_eligible();
 
-			if ( ! $is_eligible || ! is_active_widget( false, false, 'ezw_tco' ) ) {
+			if ( ! $is_eligible && ! is_active_widget( false, false, 'ezw_tco' ) ) {
 
 				return $content;
 			}
