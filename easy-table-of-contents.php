@@ -194,6 +194,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		/**
+		 * Call back for the `wp_enqueue_scripts` action.
+		 *
 		 * Register and enqueue CSS and javascript files for frontend.
 		 *
 		 * @access private
