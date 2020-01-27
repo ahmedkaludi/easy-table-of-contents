@@ -414,7 +414,7 @@ class ezTOC_Post {
 						);
 
 						$against = html_entity_decode(
-							wptexturize( strip_tags( $matches[ $i ][0] ) ),
+							wptexturize( strip_tags( str_replace( array( "\r", "\n" ), ' ', $matches[ $i ][0] ) ) ),
 							ENT_NOQUOTES,
 							get_option( 'blog_charset' )
 						);
