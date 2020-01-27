@@ -391,7 +391,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 						$alttext = '';
 					}
 
-					update_post_meta( $post_id, '_ez-toc-alttext', wp_kses_data( $alttext ) );
+					update_post_meta( $post_id, '_ez-toc-alttext', esc_html( $alttext ) );
 
 				} else {
 
