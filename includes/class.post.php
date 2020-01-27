@@ -390,8 +390,8 @@ class ezTOC_Post {
 					// escape some regular expression characters
 					// others: http://www.php.net/manual/en/regexp.reference.meta.php
 					$excluded_headings[ $j ] = str_replace(
-						array( '\*' ),
-						array( '.*' ),
+						array( '\*', '/', '%' ),
+						array( '.*', '\/', '\%' ),
 						trim( $excluded_headings[ $j ] )
 					);
 				}
