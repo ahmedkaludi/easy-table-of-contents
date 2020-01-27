@@ -57,11 +57,28 @@ class ezTOC_Post {
 	 */
 	private $hasTOCItems = false;
 
-	public function __construct( WP_Post $post ) {
+	/**
+	 * ezTOC_Post constructor.
+	 *
+	 * @since 2.0
+	 *
+	 * @param WP_Post $post
+	 * @param bool    $apply_content_filter Whether or not to apply the `the_content` filter on the post content.
+	 */
+	public function __construct( WP_Post $post, $apply_content_filter = true ) {
 
 		$this->post            = $post;
 		$this->permalink       = get_permalink( $post );
 		$this->queriedObjectID = get_queried_object_id();
+
+		if ( $apply_content_filter ) {
+
+			$this->applyContentFilter()->process();
+
+		} else {
+
+			$this->process();
+		}
 	}
 
 	/**
@@ -89,12 +106,11 @@ class ezTOC_Post {
 	 *
 	 * This must be run after object init or after @see ezTOC_Post::applyContentFilter().
 	 *
-	 * @access public
 	 * @since  2.0
 	 *
 	 * @return static
 	 */
-	public function process() {
+	private function process() {
 
 		$this->processPages();
 
@@ -104,12 +120,11 @@ class ezTOC_Post {
 	/**
 	 * Apply `the_content` filter to the post content.
 	 *
-	 * @access public
 	 * @since  2.0
 	 *
 	 * @return static
 	 */
-	public function applyContentFilter() {
+	private function applyContentFilter() {
 
 		/*
 		 * Ensure the ezTOC content filter is not applied when running `the_content` filter.

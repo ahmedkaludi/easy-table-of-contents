@@ -59,6 +59,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		private static $instance;
 
 		/**
+		 * @since 2.0
+		 * @var array
+		 */
+		private static $store = array();
+
+		/**
 		 * A dummy constructor to prevent the class from being loaded more than once.
 		 *
 		 * @access public
@@ -473,6 +479,36 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		/**
+		 * Get TOC from store and if not in store process post and add it to the store.
+		 *
+		 * @since 2.0
+		 *
+		 * @param int $id
+		 *
+		 * @return ezTOC_Post|null
+		 */
+		public static function get( $id ) {
+
+			$post = null;
+
+			if ( isset( self::$store[ $id ] ) && self::$store[ $id ] instanceof ezTOC_Post ) {
+
+				$post = self::$store[ $id ];
+
+			} else {
+
+				$post = ezTOC_Post::get( get_the_ID() );
+
+				if ( $post instanceof ezTOC_Post ) {
+
+					self::$store[ $id ] = $post;
+				}
+			}
+
+			return $post;
+		}
+
+		/**
 		 * Callback for the registered shortcode `[ez-toc]`
 		 *
 		 * NOTE: Shortcode is run before the callback @see ezTOC::the_content() for the `the_content` filter
@@ -494,7 +530,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( $run ) {
 
-				$post = ezTOC_Post::get( get_the_ID() )->applyContentFilter()->process();
+				//$post = ezTOC_Post::get( get_the_ID() );//->applyContentFilter()->process();
+				$post = self::get( get_the_ID() );
 				$out  = $post->getTOC();
 
 				$run = false;
@@ -532,12 +569,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return $content;
 			}
 
-			if ( is_null( $post = ezTOC_Post::get( get_the_ID() ) ) ) {
+			if ( is_null( $post = self::get( get_the_ID() ) ) ) {
 
 				return $content;
 			}
 
-			$post->applyContentFilter()->process();
+			//$post->applyContentFilter()->process();
 
 			$find    = $post->getHeadings();
 			$replace = $post->getHeadingsWithAnchors();

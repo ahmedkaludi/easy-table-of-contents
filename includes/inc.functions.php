@@ -21,15 +21,13 @@ function get_ez_toc_list( $post = null, $apply_content_filter = true ) {
 		$post = get_post( $post );
 	}
 
-	$ezPost = new ezTOC_Post( $post );
-
 	if ( $apply_content_filter ) {
 
-		$ezPost->applyContentFilter()->process();
+		$ezPost = new ezTOC_Post( $post );
 
 	} else {
 
-		$ezPost->process();
+		$ezPost = new ezTOC_Post( $post, false );
 	}
 
 	return $ezPost->getTOCList();
@@ -67,15 +65,13 @@ function get_ez_toc_block( $post = null, $apply_content_filter = true ) {
 		$post = get_post( $post );
 	}
 
-	$ezPost = new ezTOC_Post( $post );
-
 	if ( $apply_content_filter ) {
 
-		$ezPost->applyContentFilter()->process();
+		$ezPost = new ezTOC_Post( $post );
 
 	} else {
 
-		$ezPost->process();
+		$ezPost = new ezTOC_Post( $post, false );
 	}
 
 	return $ezPost->getTOC();
