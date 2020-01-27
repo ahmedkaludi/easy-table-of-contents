@@ -265,7 +265,7 @@ class ezTOC_Post {
 		/** @todo does this need to be used??? */
 		//self::$collision_collector = array();
 
-		$content = apply_filters( 'ez_toc_extract_headings_content', $content );
+		$content = apply_filters( 'ez_toc_extract_headings_content', wptexturize( $content ) );
 
 		// get all headings
 		// the html spec allows for a maximum of 6 heading depths
@@ -506,7 +506,7 @@ class ezTOC_Post {
 
 				foreach ( $alt_headings as $original_heading => $alt_heading ) {
 
-					$original_heading = preg_quote( $original_heading );
+					$original_heading = preg_quote( wptexturize( $original_heading ) );
 
 					// escape some regular expression characters
 					// others: http://www.php.net/manual/en/regexp.reference.meta.php
