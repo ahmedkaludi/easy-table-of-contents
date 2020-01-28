@@ -55,13 +55,30 @@ class ezTOC_Post {
 	/**
 	 * @var bool
 	 */
-	private $hasTOCItems = FALSE;
+	private $hasTOCItems = false;
 
-	public function __construct( WP_Post $post ) {
+	/**
+	 * ezTOC_Post constructor.
+	 *
+	 * @since 2.0
+	 *
+	 * @param WP_Post $post
+	 * @param bool    $apply_content_filter Whether or not to apply the `the_content` filter on the post content.
+	 */
+	public function __construct( WP_Post $post, $apply_content_filter = true ) {
 
 		$this->post            = $post;
 		$this->permalink       = get_permalink( $post );
 		$this->queriedObjectID = get_queried_object_id();
+
+		if ( $apply_content_filter ) {
+
+			$this->applyContentFilter()->process();
+
+		} else {
+
+			$this->process();
+		}
 	}
 
 	/**
@@ -78,7 +95,7 @@ class ezTOC_Post {
 
 		if ( ! $post instanceof WP_Post ) {
 
-			return NULL;
+			return null;
 		}
 
 		return new static( $post );
@@ -89,12 +106,11 @@ class ezTOC_Post {
 	 *
 	 * This must be run after object init or after @see ezTOC_Post::applyContentFilter().
 	 *
-	 * @access public
 	 * @since  2.0
 	 *
 	 * @return static
 	 */
-	public function process() {
+	private function process() {
 
 		$this->processPages();
 
@@ -104,12 +120,11 @@ class ezTOC_Post {
 	/**
 	 * Apply `the_content` filter to the post content.
 	 *
-	 * @access public
 	 * @since  2.0
 	 *
 	 * @return static
 	 */
-	public function applyContentFilter() {
+	private function applyContentFilter() {
 
 		/*
 		 * Ensure the ezTOC content filter is not applied when running `the_content` filter.
@@ -186,7 +201,7 @@ class ezTOC_Post {
 	 */
 	protected function getNumberOfPages() {
 
-		 return count( $this->pages );
+		return count( $this->pages );
 	}
 
 	/**
@@ -267,8 +282,8 @@ class ezTOC_Post {
 
 		$content = apply_filters( 'ez_toc_extract_headings_content', wptexturize( $content ) );
 
-			// get all headings
-			// the html spec allows for a maximum of 6 heading depths
+		// get all headings
+		// the html spec allows for a maximum of 6 heading depths
 		if ( preg_match_all( '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuU', $content, $matches, PREG_SET_ORDER ) ) {
 
 			$minimum = absint( ezTOC_Option::get( 'start' ) );
@@ -281,7 +296,7 @@ class ezTOC_Post {
 
 				$this->alternateHeadings( $matches );
 				$this->headingIDs( $matches );
-				$this->hasTOCItems = TRUE;
+				$this->hasTOCItems = true;
 
 			} else {
 
@@ -303,7 +318,7 @@ class ezTOC_Post {
 	 */
 	private function getHeadingLevels() {
 
-		$levels = get_post_meta( $this->post->ID, '_ez-toc-heading-levels', TRUE );
+		$levels = get_post_meta( $this->post->ID, '_ez-toc-heading-levels', true );
 
 		if ( ! is_array( $levels ) ) {
 
@@ -369,7 +384,7 @@ class ezTOC_Post {
 	 */
 	private function excludeHeadings( &$matches ) {
 
-		$exclude = get_post_meta( $this->post->ID, '_ez-toc-exclude', TRUE );
+		$exclude = get_post_meta( $this->post->ID, '_ez-toc-exclude', true );
 
 		if ( empty( $exclude ) ) {
 
@@ -390,8 +405,8 @@ class ezTOC_Post {
 					// escape some regular expression characters
 					// others: http://www.php.net/manual/en/regexp.reference.meta.php
 					$excluded_headings[ $j ] = str_replace(
-						array( '\*' ),
-						array( '.*' ),
+						array( '\*', '/', '%' ),
+						array( '.*', '\/', '\%' ),
 						trim( $excluded_headings[ $j ] )
 					);
 				}
@@ -401,7 +416,7 @@ class ezTOC_Post {
 
 				for ( $i = 0; $i < $count; $i++ ) {
 
-					$found = FALSE;
+					$found = false;
 
 					for ( $j = 0; $j < $excluded_count; $j++ ) {
 
@@ -421,7 +436,7 @@ class ezTOC_Post {
 
 						if ( @preg_match( '/^' . $pattern . '$/imU', $against ) ) {
 
-							$found = TRUE;
+							$found = true;
 							break;
 						}
 					}
@@ -455,7 +470,7 @@ class ezTOC_Post {
 	 */
 	private function getAlternateHeadings() {
 
-		$value = get_post_meta( $this->post->ID, '_ez-toc-alttext', TRUE );
+		$value = get_post_meta( $this->post->ID, '_ez-toc-alttext', true );
 
 		if ( $value ) {
 
@@ -563,7 +578,7 @@ class ezTOC_Post {
 	 */
 	private function generateHeadingIDFromTitle( $heading ) {
 
-		$return = FALSE;
+		$return = false;
 
 		if ( $heading ) {
 
@@ -645,7 +660,7 @@ class ezTOC_Post {
 
 		for ( $i = 0; $i < $count; $i ++ ) {
 
-			if ( trim( strip_tags( $matches[ $i ][0] ) ) != FALSE ) {
+			if ( trim( strip_tags( $matches[ $i ][0] ) ) != false ) {
 
 				$new_matches[] = $matches[ $i ];
 			}
@@ -684,7 +699,7 @@ class ezTOC_Post {
 	 *
 	 * @return array
 	 */
-	public function getHeadings( $page = NULL ) {
+	public function getHeadings( $page = null ) {
 
 		$headings = array();
 
@@ -711,7 +726,7 @@ class ezTOC_Post {
 	 *
 	 * @return array
 	 */
-	public function getHeadingsWithAnchors( $page = NULL ) {
+	public function getHeadingsWithAnchors( $page = null ) {
 
 		$headings = array();
 
@@ -764,7 +779,7 @@ class ezTOC_Post {
 				$html .= $this->createTOC( $page, $attribute['headings'] );
 			}
 
-			$html  = '<ul class="ez-toc-list">' . $html . '</ul>';
+			$html  = '<ul class="ez-toc-list ez-toc-list-level-1">' . $html . '</ul>';
 		}
 
 		return $html;
@@ -872,12 +887,12 @@ class ezTOC_Post {
 
 				$toc_title = ezTOC_Option::get( 'heading_text' );
 
-				if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== FALSE ) {
+				if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
 
 					$toc_title = str_replace( '%PAGE_TITLE%', get_the_title(), $toc_title );
 				}
 
-				if ( strpos( $toc_title, '%PAGE_NAME%' ) !== FALSE ) {
+				if ( strpos( $toc_title, '%PAGE_NAME%' ) !== false ) {
 
 					$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 				}
@@ -949,7 +964,7 @@ class ezTOC_Post {
 
 			$current_depth      = 100;    // headings can't be larger than h6 but 100 as a default to be sure
 			$numbered_items     = array();
-			$numbered_items_min = NULL;
+			$numbered_items_min = null;
 
 			// reset the internal collision collection
 			/** @todo does this need to be used??? */
@@ -967,9 +982,12 @@ class ezTOC_Post {
 
 			for ( $i = 0; $i < count( $matches ); $i ++ ) {
 
+				$level = $matches[ $i ][2];
+				$count = $i + 1;
+
 				if ( $current_depth == (int) $matches[ $i ][2] ) {
 
-					$html .= '<li>';
+					$html .= '<li class="ez-toc-page-' . $page . ' ez-toc-heading-level-' . $current_depth . '">';
 				}
 
 				// start lists
@@ -978,14 +996,14 @@ class ezTOC_Post {
 					for ( $current_depth; $current_depth < (int) $matches[ $i ][2]; $current_depth++ ) {
 
 						$numbered_items[ $current_depth + 1 ] = 0;
-						$html .= '<ul><li>';
+						$html .= '<ul class="ez-toc-list-level-' . $level . '"><li class="ez-toc-heading-level-' . $level . '">';
 					}
 				}
 
 				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
 				$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
-				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title );
+				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title, $count );
 
 				// end lists
 				if ( $i != count( $matches ) - 1 ) {
@@ -1022,12 +1040,14 @@ class ezTOC_Post {
 
 			for ( $i = 0; $i < count( $matches ); $i++ ) {
 
+				$count = $i + 1;
+
 				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
 				$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
-				$html .= '<li>';
+				$html .= '<li class="ez-toc-page-' . $page . '">';
 
-				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title );
+				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title, $count );
 
 				$html .= '</li>';
 			}
@@ -1043,13 +1063,14 @@ class ezTOC_Post {
 	 * @param int    $page
 	 * @param string $id
 	 * @param string $title
+	 * @param int    $count
 	 *
 	 * @return string
 	 */
-	private function createTOCItemAnchor( $page, $id, $title ) {
+	private function createTOCItemAnchor( $page, $id, $title, $count ) {
 
 		return sprintf(
-			'<a href="%1$s" title="%2$s">' . $title . '</a>',
+			'<a class="ez-toc-link ez-toc-heading-' . $count . '" href="%1$s" title="%2$s">' . $title . '</a>',
 			esc_url( $this->createTOCItemURL( $id, $page ) ),
 			esc_attr( strip_tags( $title ) )
 		);

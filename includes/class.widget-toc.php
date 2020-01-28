@@ -142,7 +142,8 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
 			//$find    = $replace = array();
 			//$post    = get_post( $wp_query->post->ID );
-			$post = ezTOC_Post::get( get_the_ID() )->applyContentFilter()->process();
+			//$post = ezTOC_Post::get( get_the_ID() );//->applyContentFilter()->process();
+			$post = ezTOC::get( get_the_ID() );
 
 			/*
 			 * Ensure the ezTOC content filter is not applied when running `the_content` filter.
@@ -166,7 +167,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 				//$items = ezTOC::extract_headings( $find, $replace, $post );
 
-				if ( FALSE !== strpos( $title, '%PAGE_TITLE%' ) || FALSE !== strpos( $title, '%PAGE_NAME%' ) ) {
+				if ( false !== strpos( $title, '%PAGE_TITLE%' ) || false !== strpos( $title, '%PAGE_NAME%' ) ) {
 
 					$title = str_replace( '%PAGE_TITLE%', get_the_title(), $title );
 				}

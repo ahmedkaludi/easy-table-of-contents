@@ -14,22 +14,20 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * @return string
  */
-function get_ez_toc_list( $post = NULL, $apply_content_filter = TRUE ) {
+function get_ez_toc_list( $post = null, $apply_content_filter = true ) {
 
 	if ( ! $post instanceof WP_Post ) {
 
 		$post = get_post( $post );
 	}
 
-	$ezPost = new ezTOC_Post( $post );
-
 	if ( $apply_content_filter ) {
 
-		$ezPost->applyContentFilter()->process();
+		$ezPost = new ezTOC_Post( $post );
 
 	} else {
 
-		$ezPost->process();
+		$ezPost = new ezTOC_Post( $post, false );
 	}
 
 	return $ezPost->getTOCList();
@@ -44,7 +42,7 @@ function get_ez_toc_list( $post = NULL, $apply_content_filter = TRUE ) {
  * @param null|WP_Post $post                 An instance of WP_Post
  * @param bool         $apply_content_filter Whether or not to apply `the_content` filter when processing post for headings.
  */
-function ez_toc_list( $post = NULL, $apply_content_filter = TRUE ) {
+function ez_toc_list( $post = null, $apply_content_filter = true ) {
 
 	echo get_ez_toc_list( $post, $apply_content_filter );
 }
@@ -60,22 +58,20 @@ function ez_toc_list( $post = NULL, $apply_content_filter = TRUE ) {
  *
  * @return string
  */
-function get_ez_toc_block( $post = NULL, $apply_content_filter = TRUE ) {
+function get_ez_toc_block( $post = null, $apply_content_filter = true ) {
 
 	if ( ! $post instanceof WP_Post ) {
 
 		$post = get_post( $post );
 	}
 
-	$ezPost = new ezTOC_Post( $post );
-
 	if ( $apply_content_filter ) {
 
-		$ezPost->applyContentFilter()->process();
+		$ezPost = new ezTOC_Post( $post );
 
 	} else {
 
-		$ezPost->process();
+		$ezPost = new ezTOC_Post( $post, false );
 	}
 
 	return $ezPost->getTOC();
@@ -90,7 +86,7 @@ function get_ez_toc_block( $post = NULL, $apply_content_filter = TRUE ) {
  * @param null|WP_Post $post                 An instance of WP_Post
  * @param bool         $apply_content_filter Whether or not to apply `the_content` filter when processing post for headings.
  */
-function ez_toc_block( $post = NULL, $apply_content_filter = TRUE ) {
+function ez_toc_block( $post = null, $apply_content_filter = true ) {
 
 	echo get_ez_toc_block( $post, $apply_content_filter );
 }
