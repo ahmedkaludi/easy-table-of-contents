@@ -878,7 +878,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 			}
 
-			$html .= '<textarea rows="10" cols="50" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name .  $readonly . '/>' . esc_textarea( stripslashes( $value ) ) . '</textarea>';
+			$html .= '<textarea rows="10" cols="50" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name .  $readonly . '/>' . esc_textarea( $value ) . '</textarea>';
 
 			echo $html;
 		}
