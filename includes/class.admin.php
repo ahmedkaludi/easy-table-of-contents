@@ -384,7 +384,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 
 					if ( is_string( $_REQUEST['ez-toc-settings']['alttext'] ) ) {
 
-						$alttext = wp_unslash( trim( $_REQUEST['ez-toc-settings']['alttext'] ) );
+						$alttext = trim( $_REQUEST['ez-toc-settings']['alttext'] );
 
 					} else {
 
@@ -409,7 +409,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 
 					if ( is_string( $_REQUEST['ez-toc-settings']['exclude'] ) ) {
 
-						$exclude = wp_unslash( trim( $_REQUEST['ez-toc-settings']['exclude'] ) );
+						$exclude = trim( $_REQUEST['ez-toc-settings']['exclude'] );
 
 					} else {
 
