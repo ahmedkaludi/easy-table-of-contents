@@ -37,14 +37,6 @@ class ezTOC_Post {
 	private $headingLevels = array();
 
 	/**
-	 * The user defined strings to be used in the TOC in place of the post content headings.
-	 * @see ezTOC_Post::getAlternateHeadings()
-	 * @since 2.0
-	 * @var array
-	 */
-	private $alternateHeadings = array();
-
-	/**
 	 * Keeps a track of used anchors for collision detecting.
 	 * @see ezTOC_Post::generateHeadingIDFromTitle()
 	 * @since 2.0
@@ -470,13 +462,13 @@ class ezTOC_Post {
 	 */
 	private function getAlternateHeadings() {
 
-		$value = get_post_meta( $this->post->ID, '_ez-toc-alttext', true );
+		$alternates = array();
+		$value      = get_post_meta( $this->post->ID, '_ez-toc-alttext', true );
 
 		if ( $value ) {
 
-			$alternates = array();
-			$headings   = preg_split( '/\r\n|[\r\n]/', $value );
-			$count      = count( $headings );
+			$headings = preg_split( '/\r\n|[\r\n]/', $value );
+			$count    = count( $headings );
 
 			if ( $headings ) {
 
@@ -492,10 +484,9 @@ class ezTOC_Post {
 
 			}
 
-			$this->alternateHeadings = $alternates;
 		}
 
-		return $this->alternateHeadings;
+		return $alternates;
 	}
 
 	/**
