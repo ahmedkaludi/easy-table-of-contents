@@ -512,17 +512,37 @@ class ezTOC_Post {
 
 				foreach ( $alt_headings as $original_heading => $alt_heading ) {
 
-					$original_heading = preg_quote( wptexturize( $original_heading ) );
+					// Cleanup and texturize so alt heading can match heading in post content.
+					$original_heading = wptexturize( trim( $original_heading ) );
 
-					// escape some regular expression characters
-					// others: http://www.php.net/manual/en/regexp.reference.meta.php
+					// Deal with special characters such as non-breakable space.
+					$original_heading = str_replace(
+						array( "\xc2\xa0" ),
+						array( ' ' ),
+						$original_heading
+					);
+
+					// Escape for regular expression.
+					$original_heading = preg_quote( $original_heading );
+
+					// Escape for regular expression some other characters: http://www.php.net/manual/en/regexp.reference.meta.php
 					$original_heading = str_replace(
 						array( '\*', '/', '%' ),
 						array( '.*', '\/', '\%' ),
-						trim( $original_heading )
+						$original_heading
 					);
 
-					if ( @preg_match( '/^' . $original_heading . '$/imU', strip_tags( $matches[ $i ][0] ) ) ) {
+					// Cleanup subject so alt heading can match heading in post content.
+					$subject = strip_tags( $matches[ $i ][0] );
+
+					// Deal with special characters such as non-breakable space.
+					$subject = str_replace(
+						array( "\xc2\xa0" ),
+						array( ' ' ),
+						$subject
+					);
+
+					if ( @preg_match( '/^' . $original_heading . '$/imU', $subject ) ) {
 
 						$matches[ $i ]['alternate'] = $alt_heading;
 					}
