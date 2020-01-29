@@ -217,6 +217,11 @@ class ezTOC_Post {
 	 */
 	private function processPages() {
 
+		if ( ! class_exists( 'TagFilter' ) ) {
+
+			require_once( EZ_TOC_PATH . 'includes/vendor/ultimate-web-scraper/tag_filter.php' );
+		}
+
 		$split = preg_split( '/<!--nextpage-->/msuU', $this->post->post_content );
 		$pages = array();
 
@@ -224,10 +229,39 @@ class ezTOC_Post {
 
 			$page = 1;
 
+			$tagFilterOptions = TagFilter::GetHTMLOptions();
+
+			// Set custom TagFilter options.
+			$tagFilterOptions['charset'] = get_option( 'blog_charset' );
+			//$tagFilterOptions['output_mode'] = 'xml';
+
 			foreach ( $split as $content ) {
 
+				$html = TagFilter::Explode( $content, $tagFilterOptions );
+
+				/*
+				 * Find and remove nodes which are not eligible for TOC.
+				 * Examples include Connections Business Directory and JetPack Social Share.
+				 *
+				 * @todo Make the query selector filterable.
+				 */
+				$nodes = $html->Find( '#cn-list,.sharedaddy' );
+
+				foreach ( $nodes['ids'] as $id ) {
+
+					$html->Remove( $id );
+				}
+
+				$eligibleContent = $html->Implode( 0, $tagFilterOptions );
+
+				/*
+				 * TagFilter::Implode() writes br tags as `<br>` while WP normalizes to `<br />`.
+				 * Normalize `$eligibleContent` to match WP.
+				 */
+				$eligibleContent = str_replace( array( '<br>', '<br/>' ), array( '<br />' ), $eligibleContent );
+
 				$pages[ $page ] = array(
-					'headings' => $this->extractHeadings( $content ),
+					'headings' => $this->extractHeadings( $eligibleContent ),
 					'content'  => $content,
 				);
 
