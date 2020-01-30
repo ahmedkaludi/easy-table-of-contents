@@ -271,11 +271,19 @@ class ezTOC_Post {
 
 				/*
 				 * Find and remove nodes which are not eligible for TOC.
-				 * Examples include Connections Business Directory and JetPack Social Share.
-				 *
-				 * @todo Make the query selector filterable.
+				 * Example: JetPack Social Share.
 				 */
-				$nodes = $html->Find( '#cn-list,.sharedaddy' );
+				$selectors = array( '.sharedaddy' );
+
+				/**
+				 * @since 2.0
+				 *
+				 * @param $selectors array  Array of classes/id selector to exclude from TOC.
+				 * @param $content   string Post content.
+				 */
+				$selectors = apply_filters( 'ez_toc_exclude_by_selector', $selectors, $content );
+
+				$nodes = $html->Find( implode( ',', $selectors ) );
 
 				foreach ( $nodes['ids'] as $id ) {
 
