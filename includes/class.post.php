@@ -118,6 +118,8 @@ class ezTOC_Post {
 	 */
 	private function applyContentFilter() {
 
+		add_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ), 10, 2 );
+
 		/*
 		 * Ensure the ezTOC content filter is not applied when running `the_content` filter.
 		 */
@@ -129,15 +131,52 @@ class ezTOC_Post {
 		 */
 		remove_shortcode( 'ez-toc' );
 		remove_shortcode( 'toc' );
+		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
 
-		$this->post->post_content = apply_filters( 'the_content', $this->post->post_content );
 		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 99999 );
 
 
 		add_shortcode( 'ez-toc', array( 'ezTOC', 'shortcode' ) );
 		add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( 'ezTOC', 'shortcode' ) );
+		remove_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ) );
 
 		return $this;
+	}
+
+	/**
+	 * Callback for the `strip_shortcodes_tagnames` filter.
+	 *
+	 * Strip the shortcodes so their content is no processed for headings.
+	 *
+	 * @see ezTOC_Post::applyContentFilter()
+	 *
+	 * @since 2.0
+	 *
+	 * @param array  $tags_to_remove Array of shortcode tags to remove.
+	 * @param string $content        Content shortcodes are being removed from.
+	 *
+	 * @return array
+	 */
+	public static function stripShortcodes( $tags_to_remove, $content ) {
+
+		//error_log( var_export( $tags_to_remove, true ) );
+
+		/*
+		 * Ensure the ezTOC shortcodes are not processed when applying `the_content` filter
+		 * otherwise an infinite loop may occur.
+		 */
+		$tags_to_remove = apply_filters(
+			'ez_toc_strip_shortcodes_tagnames',
+			array(
+				'ez-toc',
+				apply_filters( 'ez_toc_shortcode', 'toc' ),
+			),
+			$content
+		);
+
+		//error_log( var_export( $tags_to_remove, true ) );
+
+		return $tags_to_remove;
 	}
 
 	/**
