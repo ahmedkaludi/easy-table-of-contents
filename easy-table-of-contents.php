@@ -418,9 +418,17 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function is_eligible() {
 
+			global $wp_current_filter;
+
 			$post = get_post();
 
 			if ( empty( $post ) || ! $post instanceof WP_Post ) {
+				return false;
+			}
+
+			// Do not execute if root filter is one of those in the array.
+			if ( in_array( $wp_current_filter[0], array( 'get_the_excerpt', 'wp_head' ), true ) ) {
+
 				return false;
 			}
 
