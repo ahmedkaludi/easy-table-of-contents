@@ -257,7 +257,7 @@ class ezTOC_Post {
 				/**
 				 * TagFilter::Implode() writes br tags as `<br>` while WP normalizes to `<br />`.
 				 * Normalize `$eligibleContent` to match WP.
-				 * 
+				 *
 				 * @see wpautop()
 				 */
 				$eligibleContent = str_replace( array( '<br>', '<br/>' ), array( '<br />' ), $eligibleContent );
