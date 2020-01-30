@@ -584,8 +584,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return $content;
 			}
 
-			//$post->applyContentFilter()->process();
-
 			$find    = $post->getHeadings();
 			$replace = $post->getHeadingsWithAnchors();
 			$html    = $post->getTOC();
