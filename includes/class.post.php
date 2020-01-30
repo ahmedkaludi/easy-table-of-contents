@@ -121,7 +121,7 @@ class ezTOC_Post {
 		/*
 		 * Ensure the ezTOC content filter is not applied when running `the_content` filter.
 		 */
-		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
+		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 99999 );
 
 		/*
 		 * Ensure the ezTOC shortcodes are not processed when applying `the_content` filter
@@ -131,8 +131,8 @@ class ezTOC_Post {
 		remove_shortcode( 'toc' );
 
 		$this->post->post_content = apply_filters( 'the_content', $this->post->post_content );
+		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 99999 );
 
-		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
 		add_shortcode( 'ez-toc', array( 'ezTOC', 'shortcode' ) );
 		add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( 'ezTOC', 'shortcode' ) );
