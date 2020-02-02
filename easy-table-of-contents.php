@@ -523,13 +523,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 *
 		 * @access private
 		 * @since  1.3
-		 * @static
 		 *
 		 * @param array|string $atts    Shortcode attributes array or empty string.
 		 * @param string       $content The enclosed content (if the shortcode is used in its enclosing form)
 		 * @param string       $tag     Shortcode name.
 		 *
-		 * @return mixed
+		 * @return string
 		 */
 		public static function shortcode( $atts, $content, $tag ) {
 
