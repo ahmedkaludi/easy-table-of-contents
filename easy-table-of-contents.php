@@ -534,17 +534,17 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		public static function shortcode( $atts, $content, $tag ) {
 
 			static $run = true;
-			$out = '';
+			$html = '';
 
 			if ( $run ) {
 
 				$post = self::get( get_the_ID() );
-				$out  = $post->getTOC();
+				$html = $post->getTOC();
 
 				$run = false;
 			}
 
-			return $out;
+			return $html;
 		}
 
 		/**
