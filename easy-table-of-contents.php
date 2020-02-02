@@ -414,13 +414,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since  1.0
 		 * @static
 		 *
+		 * @param WP_Post $post
+		 *
 		 * @return bool
 		 */
-		public static function is_eligible() {
+		public static function is_eligible( $post ) {
 
 			global $wp_current_filter;
-
-			$post = get_post();
 
 			if ( empty( $post ) || ! $post instanceof WP_Post ) {
 				return false;
@@ -432,10 +432,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return false;
 			}
 
-			$content = get_the_content();
-
-			if ( has_shortcode( $content, apply_filters( 'ez_toc_shortcode', 'toc' ) ) ||
-			     has_shortcode( $content, 'ez-toc' ) ) {
+			if ( has_shortcode( $post->post_content, apply_filters( 'ez_toc_shortcode', 'toc' ) ) ||
+			     has_shortcode( $post->post_content, 'ez-toc' ) ) {
 				return true;
 			}
 
@@ -572,7 +570,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 
 			// bail if post not eligible and widget is not active
-			$is_eligible = self::is_eligible();
+			$is_eligible = self::is_eligible( get_post() );
 
 			if ( ! $is_eligible && ! is_active_widget( false, false, 'ezw_tco' ) ) {
 
