@@ -549,6 +549,34 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		/**
+		 * Whether or not apply `the_content` filter.
+		 *
+		 * @since 2.0
+		 *
+		 * @return bool
+		 */
+		private static function maybeApplyTheContentFilter() {
+
+			$apply = true;
+
+			global $wp_current_filter;
+
+			// Do not execute if root filter is one of those in the array.
+			if ( in_array( $wp_current_filter[0], array( 'get_the_excerpt', 'wp_head' ), true ) ) {
+
+				$apply = false;
+			}
+
+			// bail if feed, search or archive
+			if ( is_feed() || is_search() || is_archive() ) {
+
+				$apply = false;
+			}
+
+			return $apply;
+		}
+
+		/**
 		 * Callback for the `the_content` filter.
 		 *
 		 * This will add the inline table of contents page anchors to the post content. It will also insert the
@@ -564,8 +592,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function the_content( $content ) {
 
-			// bail if feed, search or archive
-			if ( is_feed() || is_search() || is_archive() ) {
+			if ( ! self::maybeApplyTheContentFilter() ) {
+
 				return $content;
 			}
 
