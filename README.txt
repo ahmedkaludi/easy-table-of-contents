@@ -3,7 +3,7 @@ Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
 Tags: table of contents, toc
 Requires at least: 4.4
-Tested up to: 4.9
+Tested up to: 5.3
 Requires PHP: 5.6.20
 Stable tag: 1.7
 License: GPLv2 or later
