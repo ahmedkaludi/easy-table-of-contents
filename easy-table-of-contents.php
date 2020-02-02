@@ -538,7 +538,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( $run ) {
 
-				//$post = ezTOC_Post::get( get_the_ID() );//->applyContentFilter()->process();
 				$post = self::get( get_the_ID() );
 				$out  = $post->getTOC();
 
