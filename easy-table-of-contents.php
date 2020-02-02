@@ -610,15 +610,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return $content;
 			}
 
-			$find    = $post->getHeadings();
-			$replace = $post->getHeadingsWithAnchors();
-			$html    = $post->getTOC();
-
 			// bail if no headings found
 			if ( ! $post->hasTOCItems() ) {
 
 				return $content;
 			}
+
+			$find    = $post->getHeadings();
+			$replace = $post->getHeadingsWithAnchors();
+			$html    = $post->getTOC();
 
 			// if shortcode used or post not eligible, return content with anchored headings
 			if ( strpos( $content, 'ez-toc-container' ) || ! $is_eligible ) {
