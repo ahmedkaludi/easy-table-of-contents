@@ -72,3 +72,18 @@ add_filter(
 		return $tags_to_remove;
 	}
 );
+
+/**
+ * Remove the JetPack share buttons node from the post content before extracting headings.
+ *
+ * @since 2.0
+ */
+add_filter(
+	'ez_toc_exclude_by_selector',
+	function( $selectors ) {
+
+		$selectors['jetpack-sharedaddy'] = '.sharedaddy';
+
+		return $selectors;
+	}
+);

@@ -269,19 +269,13 @@ class ezTOC_Post {
 
 				$html = TagFilter::Explode( $content, $tagFilterOptions );
 
-				/*
-				 * Find and remove nodes which are not eligible for TOC.
-				 * Example: JetPack Social Share.
-				 */
-				$selectors = array( '.sharedaddy' );
-
 				/**
 				 * @since 2.0
 				 *
 				 * @param $selectors array  Array of classes/id selector to exclude from TOC.
 				 * @param $content   string Post content.
 				 */
-				$selectors = apply_filters( 'ez_toc_exclude_by_selector', $selectors, $content );
+				$selectors = apply_filters( 'ez_toc_exclude_by_selector', array(), $content );
 
 				$nodes = $html->Find( implode( ',', $selectors ) );
 
