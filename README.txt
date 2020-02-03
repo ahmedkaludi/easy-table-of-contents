@@ -90,6 +90,42 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0 02/01/2020 =
+* NEW: Major rewrite of all code and processing logic to make it faster and more reliable.
+* NEW: Support for the <!--nextpage--> tag.
+* NEW: Introduce helper functions for devs.
+* NEW: Support WPML.
+* NEW: Support Polylang.
+* NEW: Add filter to support the Rank Math plugin.
+* NEW: Introduce the `ez_toc_maybe_apply_the_content_filter` filter.
+* TWEAK: Improve translation compatibility.
+* TWEAK: Rework widget logic to allow multi-line TOC items, improve active item highlighting while removing the use of the jQuery Waypoints library.
+* TWEAK Add additional classes to TOC list items.
+* TWEAK: Add WOFF2 format for icon format and change font references in CSS.
+* TWEAK: Add font-display: swap for toggle icon.
+* TWEAK: Update JS Cookie to 2.2.1.
+* TWEAK: Update jQuery Smooth Scroll to 2.2.0.
+* TWEAK: Allow forward slash and angle brackets in headings and alternate headings.
+* TWEAK: Allow forward slash in  excluded headings.
+* TWEAK: Remove new line/returns when matching excluded headings.
+* TWEAK: Simple transient cache to ensure a post is only processed once per request for a TOC.
+* TWEAK: Improve sanitization of alternate headings field value.
+* TWEAK: Deal with non-breaking-spaces in alternate headings.
+* TWEAK: Add the ability to exclude by selector content eligible to be included in the TOC.
+* TWEAK: Change the shortcode priority to a higher value.
+* TWEAK: Add filter to remove shortcodes from the content prior to the `the_content` filter being run to exclude shortcode content from being eligible as TOC items.
+* TWEAK: Add compatibility filters to remove shortcodes for Connections and Striking theme to remove them from eligible TOC item content.
+* TWEAK: Do not execute if root current filter is the `wp_head` or `get_the_excerpt` filters.
+* TWEAK: Add filter to exclude content by selector.
+* TWEAK: Move in-page anchor to after the heading instead of wrapping the heading to prevent conflicts with theme styling.
+* TWEAK: Utilize the `ez_toc_exclude_by_selector` filter the exclude the JetPack share buttons from eligible headings.
+* I18N: Add wpml-config.xml file.
+* BUG: Correct option misspelling.
+* BUG: Do not need to run values for alternate and exclude headings thru `wp_unslash()` because `update_post_meta()` already does.
+* BUG: Do not need to run `stripslashes()` when escaping the alternate heading value.
+* DEV: Change PHP keywords to comply with PSR2.
+* DEV:Bump minimum PHP version to 5.6.20 which matches WP core.
+
 = 1.7 05/09/2018 =
 * NEW: Introduce the `ez_toc_shortcode` filter.
 * TWEAK: Fix notices due to late eligibility check. props unixtam
@@ -269,3 +305,6 @@ Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 1.7 =
 Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 2.0-rc4 =
+Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
