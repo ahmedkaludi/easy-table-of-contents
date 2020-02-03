@@ -571,7 +571,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$apply = false;
 			}
 
-			return $apply;
+			/**
+			 * Whether or not to apply `the_content` filter callback.
+			 *
+			 * @see ezTOC::the_content()
+			 *
+			 * @since 2.0
+			 *
+			 * @param bool $apply
+			 */
+			return apply_filters( 'ez_toc_maybe_apply_the_content_filter', $apply );
 		}
 
 		/**
