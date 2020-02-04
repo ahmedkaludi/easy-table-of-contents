@@ -119,6 +119,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * TWEAK: Add filter to exclude content by selector.
 * TWEAK: Move in-page anchor to after the heading instead of wrapping the heading to prevent conflicts with theme styling.
 * TWEAK: Utilize the `ez_toc_exclude_by_selector` filter the exclude the JetPack share buttons from eligible headings.
+* TWEAK: Remove the Elegant Themes Bloom plugin node from the post content before extracting headings.
 * I18N: Add wpml-config.xml file.
 * BUG: Correct option misspelling.
 * BUG: Do not need to run values for alternate and exclude headings thru `wp_unslash()` because `update_post_meta()` already does.
