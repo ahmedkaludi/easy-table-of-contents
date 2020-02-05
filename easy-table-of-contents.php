@@ -537,10 +537,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( $run ) {
 
-				$post = self::get( get_the_ID() );
-				$html = $post->getTOC();
+				if ( is_null( $post = self::get( get_the_ID() ) ) ) {
 
-				$run = false;
+					return $content;
+				}
+
+				$html = $post->getTOC();
+				$run  = false;
 			}
 
 			return $html;
