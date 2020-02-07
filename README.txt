@@ -18,7 +18,8 @@ A user friendly, featured focused plugin which allows you to insert a table of c
 = Features =
 * Automatically generate a table of contents for your posts, pages and custom post types by parsing its contents for headers.
 * Supports the `<!--nextpage-->` tag.
-* Supports Rank Math.
+* Supports the Rank Math plugin.
+* Supports the Classic Editor, Gutenberg, Elementor and Visual Composer page editors.
 * Optionally enable for pages and/or posts. Custom post types are supported, as long as their content is output with the `the_content()` template tag.
 * Optionally auto insert the table of contents into the page, selectable by enabled post type.
 * Provides many easy to understand options to configure when and where to insert the table of contents.
@@ -116,6 +117,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * TWEAK: Move in-page anchor to after the heading instead of wrapping the heading to prevent conflicts with theme styling.
 * TWEAK: Utilize the `ez_toc_exclude_by_selector` filter the exclude the JetPack share buttons from eligible headings.
 * TWEAK: Remove the Elegant Themes Bloom plugin node from the post content before extracting headings.
+* TWEAK: Add compatibility filter for the Visual Composer plugin.
 * I18N: Add wpml-config.xml file.
 * BUG: Correct option misspelling.
 * BUG: Do not need to run values for alternate and exclude headings thru `wp_unslash()` because `update_post_meta()` already does.
