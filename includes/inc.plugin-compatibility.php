@@ -102,3 +102,33 @@ add_filter(
 		return $selectors;
 	}
 );
+
+/**
+ * Do not allow `the_content` TOC callback to run when editing a page in Visual Composer.
+ *
+ * @link https://wordpress.org/support/topic/correct-method-to-determine-if-using-frontend-editor/#post-12404679
+ *
+ * @since 2.0
+ */
+add_filter(
+	'ez_toc_maybe_apply_the_content_filter',
+	function( $apply ) {
+
+		if ( function_exists( 'vchelper' ) ) {
+
+			//$sourceId = intval( vchelper( "Request" )->input( 'vcv-source-id' ) );
+			//
+			//if ( $sourceId === get_the_ID() ) {
+			//
+			//	$apply = false;
+			//}
+
+			if ( vchelper( 'Frontend' )->isPageEditable() ) {
+
+				$apply = false;
+			}
+		}
+
+		return $apply;
+	}
+);
