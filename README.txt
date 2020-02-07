@@ -17,6 +17,8 @@ A user friendly, featured focused plugin which allows you to insert a table of c
 
 = Features =
 * Automatically generate a table of contents for your posts, pages and custom post types by parsing its contents for headers.
+* Supports the `<!--nextpage-->` tag.
+* Supports Rank Math.
 * Optionally enable for pages and/or posts. Custom post types are supported, as long as their content is output with the `the_content()` template tag.
 * Optionally auto insert the table of contents into the page, selectable by enabled post type.
 * Provides many easy to understand options to configure when and where to insert the table of contents.
@@ -43,13 +45,7 @@ Here are links to documentation pages for several of the premium templates for t
 
 = Roadmap =
 * Fragment caching for improved performance.
-* Support for `<!--nextpage-->`.
 * Customizer support.
-
-= Requirements =
-
-* **WordPress version:** >= 3.2
-* **PHP version:** >= 5.2.4
 
 = Credit =
 
