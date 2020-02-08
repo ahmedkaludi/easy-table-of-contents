@@ -292,7 +292,8 @@ class ezTOC_Post {
 				 *
 				 * @see wpautop()
 				 */
-				$eligibleContent = str_replace( array( '<br>', '<br/>' ), array( '<br />' ), $eligibleContent );
+				//$eligibleContent = str_replace( array( '<br>', '<br/>' ), array( '<br />' ), $eligibleContent );
+				$eligibleContent = \Easy_Plugins\Table_Of_Contents\String\force_balance_tags( $eligibleContent );
 
 				$pages[ $page ] = array(
 					'headings' => $this->extractHeadings( $eligibleContent ),
