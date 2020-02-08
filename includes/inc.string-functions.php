@@ -7,6 +7,8 @@ namespace Easy_Plugins\Table_Of_Contents\String;
  *
  * Edited to add space before self closing tags.
  *
+ * @since 2.0
+ *
  * @param string $text
  *
  * @return string|string[]
@@ -162,6 +164,8 @@ function force_balance_tags( $text ) {
  *
  * @link https://gist.github.com/stemar/8287074
  *
+ * @since 2.0
+ *
  * @param      $string
  * @param      $replacement
  * @param      $start
@@ -225,9 +229,7 @@ function mb_substr_replace( $string, $replacement, $start, $length = null ) {
  *
  * $find and $replace are arrays, $string is the haystack.  All variables are passed by reference.
  *
- * @access private
  * @since  1.0
- * @static
  *
  * @param bool   $find
  * @param bool   $replace
