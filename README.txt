@@ -48,7 +48,7 @@ Here are links to documentation pages for several of the premium templates for t
 * Fragment caching for improved performance.
 * Improve SEO by adding options to add nofollow to TOC link and wrap TOC nav in noindex tag.
 * Improve accessibility.
-* Add Bullet and Arrow options for lis counter style.
+* Add Bullet and Arrow options for list counter style.
 
 = Credit =
 
