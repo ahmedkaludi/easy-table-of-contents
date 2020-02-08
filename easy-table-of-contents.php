@@ -130,6 +130,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			require_once( EZ_TOC_PATH . 'includes/class.post.php' );
 			require_once( EZ_TOC_PATH . 'includes/class.widget-toc.php' );
 			require_once( EZ_TOC_PATH . 'includes/inc.functions.php' );
+			require_once( EZ_TOC_PATH . 'includes/inc.string-functions.php' );
 
 			require_once( EZ_TOC_PATH . 'includes/inc.plugin-compatibility.php' );
 		}
