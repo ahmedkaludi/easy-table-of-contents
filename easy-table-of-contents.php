@@ -29,6 +29,8 @@
  * @version  2.0-rc6
  */
 
+use function Easy_Plugins\Table_Of_Contents\String\mb_find_replace;
+
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -577,29 +579,29 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			// if shortcode used or post not eligible, return content with anchored headings
 			if ( strpos( $content, 'ez-toc-container' ) || ! $is_eligible ) {
 
-				return \Easy_Plugins\Table_Of_Contents\String\mb_find_replace( $find, $replace, $content );
+				return mb_find_replace( $find, $replace, $content );
 			}
 
 			// else also add toc to content
 			switch ( ezTOC_Option::get( 'position' ) ) {
 
 				case 'top':
-					$content = $html . \Easy_Plugins\Table_Of_Contents\String\mb_find_replace( $find, $replace, $content );
+					$content = $html . mb_find_replace( $find, $replace, $content );
 					break;
 
 				case 'bottom':
-					$content = \Easy_Plugins\Table_Of_Contents\String\mb_find_replace( $find, $replace, $content ) . $html;
+					$content = mb_find_replace( $find, $replace, $content ) . $html;
 					break;
 
 				case 'after':
 					$replace[0] = $replace[0] . $html;
-					$content    = \Easy_Plugins\Table_Of_Contents\String\mb_find_replace( $find, $replace, $content );
+					$content    = mb_find_replace( $find, $replace, $content );
 					break;
 
 				case 'before':
 				default:
 					$replace[0] = $html . $replace[0];
-					$content    = \Easy_Plugins\Table_Of_Contents\String\mb_find_replace( $find, $replace, $content );
+					$content    = mb_find_replace( $find, $replace, $content );
 			}
 
 			return $content;
