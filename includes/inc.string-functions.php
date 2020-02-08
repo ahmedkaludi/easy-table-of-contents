@@ -259,24 +259,33 @@ function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 
 			for ( $i = 0; $i < count( $find ); $i ++ ) {
 
-				$string = \Easy_Plugins\Table_Of_Contents\String\mb_substr_replace(
-					$string,
-					$replace[ $i ],
-					mb_strpos( $string, $find[ $i ] ),
-					mb_strlen( $find[ $i ] )
-				);
+				$start  = mb_strpos( $string, $find[ $i ] );
+				$length = mb_strlen( $find[ $i ] );
+
+				/*
+				 * `mb_strpos()` can return `false`. Only process `mb_substr_replace()` if position in string is found.
+				 */
+				if ( is_int( $start ) ) {
+
+					$string = mb_substr_replace( $string, $replace[ $i ], $start, $length );
+				}
+
 			}
 
 		} else {
 
 			for ( $i = 0; $i < count( $find ); $i ++ ) {
 
-				$string = substr_replace(
-					$string,
-					$replace[ $i ],
-					strpos( $string, $find[ $i ] ),
-					strlen( $find[ $i ] )
-				);
+				$start  = strpos( $string, $find[ $i ] );
+				$length = strlen( $find[ $i ] );
+
+				/*
+				 * `strpos()` can return `false`. Only process `substr_replace()` if position in string is found.
+				 */
+				if ( is_int( $start ) ) {
+
+					$string = substr_replace( $string, $replace[ $i ], $start, $length );
+				}
 			}
 		}
 	}
