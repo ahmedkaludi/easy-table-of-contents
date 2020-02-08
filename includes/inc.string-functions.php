@@ -46,20 +46,20 @@ function force_balance_tags( $text ) {
 		'#<' . // Start with an opening bracket.
 		'(/?)' . // Group 1 - If it's a closing tag it'll have a leading slash.
 		'(' . // Group 2 - Tag name.
-		// Custom element tags have more lenient rules than HTML tag names.
-		'(?:[a-z](?:[a-z0-9._]*)-(?:[a-z0-9._-]+)+)' .
-		'|' .
-		// Traditional tag rules approximate HTML tag names.
-		'(?:[\w:]+)' .
+			// Custom element tags have more lenient rules than HTML tag names.
+			'(?:[a-z](?:[a-z0-9._]*)-(?:[a-z0-9._-]+)+)' .
+				'|' .
+			// Traditional tag rules approximate HTML tag names.
+			'(?:[\w:]+)' .
 		')' .
 		'(?:' .
-		// We either immediately close the tag with its '>' and have nothing here.
-		'\s*' .
-		'(/?)' . // Group 3 - "attributes" for empty tag.
-		'|' .
-		// Or we must start with space characters to separate the tag name from the attributes (or whitespace).
-		'(\s+)' . // Group 4 - Pre-attribute whitespace.
-		'([^>]*)' . // Group 5 - Attributes.
+			// We either immediately close the tag with its '>' and have nothing here.
+			'\s*' .
+			'(/?)' . // Group 3 - "attributes" for empty tag.
+				'|' .
+			// Or we must start with space characters to separate the tag name from the attributes (or whitespace).
+			'(\s+)' . // Group 4 - Pre-attribute whitespace.
+			'([^>]*)' . // Group 5 - Attributes.
 		')' .
 		'>#' // End with a closing bracket.
 	);
