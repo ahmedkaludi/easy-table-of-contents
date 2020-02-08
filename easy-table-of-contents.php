@@ -325,73 +325,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		/**
-		 * Returns a string with all items from the $find array replaced with their matching
-		 * items in the $replace array.  This does a one to one replacement (rather than globally).
-		 *
-		 * This function is multibyte safe.
-		 *
-		 * $find and $replace are arrays, $string is the haystack.  All variables are passed by reference.
-		 *
-		 * @access private
-		 * @since  1.0
-		 * @static
-		 *
-		 * @param bool   $find
-		 * @param bool   $replace
-		 * @param string $string
-		 *
-		 * @return mixed|string
-		 */
-		private static function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
-
-			if ( is_array( $find ) && is_array( $replace ) && $string ) {
-
-				// check if multibyte strings are supported
-				if ( function_exists( 'mb_strpos' ) ) {
-
-					//for ( $i = 0; $i < count( $find ); $i ++ ) {
-					//
-					//	$string = mb_substr(
-					//		          $string,
-					//		          0,
-					//		          mb_strpos( $string, $find[ $i ] )
-					//	          ) .    // everything before $find
-					//	          $replace[ $i ] . // its replacement
-					//	          mb_substr(
-					//		          $string,
-					//		          mb_strpos( $string, $find[ $i ] ) + mb_strlen( $find[ $i ] )
-					//	          )    // everything after $find
-					//	;
-					//}
-
-					for ( $i = 0; $i < count( $find ); $i ++ ) {
-
-						$string = \Easy_Plugins\Table_Of_Contents\String\mb_substr_replace(
-							$string,
-							$replace[ $i ],
-							mb_strpos( $string, $find[ $i ] ),
-							mb_strlen( $find[ $i ] )
-						);
-					}
-
-				} else {
-
-					for ( $i = 0; $i < count( $find ); $i ++ ) {
-
-						$string = substr_replace(
-							$string,
-							$replace[ $i ],
-							strpos( $string, $find[ $i ] ),
-							strlen( $find[ $i ] )
-						);
-					}
-				}
-			}
-
-			return $string;
-		}
-
-		/**
 		 * Array search deep.
 		 *
 		 * Search an array recursively for a value.
@@ -644,29 +577,29 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			// if shortcode used or post not eligible, return content with anchored headings
 			if ( strpos( $content, 'ez-toc-container' ) || ! $is_eligible ) {
 
-				return self::mb_find_replace( $find, $replace, $content );
+				return \Easy_Plugins\Table_Of_Contents\String\mb_find_replace( $find, $replace, $content );
 			}
 
 			// else also add toc to content
 			switch ( ezTOC_Option::get( 'position' ) ) {
 
 				case 'top':
-					$content = $html . self::mb_find_replace( $find, $replace, $content );
+					$content = $html . \Easy_Plugins\Table_Of_Contents\String\mb_find_replace( $find, $replace, $content );
 					break;
 
 				case 'bottom':
-					$content = self::mb_find_replace( $find, $replace, $content ) . $html;
+					$content = \Easy_Plugins\Table_Of_Contents\String\mb_find_replace( $find, $replace, $content ) . $html;
 					break;
 
 				case 'after':
 					$replace[0] = $replace[0] . $html;
-					$content    = self::mb_find_replace( $find, $replace, $content );
+					$content    = \Easy_Plugins\Table_Of_Contents\String\mb_find_replace( $find, $replace, $content );
 					break;
 
 				case 'before':
 				default:
 					$replace[0] = $html . $replace[0];
-					$content    = self::mb_find_replace( $find, $replace, $content );
+					$content    = \Easy_Plugins\Table_Of_Contents\String\mb_find_replace( $find, $replace, $content );
 			}
 
 			return $content;
