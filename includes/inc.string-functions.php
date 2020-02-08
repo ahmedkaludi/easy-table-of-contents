@@ -114,7 +114,7 @@ function force_balance_tags( $text ) {
 				}
 			} elseif ( $is_single_tag ) { // ElseIf it's a known single-entity tag but it doesn't close itself, do so
 				$pre_attribute_ws = ' ';
-				$attributes      .= 0 < strlen( $attributes ) ? ' /' : '/'; // EDIT: If their are attributes and space before closing tag.
+				$attributes      .= 0 < strlen( $attributes ) ? ' /' : '/'; // EDIT: If there are attributes, add space before closing tag to match how WP insert br, hr and img tags.
 			} else { // It's not a single-entity tag.
 				// If the top of the stack is the same as the tag we want to push, close previous tag.
 				if ( $stacksize > 0 && ! in_array( $tag, $nestable_tags, true ) && $tagstack[ $stacksize - 1 ] === $tag ) {
