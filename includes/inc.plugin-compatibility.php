@@ -132,3 +132,45 @@ add_filter(
 		return $apply;
 	}
 );
+
+/**
+ * Do not allow `the_content` TOC callback to run when editing a page in WPBakery Page Builder.
+ *
+ * @link https://wordpress.org/support/topic/correct-method-to-determine-if-using-frontend-editor/#post-12404679
+ *
+ * @since 2.0
+ */
+add_filter(
+	'ez_toc_maybe_apply_the_content_filter',
+	function( $apply ) {
+
+		if ( function_exists( 'vc_is_page_editable' ) ) {
+
+			if ( vc_is_page_editable() ) {
+
+				$apply = false;
+			}
+		}
+
+		return $apply;
+	}
+);
+
+/**
+ * Filter to remove WPBakery Page Builder related shortcodes from being processed as eligible TOC items.
+ *
+ * @since 2.0
+ */
+add_filter(
+	'ez_toc_strip_shortcodes_tagnames',
+	function( $tags_to_remove ) {
+
+		$shortcodes = array (
+			'vc_tta_section',
+		);
+
+		$tags_to_remove = array_merge( $tags_to_remove, $shortcodes );
+
+		return $tags_to_remove;
+	}
+);
