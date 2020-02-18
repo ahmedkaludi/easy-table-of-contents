@@ -124,6 +124,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * BUG: Correct option misspelling.
 * BUG: Do not need to run values for alternate and exclude headings thru `wp_unslash()` because `update_post_meta()` already does.
 * BUG: Do not need to run `stripslashes()` when escaping the alternate heading value.
+* BUG: Sanitize the excluded heading string before saving post meta.
 * DEV: Change PHP keywords to comply with PSR2.
 * DEV:Bump minimum PHP version to 5.6.20 which matches WP core.
 
