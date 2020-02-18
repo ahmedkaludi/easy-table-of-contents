@@ -416,7 +416,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 						$exclude = '';
 					}
 
-					update_post_meta( $post_id, '_ez-toc-exclude', $exclude );
+					update_post_meta( $post_id, '_ez-toc-exclude', wp_kses_data( $exclude ) );
 
 				} else {
 
