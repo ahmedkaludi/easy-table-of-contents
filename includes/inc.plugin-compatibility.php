@@ -174,3 +174,19 @@ add_filter(
 		return $tags_to_remove;
 	}
 );
+
+/**
+ * Exclude the TOC shortcodes from being processed in the admin in the Divi Theme by Elegant Themes.
+ *
+ * @since 2.0
+ */
+add_action(
+	'et_pb_admin_excluded_shortcodes',
+	function( $shortcodes ) {
+
+		$shortcodes[] = 'ez-toc';
+		$shortcodes[] = apply_filters( 'ez_toc_shortcode', 'toc' );
+
+		return $shortcodes;
+	}
+);
