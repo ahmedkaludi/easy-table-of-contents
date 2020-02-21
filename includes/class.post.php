@@ -37,6 +37,13 @@ class ezTOC_Post {
 	private $headingLevels = array();
 
 	/**
+	 * Array of nodes that are excluded by class/id selector.
+	 * @since 2.0
+	 * @var string[]
+	 */
+	private $excludedNodes = array();
+
+	/**
 	 * Keeps a track of used anchors for collision detecting.
 	 * @see ezTOC_Post::generateHeadingIDFromTitle()
 	 * @since 2.0
@@ -247,10 +254,10 @@ class ezTOC_Post {
 	 */
 	private function processPages() {
 
-		if ( ! class_exists( 'TagFilter' ) ) {
-
-			require_once( EZ_TOC_PATH . 'includes/vendor/ultimate-web-scraper/tag_filter.php' );
-		}
+		//if ( ! class_exists( 'TagFilter' ) ) {
+		//
+		//	require_once( EZ_TOC_PATH . 'includes/vendor/ultimate-web-scraper/tag_filter.php' );
+		//}
 
 		$split = preg_split( '/<!--nextpage-->/msuU', $this->post->post_content );
 		$pages = array();
@@ -259,44 +266,46 @@ class ezTOC_Post {
 
 			$page = 1;
 
-			$tagFilterOptions = TagFilter::GetHTMLOptions();
+			//$tagFilterOptions = TagFilter::GetHTMLOptions();
 
-			// Set custom TagFilter options.
-			$tagFilterOptions['charset'] = get_option( 'blog_charset' );
-			//$tagFilterOptions['output_mode'] = 'xml';
+			//// Set custom TagFilter options.
+			//$tagFilterOptions['charset'] = get_option( 'blog_charset' );
+			////$tagFilterOptions['output_mode'] = 'xml';
 
 			foreach ( $split as $content ) {
 
-				$html = TagFilter::Explode( $content, $tagFilterOptions );
+				//$html = TagFilter::Explode( $content, $tagFilterOptions );
+				//
+				///**
+				// * @since 2.0
+				// *
+				// * @param $selectors array  Array of classes/id selector to exclude from TOC.
+				// * @param $content   string Post content.
+				// */
+				//$selectors = apply_filters( 'ez_toc_exclude_by_selector', array(), $content );
+				//
+				//$nodes = $html->Find( implode( ',', $selectors ) );
+				//
+				//foreach ( $nodes['ids'] as $id ) {
+				//
+				//	$html->Remove( $id );
+				//}
+				//
+				//$eligibleContent = $html->Implode( 0, $tagFilterOptions );
+				//
+				///**
+				// * TagFilter::Implode() writes br tags as `<br>` while WP normalizes to `<br />`.
+				// * Normalize `$eligibleContent` to match WP.
+				// *
+				// * @see wpautop()
+				// */
+				////$eligibleContent = str_replace( array( '<br>', '<br/>' ), array( '<br />' ), $eligibleContent );
+				//$eligibleContent = \Easy_Plugins\Table_Of_Contents\String\force_balance_tags( $eligibleContent );
 
-				/**
-				 * @since 2.0
-				 *
-				 * @param $selectors array  Array of classes/id selector to exclude from TOC.
-				 * @param $content   string Post content.
-				 */
-				$selectors = apply_filters( 'ez_toc_exclude_by_selector', array(), $content );
-
-				$nodes = $html->Find( implode( ',', $selectors ) );
-
-				foreach ( $nodes['ids'] as $id ) {
-
-					$html->Remove( $id );
-				}
-
-				$eligibleContent = $html->Implode( 0, $tagFilterOptions );
-
-				/**
-				 * TagFilter::Implode() writes br tags as `<br>` while WP normalizes to `<br />`.
-				 * Normalize `$eligibleContent` to match WP.
-				 *
-				 * @see wpautop()
-				 */
-				//$eligibleContent = str_replace( array( '<br>', '<br/>' ), array( '<br />' ), $eligibleContent );
-				$eligibleContent = \Easy_Plugins\Table_Of_Contents\String\force_balance_tags( $eligibleContent );
+				$this->extractExcludedNodes( $page, $content );
 
 				$pages[ $page ] = array(
-					'headings' => $this->extractHeadings( $eligibleContent ),
+					'headings' => $this->extractHeadings( $content ),
 					'content'  => $content,
 				);
 
@@ -319,6 +328,56 @@ class ezTOC_Post {
 	public function getPages() {
 
 		return $this->pages;
+	}
+
+	/**
+	 * Extract nodes that heading are to be excluded.
+	 *
+	 * @since 2.0
+	 *
+	 * @param int    $page
+	 * @param string $content
+	 */
+	private function extractExcludedNodes( $page, $content ) {
+
+		if ( ! class_exists( 'TagFilter' ) ) {
+
+			require_once( EZ_TOC_PATH . 'includes/vendor/ultimate-web-scraper/tag_filter.php' );
+		}
+
+		$tagFilterOptions = TagFilter::GetHTMLOptions();
+
+		// Set custom TagFilter options.
+		$tagFilterOptions['charset'] = get_option( 'blog_charset' );
+		//$tagFilterOptions['output_mode'] = 'xml';
+
+		$html = TagFilter::Explode( $content, $tagFilterOptions );
+
+		/**
+		 * @since 2.0
+		 *
+		 * @param $selectors array  Array of classes/id selector to exclude from TOC.
+		 * @param $content   string Post content.
+		 */
+		$selectors = apply_filters( 'ez_toc_exclude_by_selector', array(), $content );
+
+		$nodes = $html->Find( implode( ',', $selectors ) );
+
+		foreach ( $nodes['ids'] as $id ) {
+
+			//$this->excludedNodes[ $page ][ $id ] = $html->Implode( $id, $tagFilterOptions );
+			array_push( $this->excludedNodes, $html->Implode( $id, $tagFilterOptions ) );
+		}
+
+		//$eligibleContent = $html->Implode( 0, $tagFilterOptions );
+
+		/**
+		 * TagFilter::Implode() writes br tags as `<br>` while WP normalizes to `<br />`.
+		 * Normalize `$eligibleContent` to match WP.
+		 *
+		 * @see wpautop()
+		 */
+		//$eligibleContent = \Easy_Plugins\Table_Of_Contents\String\force_balance_tags( $eligibleContent );
 	}
 
 	/**
@@ -349,6 +408,7 @@ class ezTOC_Post {
 
 			$minimum = absint( ezTOC_Option::get( 'start' ) );
 
+			$this->removeHeadingsFromExcludedNodes( $matches );
 			$this->removeHeadings( $matches );
 			$this->excludeHeadings( $matches );
 			$this->removeEmptyHeadings( $matches );
@@ -364,6 +424,50 @@ class ezTOC_Post {
 				return array();
 			}
 
+		}
+
+		return $matches;
+	}
+
+	/**
+	 * Whether or not the string is in one of the excluded nodes.
+	 *
+	 * @since 2.0
+	 *
+	 * @param string $string
+	 *
+	 * @return bool
+	 */
+	private function inExcludedNode( $string ) {
+
+		foreach ( $this->excludedNodes as $node ) {
+
+			if ( false !== strpos( $node, $string ) ) {
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Remove headings that are in excluded nodes.
+	 *
+	 * @since 2.0
+	 *
+	 * @param array $matches
+	 *
+	 * @return array
+	 */
+	private function removeHeadingsFromExcludedNodes( &$matches ) {
+
+		foreach ( $matches as $i => $match ) {
+
+			if ( $this->inExcludedNode( $match[3] ) ) {
+
+				unset( $matches[ $i ] );
+			}
 		}
 
 		return $matches;
