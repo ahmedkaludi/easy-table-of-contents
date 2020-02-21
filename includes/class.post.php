@@ -123,11 +123,11 @@ class ezTOC_Post {
 		/*
 		 * Ensure the ezTOC content filter is not applied when running `the_content` filter.
 		 */
-		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 99999 );
+		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
 		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
 
-		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 99999 );
+		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
 		remove_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ) );
 
