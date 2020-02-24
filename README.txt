@@ -120,6 +120,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * TWEAK: Utilize the `ez_toc_exclude_by_selector` filter the exclude the JetPack share buttons from eligible headings.
 * TWEAK: Remove the Elegant Themes Bloom plugin node from the post content before extracting headings.
 * TWEAK: Add compatibility filter for the Visual Composer plugin.
+* TWEAK: Utilize the `ez_toc_exclude_by_selector` filter the exclude the Starbox author heading from eligible headings.
 * I18N: Add wpml-config.xml file.
 * BUG: Correct option misspelling.
 * BUG: Do not need to run values for alternate and exclude headings thru `wp_unslash()` because `update_post_meta()` already does.

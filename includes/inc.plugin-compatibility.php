@@ -190,3 +190,18 @@ add_action(
 		return $shortcodes;
 	}
 );
+
+/**
+ * Remove the Starbox plugin node from the post content before extracting headings.
+ * @link https://wordpress.org/plugins/starbox/
+ * @since 2.0
+ */
+add_filter(
+	'ez_toc_exclude_by_selector',
+	function( $selectors ) {
+
+		$selectors['starbox'] = '.abh_box';
+
+		return $selectors;
+	}
+);
