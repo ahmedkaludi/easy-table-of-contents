@@ -192,6 +192,48 @@ add_action(
 );
 
 /**
+ * Disabled for now as it does not appear to be required.
+ *
+ * Do not allow `the_content` TOC callback to run when rendering a Divi layout.
+ *
+ * @since 2.0
+ */
+//add_filter(
+//	'ez_toc_maybe_apply_the_content_filter',
+//	function( $apply ) {
+//
+//		global $wp_current_filter;
+//
+//		// Do not execute if root current filter is one of those in the array.
+//		if ( in_array( $wp_current_filter[0], array( 'et_builder_render_layout' ), true ) ) {
+//
+//			$apply = false;
+//		}
+//
+//		return $apply;
+//	}
+//);
+
+/**
+ * Callback the for `et_builder_render_layout`.
+ *
+ * Attaches the ezTOC `the_content` filter callback to the Divi layout content filter so the in page anchors will be
+ * added the post content.
+ *
+ * NOTE: Set priority 12 to run after Divi runs the `do_shortcode` filter on its layout content.
+ *
+ * @link https://wordpress.org/support/topic/anchor-links-not-being-added-with-divi/
+ *
+ * @since 2.0
+ */
+add_filter(
+	'et_builder_render_layout',
+	array( 'ezTOC', 'the_content' ),
+	12,
+	1
+);
+
+/**
  * Remove the Starbox plugin node from the post content before extracting headings.
  * @link https://wordpress.org/plugins/starbox/
  * @since 2.0
