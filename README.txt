@@ -19,7 +19,7 @@ A user friendly, featured focused plugin which allows you to insert a table of c
 * Automatically generate a table of contents for your posts, pages and custom post types by parsing its contents for headers.
 * Supports the `<!--nextpage-->` tag.
 * Supports the Rank Math plugin.
-* Supports the Classic Editor, Gutenberg, Divi, Elementor, WPBakery Page Builder and Visual Composer page editors.
+* Works with the Classic Editor, Gutenberg, Divi, Elementor, WPBakery Page Builder and Visual Composer page editors.
 * Optionally enable for pages and/or posts. Custom post types are supported, as long as their content is output with the `the_content()` template tag.
 * Optionally auto insert the table of contents into the page, selectable by enabled post type.
 * Provides many easy to understand options to configure when and where to insert the table of contents.
