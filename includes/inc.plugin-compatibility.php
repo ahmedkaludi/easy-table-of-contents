@@ -247,3 +247,19 @@ add_filter(
 		return $selectors;
 	}
 );
+
+/**
+ * Remove the WordPress Related Posts plugin node from the post content before extracting headings.
+ * @link
+ * @since 2.0
+ */
+add_filter(
+	'ez_toc_exclude_by_selector',
+	function( $selectors ) {
+
+		$selectors['wordpress-23-related-posts-plugin'] = '.wp_rp_content';
+
+		return $selectors;
+	}
+);
+
