@@ -294,3 +294,18 @@ add_filter(
 		return $selectors;
 	}
 );
+
+/**
+ * Remove the WP Product Review node from the post content before extracting headings.
+ * @link
+ * @since 2.0
+ */
+add_filter(
+	'ez_toc_exclude_by_selector',
+	function( $selectors ) {
+
+		$selectors['wp-product-review'] = '.wppr-review-container';
+
+		return $selectors;
+	}
+);
