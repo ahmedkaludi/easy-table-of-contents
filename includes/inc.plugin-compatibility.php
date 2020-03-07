@@ -82,7 +82,8 @@ add_filter(
 	'ez_toc_exclude_by_selector',
 	function( $selectors ) {
 
-		$selectors['jetpack-sharedaddy'] = '.sharedaddy';
+		$selectors['jetpack-sharedaddy']   = '.sharedaddy';
+		$selectors['jetpack-relatedposts'] = '.jp-relatedposts';
 
 		return $selectors;
 	}
