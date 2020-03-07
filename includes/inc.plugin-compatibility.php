@@ -279,3 +279,18 @@ add_filter(
 		return $selectors;
 	}
 );
+
+/**
+ * Remove the Ultimate Addons for VC Composer node from the post content before extracting headings.
+ * @link
+ * @since 2.0
+ */
+add_filter(
+	'ez_toc_exclude_by_selector',
+	function( $selectors ) {
+
+		$selectors['ultimate-addons-for-vc-composer'] = '.ult_tabs';
+
+		return $selectors;
+	}
+);
