@@ -442,6 +442,11 @@ class ezTOC_Post {
 
 		foreach ( $this->excludedNodes as $node ) {
 
+			if ( empty( $node ) ) {
+
+				return false;
+			}
+
 			if ( false !== strpos( $node, $string ) ) {
 
 				return true;
