@@ -263,3 +263,18 @@ add_filter(
 	}
 );
 
+/**
+ * Remove the Atomic Blocks plugin node from the post content before extracting headings.
+ * @link
+ * @since 2.0
+ */
+add_filter(
+	'ez_toc_exclude_by_selector',
+	function( $selectors ) {
+
+		$selectors['atomic-blocks-cta']         = '.ab-block-cta';
+		$selectors['atomic-blocks-testimonial'] = '.ab-block-testimonial';
+
+		return $selectors;
+	}
+);
