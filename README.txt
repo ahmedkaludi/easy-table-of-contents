@@ -89,6 +89,14 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.1 03/09/2020 =
+* COMPATIBILITY: Exclude the WordPress Related Posts plugin nodes.
+* COMPATIBILITY: Exclude a couple Atomic Block plugin nodes.
+* COMPATIBILITY: Exclude JetPack Related Posts from heading eligibility.
+* COMPATIBILITY: Exclude Ultimate Addons for VC Composer Tabs from heading eligibility.
+* COMPATIBILITY: Exclude WP Product Reviews from heading eligibility.
+* TWEAK: Prevent possible "strpos(): Empty needle in" warnings when excluding nodes from TOC eligibility.
+
 = 2.0 02/01/2020 =
 * NEW: Major rewrite of all code and processing logic to make it faster and more reliable.
 * NEW: Support for the <!--nextpage--> tag.
@@ -310,4 +318,7 @@ Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 2.0-rc4 =
+Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
+
+= 2.0.1 =
 Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
