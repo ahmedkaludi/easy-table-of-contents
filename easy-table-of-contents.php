@@ -604,7 +604,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					//$replace[0] = $html . $replace[0];
 					$content    = mb_find_replace( $find, $replace, $content );
 
-					$pattern = '`<h[1-6]{1}[^>]*' . preg_quote( $replace[0] ) . '`msuU';
+					$pattern = '`<h[1-6]{1}[^>]*' . preg_quote( $replace[0], '`' ) . '`msuU';
 					$result  = preg_match( $pattern, $content, $matches );
 
 					/*
