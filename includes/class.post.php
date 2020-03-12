@@ -899,7 +899,26 @@ class ezTOC_Post {
 
 		if ( isset( $this->pages[ $page ] ) ) {
 
-			$headings = wp_list_pluck( $this->pages[ $page ]['headings'], 0 );
+			//$headings = wp_list_pluck( $this->pages[ $page ]['headings'], 0 );
+
+			$matches = $this->pages[ $page ]['headings'];
+			$count   = count( $matches );
+
+			for ( $i = 0; $i < $count; $i++ ) {
+
+				//$anchor     = $matches[ $i ]['id'];
+				$headings[] = str_replace(
+					array(
+						$matches[ $i ][1],                // start of heading
+						'</h' . $matches[ $i ][2] . '>'   // end of heading
+					),
+					array(
+						'',
+						'</h' . $matches[ $i ][2] . '>'
+					),
+					$matches[ $i ][0]
+				);
+			}
 		}
 
 		return $headings;
@@ -938,7 +957,7 @@ class ezTOC_Post {
 						'</h' . $matches[ $i ][2] . '>'   // end of heading
 					),
 					array(
-						$matches[ $i ][1],
+						'',
 						'<span class="ez-toc-section" id="' . $anchor . '"></span></h' . $matches[ $i ][2] . '>'
 					),
 					$matches[ $i ][0]
