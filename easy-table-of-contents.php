@@ -601,8 +601,25 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				case 'before':
 				default:
-					$replace[0] = $html . $replace[0];
+					//$replace[0] = $html . $replace[0];
 					$content    = mb_find_replace( $find, $replace, $content );
+
+					$pattern = '`<h[1-6]{1}[^>]*' . preg_quote( $replace[0] ) . '`msuU';
+					$result  = preg_match( $pattern, $content, $matches );
+
+					/*
+					 * Try to place TOC before the first heading found in eligible heading, failing that,
+					 * insert TOC at top of content.
+					 */
+					if ( 1 === $result ) {
+
+						$start   = strpos( $content, $matches[0] );
+						$content = substr_replace( $content, $html, $start, 0 );
+
+					} else {
+
+						$content = $html . $content;
+					}
 			}
 
 			return $content;
