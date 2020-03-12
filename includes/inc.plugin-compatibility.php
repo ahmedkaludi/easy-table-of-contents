@@ -309,3 +309,117 @@ add_filter(
 		return $selectors;
 	}
 );
+
+class ezTOC_Elementor {
+
+	/**
+	 * Whether the excerpt is being called.
+	 *
+	 * Used to determine whether the call to `the_content()` came from `get_the_excerpt()`.
+	 *
+	 * @since 2.0.2
+	 *
+	 * @var bool Whether the excerpt is being used. Default is false.
+	 */
+	private $_is_excerpt = false;
+
+	/**
+	 * ezTOC_Elementor constructor.
+	 *
+	 * @since 2.0.2
+	 */
+	public function __construct() {
+
+		//add_filter( 'elementor/frontend/the_content', array( 'ezTOC', 'the_content' ), 100 );
+
+		// Hack to avoid enqueue post CSS while it's a `the_excerpt` call.
+		add_filter( 'get_the_excerpt', array( $this, 'start_excerpt_flag' ), 1 );
+		add_filter( 'get_the_excerpt', array( $this, 'end_excerpt_flag' ), 20 );
+		add_filter( 'ez_toc_maybe_apply_the_content_filter', array( $this, 'maybe_apply_the_content_filter' ) );
+
+		add_filter(
+			'ez_toc_strip_shortcodes_tagnames',
+			function( $tags_to_remove ) {
+
+				$shortcodes = array (
+					'elementor-template',
+				);
+
+				$tags_to_remove = array_merge( $tags_to_remove, $shortcodes );
+
+				return $tags_to_remove;
+			}
+		);
+	}
+
+	/**
+	 * Callback for the `elementor/init` action.
+	 *
+	 * Add the compatibility filters for Elementor.
+	 *
+	 * @since 2.0.2
+	 */
+	public static function start() {
+
+		new self();
+	}
+
+	/**
+	 * Callback for the `get_the_excerpt` filter.
+	 *
+	 * Start excerpt flag.
+	 *
+	 * Flags when `the_excerpt` is called. Used to avoid enqueueing CSS in the excerpt.
+	 *
+	 * @since 2.0.2
+	 *
+	 * @param string $excerpt The post excerpt.
+	 *
+	 * @return string The post excerpt.
+	 */
+	public function start_excerpt_flag( $excerpt ) {
+		$this->_is_excerpt = true;
+		return $excerpt;
+	}
+
+	/**
+	 * Callback for the `get_the_excerpt` filter.
+	 *
+	 * End excerpt flag.
+	 *
+	 * Flags when `the_excerpt` call ended.
+	 *
+	 * @since 2.0.2
+	 *
+	 * @param string $excerpt The post excerpt.
+	 *
+	 * @return string The post excerpt.
+	 */
+	public function end_excerpt_flag( $excerpt ) {
+		$this->_is_excerpt = false;
+		return $excerpt;
+	}
+
+	/**
+	 * Callback for the `ez_toc_maybe_apply_the_content_filter` filter.
+	 *
+	 * If doing Elementor excerpt, which calls `the_content` filter, do not apply the ezTOC `the_content` filter.
+	 *
+	 * @since 2.0.2
+	 *
+	 * @param bool $apply
+	 *
+	 * @return bool mixed
+	 */
+	public function maybe_apply_the_content_filter( $apply ) {
+
+		if ( $this->_is_excerpt ) {
+
+			$apply = false;
+		}
+
+		return $apply;
+	}
+}
+//new ezTOC_Elementor();
+add_action( 'elementor/init', array( 'ezTOC_Elementor', 'start' ) );
