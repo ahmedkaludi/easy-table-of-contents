@@ -90,6 +90,10 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 == Changelog ==
 
 = 2.0.2 03/12/2020 =
+* TWEAK: Slightly tighten heading matching, last update made it a little too loose.
+* BUG: Correct logic required to place TOC before first heading which is required for the more lax heading matching required for page builders.
+
+= 2.0.2 03/12/2020 =
 * COMPATIBILITY: Remove filter to exclude Ultimate Addons for VC Composer Tabs from heading eligibility.
 * COMPATIBILITY: Add additional filters to improve Elementor compatibility.
 * TWEAK: Loosen heading matching when doing find/replace to insert in page links. Excluding the opening heading tag to allow matching heading where page builders dynamically add classes and id which break heading matching during find/replace.
@@ -329,4 +333,7 @@ Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
 Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
 
 = 2.0.2 =
+Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
+
+= 2.0.3 =
 Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
