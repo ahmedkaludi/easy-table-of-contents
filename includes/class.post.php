@@ -1278,9 +1278,10 @@ class ezTOC_Post {
 	private function createTOCItemAnchor( $page, $id, $title, $count ) {
 
 		return sprintf(
-			'<a class="ez-toc-link ez-toc-heading-' . $count . '" href="%1$s" title="%2$s">' . $title . '</a>',
+			'<a class="ez-toc-link ez-toc-heading-' . $count . '" href="%1$s" title="%2$s">%3$s</a>',
 			esc_url( $this->createTOCItemURL( $id, $page ) ),
-			esc_attr( strip_tags( $title ) )
+			esc_attr( strip_tags( $title ) ),
+			$title
 		);
 	}
 
