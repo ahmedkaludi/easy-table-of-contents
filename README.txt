@@ -89,7 +89,13 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
-= 2.0.2 03/12/2020 =
+= 2.0.4 03/16/2020 =
+* NEW: Introduce the `ez_toc_container_class` filter.
+* TWEAK: Slight rework to ezTOC container classes logic.
+* BUG: `sprintf()` was eating `%` in the TOC heading item.
+* BUG: Do not insert TOC at top of post if before first heading option is selected even if first heading can not be found. Some page builders cause the TOC to insert twice or on blog pages.
+
+= 2.0.3 03/12/2020 =
 * TWEAK: Slightly tighten heading matching, last update made it a little too loose.
 * BUG: Correct logic required to place TOC before first heading which is required for the more lax heading matching required for page builders.
 
@@ -336,4 +342,7 @@ Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
 Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
 
 = 2.0.3 =
+Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
+
+= 2.0.4 =
 Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
