@@ -618,7 +618,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 					} else {
 
-						$content = $html . $content;
+						// Somehow, there are scenarios where the processing get this far and
+						// the TOC is being added to pages where it should not. Disable for now.
+						//$content = $html . $content;
 					}
 			}
 
