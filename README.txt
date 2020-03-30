@@ -89,6 +89,9 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.6 03/30/2020 =
+* BUG: Ensure minified files are current.
+
 = 2.0.5 03/27/2020 =
 * BUG: Prevent possible "strpos(): Empty needle in" warnings when excluding nodes from TOC eligibility.
 
@@ -351,4 +354,7 @@ Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
 Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
 
 = 2.0.5 =
+Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
+
+= 2.0.6 =
 Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
