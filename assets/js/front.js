@@ -43,10 +43,10 @@ jQuery( function( $ ) {
 
 			$( 'a.ez-toc-link' ).click( function( event ) {
 
-				hostname = $( this ).prop( 'hostname' );
-				pathname = $( this ).prop( 'pathname' );
-				qs = $( this ).prop( 'search' );
-				hash = $( this ).prop( 'hash' );
+				let hostname = $( this ).prop( 'hostname' );
+				let pathname = $( this ).prop( 'pathname' );
+				let qs = $( this ).prop( 'search' );
+				let hash = $( this ).prop( 'hash' );
 
 				// ie strips out the preceding / from pathname
 				if ( pathname.length > 0 ) {
