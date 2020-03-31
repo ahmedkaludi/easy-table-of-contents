@@ -958,8 +958,8 @@ class ezTOC_Post {
 						'</h' . $matches[ $i ][2] . '>'   // end of heading
 					),
 					array(
-						'>',
-						'<span class="ez-toc-section" id="' . $anchor . '"></span></h' . $matches[ $i ][2] . '>'
+						'><span class="ez-toc-section" id="' . $anchor . '"></span>',
+						'</h' . $matches[ $i ][2] . '>'
 					),
 					$matches[ $i ][0]
 				);
