@@ -57,20 +57,13 @@ jQuery( function( $ ) {
 
 				if ( (window.location.hostname == hostname) && (window.location.pathname == pathname) && (window.location.search == qs) && (hash !== '') ) {
 
-					// escape jquery selector chars, but keep the #
-					var hash_selector = hash.replace( /([ !"$%&'()*+,.\/:;<=>?@[\]^`{|}~])/g, '\\$1' );
+					let id = decodeURIComponent( hash.replace( '#', '' ) );
+					target = '[id="' + id + '"]';
 
-					// check if element exists with id=__
-					if ( $( hash_selector ).length > 0 )
-						target = hash;
-					else {
-						// must be an anchor (a name=__)
-						anchor = hash;
-						anchor = anchor.replace( '#', '' );
-						target = 'a[name="' + anchor + '"]';
-						// verify it exists
-						if ( $( target ).length == 0 )
-							target = '';
+					// verify it exists
+					if ( $( target ).length == 0 ) {
+						console.log( 'ezTOC scrollTarget Not Found: ' + target );
+						target = '';
 					}
 
 					// check offset setting

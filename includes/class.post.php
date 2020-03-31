@@ -790,7 +790,8 @@ class ezTOC_Post {
 			$return = html_entity_decode( $return, ENT_QUOTES, get_option( 'blog_charset' ) );
 
 			// remove non alphanumeric chars
-			$return = preg_replace( '/[^a-zA-Z0-9 \-_]*/', '', $return );
+			//$return = preg_replace( '/[^a-zA-Z0-9 \-_]*/', '', $return );
+			$return = preg_replace( '/[\x00-\x1F\x7F\-_]*/u', '', $return );
 
 			// convert spaces to _
 			$return = preg_replace( '/\s+/', '_', $return );
