@@ -41,7 +41,7 @@ jQuery( function( $ ) {
 
 			var target = hostname = pathname = qs = hash = null;
 
-			$( 'body a' ).click( function( event ) {
+			$( '.ez-toc-list a' ).click( function( event ) {
 
 				hostname = $( this ).prop( 'hostname' );
 				pathname = $( this ).prop( 'pathname' );
