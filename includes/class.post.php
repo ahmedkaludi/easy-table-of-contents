@@ -359,7 +359,7 @@ class ezTOC_Post {
 		 * @param $selectors array  Array of classes/id selector to exclude from TOC.
 		 * @param $content   string Post content.
 		 */
-		$selectors = apply_filters( 'ez_toc_exclude_by_selector', array(), $content );
+		$selectors = apply_filters( 'ez_toc_exclude_by_selector', array( '.ez-toc-exclude-headings' ), $content );
 
 		$nodes = $html->Find( implode( ',', $selectors ) );
 
