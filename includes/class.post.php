@@ -469,7 +469,7 @@ class ezTOC_Post {
 
 		foreach ( $matches as $i => $match ) {
 
-			if ( $this->inExcludedNode( $match[3] ) ) {
+			if ( $this->inExcludedNode( "{$match[3]}</h$match[2]>" ) ) {
 
 				unset( $matches[ $i ] );
 			}
