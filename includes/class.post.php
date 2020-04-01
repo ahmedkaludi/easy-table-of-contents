@@ -426,7 +426,7 @@ class ezTOC_Post {
 
 		}
 
-		return $matches;
+		return array_values( $matches ); // Rest the array index.
 	}
 
 	/**
@@ -524,13 +524,14 @@ class ezTOC_Post {
 		if ( count( $levels ) != 6 ) {
 
 			$new_matches = array();
-			$count       = count( $matches );
+			//$count       = count( $matches );
 
-			for ( $i = 0; $i < $count; $i++ ) {
+			//for ( $i = 0; $i < $count; $i++ ) {
+			foreach ( $matches as $i => $match ) {
 
 				if ( in_array( $matches[ $i ][2], $levels ) ) {
 
-					$new_matches[] = $matches[ $i ];
+					$new_matches[ $i ] = $matches[ $i ];
 				}
 			}
 
@@ -582,9 +583,10 @@ class ezTOC_Post {
 				}
 
 				$new_matches = array();
-				$count       = count( $matches );
+				//$count       = count( $matches );
 
-				for ( $i = 0; $i < $count; $i++ ) {
+				//for ( $i = 0; $i < $count; $i++ ) {
+				foreach ( $matches as $i => $match ) {
 
 					$found = false;
 
@@ -613,14 +615,14 @@ class ezTOC_Post {
 
 					if ( ! $found ) {
 
-						$new_matches[] = $matches[ $i ];
+						$new_matches[ $i ] = $matches[ $i ];
 					}
 				}
 
-				if ( count( $matches ) != count( $new_matches ) ) {
-
-					$matches = $new_matches;
-				}
+				//if ( count( $matches ) != count( $new_matches ) ) {
+				//
+				//	$matches = $new_matches;
+				//}
 			}
 		}
 
@@ -682,11 +684,12 @@ class ezTOC_Post {
 	private function alternateHeadings( &$matches ) {
 
 		$alt_headings = $this->getAlternateHeadings();
-		$count        = count( $matches );
+		//$count        = count( $matches );
 
 		if ( 0 < count( $alt_headings ) ) {
 
-			for ( $i = 0; $i < $count; $i++ ) {
+			//for ( $i = 0; $i < $count; $i++ ) {
+			foreach ( $matches as $i => $match ) {
 
 				foreach ( $alt_headings as $original_heading => $alt_heading ) {
 
@@ -745,9 +748,10 @@ class ezTOC_Post {
 	 */
 	private function headingIDs( &$matches ) {
 
-		$count = count( $matches );
+		//$count = count( $matches );
 
-		for ( $i = 0; $i < $count; $i++ ) {
+		//for ( $i = 0; $i < $count; $i++ ) {
+		foreach ( $matches as $i => $match ) {
 
 			$matches[ $i ]['id'] = $this->generateHeadingIDFromTitle( $matches[ $i ][0] );
 		}
@@ -846,20 +850,21 @@ class ezTOC_Post {
 	private function removeEmptyHeadings( &$matches ) {
 
 		$new_matches = array();
-		$count       = count( $matches );
+		//$count       = count( $matches );
 
-		for ( $i = 0; $i < $count; $i ++ ) {
+		//for ( $i = 0; $i < $count; $i ++ ) {
+		foreach ( $matches as $i => $match ) {
 
 			if ( trim( strip_tags( $matches[ $i ][0] ) ) != false ) {
 
-				$new_matches[] = $matches[ $i ];
+				$new_matches[ $i ] = $matches[ $i ];
 			}
 		}
 
-		if ( count( $matches ) != count( $new_matches ) ) {
-
-			$matches = $new_matches;
-		}
+		//if ( count( $matches ) != count( $new_matches ) ) {
+		//
+		//	$matches = $new_matches;
+		//}
 
 		return $matches;
 	}
@@ -903,9 +908,10 @@ class ezTOC_Post {
 			//$headings = wp_list_pluck( $this->pages[ $page ]['headings'], 0 );
 
 			$matches = $this->pages[ $page ]['headings'];
-			$count   = count( $matches );
+			//$count   = count( $matches );
 
-			for ( $i = 0; $i < $count; $i++ ) {
+			//for ( $i = 0; $i < $count; $i++ ) {
+			foreach ( $matches as $i => $match ) {
 
 				//$anchor     = $matches[ $i ]['id'];
 				$headings[] = str_replace(
@@ -947,9 +953,10 @@ class ezTOC_Post {
 		if ( isset( $this->pages[ $page ] ) ) {
 
 			$matches = $this->pages[ $page ]['headings'];
-			$count   = count( $matches );
+			//$count   = count( $matches );
 
-			for ( $i = 0; $i < $count; $i++ ) {
+			//for ( $i = 0; $i < $count; $i++ ) {
+			foreach ( $matches as $i => $match ) {
 
 				$anchor     = $matches[ $i ]['id'];
 				$headings[] = str_replace(
@@ -1180,7 +1187,8 @@ class ezTOC_Post {
 			//self::$collision_collector = array();
 
 			// find the minimum heading to establish our baseline
-			for ( $i = 0; $i < count( $matches ); $i ++ ) {
+			//for ( $i = 0; $i < count( $matches ); $i ++ ) {
+			foreach ( $matches as $i => $match ) {
 				if ( $current_depth > $matches[ $i ][2] ) {
 					$current_depth = (int) $matches[ $i ][2];
 				}
@@ -1189,7 +1197,8 @@ class ezTOC_Post {
 			$numbered_items[ $current_depth ] = 0;
 			$numbered_items_min               = $current_depth;
 
-			for ( $i = 0; $i < count( $matches ); $i ++ ) {
+			//for ( $i = 0; $i < count( $matches ); $i ++ ) {
+			foreach ( $matches as $i => $match ) {
 
 				$level = $matches[ $i ][2];
 				$count = $i + 1;
@@ -1247,7 +1256,8 @@ class ezTOC_Post {
 
 		} else {
 
-			for ( $i = 0; $i < count( $matches ); $i++ ) {
+			//for ( $i = 0; $i < count( $matches ); $i++ ) {
+			foreach ( $matches as $i => $match ) {
 
 				$count = $i + 1;
 
