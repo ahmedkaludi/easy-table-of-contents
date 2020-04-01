@@ -289,7 +289,7 @@ add_filter(
 	'ez_toc_exclude_by_selector',
 	function( $selectors ) {
 
-		//$selectors['ultimate-addons-for-vc-composer'] = '.ult_tabs';
+		$selectors['ultimate-addons-for-vc-composer'] = '.ult_tabs';
 
 		return $selectors;
 	}
