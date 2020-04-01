@@ -154,8 +154,6 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
 			if ( $post->hasTOCItems() ) {
 
-				$css_classes = '';
-
 				/**
 				 * @var string $before_widget
 				 * @var string $after_widget
@@ -164,6 +162,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				 */
 				extract( $args );
 
+				$class = array( 'ez-toc-v' . str_replace( '.', '_', ezTOC::VERSION ) );
 				$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 				//$items = ezTOC::extract_headings( $find, $replace, $post );
 
@@ -174,44 +173,53 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
 				if ( ezTOC_Option::get( 'show_hierarchy' ) ) {
 
-					$css_classes = ' counter-hierarchy';
+					$class[] = 'counter-hierarchy';
 
 				} else {
 
-					$css_classes .= ' counter-flat';
+					$class[] = 'counter-flat';
 				}
 
 				switch ( ezTOC_Option::get( 'counter' ) ) {
 
 					case 'numeric':
-						$css_classes .= ' counter-numeric';
+						$class[] = 'counter-numeric';
 						break;
 
 					case 'roman':
-						$css_classes .= ' counter-roman';
+						$class[] = 'counter-roman';
 						break;
 
 					case 'decimal':
-						$css_classes .= ' counter-decimal';
+						$class[] = 'counter-decimal';
 						break;
 				}
 
 				if ( $instance['affix'] ) {
 
-					$css_classes .= ' ez-toc-affix';
+					$class[] = 'ez-toc-affix';
 				}
 
-				$css_classes = trim( $css_classes );
+				$custom_classes = ezTOC_Option::get( 'css_container_class', '' );
 
-				// an empty class="" is invalid markup!
-				if ( ! $css_classes ) {
+				if ( 0 < strlen( $custom_classes ) ) {
 
-					$css_classes = ' ';
+					$custom_classes = explode( ' ', $custom_classes );
+					$custom_classes = apply_filters( 'ez_toc_container_class', $custom_classes, $this );
+
+					if ( is_array( $custom_classes ) ) {
+
+						$class = array_merge( $class, $custom_classes );
+					}
 				}
+
+				$class = array_filter( $class );
+				$class = array_map( 'trim', $class );
+				$class = array_map( 'sanitize_html_class', $class );
 
 				echo $before_widget;
 
-				echo '<div class="ez-toc-widget-container ' . $css_classes . '">' . PHP_EOL;
+				echo '<div class="ez-toc-widget-container ' . implode( ' ', $class ) . '">' . PHP_EOL;
 
 				do_action( 'ez_toc_before_widget' );
 
