@@ -89,6 +89,21 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.7 04/02/2020 =
+* NEW: Exclude any HTML nodes with the class of `.ez-toc-exclude-headings`.
+* TWEAK: Change smooth scroll selector from `'body a'` to `'a.ez-toc-link'`.
+* TWEAK: Declare JS variables.
+* TWEAK: Support unicode characters for the `id` attribute. Permitted by HTML5.
+* TWEAK: Move the in-page anchor/span to before the heading text to account for long headings where it line wraps.
+* TWEAK: Slight rework to ezTOC widget container classes logic.
+* TWEAK: Cache bust the JS to make dev easier.
+* TWEAK: JavaScript cleanup.
+* TWEAK: URI Encode the id attribute to deal with reserved characters in JavaScript. Technically not necessary for the id attribute but needed to work with the jQuery smoothScroll library.
+* COMPATIBILITY: Reintroduce filter to exclude Ultimate Addons for VC Composer Tabs from heading eligibility.
+* BUG: Correct array iteration logic when processing headings.
+* BUG: Tighten matching for headings in excluded HTML nodes. The loose matching was excluding far too many headings.
+* BUG: Use `esc_attr()` instead of `esc_url()` for the anchor href because valid id attribute characters would cause it to return an empty href which cause a nonworking link.
+
 = 2.0.6 03/30/2020 =
 * BUG: Ensure minified files are current.
 
@@ -357,4 +372,7 @@ Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
 Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
 
 = 2.0.6 =
+Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
+
+= 2.0.7 =
 Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
