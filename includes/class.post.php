@@ -803,6 +803,23 @@ class ezTOC_Post {
 			// remove trailing - and _
 			$return = rtrim( $return, '-_' );
 
+			/*
+			 * Encode URI based on ECMA-262.
+			 *
+			 * Only required to support the jQuery smoothScroll library.
+			 *
+			 * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI#Description
+			 * @link https://stackoverflow.com/a/19858404/5351316
+			 */
+			$return = preg_replace_callback(
+				"{[^0-9a-z_.!~*'();,/?:@&=+$#-]}i",
+				function( $m ) {
+
+					return sprintf( '%%%02X', ord( $m[0] ) );
+				},
+				$return
+			);
+
 			// lowercase everything?
 			if ( ezTOC_Option::get( 'lowercase' ) ) {
 

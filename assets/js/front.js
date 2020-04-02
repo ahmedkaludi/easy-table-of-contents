@@ -73,8 +73,8 @@ jQuery( function( $ ) {
 					( hash !== '' )
 				) {
 
-					var id = decodeURIComponent( hash.replace( '#', '' ) );
-					target = '[id="' + id + '"]';
+					// var id = decodeURIComponent( hash.replace( '#', '' ) );
+					target = '[id="' + hash.replace( '#', '' ) + '"]';
 
 					// verify it exists
 					if ( $( target ).length === 0 ) {
