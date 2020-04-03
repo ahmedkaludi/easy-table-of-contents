@@ -310,6 +310,22 @@ add_filter(
 	}
 );
 
+/**
+ * Remove the Create by Mediavine node from the post content before extracting headings.
+ *
+ * @link https://wordpress.org/plugins/mediavine-create/
+ * @since 2.0.8
+ */
+add_filter(
+	'ez_toc_exclude_by_selector',
+	function( $selectors ) {
+
+		$selectors['mediavine-create'] = '.mv-create-card';
+
+		return $selectors;
+	}
+);
+
 class ezTOC_Elementor {
 
 	/**
