@@ -1,5 +1,7 @@
 <?php
 
+use function Easy_Plugins\Table_Of_Contents\String\br2;
+
 class ezTOC_Post {
 
 	/**
@@ -777,7 +779,7 @@ class ezTOC_Post {
 
 			// WP entity encodes the post content.
 			$return = html_entity_decode( $heading, ENT_QUOTES, get_option( 'blog_charset' ) );
-
+			$return = br2( $return, ' ' );
 			$return = trim( strip_tags( $return ) );
 
 			// Convert accented characters to ASCII.
@@ -1236,6 +1238,7 @@ class ezTOC_Post {
 				}
 
 				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
+				$title = br2( $title, ' ' );
 				$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
 				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title, $count );

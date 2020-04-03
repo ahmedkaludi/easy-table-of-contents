@@ -3,6 +3,39 @@
 namespace Easy_Plugins\Table_Of_Contents\String;
 
 /**
+ * Replace `<br />` tags with parameter.
+ *
+ * @since 2.0.8
+ *
+ * @param string $string
+ * @param string $to
+ *
+ * @return string
+ */
+function br2( $string, $to = "\r\n" ) {
+
+	$string = preg_replace( '`<br[/\s]*>`i', $to, $string );
+
+	return $string;
+}
+
+/**
+ * Replace `<br />` tags with new lines.
+ *
+ * @link https://stackoverflow.com/a/27509016/5351316
+ *
+ * @since 2.0.8
+ *
+ * @param string $string
+ *
+ * @return string
+ */
+function br2nl( $string ) {
+
+	return br2( $string );
+}
+
+/**
  * Pulled from WordPress formatting functions.
  *
  * Edited to add space before self closing tags.
