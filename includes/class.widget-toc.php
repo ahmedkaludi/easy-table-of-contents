@@ -162,7 +162,11 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				 */
 				extract( $args );
 
-				$class = array( 'ez-toc-v' . str_replace( '.', '_', ezTOC::VERSION ) );
+				$class = array(
+					'ez-toc-v' . str_replace( '.', '_', ezTOC::VERSION ),
+					'ez-toc-widget',
+				);
+
 				$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 				//$items = ezTOC::extract_headings( $find, $replace, $post );
 
