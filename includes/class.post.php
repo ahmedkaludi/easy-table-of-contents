@@ -592,18 +592,18 @@ class ezTOC_Post {
 
 					$found = false;
 
+					$against = html_entity_decode(
+						wptexturize( strip_tags( str_replace( array( "\r", "\n" ), ' ', $matches[ $i ][0] ) ) ),
+						ENT_NOQUOTES,
+						get_option( 'blog_charset' )
+					);
+
 					for ( $j = 0; $j < $excluded_count; $j++ ) {
 
 						// Since WP manipulates the post content it is required that the excluded header and
 						// the actual header be manipulated similarly so a match can be made.
 						$pattern = html_entity_decode(
 							wptexturize( $excluded_headings[ $j ] ),
-							ENT_NOQUOTES,
-							get_option( 'blog_charset' )
-						);
-
-						$against = html_entity_decode(
-							wptexturize( strip_tags( str_replace( array( "\r", "\n" ), ' ', $matches[ $i ][0] ) ) ),
 							ENT_NOQUOTES,
 							get_option( 'blog_charset' )
 						);
