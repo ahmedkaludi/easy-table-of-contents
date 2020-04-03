@@ -881,8 +881,8 @@ class ezTOC_Post {
 		}
 
 		//if ( count( $matches ) != count( $new_matches ) ) {
-		//
-		//	$matches = $new_matches;
+
+			$matches = $new_matches;
 		//}
 
 		return $matches;
