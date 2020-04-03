@@ -416,7 +416,14 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 						$exclude = '';
 					}
 
-					update_post_meta( $post_id, '_ez-toc-exclude', wp_kses_data( $exclude ) );
+					/*
+					 * This is basically `esc_html()` but does not encode quotes.
+					 * This is to allow angle brackets and such which `wp_kses_post` would strip as "evil" scripts.
+					 */
+					$exclude = wp_check_invalid_utf8( $exclude );
+					$exclude = _wp_specialchars( $exclude, ENT_NOQUOTES );
+
+					update_post_meta( $post_id, '_ez-toc-exclude', wp_kses_post( $exclude ) );
 
 				} else {
 
