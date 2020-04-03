@@ -89,6 +89,15 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.8 04/03/2020 =
+* TWEAK: Convert `<br />` tags in headings to a space.
+* TWEAK: Add additional widget classes.
+* TWEAK: Improve the sanitization of the excluded headings field post setting.
+* TWEAK: Minor optimization of creating the matching pattern for excluding headings for improved performance.
+* COMPATIBILITY: Exclude Create by Mediavine from heading eligibility.
+* BUG: Ensure excluded headings are removed from the headings array.
+* BUG: Ensure empty headings are removed from the headings array.
+
 = 2.0.7 04/02/2020 =
 * NEW: Exclude any HTML nodes with the class of `.ez-toc-exclude-headings`.
 * TWEAK: Change smooth scroll selector from `'body a'` to `'a.ez-toc-link'`.
@@ -375,4 +384,7 @@ Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
 Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
 
 = 2.0.7 =
+Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
+
+= 2.0.8 =
 Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
