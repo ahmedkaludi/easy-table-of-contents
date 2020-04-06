@@ -326,6 +326,22 @@ add_filter(
 	}
 );
 
+/**
+ * Remove the Contextual Related Posts node from the post content before extracting headings.
+ *
+ * @link https://wordpress.org/plugins/contextual-related-posts/
+ * @since 2.0.9
+ */
+add_filter(
+	'ez_toc_exclude_by_selector',
+	function( $selectors ) {
+
+		$selectors['contextual-related-posts'] = '.crp_related';
+
+		return $selectors;
+	}
+);
+
 class ezTOC_Elementor {
 
 	/**
