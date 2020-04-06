@@ -250,7 +250,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( ezTOC_Option::get( 'show_heading_text' ) && ezTOC_Option::get( 'visibility' ) ) {
 
-				$width = ezTOC_Option::get( 'width' ) != 'custom' ? ezTOC_Option::get( 'width' ) : ezTOC_Option::get( 'width_custom' ) . ezTOC_Option::get( 'width_custom_units' );
+				$width = ezTOC_Option::get( 'width' ) !== 'custom' ? ezTOC_Option::get( 'width' ) : ezTOC_Option::get( 'width_custom' ) . ezTOC_Option::get( 'width_custom_units' );
 
 				$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
 
@@ -289,20 +289,20 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$css .= 'div#ez-toc-container p.ez-toc-title {font-weight: ' . ezTOC_Option::get( 'title_font_weight', 500 ) . ';}';
 				$css .= 'div#ez-toc-container ul li {font-size: ' . ezTOC_Option::get( 'font_size' ) . ezTOC_Option::get( 'font_size_units' ) . ';}';
 
-				if ( ezTOC_Option::get( 'theme' ) == 'custom' || ezTOC_Option::get( 'width' ) != 'auto' ) {
+				if ( ezTOC_Option::get( 'theme' ) === 'custom' || ezTOC_Option::get( 'width' ) != 'auto' ) {
 
 					$css .= 'div#ez-toc-container {';
 
-					if ( ezTOC_Option::get( 'theme' ) == 'custom' ) {
+					if ( ezTOC_Option::get( 'theme' ) === 'custom' ) {
 
 						$css .= 'background: ' . ezTOC_Option::get( 'custom_background_colour' ) . ';border: 1px solid ' . ezTOC_Option::get( 'custom_border_colour' ) . ';';
 					}
 
-					if ( 'auto' != ezTOC_Option::get( 'width' ) ) {
+					if ( 'auto' !== ezTOC_Option::get( 'width' ) ) {
 
 						$css .= 'width: ';
 
-						if ( 'custom' != ezTOC_Option::get( 'width' ) ) {
+						if ( 'custom' !== ezTOC_Option::get( 'width' ) ) {
 
 							$css .= ezTOC_Option::get( 'width' );
 
@@ -317,7 +317,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$css .= '}';
 				}
 
-				if ( 'custom' == ezTOC_Option::get( 'theme' ) ) {
+				if ( 'custom' === ezTOC_Option::get( 'theme' ) ) {
 
 					$css .= 'div#ez-toc-container p.ez-toc-title {color: ' . ezTOC_Option::get( 'custom_title_colour' ) . ';}';
 					//$css .= 'div#ez-toc-container p.ez-toc-title a,div#ez-toc-container ul.ez-toc-list a {color: ' . ezTOC_Option::get( 'custom_link_colour' ) . ';}';
@@ -397,8 +397,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			$type = get_post_type( $post->ID );
 
-			$enabled = in_array( $type, ezTOC_Option::get( 'enabled_post_types', array() ) );
-			$insert  = in_array( $type, ezTOC_Option::get( 'auto_insert_post_types', array() ) );
+			$enabled = in_array( $type, ezTOC_Option::get( 'enabled_post_types', array() ), true );
+			$insert  = in_array( $type, ezTOC_Option::get( 'auto_insert_post_types', array() ), true );
 
 			if ( $insert || $enabled ) {
 
