@@ -806,6 +806,9 @@ class ezTOC_Post {
 			// Convert space characters to an `_` (underscore).
 			$return = preg_replace( '/\s+/', '_', $return );
 
+			// Replace multiple `_` (underscore) with a single `_` (underscore).
+			$return = preg_replace( '/_+/', '_', $return );
+
 			// Remove trailing `-` (hyphen) and `_` (underscore).
 			$return = rtrim( $return, '-_' );
 
