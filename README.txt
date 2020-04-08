@@ -89,6 +89,14 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.9 04/08/2020 =
+* TWEAK: AMP/Caching plugins seems to break anchors with colons and periods even though they are valid characters for the id attribute in HTML5.
+* TWEAK: Replace multiple underscores with a single underscore.
+* DEV: Update the UWS library which fixes the deprecation notice for PHP 7.4.
+* DEV: Add phpcs.xml.dist.
+* DEV: Strict type checks.
+* DEV: Inline doc updates.
+
 = 2.0.8 04/03/2020 =
 * TWEAK: Convert `<br />` tags in headings to a space.
 * TWEAK: Add additional widget classes.
@@ -387,4 +395,7 @@ Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
 Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
 
 = 2.0.8 =
+Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
+
+= 2.0.9 =
 Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
