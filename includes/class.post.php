@@ -799,11 +799,11 @@ class ezTOC_Post {
 			//$return = preg_replace( '/[^a-zA-Z0-9 \-_]*/', '', $return );
 			$return = preg_replace( '/[\x00-\x1F\x7F\-_]*/u', '', $return );
 
-			// convert spaces to _
 			// AMP/Caching plugins seems to break URL with the following characters, so lets replace them.
 			$return = str_replace( array( ':' ), '_', $return );
 			$return = str_replace( array( '.' ), ' ', $return );
 
+			// Convert space characters to an `_` (underscore).
 			$return = preg_replace( '/\s+/', '_', $return );
 
 			// remove trailing - and _
