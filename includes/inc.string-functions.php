@@ -294,14 +294,27 @@ function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 
 			for ( $i = 0; $i < count( $find ); $i ++ ) {
 
-				$start  = mb_strpos( $string, $find[ $i ] );
-				$length = mb_strlen( $find[ $i ] );
+				$needle = $find[ $i ];
+				$start  = mb_strpos( $string, $needle );
+
+				// If heading can not be found, let try decoding entities to see if it can be found.
+				if ( false === $start ) {
+
+					$needle = html_entity_decode(
+						$needle,
+						ENT_QUOTES,
+						get_option( 'blog_charset' )
+					);
+
+					$start = mb_strpos( $string, $needle );
+				}
 
 				/*
 				 * `mb_strpos()` can return `false`. Only process `mb_substr_replace()` if position in string is found.
 				 */
 				if ( is_int( $start ) ) {
 
+					$length = mb_strlen( $needle );
 					$string = mb_substr_replace( $string, $replace[ $i ], $start, $length );
 				}
 
