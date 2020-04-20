@@ -803,6 +803,9 @@ class ezTOC_Post {
 			$return = str_replace( array( ':' ), '_', $return );
 			$return = str_replace( array( '.' ), ' ', $return );
 
+			// Do not allow these characters because some JS libraries just are dumb.
+			$return = str_replace( array( '#', '?' ), '', $return );
+
 			// Convert space characters to an `_` (underscore).
 			$return = preg_replace( '/\s+/', '_', $return );
 
@@ -992,7 +995,7 @@ class ezTOC_Post {
 					),
 					array(
 						'><span class="ez-toc-section" id="' . $anchor . '"></span>',
-						'</h' . $matches[ $i ][2] . '>'
+						'<span class="ez-toc-section-end"></span></h' . $matches[ $i ][2] . '>'
 					),
 					$matches[ $i ][0]
 				);
