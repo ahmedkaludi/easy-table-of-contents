@@ -216,7 +216,7 @@ add_action(
 //);
 
 /**
- * Callback the for `et_builder_render_layout`.
+ * Callback the for `et_builder_render_layout` filter.
  *
  * Attaches the ezTOC `the_content` filter callback to the Divi layout content filter so the in page anchors will be
  * added the post content.
@@ -232,6 +232,68 @@ add_filter(
 	array( 'ezTOC', 'the_content' ),
 	12,
 	1
+);
+
+/**
+ * Add support for the Uncode Theme.
+ *
+ * @link http://www.undsgn.com/
+ *
+ * @since 2.0.11
+ */
+add_action(
+	'after_setup_theme',
+	function() {
+
+		if ( function_exists( 'uncode_setup' ) ) {
+
+			/**
+			 * Callback the for `the_content` filter.
+			 *
+			 * Trick the theme into applying its content filter.
+			 *
+			 * In its page/post templates it applies `the_content` filter passing an empty string.
+			 * If the value passed pack is `null` of an empty string, the theme will not run its content filter.
+			 *
+			 * This simply wraps the page/post content in comment tags that way it is not possible to return empty
+			 * and its content filter will be run. Now ezTOC can hook into the theme's content filter to insert the TOC.
+			 *
+			 * @since 2.0.11
+			 */
+			add_filter(
+				'the_content',
+				function( $content ) {
+					return '<!-- <ezTOC> -->' . $content . '<!-- </ezTOC> -->';
+				},
+				9,
+				1
+			);
+
+			/**
+			 * Callback the for `uncode_single_content` filter.
+			 *
+			 * Need to texturize the page/post content first.
+			 *
+			 * @since 2.0.11
+			 */
+			add_filter(
+				'uncode_single_content',
+				function( $content ) {
+					return wptexturize( $content );
+				},
+				10,
+				1
+			);
+			add_filter(
+				'uncode_single_content',
+				array( 'ezTOC', 'the_content' ),
+				11,
+				1
+			);
+		}
+
+	},
+	11
 );
 
 /**
