@@ -517,3 +517,48 @@ class ezTOC_Elementor {
 }
 //new ezTOC_Elementor();
 add_action( 'elementor/init', array( 'ezTOC_Elementor', 'start' ) );
+
+
+/**
+ * Do not allow `the_content` TOC callback to run when on WooCommerce pages.
+ *
+ * @link https://docs.woocommerce.com/document/conditional-tags/
+ * @link https://wordpress.stackexchange.com/a/246525/59053
+ *
+ * @since 2.0.11
+ */
+add_filter(
+	'ez_toc_maybe_apply_the_content_filter',
+	function( $apply ) {
+
+		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins' ) );
+
+		// Just in case an array is not returned.
+		if ( ! is_array( $active_plugins ) ) {
+
+			$active_plugins = array();
+		}
+
+		$string = implode( '|', $active_plugins );
+
+		if ( FALSE !== stripos( $string, 'woocommerce.php' ) ) {
+
+			/** @noinspection PhpUndefinedFunctionInspection */
+			if ( is_woocommerce() ||
+			     is_shop() ||
+			     is_product_category() ||
+			     is_product_tag() ||
+			     is_cart() ||
+			     is_checkout() ||
+			     is_account_page() ||
+			     is_wc_endpoint_url()
+			) {
+
+				$apply = false;
+			}
+
+		}
+
+		return $apply;
+	}
+);
