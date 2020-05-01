@@ -253,7 +253,7 @@ add_action(
 			 * Trick the theme into applying its content filter.
 			 *
 			 * In its page/post templates it applies `the_content` filter passing an empty string.
-			 * If the value passed pack is `null` of an empty string, the theme will not run its content filter.
+			 * If the value passed pack is `null` or an empty string, the theme will not run its content filter.
 			 *
 			 * This simply wraps the page/post content in comment tags that way it is not possible to return empty
 			 * and its content filter will be run. Now ezTOC can hook into the theme's content filter to insert the TOC.
