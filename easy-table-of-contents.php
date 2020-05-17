@@ -399,6 +399,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			$enabled = in_array( $type, ezTOC_Option::get( 'enabled_post_types', array() ), true );
 			$insert  = in_array( $type, ezTOC_Option::get( 'auto_insert_post_types', array() ), true );
+			$protected = post_password_required($post->ID);
 
 			if ( $insert || $enabled ) {
 
@@ -417,6 +418,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					}
 
 				} else {
+
+					if ( $protected ) {
+
+						return false;
+					}
 
 					if ( $insert && 1 == get_post_meta( $post->ID, '_ez-toc-disabled', true ) ) {
 
