@@ -152,7 +152,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 			//$post->post_content = apply_filters( 'the_content', $post->post_content );
 			//add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
-			if ( $post->hasTOCItems() ) {
+			if ( $post->hasTOCItems() && !post_password_required($post->ID) ) {
 
 				/**
 				 * @var string $before_widget
