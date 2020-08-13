@@ -804,7 +804,7 @@ class ezTOC_Post {
 			$return = str_replace( array( '.' ), ' ', $return );
 
 			// Do not allow these characters because some JS libraries just are dumb.
-			$return = str_replace( array( '#', '?' ), '', $return );
+			$return = str_replace( array( '#', '?', '¿' ), '', $return );
 
 			// Convert space characters to an `_` (underscore).
 			$return = preg_replace( '/\s+/', '_', $return );
