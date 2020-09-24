@@ -517,7 +517,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			global $wp_current_filter;
 
 			// Do not execute if root current filter is one of those in the array.
-			if ( in_array( $wp_current_filter[0], array( 'get_the_excerpt', 'init', 'wp_head' ), true ) ) {
+			if ( ! empty( array_intersect( $wp_current_filter, array( 'get_the_excerpt', 'init', 'wp_head' ) ) ) ) {
 
 				$apply = false;
 			}
