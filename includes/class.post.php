@@ -797,7 +797,7 @@ class ezTOC_Post {
 
 			// remove non alphanumeric chars
 			//$return = preg_replace( '/[^a-zA-Z0-9 \-_]*/', '', $return );
-			$return = preg_replace( '/[\x00-\x1F\x7F\-_]*/u', '', $return );
+			$return = preg_replace( '/[\x00-\x1F\x7F]*/u', '', $return );
 
 			// AMP/Caching plugins seems to break URL with the following characters, so lets replace them.
 			$return = str_replace( array( ':' ), '_', $return );
