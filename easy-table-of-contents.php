@@ -108,7 +108,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			define( 'EZ_TOC_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );
 			define( 'EZ_TOC_BASE_NAME', plugin_basename( __FILE__ ) );
-			define( 'EZ_TOC_PATH', plugin_dir_path( __FILE__ ) );
+			define( 'EZ_TOC_PATH', dirname( __FILE__ ) );
 			define( 'EZ_TOC_URL', plugin_dir_url( __FILE__ ) );
 		}
 
@@ -121,20 +121,20 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		private static function includes() {
 
-			require_once( EZ_TOC_PATH . 'includes/class.options.php' );
+			require_once( EZ_TOC_PATH . '/includes/class.options.php' );
 
 			if ( is_admin() ) {
 
 				// This must be included after `class.options.php` because it depends on it methods.
-				require_once( EZ_TOC_PATH . 'includes/class.admin.php' );
+				require_once( EZ_TOC_PATH . '/includes/class.admin.php' );
 			}
 
-			require_once( EZ_TOC_PATH . 'includes/class.post.php' );
-			require_once( EZ_TOC_PATH . 'includes/class.widget-toc.php' );
-			require_once( EZ_TOC_PATH . 'includes/inc.functions.php' );
-			require_once( EZ_TOC_PATH . 'includes/inc.string-functions.php' );
+			require_once( EZ_TOC_PATH . '/includes/class.post.php' );
+			require_once( EZ_TOC_PATH . '/includes/class.widget-toc.php' );
+			require_once( EZ_TOC_PATH . '/includes/inc.functions.php' );
+			require_once( EZ_TOC_PATH . '/includes/inc.string-functions.php' );
 
-			require_once( EZ_TOC_PATH . 'includes/inc.plugin-compatibility.php' );
+			require_once( EZ_TOC_PATH . '/includes/inc.plugin-compatibility.php' );
 		}
 
 		/**
@@ -229,9 +229,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			wp_register_script(
 				'ez-toc-js',
-				EZ_TOC_URL . "assets/js/front$min.js",
+				EZ_TOC_URL . "assets/js/front{$min}.js",
 				array( 'jquery-smooth-scroll', 'js-cookie', 'jquery-sticky-kit' ),
-				ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "assets/js/front$min.js" ),
+				ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/front{$min}.js" ),
 				true
 			);
 

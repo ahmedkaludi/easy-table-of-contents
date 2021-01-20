@@ -443,7 +443,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 */
 		public function page() {
 
-			include EZ_TOC_PATH . 'includes/inc.admin-options-page.php';
+			include EZ_TOC_PATH . '/includes/inc.admin-options-page.php';
 		}
 	}
 
