@@ -809,12 +809,17 @@ class ezTOC_Post {
 			//$return = preg_replace( '/[^a-zA-Z0-9 \-_]*/', '', $return );
 			$return = preg_replace( '/[\x00-\x1F\x7F]*/u', '', $return );
 
+			// Reserved Characters.
+			//* ' ( ) ; : @ & = + $ , / ? # [ ]
+			$return = str_replace(
+				array( '*', '\'', '(', ')', ';', '@', '&', '=', '+', '$', ',', '/', '[', ']' ),
+				'',
+				$return
+			);
+
 			// AMP/Caching plugins seems to break URL with the following characters, so lets replace them.
 			$return = str_replace( array( ':' ), '_', $return );
 			$return = str_replace( array( '.' ), ' ', $return );
-
-			// Do not allow these characters because some JS libraries just are dumb.
-			$return = str_replace( array( '#', '?' ), '', $return );
 
 			// Convert space characters to an `_` (underscore).
 			$return = preg_replace( '/\s+/', '_', $return );
