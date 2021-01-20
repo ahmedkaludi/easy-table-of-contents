@@ -121,6 +121,7 @@ div.ez-toc-widget-container li {
 
 #ez-toc-container a {
 	color: #444444;
+	box-shadow: none;
 	text-decoration: none;
 	text-shadow: none;
 }
@@ -161,7 +162,9 @@ div.ez-toc-widget-container li {
 #ez-toc-container.counter-decimal ul.ez-toc-list li a::before,
 .ez-toc-widget-container.counter-decimal ul.ez-toc-list li a::before {
 	content: counters(item, ".") ". ";
+	display: inline-block;
 	counter-increment: item;
+	margin-right: .2em;
 }
 
 #ez-toc-container.counter-roman li a::before,
