@@ -658,6 +658,16 @@ class ezTOC_Post {
 
 					$heading = explode( '|', $headings[ $k ] );
 
+					/**
+					 * @link https://wordpress.org/support/topic/undefined-offset-1-home-blog-public-wp-content-plugins-easy-table-of-contents/
+					 */
+					if ( ! is_array( $heading) ||
+					     ! array_key_exists( 0, $heading ) ||
+					     ! array_key_exists( 1, $heading )
+					) {
+						continue;
+					}
+
 					if ( 0 < strlen( $heading[0] ) && 0 < strlen( $heading[1] ) ) {
 
 						$alternates[ $heading[0] ] = $heading[1];
