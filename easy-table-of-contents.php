@@ -611,6 +611,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					//$replace[0] = $html . $replace[0];
 					$content    = mb_find_replace( $find, $replace, $content );
 
+					/**
+					 * @link https://wordpress.org/support/topic/php-notice-undefined-offset-8/
+					 */
+					if ( ! array_key_exists( 0, $replace ) ) {
+						break;
+					}
+
 					$pattern = '`<h[1-6]{1}[^>]*' . preg_quote( $replace[0], '`' ) . '`msuU';
 					$result  = preg_match( $pattern, $content, $matches );
 
