@@ -1,13 +1,13 @@
 === Easy Table of Contents ===
 Contributors: shazahm1@hotmail.com
-Donate link: http://connections-pro.com/
+Donate link: https://connections-pro.com/
 Tags: table of contents, toc
-Requires at least: 5.2
-Tested up to: 5.4
+Requires at least: 5.3
+Tested up to: 5.6
 Requires PHP: 5.6.20
 Stable tag: 2.0.11
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
 
