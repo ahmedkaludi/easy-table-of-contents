@@ -124,6 +124,8 @@ jQuery( function( $ ) {
 			var toggle = $( 'a.ez-toc-toggle' );
 			var invert = ezTOC.visibility_hide_by_default;
 
+			toggle.css( 'display', 'inline' );
+
 			if ( Cookies ) {
 
 				Cookies.get( 'ezTOC_hidetoc' ) == 1 ? toggle.data( 'visible', false ) : toggle.data( 'visible', true );
