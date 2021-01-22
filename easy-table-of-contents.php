@@ -580,9 +580,26 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return $content;
 			}
 
+			$debug   = '';
 			$find    = $post->getHeadings();
 			$replace = $post->getHeadingsWithAnchors();
 			$html    = $post->getTOC();
+
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+
+				$headings = implode( PHP_EOL, $find );
+				$anchors  = implode( PHP_EOL, $replace );
+
+				$headingRows = count( $find ) + 1;
+				$anchorRows  = count( $replace ) + 1;
+
+				$displayDebug = defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ? 'block' : 'none';
+
+				$style = "background-image: linear-gradient(#F1F1F1 50%, #F9F9F9 50%); background-size: 100% 4em; border: 1px solid #CCC; display: {$displayDebug}; font-family: monospace; font-size: 1em; line-height: 2em; margin: 0 auto; overflow: auto; padding: 0 8px 4px; white-space: nowrap; width: 100%;";
+
+				$debug .= "<textarea rows='{$headingRows}' style='{$style}' wrap='soft'>{$headings}</textarea>";
+				$debug .= "<textarea rows='{$anchorRows}' style='{$style}' wrap='soft'>{$anchors}</textarea>";
+			}
 
 			// if shortcode used or post not eligible, return content with anchored headings
 			if ( strpos( $content, 'ez-toc-container' ) || ! $is_eligible ) {
@@ -638,7 +655,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					}
 			}
 
-			return $content;
+			return $content . $debug;
 		}
 
 	} // end class
