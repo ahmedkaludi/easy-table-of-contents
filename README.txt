@@ -89,6 +89,18 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.12 01/22/2021 =
+* TWEAK: Allow `_` and `-` in anchors.
+* TWEAK: Minor CSS tweaks that prevent theme from breaking the layout.
+* TWEAK: Minor tweak to class initialization.
+* TWEAK: Do not display the view toggle if JavaScript is broken on the site.
+* TWEAK: Add the ability to enable displaying of displaying debug information on the page.
+* BUG: Check for array and keys before accessing values.
+* BUG: Check for array key be fore access.
+* BUG: Remove reserved characters when generating in-page anchor IDs.
+* DEV: Remove unnecessary vendor library files.
+* DEV: Deal with phpStorm showing a warning about path not found when including files.
+
 = 2.0.11 05/01/2020 =
 * COMPATIBILITY: Add support for the Uncode theme.
 * COMPATIBILITY: Do not run on WooCommerce pages.
@@ -415,3 +427,6 @@ Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
 
 = 2.0.11 =
 Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
+
+= 2.0.11 =
+Requires WordPress >= 5.3 and PHP version >= 5.6.20 (>= 7.4 is recommended).
