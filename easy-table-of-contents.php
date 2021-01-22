@@ -83,9 +83,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function instance() {
 
-			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof ezTOC ) ) {
+			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {
 
-				self::$instance = new ezTOC();
+				self::$instance = new self;
 
 				self::defineConstants();
 				self::includes();
