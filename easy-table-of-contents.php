@@ -546,9 +546,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * This will add the inline table of contents page anchors to the post content. It will also insert the
 		 * table of contents inline with the post content as defined by the user defined preference.
 		 *
-		 * @access private
-		 * @since  1.0
-		 * @static
+		 * @since 1.0
 		 *
 		 * @param string $content
 		 *
