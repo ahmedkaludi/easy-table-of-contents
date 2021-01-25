@@ -29,6 +29,7 @@
  * @version  2.0.12
  */
 
+use Easy_Plugins\Table_Of_Contents\Debug;
 use function Easy_Plugins\Table_Of_Contents\String\mb_find_replace;
 
 // Exit if accessed directly
@@ -131,6 +132,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			require_once( EZ_TOC_PATH . '/includes/class.post.php' );
 			require_once( EZ_TOC_PATH . '/includes/class.widget-toc.php' );
+			require_once( EZ_TOC_PATH . '/includes/Debug.php' );
 			require_once( EZ_TOC_PATH . '/includes/inc.functions.php' );
 			require_once( EZ_TOC_PATH . '/includes/inc.string-functions.php' );
 
@@ -554,70 +556,91 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function the_content( $content ) {
 
-			if ( ! self::maybeApplyTheContentFilter() ) {
+			$log = new Debug();
 
-				return $content;
+			$maybeApplyFilter = self::maybeApplyTheContentFilter();
+
+			$log->add( 'the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter );
+
+			if ( ! $maybeApplyFilter ) {
+
+				return $log->appendTo( $content );
 			}
 
-			// bail if post not eligible and widget is not active
-			$is_eligible = self::is_eligible( get_post() );
+			// Bail if post not eligible and widget is not active.
+			$isEligible = self::is_eligible( get_post() );
 
-			if ( ! $is_eligible && ! is_active_widget( false, false, 'ezw_tco' ) ) {
+			$log->add( 'post_eligible', 'Post eligible.', $isEligible );
 
-				return $content;
+			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) ) {
+
+				return $log->appendTo( $content );
 			}
 
-			if ( is_null( $post = self::get( get_the_ID() ) ) ) {
+			$post = self::get( get_the_ID() );
 
-				return $content;
+			if ( ! $post instanceof ezTOC_Post ) {
+
+				$log->add( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
+
+				return $log->appendTo( $content );
 			}
 
-			// bail if no headings found
+			// Bail if no headings found.
 			if ( ! $post->hasTOCItems() ) {
 
 				return $content;
 			}
 
-			$debug   = '';
 			$find    = $post->getHeadings();
 			$replace = $post->getHeadingsWithAnchors();
-			$html    = $post->getTOC();
+			$toc     = $post->getTOC();
 
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			$headings = implode( PHP_EOL, $find );
+			$anchors  = implode( PHP_EOL, $replace );
 
-				$headings = implode( PHP_EOL, $find );
-				$anchors  = implode( PHP_EOL, $replace );
+			$headingRows = count( $find ) + 1;
+			$anchorRows  = count( $replace ) + 1;
 
-				$headingRows = count( $find ) + 1;
-				$anchorRows  = count( $replace ) + 1;
+			$style = "background-image: linear-gradient(#F1F1F1 50%, #F9F9F9 50%); background-size: 100% 4em; border: 1px solid #CCC; font-family: monospace; font-size: 1em; line-height: 2em; margin: 0 auto; overflow: auto; padding: 0 8px 4px; white-space: nowrap; width: 100%;";
 
-				$displayDebug = defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ? 'block' : 'none';
+			$log->add(
+				'found_post_headings',
+				'Found headings:',
+				"<textarea rows='{$headingRows}' style='{$style}' wrap='soft'>{$headings}</textarea>"
+			);
 
-				$style = "background-image: linear-gradient(#F1F1F1 50%, #F9F9F9 50%); background-size: 100% 4em; border: 1px solid #CCC; display: {$displayDebug}; font-family: monospace; font-size: 1em; line-height: 2em; margin: 0 auto; overflow: auto; padding: 0 8px 4px; white-space: nowrap; width: 100%;";
+			$log->add(
+				'replace_post_headings',
+				'Replace found headings with:',
+				"<textarea rows='{$anchorRows}' style='{$style}' wrap='soft'>{$anchors}</textarea>"
+			);
 
-				$debug .= "<textarea rows='{$headingRows}' style='{$style}' wrap='soft'>{$headings}</textarea>";
-				$debug .= "<textarea rows='{$anchorRows}' style='{$style}' wrap='soft'>{$anchors}</textarea>";
-			}
+			// If shortcode used or post not eligible, return content with anchored headings.
+			if ( strpos( $content, 'ez-toc-container' ) || ! $isEligible ) {
 
-			// if shortcode used or post not eligible, return content with anchored headings
-			if ( strpos( $content, 'ez-toc-container' ) || ! $is_eligible ) {
+				$log->add( 'shortcode_found', 'Shortcode found, add links to content.', true );
 
 				return mb_find_replace( $find, $replace, $content );
 			}
 
+			$position = ezTOC_Option::get( 'position' );
+
+			$log->add( 'toc_insert_position', 'Insert TOC at position', $position );
+
 			// else also add toc to content
-			switch ( ezTOC_Option::get( 'position' ) ) {
+			switch ( $position ) {
 
 				case 'top':
-					$content = $html . mb_find_replace( $find, $replace, $content );
+					$content = $toc . mb_find_replace( $find, $replace, $content );
 					break;
 
 				case 'bottom':
-					$content = mb_find_replace( $find, $replace, $content ) . $html;
+					$content = mb_find_replace( $find, $replace, $content ) . $toc;
 					break;
 
 				case 'after':
-					$replace[0] = $replace[0] . $html;
+					$replace[0] = $replace[0] . $toc;
 					$content    = mb_find_replace( $find, $replace, $content );
 					break;
 
@@ -642,10 +665,14 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					 */
 					if ( 1 === $result ) {
 
+						$log->add( 'toc_insert_position_found', 'Insert TOC before first eligible heading.', $result );
+
 						$start   = strpos( $content, $matches[0] );
-						$content = substr_replace( $content, $html, $start, 0 );
+						$content = substr_replace( $content, $toc, $start, 0 );
 
 					} else {
+
+						$log->add( 'toc_insert_position_not_found', 'Insert TOC before first eligible heading not found.', $result );
 
 						// Somehow, there are scenarios where the processing get this far and
 						// the TOC is being added to pages where it should not. Disable for now.
@@ -653,10 +680,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					}
 			}
 
-			return $content . $debug;
+			return $log->appendTo( $content );
 		}
 
-	} // end class
+	}
 
 	/**
 	 * The main function responsible for returning the Easy Table of Contents instance to functions everywhere.
