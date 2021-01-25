@@ -4,11 +4,34 @@ namespace Easy_Plugins\Table_Of_Contents;
 
 use WP_Error;
 
+/**
+ * Class Debug
+ *
+ * @package Easy_Plugins\Table_Of_Contents
+ */
 final class Debug extends WP_Error {
 
+	/**
+	 * @since 2.0.13
+	 * @var bool
+	 */
 	protected $display = false;
+
+	/**
+	 * @since 2.0.13
+	 * @var bool
+	 */
 	protected $enabled = false;
 
+	/**
+	 * Debug constructor.
+	 *
+	 * @since 2.0.13
+	 *
+	 * @param string $code
+	 * @param string $message
+	 * @param string $data
+	 */
 	public function __construct( $code = '', $message = '', $data = '' ) {
 
 		$this->display = defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY;
@@ -20,11 +43,23 @@ final class Debug extends WP_Error {
 		parent::__construct( $code, $message, $data );
 	}
 
+	/**
+	 * @since 2.0.13
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 */
 	public function appendTo( $content = '' ) {
 
 		return $content . $this;
 	}
 
+	/**
+	 * @since 2.0.13
+	 *
+	 * @return string
+	 */
 	public function dump() {
 
 		$dump = array();
@@ -44,6 +79,11 @@ final class Debug extends WP_Error {
 		return '<div class="ez-toc-debug-message">' . implode( '</div>' . PHP_EOL . '<div class="ez-toc-debug-message">', $dump ) . '</div>' . PHP_EOL;
 	}
 
+	/**
+	 * @since 2.0.13
+	 *
+	 * @return string
+	 */
 	public function __toString() {
 
 		if ( ! $this->enabled ) {
