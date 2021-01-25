@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 5.6
 Requires PHP: 5.6.20
-Stable tag: 2.0.12
+Stable tag: 2.0.13
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
