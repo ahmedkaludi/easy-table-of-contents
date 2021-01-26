@@ -89,6 +89,11 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.14 01/26/2021 =
+* TWEAK: Refactor debug log as a Singleton.
+* TWEAK: Add additional logging to aid in debugging.
+* BUG: Correct logic for PHP where empty string no longer evaluates as integer `0`.
+
 = 2.0.13 01/25/2021 =
 * TWEAK: Restrict debug logging to when `WP_DEBUG` is enabled *and* current user capability of `manage_options`.
 * TWEAK: Add logging to aid in support.
@@ -437,4 +442,7 @@ Requires WordPress >= 5.0 and PHP version >= 5.6.20 (>= 7.1 is recommended).
 Requires WordPress >= 5.3 and PHP version >= 5.6.20 (>= 7.4 is recommended).
 
 = 2.0.13 =
+Requires WordPress >= 5.3 and PHP version >= 5.6.20 (>= 7.4 is recommended).
+
+= 2.0.14 =
 Requires WordPress >= 5.3 and PHP version >= 5.6.20 (>= 7.4 is recommended).
