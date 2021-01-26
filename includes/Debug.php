@@ -24,6 +24,11 @@ final class Debug extends WP_Error {
 	protected $enabled = false;
 
 	/**
+	 * @var self
+	 */
+	private static $instance;
+
+	/**
 	 * Debug constructor.
 	 *
 	 * @since 2.0.13
@@ -34,13 +39,74 @@ final class Debug extends WP_Error {
 	 */
 	public function __construct( $code = '', $message = '', $data = '' ) {
 
-		$this->display = defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY;
-		$this->enabled = apply_filters(
-			'Easy_Plugins/Table_Of_Contents/Debug/Enabled',
-			( defined( 'WP_DEBUG' ) && WP_DEBUG ) && current_user_can( 'manage_options' )
-		);
-
 		parent::__construct( $code, $message, $data );
+	}
+
+	/**
+	 * @since 2.0.14
+	 *
+	 * @param string $code
+	 * @param string $message
+	 * @param string $data
+	 *
+	 * @return Debug
+	 */
+	public static function log( $code = '', $message = '', $data = '' ) {
+
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {
+
+			self::$instance = new self( $code, $message, $data );
+
+			self::$instance->display = apply_filters(
+				'Easy_Plugins/Table_Of_Contents/Debug/Display',
+				defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY
+			);
+
+			self::$instance->enabled = apply_filters(
+				'Easy_Plugins/Table_Of_Contents/Debug/Enabled',
+				( defined( 'WP_DEBUG' ) && WP_DEBUG ) && current_user_can( 'manage_options' )
+			);
+
+		} else {
+
+			if ( ! empty( $code ) && ! empty( $message ) ) {
+
+				self::$instance->add( $code, $message, $data );
+			}
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Adds an error or appends an additional message to an existing error.
+	 *
+	 * NOTE: Overrides WP_Error::add() to allow support of passing `false` as `$data`.
+	 *
+	 * @since 2.0.14
+	 *
+	 * @param string|int $code    Error code.
+	 * @param string     $message Error message.
+	 * @param mixed      $data    Optional. Error data.
+	 */
+	public function add( $code, $message, $data = null ) {
+		$this->errors[ $code ][] = $message;
+
+		if ( ! is_null( $data ) ) {
+			$this->add_data( $data, $code );
+		}
+
+		/**
+		 * Fires when an error is added to a WP_Error object.
+		 *
+		 * @since 5.6.0
+		 *
+		 * @param string|int $code     Error code.
+		 * @param string     $message  Error message.
+		 * @param mixed      $data     Error data. Might be empty.
+		 * @param WP_Error   $wp_error The WP_Error object.
+		 */
+		do_action( 'wp_error_added', $code, $message, $data, $this );
 	}
 
 	/**
@@ -86,7 +152,12 @@ final class Debug extends WP_Error {
 	 */
 	public function __toString() {
 
-		if ( ! $this->enabled ) {
+		if ( false === $this->enabled ) {
+
+			return '';
+		}
+
+		if ( false === $this->display ) {
 
 			return '';
 		}
@@ -102,10 +173,8 @@ final class Debug extends WP_Error {
 		);
 
 		$intro = PHP_EOL . "<p>{$intro}</p>" .PHP_EOL;
+		$dump  = $this->dump();
 
-		$display = $this->display ? 'block' : 'none';
-		$dump    = $this->dump();
-
-		return PHP_EOL . "<div class='ez-toc-debug-messages' style='display: block;'>{$intro}{$dump}</div>" . PHP_EOL;
+		return PHP_EOL . "<div class='ez-toc-debug-messages'>{$intro}{$dump}</div>" . PHP_EOL;
 	}
 }
