@@ -1361,10 +1361,10 @@ class ezTOC_Post {
 
 		} elseif ( 1 === $page ) {
 
-			return $this->permalink . '#' . $id;
+			return trailingslashit( $this->permalink ) . '#' . $id;
 
 		}
 
-		return $this->permalink . $page . '/#' . $id;
+		return trailingslashit( $this->permalink ) . $page . '/#' . $id;
 	}
 }
