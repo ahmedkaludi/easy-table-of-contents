@@ -89,6 +89,9 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.15 01/27/2021 =
+* TWEAK: Remove additional reserved characters when generating in-page anchor IDs.
+
 = 2.0.14 01/26/2021 =
 * TWEAK: Refactor debug log as a Singleton.
 * TWEAK: Add additional logging to aid in debugging.
@@ -445,4 +448,7 @@ Requires WordPress >= 5.3 and PHP version >= 5.6.20 (>= 7.4 is recommended).
 Requires WordPress >= 5.3 and PHP version >= 5.6.20 (>= 7.4 is recommended).
 
 = 2.0.14 =
+Requires WordPress >= 5.3 and PHP version >= 5.6.20 (>= 7.4 is recommended).
+
+= 2.0.15 =
 Requires WordPress >= 5.3 and PHP version >= 5.6.20 (>= 7.4 is recommended).
