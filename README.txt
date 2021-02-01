@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 5.6
 Requires PHP: 5.6.20
-Stable tag: 2.0.15
+Stable tag: 2.0.16
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,9 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.16 02/01/2021 =
+* TWEAK: Remove special characters such as fancy quotes, en and, em dashes when generating in-page anchor IDs.
 
 = 2.0.15 01/27/2021 =
 * TWEAK: Remove additional reserved characters when generating in-page anchor IDs.
@@ -451,4 +454,7 @@ Requires WordPress >= 5.3 and PHP version >= 5.6.20 (>= 7.4 is recommended).
 Requires WordPress >= 5.3 and PHP version >= 5.6.20 (>= 7.4 is recommended).
 
 = 2.0.15 =
+Requires WordPress >= 5.3 and PHP version >= 5.6.20 (>= 7.4 is recommended).
+
+= 2.0.16 =
 Requires WordPress >= 5.3 and PHP version >= 5.6.20 (>= 7.4 is recommended).
