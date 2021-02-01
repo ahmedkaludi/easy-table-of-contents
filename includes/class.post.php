@@ -810,19 +810,54 @@ class ezTOC_Post {
 			$return = preg_replace( '/[\x00-\x1F\x7F]*/u', '', $return );
 
 			// Reserved Characters.
-			//* ' ( ) ; : @ & = + $ , / ? # [ ]
+			// * ' ( ) ; : @ & = + $ , / ? # [ ]
 			$return = str_replace(
 				array( '*', '\'', '(', ')', ';', '@', '&', '=', '+', '$', ',', '/', '?', '#', '[', ']' ),
 				'',
 				$return
 			);
 
+			// Unsafe Characters.
+			// % { } | \ ^ ~ [ ] `
+			$return = str_replace(
+				array( '%', '{', '}', '|', '\\', '^', '~', '[', ']', '`' ),
+				'',
+				$return
+			);
+
+			// Special Characters.
+			// $ - _ . + ! * ' ( ) ,
+			$return = str_replace(
+				array( '$', '.', '+', '!', '*', '\'', '(', ')', ',' ),
+				'',
+				$return
+			);
+
+			// Dashes
+			// Special Characters.
+			// - (minus) - (dash) – (en dash) — (em dash)
+			$return = str_replace(
+				array( '-', '-', '–', '—' ),
+				'-',
+				$return
+			);
+
+			// Curley quotes.
+			// ‘ (curly single open quote) ’ (curly single close quote) “ (curly double open quote) ” (curly double close quote)
+			$return = str_replace(
+				array( '‘', '’', '“', '”' ),
+				'',
+				$return
+			);
+
 			// AMP/Caching plugins seems to break URL with the following characters, so lets replace them.
 			$return = str_replace( array( ':' ), '_', $return );
-			$return = str_replace( array( '.' ), ' ', $return );
 
 			// Convert space characters to an `_` (underscore).
 			$return = preg_replace( '/\s+/', '_', $return );
+
+			// Replace multiple `-` (hyphen) with a single `-` (hyphen).
+			$return = preg_replace( '/-+/', '-', $return );
 
 			// Replace multiple `_` (underscore) with a single `_` (underscore).
 			$return = preg_replace( '/_+/', '_', $return );
@@ -864,7 +899,7 @@ class ezTOC_Post {
 			if ( ezTOC_Option::get( 'hyphenate' ) ) {
 
 				$return = str_replace( '_', '-', $return );
-				$return = str_replace( '--', '-', $return );
+				$return = preg_replace( '/-+/', '-', $return );
 			}
 		}
 
