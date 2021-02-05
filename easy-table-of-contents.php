@@ -470,7 +470,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 *
 		 * @since 2.0
 		 *
-		 * @param int $id
+		 * @param int $id post ID
 		 *
 		 * @return ezTOC_Post|null
 		 */
@@ -484,7 +484,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			} else {
 
-				$post = ezTOC_Post::get( get_the_ID() );
+				$post_id = ! empty( $id ) ? $id : get_the_ID();
+
+				$post = ezTOC_Post::get( $post_id );
 
 				if ( $post instanceof ezTOC_Post ) {
 
@@ -511,12 +513,14 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function shortcode( $atts, $content, $tag ) {
 
+			$post_id = isset( $atts['post_id'] ) ? (int) $atts['post_id'] : get_the_ID();
+
 			static $run = true;
 			$html = '';
 
 			if ( $run ) {
 
-				$post = self::get( get_the_ID() );
+				$post = self::get( $post_id );
 
 				if ( ! $post instanceof ezTOC_Post ) {
 
