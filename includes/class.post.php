@@ -1293,7 +1293,7 @@ class ezTOC_Post {
 					for ( $current_depth; $current_depth < (int) $matches[ $i ][2]; $current_depth++ ) {
 
 						$numbered_items[ $current_depth + 1 ] = 0;
-						$html .= '<ul class="ez-toc-list-level-' . $level . '"><li class="ez-toc-heading-level-' . $level . '">';
+						$html .= '<ul class="ez-toc-list ez-toc-list-level-' . $level . '"><li class="ez-toc-heading-level-' . $level . '">';
 					}
 				}
 
