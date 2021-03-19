@@ -145,6 +145,11 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 			//$post = ezTOC_Post::get( get_the_ID() );//->applyContentFilter()->process();
 			$post = ezTOC::get( get_the_ID() );
 
+			/**
+			 * @link https://wordpress.org/support/topic/fatal-error-when-trying-to-access-widget-area/
+			 */
+			if ( ! $post instanceof ezTOC_Post ) return;
+
 			/*
 			 * Ensure the ezTOC content filter is not applied when running `the_content` filter.
 			 */
