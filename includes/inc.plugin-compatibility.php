@@ -541,7 +541,7 @@ add_filter(
 
 		$string = implode( '|', $active_plugins );
 
-		if ( FALSE !== stripos( $string, 'woocommerce.php' ) ) {
+		if ( class_exists( 'WooCommerce' ) && FALSE !== stripos( $string, 'woocommerce.php' ) ) {
 
 			/** @noinspection PhpUndefinedFunctionInspection */
 			if ( is_woocommerce() ||
