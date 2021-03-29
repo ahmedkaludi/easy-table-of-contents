@@ -206,7 +206,7 @@ function force_balance_tags( $text ) {
  *
  * @return array|string
  */
-if ( ! function_exists( 'mb_substr_replace' ) ) :
+if ( ! function_exists( __NAMESPACE__ . '\mb_substr_replace' ) ) :
 function mb_substr_replace( $string, $replacement, $start, $length = null ) {
 
 	if ( is_array( $string ) ) {
@@ -325,7 +325,7 @@ function _mb_substr_replace( $string, $replacement, $start, $length = null, $enc
  *
  * @return mixed|string
  */
-if ( ! function_exists( 'mb_find_replace' ) ) :
+if ( ! function_exists( __NAMESPACE__ . '\mb_find_replace' ) ) :
 function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 
 	if ( is_array( $find ) && is_array( $replace ) && $string ) {
