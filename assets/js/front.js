@@ -53,7 +53,7 @@ jQuery( function( $ ) {
 			$( 'a.ez-toc-link' ).on( 'click', function(e) {
 
 				e.preventDefault();
-				
+
 				var self = $( this );
 
 				var target = '';
