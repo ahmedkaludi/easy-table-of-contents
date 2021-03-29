@@ -206,6 +206,7 @@ function force_balance_tags( $text ) {
  *
  * @return array|string
  */
+if ( ! function_exists( 'mb_substr_replace' ) ) :
 function mb_substr_replace( $string, $replacement, $start, $length = null ) {
 
 	if ( is_array( $string ) ) {
@@ -253,6 +254,7 @@ function mb_substr_replace( $string, $replacement, $start, $length = null ) {
 
 	return join( $smatches[0] );
 }
+endif;
 
 /**
  * Returns a string with all items from the $find array replaced with their matching
@@ -270,6 +272,7 @@ function mb_substr_replace( $string, $replacement, $start, $length = null ) {
  *
  * @return mixed|string
  */
+if ( ! function_exists( 'mb_find_replace' ) ) :
 function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 
 	if ( is_array( $find ) && is_array( $replace ) && $string ) {
@@ -340,3 +343,4 @@ function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 
 	return $string;
 }
+endif;
