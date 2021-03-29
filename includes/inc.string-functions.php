@@ -257,6 +257,59 @@ function mb_substr_replace( $string, $replacement, $start, $length = null ) {
 endif;
 
 /**
+ * Potential more performant replacement for @see mb_substr_replace()
+ *
+ * @link https://wordpress.org/support/topic/mb_substr_replace-kills-php/
+ *
+ * @param        $string
+ * @param        $replacement
+ * @param        $start
+ * @param null   $length
+ * @param string $encoding
+ *
+ * @return string|string[]
+ */
+function _mb_substr_replace( $string, $replacement, $start, $length = null, $encoding = 'UTF-8' ) {
+
+	if ( true === extension_loaded( 'mbstring' ) ) {
+
+		$string_length = ( true === is_null( $encoding ) ) ? mb_strlen( $string ) : mb_strlen( $string, $encoding );
+
+		if ( $start < 0 ) {
+
+			$start = max( 0, $string_length + $start );
+
+		} elseif ( $start > $string_length ) {
+
+			$start = $string_length;
+		}
+
+		if ( $length < 0 ) {
+
+			$length = max( 0, $string_length - $start + $length );
+
+		} elseif ( true === ( is_null( $length ) ) || ( $length > $string_length ) ) {
+
+			$length = $string_length;
+		}
+
+		if ( ( $start + $length ) > $string_length ) {
+
+			$length = $string_length - $start;
+		}
+
+		if ( true === is_null( $encoding ) ) {
+
+			return mb_substr( $string, 0, $start ) . $replacement . mb_substr( $string, $start + $length, $string_length - $start - $length );
+		}
+
+		return mb_substr( $string, 0, $start, $encoding ) . $replacement . mb_substr( $string, $start + $length, $string_length - $start - $length, $encoding );
+	}
+
+	return ( true === is_null( $length ) ) ? substr_replace( $string, $replacement, $start ) : substr_replace( $string, $replacement, $start, $length );
+}
+
+/**
  * Returns a string with all items from the $find array replaced with their matching
  * items in the $replace array.  This does a one to one replacement (rather than globally).
  *
