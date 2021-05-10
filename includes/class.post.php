@@ -1371,7 +1371,7 @@ class ezTOC_Post {
 		return sprintf(
 			'<a class="ez-toc-link ez-toc-heading-' . $count . '" href="%1$s" title="%2$s">%3$s</a>',
 			esc_attr( $this->createTOCItemURL( $id, $page ) ),
-			esc_attr( strip_tags( $title ) ),
+			apply_filters( 'ez_toc_title_attribute', esc_attr( strip_tags( $title ) ) ),
 			$title
 		);
 	}
