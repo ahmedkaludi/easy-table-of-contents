@@ -1392,7 +1392,7 @@ class ezTOC_Post {
 
 		if ( $page === $current_page && $current_post ) {
 
-			return '#' . $id;
+			return (ezTOC_Option::get( 'add_request_uri' ) ? $_SERVER['REQUEST_URI'] : '') . '#' . $id;
 
 		} elseif ( 1 === $page ) {
 
