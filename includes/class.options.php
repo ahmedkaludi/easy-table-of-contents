@@ -266,6 +266,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => true,
 						),
+						'show_hide_html' => array(
+							'id' => 'show_hide_html',
+							'name' => __( 'Toggle with HTML', 'easy-table-of-contents' ),
+							'desc' => 'Expanding and collapsing natively in the browser without need for a third parties ( This is for websites which runs without jQuery )',
+							'type' => 'checkbox',
+							'default' => false,
+						),
 					)
 				),
 				'appearance' => apply_filters(
@@ -574,6 +581,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'smooth_scroll_offset'               => 30,
 				'mobile_smooth_scroll_offset'        => 0,
 				'visibility'                         => true,
+				'show_hide_html'                     => false,
 				//'visibility_show'                    => 'show',
 				//'visibility_hide'                    => 'hide',
 				'visibility_hide_by_default'         => false,
