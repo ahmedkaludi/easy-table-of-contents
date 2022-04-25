@@ -389,6 +389,10 @@ You are not limited to a single a single nested item either. You can add as many
 
 You can nest up 6 levels deep if needed. I hope this helps you understand how to create and build your own auto generated table of contents on your sites!
 
+= Is there any shortcode to add the table of content to anywhere I want ? =
+
+Yes you can add the TOC with this shortcode – [ez-toc] and with the help of this you can easily add the TOC in the content or anywhere in the WordPress and if you want to add the shortcode on the theme file then you can add it with the help of this code – <?php echo do_shortcode( ‘[ez-toc]’ ); ?> and with this, you can add the TOC on any file according to your need.
+
 == Upgrade Notice ==
 
 = 1.0 =
