@@ -361,7 +361,7 @@ function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 						ENT_QUOTES,
 						get_option( 'blog_charset' )
 					);
-
+					$needle = str_replace(array('’','“','”'), array('\'','"','"'), $needle);
 					$start = mb_strpos( $string, $needle );
 				}
 
