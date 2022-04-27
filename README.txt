@@ -36,6 +36,8 @@ A user friendly, featured focused plugin which allows you to insert a table of c
 * The widget auto highlights the sections currently visible on the page. The highlight color is configurable.
 * Developer friendly with many action hooks and filters available. More can be added by request on [Github](https://github.com/shazahm1/Easy-Table-of-Contents). Pull requests are welcomed.
 
+**[JOIN CHAT GROUP COMMUNITY](https://t.me/+XADGN24lHNk0YjE1/)**: Purpose of this group is to get proper suggestions and feedback from plugin users and the community so that we can make the plugin even better.
+
 = Live Examples =
 
 Here are links to documentation pages for several of the premium templates for the [Connections Business Directory plugin](https://wordpress.org/plugins/connections/) which utilize the widget included with this plugin:
