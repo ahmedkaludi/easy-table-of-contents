@@ -168,7 +168,7 @@ final class Debug extends WP_Error {
 		}
 
 		$intro = sprintf(
-			'You are seeing the following because <a href="%1$s"><code>WP_DEBUG</code></a> and <a href="%1$s"><code>WP_DEBUG_DISPLAY</code></a> are enabled on this site. Please disable them to prevent these developer debug messages from displaying.',
+			'You see the following because <a href="%1$s"><code>WP_DEBUG</code></a> and <a href="%1$s"><code>WP_DEBUG_DISPLAY</code></a> are enabled on this site. Please disabled these to prevent the display of these developers\' debug messages.',
 			'https://codex.wordpress.org/WP_DEBUG'
 		);
 

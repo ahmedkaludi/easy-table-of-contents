@@ -1,11 +1,11 @@
 === Easy Table of Contents ===
-Contributors: shazahm1@hotmail.com
-Donate link: https://connections-pro.com/
+Contributors: magazine3
+Donate link: https://magazine3.company/
 Tags: table of contents, toc
 Requires at least: 5.3
-Tested up to: 5.7
+Tested up to: 5.9.3
 Requires PHP: 5.6.20
-Stable tag: 2.0.17
+Stable tag: 2.0.19
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,7 +15,7 @@ Adds a user friendly and fully automatic way to create and display a table of co
 
 A user friendly, featured focused plugin which allows you to insert a table of contents into your posts, pages and custom post types.
 
-= Features =
+### Features 
 * Automatically generate a table of contents for your posts, pages and custom post types by parsing its contents for headers.
 * Supports the `<!--nextpage-->` tag.
 * Supports the Rank Math plugin.
@@ -36,31 +36,37 @@ A user friendly, featured focused plugin which allows you to insert a table of c
 * The widget auto highlights the sections currently visible on the page. The highlight color is configurable.
 * Developer friendly with many action hooks and filters available. More can be added by request on [Github](https://github.com/shazahm1/Easy-Table-of-Contents). Pull requests are welcomed.
 
-= Live Examples =
+### Support
 
-Here are links to documentation pages for several of the premium templates for the [Connections Business Directory plugin](https://wordpress.org/plugins/connections/) which utilize the widget included with this plugin:
+We try our best to provide support on WordPress.org forums. However, We have a special [team support](https://magazine3.company/contact/) where you can ask us questions and get help. Delivering a good user experience means a lot to us and so we try our best to reply each and every question that gets asked.
+
+### Bug Reports
+
+Bug reports for Easy Table of Contents are [welcomed on GitHub](https://github.com/ahmedkaludi/Easy-Table-of-Contents). Please note GitHub is not a support forum, and issues that aren't properly qualified as bugs will be closed.
+
+### Live Examples
 
 * [cMap Template Docs](http://connections-pro.com/documentation/cmap/)
 * [Circled Template Docs](http://connections-pro.com/documentation/circled/)
 * [Gridder Template Docs](http://connections-pro.com/documentation/gridder/)
 
-= Roadmap =
+### Roadmap 
 * Fragment caching for improved performance.
 * Improve SEO by adding options to add nofollow to TOC link and wrap TOC nav in noindex tag.
 * Improve accessibility.
 * Add Bullet and Arrow options for list counter style.
 
-= Credit =
+### Credit 
 
 Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://wordpress.org/plugins/table-of-contents-plus/) plugin by [Michael Tran](http://dublue.com/plugins/toc/).
 
-== Screenshots ==
+### Screenshots 
 
 1. The General section of the settings.
 2. The Appearance section of the settings.
 3. The Advanced section of the settings.
 
-== Installation ==
+### Installation 
 
 = Using the WordPress Plugin Search =
 
@@ -88,6 +94,13 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.19 04/16/2022 =
+* Bug Fixed : While Using Elementor Page builder TOC is not working when special characters are used in headings. #150
+* Bug Fixed : Need to load CSS/JS files only on the selected post types. #154
+
+= 2.0.18 03/29/2022 =
+* TWEAK: Added Technical Support Tab in Settings Panel.
 
 = 2.0.17 03/26/2021 =
 * TWEAK: Add additional check to prevent `Uncaught Error: Call to undefined function is_woocommerce()`.

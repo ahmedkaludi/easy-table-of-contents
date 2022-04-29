@@ -36,6 +36,8 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			add_action( 'admin_menu', array( $this, 'menu' ) );
 			add_action( 'init', array( $this, 'registerMetaboxes' ), 99 );
 			add_filter( 'plugin_action_links_' . EZ_TOC_BASE_NAME, array( $this, 'pluginActionLinks' ), 10, 2 );
+			add_action( 'admin_enqueue_scripts', array( $this, 'load_scripts' ) );
+			add_action('wp_ajax_eztoc_send_query_message', array( $this, 'eztoc_send_query_message'));
 		}
 
 		/**
@@ -432,6 +434,121 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 
 			}
 
+		}
+
+          
+	     /**
+	     * Enqueue Admin js scripts
+	     *
+	     */
+		public function load_scripts($pagenow){
+
+			if (isset($pagenow) && $pagenow != 'settings_page_table-of-contents' && strpos($pagenow, 'table-of-contents') == false) {
+                
+                return false;
+             }
+
+			  wp_enqueue_script( 'eztoc-admin-js', EZ_TOC_URL . 'assets/js/eztoc-admin.js',array('jquery'), ezTOC::VERSION,true );
+
+				 $data = array(     
+					'ajax_url'      		       => admin_url( 'admin-ajax.php' ),
+					'eztoc_security_nonce'         => wp_create_nonce('eztoc_ajax_check_nonce'),  
+				);								
+
+				$data = apply_filters('eztoc_localize_filter',$data,'eztoc_admin_data');
+
+				wp_localize_script( 'eztoc-admin-js', 'eztoc_admin_data', $data );
+		}
+
+     /**
+     * This is a ajax handler function for sending email from user admin panel to us. 
+     * @return type json string
+     */
+
+		public function eztoc_send_query_message(){   
+		    
+		        if ( ! isset( $_POST['eztoc_security_nonce'] ) ){
+		           return; 
+		        }
+		        if ( !wp_verify_nonce( $_POST['eztoc_security_nonce'], 'eztoc_ajax_check_nonce' ) ){
+		           return;  
+		        }   
+		        $message        = $this->eztoc_sanitize_textarea_field($_POST['message']); 
+		        $email          = $this->eztoc_sanitize_textarea_field($_POST['email']);   
+		                                
+		        if(function_exists('wp_get_current_user')){
+
+		            $user           = wp_get_current_user();
+
+		         
+		            $message = '<p>'.$message.'</p><br><br>'.'Query from Easy Table of Content plugin support tab';
+		            
+		            $user_data  = $user->data;        
+		            $user_email = $user_data->user_email;     
+		            
+		            if($email){
+		                $user_email = $email;
+		            }            
+		            //php mailer variables        
+		            $sendto    = 'support@magazine3.in';
+		            $subject   = "Easy Table of Content Query";
+		            
+		            $headers[] = 'Content-Type: text/html; charset=UTF-8';
+		            $headers[] = 'From: '. esc_attr($user_email);            
+		            $headers[] = 'Reply-To: ' . esc_attr($user_email);
+		            // Load WP components, no themes.   
+
+		            $sent = wp_mail($sendto, $subject, $message, $headers); 
+
+		            if($sent){
+
+		                 echo json_encode(array('status'=>'t'));  
+
+		            }else{
+
+		                echo json_encode(array('status'=>'f'));            
+
+		            }
+		            
+		        }
+		                        
+		        wp_die();           
+		}
+
+		public function eztoc_sanitize_textarea_field( $str ) {
+
+			if ( is_object( $str ) || is_array( $str ) ) {
+				return '';
+			}
+
+			$str = (string) $str;
+
+			$filtered = wp_check_invalid_utf8( $str );
+
+			if ( strpos( $filtered, '<' ) !== false ) {
+				$filtered = wp_pre_kses_less_than( $filtered );
+				// This will strip extra whitespace for us.
+				$filtered = wp_strip_all_tags( $filtered, false );
+
+				// Use HTML entities in a special case to make sure no later
+				// newline stripping stage could lead to a functional tag.
+				$filtered = str_replace( "<\n", "&lt;\n", $filtered );
+			}
+			
+			$filtered = trim( $filtered );
+
+			$found = false;
+			while ( preg_match( '/%[a-f0-9]{2}/i', $filtered, $match ) ) {
+				$filtered = str_replace( $match[0], '', $filtered );
+				$found    = true;
+			}
+
+			if ( $found ) {
+				// Strip out the whitespace that may now exist after removing the octets.
+				$filtered = trim( preg_replace( '/ +/', ' ', $filtered ) );
+			}
+
+			return $filtered;
 		}
 
 		/**
