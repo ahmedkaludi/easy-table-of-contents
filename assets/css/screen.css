@@ -88,7 +88,19 @@ div.ez-toc-widget-container li {
 	display: table;
 	width: 100%;
 }
-
+summary span.ez-toc-title-toggle {
+    position: relative;
+    top: -5px;
+    left: 10px;
+    width: 20px;
+    height: 10px;
+    border-right: 0.2em solid black;
+    border-top: 0.2em solid black;
+    transform: rotate(135deg);
+}
+summary span.ez-toc-title-toggle a {
+    display: none!important;
+}
 .ez-toc-title,
 .ez-toc-title-toggle {
 	display: table-cell;
