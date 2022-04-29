@@ -603,7 +603,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
 
-			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) ) {
+			$getpost = self::get( get_the_ID() );
+      		$getTOC = $getpost->getTOC();
+			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && empty($getTOC) ) {
 
 				return Debug::log()->appendTo( $content );
 			}
