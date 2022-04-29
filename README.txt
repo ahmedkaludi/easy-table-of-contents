@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 5.9.3
 Requires PHP: 5.6.20
-Stable tag: 2.0.19
+Stable tag: 2.0.20
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,14 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.20 04/29/2022 =
+* TWEAK: Added Toggle with HTML for websites runs without jQuery #153
+* TWEAK: Added telegram group join link for suggestions and feedback #159
+* BUG: TOC links not jumping in some posts which have special characters #163
+* BUG: Proper documentation added for adding TOC with shortcodes & do_shortcode #152
+* BUG: TOC links not working when do_shortcode added directly in the template #147
+* BUG: TOC links not working with some specical character with Elementor #162
 
 = 2.0.19 04/16/2022 =
 * Bug Fixed : While Using Elementor Page builder TOC is not working when special characters are used in headings. #150
