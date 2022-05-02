@@ -266,6 +266,18 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => true,
 						),
+						'toc_loading' => array(
+							'id' => 'toc_loading',
+							'name' => __( 'TOC Loading Method', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'select',
+							'options' => array(
+								'js' => __( 'JavaScript (default)', 'easy-table-of-contents' ),
+								'css' => __( 'Pure CSS', 'easy-table-of-contents' ),
+								 
+							),
+							'default' => 'js',
+						),
 					)
 				),
 				'appearance' => apply_filters(
@@ -574,6 +586,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'smooth_scroll_offset'               => 30,
 				'mobile_smooth_scroll_offset'        => 0,
 				'visibility'                         => true,
+				'toc_loading'                        => 'js',
 				//'visibility_show'                    => 'show',
 				//'visibility_hide'                    => 'hide',
 				'visibility_hide_by_default'         => false,

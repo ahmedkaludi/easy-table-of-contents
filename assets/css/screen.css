@@ -345,3 +345,24 @@ div.ez-toc-widget-container li {
 .ez-toc-icon-toggle:before {
 	content: "\e87a";
 }
+#ez-toc-container input {
+  position: absolute;
+  left: -999em;
+}
+#ez-toc-container input[type="checkbox"]:checked + nav {
+  opacity: 0;
+  max-height: 0;
+  border: none;
+}
+
+#ez-toc-container label {
+    float: right;
+    position: relative;
+    left: 3px;
+    font-size: 16px;
+    background: #f9efef;
+    padding: 0px 4px 0px 5px;
+    border: 1px solid #999191;
+    border-radius: 5px;
+    cursor: pointer;
+}
