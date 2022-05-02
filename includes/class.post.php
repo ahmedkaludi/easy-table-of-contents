@@ -1176,11 +1176,7 @@ class ezTOC_Post {
 			$class = array_map( 'trim', $class );
 			$class = array_map( 'sanitize_html_class', $class );
 
-			if (ezTOC_Option::get( 'show_hide_html' ) == '1') {
-				$html .= '<details open id="ez-toc-container" class="' . implode( ' ', $class ) . '">' . PHP_EOL;
-			}else{
-				$html .= '<div id="ez-toc-container" class="' . implode( ' ', $class ) . '">' . PHP_EOL;
-			}
+			$html .= '<div id="ez-toc-container" class="' . implode( ' ', $class ) . '">' . PHP_EOL;
 
 			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
 
@@ -1196,11 +1192,7 @@ class ezTOC_Post {
 					$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 				}
 
-				if (ezTOC_Option::get( 'show_hide_html' ) == '1') {
-					$html .= '<summary class="ez-toc-title-container">' . PHP_EOL;
-				}else{
-					$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
-				}
+				$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
 
 				$html .= '<p class="ez-toc-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</p>' . PHP_EOL;
 
@@ -1213,11 +1205,7 @@ class ezTOC_Post {
 
 				$html .= '</span>';
 
-				if (ezTOC_Option::get( 'show_hide_html' ) == '1') {
-					$html .= '</summary>' . PHP_EOL;
-				}else{
-					$html .= '</div>' . PHP_EOL;
-				}
+				$html .= '</div>' . PHP_EOL;
 			}
 
 			ob_start();
@@ -1230,11 +1218,7 @@ class ezTOC_Post {
 			do_action( 'ez_toc_after' );
 			$html .= ob_get_clean();
 
-			if (ezTOC_Option::get( 'show_hide_html' ) == '1') {
-				$html .= '</details>' . PHP_EOL;
-			}else{
-				$html .= '</div>' . PHP_EOL;
-			}
+			$html .= '</div>' . PHP_EOL;
 
 			// Enqueue the script.
 			wp_enqueue_script( 'ez-toc-js' );
