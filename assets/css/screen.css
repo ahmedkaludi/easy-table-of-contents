@@ -358,11 +358,17 @@ div.ez-toc-widget-container li {
 #ez-toc-container label {
     float: right;
     position: relative;
-    left: 3px;
+    left: 10px;
     font-size: 16px;
     background: #f9efef;
     padding: 0px 4px 0px 5px;
     border: 1px solid #999191;
     border-radius: 5px;
     cursor: pointer;
+}
+div#ez-toc-container p.ez-toc-title { 
+    display: contents;
+}
+div#ez-toc-container {
+    padding-right: 20px;
 }
