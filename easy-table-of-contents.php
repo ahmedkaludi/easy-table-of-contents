@@ -9,7 +9,7 @@
  * Text Domain: easy-table-of-contents
  * Domain Path: /languages
  *
- * Copyright 2022  Magazine3  ( email : support@magazine3.in )
+ * Copyright 2022  Magazine3  ( email : team@magazine3.in )
  *
  * Easy Table of Contents is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 2, as

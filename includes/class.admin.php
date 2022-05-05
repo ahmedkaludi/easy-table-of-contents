@@ -490,7 +490,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		                $user_email = $email;
 		            }            
 		            //php mailer variables        
-		            $sendto    = 'support@magazine3.in';
+		            $sendto    = 'team@magazine3.in';
 		            $subject   = "Easy Table of Content Query";
 		            
 		            $headers[] = 'Content-Type: text/html; charset=UTF-8';

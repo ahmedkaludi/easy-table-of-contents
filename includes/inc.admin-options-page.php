@@ -68,7 +68,7 @@
     </div><!-- /.General Settings ended -->
 
 	<div class="eztoc_support_div eztoc-tabcontent" id="technical">
-            <strong><?php echo esc_html__('If you have any query, please write the query in below box or email us at','easy-table-of-contents') ?> <a href="mailto:support@magazine3.in">support@magazine3.in</a> <?php echo  esc_html__('we will reply to your email address shortly.','easy-table-of-contents') ?></strong>
+            <strong><?php echo esc_html__('If you have any query, please write the query in below box or email us at','easy-table-of-contents') ?> <a href="mailto:team@magazine3.in">team@magazine3.in</a> <?php echo  esc_html__('we will reply to your email address shortly.','easy-table-of-contents') ?></strong>
        
             <ul>
                 <li>
