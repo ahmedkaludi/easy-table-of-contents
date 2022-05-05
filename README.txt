@@ -97,10 +97,11 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
-= 2.0.20 05/02/2022 =
+= 2.0.20 05/05/2022 =
 * TWEAK: Added Toggle with CSS for websites runs without jQuery #153
 * TWEAK: Added telegram group join link for suggestions and feedback #159
 * BUG: TOC links not jumping in some posts which have special characters #163
+* BUG: Incorrect email ID updated in the plugin #165
 * BUG: Proper documentation added for adding TOC with shortcodes & do_shortcode #152
 * BUG: TOC links not working when do_shortcode added directly in the template #147
 * BUG: TOC links not working with some specical character with Elementor #162
