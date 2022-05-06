@@ -590,7 +590,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @return string
 		 */
 		public static function the_content( $content ) {
-			$content = str_replace('&#8211;', '', $content);
 			$maybeApplyFilter = self::maybeApplyTheContentFilter();
 
 			Debug::log( 'the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter );
@@ -628,8 +627,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$find    = $post->getHeadings();
 			$replace = $post->getHeadingsWithAnchors();
 			$toc     = $post->getTOC();
-			$find = str_replace('&ndash;', '', $find);
-			$replace = str_replace('&#8211;', '', $replace);
 			$headings = implode( PHP_EOL, $find );
 			$anchors  = implode( PHP_EOL, $replace );
 
