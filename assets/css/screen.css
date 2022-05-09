@@ -118,7 +118,9 @@ div.ez-toc-widget-container li {
 	float: right;
 	margin-left: 10px;
 }
-
+.ez-toc-wrap-center {
+	margin: 0 auto;
+}
 #ez-toc-container a {
 	color: #444444;
 	box-shadow: none;

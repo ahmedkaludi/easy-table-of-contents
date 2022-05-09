@@ -333,13 +333,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						),
 						'wrapping' => array(
 							'id' => 'wrapping',
-							'name' => __( 'Float', 'easy-table-of-contents' ),
+							'name' => __( 'Alignment', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'select',
 							'options' => array(
 								'none' => __( 'None (Default)', 'easy-table-of-contents' ),
 								'left' => __( 'Left', 'easy-table-of-contents' ),
 								'right' => __( 'Right', 'easy-table-of-contents' ),
+								'center' => __( 'Center', 'easy-table-of-contents' ),
 							),
 							'default' => 'none',
 						),
