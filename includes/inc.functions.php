@@ -90,3 +90,8 @@ function ez_toc_block( $post = null, $apply_content_filter = true ) {
 
 	echo get_ez_toc_block( $post, $apply_content_filter );
 }
+
+function ez_toc_fa_admin_js() {
+    echo '<script src="https://kit.fontawesome.com/66aa7c98b3.js" crossorigin="anonymous"></script>';
+}
+add_action('admin_footer', 'ez_toc_fa_admin_js');

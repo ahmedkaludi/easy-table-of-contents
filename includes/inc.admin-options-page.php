@@ -1,11 +1,12 @@
 <div id='toc' class='wrap'>
-	<h1><?php _e( 'Table of Contents', 'easy-table-of-contents' ); ?></h1>
+	<img src="http://tocwp.com/docs/wp-content/uploads/2022/04/eztoc-logo11.png" alt="tocwp" width="18%">
 <div class="toc-tab-panel">
-	  <a id="eztoc-default" class="eztoc-tablinks" data-href="no" href="#general-settings" onclick="tabToggle(event, 'general')">General</a>
+	  <a id="eztoc-default" class="eztoc-tablinks" data-href="no" href="#general-settings" onclick="tabToggle(event, 'general')">Settings</a>
 	   <a class="eztoc-tablinks" id="eztoc-technical" href="#technical-support" onclick="tabToggle(event, 'technical')" data-href="no">Technical Support</a>
+	   <a class="eztoc-tablinks" id="eztoc-freevspro" href="#freevspro" onclick="tabToggle(event, 'freevspro')" data-href="no">Free vs PRO</a>
 </div><!-- /.Tab panel -->
-
    <div  class="eztoc-tabcontent" id="general">
+   	<div id="eztoc-tabs" style="margin-top: 10px;"><a href="#eztoc-general">General</a> | <a href="#eztoc-appearance" >Appearance</a> | <a href="#eztoc-advanced" >Advanced</a></div>
 		<form method="post" action="<?php echo esc_url( self_admin_url( 'options.php' ) ); ?>">
 
 			<div class="metabox-holder">
@@ -89,4 +90,77 @@
             </ul>            
                    
         </div><!-- /.Technical support div ended -->
+
+        <div class="eztoc_support_div eztoc-tabcontent" id="freevspro">
+            <div class="eztoc-wrapper">
+       <div class="table basic">
+           <div class="price-section">
+               <div class="price-area">
+                   <div class="inner-area">
+                       <span class="text">
+                         &dollar;
+                       </span>
+                       <span class="price">00</span>
+                   </div>
+               </div>
+           </div>
+           <div class="package-name">
+    
+           </div>
+           <div class="features">
+               <li>
+                   <span class="list-name">Auto Insert in Posts, Pages, CPT etc </span>
+                   <span class="icon check"><i class="fas fa-check-circle"></i></span>
+               </li>
+               <li>
+                   <span class="list-name">6 themes to change the TOC design</span>
+                   <span class="icon check"><i class="fas fa-check-circle"></i></span>
+               </li>
+               <li>
+                   <span class="list-name">Smooth Scroll</span>
+                   <span class="icon check"><i class="fas fa-check-circle"></i></span>
+               </li>
+               <li>
+                   <span class="list-name">Change Alignment</span> 
+                   <span class="icon check"><i class="fas fa-check-circle"></i></span>
+               </li>
+               <li>
+                   <span class="list-name">Change Width,Font Size etc </span>
+                   <span class="icon check"><i class="fas fa-check-circle"></i></span>
+               </li>
+                <li>
+                   <span class="list-name">Exclude headings by its class</span>
+                   <span class="icon cross"><i class="far fa-times-circle"></i></span>
+               </li>
+           </div>
+       </div>
+       <div class="table Premium">
+           <div class="price-section">
+               <div class="price-area">
+                   <div class="inner-area">
+                       <span class="text">
+                         &dollar;
+                       </span>
+                       <span class="price">49</span>
+                   </div>
+               </div>
+           </div>
+           <div class="package-name">
+            
+           </div>
+           <div class="features">
+               <li>
+                   <span class="list-name">All the benefits of Free</span>
+                   <span class="icon check"><i class="fas fa-check-circle"></i></span>
+               </li>
+               <li>
+                   <span class="list-name">Exclude headings by its class</span>
+                   <span class="icon check"><i class="fas fa-check-circle"></i></span>
+               </li>
+               
+               <div class="btn"><button>Purchase</button></div>
+           </div>
+       </div>
+   </div>
+        </div><!-- /.freevspro div ended -->
 </div>

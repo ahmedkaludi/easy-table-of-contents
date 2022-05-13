@@ -165,6 +165,7 @@ html {
 	transition: 0s;
 	font-size: 15px;
 	color: #2271b1;
+	font-weight: 500;
 	}
 .toc-tab-panel a:hover {
 	color: #0a4b78;
@@ -220,3 +221,195 @@ html {
  	margin-left: 70px !important;;
  }	
  @keyframes fadeEffect { from {opacity: 0;} to {opacity: 1;} }
+ 
+
+.eztoc-wrapper{
+    max-width: 1090px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+}
+
+.eztoc-wrapper .table{
+    margin: 0 auto;
+    background: #fff;
+    width: calc(30%);
+    padding: 30px 20px;
+    position: relative;
+    box-shadow: 0 5px 10px rgb(0 0 0 / 10%);
+}
+
+.table .price-section{
+   display: flex;
+   justify-content: center;
+}
+
+.price-section .price-area{
+    height: 120px;
+    width: 120px;
+    background: #ffd861;
+    border-radius: 50%;
+    padding: 2px;
+}
+
+.price-section .price-area .inner-area{
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    color: #fff;
+    line-height: 117px;
+    text-align: center;
+    position: relative;
+}
+
+.price-area .inner-area .text{
+    font-size: 25px;
+    font-weight: 400;
+    position: absolute;
+    top: -10px;
+    left: 17px;
+}
+
+.price-area .inner-area .price{
+    font-size: 55px;
+    font-weight: 500;
+}
+
+.table .package-name{
+    width: 100%;
+    height: 2px;
+    background: #ffecb3;
+    margin: 35px 0;
+    position: relative;
+}
+
+.table .package-name::before{
+    position: absolute;
+    content: "Basic";
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    font-size: 25px;
+    padding: 0 10px;
+    font-weight: bolder;
+}
+
+.table .features li{
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.features li .list-name{
+    font-size: 17px;
+    font-weight: 400;
+}
+
+.features li .icon{
+    font-size: 15px;
+}
+
+.features li .icon.check{
+    color: #2db94d;
+}
+
+.features li .icon.cross{
+    color: #cd3241;
+}
+
+.table .btn{
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+}
+
+.table .btn button{
+    width: 80%;
+    height: 50px;
+    font-weight: 700;
+    color: #fff;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.basic .price-area,
+.basic .inner-area{
+    background: #ffd861;
+}
+
+.basic .btn button{
+    background: #fff;
+    color: #ffd861;
+    border: 2px solid #ffd861;
+}
+
+.basic .btn button:hover{
+    border-radius: 6px;
+    background: #ffd861;
+    color: #fff;
+}
+
+.Premium .price-area,
+.Premium .inner-area{
+    background: #a26bfa;
+}
+
+.Premium .btn button{
+    background: #fff;
+    color: #a26bfa;
+    border: 2px solid #a26bfa;
+}
+
+.Premium .btn button:hover{
+    border-radius: 6px;
+    background: #a26bfa;
+    color: #fff;
+}
+ 
+
+.basic .package-name{
+    background: #ffecb3;
+}
+
+.Premium .package-name{
+    background: #a26bfa;
+}
+
+ 
+
+.basic .package-name::before{
+    content: "Free";
+}
+
+.Premium .package-name::before{
+    content: "PRO";
+}
+
+ 
+
+.basic ::selection,
+.basic .price-area,
+.basic .inner-area{
+    background: #ffd861;
+}
+
+.Premium ::selection,
+.Premium .price-area,
+.Premium .inner-area{
+    background: #a26bfa;
+}
+
+div#eztoc-tabs a {
+    text-decoration: none;
+} 
+div#eztoc-tabs a:first-child {
+    color: #000;
+}
