@@ -555,6 +555,19 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'text',
 							'default' => '',
 						),
+						
+					)
+				),
+				'prosettings' => apply_filters(
+					'ez_toc_settings_prosettings',
+						array(
+						'exclude_by_class' => array(
+							'id' => 'exclude_by_class',
+							'name' => __( 'Exclude Headings by Class', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . __( 'You can hide the TOC heading by its class and if you want to hide multiple headings then please saparate them with a comma (,)', 'easy-table-of-contents' ),
+							'type' => 'text',
+							'default' => '',
+						),				 
 					)
 				),
 			);

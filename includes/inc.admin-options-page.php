@@ -3,10 +3,18 @@
 <div class="toc-tab-panel">
 	  <a id="eztoc-default" class="eztoc-tablinks" data-href="no" href="#general-settings" onclick="tabToggle(event, 'general')">Settings</a>
 	   <a class="eztoc-tablinks" id="eztoc-technical" href="#technical-support" onclick="tabToggle(event, 'technical')" data-href="no">Technical Support</a>
-	   <a class="eztoc-tablinks" id="eztoc-freevspro" href="#freevspro" onclick="tabToggle(event, 'freevspro')" data-href="no">Free vs PRO</a>
+	    <?php
+     if (!function_exists('ez_toc_pro_activation_link')) {?>
+      <a class="eztoc-tablinks" id="eztoc-freevspro" href="#freevspro" onclick="tabToggle(event, 'freevspro')" data-href="no">Free vs PRO</a>
+     <?php } ?>
 </div><!-- /.Tab panel -->
    <div  class="eztoc-tabcontent" id="general">
-   	<div id="eztoc-tabs" style="margin-top: 10px;"><a href="#eztoc-general">General</a> | <a href="#eztoc-appearance" >Appearance</a> | <a href="#eztoc-advanced" >Advanced</a></div>
+    <?php 
+      $pro = '';
+      if (function_exists('ez_toc_pro_activation_link')) {
+        $pro = ' | <a href="#eztoc-prosettings" >PRO Settings</a>';
+      }?>
+   	<div id="eztoc-tabs" style="margin-top: 10px;"><a href="#eztoc-general">General</a> | <a href="#eztoc-appearance" >Appearance</a> | <a href="#eztoc-advanced" >Advanced</a><?php echo $pro; ?> </div>
 		<form method="post" action="<?php echo esc_url( self_admin_url( 'options.php' ) ); ?>">
 
 			<div class="metabox-holder">
@@ -62,7 +70,25 @@
 				</div><!-- /.postbox -->
 
 			</div><!-- /.metabox-holder -->
+<?php if (function_exists('ez_toc_pro_activation_link')) {?>
+      <div class="metabox-holder">
 
+        <div class="postbox" id="eztoc-prosettings">
+          <h3><span><?php _e( 'PRO Settings', 'easy-table-of-contents' ); ?></span></h3>
+
+          <div class="inside">
+
+            <table class="form-table">
+
+              <?php do_settings_fields( 'ez_toc_settings_prosettings', 'ez_toc_settings_prosettings' ); ?>
+
+            </table>
+
+          </div><!-- /.inside -->
+        </div><!-- /.postbox -->
+
+      </div><!-- /.metabox-holder -->
+<?php } ?>
 			<?php settings_fields( 'ez-toc-settings' ); ?>
 			<?php submit_button( __( 'Save Changes', 'easy-table-of-contents' ) ); ?>
 		</form>
