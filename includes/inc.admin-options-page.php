@@ -155,6 +155,22 @@
                    <span class="icon check"><i class="fas fa-check-circle"></i></span>
                </li>
                 <li>
+                   <span class="list-name">Gutenberg Block</span>
+                   <span class="icon cross"><i class="far fa-times-circle"></i></span>
+               </li>
+               <li>
+                   <span class="list-name">Elementor Widget</span>
+                   <span class="icon cross"><i class="far fa-times-circle"></i></span>
+               </li>
+               <li>
+                   <span class="list-name">Fixed/Sticky TOC</span>
+                   <span class="icon cross"><i class="far fa-times-circle"></i></span>
+               </li>
+               <li>
+                   <span class="list-name">Full AMP Support</span>
+                   <span class="icon cross"><i class="far fa-times-circle"></i></span>
+               </li>
+               <li>
                    <span class="list-name">Exclude headings by its class</span>
                    <span class="icon cross"><i class="far fa-times-circle"></i></span>
                </li>
@@ -177,6 +193,22 @@
            <div class="features">
                <li>
                    <span class="list-name">All the benefits of Free</span>
+                   <span class="icon check"><i class="fas fa-check-circle"></i></span>
+               </li>
+               <li>
+                   <span class="list-name">Gutenberg Block</span>
+                   <span class="icon check"><i class="fas fa-check-circle"></i></span>
+               </li>
+               <li>
+                   <span class="list-name">Elementor Widget</span>
+                   <span class="icon check"><i class="fas fa-check-circle"></i></span>
+               </li>
+               <li>
+                   <span class="list-name">Fixed/Sticky TOC</span>
+                   <span class="icon check"><i class="fas fa-check-circle"></i></span>
+               </li>
+               <li>
+                   <span class="list-name">Full AMP Support</span>
                    <span class="icon check"><i class="fas fa-check-circle"></i></span>
                </li>
                <li>
