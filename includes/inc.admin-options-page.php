@@ -1,5 +1,5 @@
 <div id='toc' class='wrap'>
-	<img src="http://tocwp.com/docs/wp-content/uploads/2022/04/eztoc-logo11.png" alt="tocwp" width="18%">
+  <img src="<?php echo plugins_url( 'assets/eztoc-logo.png', dirname(__FILE__) ) ?>" alt="tocwp" srcset="<?php echo plugins_url( 'assets/eztoc-logo.png', dirname(__FILE__) ) ?> 1x, <?php echo plugins_url( 'assets/eztoc-logo.png', dirname(__FILE__) ) ?> 2x" >
 <div class="toc-tab-panel">
 	  <a id="eztoc-default" class="eztoc-tablinks" data-href="no" href="#general-settings" onclick="tabToggle(event, 'general')">Settings</a>
     <?php 
@@ -9,7 +9,7 @@
         $pro = '<a id="eztoc-default" class="eztoc-tablinks" data-href="no" href="#eztoc-prosettings" onclick="tabToggle(event, "prosettings")">PRO Settings</a>';
       }?>
       <?php echo $pro; ?>
-	   <a class="eztoc-tablinks" id="eztoc-technical" href="#technical-support" onclick="tabToggle(event, 'technical')" data-href="no">Technical Support</a>
+	   <a class="eztoc-tablinks" id="eztoc-technical" href="#technical-support" onclick="tabToggle(event, 'technical')" data-href="no">Help & Support</a>
 	    <?php
      if (!function_exists('ez_toc_pro_activation_link')) {?>
       <a class="eztoc-tablinks" id="eztoc-freevspro" href="#freevspro" onclick="tabToggle(event, 'freevspro')" data-href="no">Free vs PRO</a>
