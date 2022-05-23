@@ -2,19 +2,24 @@
 	<img src="http://tocwp.com/docs/wp-content/uploads/2022/04/eztoc-logo11.png" alt="tocwp" width="18%">
 <div class="toc-tab-panel">
 	  <a id="eztoc-default" class="eztoc-tablinks" data-href="no" href="#general-settings" onclick="tabToggle(event, 'general')">Settings</a>
+    <?php 
+      $pro = '';
+
+      if (function_exists('ez_toc_pro_activation_link')) {
+        $pro = '<a id="eztoc-default" class="eztoc-tablinks" data-href="no" href="#eztoc-prosettings" onclick="tabToggle(event, "prosettings")">PRO Settings</a>';
+      }?>
+      <?php echo $pro; ?>
 	   <a class="eztoc-tablinks" id="eztoc-technical" href="#technical-support" onclick="tabToggle(event, 'technical')" data-href="no">Technical Support</a>
 	    <?php
      if (!function_exists('ez_toc_pro_activation_link')) {?>
       <a class="eztoc-tablinks" id="eztoc-freevspro" href="#freevspro" onclick="tabToggle(event, 'freevspro')" data-href="no">Free vs PRO</a>
+     <?php }
+     if (function_exists('ez_toc_pro_activation_link')) {?>
+      <a class="eztoc-tablinks" id="eztoc-license" href="#license" onclick="tabToggle(event, 'license')" data-href="no">License</a>
      <?php } ?>
 </div><!-- /.Tab panel -->
    <div  class="eztoc-tabcontent" id="general">
-    <?php 
-      $pro = '';
-      if (function_exists('ez_toc_pro_activation_link')) {
-        $pro = ' | <a href="#eztoc-prosettings" >PRO Settings</a>';
-      }?>
-   	<div id="eztoc-tabs" style="margin-top: 10px;"><a href="#eztoc-general">General</a> | <a href="#eztoc-appearance" >Appearance</a> | <a href="#eztoc-advanced" >Advanced</a><?php echo $pro; ?> </div>
+   	<div id="eztoc-tabs" style="margin-top: 10px;"><a href="#eztoc-general">General</a> | <a href="#eztoc-appearance" >Appearance</a> | <a href="#eztoc-advanced" >Advanced</a></div>
 		<form method="post" action="<?php echo esc_url( self_admin_url( 'options.php' ) ); ?>">
 
 			<div class="metabox-holder">
@@ -74,7 +79,6 @@
       <div class="metabox-holder">
 
         <div class="postbox" id="eztoc-prosettings">
-          <h3><span><?php _e( 'PRO Settings', 'easy-table-of-contents' ); ?></span></h3>
 
           <div class="inside">
 
@@ -221,4 +225,10 @@
        </div>
    </div>
         </div><!-- /.freevspro div ended -->
+
+        <div id="license" class="eztoc_support_div eztoc-tabcontent">
+       <?php
+        do_action("admin_upgrade_license_page");
+       ?>
+      </div>
 </div>
