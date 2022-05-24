@@ -24,7 +24,7 @@ jQuery(document).ready(function($) {
 	var url = window.location.href; 
 		if(url.indexOf('#technical-support') > -1){
 		    $("#eztoc-technical").click();
-		}else if(url.indexOf('#freevspro') > -1){
+		}else if(url.indexOf('#freevspro-support') > -1){
             $("#eztoc-freevspro").click();
         }
         else{	
