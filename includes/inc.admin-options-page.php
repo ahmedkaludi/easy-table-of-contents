@@ -235,10 +235,10 @@
                     </div>
                     <div class="etoc-pri-lst">
                         <div class="pri-tb">
-                            <a href="https://tocwp.com/checkout?edd_action=add_to_cart&download_id=666&edd_options[price_id]=1" target="_blank">
+                            <a href="https://tocwp.com/checkout/?edd_action=add_to_cart&download_id=1618&edd_options[price_id]=1" target="_blank">
                                 <h5>PERSONAL</h5>
-                                <span class="d-amt"><sup>$</sup>99</span>
-                                <span class="amt"><sup>$</sup>99</span>
+                                <span class="d-amt"><sup>$</sup>49</span>
+                                <span class="amt"><sup>$</sup>49</span>
                                 <span class="s-amt">(Save $59)</span>
                                 <span class="bil">Billed Annually</span>
                                 <span class="s">1 Site License</span>
@@ -249,10 +249,10 @@
                             </a>
                         </div>
                         <div class="pri-tb rec">
-                            <a href="https://tocwp.com/checkout?edd_action=add_to_cart&download_id=666&edd_options[price_id]=2" target="_blank">
+                            <a href="https://tocwp.com/checkout/?edd_action=add_to_cart&download_id=1618&edd_options[price_id]=2" target="_blank">
                                 <h5>MULTIPLE</h5>
-                                <span class="d-amt"><sup>$</sup>129</span>
-                                <span class="amt"><sup>$</sup>129</span>
+                                <span class="d-amt"><sup>$</sup>69</span>
+                                <span class="amt"><sup>$</sup>69</span>
                                 <span class="s-amt">(Save $79)</span>
                                 <span class="bil">Billed Annually</span>
                                 <span class="s">3 Site License</span>
@@ -264,10 +264,10 @@
                             </a>
                         </div>
                         <div class="pri-tb">
-                            <a href="https://tocwp.com/checkout?edd_action=add_to_cart&download_id=666&edd_options[price_id]=3" target="_blank">
+                            <a href="https://tocwp.com/checkout/?edd_action=add_to_cart&download_id=1618&edd_options[price_id]=3" target="_blank">
                                 <h5>WEBMASTER</h5>
-                                <span class="d-amt"><sup>$</sup>199</span>
-                                <span class="amt"><sup>$</sup>199</span>
+                                <span class="d-amt"><sup>$</sup>79</span>
+                                <span class="amt"><sup>$</sup>79</span>
                                 <span class="s-amt">(Save $99)</span>
                                 <span class="bil">Billed Annually</span>
                                 <span class="s">10 Site License</span>
@@ -278,10 +278,10 @@
                             </a>
                         </div>
                         <div class="pri-tb">
-                            <a href="https://tocwp.com/checkout?edd_action=add_to_cart&download_id=666&edd_options[price_id]=4" target="_blank">
+                            <a href="https://tocwp.com/checkout/?edd_action=add_to_cart&download_id=1618&edd_options[price_id]=4" target="_blank">
                                 <h5>FREELANCER</h5>
-                                <span class="d-amt"><sup>$</sup>249</span>
-                                <span class="amt"><sup>$</sup>249</span>
+                                <span class="d-amt"><sup>$</sup>99</span>
+                                <span class="amt"><sup>$</sup>99</span>
                                 <span class="s-amt">(Save $119)</span>
                                 <span class="bil">Billed Annually</span>
                                 <span class="s">25 Site License</span>
@@ -292,13 +292,13 @@
                             </a>
                         </div>
                         <div class="pri-tb">
-                            <a href="https://tocwp.com/checkout?edd_action=add_to_cart&download_id=666&edd_options[price_id]=5" target="_blank">
+                            <a href="https://tocwp.com/checkout/?edd_action=add_to_cart&download_id=1618&edd_options[price_id]=5" target="_blank">
                                 <h5>AGENCY</h5>
-                                <span class="d-amt"><sup>$</sup>499</span>
-                                <span class="amt"><sup>$</sup>499</span>
+                                <span class="d-amt"><sup>$</sup>199</span>
+                                <span class="amt"><sup>$</sup>199</span>
                                 <span class="s-amt">(Save $199)</span>
                                 <span class="bil">Billed Annually</span>
-                                <span class="s">Unlimited Site</span>
+                                <span class="s">Unlimited Sites</span>
                                 <span class="e">E-mail support</span>
                                 <span class="f">1 year Updates</span>
                                 <span class="etoc-sv">UNLIMITED</span>
@@ -306,15 +306,15 @@
                             </a>
                         </div>
                         <div class="pri-tb">
-                            <a href="https://tocwp.com/checkout?edd_action=add_to_cart&download_id=666&edd_options[price_id]=6" target="_blank">
+                            <a href="https://tocwp.com/checkout/?edd_action=add_to_cart&download_id=1618&edd_options[price_id]=6" target="_blank">
                                 <h5>LIFETIME</h5>
-                                <span class="d-amt"><sup>$</sup>999</span>
-                                <span class="amt"><sup>$</sup>999</span>
+                                <span class="d-amt"><sup>$</sup>499</span>
+                                <span class="amt"><sup>$</sup>499</span>
                                 <span class="s-amt">(Save $199)</span>
                                 <span class="bil">Billed Annually</span>
-                                <span class="s">Unlimited Site</span>
+                                <span class="s">Unlimited Sites</span>
                                 <span class="e">Unlimited E-mail support</span>
-                                <span class="f">1 year Updates</span>
+                                <span class="f">Lifetime License</span>
                                 <span class="etoc-sv">UNLIMITED</span>
                                 <span class="pri-by">Buy Now</span>
                             </a>
