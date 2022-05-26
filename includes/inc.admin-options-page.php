@@ -18,9 +18,21 @@
 	   <a class="eztoc-tablinks" id="eztoc-technical" href="#technical-support" onclick="tabToggle(event, 'technical')" data-href="no">Help & Support</a>
 	    <?php
      
-     if (function_exists('ez_toc_pro_activation_link')) {?>
+     if (function_exists('ez_toc_pro_activation_link')) {
+        $license_info = get_option("easytoc_pro_upgrade_license");
+        $license_exp = date('Y-m-d', strtotime($license_info['pro']['license_key_expires']));
+        $today = date('Y-m-d');
+        $exp_date = $license_exp;
+        $date1 = date_create($today);
+        $date2 = date_create($exp_date);
+        $diff = date_diff($date1,$date2);
+        $days = $diff->format("%a");
+        $days = intval($days);?>
       <a class="eztoc-tablinks" id="eztoc-license" href="#license" onclick="tabToggle(event, 'license')" data-href="no">License</a>
-     <?php } ?>
+      <?php 
+      if( $days < 30 ){?>
+      <span class="dashicons dashicons-warning" style="color: #ffb229;position: relative;top: 15px;left: -10px;"></span>
+     <?php } }?>
 </div><!-- /.Tab panel -->
    <div  class="eztoc-tabcontent" id="general">
    	<div id="eztoc-tabs" style="margin-top: 10px;"><a href="#eztoc-general">General</a> | <a href="#eztoc-appearance" >Appearance</a> | <a href="#eztoc-advanced" >Advanced</a></div>
