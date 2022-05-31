@@ -273,9 +273,9 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
 					<?php
 				}
-
+				do_action( 'ez_toc_before' );
 				echo '<nav>'. PHP_EOL . $post->getTOCList() . '</nav>' . PHP_EOL;
-
+				do_action( 'ez_toc_after' );
 				do_action( 'ez_toc_after_widget' );
 
 				echo '</div>' . PHP_EOL;

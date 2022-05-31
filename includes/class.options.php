@@ -333,13 +333,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						),
 						'wrapping' => array(
 							'id' => 'wrapping',
-							'name' => __( 'Float', 'easy-table-of-contents' ),
+							'name' => __( 'Alignment', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'select',
 							'options' => array(
 								'none' => __( 'None (Default)', 'easy-table-of-contents' ),
 								'left' => __( 'Left', 'easy-table-of-contents' ),
 								'right' => __( 'Right', 'easy-table-of-contents' ),
+								'center' => __( 'Center', 'easy-table-of-contents' ),
 							),
 							'default' => 'none',
 						),
@@ -554,6 +555,26 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'text',
 							'default' => '',
 						),
+						
+					)
+				),
+				'prosettings' => apply_filters(
+					'ez_toc_settings_prosettings',
+						array(
+						'exclude_by_class' => array(
+							'id' => 'exclude_by_class',
+							'name' => __( 'Exclude Headings by Class', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . __( 'You can hide the TOC heading by its class and if you want to hide multiple headings then please saparate them with a comma (,)', 'easy-table-of-contents' ),
+							'type' => 'text',
+							'default' => '',
+						),		
+						'fixedtoc' => array(
+							'id' => 'fixedtoc',
+							'name' => __( 'Fixed TOC', 'easy-table-of-contents' ),
+							'desc' => __( 'Fixed TOC in the page display so it can be easier to navigate', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),		 
 					)
 				),
 			);

@@ -3,9 +3,9 @@ Contributors: magazine3
 Donate link: https://magazine3.company/
 Tags: table of contents, toc
 Requires at least: 5.3
-Tested up to: 5.9.3
+Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.22
+Stable tag: 2.0.23
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,12 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.22 05/31/2022 =
+* TWEAK: Added filter to modify anchor links #167
+* TWEAK: Added filter to add TOC before or after the sidebar widget #166
+* TWEAK: Added option to align TOC to center #158
+* TWEAK: Design improvements in options panel #172
 
 = 2.0.22 05/06/2022 =
 * BUG: Double hyphens are getting removed from content issue fixed #163

@@ -786,7 +786,7 @@ class ezTOC_Post {
 		$return = false;
 
 		if ( $heading ) {
-
+			$heading = apply_filters( 'ez_toc_url_anchor_target_before', $heading );
 			// WP entity encodes the post content.
 			$return = html_entity_decode( $heading, ENT_QUOTES, get_option( 'blog_charset' ) );
 			$return = br2( $return, ' ' );
@@ -1105,7 +1105,10 @@ class ezTOC_Post {
 				case 'right':
 					$class[] = 'ez-toc-wrap-right';
 					break;
-
+				case 'center':
+					$class[] = 'ez-toc-wrap-center';
+					break;	
+					
 				case 'none':
 				default:
 					// do nothing
