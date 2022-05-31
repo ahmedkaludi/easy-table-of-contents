@@ -834,7 +834,7 @@ div#eztoc-tabs a:first-child {
 }
 
 .etoc-pri-lst .rec:hover .etoc-rcm {
-	background: #b168ff;
+	background: #000;
 	color: #fff;
 }
 

@@ -95,11 +95,10 @@
       <div class="metabox-holder">
 
         <div class="postbox" id="eztoc-prosettings">
-
+          <h3><span><?php _e( 'PRO Settings', 'easy-table-of-contents' ); ?></span></h3>   
           <div class="inside">
-
-            <table class="form-table">
-
+            
+            <table class="form-table"> 
               <?php do_settings_fields( 'ez_toc_settings_prosettings', 'ez_toc_settings_prosettings' ); ?>
 
             </table>
