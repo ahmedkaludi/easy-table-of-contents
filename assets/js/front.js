@@ -11,6 +11,11 @@ jQuery( function( $ ) {
 
 	if ( typeof ezTOC != 'undefined' ) {
 
+		/**
+		 * Init EZ TOC.
+		 */
+		function ezTOCInit() {
+
 		var affix = $( '.ez-toc-widget-container.ez-toc-affix' );
 
 		if ( 0 !== affix.length ) {
@@ -306,4 +311,14 @@ jQuery( function( $ ) {
             correctActiveListElementBackgroundColorHeight( activeListElement );
         }
     }
+
+    	/**
+		 * Attach global init handler to ezTOC window object.
+		 */
+		ezTOC.init = function(){
+			ezTOCInit();
+		}
+		// Start EZ TOC on page load.
+		ezTOCInit();
+	}
 } );
