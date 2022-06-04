@@ -1209,7 +1209,11 @@ class ezTOC_Post {
 					if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
 						$html .= '<a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></a>';
 					}else{
-						$html .= '<label for="item"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></label><input type="checkbox" id="item" checked="checked">';
+						$toggle_view='';
+						if(ezTOC_Option::get('visibility_hide_by_default')==true){
+							$toggle_view= "checked";
+						}
+						$html .= '<label for="item"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></label><input type="checkbox" id="item" '.$toggle_view.'>';
 					}
 				}
 
