@@ -1223,6 +1223,12 @@ class ezTOC_Post {
 				if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
 					$html .= '</div>' . PHP_EOL;
 				}
+			}else{
+				$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
+				$html .= '<span class="ez-toc-title-toggle">';
+				$html .= '<a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></a>';
+				$html .= '</span>';
+				$html .= '</div>' . PHP_EOL;
 			}
 
 			ob_start();
