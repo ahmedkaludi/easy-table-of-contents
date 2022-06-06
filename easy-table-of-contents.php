@@ -601,7 +601,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			// Bail if post not eligible and widget is not active.
 			$isEligible = self::is_eligible( get_post() );
-
+			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
 
 			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) ) {
