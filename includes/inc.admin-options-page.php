@@ -1,5 +1,7 @@
 <div id='toc' class='wrap'>
+  <a href="https://tocwp.com/" target="_blank" >
   <img src="<?php echo plugins_url( 'assets/eztoc-logo.png', dirname(__FILE__) ) ?>" alt="tocwp" srcset="<?php echo plugins_url( 'assets/eztoc-logo.png', dirname(__FILE__) ) ?> 1x, <?php echo plugins_url( 'assets/eztoc-logo.png', dirname(__FILE__) ) ?> 2x" >
+  </a>
 <div class="toc-tab-panel">
 	  <a id="eztoc-default" class="eztoc-tablinks" data-href="no" href="#general-settings" onclick="tabToggle(event, 'general')">Settings</a>
     <?php 
@@ -16,6 +18,7 @@
      <?php }
      ?>
 	   <a class="eztoc-tablinks" id="eztoc-technical" href="#technical-support" onclick="tabToggle(event, 'technical')" data-href="no">Help & Support</a>
+       <a class="eztoc-tablinks" id="eztoc-upgrade" href="https://tocwp.com/pricing/" target="_blank" >UPGRADE to PRO</a>
 	    <?php
      
      if (function_exists('ez_toc_pro_activation_link')) {
