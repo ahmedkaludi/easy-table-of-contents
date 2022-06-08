@@ -738,3 +738,19 @@ if ( ! class_exists( 'ezTOC' ) ) {
 	// Start Easy Table of Contents.
 	add_action( 'plugins_loaded', 'ezTOC' );
 }
+register_activation_hook(__FILE__, 'ez_toc_activate');
+add_action('admin_init', 'ez_toc_redirect');
+
+function ez_toc_activate() {
+    add_option('ez_toc_do_activation_redirect', true);
+}
+
+function ez_toc_redirect() {
+    if (get_option('ez_toc_do_activation_redirect', false)) {
+        delete_option('ez_toc_do_activation_redirect');
+        if(!isset($_GET['activate-multi']))
+        {
+            wp_redirect("options-general.php?page=table-of-contents#welcome");
+        }
+    }
+}

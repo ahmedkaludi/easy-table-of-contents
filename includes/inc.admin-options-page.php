@@ -3,6 +3,7 @@
   <img src="<?php echo plugins_url( 'assets/eztoc-logo.png', dirname(__FILE__) ) ?>" alt="tocwp" srcset="<?php echo plugins_url( 'assets/eztoc-logo.png', dirname(__FILE__) ) ?> 1x, <?php echo plugins_url( 'assets/eztoc-logo.png', dirname(__FILE__) ) ?> 2x" >
   </a>
 <div class="toc-tab-panel">
+    <a id="eztoc-welcome" class="eztoc-tablinks" data-href="no" href="#welcome" onclick="tabToggle(event, 'welcome')">Welcome</a>
 	  <a id="eztoc-default" class="eztoc-tablinks" data-href="no" href="#general-settings" onclick="tabToggle(event, 'general')">Settings</a>
     <?php 
       $pro = '';
@@ -37,6 +38,12 @@
       <span class="dashicons dashicons-warning" style="color: #ffb229;position: relative;top: 15px;left: -10px;"></span>
      <?php } }?>
 </div><!-- /.Tab panel -->
+        <div class="eztoc_support_div eztoc-tabcontent" id="welcome" >
+            <h1><?php echo esc_html__('Thank you for using our plugin and check out our most specialised ','easy-table-of-contents') ?> <a target="_blank" href="https://tocwp.com/pricing/" style="text-decoration: none;">PRO</a> <?php echo  esc_html__('features.','easy-table-of-contents') ?></h1>
+            <button class="button-toc"><span>Go to Settings</span></button>
+            <button class="button-toc"><span>UPGRADE to PRO</span></button>       
+                   
+        </div><!-- /.Welcome ended -->
    <div  class="eztoc-tabcontent" id="general">
    	<div id="eztoc-tabs" style="margin-top: 10px;"><a href="#eztoc-general">General</a> | <a href="#eztoc-appearance" >Appearance</a> | <a href="#eztoc-advanced" >Advanced</a></div>
 		<form method="post" action="<?php echo esc_url( self_admin_url( 'options.php' ) ); ?>">

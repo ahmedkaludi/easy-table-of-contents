@@ -1037,7 +1037,51 @@ div#freevspro {
     text-align: center;
 }
 a#eztoc-upgrade {
-    color: #c5ff12;
-    background: #1d2327;
+    color: #ffffff;
+    background: #fd789f;
     padding: 16px;
+}
+div#welcome {
+    text-align: center;
+}
+a#eztoc-welcome {
+    display: none;
+}
+.button-toc{
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 20px;
+    color: #fff;
+    border-radius: 4px;
+    background-color: #fd789f;
+    border: none;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.5s;
+    font-weight: 600;
+}
+.button-toc span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button-toc span:after {
+  content: '»';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button-toc:hover span {
+  padding-right: 25px;
+}
+
+.button-toc:hover span:after {
+  opacity: 1;
+  right: 0;
 }
