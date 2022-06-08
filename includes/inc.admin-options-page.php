@@ -128,14 +128,13 @@
        
             <ul>
                 <li>
-                  <label class="support-label">Email<span class="star-mark">*</span></label>
+                   
                    <div class="support-input">
-                   		<input type="text" id="eztoc_query_email" name="eztoc_query_email" placeholder="email" required>
+                   		<input type="text" id="eztoc_query_email" name="eztoc_query_email" placeholder="Email *" required>
                    </div>
                 </li>
-                <li>
-                    <label class="support-label">Query<span class="star-mark">*</span></label>                    
-                    <div class="support-input"><textarea rows="5" cols="60" id="eztoc_query_message" name="eztoc_query_message" placeholder="Write your query"></textarea>
+                <li>                     
+                    <div class="support-input"><textarea rows="5" cols="60" id="eztoc_query_message" name="eztoc_query_message" placeholder="Write your query *"></textarea>
                     </div>
                     <div class="clear"> </div>
                     <span class="eztoc-query-success eztoc-result eztoc_hide"><?php echo esc_html__('Message sent successfully, Please wait we will get back to you shortly','easy-table-of-contents'); ?></span>
