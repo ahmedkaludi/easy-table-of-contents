@@ -38,12 +38,15 @@
       <span class="dashicons dashicons-warning" style="color: #ffb229;position: relative;top: 15px;left: -10px;"></span>
      <?php } }?>
 </div><!-- /.Tab panel -->
-        <div class="eztoc_support_div eztoc-tabcontent" id="welcome" >
-            <h1><?php echo esc_html__('Thank you for using our plugin and check out our most specialised ','easy-table-of-contents') ?> <a target="_blank" href="https://tocwp.com/pricing/" style="text-decoration: none;">PRO</a> <?php echo  esc_html__('features.','easy-table-of-contents') ?></h1>
-            <button class="button-toc"><span>Go to Settings</span></button>
-            <button class="button-toc"><span>UPGRADE to PRO</span></button>       
-                   
-        </div><!-- /.Welcome ended -->
+        <div class="eztoc_support_div eztoc-tabcontent" id="welcome" style="display: block;">
+            <p style="font-weight: bold;font-size: 30px;color: #000;">Thank YOU for using Easy Table of Content. </p>
+            <p style="font-size: 18px;padding: 0 10%;line-height: 1.7;color: #000;">We strive to create the best TOC solution in WordPress. Our dedicated development team does continious development and innoviation to make sure we are able to meet your demand.</p> 
+            <p style="font-size: 16px;font-weight: 600;color: #000;">Please support us by Upgrading to Premium verison.</p>
+            <a target="_blank" href="https://tocwp.com/pricing/"><button class="button-toc" style="display: inline-block;font-size: 20px;">
+            <span>YES! I want to Support by UPGRADING.</span></button></a>
+            <a href="<?php echo add_query_arg( 'page', 'table-of-contents', admin_url( 'options-general.php' ) ); ?>" style="text-decoration: none;"><button class="button-toc1" style="display: block;text-align: center;border: 0;margin: 0 auto;background: none;">
+            <span style="cursor: pointer;">No Thanks, I will stick with FREE version for now.</span></button></a>
+         </div><!-- /.Welcome ended -->
    <div  class="eztoc-tabcontent" id="general">
    	<div id="eztoc-tabs" style="margin-top: 10px;"><a href="#eztoc-general">General</a> | <a href="#eztoc-appearance" >Appearance</a> | <a href="#eztoc-advanced" >Advanced</a></div>
 		<form method="post" action="<?php echo esc_url( self_admin_url( 'options.php' ) ); ?>">

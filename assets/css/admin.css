@@ -1054,10 +1054,9 @@ a#eztoc-welcome {
     margin: 20px;
     color: #fff;
     border-radius: 4px;
-    background-color: #fd789f;
+    background-color: #ec407a;
     border: none;
     padding: 20px;
-    width: 200px;
     transition: all 0.5s;
     font-weight: 600;
 }
