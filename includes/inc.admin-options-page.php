@@ -126,28 +126,70 @@
 		</form>
     </div><!-- /.General Settings ended -->
 
-	<div class="eztoc_support_div eztoc-tabcontent" id="technical">
-            <strong><?php echo esc_html__('If you have any query, please write the query in below box or email us at','easy-table-of-contents') ?> <a href="mailto:team@magazine3.in">team@magazine3.in</a> <?php echo  esc_html__('we will reply to your email address shortly.','easy-table-of-contents') ?></strong>
-       
+    <div class="eztoc-form-page-ui">
+   <div class="eztoc-left-side">
+   <div class="eztoc_support_div eztoc-tabcontent" id="technical">
+            <p><?php echo esc_html__('We are dedicated to provide Technical support & Help to our users. Use the below form for sending your questions.','easy-table-of-contents') ?> </p>
+            <p><?php echo  esc_html__('You can also contact us from ','easy-table-of-contents') ?><a href="https://tocwp.com/contact/">https://tocwp.com/contact/</a>.</p>
+   
+            <div class="eztoc_support_div_form" id="technical-form">
             <ul>
                 <li>
                   <label class="support-label">Email<span class="star-mark">*</span></label>
                    <div class="support-input">
-                   		<input type="text" id="eztoc_query_email" name="eztoc_query_email" placeholder="email" required>
+                   		
+                   		<input type="text" id="eztoc_query_email" name="eztoc_query_email" placeholder="Enter your Email" required>
                    </div>
                 </li>
+                
                 <li>
                     <label class="support-label">Query<span class="star-mark">*</span></label>                    
-                    <div class="support-input"><textarea rows="5" cols="60" id="eztoc_query_message" name="eztoc_query_message" placeholder="Write your query"></textarea>
-                    </div>
-                    <div class="clear"> </div>
-                    <span class="eztoc-query-success eztoc-result eztoc_hide"><?php echo esc_html__('Message sent successfully, Please wait we will get back to you shortly','easy-table-of-contents'); ?></span>
-                    <span class="eztoc-query-error eztoc-result eztoc_hide"><?php echo esc_html__('Message not sent. please check your network connection','easy-table-of-contents'); ?></span>
-                </li>
-                <li><button class="button eztoc-send-query"><?php echo esc_html__('Send Message','easy-table-of-contents'); ?></button></li>
-            </ul>            
                    
-        </div><!-- /.Technical support div ended -->
+                    <div class="support-input"><textarea rows="5" cols="50" id="eztoc_query_message" name="eztoc_query_message" placeholder="Write your query"></textarea>
+                    </div>
+                
+                  
+                </li>
+                
+            </ul>            
+                <li>
+                    <div class="eztoc-customer-type">
+                      <label class="support-label">Type</label>
+                      <div class="support-input">
+                         <select name="eztoc_customer_type" id="eztoc_customer_type">
+                             <option value="select">Select Customer Type</option>
+                             <option value="paid">Paid<span> (Response within 24 hrs)</span></option>
+                             <option value="free">Free<span> ( Avg Response within 48-72 hrs)</span></option>
+                         </select>
+                      </div>
+                      </div>
+                  </li>
+                <li><button class="button button-primary eztoc-send-query"><?php echo esc_html__('Send Support Request','easy-table-of-contents'); ?></button></li>
+            </ul> 
+            </div> 
+       </div>
+    </div><div class="eztoc-right-side">
+           <div class="eztoc-bio-box" id="ez_Bio">
+                <h1>Vision & Mission</h1>
+                <p class="eztoc-p">We strive to provide the best TOC in the world.</p>
+                <section class="eztoc_dev-bio"> 
+                    <div class="ezoc-bio-wrap">
+                        <img width="50px" height="50px" src="http://localhost/trellorunny/wp-content/uploads/2022/06/ahmed-kaludi.jpg" alt="ahmed kaludi">
+                        <p>Lead Dev</p>
+                    </div>
+                    <div class="ezoc-bio-wrap">
+                        <img width="50px" height="50px" src="http://localhost/trellorunny/wp-content/uploads/2022/06/Mohammed-kaludi.jpeg" alt="mohammed kaludi">
+                        <p>Developer</p>
+                    </div>
+                    <div class="ezoc-bio-wrap">
+                        <img width="50px" height="50px" src="http://localhost/trellorunny/wp-content/uploads/2022/06/zabi.jpg" alt="zabi">
+                        <p>Developer</p>
+                    </div>
+                </section>
+              <p class="eztoc_boxdesk"> Delivering a good user experience means a lot to us, so we try our best to reply each and every question.</p>
+                <p class="company-link"> Support the innovation & development by upgrading to PRO <a href="https://tocwp.com/pricing/">I Want To Upgrade!</a></p>
+           </div>
+        </div>           <!-- /.Technical support div ended -->
 
         <div class="eztoc_support_div eztoc-tabcontent" id="freevspro">
             <div class="eztoc-wrapper">
