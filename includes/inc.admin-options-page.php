@@ -174,15 +174,15 @@
                 <p class="eztoc-p">We strive to provide the best TOC in the world.</p>
                 <section class="eztoc_dev-bio"> 
                     <div class="ezoc-bio-wrap">
-                        <img width="50px" height="50px" src="http://localhost/trellorunny/wp-content/uploads/2022/06/ahmed-kaludi.jpg" alt="ahmed kaludi">
+                    <img width="50px" height="50px" src="<?php echo plugins_url( 'assets/ahmed-kaludi.jpg', dirname(__FILE__) ) ?>">
                         <p>Lead Dev</p>
                     </div>
                     <div class="ezoc-bio-wrap">
-                        <img width="50px" height="50px" src="http://localhost/trellorunny/wp-content/uploads/2022/06/Mohammed-kaludi.jpeg" alt="mohammed kaludi">
+                    <img width="50px" height="50px" src="<?php echo plugins_url( 'assets/Mohammed-kaludi.jpeg', dirname(__FILE__) ) ?>">
                         <p>Developer</p>
                     </div>
                     <div class="ezoc-bio-wrap">
-                        <img width="50px" height="50px" src="http://localhost/trellorunny/wp-content/uploads/2022/06/zabi.jpg" alt="zabi">
+                    <img width="50px" height="50px" src="<?php echo plugins_url( 'assets/zabi.jpg', dirname(__FILE__) ) ?>">
                         <p>Developer</p>
                     </div>
                 </section>
