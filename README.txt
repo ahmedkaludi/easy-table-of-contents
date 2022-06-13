@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.23
+Stable tag: 2.0.24
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,7 +97,18 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
-= 2.0.22 05/31/2022 =
+= 2.0.24 06/10/2022 =
+* TWEAK: Added TOC in Infinite Scroll #138
+* TWEAK: Improved the activation process #187
+* BUG: TOC Toggle not working with Magnolia Theme #174
+* BUG: Initial view not working with TOC Loading Method of CSS #179
+* BUG: Toggle is not visible when Display Header option is disable #171
+* BUG: CSS not loading when using shortcode in theme file #175
+* BUG: the_content filter run twice #182
+* BUG: Form UI looks ugly #169
+* BUG: Debug Warnings in multibyte string functions #185
+
+= 2.0.23 05/31/2022 =
 * TWEAK: Added filter to modify anchor links #167
 * TWEAK: Added filter to add TOC before or after the sidebar widget #166
 * TWEAK: Added option to align TOC to center #158

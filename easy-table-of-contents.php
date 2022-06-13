@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://magazine3.company/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.23
+ * Version: 2.0.24
  * Author: Magazine3
  * Author URI: https://magazine3.company/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.23
+ * @version  2.0.24
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -48,7 +48,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.23';
+		const VERSION = '2.0.24';
 
 		/**
 		 * Stores the instance of this class.
@@ -265,6 +265,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
 
 				$js_vars['width'] = esc_js( $width );
+			}else{
+				$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
 			}
 
 			$offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
@@ -601,7 +603,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			// Bail if post not eligible and widget is not active.
 			$isEligible = self::is_eligible( get_post() );
-
+			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
 
 			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) ) {
@@ -735,4 +737,20 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 	// Start Easy Table of Contents.
 	add_action( 'plugins_loaded', 'ezTOC' );
+}
+register_activation_hook(__FILE__, 'ez_toc_activate');
+add_action('admin_init', 'ez_toc_redirect');
+
+function ez_toc_activate() {
+    add_option('ez_toc_do_activation_redirect', true);
+}
+
+function ez_toc_redirect() {
+    if (get_option('ez_toc_do_activation_redirect', false)) {
+        delete_option('ez_toc_do_activation_redirect');
+        if(!isset($_GET['activate-multi']))
+        {
+            wp_redirect("options-general.php?page=table-of-contents#welcome");
+        }
+    }
 }

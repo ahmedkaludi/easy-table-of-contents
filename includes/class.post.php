@@ -134,7 +134,7 @@ class ezTOC_Post {
 		 */
 		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
-		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
+		$this->post->post_content = apply_filters( 'ez_toc_the_content', strip_shortcodes( $this->post->post_content ) );
 
 		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
@@ -1209,7 +1209,11 @@ class ezTOC_Post {
 					if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
 						$html .= '<a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></a>';
 					}else{
-						$html .= '<label for="item"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></label><input type="checkbox" id="item">';
+						$toggle_view='';
+						if(ezTOC_Option::get('visibility_hide_by_default')==true){
+							$toggle_view= "checked";
+						}
+						$html .= '<label for="item"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></label><input type="checkbox" id="item" '.$toggle_view.'>';
 					}
 				}
 
@@ -1219,6 +1223,12 @@ class ezTOC_Post {
 				if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
 					$html .= '</div>' . PHP_EOL;
 				}
+			}else{
+				$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
+				$html .= '<span class="ez-toc-title-toggle">';
+				$html .= '<a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></a>';
+				$html .= '</span>';
+				$html .= '</div>' . PHP_EOL;
 			}
 
 			ob_start();

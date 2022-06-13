@@ -27,6 +27,9 @@ jQuery(document).ready(function($) {
 		}else if(url.indexOf('#freevspro-support') > -1){
             $("#eztoc-freevspro").click();
         }
+        else if(url.indexOf('#welcome') > -1){
+            $("#eztoc-welcome").click();
+        }
         else{	
 			 $("#eztoc-default").click();
 		}

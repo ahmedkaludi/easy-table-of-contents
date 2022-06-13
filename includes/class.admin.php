@@ -54,15 +54,13 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 */
 		public  function pluginActionLinks( $links, $file ) {
 
-			$action = array();
-
-			$action[] = sprintf(
-				'<a href="%1$s">%2$s</a>',
-				esc_url( add_query_arg( 'page', 'table-of-contents', self_admin_url( 'options-general.php' ) ) ),
-				esc_html__( 'Settings', 'easy-table-of-contents' )
-			);
-
-			return array_merge( $action, $links );
+		    $url = add_query_arg( 'page', 'table-of-contents', self_admin_url( 'options-general.php' ) );
+		    $setting_link = '<a href="' . esc_url( $url ) . '">' . __( 'Settings', 'easy-table-of-contents' ) . '</a> |';
+		 	$setting_link .= '<a href="https://tocwp.com/contact/" target="_blank">' . __( ' Support', 'easy-table-of-contents' ) . '</a> |';
+		 	$setting_link .= '<a href="https://tocwp.com/pricing/" target="_blank">' . __( ' Upgrade', 'easy-table-of-contents' ) . '</a> |';
+		 	$setting_link .= '<a href="https://tocwp.com/" target="_blank">' . __( ' Website', 'easy-table-of-contents' ) . '</a>';
+		    array_push( $links, $setting_link );
+		    return $links;
 		}
 
 		/**
