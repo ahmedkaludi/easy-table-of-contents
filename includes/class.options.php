@@ -253,6 +253,8 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'select',
 							'options' => array(
 								'decimal' => __( 'Decimal (default)', 'easy-table-of-contents' ),
+								'disc' => __( 'Disc', 'easy-table-of-contents' ),
+								'hyphen' => __( 'Hyphen', 'easy-table-of-contents' ),
 								'numeric' => __( 'Numeric', 'easy-table-of-contents' ),
 								'roman' => __( 'Roman', 'easy-table-of-contents' ),
 								'none' => __( 'None', 'easy-table-of-contents' ),

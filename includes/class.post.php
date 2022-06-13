@@ -1136,6 +1136,14 @@ class ezTOC_Post {
 				case 'decimal':
 					$class[] = 'counter-decimal';
 					break;
+
+				case 'hyphen':
+					$class[] = 'counter-hyphen';
+					break;
+					
+				case 'disc':
+					$class[] = 'counter-disc';
+					break;
 			}
 
 			// colour themes
