@@ -126,9 +126,12 @@
 		</form>
     </div><!-- /.General Settings ended -->
 
-    <div class="eztoc-form-page-ui">
-   <div class="eztoc-left-side">
+   
+    
+   
    <div class="eztoc_support_div eztoc-tabcontent" id="technical">
+   <div class="eztoc-form-page-ui">
+   <div class="eztoc-left-side">
             <p><?php echo esc_html__('We are dedicated to provide Technical support & Help to our users. Use the below form for sending your questions.','easy-table-of-contents') ?> </p>
             <p><?php echo  esc_html__('You can also contact us from ','easy-table-of-contents') ?><a href="https://tocwp.com/contact/">https://tocwp.com/contact/</a>.</p>
    
@@ -168,7 +171,7 @@
             </ul> 
             </div> 
        </div>
-    </div><div class="eztoc-right-side">
+    <div class="eztoc-right-side">
            <div class="eztoc-bio-box" id="ez_Bio">
                 <h1>Vision & Mission</h1>
                 <p class="eztoc-p">We strive to provide the best TOC in the world.</p>
@@ -189,7 +192,7 @@
               <p class="eztoc_boxdesk"> Delivering a good user experience means a lot to us, so we try our best to reply each and every question.</p>
                 <p class="company-link"> Support the innovation & development by upgrading to PRO <a href="https://tocwp.com/pricing/">I Want To Upgrade!</a></p>
            </div>
-        </div>           <!-- /.Technical support div ended -->
+        </div>   </div>   </div>        <!-- /.Technical support div ended -->
 
         <div class="eztoc_support_div eztoc-tabcontent" id="freevspro">
             <div class="eztoc-wrapper">
