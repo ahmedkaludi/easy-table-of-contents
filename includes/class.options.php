@@ -557,13 +557,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'text',
 							'default' => '',
 						),
-						'widget_toggle_btn_custom_text' => array(
-							'id' => 'widget_toggle_btn_custom_text',
-							'name' => __( 'Widget Toggle Button Custom text', 'easy-table-of-contents' ),
-							'desc' => '<br/>' . __( 'To add custom text inside the Table of Contents toggle button', 'easy-table-of-contents' ),
-							'type' => 'text',
-							'default' => '',
-						),
 						
 					)
 				),
@@ -648,7 +641,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				//'show_toc_in_widget_only'            => false,
 				//'show_toc_in_widget_only_post_types' => array(),
 				'widget_affix_selector'              => '',
-				'widget_toggle_btn_custom_text'      => '',
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );
