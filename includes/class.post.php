@@ -1214,8 +1214,10 @@ class ezTOC_Post {
 				}
 				
 				if ( ezTOC_Option::get( 'visibility' ) ) {
+					$widget_toggle_btn_custom_text = ezTOC_Option::get( 'widget_toggle_btn_custom_text' );
+
 					if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
-						$html .= '<a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></a>';
+						$html .= '<a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;"><span class="toggle_custom_text">'.$widget_toggle_btn_custom_text.'</span><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></a>';
 					}else{
 						$toggle_view='';
 						if(ezTOC_Option::get('visibility_hide_by_default')==true){
