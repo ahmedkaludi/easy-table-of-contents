@@ -1383,7 +1383,7 @@ class ezTOC_Post {
 			}
 		}
 
-		return $html;
+		return do_shortcode($html);
 	}
 
 	/**
