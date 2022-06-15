@@ -154,6 +154,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			// Run after shortcodes are interpreted (priority 10).
 			add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
 			add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
+			add_shortcode( 'lwptoc', array( __CLASS__, 'shortcode' ) );
 			add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
 		}
 
