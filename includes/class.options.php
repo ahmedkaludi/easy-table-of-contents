@@ -474,6 +474,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'inline_css' => array(
+							'id' => 'inline_css',
+							'name' => __( 'Inline CSS', 'easy-table-of-contents' ),
+							'desc' => __( "Improve your  website performance by inlining your CSS.", 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						//'bullet_spacing' => array(
 						//	'id' => 'bullet_spacing',
 						//	'name' => __( 'Theme Bullets', 'easy-table-of-contents' ),
@@ -634,6 +641,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				//'bullet_spacing'                     => false,
 				'include_homepage'                   => false,
 				'exclude_css'                        => false,
+				'inline_css'                        => false,
 				'exclude'                            => '',
 				'heading_levels'                     => array( '1', '2', '3', '4', '5', '6' ),
 				'restrict_path'                      => '',
