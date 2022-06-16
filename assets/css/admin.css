@@ -1219,3 +1219,16 @@ a#eztoc-welcome {
   opacity: 1;
   right: 0;
 }
+
+.eztoc-query-success{
+	color: green;
+	}
+.eztoc-query-error{
+	color: red;
+    }
+ .eztoc_hide{
+ 	display: none;
+ 	}
+ .eztoc-result{
+ 	margin-left: 70px;
+ }
