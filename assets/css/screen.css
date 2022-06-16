@@ -389,7 +389,3 @@ div#ez-toc-container p.ez-toc-title {
 div#ez-toc-container {
     padding-right: 20px;
 }
-
-div#ez-toc-container nav {
-   	display: inherit!important;
-}
