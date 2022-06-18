@@ -542,6 +542,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$html = $post->getTOC();
 				$run  = false;
 			}
+			if (isset($atts["initial_view"]) && !empty($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
+				$html = preg_replace('/class="ez-toc-list ez-toc-list-level-1"/', 'class="ez-toc-list ez-toc-list-level-1" style="display:none"', $html);
+			}
 
 			return $html;
 		}
