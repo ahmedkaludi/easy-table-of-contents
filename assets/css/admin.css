@@ -101,6 +101,7 @@ div.toc_theme_option {
 }
 input#width_custom,
 input#font_size,
+input#child_font_size,
 input#smooth_scroll_offset {
 	width: 50px;
 	text-align: center;
