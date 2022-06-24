@@ -97,7 +97,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
-= 2.0.25 06/17/2022 =
+= 2.0.25 06/24/2022 =
 * TWEAK: Added Migration from Table of Contents Plus and LuckyWP Table of Contents #160
 * TWEAK: Added option to add inline CSS and JS #189
 * TWEAK: Improved the Web Accessibility in TOC Toggle #190
