@@ -135,6 +135,10 @@ class ezTOC_Post {
 		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
 		$this->post->post_content = apply_filters( 'ez_toc_the_content', strip_shortcodes( $this->post->post_content ) );
+		
+		if( class_exists( 'Salient_Core' ) ) {
+			$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
+		}
 
 		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
