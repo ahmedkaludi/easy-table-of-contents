@@ -389,3 +389,8 @@ div#ez-toc-container p.ez-toc-title {
 div#ez-toc-container {
     padding-right: 20px;
 }
+
+label.cssicon .ez-toc-glyphicon:empty {
+    font-size: 16px;
+    margin-left: 2px;
+}

@@ -21,3 +21,7 @@
 }
 .ez-toc-toggle #item{position: absolute;left: -999em;}
 
+label.cssicon .ez-toc-glyphicon:empty {
+    font-size: 16px;
+    margin-left: 2px;
+}

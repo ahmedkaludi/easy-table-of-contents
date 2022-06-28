@@ -1225,7 +1225,7 @@ class ezTOC_Post {
 						if(ezTOC_Option::get('visibility_hide_by_default')==true){
 							$toggle_view= "checked";
 						}
-						$html .= '<label for="item"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></label><input type="checkbox" id="item" '.$toggle_view.'>';
+						$html .= '<label for="item" class="cssicon"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></label><input type="checkbox" id="item" '.$toggle_view.'>';
 					}
 				}
 
