@@ -253,6 +253,8 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'select',
 							'options' => array(
 								'decimal' => __( 'Decimal (default)', 'easy-table-of-contents' ),
+								'disc' => __( 'Disc', 'easy-table-of-contents' ),
+								'hyphen' => __( 'Hyphen', 'easy-table-of-contents' ),
 								'numeric' => __( 'Numeric', 'easy-table-of-contents' ),
 								'roman' => __( 'Roman', 'easy-table-of-contents' ),
 								'none' => __( 'None', 'easy-table-of-contents' ),
@@ -344,6 +346,12 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'none',
 						),
+						'font_options_header' => array(
+							'id' => 'font_options',
+							'name' => '<strong>' . __( 'Font Option', 'easy-table-of-contents' ) . '</strong>',
+							//'desc' => __( 'For the following settings to apply, select the Custom Font option.', 'easy-table-of-contents' ),
+							'type' => 'header',
+						),
 						'title_font_size' => array(
 							'id' => 'title_font_size',
 							'name' => __( 'Title Font Size', 'easy-table-of-contents' ),
@@ -375,6 +383,19 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'desc' => '',
 							'type' => 'font_size',
 							'default' => 95,
+						),
+						'child_font_size' => array(
+							'id' => 'child_font_size',
+							'name' => __( 'Child Font Size', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'child_font_size',
+							'default' => 90,
+						),
+						'theme_option_header' => array(
+							'id' => 'theme_option_header',
+							'name' => '<strong>' . __( 'Theme Options', 'easy-table-of-contents' ) . '</strong>',
+							//'desc' => __( 'For the following settings to apply, select the Custom Theme option.', 'easy-table-of-contents' ),
+							'type' => 'header',
 						),
 						'theme' => array(
 							'id' => 'theme',
@@ -469,6 +490,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'id' => 'exclude_css',
 							'name' => __( 'CSS', 'easy-table-of-contents' ),
 							'desc' => __( "Prevent the loading the core CSS styles. When selected, the appearance options from above will be ignored.", 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
+						'inline_css' => array(
+							'id' => 'inline_css',
+							'name' => __( 'Inline CSS', 'easy-table-of-contents' ),
+							'desc' => __( "Improve your  website performance by inlining your CSS.", 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
 						),
@@ -619,6 +647,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'title_font_size_units'              => '%',
 				'title_font_weight'                  => 500,
 				'font_size'                          => 95,
+				'child_font_size'					 => 90,
 				'font_size_units'                    => '%',
 				'theme'                              => 'grey',
 				'custom_background_colour'           => '#fff',
@@ -632,6 +661,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				//'bullet_spacing'                     => false,
 				'include_homepage'                   => false,
 				'exclude_css'                        => false,
+				'inline_css'                        => false,
 				'exclude'                            => '',
 				'heading_levels'                     => array( '1', '2', '3', '4', '5', '6' ),
 				'restrict_path'                      => '',
@@ -1278,6 +1308,47 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 * @param array $args
 		 */
 		public static function font_size( $args ) {
+
+			//$value = self::get( $args['id'], $args['default'] );
+
+			self::text(
+				array(
+					'id'      => $args['id'],
+					'desc'    => '',
+					'size'    => 'small',
+					'default' => $args['default'],
+				)
+			);
+
+			self::select(
+				array(
+					'id'      => $args['id'] . '_units',
+					'desc'    => '',
+					'options' => array(
+						'pt' => 'pt',
+						'px' => 'px',
+						'%'  => '%',
+						'em' => 'em',
+					),
+					'default' => '%',
+				)
+			);
+
+			if ( 0 < strlen( $args['desc'] ) ) {
+
+				echo '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+			}
+		}
+/**
+		 * Custom font size callback.
+		 *
+		 * @access public
+		 * @since  1.0
+		 * @static
+		 *
+		 * @param array $args
+		 */
+public static function child_font_size( $args ) {
 
 			//$value = self::get( $args['id'], $args['default'] );
 

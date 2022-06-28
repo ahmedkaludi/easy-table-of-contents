@@ -202,6 +202,15 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 					case 'decimal':
 						$class[] = 'counter-decimal';
 						break;
+					
+					case 'hyphen':
+						$class[] = 'counter-hyphen';
+						break;
+						
+					case 'disc':
+						$class[] = 'counter-disc';
+						break;
+		
 				}
 
 				if ( $instance['affix'] ) {

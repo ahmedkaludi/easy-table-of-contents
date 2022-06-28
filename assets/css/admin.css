@@ -101,6 +101,7 @@ div.toc_theme_option {
 }
 input#width_custom,
 input#font_size,
+input#child_font_size,
 input#smooth_scroll_offset {
 	width: 50px;
 	text-align: center;
@@ -570,7 +571,7 @@ div#eztoc-tabs a:first-child {
 }
 
 .sp_ov {
-	background: #fd789f;
+	background: rgba(234, 76, 137, 1);
 	bottom: 0;
 	left: 0;
 	position: absolute;
@@ -612,7 +613,7 @@ div#eztoc-tabs a:first-child {
     border-radius: 8px !important;
     font-size: 16px !important;
     padding: 12px 18px;
-    color: #e04371 !important;
+    color: rgba(234, 76, 137, 1) !important;
     font-weight: 500;
 }
 .etoc-eztoc-cnt .buy:hover{
@@ -641,7 +642,7 @@ div#eztoc-tabs a:first-child {
 	margin: 15px 0 12px 0;
 	font-weight: 600;
 	font-size: 20px;
-    color: #e04371;
+    color: rgba(234, 76, 137, 1);
 }
 
 .ex-1 p {
@@ -711,7 +712,7 @@ div#eztoc-tabs a:first-child {
 
 .pr h1 {
 	padding-left: 50px;
-	color: #e04371;
+	color: rgba(234, 76, 137, 1);
 }
 
 .fr-fe {
@@ -807,7 +808,7 @@ div#eztoc-tabs a:first-child {
 	line-height: 1.2;
 	background: -webkit-linear-gradient(to right, #e35796, #fc789f);
 	font-weight: 600;
-	background: linear-gradient(to right, #e35796, #fc789f);
+	background: linear-gradient(to right, #e35796, rgba(234, 76, 137, 1));
 	margin-top: 0;
 	box-shadow: 0 .15em .65em 0 rgba(0, 0, 0, .25);
 }
@@ -1173,7 +1174,7 @@ div#freevspro {
 }
 a#eztoc-upgrade {
     color: #ffffff;
-    background: #fd789f;
+    background: rgba(234, 76, 137, 1);
     padding: 16px;
 }
 div#welcome {
@@ -1219,3 +1220,16 @@ a#eztoc-welcome {
   opacity: 1;
   right: 0;
 }
+
+.eztoc-query-success{
+	color: green;
+	}
+.eztoc-query-error{
+	color: red;
+    }
+ .eztoc_hide{
+ 	display: none;
+ 	}
+ .eztoc-result{
+ 	margin-left: 70px;
+ }

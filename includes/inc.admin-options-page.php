@@ -169,6 +169,9 @@
                   </li>
                 <li><button class="button button-primary eztoc-send-query"><?php echo esc_html__('Send Support Request','easy-table-of-contents'); ?></button></li>
             </ul> 
+            <div class="clear"> </div>
+                    <span class="eztoc-query-success eztoc-result eztoc_hide"><?php echo esc_html__('Message sent successfully, Please wait we will get back to you shortly','easy-table-of-contents'); ?></span>
+                    <span class="eztoc-query-error eztoc-result eztoc_hide"><?php echo esc_html__('Message not sent. please check your network connection','easy-table-of-contents'); ?></span>
             </div> 
        </div>
     <div class="eztoc-right-side">

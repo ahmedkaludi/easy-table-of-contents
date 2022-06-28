@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.24
+Stable tag: 2.0.25
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,23 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.25 06/27/2022 =
+* TWEAK: Added Migration from Table of Contents Plus and LuckyWP Table of Contents #160
+* TWEAK: Added Option to add inline CSS and JS #189
+* TWEAK: Added Shortcode to show hidden view on particular posts #183
+* TWEAK: Added Hyphen Counter to display the TOC heading #192
+* TWEAK: Added Dot Counter to display the TOC heading #180
+* TWEAK: Improved the Web Accessibility in TOC Toggle #190
+* BUG: Shortcodes are not rendering in TOC titles #197
+* BUG: TOC heading are getting hidden in sticky header #186
+* BUG: No success or error message after support request is submitted #196
+* BUG: Same font size appearing in headings and sub-headings #161
+* BUG: Salient core plugin conflict with last update 2.0.24.1 #207
+
+= 2.0.24.1 06/14/2022 =
+* BUG: TOC not displaying properly when initial view option is disabled #195
+* BUG: Initial View option not working with Pure CSS Loading Method #194
 
 = 2.0.24 06/10/2022 =
 * TWEAK: Added TOC in Infinite Scroll #138

@@ -161,6 +161,21 @@ div.ez-toc-widget-container li {
 	list-style-position: inside;
 }
 
+#ez-toc-container.counter-disc li,
+.ez-toc-widget-container.counter-disc li {
+	list-style-type: disc;
+	list-style-position: inside;
+}
+
+#ez-toc-container.counter-hyphen li,
+.ez-toc-widget-container.counter-hyphen li {
+	list-style-type: '-';
+	list-style-position: inside;    
+}
+
+
+
+
 #ez-toc-container.counter-decimal ul.ez-toc-list li a::before,
 .ez-toc-widget-container.counter-decimal ul.ez-toc-list li a::before {
 	content: counters(item, ".") ". ";
@@ -373,8 +388,4 @@ div#ez-toc-container p.ez-toc-title {
 }
 div#ez-toc-container {
     padding-right: 20px;
-}
-
-div#ez-toc-container nav {
-   	display: inherit!important;
 }

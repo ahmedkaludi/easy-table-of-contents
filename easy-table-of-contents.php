@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://magazine3.company/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.24
+ * Version: 2.0.25
  * Author: Magazine3
  * Author URI: https://magazine3.company/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.24
+ * @version  2.0.25
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -48,7 +48,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.24';
+		const VERSION = '2.0.25';
 
 		/**
 		 * Stores the instance of this class.
@@ -154,6 +154,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			// Run after shortcodes are interpreted (priority 10).
 			add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
 			add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
+			add_shortcode( 'lwptoc', array( __CLASS__, 'shortcode' ) );
 			add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
 		}
 
@@ -229,8 +230,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 
 			wp_register_style( 'ez-icomoon', EZ_TOC_URL . "vendor/icomoon/style$min.css", array(), ezTOC::VERSION );
-			wp_register_style( 'ez-toc', EZ_TOC_URL . "assets/css/screen$min.css", array( 'ez-icomoon' ), ezTOC::VERSION );
-
+			if (!ezTOC_Option::get( 'inline_css' )) {
+				wp_register_style( 'ez-toc', EZ_TOC_URL . "assets/css/screen$min.css", array( 'ez-icomoon' ), ezTOC::VERSION );
+			}
 			wp_register_script( 'js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', TRUE );
 			wp_register_script( 'jquery-smooth-scroll', EZ_TOC_URL . "vendor/smooth-scroll/jquery.smooth-scroll$min.js", array( 'jquery' ), '2.2.0', TRUE );
 			wp_register_script( 'jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', TRUE );
@@ -266,7 +268,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				$js_vars['width'] = esc_js( $width );
 			}else{
-				$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
+				if(ezTOC_Option::get( 'visibility' )){
+					$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
+				}
 			}
 
 			$offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
@@ -300,6 +304,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$css .= 'div#ez-toc-container p.ez-toc-title {font-size: ' . ezTOC_Option::get( 'title_font_size', 120 ) . ezTOC_Option::get( 'title_font_size_units', '%' ) . ';}';
 				$css .= 'div#ez-toc-container p.ez-toc-title {font-weight: ' . ezTOC_Option::get( 'title_font_weight', 500 ) . ';}';
 				$css .= 'div#ez-toc-container ul li {font-size: ' . ezTOC_Option::get( 'font_size' ) . ezTOC_Option::get( 'font_size_units' ) . ';}';
+				$css .= 'div#ez-toc-container nav ul ul li ul li {font-size: ' . ezTOC_Option::get( 'child_font_size' ) . ezTOC_Option::get( 'font_size_units' ) . '!important;}';
 
 				if ( ezTOC_Option::get( 'theme' ) === 'custom' || ezTOC_Option::get( 'width' ) != 'auto' ) {
 
@@ -537,6 +542,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				$html = $post->getTOC();
 				$run  = false;
+			}
+			if (isset($atts["initial_view"]) && !empty($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
+				$html = preg_replace('/class="ez-toc-list ez-toc-list-level-1"/', 'class="ez-toc-list ez-toc-list-level-1" style="display:none"', $html);
 			}
 
 			return $html;
