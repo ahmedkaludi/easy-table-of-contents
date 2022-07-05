@@ -370,6 +370,7 @@ div.ez-toc-widget-container li {
   opacity: 0;
   max-height: 0;
   border: none;
+  display: none;
 }
 
 #ez-toc-container label {
