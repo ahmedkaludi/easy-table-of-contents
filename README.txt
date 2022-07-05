@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.25
+Stable tag: 2.0.26
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,15 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.26 07/05/2022 =
+* BUG: TOC loading method should be same for CSS and JS #199
+* BUG: Custom width option should come after selecting the User Define option #201
+* BUG: Function added to front.js but not present in front.min.js #202
+* BUG: The custom heading is not working with WP Bakery page builder #205
+* BUG: TOC not working in the Avada themes in widgets #206
+* BUG: Headers in content of shortcodes are not getting showing up in TOC #209
+* BUG: TOC broken for non-English titles #211
 
 = 2.0.25 06/27/2022 =
 * TWEAK: Added Migration from Table of Contents Plus and LuckyWP Table of Contents #160
