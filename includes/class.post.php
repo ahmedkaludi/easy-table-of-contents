@@ -134,11 +134,7 @@ class ezTOC_Post {
 		 */
 		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
-		$this->post->post_content = apply_filters( 'ez_toc_the_content', strip_shortcodes( $this->post->post_content ) );
-		
-		if( class_exists( 'Salient_Core' ) ) {
-			$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
-		}
+		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
 
 		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
@@ -1219,13 +1215,13 @@ class ezTOC_Post {
 				
 				if ( ezTOC_Option::get( 'visibility' ) ) {
 					if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
-						$html .= '<a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;"><label for="item" aria-label="'.__( 'Table of Content', 'easy-table-of-contents' ).'"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></label><input type="checkbox" id="item"></a>';
+						$html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;"><label for="item" aria-label="'.__( 'Table of Content', 'easy-table-of-contents' ).'"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></label><input type="checkbox" id="item"></a>';
 					}else{
 						$toggle_view='';
 						if(ezTOC_Option::get('visibility_hide_by_default')==true){
 							$toggle_view= "checked";
 						}
-						$html .= '<label for="item"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></label><input type="checkbox" id="item" '.$toggle_view.'>';
+						$html .= '<label for="item" class="cssicon"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></label><input type="checkbox" id="item" '.$toggle_view.'>';
 					}
 				}
 
