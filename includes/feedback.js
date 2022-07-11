@@ -12,7 +12,7 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
 
         // only show feedback form once per 30 days
-        var c_value = undefined;//eztoc_admin_get_cookie("eztoc_hide_deactivate_feedback");
+        var c_value = eztoc_admin_get_cookie("eztoc_hide_deactivate_feedback");
 
         if (c_value === undefined) {
             $('#eztoc-reloaded-feedback-overlay').show();

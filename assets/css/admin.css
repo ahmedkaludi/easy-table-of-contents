@@ -1233,3 +1233,11 @@ a#eztoc-welcome {
  .eztoc-result{
  	margin-left: 70px;
  }
+
+ div#wp-pointer-0{
+ 	position: absolute;
+    width: 320px;
+    top: 515px!important;
+    left: 146px!important;
+    z-index: 9999;
+ }
