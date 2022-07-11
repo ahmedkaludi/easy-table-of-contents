@@ -128,6 +128,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				// This must be included after `class.options.php` because it depends on it methods.
 				require_once( EZ_TOC_PATH . '/includes/class.admin.php' );
+				require_once(EZ_TOC_PATH. "/includes/helper-function.php" );
 			}
 
 			require_once( EZ_TOC_PATH . '/includes/class.post.php' );
