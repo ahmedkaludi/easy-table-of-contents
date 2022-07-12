@@ -97,7 +97,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
-= 2.0.27 07/11/2022 =
+= 2.0.27 07/12/2022 =
 * TWEAK: Added subscribe to newsletters form on plugin activation #216
 * TWEAK: Added user feedback form on plugin deactivation #216
 * TWEAK: Added option to remove special characters from TOC Headings #217
