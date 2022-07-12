@@ -280,6 +280,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'js',
 						),
+						'remove_special_chars_from_title' => array(
+							'id' => 'remove_special_chars_from_title',
+							'name' => __( 'Remove \':\' from TOC Title', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'checkbox',
+							'default' => false,
+						),
 					)
 				),
 				'appearance' => apply_filters(
@@ -636,6 +643,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'mobile_smooth_scroll_offset'        => 0,
 				'visibility'                         => true,
 				'toc_loading'                        => 'js',
+				'remove_special_chars_from_title'    => false,
 				//'visibility_show'                    => 'show',
 				//'visibility_hide'                    => 'hide',
 				'visibility_hide_by_default'         => false,

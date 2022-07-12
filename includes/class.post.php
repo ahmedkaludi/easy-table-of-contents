@@ -364,13 +364,13 @@ class ezTOC_Post {
 		$selectors = apply_filters( 'ez_toc_exclude_by_selector', array( '.ez-toc-exclude-headings' ), $content );
 
 		$nodes = $html->Find( implode( ',', $selectors ) );
+		if(isset($nodes['ids'])){
+			foreach ( $nodes['ids'] as $id ) {
 
-		foreach ( $nodes['ids'] as $id ) {
-
-			//$this->excludedNodes[ $page ][ $id ] = $html->Implode( $id, $tagFilterOptions );
-			array_push( $this->excludedNodes, $html->Implode( $id, $tagFilterOptions ) );
+				//$this->excludedNodes[ $page ][ $id ] = $html->Implode( $id, $tagFilterOptions );
+				array_push( $this->excludedNodes, $html->Implode( $id, $tagFilterOptions ) );
+			}
 		}
-
 		//$eligibleContent = $html->Implode( 0, $tagFilterOptions );
 
 		/**
@@ -1038,6 +1038,10 @@ class ezTOC_Post {
 			foreach ( $matches as $i => $match ) {
 
 				$anchor     = $matches[ $i ]['id'];
+				if (ezTOC_Option::get( 'remove_special_chars_from_title' )) {
+					$matches[ $i ][0] = str_replace(':', '', $matches[ $i ][0]);
+				}
+
 				$headings[] = str_replace(
 					array(
 						$matches[ $i ][1],                // start of heading
@@ -1398,7 +1402,10 @@ class ezTOC_Post {
 	 * @return string
 	 */
 	private function createTOCItemAnchor( $page, $id, $title, $count ) {
-
+		if (ezTOC_Option::get( 'remove_special_chars_from_title' )) {
+			$title = str_replace(':', '', $title);
+		}
+		
 		return sprintf(
 			'<a class="ez-toc-link ez-toc-heading-' . $count . '" href="%1$s" title="%2$s">%3$s</a>',
 			esc_attr( $this->createTOCItemURL( $id, $page ) ),

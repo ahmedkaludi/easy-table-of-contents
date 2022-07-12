@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.26
+Stable tag: 2.0.27
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,15 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.27 07/12/2022 =
+* TWEAK: Added subscribe to newsletters form on plugin activation #216
+* TWEAK: Added user feedback form on plugin deactivation #216
+* TWEAK: Added option to remove special characters from TOC Headings #217
+* BUG: Corner Stone page builder heading are not working #200
+* BUG: The links are not working using href with pure CSS option #208
+* BUG: Attribute href is missing in an anchor element due to which links cannot be crawled #210
+* BUG: Debug Warnings #212
 
 = 2.0.26 07/05/2022 =
 * BUG: TOC loading method should be same for CSS and JS #199

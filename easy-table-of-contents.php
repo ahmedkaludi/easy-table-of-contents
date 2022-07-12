@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://magazine3.company/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.26
+ * Version: 2.0.27
  * Author: Magazine3
  * Author URI: https://magazine3.company/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.26
+ * @version  2.0.27
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -48,7 +48,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.26';
+		const VERSION = '2.0.27';
 
 		/**
 		 * Stores the instance of this class.
@@ -128,6 +128,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				// This must be included after `class.options.php` because it depends on it methods.
 				require_once( EZ_TOC_PATH . '/includes/class.admin.php' );
+				require_once(EZ_TOC_PATH. "/includes/helper-function.php" );
+				require_once( EZ_TOC_PATH . '/includes/newsletter.php' );
 			}
 
 			require_once( EZ_TOC_PATH . '/includes/class.post.php' );
