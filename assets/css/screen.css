@@ -399,3 +399,7 @@ label.cssicon .ez-toc-glyphicon:empty {
 label.cssiconcheckbox {
     display: none;
 }
+
+div#ez-toc-container.afterpara + p {
+    display: none;
+}

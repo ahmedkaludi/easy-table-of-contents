@@ -1176,6 +1176,11 @@ class ezTOC_Post {
 
 			$custom_classes = ezTOC_Option::get( 'css_container_class', '' );
 
+			$position = ezTOC_Option::get( 'position' );
+			if($position == 'afterpara'){
+				$custom_classes .= "afterpara";
+			}
+			
 			if ( 0 < strlen( $custom_classes ) ) {
 
 				$custom_classes = explode( ' ', $custom_classes );

@@ -686,7 +686,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$replace[0] = $replace[0] . $toc;
 					$content    = mb_find_replace( $find, $replace, $content );
 					break;
-
+				case 'afterpara':
+					$get_para = preg_match_all('%(<p[^>]*>.*?</p>)%i', $content, $matches);
+  					$first_para = $matches[1][0];
+					$content = $first_para . $toc . $content;
+					break;	
 				case 'before':
 				default:
 					//$replace[0] = $html . $replace[0];
