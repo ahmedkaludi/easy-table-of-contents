@@ -308,6 +308,12 @@ function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 						get_option( 'blog_charset' )
 					);
 
+					$string = html_entity_decode(
+						$string,
+						ENT_QUOTES,
+						get_option( 'blog_charset' )
+					);
+
 					$needle = str_replace(array('’','“','”'), array('\'','"','"'), $needle);
 
 					$start = mb_strpos( $string, $needle );
