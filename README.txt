@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.27
+Stable tag: 2.0.28
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,14 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.28 07/15/2022 =
+* TWEAK: Added Sidebar placement option for TOC #156
+* TWEAK: Added SeedProd Pro compatibility #157
+* TWEAK: Added option to show the TOC content after the first paragraph #181
+* BUG: TOC not working in sidebar with Blocksy theme #220
+* BUG: Form elements do not have associated labels In lighthouse #219
+* BUG: Alternate Heading problem with Umlauts #148
 
 = 2.0.27 07/12/2022 =
 * TWEAK: Added subscribe to newsletters form on plugin activation #216
