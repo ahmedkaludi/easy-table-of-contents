@@ -577,6 +577,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$apply = false;
 			}
 
+			if ( ! empty( array_intersect( $wp_current_filter, array( 'get_the_excerpt', 'init', 'wp_head' ) ) ) ) {
+				$apply = false;
+			}
 			/**
 			 * Whether or not to apply `the_content` filter callback.
 			 *
