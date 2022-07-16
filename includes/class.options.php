@@ -183,6 +183,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'options' => array(
 								'before' => __( 'Before first heading (default)', 'easy-table-of-contents' ),
 								'after' => __( 'After first heading', 'easy-table-of-contents' ),
+								'afterpara' => __( 'After first paragraph', 'easy-table-of-contents' ),
 								'top' => __( 'Top', 'easy-table-of-contents' ),
 								'bottom' => __( 'Bottom', 'easy-table-of-contents' ),
 								//'placeholder' => __( 'Replace [toc] placeholder. For backwards compatibility with Table of Content Plus.', 'easy-table-of-contents' ),
