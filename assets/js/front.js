@@ -153,6 +153,9 @@ jQuery( function( $ ) {
 			toggle.on( 'click', function( event ) {
 
 				event.preventDefault();
+				
+				const main = document.querySelector("#ez-toc-container");
+				main.classList.toggle("toc_close");
 
 				if ( $( this ).data( 'visible' ) ) {
 
