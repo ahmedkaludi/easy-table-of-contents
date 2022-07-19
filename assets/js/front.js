@@ -134,10 +134,12 @@ jQuery( function( $ ) {
 			if ( Cookies ) {
 
 				Cookies.get( 'ezTOC_hidetoc' ) == 1 ? toggle.data( 'visible', false ) : toggle.data( 'visible', true );
+				Cookies.remove('ezTOC_hidetoc')
 
 			} else {
 
 				toggle.data( 'visible', true );
+				Cookies.remove('ezTOC_hidetoc')
 			}
 
 			if ( invert ) {
