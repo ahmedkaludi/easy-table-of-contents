@@ -611,6 +611,20 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),		 
+						'highlightheadings' => array(
+							'id' => 'highlightheadings',
+							'name' => __( 'Highlight TOC Headings ', 'easy-table-of-contents' ),
+							'desc' => __( 'Highlight TOC headings while scrolling ', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
+						'shrinkthewidth' => array(
+							'id' => 'shrinkthewidth',
+							'name' => __( 'Shrink the width', 'easy-table-of-contents' ),
+							'desc' => __( 'Shrink the width to the size of the title' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 					)
 				),
 			);
