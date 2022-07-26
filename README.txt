@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.28
+Stable tag: 2.0.29
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,15 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.29 07/19/2022 =
+* TWEAK: Added Oxygen pagebulider compatibility #198
+* TWEAK: Added toggle state class to container #129
+* TWEAK: Added Refresh Toggle State #149
+* BUG: TOC not showing in WooCommerce category description #134
+* BUG: TOC links not working with emoji in title #117
+* BUG: TOC not running on nested excluded filters #118
+* BUG: Showing incorrect excerpt in a grid with Genesis Framework and other themes #144
 
 = 2.0.28 07/15/2022 =
 * TWEAK: Added Sidebar placement option for TOC #156

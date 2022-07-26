@@ -1224,7 +1224,11 @@ class ezTOC_Post {
 				
 				if ( ezTOC_Option::get( 'visibility' ) ) {
 					if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
-						$html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;"><label for="item" aria-label="'.__( 'Table of Content', 'easy-table-of-contents' ).'"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></label><input type="checkbox" id="item"></a>';
+						$icon = '<i class="ez-toc-glyphicon ez-toc-icon-toggle"></i>';
+						if(function_exists('ez_toc_pro_activation_link')){
+							$icon = apply_filters('ez_toc_modify_icon',$icon);
+						}
+						$html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;"><label for="item" aria-label="'.__( 'Table of Content', 'easy-table-of-contents' ).'">'.$icon.'</label><input type="checkbox" id="item"></a>';
 					}else{
 						$toggle_view='';
 						if(ezTOC_Option::get('visibility_hide_by_default')==true){

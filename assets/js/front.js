@@ -134,10 +134,12 @@ jQuery( function( $ ) {
 			if ( Cookies ) {
 
 				Cookies.get( 'ezTOC_hidetoc' ) == 1 ? toggle.data( 'visible', false ) : toggle.data( 'visible', true );
+				Cookies.remove('ezTOC_hidetoc')
 
 			} else {
 
 				toggle.data( 'visible', true );
+				Cookies.remove('ezTOC_hidetoc')
 			}
 
 			if ( invert ) {
@@ -153,6 +155,9 @@ jQuery( function( $ ) {
 			toggle.on( 'click', function( event ) {
 
 				event.preventDefault();
+				
+				const main = document.querySelector("#ez-toc-container");
+				main.classList.toggle("toc_close");
 
 				if ( $( this ).data( 'visible' ) ) {
 
