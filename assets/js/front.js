@@ -301,7 +301,7 @@ jQuery( function( $ ) {
             // jQuery(..).css(..) doesn't work, because ::before is a pseudo element and not part of the DOM
             // Workaround is to add it to head
             $( '<style id="ez-toc-active-height">' +
-                '.ez-toc-widget-container ul.ez-toc-list li.active::before {' +
+                '.ez-toc-widget-container ul.ez-toc-list li.active {' +
                 // 'line-heigh:' + listElementHeight + 'px; ' +
                 'height:' + listElementHeight + 'px;' +
                 '} </style>' )
