@@ -157,7 +157,14 @@ jQuery( function( $ ) {
 				event.preventDefault();
 				
 				const main = document.querySelector("#ez-toc-container");
-				main.classList.toggle("toc_close");
+				if(main){
+					main.classList.toggle("toc_close");
+				}
+				else
+				{
+					const side = document.querySelector(".ez-toc-widget-container");
+					side.classList.toggle("toc_close");					
+				}
 
 				if ( $( this ).data( 'visible' ) ) {
 
