@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://magazine3.company/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.29
+ * Version: 2.0.30
  * Author: Magazine3
  * Author URI: https://magazine3.company/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.29
+ * @version  2.0.30
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -48,7 +48,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.29';
+		const VERSION = '2.0.30';
 
 		/**
 		 * Stores the instance of this class.
@@ -152,7 +152,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			//add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
-
+			add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
 			// Run after shortcodes are interpreted (priority 10).
 			add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
 			add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
@@ -731,6 +731,60 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 
 			return Debug::log()->appendTo( $content );
+		}
+		
+		/**
+		 * Call back for the `wp_head` action.
+		 *
+		 * Add add button for shortcode in wysisyg editor .
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */
+		public static function addEditorButton() {
+			
+            if ( !current_user_can( 'edit_posts' ) &&  !current_user_can( 'edit_pages' ) ) {
+                       return;
+               }
+			   
+		
+           if ( 'true' == get_user_option( 'rich_editing' ) ) {
+               add_filter( 'mce_external_plugins', array( __CLASS__, 'toc_add_tinymce_plugin'));
+               add_filter( 'mce_buttons', array( __CLASS__, 'toc_register_mce_button' ));
+               }
+			
+		}
+		
+		/**
+		 * Call back for the `mce_external_plugins` action.
+		 *
+		 * Register new button in the editor.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */		
+		
+		public static function toc_register_mce_button( $buttons ) {
+            
+				array_push( $buttons, 'toc_mce_button' );
+				return $buttons;
+		}
+			
+		/**
+		 * Call back for the `mce_buttons` action.
+		 *
+		 * Add  js to insert the shortcode on the click event.
+		 *
+		 * @access private
+		 * @since  1.0
+		 * @static
+		 */
+		public static function toc_add_tinymce_plugin( $plugin_array ) {
+			
+				$plugin_array['toc_mce_button'] = EZ_TOC_URL .'assets/js/toc-mce-button.js';
+				return $plugin_array;
 		}
 
 	}

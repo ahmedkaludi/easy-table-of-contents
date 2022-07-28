@@ -200,7 +200,7 @@ div.ez-toc-widget-container li {
 	z-index: -1;
 }
 
-.ez-toc-widget-container ul.ez-toc-list li.active::before {
+.ez-toc-widget-container ul.ez-toc-list li.active {
 	background-color: #EDEDED;
 }
 
@@ -402,4 +402,7 @@ label.cssiconcheckbox {
 
 div#ez-toc-container.afterpara + p {
     display: none;
+}
+.ez-toc-widget-container ul li a {
+  padding-left: 10px;
 }

@@ -235,7 +235,8 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				$class = array_map( 'trim', $class );
 				$class = array_map( 'sanitize_html_class', $class );
 
-				echo $before_widget;
+				echo $before_widget;				
+				do_action( 'ez_toc_before_widget_container');
 
 				echo '<div class="ez-toc-widget-container ' . implode( ' ', $class ) . '">' . PHP_EOL;
 
@@ -258,7 +259,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 					<span class="ez-toc-title-container">
 
 						<style type="text/css">
-							#<?php echo $this->id ?> .ez-toc-widget-container ul.ez-toc-list li.active::before {
+							#<?php echo $this->id ?> .ez-toc-widget-container ul.ez-toc-list li.active{
 								background-color: <?php echo esc_attr( $instance['highlight_color'] ); ?>;
 							}
 						</style>
@@ -288,6 +289,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				do_action( 'ez_toc_after_widget' );
 
 				echo '</div>' . PHP_EOL;
+				do_action( 'ez_toc_after_widget_container' );
 
 				echo $after_widget;
 

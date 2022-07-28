@@ -136,7 +136,7 @@ class ezTOC_Post {
 
 		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
 
-		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
+		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 9999 );  // increased  priority to fix other plugin filter overwriting our changes
 
 		remove_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ) );
 
@@ -802,7 +802,8 @@ class ezTOC_Post {
 			// title needs to be converted to HTML entities.
 			// @link https://stackoverflow.com/a/21801444/5351316
 			$return = htmlentities2( $return );
-			$return = str_replace( array( '&amp;', '&nbsp;' ), ' ', $return );
+			$return = str_replace( array( '&amp;', '&nbsp;'), ' ', $return );
+			$return = str_replace( array( '&shy;' ),'', $return );					// removed silent hypen 
 			$return = html_entity_decode( $return, ENT_QUOTES, get_option( 'blog_charset' ) );
 
 			// remove non alphanumeric chars
@@ -1195,7 +1196,6 @@ class ezTOC_Post {
 			$class = array_filter( $class );
 			$class = array_map( 'trim', $class );
 			$class = array_map( 'sanitize_html_class', $class );
-
 			$html .= '<div id="ez-toc-container" class="' . implode( ' ', $class ) . '">' . PHP_EOL;
 
 			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
