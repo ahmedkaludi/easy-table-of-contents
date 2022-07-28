@@ -1196,8 +1196,6 @@ class ezTOC_Post {
 			$class = array_filter( $class );
 			$class = array_map( 'trim', $class );
 			$class = array_map( 'sanitize_html_class', $class );
-			$html .= apply_filters( 'ez_toc_before_container', '<!--TOC container Start -->'. PHP_EOL);
-
 			$html .= '<div id="ez-toc-container" class="' . implode( ' ', $class ) . '">' . PHP_EOL;
 
 			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
@@ -1265,7 +1263,6 @@ class ezTOC_Post {
 			$html .= ob_get_clean();
 
 			$html .= '</div>' . PHP_EOL;
-			$html .= apply_filters( 'ez_toc_after_container', '<!--TOC container Start -->'. PHP_EOL);
 
 			// Enqueue the script.
 			wp_enqueue_script( 'ez-toc-js' );

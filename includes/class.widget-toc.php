@@ -236,7 +236,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				$class = array_map( 'sanitize_html_class', $class );
 
 				echo $before_widget;				
-				echo apply_filters( 'ez_toc_before_container', '<!--TOC container Start -->'. PHP_EOL);
+				do_action( 'ez_toc_before_widget_container');
 
 				echo '<div class="ez-toc-widget-container ' . implode( ' ', $class ) . '">' . PHP_EOL;
 
@@ -289,7 +289,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				do_action( 'ez_toc_after_widget' );
 
 				echo '</div>' . PHP_EOL;
-				echo apply_filters( 'ez_toc_after_container', '<!--TOC container End -->'. PHP_EOL);
+				do_action( 'ez_toc_after_widget_container' );
 
 				echo $after_widget;
 
