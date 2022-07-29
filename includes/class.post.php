@@ -136,7 +136,7 @@ class ezTOC_Post {
 
 		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
 
-		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 9999 );  // increased  priority to fix other plugin filter overwriting our changes
+		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
 
 		remove_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ) );
 
