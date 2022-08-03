@@ -1039,9 +1039,6 @@ class ezTOC_Post {
 			foreach ( $matches as $i => $match ) {
 
 				$anchor     = $matches[ $i ]['id'];
-				if (ezTOC_Option::get( 'remove_special_chars_from_title' )) {
-					$matches[ $i ][0] = str_replace(':', '', $matches[ $i ][0]);
-				}
 
 				$headings[] = str_replace(
 					array(
