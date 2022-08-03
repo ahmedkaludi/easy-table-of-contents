@@ -308,7 +308,9 @@ function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 						get_option( 'blog_charset' )
 					);
 
-					if (!function_exists('astra_main_header_bar_top')) {
+					$umlauts = false;
+          			$umlauts = apply_filters( 'eztoc_modify_umlauts', $umlauts );
+          			if($umlauts){
 						$string = html_entity_decode(
 							$string,
 							ENT_QUOTES,
