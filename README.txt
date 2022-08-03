@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.30
+Stable tag: 2.0.31.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,19 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.31.1 08/03/2022
+* BUG: TOC not working with the SEOWP theme #230
+* BUG: TOC rendering area’s height is always changing in sidebar #244
+* BUG: The colon is getting removed from anchor links #248
+* BUG: After 2.0.27 version updates making conflict with Avada theme #229
+* BUG: Need to fix Easy table of content in sidebar #232
+* BUG: TOC causes problems after updating my latest post #234
+* BUG: TOC showing issue with video implemented posts/pages. #236
+* BUG: When using TOC with Elementor then the animation content is not showing #237
+
+= 2.0.31 07/29/2022
+BUG: Elementor editor is not accessible after latest update. #235
 
 = 2.0.30 07/28/2022 =
 * NEW: Added Hook Before/After Widget Container #119
