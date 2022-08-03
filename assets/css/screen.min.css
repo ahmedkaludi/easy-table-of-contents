@@ -32,3 +32,6 @@ div#ez-toc-container.afterpara + p {
     display: none;
 }
 .ez-toc-widget-container ul li a{padding-left:10px}
+.ez-toc-widget-container ul.ez-toc-list li.active {
+    height: auto!important;
+}
