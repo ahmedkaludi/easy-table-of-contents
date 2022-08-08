@@ -1061,11 +1061,12 @@ class ezTOC_Post {
 	 * Get the post TOC list.
 	 *
 	 * @access public
+	 * @param string $prefix
 	 * @since  2.0
 	 *
 	 * @return string
 	 */
-	public function getTOCList() {
+	public function getTOCList($prefix = "ez-toc") {
 
 		$html = '';
 
@@ -1073,13 +1074,64 @@ class ezTOC_Post {
 
 			foreach ( $this->pages as $page => $attribute ) {
 
-				$html .= $this->createTOC( $page, $attribute['headings'] );
+				$html .= $this->createTOC( $page, $attribute['headings'], $prefix );
 			}
 
-			$html  = '<ul class="ez-toc-list ez-toc-list-level-1">' . $html . '</ul>';
+			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1'>" . $html . "</ul>";
 		}
 
 		return $html;
+	}
+
+	/**
+	/**
+	 * Get the post Sticky Toggle TOC content block.
+	 *
+	 * @access public
+	 * @return string
+	 * @since  2.0.32
+	 *
+	 */
+	public function getStickyToggleTOC() {
+		$classSticky = array( 'ez-toc-sticky-v' . str_replace( '.', '_', ezTOC::VERSION ) );
+		$htmlSticky  = '';
+		if ( $this->hasTOCItems() ) {
+			$classSticky[] = 'counter-flat';
+			$classSticky = array_filter( $classSticky );
+			$classSticky = array_map( 'trim', $classSticky );
+			$classSticky = array_map( 'sanitize_html_class', $classSticky );
+			$htmlSticky  .= '<div id="ez-toc-sticky-container" class="' . implode( ' ', $classSticky ) . '">' . PHP_EOL;
+			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
+				$toc_title = ezTOC_Option::get( 'heading_text' );
+				if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
+					$toc_title = str_replace( '%PAGE_TITLE%', get_the_title(), $toc_title );
+				}
+				if ( strpos( $toc_title, '%PAGE_NAME%' ) !== false ) {
+					$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
+				}
+				if ( ezTOC_Option::get( 'toc_loading' ) !== 'css' ) {
+					$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
+				}
+				$htmlSticky .= '<p class="ez-toc-sticky-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ) . '</p>' . PHP_EOL;
+				if ( ezTOC_Option::get( 'toc_loading' ) !== 'css' ) {
+					$htmlSticky .= '</div>' . PHP_EOL;
+				}
+			} else {
+				$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
+				$htmlSticky .= '</div>' . PHP_EOL;
+			}
+			ob_start();
+			do_action( 'ez_toc_before' );
+			$htmlSticky .= ob_get_clean();
+			$htmlSticky .= '<nav>' . $this->getTOCList( "ez-toc-sticky" ) . '</nav>';
+			ob_start();
+			do_action( 'ez_toc_after' );
+			$htmlSticky .= ob_get_clean();
+			$htmlSticky .= '</div>' . PHP_EOL;
+			// Enqueue the script.
+			wp_enqueue_script( 'ez-toc-js' );
+		}
+		return $htmlSticky;
 	}
 
 	/**
@@ -1290,7 +1342,7 @@ class ezTOC_Post {
 	 *
 	 * @return string The HTML list of TOC items.
 	 */
-	private function createTOC( $page, $matches ) {
+	private function createTOC( $page, $matches, $prefix = "ez-toc" ) {
 
 		// Whether or not the TOC should be built flat or hierarchical.
 		$hierarchical = ezTOC_Option::get( 'show_hierarchy' );
@@ -1325,7 +1377,7 @@ class ezTOC_Post {
 
 				if ( $current_depth == (int) $matches[ $i ][2] ) {
 
-					$html .= '<li class="ez-toc-page-' . $page . ' ez-toc-heading-level-' . $current_depth . '">';
+					$html .= "<li class='{$prefix}-page-" . $page . " {$prefix}-heading-level-" . $current_depth . "'>";
 				}
 
 				// start lists
@@ -1334,7 +1386,7 @@ class ezTOC_Post {
 					for ( $current_depth; $current_depth < (int) $matches[ $i ][2]; $current_depth++ ) {
 
 						$numbered_items[ $current_depth + 1 ] = 0;
-						$html .= '<ul class="ez-toc-list-level-' . $level . '"><li class="ez-toc-heading-level-' . $level . '">';
+						$html .= "<ul class='{$prefix}-list-level-" . $level . "'><li class='{$prefix}-heading-level-" . $level . "'>";
 					}
 				}
 
@@ -1385,7 +1437,7 @@ class ezTOC_Post {
 				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
 				$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
-				$html .= '<li class="ez-toc-page-' . $page . '">';
+				$html .= "<li class='{$prefix}-page-" . $page . "'>";
 
 				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title, $count );
 

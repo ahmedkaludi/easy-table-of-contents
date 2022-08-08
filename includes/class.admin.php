@@ -74,6 +74,95 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 
 			wp_register_script( 'cn_toc_admin_script', EZ_TOC_URL . 'assets/js/admin.js', array( 'jquery', 'wp-color-picker' ), ezTOC::VERSION, true );
 			wp_register_style( 'cn_toc_admin_style', EZ_TOC_URL . 'assets/css/admin.css', array( 'wp-color-picker' ), ezTOC::VERSION );
+
+
+//                                wp_enqueue_style( 'ez-toc' );
+//                                self::inlineStickyToggleCSS();
+			wp_enqueue_script( 'cn_toc_admin_script' );
+			self::inlineAdminStickyToggleJS();
+
+		}
+
+		/**
+		 * inlineAdminStickyToggleJS Method
+		 * Prints out inline Sticky Toggle JS after the core CSS file to allow overriding core styles via options.
+		 *
+		 * @access private
+		 * @return void
+		 * @since  2.0.32
+		 * @static
+		 */
+		private static function inlineAdminStickyToggleJS() {
+			$inlineAdminStickyToggleJS = <<<INLINESTICKYTOGGLEJS
+/**
+ * Admin Sticky Sidebar JS
+ */
+jQuery(function($) {
+
+    var stickyToggleCheckbox = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle]']");
+    var stickyToggleWidth = $('#eztoc-general').find("select[name='ez-toc-settings[sticky-toggle-width]']");
+    var stickyToggleWidthCustom = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-width-custom]']");
+    var stickyToggleHeight = $('#eztoc-general').find("select[name='ez-toc-settings[sticky-toggle-height]']");
+    var stickyToggleHeightCustom = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-height-custom]']");
+    
+    console.log($(stickyToggleCheckbox).prop('checked'));
+    if($(stickyToggleCheckbox).prop('checked') == false) {
+        $(stickyToggleWidth).parents('tr').hide(500);
+        $(stickyToggleWidthCustom).parents('tr').hide(500);
+        $(stickyToggleHeight).parents('tr').hide(500);
+        $(stickyToggleHeightCustom).parents('tr').hide(500);
+        $(stickyToggleWidth).val('auto');
+        $(stickyToggleHeight).val('auto');
+    }
+    $(document).on("change, click", stickyToggleCheckbox, function() {
+    
+        if($(stickyToggleCheckbox).prop('checked') == true) {
+            $(stickyToggleWidth).parents('tr').show(500);
+            $(stickyToggleHeight).parents('tr').show(500);
+        } else {
+            $(stickyToggleWidth).parents('tr').hide(500);
+            $(stickyToggleWidthCustom).parents('tr').hide(500);
+            $(stickyToggleHeight).parents('tr').hide(500);
+            $(stickyToggleHeightCustom).parents('tr').hide(500);
+            $(stickyToggleWidth).val('auto');
+            $(stickyToggleHeight).val('auto');
+        }
+        
+    });
+     
+    
+    if($(stickyToggleWidth).val() == '' || $(stickyToggleWidth).val() != 'custom')
+        $(stickyToggleWidthCustom).parents('tr').hide();
+        
+    $(document).on("change", stickyToggleWidth, function() {
+        if($(stickyToggleWidth).val() == 'custom') {
+            $(stickyToggleWidthCustom).val('350px');
+            $(stickyToggleWidthCustom).parents('tr').show(500);
+        } else {
+            $(stickyToggleWidthCustom).val('');
+            $(stickyToggleWidthCustom).parents('tr').hide(500);
+        }
+    });
+     
+    
+    if($(stickyToggleHeight).val() == '' || $(stickyToggleHeight).val() != 'custom')
+        $(stickyToggleHeightCustom).parents('tr').hide();
+        
+    $(document).on("change", stickyToggleHeight, function() {
+        
+        if($(stickyToggleHeight).val() == 'custom') {
+            $(stickyToggleHeightCustom).val('800px');
+            $(stickyToggleHeightCustom).parents('tr').show(500);
+        } else {
+            $(stickyToggleHeightCustom).val('');
+            $(stickyToggleHeightCustom).parents('tr').hide(500);
+        }
+    });
+    
+    
+});
+INLINESTICKYTOGGLEJS;
+			wp_add_inline_script( 'cn_toc_admin_script', $inlineAdminStickyToggleJS );
 		}
 
 		/**

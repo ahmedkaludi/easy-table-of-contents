@@ -255,6 +255,20 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				self::inlineCSS();
 			}
 
+			if ( ezTOC_Option::get( 'sticky-toggle' ) ) {
+				wp_register_style(
+					'ez-toc-sticky',
+					EZ_TOC_URL . "assets/css/ez-toc-sticky{$min}.css",
+					[ 'ez-toc' ],
+					self::VERSION
+				);
+				wp_enqueue_style( 'ez-toc-sticky' );
+				wp_enqueue_style( 'ez-toc' );
+				self::inlineStickyToggleCSS();
+				wp_enqueue_script( 'ez-toc-js' );
+				self::inlineStickyToggleJS();
+			}
+
 			if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
 
 				$js_vars['smooth_scroll'] = true;
@@ -350,6 +364,167 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				wp_add_inline_style( 'ez-toc', $css );
 			}
+		}
+
+		/**
+		 * inlineStickyToggleCSS Method
+		 * Prints out inline Sticky Toggle CSS after the core CSS file to allow overriding core styles via options.
+		 *
+		 * @since  2.0.32
+		 * @static
+		 */
+		private static function inlineStickyToggleCSS() {
+			$custom_width = 'min-width: 350px;';
+			if ( null !== ezTOC_Option::get( 'sticky-toggle-width-custom' ) && ! empty( ezTOC_Option::get(
+					'sticky-toggle-width-custom'
+				) ) ) {
+				$custom_width = 'min-width: ' . ezTOC_Option::get( 'sticky-toggle-width-custom' ) . ';';
+			}
+			$custom_height = 'max-height: 100vh;';
+			if ( null !== ezTOC_Option::get( 'sticky-toggle-height-custom' ) && ! empty( ezTOC_Option::get(
+					'sticky-toggle-height-custom'
+				) ) ) {
+				$custom_height = 'max-height: ' . ezTOC_Option::get( 'sticky-toggle-height-custom' ) . ';';
+			}
+			$inlineStickyToggleCSS = <<<INLINESTICKYTOGGLECSS
+/**
+* Ez Toc Sidebar Sticky CSS
+*/
+.ez-toc-sticky-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+    width: auto;
+}
+.ez-toc-sticky-fixed .ez-toc-sidebar {
+    position: relative;
+    top: auto;
+    width: auto !important;
+    {$custom_width}
+    height: 100%;
+    box-shadow: 2px 2px 3px 3px #ccc;
+    box-sizing: border-box;
+    padding: 20px 30px;
+    background: white;
+    margin-left: 0 !important;
+    height: auto;
+    {$custom_height}
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+}
+.ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container {
+        {$custom_width}
+}
+.ez-toc-sticky-fixed .ez-toc-close-icon {
+    position: absolute;
+    right: -40px;
+    top: 40%;
+    text-decoration: none;
+    font-size: 2.1rem;
+    font-weight: 800;
+    padding: 0px 5px;
+    box-shadow: 1px 1px 1px 1px #ccc;
+    background-color: #fff;
+    height: auto;
+    max-height: 100%;
+    width: auto;
+    max-width: 40px;
+}
+.ez-toc-sticky-fixed .ez-toc-open-icon {
+    position: absolute;
+    left: 0px;
+    top: 40%;
+    text-decoration: none;
+    font-size: 2.1rem;
+    font-weight: 800;
+    padding: 0px 5px;
+    box-shadow: 1px 1px 1px 1px #ccc;
+    background-color: #fff;
+    max-width: 65px !important;
+    width: auto !important;
+    height: auto;
+    max-height: 100%;
+}
+.ez-toc-sticky-fixed .ez-toc-sidebar.hide {
+    transition: left 0.8s linear;
+    left: -1000px;
+}
+.ez-toc-sticky-fixed .ez-toc-sidebar.show {
+    transition: left 0.8s linear;
+    left: 0px;
+}
+.ez-toc-sticky-fixed .ez-toc-close-icon.hide {
+    transition: right 0.8s linear;
+    right: +1000px;
+}
+.ez-toc-sticky-fixed .ez-toc-close-icon.show {
+    transition: right 0.8s linear;
+    right: -40px;
+}
+@media screen  and (max-device-width: 640px) {
+        
+        .ez-toc-sticky-fixed .ez-toc-sidebar {
+            min-width: auto;
+        }
+        .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container {
+            min-width: 100%;
+        }
+        .ez-toc-sticky-fixed .ez-toc-close-icon.show {
+                right: 0px;
+        }
+        .ez-toc-sticky-fixed .ez-toc-close-icon {
+                top: 0px;
+        }
+}
+INLINESTICKYTOGGLECSS;
+			wp_add_inline_style( 'ez-toc', $inlineStickyToggleCSS );
+		}
+
+		/**
+		 * inlineStickyToggleJS Method
+		 * Prints out inline Sticky Toggle JS after the core CSS file to allow overriding core styles via options.
+		 *
+		 * @since  2.0.32
+		 * @static
+		 */
+		private static function inlineStickyToggleJS() {
+			$inlineStickyToggleJS = <<<'INLINESTICKYTOGGLEJS'
+/**
+ * Sticky Sidebar JS
+ */
+ 
+var sidebar = document.querySelector(".ez-toc-sidebar");
+sidebar.classList.remove("show");
+sidebar.classList.add("hide");
+var close_icon = document.querySelector(".ez-toc-close-icon");
+close_icon.classList.remove("show");
+close_icon.classList.add("hide");
+jQuery(".ez-toc-sticky-fixed").css({'width': '0px'});
+    
+function hideBar(e) {
+    e.preventDefault();
+    var sidebar = document.querySelector(".ez-toc-sidebar");
+    sidebar.classList.remove("show");
+    sidebar.classList.add("hide");
+    var close_icon = document.querySelector(".ez-toc-close-icon");
+    close_icon.classList.remove("show");
+    close_icon.classList.add("hide");
+    jQuery(".ez-toc-sticky-fixed").css({'width': '0px'});
+}
+function showBar(e) {
+    e.preventDefault();
+    var sidebar = document.querySelector(".ez-toc-sidebar");
+    sidebar.classList.remove("hide");
+    sidebar.classList.add("show");
+    var close_icon = document.querySelector(".ez-toc-close-icon");
+    close_icon.classList.remove("hide");
+    close_icon.classList.add("show");
+    jQuery(".ez-toc-sticky-fixed").css({'width': 'auto'});
+}
+INLINESTICKYTOGGLEJS;
+			wp_add_inline_script( 'ez-toc-js', $inlineStickyToggleJS );
 		}
 
 		/**
@@ -730,9 +905,35 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					}
 			}
 
+			// @since 2.0.32
+			if ( ezTOC_Option::get( 'sticky-toggle' ) ) {
+				add_action( 'wp_footer', [ __CLASS__, 'stickyToggleContent' ] );
+			}
+
 			return Debug::log()->appendTo( $content );
 		}
-		
+
+		/**
+		 * stickyToggleContent Method
+		 * Call back for the `wp_footer` action.
+		 *
+		 * @since  2.0.32
+		 * @static
+		 */
+		public static function stickyToggleContent(): void {
+			$post = self::get( get_the_ID() );
+			if ( null !== $post ) {
+				$stickyToggleTOC = $post->getStickyToggleTOC();
+				echo <<<STICKYTOGGLEHTML
+			        <div class="ez-toc-sticky-fixed">
+			                <a class='ez-toc-open-icon' href='javascript:void(0)' onclick='showBar(event)'>&#8594;</a>
+			                <div class='ez-toc-sidebar show'>{$stickyToggleTOC}</div>
+			                <a class='ez-toc-close-icon' href='javascript:void(0)' onclick='hideBar(event)'>&#8592;</a>
+			        </div>
+STICKYTOGGLEHTML;
+			}
+		}
+
 		/**
 		 * Call back for the `wp_head` action.
 		 *
