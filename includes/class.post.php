@@ -1097,9 +1097,32 @@ class ezTOC_Post {
 		$htmlSticky  = '';
 		if ( $this->hasTOCItems() ) {
 			$classSticky[] = 'counter-flat';
+			switch ( ezTOC_Option::get( 'counter' ) ) {
+
+                case 'numeric':
+                    $classSticky[] .= 'counter-numeric';
+                    break;
+
+                case 'roman':
+                    $classSticky[] = 'counter-roman';
+                    break;
+
+                case 'decimal':
+                    $classSticky[] = 'counter-decimal';
+                    break;
+
+                case 'hyphen':
+                    $classSticky[] = 'counter-hyphen';
+                    break;
+
+                case 'disc':
+                    $classSticky[] = 'counter-disc';
+                    break;
+            }
 			$classSticky = array_filter( $classSticky );
 			$classSticky = array_map( 'trim', $classSticky );
 			$classSticky = array_map( 'sanitize_html_class', $classSticky );
+
 			$htmlSticky  .= '<div id="ez-toc-sticky-container" class="' . implode( ' ', $classSticky ) . '">' . PHP_EOL;
 			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
 				$toc_title = ezTOC_Option::get( 'heading_text' );

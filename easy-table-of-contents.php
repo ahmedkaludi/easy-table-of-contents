@@ -374,11 +374,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @static
 		 */
 		private static function inlineStickyToggleCSS() {
-			$custom_width = 'min-width: 350px;';
+			$custom_width = 'max-width: auto';
 			if ( null !== ezTOC_Option::get( 'sticky-toggle-width-custom' ) && ! empty( ezTOC_Option::get(
 					'sticky-toggle-width-custom'
 				) ) ) {
-				$custom_width = 'min-width: ' . ezTOC_Option::get( 'sticky-toggle-width-custom' ) . ';';
+				$custom_width = 'max-width: ' . ezTOC_Option::get( 'sticky-toggle-width-custom' ) . ';';
 			}
 			$custom_height = 'max-height: 100vh;';
 			if ( null !== ezTOC_Option::get( 'sticky-toggle-height-custom' ) && ! empty( ezTOC_Option::get(
@@ -403,7 +403,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
     width: auto !important;
     {$custom_width}
     height: 100%;
-    box-shadow: 2px 2px 3px 3px #ccc;
+    box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);
     box-sizing: border-box;
     padding: 20px 30px;
     background: white;
@@ -415,53 +415,75 @@ if ( ! class_exists( 'ezTOC' ) ) {
     
 }
 .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container {
-        {$custom_width}
+    {$custom_width}
+    padding: 10px;
+    border: none;
+    margin-bottom: 0;
+}
+.ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container .ez-toc-sticky-title {
+    font-weight: 550;
+    font-size: 1.45rem;
 }
 .ez-toc-sticky-fixed .ez-toc-close-icon {
     position: absolute;
-    right: -40px;
+    right: -38px;
     top: 40%;
     text-decoration: none;
-    font-size: 2.1rem;
-    font-weight: 800;
-    padding: 0px 5px;
-    box-shadow: 1px 1px 1px 1px #ccc;
+    font-weight: bold;
+    padding: 5px 10px 15px 10px;
+    box-shadow: 1px -5px 10px 5px rgb(0 0 0 / 10%);
     background-color: #fff;
-    height: auto;
-    max-height: 100%;
-    width: auto;
-    max-width: 40px;
 }
 .ez-toc-sticky-fixed .ez-toc-open-icon {
     position: absolute;
     left: 0px;
     top: 40%;
     text-decoration: none;
-    font-size: 2.1rem;
-    font-weight: 800;
-    padding: 0px 5px;
-    box-shadow: 1px 1px 1px 1px #ccc;
+    font-weight: bold;
+    padding: 5px 10px 15px 10px;
+    box-shadow: 1px -5px 10px 5px rgb(0 0 0 / 10%);
     background-color: #fff;
     max-width: 65px !important;
     width: auto !important;
     height: auto;
     max-height: 100%;
+    display: inline-grid;
+    line-height: 1.4;
+    border-radius: 0px 10px 10px 0px;
 }
 .ez-toc-sticky-fixed .ez-toc-sidebar.hide {
     transition: left 0.8s linear;
-    left: -1000px;
+    left: -100px;
+}
+.ez-toc-sticky-fixed .ez-toc-close-icon.hide {
+    transition: right 0.8s linear;
+    right: +100px;
 }
 .ez-toc-sticky-fixed .ez-toc-sidebar.show {
     transition: left 0.8s linear;
     left: 0px;
 }
-.ez-toc-sticky-fixed .ez-toc-close-icon.hide {
-    transition: right 0.8s linear;
-    right: +1000px;
+.ez-toc-sticky-fixed .ez-toc-open-icon span.arrow {
+	font-size: 18px;
+}
+.ez-toc-sticky-fixed .ez-toc-open-icon span.text {
+	font-size: 13px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+}
+.ez-toc-sticky-fixed .ez-toc-close-icon span.arrow {
+	font-size: 18px;
+}
+.ez-toc-sticky-fixed .ez-toc-close-icon span.text {
+	font-size: 13px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
 }
 .ez-toc-sticky-fixed .ez-toc-close-icon.show {
     transition: right 0.8s linear;
-    right: -40px;
+    display: inline-grid;
+    line-height: 1.4;
+    border-radius: 0px 10px 10px 0px;
 }
 @media screen  and (max-device-width: 640px) {
         
@@ -495,12 +517,12 @@ INLINESTICKYTOGGLECSS;
  * Sticky Sidebar JS
  */
  
-var sidebar = document.querySelector(".ez-toc-sidebar");
-sidebar.classList.remove("show");
-sidebar.classList.add("hide");
-var close_icon = document.querySelector(".ez-toc-close-icon");
-close_icon.classList.remove("show");
-close_icon.classList.add("hide");
+//var sidebar = document.querySelector(".ez-toc-sidebar");
+//sidebar.classList.remove("show");
+//sidebar.classList.add("hide");
+//var close_icon = document.querySelector(".ez-toc-close-icon");
+//close_icon.classList.remove("show");
+//close_icon.classList.add("hide");
 jQuery(".ez-toc-sticky-fixed").css({'width': '0px'});
     
 function hideBar(e) {
@@ -523,6 +545,22 @@ function showBar(e) {
     close_icon.classList.add("show");
     jQuery(".ez-toc-sticky-fixed").css({'width': 'auto'});
 }
+
+jQuery(function($) {
+	$(document).on('click', 'body', function (event) {
+      // ... clicked on the 'body', but not inside of #menutop
+      var sidebar = document.querySelector(".ez-toc-sidebar");
+      sidebar.classList.remove("show");
+      sidebar.classList.add("hide");
+      var close_icon = document.querySelector(".ez-toc-close-icon");
+      close_icon.classList.remove("show");
+      close_icon.classList.add("hide");
+      jQuery(".ez-toc-sticky-fixed").css({'width': '0px'});
+    });
+    $('div.ez-toc-sticky-fixed').on('click', function (event) {
+      event.stopPropagation();
+    });
+});
 INLINESTICKYTOGGLEJS;
 			wp_add_inline_script( 'ez-toc-js', $inlineStickyToggleJS );
 		}
@@ -926,9 +964,15 @@ INLINESTICKYTOGGLEJS;
 				$stickyToggleTOC = $post->getStickyToggleTOC();
 				echo <<<STICKYTOGGLEHTML
 			        <div class="ez-toc-sticky-fixed">
-			                <a class='ez-toc-open-icon' href='javascript:void(0)' onclick='showBar(event)'>&#8594;</a>
-			                <div class='ez-toc-sidebar show'>{$stickyToggleTOC}</div>
-			                <a class='ez-toc-close-icon' href='javascript:void(0)' onclick='hideBar(event)'>&#8592;</a>
+			                <a class='ez-toc-open-icon' href='javascript:void(0)' onclick='showBar(event)'>
+			                	<span class="arrow">&#8594;</span>
+                                <span class="text">Index</span>
+			                </a>
+			                <div class='ez-toc-sidebar hide'>{$stickyToggleTOC}</div>
+			                <a class='ez-toc-close-icon hide' href='javascript:void(0)' onclick='hideBar(event)'>
+			                	<span class="arrow">&#8592;</span>
+			                	<span class="text">Index</span>
+			                </a>
 			        </div>
 STICKYTOGGLEHTML;
 			}
