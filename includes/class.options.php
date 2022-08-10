@@ -262,6 +262,17 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'decimal',
 						),
+						'counter_suffix' => array(
+							'id' => 'counter_suffix',
+							'name' => __( 'Counter Suffix ', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'select',
+							'options' => array(
+								'dot' => __( '. (default)', 'easy-table-of-contents' ),
+								'brackets' => __( 'brackets', 'easy-table-of-contents' ),
+							),
+							'default' => 'dot',
+						),
 						'smooth_scroll' => array(
 							'id' => 'smooth_scroll',
 							'name' => __( 'Smooth Scroll', 'easy-table-of-contents' ),
@@ -719,6 +730,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'auto_insert_post_types'             => array(),
 				'show_hierarchy'                     => true,
 				'counter'                            => 'decimal',
+				'counter_suffix'                     => 'dot',
 				'smooth_scroll'                      => true,
 				'smooth_scroll_offset'               => 30,
 				'mobile_smooth_scroll_offset'        => 0,

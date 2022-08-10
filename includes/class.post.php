@@ -1200,6 +1200,13 @@ class ezTOC_Post {
 					break;
 			}
 
+			switch ( ezTOC_Option::get( 'counter_suffix' ) ) {
+
+				case 'brackets':
+					$class[] .= 'counter-brackets';
+					break;
+			}
+
 			// colour themes
 			switch ( ezTOC_Option::get( 'theme' ) ) {
 
