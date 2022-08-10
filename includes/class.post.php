@@ -1146,7 +1146,10 @@ class ezTOC_Post {
 
 		$class = array( 'ez-toc-v' . str_replace( '.', '_', ezTOC::VERSION ) );
 		$html  = '';
-
+		if (ezTOC_Option::get( 'noindex_toc' )) {
+			$html  .= '<!--noindex-->';
+		}
+		
 		if ( $this->hasTOCItems() ) {
 
 			// wrapping css classes
@@ -1319,6 +1322,10 @@ class ezTOC_Post {
 			$html .= ob_get_clean();
 
 			$html .= '</div>' . PHP_EOL;
+
+			if (ezTOC_Option::get( 'noindex_toc' )) {
+			  $html .= '<!--/noindex-->';
+			}
 
 			// Enqueue the script.
 			wp_enqueue_script( 'ez-toc-js' );
