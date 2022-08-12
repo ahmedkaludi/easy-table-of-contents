@@ -281,13 +281,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'js',
 						),
-						'remove_special_chars_from_title' => array(
-							'id' => 'remove_special_chars_from_title',
-							'name' => __( 'Remove \':\' from TOC Title', 'easy-table-of-contents' ),
-							'desc' => '',
-							'type' => 'checkbox',
-							'default' => false,
-						),
 						'sticky-toggle-above-header'      => array(
 							'id'   => 'sticky-toggle-above-header',
 							'name' => '<strong>' . __( 'Sticky Toggle Options', 'easy-table-of-contents' ) . '</strong>',
@@ -656,6 +649,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							          '<br/><span class="description">' . __( 'Eg: .widget-area or #sidebar', 'easy-table-of-contents' ) . '</span>',
 							'type' => 'text',
 							'default' => '',
+						),
+						'remove_special_chars_from_title' => array(
+							'id' => 'remove_special_chars_from_title',
+							'name' => __( 'Remove \':\' from TOC Title', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'checkbox',
+							'default' => false,
 						),
 						
 					)
