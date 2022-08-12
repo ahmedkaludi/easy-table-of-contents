@@ -196,7 +196,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'desc' => __( 'or more headings are present', 'easy-table-of-contents' ),
 							'type' => 'select',
 							'options' => array_combine( range( 1, 10 ), range( 1, 10 ) ),
-							'default' => 4,
+							'default' => 2,
 						),
 						'show_heading_text' => array(
 							'id' => 'show_heading_text',
@@ -712,11 +712,11 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			$defaults = array(
 				'fragment_prefix'                    => 'i',
 				'position'                           => 'before',
-				'start'                              => 4,
+				'start'                              => 2,
 				'show_heading_text'                  => true,
 				'heading_text'                       => 'Table of Contents',
-				'enabled_post_types'                 => array( 'page' ),
-				'auto_insert_post_types'             => array(),
+				'enabled_post_types'                 => array( 'post','page' ),
+				'auto_insert_post_types'             => array( 'post','page' ),
 				'show_hierarchy'                     => true,
 				'counter'                            => 'decimal',
 				'smooth_scroll'                      => true,
