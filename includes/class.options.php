@@ -585,13 +585,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
-						'noindex_toc' => array(
-							'id' => 'noindex_toc',
-							'name' => __( 'No-index TOC', 'easy-table-of-contents' ),
-							'desc' => __( "To prevent most search engines from indexing your TOC on your website", 'easy-table-of-contents' ),
-							'type' => 'checkbox',
-							'default' => false,
-						),
 						//'bullet_spacing' => array(
 						//	'id' => 'bullet_spacing',
 						//	'name' => __( 'Theme Bullets', 'easy-table-of-contents' ),
@@ -770,7 +763,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'include_homepage'                   => false,
 				'exclude_css'                        => false,
 				'inline_css'                        => false,
-				'noindex_toc'                        => false,
 				'exclude'                            => '',
 				'heading_levels'                     => array( '1', '2', '3', '4', '5', '6' ),
 				'restrict_path'                      => '',
