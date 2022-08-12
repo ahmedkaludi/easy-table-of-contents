@@ -409,7 +409,3 @@ div#ez-toc-container.afterpara + p {
 .ez-toc-widget-container ul.ez-toc-list li.active {
     height: auto!important;
 }
-
-#ez-toc-container.counter-brackets ul.ez-toc-list li a::before {
-    content: counters(item, ".") ") ";
-}

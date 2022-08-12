@@ -1169,10 +1169,7 @@ class ezTOC_Post {
 
 		$class = array( 'ez-toc-v' . str_replace( '.', '_', ezTOC::VERSION ) );
 		$html  = '';
-		if (ezTOC_Option::get( 'noindex_toc' )) {
-			$html  .= '<!--noindex-->';
-		}
-		
+
 		if ( $this->hasTOCItems() ) {
 
 			// wrapping css classes
@@ -1223,13 +1220,6 @@ class ezTOC_Post {
 					
 				case 'disc':
 					$class[] = 'counter-disc';
-					break;
-			}
-
-			switch ( ezTOC_Option::get( 'counter_suffix' ) ) {
-
-				case 'brackets':
-					$class[] .= 'counter-brackets';
 					break;
 			}
 
@@ -1345,10 +1335,6 @@ class ezTOC_Post {
 			$html .= ob_get_clean();
 
 			$html .= '</div>' . PHP_EOL;
-
-			if (ezTOC_Option::get( 'noindex_toc' )) {
-			  $html .= '<!--/noindex-->';
-			}
 
 			// Enqueue the script.
 			wp_enqueue_script( 'ez-toc-js' );
@@ -1500,13 +1486,9 @@ class ezTOC_Post {
 		if (ezTOC_Option::get( 'remove_special_chars_from_title' )) {
 			$title = str_replace(':', '', $title);
 		}
-		$rel = '';
-		if(ezTOC_Option::get( 'nofollow_toc' )){
-			$rel = 'rel="nofollow"';
-		}
 		
 		return sprintf(
-			'<a class="ez-toc-link ez-toc-heading-' . $count . '" '. $rel .' href="%1$s" title="%2$s">%3$s</a>',
+			'<a class="ez-toc-link ez-toc-heading-' . $count . '" href="%1$s" title="%2$s">%3$s</a>',
 			esc_attr( $this->createTOCItemURL( $id, $page ) ),
 			esc_attr( strip_tags( $title ) ),
 			$title

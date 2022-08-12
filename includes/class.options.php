@@ -262,17 +262,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'decimal',
 						),
-						'counter_suffix' => array(
-							'id' => 'counter_suffix',
-							'name' => __( 'Counter Suffix ', 'easy-table-of-contents' ),
-							'desc' => '',
-							'type' => 'select',
-							'options' => array(
-								'dot' => __( '. (default)', 'easy-table-of-contents' ),
-								'brackets' => __( 'brackets', 'easy-table-of-contents' ),
-							),
-							'default' => 'dot',
-						),
 						'smooth_scroll' => array(
 							'id' => 'smooth_scroll',
 							'name' => __( 'Smooth Scroll', 'easy-table-of-contents' ),
@@ -291,13 +280,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 								 
 							),
 							'default' => 'js',
-						),
-						'remove_special_chars_from_title' => array(
-							'id' => 'remove_special_chars_from_title',
-							'name' => __( 'Remove \':\' from TOC Title', 'easy-table-of-contents' ),
-							'desc' => '',
-							'type' => 'checkbox',
-							'default' => false,
 						),
 						'sticky-toggle-above-header'      => array(
 							'id'   => 'sticky-toggle-above-header',
@@ -585,20 +567,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
-						'noindex_toc' => array(
-							'id' => 'noindex_toc',
-							'name' => __( 'No Index TOC', 'easy-table-of-contents' ),
-							'desc' => __( "To prevent most search engines from indexing your TOC on your website", 'easy-table-of-contents' ),
-							'type' => 'checkbox',
-							'default' => false,
-						),
-						'nofollow_toc' => array(
-							'id' => 'nofollow_toc',
-							'name' => __( 'No Follow TOC Links', 'easy-table-of-contents' ),
-							'desc' => __( "The nofollow tag tells search engines to ignore that link", 'easy-table-of-contents' ),
-							'type' => 'checkbox',
-							'default' => false,
-						),
 						//'bullet_spacing' => array(
 						//	'id' => 'bullet_spacing',
 						//	'name' => __( 'Theme Bullets', 'easy-table-of-contents' ),
@@ -682,6 +650,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'text',
 							'default' => '',
 						),
+						'remove_special_chars_from_title' => array(
+							'id' => 'remove_special_chars_from_title',
+							'name' => __( 'Remove \':\' from TOC Title', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						
 					)
 				),
@@ -744,7 +719,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'auto_insert_post_types'             => array(),
 				'show_hierarchy'                     => true,
 				'counter'                            => 'decimal',
-				'counter_suffix'                     => 'dot',
 				'smooth_scroll'                      => true,
 				'smooth_scroll_offset'               => 30,
 				'mobile_smooth_scroll_offset'        => 0,
@@ -777,8 +751,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'include_homepage'                   => false,
 				'exclude_css'                        => false,
 				'inline_css'                        => false,
-				'noindex_toc'                        => false,
-				'nofollow_toc'                        => false,
 				'exclude'                            => '',
 				'heading_levels'                     => array( '1', '2', '3', '4', '5', '6' ),
 				'restrict_path'                      => '',
