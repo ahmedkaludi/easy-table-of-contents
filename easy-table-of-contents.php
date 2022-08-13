@@ -374,7 +374,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @static
 		 */
 		private static function inlineStickyToggleCSS() {
-			$custom_width = 'max-width: auto';
+			$custom_width = 'max-width: auto;';
 			if ( null !== ezTOC_Option::get( 'sticky-toggle-width-custom' ) && ! empty( ezTOC_Option::get(
 					'sticky-toggle-width-custom'
 				) ) ) {
@@ -395,7 +395,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
     top: 0;
     left: 0;
     z-index: 999999;
-    width: 0px;
+    width: auto;
     max-width: 100%;
 }
 .ez-toc-sticky-fixed .ez-toc-sidebar {
@@ -420,20 +420,40 @@ if ( ! class_exists( 'ezTOC' ) ) {
     padding: 10px;
     border: none;
     margin-bottom: 0;
+    margin-top: 70px;
 }
-.ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container .ez-toc-sticky-title {
+.ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {
+    border-bottom-color: #EEEEEE;
+    background-color: #FAFAFA;
+    min-height: 16.43px;
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+    width: 100%;
+    position: absolute;
+    height: auto;
+    top: 0;
+    left: 0;
+    z-index: 99999999;
+}
+.ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title {
     font-weight: 550;
     font-size: 1.45rem;
 }
 .ez-toc-sticky-fixed .ez-toc-close-icon {
-    position: absolute;
-    right: -26.75px;
-    top: 8%;
+	-webkit-appearance: none;
+    padding: 0;
+    cursor: pointer;
+    background: 0 0;
+    border: 0;
+    float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
     text-decoration: none;
-    font-weight: bold;
-    padding: 0px 5px 8px 3px;
-    box-shadow: 1px -5px 10px 5px rgb(0 0 0 / 10%);
-    background-color: #fff;
 }
 .ez-toc-open-icon {
     position: fixed;
@@ -441,7 +461,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
     top: 8%;
     text-decoration: none;
     font-weight: bold;
-    padding: 0px 5px 8px 3px;
+    padding: 5px 10px 15px 10px;
     box-shadow: 1px -5px 10px 5px rgb(0 0 0 / 10%);
     background-color: #fff;
     display: inline-grid;
@@ -449,41 +469,25 @@ if ( ! class_exists( 'ezTOC' ) ) {
     border-radius: 0px 10px 10px 0px;
     z-index: 999999;
 }
-.ez-toc-sticky-fixed .ez-toc-sidebar.hide {
-    transition: left 1s linear;
-    left: -1000px;
+.ez-toc-sticky-fixed.hide {
+    -webkit-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);
+	-ms-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);
+	-o-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);
+	transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);
+    left: -100%;
 }
-.ez-toc-sticky-fixed .ez-toc-close-icon.hide {
-    transition: right 1s linear;
-    right: +1000px;
-    display: inline-grid;
-	line-height: 1.4;
-    border-radius: 0px 10px 10px 0px;
-    top: 8%;
-}
-.ez-toc-sticky-fixed .ez-toc-sidebar.show {
-    transition: left 0.9s linear;
-    left: 0px;
-}
-.ez-toc-sticky-fixed .ez-toc-close-icon.show {
-    transition: right 0.9s linear;
-    display: inline-grid;
-    line-height: 1.4;
-    border-radius: 0px 10px 10px 0px;
-    top: 8%;
+.ez-toc-sticky-fixed.show {
+    -webkit-transition: left 0.3s linear, left 0.3s easy-out;
+    -moz-transition: left 0.3s linear;
+    -o-transition: left 0.3s linear;
+    transition: left 0.3s linear;
+    left: 0;
+//    opacity: 1;
 }
 .ez-toc-open-icon span.arrow {
 	font-size: 18px;
 }
 .ez-toc-open-icon span.text {
-	font-size: 13px;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-}
-.ez-toc-sticky-fixed .ez-toc-close-icon span.arrow {
-	font-size: 18px;
-}
-.ez-toc-sticky-fixed .ez-toc-close-icon span.text {
 	font-size: 13px;
     writing-mode: vertical-rl;
     text-orientation: mixed;
@@ -498,30 +502,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
     }
     .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container {
         min-width: 100%;
-    }
-    .ez-toc-sticky-fixed .ez-toc-close-icon.show {
-        right: 0px;
-        border-radius: 0;
-        display: block;
-        height: auto;
-        max-height: 36px;
-        width: 100%;
-        text-align: center;
-    }
-    .ez-toc-sticky-fixed .ez-toc-close-icon.show {
-        border-radius: 0;
-        display: block;
-        height: auto;
-        max-height: 36px;
-        top: 0;
-    }
-    .ez-toc-sticky-fixed .ez-toc-close-icon span.text {
-        font-size: 12px;
-        writing-mode: horizontal-tb;
-        text-orientation: mixed;
-    }
-    .ez-toc-sticky-fixed .ez-toc-close-icon {
-        top: 0px;
     }
 }
 INLINESTICKYTOGGLECSS;
@@ -542,29 +522,21 @@ INLINESTICKYTOGGLECSS;
  */ 
 function hideBar(e) {
     e.preventDefault();
-    var sidebar = document.querySelector(".ez-toc-sidebar");
+    var sidebar = document.querySelector(".ez-toc-sticky-fixed");
     sidebar.classList.remove("show");
     sidebar.classList.add("hide");
-    var close_icon = document.querySelector(".ez-toc-close-icon");
-    close_icon.classList.remove("show");
-    close_icon.classList.add("hide");
-    document.querySelector(".ez-toc-open-icon").style.display = 'inline-grid';
     setTimeout(function() {
-        document.querySelector(".ez-toc-sticky-fixed").style.width = '0px';
-    }, 400);
+        document.querySelector(".ez-toc-open-icon").style = "z-index: 9999999";
+    }, 200);
 }
 function showBar(e) {
     e.preventDefault();
-    var sidebar = document.querySelector(".ez-toc-sidebar");
-    sidebar.classList.remove("hide");
-    sidebar.classList.add("show");
-    var close_icon = document.querySelector(".ez-toc-close-icon");
-    close_icon.classList.remove("hide");
-    close_icon.classList.add("show");
-    document.querySelector(".ez-toc-sticky-fixed").style.width = 'auto';
+    document.querySelector(".ez-toc-open-icon").style = "z-index: -1;";
     setTimeout(function() {
-            document.querySelector(".ez-toc-open-icon").style.display = 'none';
-    }, 200);
+		var sidebar = document.querySelector(".ez-toc-sticky-fixed");
+		sidebar.classList.remove("hide");
+		sidebar.classList.add("show");
+    }, 200);  
 }
 (function() {
 	document.body.addEventListener("click", function (evt) {
@@ -980,12 +952,8 @@ INLINESTICKYTOGGLEJS;
 				$stickyToggleTOC = $post->getStickyToggleTOC();
 				echo <<<STICKYTOGGLEHTML
 					<div class="ez-toc-sticky">
-				        <div class="ez-toc-sticky-fixed">
-		                    <div class='ez-toc-sidebar hide'>{$stickyToggleTOC}</div>
-			                <a class='ez-toc-close-icon hide' href='javascript:void(0)' onclick='hideBar(event)'>
-			                    <span class="arrow">&#8592;</span>
-			                    <span class="text">Index</span>
-			                </a>
+				        <div class="ez-toc-sticky-fixed hide">
+		                    <div class='ez-toc-sidebar'>{$stickyToggleTOC}</div>
 				        </div>
 			            <a class='ez-toc-open-icon' href='javascript:void(0)' onclick='showBar(event)'>
                             <span class="arrow">&#8594;</span>

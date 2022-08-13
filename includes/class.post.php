@@ -1123,7 +1123,7 @@ class ezTOC_Post {
 			$classSticky = array_map( 'trim', $classSticky );
 			$classSticky = array_map( 'sanitize_html_class', $classSticky );
 
-			$htmlSticky  .= '<div id="ez-toc-sticky-container" class="' . implode( ' ', $classSticky ) . '">' . PHP_EOL;
+
 			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
 				$toc_title = ezTOC_Option::get( 'heading_text' );
 				if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
@@ -1132,17 +1132,20 @@ class ezTOC_Post {
 				if ( strpos( $toc_title, '%PAGE_NAME%' ) !== false ) {
 					$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 				}
-				if ( ezTOC_Option::get( 'toc_loading' ) !== 'css' ) {
+//				if ( ezTOC_Option::get( 'toc_loading' ) !== 'css' ) {
 					$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
-				}
+//				}
 				$htmlSticky .= '<p class="ez-toc-sticky-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ) . '</p>' . PHP_EOL;
-				if ( ezTOC_Option::get( 'toc_loading' ) !== 'css' ) {
+//				if ( ezTOC_Option::get( 'toc_loading' ) !== 'css' ) {
+					$htmlSticky .= '<a class="ez-toc-close-icon" href="javascript:void(0)" onclick="hideBar(event)"><span aria-hidden="true">×</span></a>' . PHP_EOL;
 					$htmlSticky .= '</div>' . PHP_EOL;
-				}
+//				}
 			} else {
 				$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
+				$htmlSticky .= '<a class="ez-toc-close-icon" href="javascript:void(0)" onclick="hideBar(event)"><span aria-hidden="true">×</span></a>' . PHP_EOL;
 				$htmlSticky .= '</div>' . PHP_EOL;
 			}
+			$htmlSticky  .= '<div id="ez-toc-sticky-container" class="' . implode( ' ', $classSticky ) . '">' . PHP_EOL;
 			ob_start();
 			do_action( 'ez_toc_before' );
 			$htmlSticky .= ob_get_clean();
