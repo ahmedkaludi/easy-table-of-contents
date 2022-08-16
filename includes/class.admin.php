@@ -93,6 +93,10 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 * @static
 		 */
 		private static function inlineAdminStickyToggleJS() {
+            $stickyToggleOpenButtonTextJS = "";
+            if( empty( ezTOC_Option::get( 'sticky-toggle-open-button-text' ) ) ) {
+                $stickyToggleOpenButtonTextJS = "$('input[name=\"ez-toc-settings[sticky-toggle-open-button-text]\"').val('Index')";
+            }
 			$inlineAdminStickyToggleJS = <<<INLINESTICKYTOGGLEJS
 /**
  * Admin Sticky Sidebar JS
@@ -105,6 +109,8 @@ jQuery(function($) {
     var stickyToggleHeight = $('#eztoc-general').find("select[name='ez-toc-settings[sticky-toggle-height]']");
     var stickyToggleHeightCustom = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-height-custom]']");
     
+    $stickyToggleOpenButtonTextJS
+            
     console.log($(stickyToggleCheckbox).prop('checked'));
     if($(stickyToggleCheckbox).prop('checked') == false) {
         $(stickyToggleWidth).parents('tr').hide(500);
@@ -114,7 +120,7 @@ jQuery(function($) {
         $(stickyToggleWidth).val('auto');
         $(stickyToggleHeight).val('auto');
     }
-    $(document).on("change, click", stickyToggleCheckbox, function() {
+    $(document).on("change, click", "input[name='ez-toc-settings[sticky-toggle]']", function() {
     
         if($(stickyToggleCheckbox).prop('checked') == true) {
             $(stickyToggleWidth).parents('tr').show(500);
@@ -134,7 +140,8 @@ jQuery(function($) {
     if($(stickyToggleWidth).val() == '' || $(stickyToggleWidth).val() != 'custom')
         $(stickyToggleWidthCustom).parents('tr').hide();
         
-    $(document).on("change", stickyToggleWidth, function() {
+    $(document).on("change", "select[name='ez-toc-settings[sticky-toggle-width]']", function() {
+        console.log("change-stickyToggleWidth");
         if($(stickyToggleWidth).val() == 'custom') {
             $(stickyToggleWidthCustom).val('350px');
             $(stickyToggleWidthCustom).parents('tr').show(500);
@@ -148,8 +155,8 @@ jQuery(function($) {
     if($(stickyToggleHeight).val() == '' || $(stickyToggleHeight).val() != 'custom')
         $(stickyToggleHeightCustom).parents('tr').hide();
         
-    $(document).on("change", stickyToggleHeight, function() {
-        
+    $(document).on("change", "select[name='ez-toc-settings[sticky-toggle-height]']", function() {
+        console.log("change-stickyToggleHeight");
         if($(stickyToggleHeight).val() == 'custom') {
             $(stickyToggleHeightCustom).val('800px');
             $(stickyToggleHeightCustom).parents('tr').show(500);

@@ -543,3 +543,38 @@ msgstr ""
 #. Author of the plugin/theme
 msgid "Steven A. Zahm"
 msgstr ""
+
+#: Sticky Toggle Options
+#: includes/inc.admin-options-page.php:286
+msgid "Sticky Toggle Options"
+msgstr ""
+
+msgid "On/Off"
+msgstr ""
+
+msgid "Width"
+msgstr ""
+
+msgid "Auto"
+msgstr ""
+
+msgid "Custom Width"
+msgstr ""
+
+msgid "Enter sticky toggle custom width here.."
+msgstr ""
+
+msgid "Height"
+msgstr ""
+
+msgid "Custom Height"
+msgstr ""
+
+msgid "Enter sticky toggle custom height here.."
+msgstr ""
+
+msgid "Open Button Text"
+msgstr ""
+
+msgid "Enter sticky toggle open button text here.."
+msgstr ""

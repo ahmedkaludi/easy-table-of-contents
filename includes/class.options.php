@@ -293,14 +293,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 //                                                ),
 						'sticky-toggle'                   => array(
 							'id'      => 'sticky-toggle',
-							'name'    => __( 'Sticky Toggle', 'easy-table-of-contents' ),
+							'name'    => __( 'On/Off', 'easy-table-of-contents' ),
 							'desc'    => '',
 							'type'    => 'checkbox',
 							'default' => false,
 						),
 						'sticky-toggle-width'             => array(
 							'id'      => 'sticky-toggle-width',
-							'name'    => __( 'Sticky Toggle Width', 'easy-table-of-contents' ),
+							'name'    => __( 'Width', 'easy-table-of-contents' ),
 							'desc'    => '',
 							'type'    => 'select',
 							'options' => array(
@@ -311,7 +311,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						),
 						'sticky-toggle-width-custom'      => array(
 							'id'          => 'sticky-toggle-width-custom',
-							'name'        => __( 'Sticky Toggle Width Custom', 'easy-table-of-contents' ),
+							'name'        => __( 'Custom Width', 'easy-table-of-contents' ),
 							'desc'        => '',
 							'type'        => 'text',
 							'default'     => false,
@@ -319,7 +319,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						),
 						'sticky-toggle-height'            => array(
 							'id'      => 'sticky-toggle-height',
-							'name'    => __( 'Sticky Toggle Height', 'easy-table-of-contents' ),
+							'name'    => __( 'Height', 'easy-table-of-contents' ),
 							'desc'    => '',
 							'type'    => 'select',
 							'options' => array(
@@ -330,11 +330,19 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						),
 						'sticky-toggle-height-custom'     => array(
 							'id'          => 'sticky-toggle-height-custom',
-							'name'        => __( 'Sticky Toggle Height Custom', 'easy-table-of-contents' ),
+							'name'        => __( 'Custom Height', 'easy-table-of-contents' ),
 							'desc'        => '',
 							'type'        => 'text',
 							'default'     => false,
 							'placeholder' => __( 'Enter sticky toggle custom height here..', 'easy-table-of-contents' )
+						),
+						'sticky-toggle-open-button-text'     => array(
+							'id'          => 'sticky-toggle-open-button-text',
+							'name'        => __( 'Open Button Text', 'easy-table-of-contents' ),
+							'desc'        => '',
+							'type'        => 'text',
+							'default'     => false,
+							'placeholder' => __( 'Enter sticky toggle open button text here..', 'easy-table-of-contents' )
 						),
 //                                                'sticky-toggle-position'          => array(
 //                                                        'id'      => 'sticky-toggle-position',

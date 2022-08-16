@@ -259,13 +259,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				wp_register_style(
 					'ez-toc-sticky',
 					EZ_TOC_URL . "assets/css/ez-toc-sticky{$min}.css",
-					[ 'ez-toc' ],
+					array( 'ez-icomoon' ),
 					self::VERSION
 				);
 				wp_enqueue_style( 'ez-toc-sticky' );
-				wp_enqueue_style( 'ez-toc' );
 				self::inlineStickyToggleCSS();
-				wp_enqueue_script( 'ez-toc-js' );
+				wp_register_script( 'ez-toc-sticky', '', array(), '', true );
+                wp_enqueue_script( 'ez-toc-sticky', '', '','', true );
 				self::inlineStickyToggleJS();
 			}
 
@@ -378,13 +378,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if ( null !== ezTOC_Option::get( 'sticky-toggle-width-custom' ) && ! empty( ezTOC_Option::get(
 					'sticky-toggle-width-custom'
 				) ) ) {
-				$custom_width = 'max-width: ' . ezTOC_Option::get( 'sticky-toggle-width-custom' ) . ';';
+				$custom_width = 'max-width: ' . ezTOC_Option::get( 'sticky-toggle-width-custom' ) . ';' . PHP_EOL;
+				$custom_width .= 'min-width: ' . ezTOC_Option::get( 'sticky-toggle-width-custom' ) . ';' . PHP_EOL;
 			}
 			$custom_height = 'max-height: 100vh;';
 			if ( null !== ezTOC_Option::get( 'sticky-toggle-height-custom' ) && ! empty( ezTOC_Option::get(
 					'sticky-toggle-height-custom'
 				) ) ) {
-				$custom_height = 'max-height: ' . ezTOC_Option::get( 'sticky-toggle-height-custom' ) . ';';
+				$custom_height = 'max-height: ' . ezTOC_Option::get( 'sticky-toggle-height-custom' ) . ';' . PHP_EOL;
+				$custom_height .= 'min-height: ' . ezTOC_Option::get( 'sticky-toggle-height-custom' ) . ';' . PHP_EOL;
 			}
 			$inlineStickyToggleCSS = <<<INLINESTICKYTOGGLECSS
 /**
@@ -507,7 +509,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
     }
 }
 INLINESTICKYTOGGLECSS;
-			wp_add_inline_style( 'ez-toc', $inlineStickyToggleCSS );
+			wp_add_inline_style( 'ez-toc-sticky', $inlineStickyToggleCSS );
 		}
 
 		/**
@@ -552,7 +554,7 @@ function showBar(e) {
 	});
 })();
 INLINESTICKYTOGGLEJS;
-			wp_add_inline_script( 'ez-toc-js', $inlineStickyToggleJS );
+			wp_add_inline_script( 'ez-toc-sticky', $inlineStickyToggleJS );
 		}
 
 		/**
@@ -952,6 +954,10 @@ INLINESTICKYTOGGLEJS;
 			$post = self::get( get_the_ID() );
 			if ( null !== $post ) {
 				$stickyToggleTOC = $post->getStickyToggleTOC();
+				$openButtonText = "Index";
+				if( !empty( ezTOC_Option::get( 'sticky-toggle-open-button-text' ) ) ) {
+					$openButtonText = ezTOC_Option::get( 'sticky-toggle-open-button-text' );
+				}
 				echo <<<STICKYTOGGLEHTML
 					<div class="ez-toc-sticky">
 				        <div class="ez-toc-sticky-fixed hide">
@@ -959,7 +965,7 @@ INLINESTICKYTOGGLEJS;
 				        </div>
 			            <a class='ez-toc-open-icon' href='javascript:void(0)' onclick='showBar(event)'>
                             <span class="arrow">&#8594;</span>
-                            <span class="text">Index</span>
+                            <span class="text">{$openButtonText}</span>
                         </a>
 					</div>
 STICKYTOGGLEHTML;
