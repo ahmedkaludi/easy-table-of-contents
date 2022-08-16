@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.31.1
+Stable tag: 2.0.32
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,14 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.32 08/16/2022
+* NEW: Added Sticky Table of Content #241
+* TWEAK: Improved admin UI & UX #245
+* TWEAK: Audit onboarding as a first time user #243
+* TWEAK: Audit default options #242 #246
+* BUG: Capitalizing the first letter of each title in the table of content #252
+* BUG: Need to fix the sidebar position #251
 
 = 2.0.31.1 08/03/2022
 * BUG: TOC not working with the SEOWP theme #230
