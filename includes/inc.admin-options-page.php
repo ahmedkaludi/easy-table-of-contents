@@ -48,7 +48,9 @@
             <span style="cursor: pointer;">No Thanks, I will stick with FREE version for now.</span></button></a>
          </div><!-- /.Welcome ended -->
    <div  class="eztoc-tabcontent" id="general">
-   	<div id="eztoc-tabs" style="margin-top: 10px;"><a href="#eztoc-general">General</a> | <a href="#eztoc-appearance" >Appearance</a> | <a href="#eztoc-advanced" >Advanced</a></div>
+   	<div id="eztoc-tabs" style="margin-top: 10px;"><a href="#eztoc-general">General</a> | <a
+   	href="#eztoc-appearance" >Appearance</a> | <a href="#eztoc-advanced" >Advanced</a> | <a
+   	href="#eztoc-shortcode" >Shortcode</a></div>
 		<form method="post" action="<?php echo esc_url( self_admin_url( 'options.php' ) ); ?>">
 
 			<div class="metabox-holder">
@@ -104,6 +106,21 @@
 				</div><!-- /.postbox -->
 
 			</div><!-- /.metabox-holder -->
+
+			<div class="metabox-holder">
+
+                <div class="postbox" id="eztoc-shortcode">
+                    <h3><span><?php _e( 'Shortcode', 'easy-table-of-contents' ); ?></span></h3>
+                    <div class="inside">
+
+                        <table class="form-table">
+                            <?php do_settings_fields( 'ez_toc_settings_shortcode', 'ez_toc_settings_shortcode' ); ?>
+                        </table>
+
+                    </div><!-- /.inside -->
+                </div><!-- /.postbox -->
+
+            </div><!-- /.metabox-holder -->
 <?php if (function_exists('ez_toc_pro_activation_link')) {?>
       <div class="metabox-holder">
 

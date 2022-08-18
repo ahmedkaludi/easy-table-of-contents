@@ -61,6 +61,8 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'allow_blank' => isset( $option['allow_blank'] ) ? $option['allow_blank'] : true,
 							'readonly'    => isset( $option['readonly'] ) ? $option['readonly'] : false,
 							'faux'        => isset( $option['faux'] ) ? $option['faux'] : false,
+							'without_hr'        => isset( $option['without_hr'] ) ? $option['without_hr'] :
+							 true,
 						)
 					);
 				}
@@ -668,6 +670,29 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						
 					)
 				),
+                'shortcode' => apply_filters(
+                    'ez_toc_settings_shortcode',
+                    array(
+//                        'shortcode-heading-paragraph'      => array(
+//                            'id'   => 'shortcode-heading-paragraph',
+//                            'name' => '',
+//                            'desc' => __( 'There are several ways to have the easy table of contents display on your website.', 'easy-table-of-contents' ),
+//                            'type' => 'paragraph',
+//                        ),
+                        'shortcode-first-paragraph'      => array(
+                            'id'   => 'shortcode-first-paragraph',
+                            'name' => __( 'Manual Adding the shortcode', 'easy-table-of-contents' ),
+                            'desc' => __( 'You can use the following shortcode to `Easy Table of Contents` display in your particular post or page, put this code where you wish in page or past editor:<h2><code>[ez-toc]</code></h2>', 'easy-table-of-contents' ),
+                            'type' => 'paragraph',
+                        ),
+                        'shortcode-second-paragraph'      => array(
+                            'id'   => 'shortcode-second-paragraph',
+                            'name' => __( 'Auto Insert', 'easy-table-of-contents' ),
+                            'desc' => __( 'You can add `Easy Table of Contents` without using shortcode from `Auto Insert` option in General Setting so then there is no need to add shortcode while post, page or any post type editing.', 'easy-table-of-contents' ),
+                            'type' => 'paragraph',
+                        ),
+                    )
+                ),
 				'prosettings' => apply_filters(
 					'ez_toc_settings_prosettings',
 						array(
@@ -1333,7 +1358,28 @@ HR_TAG;
 		 */
 		public static function header( $args ) {
 
-			echo '<hr/>';
+            if( !isset( $args['without_hr'] ) || ( isset( $args['without_hr'] ) && $args['without_hr']) )
+			    echo '<hr/>';
+
+			if ( 0 < strlen( $args['desc'] ) ) {
+
+				echo '<p>' . wp_kses_post( $args['desc'] ) . '</p>';
+			}
+		}
+
+        /**
+		 * Paragraph Callback
+		 *
+		 * Renders the paragraph.
+		 *
+		 * @access public
+		 * @since  2.0.33
+		 * @static
+		 *
+		 * @param array $args Arguments passed by the setting
+         * @return void
+		 */
+		public static function paragraph( $args ) {
 
 			if ( 0 < strlen( $args['desc'] ) ) {
 
