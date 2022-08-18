@@ -682,7 +682,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
                         'shortcode-first-paragraph'      => array(
                             'id'   => 'shortcode-first-paragraph',
                             'name' => __( 'Manual Adding the shortcode', 'easy-table-of-contents' ),
-                            'desc' => __( 'You can use the following shortcode to `Easy Table of Contents` display in your particular post or page, put this code where you wish in page or past editor:<h2><code>[ez-toc]</code></h2>', 'easy-table-of-contents' ),
+                            'desc' => __( 'You can use the following shortcode to `Easy Table of Contents` display in your particular post or page, put this code where you wish in page or post editor:<textarea disabled rows="2">[ez-toc]</textarea>', 'easy-table-of-contents' ),
                             'type' => 'paragraph',
                         ),
                         'shortcode-second-paragraph'      => array(
