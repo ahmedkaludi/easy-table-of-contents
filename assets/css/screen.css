@@ -406,3 +406,6 @@ div#ez-toc-container.afterpara + p {
 .ez-toc-widget-container ul li a {
   padding-left: 10px;
 }
+.ez-toc-widget-container ul.ez-toc-list li.active {
+    height: auto!important;
+}

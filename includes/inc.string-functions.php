@@ -308,11 +308,15 @@ function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 						get_option( 'blog_charset' )
 					);
 
-					$string = html_entity_decode(
-						$string,
-						ENT_QUOTES,
-						get_option( 'blog_charset' )
-					);
+					$umlauts = false;
+          			$umlauts = apply_filters( 'eztoc_modify_umlauts', $umlauts );
+          			if($umlauts){
+						$string = html_entity_decode(
+							$string,
+							ENT_QUOTES,
+							get_option( 'blog_charset' )
+						);
+					}
 
 					$needle = str_replace(array('’','“','”'), array('\'','"','"'), $needle);
 

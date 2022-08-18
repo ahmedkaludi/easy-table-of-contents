@@ -592,3 +592,39 @@ msgstr "Geavanceerd"
 #: includes/inc.admin-options-page.php:61
 msgid "Save Changes"
 msgstr "Wijzigingen opslaan"
+
+
+#: Sticky Toggle Options
+#: includes/inc.admin-options-page.php:286
+msgid "Sticky Toggle Options"
+msgstr "Sticky Toggle-opties"
+
+msgid "On/Off"
+msgstr "Aan uit"
+
+msgid "Width"
+msgstr "Breedte"
+
+msgid "Auto"
+msgstr "Auto"
+
+msgid "Custom Width"
+msgstr "Aangepaste breedte"
+
+msgid "Enter sticky toggle custom width here.."
+msgstr "Voer hier de sticky toggle aangepaste breedte in.."
+
+msgid "Height"
+msgstr "Hoogte"
+
+msgid "Custom Height"
+msgstr "Aangepaste hoogte"
+
+msgid "Enter sticky toggle custom height here.."
+msgstr "Voer hier de sticky toggle aangepaste hoogte in.."
+
+msgid "Open Button Text"
+msgstr "Knoptekst openen"
+
+msgid "Enter sticky toggle open button text here.."
+msgstr "Voer hier de sticky toggle open-knoptekst in.."

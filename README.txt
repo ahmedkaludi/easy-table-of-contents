@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.30
+Stable tag: 2.0.32
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,7 +13,9 @@ Adds a user friendly and fully automatic way to create and display a table of co
 
 == Description ==
 
-A user friendly, featured focused plugin which allows you to insert a table of contents into your posts, pages and custom post types.
+A user friendly, featured focused [Easy Table of Contents](https://tocwp.com/) plugin which allows you to insert a table of contents into your posts, pages and custom post types.
+
+[Home](https://tocwp.com/) | [Documentation](https://tocwp.com/docs/) | [Help](https://tocwp.com/contact/) | [Premium version Features](https://tocwp.com/pricing/)
 
 ### Features 
 * Automatically generate a table of contents for your posts, pages and custom post types by parsing its contents for headers.
@@ -35,6 +37,13 @@ A user friendly, featured focused plugin which allows you to insert a table of c
 * The widgets supports being affixed or stuck on the page so it is always visible as you scroll down the page. NOTE: this is an advanced option since every theme is different, you might need support from your theme developer to learn what the correct item selector to use in the settings to enable this feature.
 * The widget auto highlights the sections currently visible on the page. The highlight color is configurable.
 * Developer friendly with many action hooks and filters available. More can be added by request on [Github](https://github.com/shazahm1/Easy-Table-of-Contents). Pull requests are welcomed.
+
+= TAKE IT A STEP FURTHER WITH EASY TABLE OF CONTENTS PRO =
+With [EASY TABLE OF CONTENTS PRO](https://tocwp.com/pricing/) You will get access to more professional Settings, options and positions to really push your TOC to the next level.
+* <strong>New - Gutenberg Block </strong>: Easily create TOC in Gutenberg block without the need of any coding or shortcode.
+* <strong>New - Elementor Widget </strong>: Easily create TOC using Elementor Widget without the need of any coding or shortcode.
+* <strong>New - Fixed/Sticky TOC </strong>: Users can find the content that they need, much faster through the option of sticky TOC.
+* <strong>New - Full AMP Support </strong>: Generates a TOC with your existing setup and make it AMP compatible automatically.
 
 ### Support
 
@@ -96,6 +105,27 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.32 08/16/2022
+* NEW: Added Sticky Table of Content #241
+* TWEAK: Improved admin UI & UX #245
+* TWEAK: Audit onboarding as a first time user #243
+* TWEAK: Audit default options #242 #246
+* BUG: Capitalizing the first letter of each title in the table of content #252
+* BUG: Need to fix the sidebar position #251
+
+= 2.0.31.1 08/03/2022
+* BUG: TOC not working with the SEOWP theme #230
+* BUG: TOC rendering area’s height is always changing in sidebar #244
+* BUG: The colon is getting removed from anchor links #248
+* BUG: After 2.0.27 version updates making conflict with Avada theme #229
+* BUG: Need to fix Easy table of content in sidebar #232
+* BUG: TOC causes problems after updating my latest post #234
+* BUG: TOC showing issue with video implemented posts/pages. #236
+* BUG: When using TOC with Elementor then the animation content is not showing #237
+
+= 2.0.31 07/29/2022
+BUG: Elementor editor is not accessible after latest update. #235
 
 = 2.0.30 07/28/2022 =
 * NEW: Added Hook Before/After Widget Container #119

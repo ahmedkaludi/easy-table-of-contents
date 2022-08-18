@@ -196,7 +196,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'desc' => __( 'or more headings are present', 'easy-table-of-contents' ),
 							'type' => 'select',
 							'options' => array_combine( range( 1, 10 ), range( 1, 10 ) ),
-							'default' => 4,
+							'default' => 2,
 						),
 						'show_heading_text' => array(
 							'id' => 'show_heading_text',
@@ -281,13 +281,80 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'js',
 						),
-						'remove_special_chars_from_title' => array(
-							'id' => 'remove_special_chars_from_title',
-							'name' => __( 'Remove \':\' from TOC Title', 'easy-table-of-contents' ),
-							'desc' => '',
-							'type' => 'checkbox',
+						'sticky-toggle-above-header'      => array(
+							'id'   => 'sticky-toggle-above-header',
+							'name' => '<strong>' . __( 'Sticky Toggle Options', 'easy-table-of-contents' ) . '</strong>',
+//                                                        'desc' => __( '', 'easy-table-of-contents' ),
+							'type' => 'header',
+						),
+//                                                'sticky-toggle-above-hr'          => array(
+//                                                        'id'   => 'sticky-toggle-above-hr',
+//                                                        'type' => 'hr',
+//                                                ),
+						'sticky-toggle'                   => array(
+							'id'      => 'sticky-toggle',
+							'name'    => __( 'On/Off', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type'    => 'checkbox',
 							'default' => false,
 						),
+						'sticky-toggle-width'             => array(
+							'id'      => 'sticky-toggle-width',
+							'name'    => __( 'Width', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type'    => 'select',
+							'options' => array(
+								'auto'   => __( 'Auto', 'easy-table-of-contents' ),
+								'custom' => __( 'User Defined', 'easy-table-of-contents' ),
+							),
+							'default' => 'auto',
+						),
+						'sticky-toggle-width-custom'      => array(
+							'id'          => 'sticky-toggle-width-custom',
+							'name'        => __( 'Custom Width', 'easy-table-of-contents' ),
+							'desc'        => '',
+							'type'        => 'text',
+							'default'     => false,
+							'placeholder' => __( 'Enter sticky toggle custom width here..', 'easy-table-of-contents' )
+						),
+						'sticky-toggle-height'            => array(
+							'id'      => 'sticky-toggle-height',
+							'name'    => __( 'Height', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type'    => 'select',
+							'options' => array(
+								'auto'   => __( 'Auto', 'easy-table-of-contents' ),
+								'custom' => __( 'User Defined', 'easy-table-of-contents' ),
+							),
+							'default' => 'auto',
+						),
+						'sticky-toggle-height-custom'     => array(
+							'id'          => 'sticky-toggle-height-custom',
+							'name'        => __( 'Custom Height', 'easy-table-of-contents' ),
+							'desc'        => '',
+							'type'        => 'text',
+							'default'     => false,
+							'placeholder' => __( 'Enter sticky toggle custom height here..', 'easy-table-of-contents' )
+						),
+						'sticky-toggle-open-button-text'     => array(
+							'id'          => 'sticky-toggle-open-button-text',
+							'name'        => __( 'Open Button Text', 'easy-table-of-contents' ),
+							'desc'        => '',
+							'type'        => 'text',
+							'default'     => false,
+							'placeholder' => __( 'Enter sticky toggle open button text here..', 'easy-table-of-contents' )
+						),
+//                                                'sticky-toggle-position'          => array(
+//                                                        'id'      => 'sticky-toggle-position',
+//                                                        'name'    => __( 'Sticky Toggle Position', 'easy-table-of-contents' ),
+//                                                        'desc'    => '',
+//                                                        'type'    => 'radio',
+//                                                        'options'   => array(
+//                                                                'left'  => __( 'Left', 'easy-table-of-position' ),
+//                                                                'right' => __( 'Right', 'easy-table-of-position' ),
+//                                                        ),
+//                                                        'default' => 'left',
+//                                                ),
 					)
 				),
 				'appearance' => apply_filters(
@@ -591,6 +658,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'text',
 							'default' => '',
 						),
+						'remove_special_chars_from_title' => array(
+							'id' => 'remove_special_chars_from_title',
+							'name' => __( 'Remove \':\' from TOC Title', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						
 					)
 				),
@@ -646,11 +720,11 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			$defaults = array(
 				'fragment_prefix'                    => 'i',
 				'position'                           => 'before',
-				'start'                              => 4,
+				'start'                              => 2,
 				'show_heading_text'                  => true,
 				'heading_text'                       => 'Table of Contents',
-				'enabled_post_types'                 => array( 'page' ),
-				'auto_insert_post_types'             => array(),
+				'enabled_post_types'                 => array( 'post','page' ),
+				'auto_insert_post_types'             => array( 'post','page' ),
 				'show_hierarchy'                     => true,
 				'counter'                            => 'decimal',
 				'smooth_scroll'                      => true,
@@ -883,6 +957,29 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		}
 
 		/**
+		 * HR Callback
+		 *
+		 * Renders hr html tag.
+		 *
+		 * @access public
+		 *
+		 * @param array $args Arguments passed by the setting
+		 *
+		 * @since  1.0
+		 * @static
+		 *
+		 */
+		public static function hr( array $args ) {
+			$class = '';
+			if ( isset( $args['class'] ) && true === $args['class'] ) {
+				$class = self::get( $args['class'], $args['default'] );
+			}
+			echo <<<HR_TAG
+                        <hr class='$class' />
+HR_TAG;
+		}
+
+		/**
 		 * Text Callback
 		 *
 		 * Renders text fields.
@@ -912,10 +1009,17 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				$name = ' name="ez-toc-settings[' . $args['id'] . ']"';
 			}
 
+			$placeholder = '';
+			if ( isset( $args['placeholder'] ) && ! empty( $args['placeholder'] ) ) {
+				$placeholder = $args['placeholder'];
+			}
+
 			$readonly = isset( $args['readonly'] ) && $args['readonly'] === true ? ' readonly="readonly"' : '';
 			$size     = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 
-			$html = '<input type="text" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( stripslashes( $value ) ) . '"' . $readonly . '/>';
+			$html = '<input type="text" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( stripslashes( $value ) ) . '"' . $readonly . ' placeholder="' .
+			        $placeholder . '" />';
+
 
 			if ( 0 < strlen( $args['desc'] ) ) {
 
