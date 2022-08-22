@@ -1241,3 +1241,44 @@ a#eztoc-welcome {
     left: 146px!important;
     z-index: 9999;
  }
+/**
+ * Clipboard CSS
+ * @since 2.0.33
+ */
+.ez-toc-tooltip {
+	position: relative;
+	display: inline-block;
+}
+
+.ez-toc-tooltip .ez-toc-tooltiptext {
+	visibility: hidden;
+	width: 140px;
+	background-color: #555;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px;
+	position: absolute;
+	z-index: 1;
+	bottom: 150%;
+	left: 50%;
+	margin-left: -75px;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+.ez-toc-tooltip .ez-toc-tooltiptext::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
+}
+
+.ez-toc-tooltip:hover .ez-toc-tooltiptext {
+	visibility: visible;
+	opacity: 1;
+}

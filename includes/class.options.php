@@ -682,7 +682,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
                         'shortcode-first-paragraph'      => array(
                             'id'   => 'shortcode-first-paragraph',
                             'name' => __( 'Manual Adding the shortcode', 'easy-table-of-contents' ),
-                            'desc' => __( 'You can use the following shortcode to `Easy Table of Contents` display in your particular post or page, put this code where you wish in page or post editor:<textarea disabled rows="2">[ez-toc]</textarea>', 'easy-table-of-contents' ),
+                            'desc' => __( 'You can use the following shortcode to `Easy Table of Contents` display in your particular post or page:<br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc]" readonly />&nbsp;<div class="ez-toc-tooltip"><a href="javascript:void(0)" onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\')" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\')"><span class="ez-toc-tooltiptext" id="ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode  </a></div>', 'easy-table-of-contents' ),
                             'type' => 'paragraph',
                         ),
                         'shortcode-second-paragraph'      => array(
@@ -1383,7 +1383,7 @@ HR_TAG;
 
 			if ( 0 < strlen( $args['desc'] ) ) {
 
-				echo '<p>' . wp_kses_post( $args['desc'] ) . '</p>';
+				echo '<p>' . $args['desc'] . '</p>';
 			}
 		}
 
