@@ -31,8 +31,12 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 * @static
 		 */
 		private function hooks() {
+            global $pagenow;
 
-            add_action( 'admin_head', array( $this,'_clean_other_plugins_stuff' ) );
+            if($pagenow == 'options-general.php' && isset($_REQUEST['page']) && !empty($_REQUEST['page']) &&
+            $_REQUEST['page'] == 'table-of-contents') {
+                add_action( 'admin_head', array( $this,'_clean_other_plugins_stuff' ) );
+            }
 			add_action( 'admin_init', array( $this, 'registerScripts' ) );
 			add_action( 'admin_menu', array( $this, 'menu' ) );
 			add_action( 'init', array( $this, 'registerMetaboxes' ), 99 );
@@ -44,8 +48,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
         /**
          * Attach to admin_head hook to hide all admin notices.
          *
-         * @scope public2
-         * @author Muslim Ahmed Khan
+         * @scope public
          * @since  2.0.33
          * @return void
          * @uses remove_all_actions()
