@@ -44,13 +44,13 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
         /**
          * Attach to admin_head hook to hide all admin notices.
          *
-         * @scope private
+         * @scope public2
          * @author Muslim Ahmed Khan
          * @since  2.0.33
          * @return void
          * @uses remove_all_actions()
          */
-        private function _clean_other_plugins_stuff()
+        public function _clean_other_plugins_stuff()
         {
             remove_all_actions('admin_notices');
             remove_all_actions('network_admin_notices');
