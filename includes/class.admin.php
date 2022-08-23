@@ -32,6 +32,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 */
 		private function hooks() {
 
+            add_action( 'admin_head', array( $this,'_clean_other_plugins_stuff' ) );
 			add_action( 'admin_init', array( $this, 'registerScripts' ) );
 			add_action( 'admin_menu', array( $this, 'menu' ) );
 			add_action( 'init', array( $this, 'registerMetaboxes' ), 99 );
@@ -40,7 +41,24 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			add_action('wp_ajax_eztoc_send_query_message', array( $this, 'eztoc_send_query_message'));
 		}
 
-		/**
+        /**
+         * Attach to admin_head hook to hide all admin notices.
+         *
+         * @scope private
+         * @author Muslim Ahmed Khan
+         * @since  2.0.33
+         * @return void
+         * @uses remove_all_actions()
+         */
+        private function _clean_other_plugins_stuff()
+        {
+            remove_all_actions('admin_notices');
+            remove_all_actions('network_admin_notices');
+            remove_all_actions('all_admin_notices');
+            remove_all_actions('user_admin_notices');
+        }
+
+        /**
 		 * Callback to add the Settings link to the plugin action links.
 		 *
 		 * @access private

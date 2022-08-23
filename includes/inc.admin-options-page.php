@@ -2,6 +2,7 @@
   <a href="https://tocwp.com/" target="_blank" >
   <img src="<?php echo plugins_url( 'assets/eztoc-logo.png', dirname(__FILE__) ) ?>" alt="tocwp" srcset="<?php echo plugins_url( 'assets/eztoc-logo.png', dirname(__FILE__) ) ?> 1x, <?php echo plugins_url( 'assets/eztoc-logo.png', dirname(__FILE__) ) ?> 2x" >
   </a>
+    <h1 style="display:none;">&nbsp;</h1>
 <div class="toc-tab-panel">
     <a id="eztoc-welcome" class="eztoc-tablinks" data-href="no" href="#welcome" onclick="tabToggle(event, 'welcome')">Welcome</a>
 	  <a id="eztoc-default" class="eztoc-tablinks" data-href="no" href="#general-settings" onclick="tabToggle(event, 'general')">Settings</a>
