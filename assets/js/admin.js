@@ -47,8 +47,10 @@ const unsecuredCopyToClipboard = (text) => {
     document.body.removeChild(textArea)
 };
 
-function ez_toc_clipboard(id, tooltipId) {
-    var copyText = document.getElementById(id);
+function ez_toc_clipboard(id, tooltipId, $this, event) {
+    event.preventDefault;
+    window.scrollTo(0, 0);
+    var copyText = $this.parentNode.parentNode.querySelectorAll("#" + id)[0];
     copyText.select();
     copyText.setSelectionRange(0, 99999);
     // if (window.isSecureContext && navigator.clipboard) {
@@ -57,11 +59,14 @@ function ez_toc_clipboard(id, tooltipId) {
     unsecuredCopyToClipboard(copyText.value);
     // }
 
-    var tooltip = document.getElementById(tooltipId);
+    var tooltip = $this.querySelectorAll('span.' + tooltipId)[0];
     tooltip.innerHTML = "Copied: " + copyText.value;
+    return false;
 }
 
-function ez_toc_outFunc(tooltipId) {
-    var tooltip = document.getElementById(tooltipId);
+function ez_toc_outFunc(tooltipId, $this, event) {
+    event.preventDefault();
+    var tooltip = $this.querySelectorAll('span.' + tooltipId)[0];
     tooltip.innerHTML = "Copy to clipboard";
+    return false;
 }
