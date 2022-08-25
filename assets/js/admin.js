@@ -30,6 +30,24 @@ jQuery(document).ready(function ($) {
 });
 
 /**
+ * DisableScrolling Function
+ * @since 2.0.33
+ */
+function disableScrolling() {
+    var x=window.scrollX;
+    var y=window.scrollY;
+    window.onscroll=function(){window.scrollTo(x, y);};
+}
+/**
+ * EnableScrolling Function
+ * @since 2.0.33
+ */
+function enableScrolling(){
+    window.onscroll=function(){};
+}
+
+/**
+ * unsecuredCopyToClipboard Function
  * Clipboard JS
  * @since 2.0.33
  */
@@ -46,10 +64,14 @@ const unsecuredCopyToClipboard = (text) => {
     }
     document.body.removeChild(textArea)
 };
-
+/**
+ * ez_toc_clipboard Function
+ * Clipboard JS
+ * @since 2.0.33
+ */
 function ez_toc_clipboard(id, tooltipId, $this, event) {
-    event.preventDefault;
-    window.scrollTo(0, 0);
+    event.preventDefault();
+    disableScrolling();
     var copyText = $this.parentNode.parentNode.querySelectorAll("#" + id)[0];
     copyText.select();
     copyText.setSelectionRange(0, 99999);
@@ -61,12 +83,15 @@ function ez_toc_clipboard(id, tooltipId, $this, event) {
 
     var tooltip = $this.querySelectorAll('span.' + tooltipId)[0];
     tooltip.innerHTML = "Copied: " + copyText.value;
-    return false;
 }
-
+/**
+ * ez_toc_outFunc Function
+ * Clipboard JS
+ * @since 2.0.33
+ */
 function ez_toc_outFunc(tooltipId, $this, event) {
     event.preventDefault();
     var tooltip = $this.querySelectorAll('span.' + tooltipId)[0];
     tooltip.innerHTML = "Copy to clipboard";
-    return false;
+    enableScrolling();
 }
