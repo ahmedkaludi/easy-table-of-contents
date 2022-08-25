@@ -182,9 +182,8 @@
             'eztoc-tabcontent-technical', 'eztoc-tablinks-technical')"
                class="eztoc-tablinks-technical"><?php echo esc_html__('Shortcode', 'easy-table-of-contents') ?></a>
             |
-            <a href="javascript:void(0)" onclick="ezTocTabToggle(event, 'eztoc-technical-documentation',
-            'eztoc-tabcontent-technical', 'eztoc-tablinks-technical')"
-               class="eztoc-tablinks-technical"><?php echo esc_html__('Documentation', 'easy-table-of-contents') ?></a>
+            <a href="https://tocwp.com/docs/" target="_blank" class="eztoc-tablinks-technical"><?php echo
+                esc_html__('Documentation', 'easy-table-of-contents') ?></a>
             |
             <a href="javascript:void(0)" onclick="ezTocTabToggle(event, 'eztoc-technical-hooks-for-developers',
             'eztoc-tabcontent-technical', 'eztoc-tablinks-technical')"
@@ -192,16 +191,9 @@
         </div>
         <div class="eztoc-form-page-ui">
             <div class="eztoc-left-side">
-                <div class="ez-toc-pull-technical-img">
-                    <a href="https://tocwp.com/" target="_blank">
-                        <img src="<?php echo plugins_url('assets/eztoc-logo.png', dirname(__FILE__)) ?>"
-                             alt="tocwp"
-                             srcset="<?php echo plugins_url('assets/eztoc-logo.png', dirname(__FILE__)) ?> 1x, <?php echo plugins_url('assets/eztoc-logo.png', dirname(__FILE__)) ?> 2x">
-                    </a>
-                </div>
                 <div class="eztoc-tabcontent-technical" id="eztoc-technical-support">
                     <h1><?= esc_html__('Technical Support', 'easy-table-of-contents'); ?></h1>
-                    <p><?php echo esc_html__('We are dedicated to provide Technical support & Help to our users. Use the below form for sending your questions.', 'easy-table-of-contents') ?> </p>
+                    <p class="ez-toc-tabcontent-technical-title-content"><?php echo esc_html__('We are dedicated to provide Technical support & Help to our users. Use the below form for sending your questions.', 'easy-table-of-contents') ?> </p>
                     <p><?php echo esc_html__('You can also contact us from ', 'easy-table-of-contents') ?><a
                                 href="https://tocwp.com/contact/">https://tocwp.com/contact/</a>.</p>
 
@@ -254,35 +246,47 @@
                         <span class="eztoc-query-error eztoc-result eztoc_hide"><?php echo esc_html__('Message not sent. please check your network connection', 'easy-table-of-contents'); ?></span>
                     </div>
                 </div>
-                <div class="eztoc-tabcontent-technical" id="eztoc-technical-how-to-use"
-                     style="display: none;">
+                <div class="eztoc-tabcontent-technical" id="eztoc-technical-how-to-use" style="display:
+                none;">
                     <h1><?= esc_html__('How to Use', 'easy-table-of-contents'); ?></h1>
-                    <p class="ez-toc-tabcontent-technical-title-content"><?= esc_html__('Once you have activated the
-                        plugin, follow the basic customization below.', 'easy-table-of-contents'); ?></p>
-                    <h3><?= esc_html__('1. Under GENERAL &gt; ENABLE SUPPORT', 'easy-table-of-contents'); ?></h3>
+                    <p class="ez-toc-tabcontent-technical-title-content"><?= esc_html__('You can check how to use `Easy Table of Contents`, follow the basic details below.', 'easy-table-of-contents'); ?></p>
+                    <h3><?= esc_html__('1. AUTOMATICALLY', 'easy-table-of-contents'); ?></h3>
                     <ol>
-                        <li><?= esc_html__('Choose a whether you want to show Easy Table of Contents.', 'easy-table-of-contents'); ?></li>
-                        <li><?= esc_html__('Choose various Post Types which defined in your wordpress setup.', 'easy-table-of-contents'); ?></li>
+                        <li><?= esc_html__('Go to the tab Settings &gt; General section, check Auto Insert', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html__('Select the post types which will have the table of contents automatically inserted.', 'easy-table-of-contents'); ?></li>
+                        <li><?= esc_html__('NOTE: The table of contents will only be automatically inserted on post types for which it has been enabled.', 'easy-table-of-contents'); ?></li>
+                        <li><?= esc_html__('After Auto Insert, the Position option for choosing where you want to display the `Easy Table of Contents`.', 'easy-table-of-contents'); ?></li>
                     </ol>
-                    <h3><?= esc_html__('2. Under GENERAL &gt; AUTO-INSERT TABLE OF CONTENTS', 'easy-table-of-contents'); ?></h3>
-                    <p><?= esc_html__('If you want to use the auto-insert feature:', 'easy-table-of-contents'); ?></p>
+                    <h3><?= esc_html__('2. MANUALLY', 'easy-table-of-contents'); ?></h3>
+                    <p><?= esc_html__('There are two ways for manual adding & display `Easy Table of Contents`:', 'easy-table-of-contents');
+                        ?></p>
                     <ol>
-                        <li><?= esc_html__('Select which post types you would like to have the TOC display.', 'easy-table-of-contents'); ?></li>
-                        <li><?= esc_html__('Choose the TOC Position.', 'easy-table-of-contents'); ?></li>
-                        <li><?= esc_html__('Show the TOC when how much heading at least.', 'easy-table-of-contents'); ?></li>
+                        <li><?= esc_html__('Using shortcode, you can copy shortcode and paste the shortcode on editor of any post type.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html__('Using Insert table of contents option on editor of any post type.',
+                                'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html__('You have to choose post types on tab General &gt; Enable Support section then `Easy Table of Contents` editor options would be shown to choose settings for particular post type.', 'easy-table-of-contents'); ?></li>
                     </ol>
-                    <h3><?= esc_html__('3. Under GENERAL &gt; STICKY TOGGLE OPTIONS', 'easy-table-of-contents'); ?></h3>
+                    <h3><?= esc_html__('3. DESIGN CUSTOMIZATION', 'easy-table-of-contents');
+                        ?></h3>
                     <ol>
-                        <li><?= esc_html__('Choose On/Off for showing TOC as Sticky Toggle.', 'easy-table-of-contents'); ?></li>
-                        <li><?= esc_html__('Choose width & height for customization Sticky Toggle Bar.', 'easy-table-of-contents'); ?></li>
-                        <li><?= esc_html__('Write Open Button Text for showing on open bar of Sticky Toggle.', 'easy-table-of-contents'); ?></li>
+                        <li><?= esc_html__('Go to tab Settings &gt; Appearance for design customization.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html__('You can change width of `Easy Table of Contents` from select Fixed or Relative sizes or you select custom width then it will be showing custom width option for enter manually width.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html__('You can also choose Alignment of `Easy Table of Contents`.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html__('You can also set Font Option of `Easy Table of Contents` according to your needs.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html__('You can also choose Theme color of `Easy Table of Contents` on Theme Options section according to your choice.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html__('You can also choose Custom Theme colors of `Easy Table of Contents`. according to your requirements', 'easy-table-of-contents');
+                            ?></li>
                     </ol>
-                    <h3><?= esc_html__('4. Under APPEARANCE &gt; THEMES', 'easy-table-of-contents'); ?></h3>
-                    <ol>
-                        <li><?= esc_html__('Choose a theme.', 'easy-table-of-contents'); ?></li>
-                        <li><?= esc_html__('Select your preferred Title alignment.', 'easy-table-of-contents'); ?></li>
-                        <li><?= esc_html__('Customize any of the Appearance settings to override theme defaults.', 'easy-table-of-contents'); ?></li>
-                    </ol>
+                    <h3><?= esc_html__('4. MORE DOCUMENTATION:', 'easy-table-of-contents'); ?></h3>
+                    <p><?= esc_html__('You can visit this link ', 'easy-table-of-contents') . '<a href="https://tocwp.com/docs/" target="_blank">' . esc_html__('More Documentation', 'easy-table-of-contents') . '</a>' . esc_html__(' for more documentation of `Easy Table of Contents`', 'easy-table-of-contents'); ?></p>
                 </div>
                 <div class="eztoc-tabcontent-technical" id="eztoc-technical-shortcode" style="display: none;">
                     <h1><?= esc_html__('Shortcode', 'easy-table-of-contents'); ?></h1>
@@ -291,214 +295,54 @@
                         <?php do_settings_fields('ez_toc_settings_shortcode', 'ez_toc_settings_shortcode'); ?>
                     </table>
                 </div>
-                <div class="eztoc-tabcontent-technical" id="eztoc-technical-documentation"
-                     style="display: none;">
-                    <h1><?= esc_html__('Documentation', 'easy-table-of-contents'); ?></h1>
-                    <p class="ez-toc-tabcontent-technical-title-content"><?php echo esc_html__('Easy Table Of Contents can be displayed in various manners from a simple, to a modern floating element.', 'easy-table-of-contents') ?> </p>
-                    <p>It has a unique feature the allows it to show the current heading section while
-                        scrolling</p>
-                    <p>Here is a description of each behaviour:</p>
-
-                    <h3>1. Invisible, floating on scroll<span class="joli-pro-only"> (Pro only)</span></h3>
-                    <p>Table Of Contents is invisible after page is loaded. It only shows on scroll through a
-                        floating widget</p>
-                    <details class="primer" style="display: inline-block; width: 100%;">
-                        <summary title="View demo">Click here to view demo</summary>
-                        <section>
-                            <p>
-                                <img src="http://localhost/wordpress/wp-content/plugins/joli-table-of-contents/assets/admin/img/invisible-floating.gif"
-                                     alt=""></p>
-                        </section>
-                    </details>
-
-                    <h3>2. Unfolded, in-content</h3>
-                    <p>Table Of Contents is unfolded after page is loaded. It remains in its position and no
-                        widget shows on scroll.</p>
-                    <details class="primer" style="display: inline-block; width: 100%;">
-                        <summary title="View demo">Click here to view demo</summary>
-                        <section>
-                            <p>
-                                <img src="http://localhost/wordpress/wp-content/plugins/joli-table-of-contents/assets/admin/img/unfolded-incontent.gif"
-                                     alt=""></p>
-                        </section>
-                    </details>
-
-                    <h3>3. Unfolded, folded &amp; floating on scroll<span
-                                class="joli-pro-only"> (Pro only)</span></h3>
-                    <p>Table Of Contents is unfolded after page is loaded. It also shows on scroll through a
-                        floating widget.</p>
-                    <details class="primer" style="display: inline-block; width: 100%;">
-                        <summary title="View demo">Click here to view demo</summary>
-                        <section>
-                            <p>
-                                <img src="http://localhost/wordpress/wp-content/plugins/joli-table-of-contents/assets/admin/img/unfolded-floating.gif"
-                                     alt=""></p>
-                        </section>
-                    </details>
-
-                    <h3>4. Unfolded, unfolded &amp; floating on scroll<span
-                                class="joli-pro-only"> (Pro only)</span></h3>
-                    <p>Table Of Contents is unfolded after page is loaded. It remains unfolded and floating on
-                        scroll.</p>
-                    <details class="primer" style="display: inline-block; width: 100%;">
-                        <summary title="View demo">Click here to view demo</summary>
-                        <section>
-                            <!-- <p><img src="http://localhost/wordpress/wp-content/plugins/joli-table-of-contents/assets/admin/img/invisible-floating.gif" alt=""></p> -->
-                        </section>
-                    </details>
-
-                    <h3>5. Folded, in-content</h3>
-                    <p>Table Of Contents is folded after page is loaded. It can be unfolded at will. It
-                        remains in its position and no widget shows on scroll.</p>
-                    <details class="primer" style="display: inline-block; width: 100%;">
-                        <summary title="View demo">Click here to view demo</summary>
-                        <section>
-                            <p>
-                                <img src="http://localhost/wordpress/wp-content/plugins/joli-table-of-contents/assets/admin/img/folded-incontent.gif"
-                                     alt=""></p>
-                        </section>
-                    </details>
-
-                    <h3>6. Folded, folded &amp; floating on scroll<span
-                                class="joli-pro-only"> (Pro only)</span></h3>
-                    <p>Table Of Contents is folded after page is loaded. It can be unfolded at will. It also
-                        shows on scroll through a floating widget.</p>
-                    <details class="primer" style="display: inline-block; width: 100%;">
-                        <summary title="View demo">Click here to view demo</summary>
-                        <section>
-                            <p>
-                                <img src="http://localhost/wordpress/wp-content/plugins/joli-table-of-contents/assets/admin/img/folded-floating.gif"
-                                     alt=""></p>
-                        </section>
-                    </details>
-
-                    <h2>Globally disabling the Table of Contents</h2>
-                    <p>For some reason, you may need to deactivate the table of contents without touching your
-                        content. To do so:</p>
-                    <p>Copy &amp; paste the following code into your theme's function.php file:</p>
-                    <p><code>add_filter('joli_toc_disable_autoinsert', function(){ return true; });</code></p>
-                    <p>This will disable both shortcodes and auto-insert from running.</p>
-
-                    <h2>Disable Javascript</h2>
-                    <p>This filter will prevent the javascript from loading. It is not recommanded unless you
-                        know exactly what you are doing.</p>
-                    <p>By doing so, you may break some of the plugin's functionalities including smooth
-                        scrolling and jump-to offset</p>
-                    <p>Copy &amp; paste the following code into your theme's function.php file:</p>
-                    <p><code>add_filter('joli_toc_disable_js', function(){ return true; });</code></p>
-                </div>
                 <div class="eztoc-tabcontent-technical" id="eztoc-technical-hooks-for-developers" style="display:
                 none;">
                     <h1><?= esc_html__('Hooks (for Developers)', 'easy-table-of-contents'); ?></h1>
-                    <p class="ez-toc-tabcontent-technical-title-content"><?php echo esc_html__('Because of the way Joli Table Of Contents has been designed, you must use the "joli-div" class to any of the content you may want to add or it will break the normal behaviour of the plugin.', 'easy-table-of-contents') ?> </p>
-                    <h4>Do:</h4>
-                    <code style="color: darkgreen;">&lt;div class="joli-div"&gt;My content&lt;/div&gt;</code>
+                    <p class="ez-toc-tabcontent-technical-title-content"><?php echo esc_html__('This plugin has been designed for easiest way & best features for the users & also as well as for the developers, any developer follow the below advanced instructions:', 'easy-table-of-contents') ?> </p>
 
-                    <h4>Don't:</h4>
-                    <code style="color: red;">&lt;div&gt;My content&lt;/div&gt;</code>
-
-                    <h2>Hooks</h2>
-                    <p>Joli Table Of Contents is developer friendly and allows you to hook onto it.</p>
-                    <p>You can use the following hooks:</p>
-
-                    <h3>Actions:</h3>
+                    <h2><?php echo esc_html__('Hooks', 'easy-table-of-contents') ?></h2>
+                    <p><?php echo esc_html__('Developer can use these below hooks for customization of this plugin:', 'easy-table-of-contents')
+                        ?></p>
+                    <h4><?php echo esc_html__('Actions:', 'easy-table-of-contents') ?></h4>
                     <ul>
-                        <li><code>joli_toc_before_table_of_contents</code></li>
-                        <li><code>joli_toc_before_title</code></li>
-                        <li><code>joli_toc_after_title</code></li>
-                        <li><code>joli_toc_after_headings</code></li>
-                        <li><code>joli_toc_after_table_of_contents</code></li>
+                        <li><code><?php echo esc_html__('ez_toc_before', 'easy-table-of-contents') ?></code>
+                        </li>
+                        <li><code><?php echo esc_html__('ez_toc_after', 'easy-table-of-contents')
+                                ?></code></li>
+                        <li>
+                            <code><?php echo esc_html__('ez_toc_sticky_toggle_before', 'easy-table-of-contents') ?></code>
+                        </li>
+                        <li>
+                            <code><?php echo esc_html__('ez_toc_sticky_toggle_after', 'easy-table-of-contents')
+                                ?></code></li>
+                        <li>
+                            <code><?php echo esc_html__('ez_toc_before_widget_container', 'easy-table-of-contents')
+                                ?></code></li>
+                        <li><code><?php echo esc_html__('ez_toc_before_widget', 'easy-table-of-contents')
+                                ?></code></li>
+                        <li>
+                            <code><?php echo esc_html__('ez_toc_after_widget_container', 'easy-table-of-contents') ?></code>
+                        </li>
+                        <li><code><?php echo esc_html__('ez_toc_after_widget', 'easy-table-of-contents')
+                                ?></code></li>
                     </ul>
 
-                    <p>
-                        <img src="http://localhost/wordpress/wp-content/plugins/joli-table-of-contents/assets/admin/img/wpjoli-joli-toc-hooks-action.png"
-                             alt=""></p>
 
-                    <h4>Example: adding a horizontal bar after the title</h4>
-                    <p>Copy &amp; paste the following code into your theme's function.php file:</p>
-                    <p>
-                    </p>
+                    <h4><?php echo esc_html__('Example: adding a span tag before the `Easy Table of Contents`',
+                            'easy-table-of-contents') ?></h4>
+                    <p><?php echo esc_html__('Get this following code and paste into your theme\'s function.php file:',
+                            'easy-table-of-contents') ?></p>
                     <pre>
-                        add_action( 'joli_toc_after_title', 'echo_hr' );
-                        function echo_hr(){
-                            echo &lt;hr class="joli-div"&gt;;
-                        }
-                    </pre>
-                    <p></p>
-                    <p class="warning">Do not forget to add the "joli-div" class to your content</p>
-
-                    <h3>Filters:</h3>
-                    <p>Use the following filters to customize the Table of contents toggle button</p>
-
-                    <h4>Customize the "expand" button toggle</h4>
-                    <p>Copy &amp; paste the following code into your theme's function.php file:</p>
-                    <code>add_filter('joli_toc_expand_str', function(){ return '&gt;';});</code>
-                    <p>If you are use Font awesome, you can use the icons like so:</p>
-                    <code>add_filter('joli_toc_expand_str', function(){ return '&lt;i class="fa fa-caret-down"&gt;&lt;/i&gt;';});</code>
-
-                    <h4>Customize the "collapse" button toggle</h4>
-                    <p>Copy &amp; paste the following code into your theme's function.php file:</p>
-                    <code>add_filter('joli_toc_collapse_str', function(){ return '˅';});</code>
-                    <p>If you are use Font awesome, you can use the icons like so:</p>
-                    <code>add_filter('joli_toc_collapse_str', function(){ return '&lt;i class="fa
-                        fa-caret-right"&gt;&lt;/i&gt;';});</code>
-
-                    <hr>
-                    <h4>Filter out the headings input</h4>
-                    <p>Before processing the TOC, an array of headings is passed after the content has been
-                        analyzed</p>
-                    <p>This array looks like as follows and can be modified easily to meet your needs</p>
-                    <pre>
-                    Array
-                        (
-                            [0] =&gt; Array
-                                (
-                                    [id] =&gt; my-title-1
-                                    [title] =&gt; My title 1
-                                    [icon] =&gt;
-                                    [depth] =&gt; 2
-                                )
-
-                            [1] =&gt; Array
-                                (
-                                    [id] =&gt; my-title-2
-                                    [title] =&gt; My title 2
-                                    [icon] =&gt;
-                                    [depth] =&gt; 3
-                                )
-                                ...
-                        )
-                    </pre>
-                    <p>Copy &amp; paste the following code into your theme's function.php file:</p>
-                    <h5>Ex 1: Removing every first heading</h5>
-                    <pre>
-
-                        add_filter('joli_toc_headings', 'filter_headings', 10, 2);
-
-                        function filter_headings( $headings ){
-                            //Removes the first element
-                            array_shift($headings);
-                            return $headings;
-                        }
+                       <?php
+                       echo "
+add_action( 'ez_toc_before', 'addCustomSpan' );
+function addCustomSpan()
+{
+    echo '&lt;span&gt;Some Text or Element here &lt;/span&gt;';
+}
+                        "; ?>
                     </pre>
 
-                    <h5>Ex 2: Adds " - AWESOME!" as a suffix for every h2 title</h5>
-                    <pre>
-                        add_filter('joli_toc_headings', 'filter_headings', 10, 2);
-                        function filter_headings( $headings ){
-                            //Adds ' - AWESOME!' as a prefix for every h2 title
-                            array_shift($headings);
-                            $headings = array_map(function($heading){
-                                //Target H2s only
-                                if ($heading['depth'] == 2){
-                                    $heading['title'] .= ' - AWESOME!';
-                                }
-                                return $heading;
-                            }, $headings);
-
-                            return $headings;
-                        }
-                    </pre>
                 </div>
             </div>
             <div class="eztoc-right-side">

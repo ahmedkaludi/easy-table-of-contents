@@ -1147,11 +1147,11 @@ class ezTOC_Post {
 			}
 			$htmlSticky  .= '<div id="ez-toc-sticky-container" class="' . implode( ' ', $classSticky ) . '">' . PHP_EOL;
 			ob_start();
-			do_action( 'ez_toc_before' );
+			do_action( 'ez_toc_sticky_toggle_before' );
 			$htmlSticky .= ob_get_clean();
 			$htmlSticky .= '<nav>' . $this->getTOCList( "ez-toc-sticky" ) . '</nav>';
 			ob_start();
-			do_action( 'ez_toc_after' );
+			do_action( 'ez_toc_sticky_toggle_after' );
 			$htmlSticky .= ob_get_clean();
 			$htmlSticky .= '</div>' . PHP_EOL;
 			// Enqueue the script.
