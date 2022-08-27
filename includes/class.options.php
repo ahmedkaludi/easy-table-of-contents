@@ -249,19 +249,23 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => true,
 						),
+                        'counter-text-direction' => array(
+                            'id' => 'counter-text-direction',
+                            'name' => __( 'Counter Text Direction', 'easy-table-of-contents' ),
+                            'desc' => '',
+                            'type' => 'radio',
+                            'options' => array(
+                                'ltr' => __( 'Left to Right(ltr)', 'easy-table-of-contents' ),
+                                'rtl' => __( 'Right to Left(rtl)', 'easy-table-of-contents' ),
+                            ),
+                            'default' => 'ltr',
+                        ),
 						'counter' => array(
 							'id' => 'counter',
 							'name' => __( 'Counter', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'select',
-							'options' => array(
-								'decimal' => __( 'Decimal (default)', 'easy-table-of-contents' ),
-								'disc' => __( 'Disc', 'easy-table-of-contents' ),
-								'hyphen' => __( 'Hyphen', 'easy-table-of-contents' ),
-								'numeric' => __( 'Numeric', 'easy-table-of-contents' ),
-								'roman' => __( 'Roman', 'easy-table-of-contents' ),
-								'none' => __( 'None', 'easy-table-of-contents' ),
-							),
+							'options' => self::getCounterList(),
 							'default' => 'decimal',
 						),
 						'smooth_scroll' => array(
@@ -345,6 +349,25 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type'        => 'text',
 							'default'     => false,
 							'placeholder' => __( 'Enter sticky toggle open button text here..', 'easy-table-of-contents' )
+						),
+                        'sticky-toggle-counter-text-direction' => array(
+                            'id' => 'sticky-toggle-counter-text-direction',
+                            'name' => __( 'Counter Text Direction', 'easy-table-of-contents' ),
+                            'desc' => '',
+                            'type' => 'radio',
+                            'options' => array(
+                                'ltr' => __( 'Left to Right(ltr)', 'easy-table-of-contents' ),
+                                'rtl' => __( 'Right to Left(rtl)', 'easy-table-of-contents' ),
+                            ),
+                            'default' => 'ltr',
+                        ),
+                        'sticky-toggle-counter' => array(
+							'id' => 'sticky-toggle-counter',
+							'name' => __( 'Counter', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'select',
+							'options' => self::getCounterList(),
+							'default' => 'decimal',
 						),
 //                                                'sticky-toggle-position'          => array(
 //                                                        'id'      => 'sticky-toggle-position',
@@ -730,6 +753,111 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 
 			return apply_filters( 'ez_toc_registered_settings', $options );
 		}
+
+        /**
+         * getCounterListBasic Method
+         * @since 2.0.33
+         * @scope protected
+         * @static
+         * @return array
+        */
+        protected static function getCounterList() {
+            return array_merge( self::getCounterListBasic(), self::getCounterListDecimal(), self::getCounterList_i18n() );
+        }
+
+        /**
+         * getCounterListBasic Method
+         * @since 2.0.33
+         * @scope public
+         * @static
+         * @return array
+        */
+        public static function getCounterListBasic() {
+            return array(
+                'none' => __( 'None', 'easy-table-of-contents' ),
+                'disc' => __( 'Disc', 'easy-table-of-contents' ),
+                'circle' => __( 'Circle', 'easy-table-of-contents' ),
+                'square' => __( 'Square', 'easy-table-of-contents' ),
+                '- ' => __( 'Hyphen', 'easy-table-of-contents' ),
+                'cjk-earthly-branch' => __( 'Earthly Branch', 'easy-table-of-contents' ),
+                'disclosure-open' => __( 'Disclosure Open', 'easy-table-of-contents' ),
+                'disclosure-closed' => __( 'Disclosure Closed', 'easy-table-of-contents' ),
+                'numeric' => __( 'Numeric', 'easy-table-of-contents' ),
+            );
+        }
+
+        /**
+         * getCounterListDecimal Method
+         * @since 2.0.33
+         * @scope public
+         * @static
+         * @return array
+        */
+        public static function getCounterListDecimal() {
+            return array(
+                 'decimal' => __( 'Decimal (default)', 'easy-table-of-contents' ),
+                'decimal-leading-zero' => __( 'Decimal Leading Zero', 'easy-table-of-contents' ),
+                'cjk-decimal' => __( 'CJK Decimal', 'easy-table-of-contents' ),
+            );
+        }
+
+        /**
+         * getCounterList_i18n Method
+         * @since 2.0.33
+         * @scope public
+         * @static
+         * @return array
+        */
+        public static function getCounterList_i18n() {
+            return array(
+                'upper-roman' => __( 'Upper Roman', 'easy-table-of-contents' ),
+                'lower-roman' => __( 'Lower Roman', 'easy-table-of-contents' ),
+                'upper-greek' => __( 'Upper Greek', 'easy-table-of-contents' ),
+                'lower-greek' => __( 'Lower Greek', 'easy-table-of-contents' ),
+                'upper-alpha' => __( 'Upper Alpha/Latin', 'easy-table-of-contents' ),
+                'lower-alpha' => __( 'Lower Alpha/Latin', 'easy-table-of-contents' ),
+                'armenian' => __( 'Armenian', 'easy-table-of-contents' ),
+                'lower-armenian' => __( 'Lower Armenian', 'easy-table-of-contents' ),
+                'arabic-indic' => __( 'Arabic', 'easy-table-of-contents' ),
+                'bengali' => __( 'Bengali', 'easy-table-of-contents' ),
+                'cambodian' => __( 'Cambodian/Khmer', 'easy-table-of-contents' ),
+                'cjk-heavenly-stem' => __( 'Heavenly Stem', 'easy-table-of-contents' ),
+                'cjk-ideographic' => __( 'CJK Ideographic/trad-chinese-informal', 'easy-table-of-contents' ),
+                'devanagari' => __( 'Hindi(Devanagari)', 'easy-table-of-contents' ),
+                'ethiopic-numeric' => __( 'Ethiopic', 'easy-table-of-contents' ),
+                'georgian' => __( 'Georgian', 'easy-table-of-contents' ),
+                'gujarati' => __( 'Gujarati', 'easy-table-of-contents' ),
+                'gurmukhi' => __( 'Gurmukhi', 'easy-table-of-contents' ),
+                'hebrew' => __( 'Hebrew', 'easy-table-of-contents' ),
+                'hiragana' => __( 'Hiragana', 'easy-table-of-contents' ),
+                'hiragana-iroha' => __( 'Hiragana-Iroha', 'easy-table-of-contents' ),
+                'japanese-formal' => __( 'Japanese Formal', 'easy-table-of-contents' ),
+                'japanese-informal' => __( 'Japanese Informal', 'easy-table-of-contents' ),
+                'kannada' => __( 'Kannada', 'easy-table-of-contents' ),
+                'katakana' => __( 'Katakana', 'easy-table-of-contents' ),
+                'katakana-iroha' => __( 'Katakana-Iroha', 'easy-table-of-contents' ),
+                'korean-hangul-formal' => __( 'Korean Hangul Formal', 'easy-table-of-contents' ),
+                'korean-hanja-formal' => __( 'Korean Hanja Formal', 'easy-table-of-contents' ),
+                'korean-hanja-informal' => __( 'Korean Hanja Informal', 'easy-table-of-contents' ),
+                'lao' => __( 'Laotian', 'easy-table-of-contents' ),
+                'malayalam' => __( 'Malayalam', 'easy-table-of-contents' ),
+                'mongolian' => __( 'Mongolian', 'easy-table-of-contents' ),
+                'myanmar' => __( 'Myanmar', 'easy-table-of-contents' ),
+                'oriya' => __( 'Oriya', 'easy-table-of-contents' ),
+                'persian' => __( 'Persian', 'easy-table-of-contents' ),
+                'simp-chinese-formal' => __( 'Simplified Chinese Formal', 'easy-table-of-contents' ),
+                'simp-chinese-informal' => __( 'Simplified Chinese Informal', 'easy-table-of-contents' ),
+                'tamil' => __( 'Tamil', 'easy-table-of-contents' ),
+                'telugu' => __( 'Telugu', 'easy-table-of-contents' ),
+                'thai' => __( 'Thai', 'easy-table-of-contents' ),
+                'tibetan' => __( 'Tibetan', 'easy-table-of-contents' ),
+                'trad-chinese-formal' => __( 'Traditional Chinese Formal', 'easy-table-of-contents' ),
+                'trad-chinese-informal' => __( 'Traditional Chinese Informal', 'easy-table-of-contents' ),
+                'hangul' => __( 'Hangul', 'easy-table-of-contents' ),
+                'hangul-consonant' => __( 'Hangul Consonant', 'easy-table-of-contents' ),
+                'urdu' => __( 'Urdu', 'easy-table-of-contents' ),
+            );
+        }
 
 		/**
 		 * The default values for the registered settings and options.

@@ -189,29 +189,12 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 					$class[] = 'counter-flat';
 				}
 
-				switch ( ezTOC_Option::get( 'counter' ) ) {
-
-					case 'numeric':
-						$class[] = 'counter-numeric';
-						break;
-
-					case 'roman':
-						$class[] = 'counter-roman';
-						break;
-
-					case 'decimal':
-						$class[] = 'counter-decimal';
-						break;
-					
-					case 'hyphen':
-						$class[] = 'counter-hyphen';
-						break;
-						
-					case 'disc':
-						$class[] = 'counter-disc';
-						break;
-		
-				}
+				if( ezTOC_Option::get( 'counter-text-direction' ) == 'ltr' ) {
+                    $class[] = 'ez-toc-widget-container';
+                }
+                if( ezTOC_Option::get( 'counter-text-direction' ) == 'rtl' ) {
+                    $class[] = 'ez-toc-widget-container-rtl';
+                }
 
 				if ( $instance['affix'] ) {
 
@@ -238,7 +221,12 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				echo $before_widget;				
 				do_action( 'ez_toc_before_widget_container');
 
-				echo '<div class="ez-toc-widget-container ' . implode( ' ', $class ) . '">' . PHP_EOL;
+                $direction = 'ltr';
+                if( ezTOC_Option::get( 'counter-text-direction' ) == 'rtl' ) {
+                    $direction = 'rtl';
+                }
+
+				echo '<div style="direction:' . $direction . '" class="ez-toc-widget-container ' . implode( ' ', $class ) . '">' . PHP_EOL;
 
 				do_action( 'ez_toc_before_widget' );
 

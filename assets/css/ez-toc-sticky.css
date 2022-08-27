@@ -150,46 +150,6 @@ div.ez-toc-sticky-widget-container li {
     color: #444444;
 }
 
-#ez-toc-sticky-container.counter-hierarchy ul,
-.ez-toc-sticky-widget-container.counter-hierarchy ul,
-#ez-toc-sticky-container.counter-flat ul,
-.ez-toc-sticky-widget-container.counter-flat ul {
-    counter-reset: item;
-}
-
-#ez-toc-sticky-container.counter-numeric li,
-.ez-toc-sticky-widget-container.counter-numeric li {
-    list-style-type: decimal;
-    list-style-position: inside;
-}
-
-#ez-toc-sticky-container.counter-disc li,
-.ez-toc-sticky-widget-container.counter-disc li {
-    list-style-type: disc;
-    list-style-position: inside;
-}
-
-#ez-toc-sticky-container.counter-hyphen li,
-.ez-toc-sticky-widget-container.counter-hyphen li {
-    list-style-type: '-';
-    list-style-position: inside;
-}
-
-
-#ez-toc-sticky-container.counter-decimal ul.ez-toc-sticky-list li a::before,
-.ez-toc-sticky-widget-container.counter-decimal ul.ez-toc-sticky-list li a::before {
-    content: counters(item, ".") ". ";
-    display: inline-block;
-    counter-increment: item;
-    margin-right: .2em;
-}
-
-#ez-toc-sticky-container.counter-roman li a::before,
-.ez-toc-sticky-widget-container.counter-roman ul.ez-toc-sticky-list li a::before {
-    content: counters(item, ".", upper-roman) ". ";
-    counter-increment: item;
-}
-
 .ez-toc-sticky-widget-container ul.ez-toc-sticky-list li::before {
     content: ' ';
     position: absolute;
