@@ -1097,22 +1097,21 @@ class ezTOC_Post {
 		$htmlSticky  = '';
 		if ( $this->hasTOCItems() ) {
 			$classSticky[] = 'counter-flat';
-			if( ezTOC_Option::get( 'sticky-toggle-counter-text-direction' ) == 'ltr' ) {
+			if( ezTOC_Option::get( 'heading-text-direction' ) == 'ltr' ) {
                 $classSticky[] = 'ez-toc-sticky-toggle-counter';
             }
-            if( ezTOC_Option::get( 'sticky-toggle-counter-text-direction' ) == 'rtl' ) {
+            if( ezTOC_Option::get( 'heading-text-direction' ) == 'rtl' ) {
                 $classSticky[] = 'ez-toc-sticky-toggle-counter-rtl';
             }
+
+
 
 			$classSticky = array_filter( $classSticky );
 			$classSticky = array_map( 'trim', $classSticky );
 			$classSticky = array_map( 'sanitize_html_class', $classSticky );
 
 
-            $direction = 'ltr';
-            if( ezTOC_Option::get( 'sticky-toggle-counter-text-direction' ) == 'rtl' ) {
-                $direction = 'rtl';
-            }
+            $ezTocStickyToggleDirection = 'ez-toc-sticky-toggle-direction';
 
 			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
 				$toc_title = ezTOC_Option::get( 'heading_text' );
@@ -1139,7 +1138,7 @@ class ezTOC_Post {
 			ob_start();
 			do_action( 'ez_toc_sticky_toggle_before' );
 			$htmlSticky .= ob_get_clean();
-			$htmlSticky .= "<nav style='direction: $direction'>" . $this->getTOCList( "ez-toc-sticky" ) . "</nav>";
+			$htmlSticky .= "<nav class='$ezTocStickyToggleDirection'>" . $this->getTOCList( "ez-toc-sticky" ) . "</nav>";
 			ob_start();
 			do_action( 'ez_toc_sticky_toggle_after' );
 			$htmlSticky .= ob_get_clean();
@@ -1193,10 +1192,10 @@ class ezTOC_Post {
 				$class[] .= 'counter-flat';
 			}
 
-            if( ezTOC_Option::get( 'counter-text-direction' ) == 'ltr' ) {
+            if( ezTOC_Option::get( 'heading-text-direction' ) == 'ltr' ) {
                 $class[] = 'ez-toc-counter';
             }
-            if( ezTOC_Option::get( 'counter-text-direction' ) == 'rtl' ) {
+            if( ezTOC_Option::get( 'heading-text-direction' ) == 'rtl' ) {
                 $class[] = 'ez-toc-counter-rtl';
             }
 			// colour themes
@@ -1229,6 +1228,8 @@ class ezTOC_Post {
 			if($position == 'afterpara'){
 				$custom_classes .= "afterpara";
 			}
+
+            $class[] = 'ez-toc-container-direction';
 			
 			if ( 0 < strlen( $custom_classes ) ) {
 
@@ -1245,11 +1246,7 @@ class ezTOC_Post {
 			$class = array_map( 'trim', $class );
 			$class = array_map( 'sanitize_html_class', $class );
 
-            $direction = 'ltr';
-            if( ezTOC_Option::get( 'counter-text-direction' ) == 'rtl' ) {
-                $direction = 'rtl';
-            }
-			$html .= '<div id="ez-toc-container" style="direction:' . $direction . '" class="' . implode( ' ', $class ) . '">' . PHP_EOL;
+			$html .= '<div id="ez-toc-container" class="' . implode( ' ', $class ) . '">' . PHP_EOL;
 
 			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
 

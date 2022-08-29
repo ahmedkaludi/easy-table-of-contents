@@ -369,11 +369,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
              * RTL Direction
              * @since 2.0.33
             */
-            self::InlineCountingCSS( ezTOC_Option::get( 'counter-text-direction' ) );
-            self::InlineCountingCSS( ezTOC_Option::get( 'counter-text-direction' ),'ez-toc-widget-container' );
+            self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction' ) );
+            self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction' ),'ez-toc-widget-direction','ez-toc-widget-container' );
 
             if( ezTOC_Option::get( 'sticky-toggle' ) ) {
-                self::InlineCountingCSS( ezTOC_Option::get( 'sticky-toggle-counter-text-direction' ), 'ez-toc-sticky-toggle-counter','sticky-toggle-counter' );
+                self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction' ), 'ez-toc-sticky-toggle-direction', 'ez-toc-sticky-toggle-counter' );
             }
             /* End rtl direction */
 		}
@@ -384,26 +384,33 @@ if ( ! class_exists( 'ezTOC' ) ) {
          * @scope private
          * @static
          * @param string $direction
+         * @param string $directionClass
          * @param string $class
          * @param string $counter
          * @return void
         */
-        private static function InlineCountingCSS( $direction = 'ltr', $class = 'ez-toc-counter', $counter = 'counter' )
+        private static function InlineCountingCSS( $direction = 'ltr', $directionClass = 'ez-toc-container-direction', $class = 'ez-toc-counter',  $counter = 'counter' )
         {
             $list_type = ezTOC_Option::get( $counter );
             wp_enqueue_style('ez-toc');
             $inlineCSS = '';
             $counterListAll = array_merge(ezTOC_Option::getCounterListDecimal(), ezTOC_Option::getCounterList_i18n());
             $listTypesForCounting = array_keys($counterListAll);
+            $inlineCSS .= <<<INLINECSS
+.$directionClass {
+    direction: $direction;
+}
+INLINECSS;
             if( in_array($list_type, $listTypesForCounting) ) {
                 if( $direction == 'rtl' ) {
-                    $class = $class . '-rtl';
+                    $class .= '-rtl';
+                    $directionClass .= '-rtl';
                     $length = 6;
                     $counterRTLCSS = self::rtlCounterResetCSS( $length, $class );
                     $counterRTLCSS .= self::rtlCounterIncrementCSS( $length, $class );
                     $counterRTLCSS .= self::rtlCounterContentCSS( $length, $list_type, $class );
                     $inlineCSS .= <<<INLINECSS
-                        $counterRTLCSS
+$counterRTLCSS
 INLINECSS;
                 }
                 if( $direction == 'ltr' ) {
@@ -421,16 +428,11 @@ INLINECSS;
 INLINECSS;
                 }
             } else {
-                $position = "before";
-                if( $direction == 'rtl' ) {
-                    $class = $class . '-rtl';
-//                    $position = "after";
-                }
                 $inlineCSS .= <<<INLINECSS
 .$class ul {
     counter-reset: item;
 }
-.$class nav ul li a::$position {
+.$class nav ul li a::before {
     content: counter(item, $list_type) " ";
     margin-right: .2em;
 }

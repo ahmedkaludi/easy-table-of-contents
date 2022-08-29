@@ -249,17 +249,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => true,
 						),
-                        'counter-text-direction' => array(
-                            'id' => 'counter-text-direction',
-                            'name' => __( 'Counter Text Direction', 'easy-table-of-contents' ),
-                            'desc' => '',
-                            'type' => 'radio',
-                            'options' => array(
-                                'ltr' => __( 'Left to Right(ltr)', 'easy-table-of-contents' ),
-                                'rtl' => __( 'Right to Left(rtl)', 'easy-table-of-contents' ),
-                            ),
-                            'default' => 'ltr',
-                        ),
 						'counter' => array(
 							'id' => 'counter',
 							'name' => __( 'Counter', 'easy-table-of-contents' ),
@@ -349,25 +338,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type'        => 'text',
 							'default'     => false,
 							'placeholder' => __( 'Enter sticky toggle open button text here..', 'easy-table-of-contents' )
-						),
-                        'sticky-toggle-counter-text-direction' => array(
-                            'id' => 'sticky-toggle-counter-text-direction',
-                            'name' => __( 'Counter Text Direction', 'easy-table-of-contents' ),
-                            'desc' => '',
-                            'type' => 'radio',
-                            'options' => array(
-                                'ltr' => __( 'Left to Right(ltr)', 'easy-table-of-contents' ),
-                                'rtl' => __( 'Right to Left(rtl)', 'easy-table-of-contents' ),
-                            ),
-                            'default' => 'ltr',
-                        ),
-                        'sticky-toggle-counter' => array(
-							'id' => 'sticky-toggle-counter',
-							'name' => __( 'Counter', 'easy-table-of-contents' ),
-							'desc' => '',
-							'type' => 'select',
-							'options' => self::getCounterList(),
-							'default' => 'decimal',
 						),
 //                                                'sticky-toggle-position'          => array(
 //                                                        'id'      => 'sticky-toggle-position',
@@ -560,6 +530,17 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'color',
 							'default' => '#428bca',
 						),
+						'heading-text-direction' => array(
+                            'id' => 'heading-text-direction',
+                            'name' => __( 'Heading Text Direction', 'easy-table-of-contents' ),
+                            'desc' => '',
+                            'type' => 'radio',
+                            'options' => array(
+                                'ltr' => __( 'Left to Right (LTR)', 'easy-table-of-contents' ),
+                                'rtl' => __( 'Right to Left (RTL)', 'easy-table-of-contents' ),
+                            ),
+                            'default' => 'ltr',
+                        ),
 					)
 				),
 				'advanced' => apply_filters(
@@ -823,7 +804,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
                 'cambodian' => __( 'Cambodian/Khmer', 'easy-table-of-contents' ),
                 'cjk-heavenly-stem' => __( 'Heavenly Stem', 'easy-table-of-contents' ),
                 'cjk-ideographic' => __( 'CJK Ideographic/trad-chinese-informal', 'easy-table-of-contents' ),
-                'devanagari' => __( 'Hindi(Devanagari)', 'easy-table-of-contents' ),
+                'devanagari' => __( 'Hindi (Devanagari)', 'easy-table-of-contents' ),
                 'ethiopic-numeric' => __( 'Ethiopic', 'easy-table-of-contents' ),
                 'georgian' => __( 'Georgian', 'easy-table-of-contents' ),
                 'gujarati' => __( 'Gujarati', 'easy-table-of-contents' ),
