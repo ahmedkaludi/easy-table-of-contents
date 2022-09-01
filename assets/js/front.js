@@ -139,7 +139,8 @@ jQuery( function( $ ) {
 			} else {
 
 				toggle.data( 'visible', true );
-				Cookies.remove('ezTOC_hidetoc')
+				// Cookies.remove('ezTOC_hidetoc');
+                delete_cookie('ezTOC_hidetoc');
 			}
 
 			if ( invert ) {
@@ -333,4 +334,10 @@ jQuery( function( $ ) {
 		// Start EZ TOC on page load.
 		ezTOCInit();
 	}
+    function set_cookie(name, value) {
+      document.cookie = name +'='+ value +'; Path=/;';
+    }
+    function delete_cookie(name) {
+      document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
 } );
