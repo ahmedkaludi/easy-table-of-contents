@@ -61,8 +61,8 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'allow_blank' => isset( $option['allow_blank'] ) ? $option['allow_blank'] : true,
 							'readonly'    => isset( $option['readonly'] ) ? $option['readonly'] : false,
 							'faux'        => isset( $option['faux'] ) ? $option['faux'] : false,
-							'without_hr'        => isset( $option['without_hr'] ) ? $option['without_hr'] :
-							 true,
+							'without_hr'        => isset( $option['without_hr'] ) ? $option['without_hr'] : true,
+							'allowedHtml'       => isset( $option['allowedHtml'] ) ? $option['allowedHtml'] : [],
 						)
 					);
 				}
@@ -686,8 +686,31 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
                         'shortcode-first-paragraph'      => array(
                             'id'   => 'shortcode-first-paragraph',
                             'name' => __( 'Manual Adding the shortcode', 'easy-table-of-contents' ),
-                            'desc' => __( 'You can use the following shortcode to `Easy Table of Contents` display in your particular post or page:<br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc]" readonly />&nbsp;<span class="ez-toc-tooltip"><button type="button"  onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode  </button></span>', 'easy-table-of-contents' ),
+                            'desc' => __( 'You can use the following shortcode to `Easy Table of Contents` display in your particular post or page:<br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc]" disabled />&nbsp;<span class="ez-toc-tooltip"><button type="button"  onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode  </button></span>', 'easy-table-of-contents' ),
                             'type' => 'paragraph',
+                            'allowedHtml' => array(
+								'br' => array(),
+								'input' => array(
+					               'type' => true,
+					               'id' => true,
+					               'value' => true,
+					               'readonly' => true,
+					               'disabled' => true,
+					               'class' => true,
+					           ),
+					           '&nbsp;' => array(),
+					           'span' => array(
+					               'class' => true,
+					               'id' => true,
+					           ),
+					           'button' => array(
+					               'type' => true,
+					               'onclick' => true,
+					               'onmouseout' => true,
+					               'id' => true,
+					               'class' => true,
+					           ),
+				           ),
                         ),
                         'shortcode-second-paragraph'      => array(
                             'id'   => 'shortcode-second-paragraph',
@@ -1492,7 +1515,11 @@ HR_TAG;
 
 			if ( 0 < strlen( $args['desc'] ) ) {
 
-				echo '<p>' . $args['desc'] . '</p>';
+				$allowed_html = [];
+				if( is_array( $args['allowedHtml'] ) && count( $args['allowedHtml'] ) > 0 ) {
+					$allowed_html = $args['allowedHtml'];
+				}
+				echo '<p>' . wp_kses( $args['desc'] , $allowed_html ) . '</p>';
 			}
 		}
 
