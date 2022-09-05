@@ -727,15 +727,18 @@ function showBar(e) {
     }, 200);  
 }
 (function() {
-	document.body.addEventListener("click", function (evt) {
-        hideBar(event);
-    });
-	document.querySelector('div.ez-toc-sticky-fixed').addEventListener('click', function(event) {
-		event.stopPropagation();
-	});
-	document.querySelector('.ez-toc-open-icon').addEventListener('click', function(event) {
-		event.stopPropagation();
-	});
+	let ez_toc_sticky_fixed_container = document.querySelector('div.ez-toc-sticky-fixed');
+	if(ez_toc_sticky_fixed_container) {
+		document.body.addEventListener("click", function (evt) {
+		    hideBar(event);
+		});
+		ez_toc_sticky_fixed_container.addEventListener('click', function(event) {
+			event.stopPropagation();
+		});
+		document.querySelector('.ez-toc-open-icon').addEventListener('click', function(event) {
+			event.stopPropagation();
+		});
+	}
 })();
 INLINESTICKYTOGGLEJS;
 			wp_add_inline_script( 'ez-toc-sticky', $inlineStickyToggleJS );
