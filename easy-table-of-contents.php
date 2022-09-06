@@ -1130,7 +1130,7 @@ INLINESTICKYTOGGLEJS;
             /**
              * @since 2.0.32
              */
-            if ( ezTOC_Option::get('sticky-toggle') ) {
+            if ( ezTOC_Option::get('sticky-toggle') && !is_home() ) {
                 add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
             }
 
