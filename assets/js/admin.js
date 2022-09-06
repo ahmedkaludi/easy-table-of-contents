@@ -22,7 +22,7 @@ jQuery(document).ready(function ($) {
         var name = $form.find('input[name="name"]').val();
         var email = $form.find('input[name="email"]').val();
         var website = $form.find('input[name="company"]').val();
-        $.post(ajaxurl, {action: 'eztoc_subscribe_newsletter', name: name, email: email, website: website},
+        $.post(ajaxurl, {action: 'eztoc_subscribe_newsletter', name: name, email: email, website: website, eztoc_security_nonce: cn_toc_admin_data.eztoc_security_nonce},
             function (data) {
             }
         );

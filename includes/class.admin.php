@@ -100,6 +100,14 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 //                                wp_enqueue_style( 'ez-toc' );
 //                                self::inlineStickyToggleCSS();
 			wp_enqueue_script( 'cn_toc_admin_script' );
+            $data = array(
+                'ajax_url'      		       => admin_url( 'admin-ajax.php' ),
+                'eztoc_security_nonce'         => wp_create_nonce('eztoc_ajax_check_nonce'),
+            );
+
+            $data = apply_filters( 'eztoc_localize_filter', $data, 'eztoc_admin_data' );
+
+            wp_localize_script( 'cn_toc_admin_script', 'cn_toc_admin_data', $data );
 			self::inlineAdminStickyToggleJS();
 
 		}

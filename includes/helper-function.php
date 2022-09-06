@@ -107,6 +107,9 @@ add_action( 'admin_enqueue_scripts', 'eztoc_enqueue_makebetter_email_js' );
 add_action('wp_ajax_eztoc_subscribe_newsletter','eztoc_subscribe_for_newsletter');
 add_action('wp_ajax_nopriv_eztoc_subscribe_newsletter','eztoc_subscribe_for_newsletter');
 function eztoc_subscribe_for_newsletter(){
+	if( !wp_verify_nonce( $_POST['eztoc_security_nonce'], 'eztoc_security_nonce')){
+		return 'nonce not verified';
+	}
     $api_url = 'http://magazine3.company/wp-json/api/central/email/subscribe';
     $api_params = array(
         'name' => sanitize_text_field($_POST['name']),
