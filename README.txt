@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.32
+Stable tag: 2.0.33
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,16 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.33 08/06/2022 =
+* BUG: Sticky Toggle JS issue when disabled Auto Insert & not added manual Shortcode #272
+* BUG: Ad Invalid Click Protector plugin is having conflicted #267
+* TWEAK: Trailing equal signs in changelog area of readme.txt are missing #264
+* TWEAK: Need to make the functionality numbers for the heading start from a right side. #262
+* NEW: Need to add compatibility with the plugin "Multiple Page Generator – MPG" #261
+* TWEAK: Need to improve the help page #259
+* BUG: Other plugins admin notices are appearing on our settings page #257
+* NEW: Need to add a shortcode tab in settings page #256
 
 = 2.0.32 08/16/2022 =
 * NEW: Added Sticky Table of Content #241
