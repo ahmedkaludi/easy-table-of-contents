@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.32
+Stable tag: 2.0.33
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -106,7 +106,17 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
-= 2.0.32 08/16/2022
+= 2.0.33 08/06/2022 =
+* BUG: Sticky Toggle JS issue when disabled Auto Insert & not added manual Shortcode #272
+* BUG: Ad Invalid Click Protector plugin is having conflicted #267
+* TWEAK: Trailing equal signs in changelog area of readme.txt are missing #264
+* TWEAK: Need to make the functionality numbers for the heading start from a right side. #262
+* NEW: Need to add compatibility with the plugin "Multiple Page Generator – MPG" #261
+* TWEAK: Need to improve the help page #259
+* BUG: Other plugins admin notices are appearing on our settings page #257
+* NEW: Need to add a shortcode tab in settings page #256
+
+= 2.0.32 08/16/2022 =
 * NEW: Added Sticky Table of Content #241
 * TWEAK: Improved admin UI & UX #245
 * TWEAK: Audit onboarding as a first time user #243
@@ -114,7 +124,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * BUG: Capitalizing the first letter of each title in the table of content #252
 * BUG: Need to fix the sidebar position #251
 
-= 2.0.31.1 08/03/2022
+= 2.0.31.1 08/03/2022 =
 * BUG: TOC not working with the SEOWP theme #230
 * BUG: TOC rendering area’s height is always changing in sidebar #244
 * BUG: The colon is getting removed from anchor links #248
@@ -124,7 +134,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * BUG: TOC showing issue with video implemented posts/pages. #236
 * BUG: When using TOC with Elementor then the animation content is not showing #237
 
-= 2.0.31 07/29/2022
+= 2.0.31 07/29/2022 =
 BUG: Elementor editor is not accessible after latest update. #235
 
 = 2.0.30 07/28/2022 =

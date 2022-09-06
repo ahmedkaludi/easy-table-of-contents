@@ -189,34 +189,20 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 					$class[] = 'counter-flat';
 				}
 
-				switch ( ezTOC_Option::get( 'counter' ) ) {
-
-					case 'numeric':
-						$class[] = 'counter-numeric';
-						break;
-
-					case 'roman':
-						$class[] = 'counter-roman';
-						break;
-
-					case 'decimal':
-						$class[] = 'counter-decimal';
-						break;
-					
-					case 'hyphen':
-						$class[] = 'counter-hyphen';
-						break;
-						
-					case 'disc':
-						$class[] = 'counter-disc';
-						break;
-		
-				}
+				if( ezTOC_Option::get( 'heading-text-direction' ) == 'ltr' ) {
+                    $class[] = 'ez-toc-widget-container';
+                }
+                if( ezTOC_Option::get( 'heading-text-direction' ) == 'rtl' ) {
+                    $class[] = 'ez-toc-widget-container-rtl';
+                }
 
 				if ( $instance['affix'] ) {
 
 					$class[] = 'ez-toc-affix';
 				}
+
+
+                $class[] = 'ez-toc-widget-direction';
 
 				$custom_classes = ezTOC_Option::get( 'css_container_class', '' );
 

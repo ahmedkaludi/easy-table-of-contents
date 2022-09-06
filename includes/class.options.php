@@ -61,6 +61,8 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'allow_blank' => isset( $option['allow_blank'] ) ? $option['allow_blank'] : true,
 							'readonly'    => isset( $option['readonly'] ) ? $option['readonly'] : false,
 							'faux'        => isset( $option['faux'] ) ? $option['faux'] : false,
+							'without_hr'        => isset( $option['without_hr'] ) ? $option['without_hr'] : true,
+							'allowedHtml'       => isset( $option['allowedHtml'] ) ? $option['allowedHtml'] : [],
 						)
 					);
 				}
@@ -252,14 +254,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'name' => __( 'Counter', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'select',
-							'options' => array(
-								'decimal' => __( 'Decimal (default)', 'easy-table-of-contents' ),
-								'disc' => __( 'Disc', 'easy-table-of-contents' ),
-								'hyphen' => __( 'Hyphen', 'easy-table-of-contents' ),
-								'numeric' => __( 'Numeric', 'easy-table-of-contents' ),
-								'roman' => __( 'Roman', 'easy-table-of-contents' ),
-								'none' => __( 'None', 'easy-table-of-contents' ),
-							),
+							'options' => self::getCounterList(),
 							'default' => 'decimal',
 						),
 						'smooth_scroll' => array(
@@ -535,6 +530,17 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'color',
 							'default' => '#428bca',
 						),
+						'heading-text-direction' => array(
+                            'id' => 'heading-text-direction',
+                            'name' => __( 'Heading Text Direction', 'easy-table-of-contents' ),
+                            'desc' => '',
+                            'type' => 'radio',
+                            'options' => array(
+                                'ltr' => __( 'Left to Right (LTR)', 'easy-table-of-contents' ),
+                                'rtl' => __( 'Right to Left (RTL)', 'easy-table-of-contents' ),
+                            ),
+                            'default' => 'ltr',
+                        ),
 					)
 				),
 				'advanced' => apply_filters(
@@ -668,6 +674,52 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						
 					)
 				),
+                'shortcode' => apply_filters(
+                    'ez_toc_settings_shortcode',
+                    array(
+//                        'shortcode-heading-paragraph'      => array(
+//                            'id'   => 'shortcode-heading-paragraph',
+//                            'name' => '',
+//                            'desc' => __( 'There are several ways to have the easy table of contents display on your website.', 'easy-table-of-contents' ),
+//                            'type' => 'paragraph',
+//                        ),
+                        'shortcode-first-paragraph'      => array(
+                            'id'   => 'shortcode-first-paragraph',
+                            'name' => __( 'Manual Adding the shortcode', 'easy-table-of-contents' ),
+                            'desc' => __( 'You can use the following shortcode to `Easy Table of Contents` display in your particular post or page:<br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc]" disabled />&nbsp;<span class="ez-toc-tooltip"><button type="button"  onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode  </button></span>', 'easy-table-of-contents' ),
+                            'type' => 'paragraph',
+                            'allowedHtml' => array(
+								'br' => array(),
+								'input' => array(
+					               'type' => true,
+					               'id' => true,
+					               'value' => true,
+					               'readonly' => true,
+					               'disabled' => true,
+					               'class' => true,
+					           ),
+					           '&nbsp;' => array(),
+					           'span' => array(
+					               'class' => true,
+					               'id' => true,
+					           ),
+					           'button' => array(
+					               'type' => true,
+					               'onclick' => true,
+					               'onmouseout' => true,
+					               'id' => true,
+					               'class' => true,
+					           ),
+				           ),
+                        ),
+                        'shortcode-second-paragraph'      => array(
+                            'id'   => 'shortcode-second-paragraph',
+                            'name' => __( 'Auto Insert', 'easy-table-of-contents' ),
+                            'desc' => __( 'You can add `Easy Table of Contents` without using shortcode from `Auto Insert` option in General Setting so then there is no need to add shortcode while post, page or any post type editing.', 'easy-table-of-contents' ),
+                            'type' => 'paragraph',
+                        ),
+                    )
+                ),
 				'prosettings' => apply_filters(
 					'ez_toc_settings_prosettings',
 						array(
@@ -705,6 +757,111 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 
 			return apply_filters( 'ez_toc_registered_settings', $options );
 		}
+
+        /**
+         * getCounterListBasic Method
+         * @since 2.0.33
+         * @scope protected
+         * @static
+         * @return array
+        */
+        protected static function getCounterList() {
+            return array_merge( self::getCounterListBasic(), self::getCounterListDecimal(), self::getCounterList_i18n() );
+        }
+
+        /**
+         * getCounterListBasic Method
+         * @since 2.0.33
+         * @scope public
+         * @static
+         * @return array
+        */
+        public static function getCounterListBasic() {
+            return array(
+                'none' => __( 'None', 'easy-table-of-contents' ),
+                'disc' => __( 'Disc', 'easy-table-of-contents' ),
+                'circle' => __( 'Circle', 'easy-table-of-contents' ),
+                'square' => __( 'Square', 'easy-table-of-contents' ),
+                '- ' => __( 'Hyphen', 'easy-table-of-contents' ),
+                'cjk-earthly-branch' => __( 'Earthly Branch', 'easy-table-of-contents' ),
+                'disclosure-open' => __( 'Disclosure Open', 'easy-table-of-contents' ),
+                'disclosure-closed' => __( 'Disclosure Closed', 'easy-table-of-contents' ),
+                'numeric' => __( 'Numeric', 'easy-table-of-contents' ),
+            );
+        }
+
+        /**
+         * getCounterListDecimal Method
+         * @since 2.0.33
+         * @scope public
+         * @static
+         * @return array
+        */
+        public static function getCounterListDecimal() {
+            return array(
+                 'decimal' => __( 'Decimal (default)', 'easy-table-of-contents' ),
+                'decimal-leading-zero' => __( 'Decimal Leading Zero', 'easy-table-of-contents' ),
+                'cjk-decimal' => __( 'CJK Decimal', 'easy-table-of-contents' ),
+            );
+        }
+
+        /**
+         * getCounterList_i18n Method
+         * @since 2.0.33
+         * @scope public
+         * @static
+         * @return array
+        */
+        public static function getCounterList_i18n() {
+            return array(
+                'upper-roman' => __( 'Upper Roman', 'easy-table-of-contents' ),
+                'lower-roman' => __( 'Lower Roman', 'easy-table-of-contents' ),
+                'upper-greek' => __( 'Upper Greek', 'easy-table-of-contents' ),
+                'lower-greek' => __( 'Lower Greek', 'easy-table-of-contents' ),
+                'upper-alpha' => __( 'Upper Alpha/Latin', 'easy-table-of-contents' ),
+                'lower-alpha' => __( 'Lower Alpha/Latin', 'easy-table-of-contents' ),
+                'armenian' => __( 'Armenian', 'easy-table-of-contents' ),
+                'lower-armenian' => __( 'Lower Armenian', 'easy-table-of-contents' ),
+                'arabic-indic' => __( 'Arabic', 'easy-table-of-contents' ),
+                'bengali' => __( 'Bengali', 'easy-table-of-contents' ),
+                'cambodian' => __( 'Cambodian/Khmer', 'easy-table-of-contents' ),
+                'cjk-heavenly-stem' => __( 'Heavenly Stem', 'easy-table-of-contents' ),
+                'cjk-ideographic' => __( 'CJK Ideographic/trad-chinese-informal', 'easy-table-of-contents' ),
+                'devanagari' => __( 'Hindi (Devanagari)', 'easy-table-of-contents' ),
+                'ethiopic-numeric' => __( 'Ethiopic', 'easy-table-of-contents' ),
+                'georgian' => __( 'Georgian', 'easy-table-of-contents' ),
+                'gujarati' => __( 'Gujarati', 'easy-table-of-contents' ),
+                'gurmukhi' => __( 'Gurmukhi', 'easy-table-of-contents' ),
+                'hebrew' => __( 'Hebrew', 'easy-table-of-contents' ),
+                'hiragana' => __( 'Hiragana', 'easy-table-of-contents' ),
+                'hiragana-iroha' => __( 'Hiragana-Iroha', 'easy-table-of-contents' ),
+                'japanese-formal' => __( 'Japanese Formal', 'easy-table-of-contents' ),
+                'japanese-informal' => __( 'Japanese Informal', 'easy-table-of-contents' ),
+                'kannada' => __( 'Kannada', 'easy-table-of-contents' ),
+                'katakana' => __( 'Katakana', 'easy-table-of-contents' ),
+                'katakana-iroha' => __( 'Katakana-Iroha', 'easy-table-of-contents' ),
+                'korean-hangul-formal' => __( 'Korean Hangul Formal', 'easy-table-of-contents' ),
+                'korean-hanja-formal' => __( 'Korean Hanja Formal', 'easy-table-of-contents' ),
+                'korean-hanja-informal' => __( 'Korean Hanja Informal', 'easy-table-of-contents' ),
+                'lao' => __( 'Laotian', 'easy-table-of-contents' ),
+                'malayalam' => __( 'Malayalam', 'easy-table-of-contents' ),
+                'mongolian' => __( 'Mongolian', 'easy-table-of-contents' ),
+                'myanmar' => __( 'Myanmar', 'easy-table-of-contents' ),
+                'oriya' => __( 'Oriya', 'easy-table-of-contents' ),
+                'persian' => __( 'Persian', 'easy-table-of-contents' ),
+                'simp-chinese-formal' => __( 'Simplified Chinese Formal', 'easy-table-of-contents' ),
+                'simp-chinese-informal' => __( 'Simplified Chinese Informal', 'easy-table-of-contents' ),
+                'tamil' => __( 'Tamil', 'easy-table-of-contents' ),
+                'telugu' => __( 'Telugu', 'easy-table-of-contents' ),
+                'thai' => __( 'Thai', 'easy-table-of-contents' ),
+                'tibetan' => __( 'Tibetan', 'easy-table-of-contents' ),
+                'trad-chinese-formal' => __( 'Traditional Chinese Formal', 'easy-table-of-contents' ),
+                'trad-chinese-informal' => __( 'Traditional Chinese Informal', 'easy-table-of-contents' ),
+                'hangul' => __( 'Hangul', 'easy-table-of-contents' ),
+                'hangul-consonant' => __( 'Hangul Consonant', 'easy-table-of-contents' ),
+                'urdu' => __( 'Urdu', 'easy-table-of-contents' ),
+            );
+        }
 
 		/**
 		 * The default values for the registered settings and options.
@@ -1333,11 +1490,36 @@ HR_TAG;
 		 */
 		public static function header( $args ) {
 
-			echo '<hr/>';
+            if( !isset( $args['without_hr'] ) || ( isset( $args['without_hr'] ) && $args['without_hr']) )
+			    echo '<hr/>';
 
 			if ( 0 < strlen( $args['desc'] ) ) {
 
 				echo '<p>' . wp_kses_post( $args['desc'] ) . '</p>';
+			}
+		}
+
+        /**
+		 * Paragraph Callback
+		 *
+		 * Renders the paragraph.
+		 *
+		 * @access public
+		 * @since  2.0.33
+		 * @static
+		 *
+		 * @param array $args Arguments passed by the setting
+         * @return void
+		 */
+		public static function paragraph( $args ) {
+
+			if ( 0 < strlen( $args['desc'] ) ) {
+
+				$allowed_html = [];
+				if( is_array( $args['allowedHtml'] ) && count( $args['allowedHtml'] ) > 0 ) {
+					$allowed_html = $args['allowedHtml'];
+				}
+				echo '<p>' . wp_kses( $args['desc'] , $allowed_html ) . '</p>';
 			}
 		}
 

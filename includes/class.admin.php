@@ -31,7 +31,12 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 * @static
 		 */
 		private function hooks() {
+            global $pagenow;
 
+            if($pagenow == 'options-general.php' && isset($_REQUEST['page']) && !empty($_REQUEST['page']) &&
+            $_REQUEST['page'] == 'table-of-contents') {
+                add_action( 'admin_head', array( $this,'_clean_other_plugins_stuff' ) );
+            }
 			add_action( 'admin_init', array( $this, 'registerScripts' ) );
 			add_action( 'admin_menu', array( $this, 'menu' ) );
 			add_action( 'init', array( $this, 'registerMetaboxes' ), 99 );
@@ -40,7 +45,23 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			add_action('wp_ajax_eztoc_send_query_message', array( $this, 'eztoc_send_query_message'));
 		}
 
-		/**
+        /**
+         * Attach to admin_head hook to hide all admin notices.
+         *
+         * @scope public
+         * @since  2.0.33
+         * @return void
+         * @uses remove_all_actions()
+         */
+        public function _clean_other_plugins_stuff()
+        {
+            remove_all_actions('admin_notices');
+            remove_all_actions('network_admin_notices');
+            remove_all_actions('all_admin_notices');
+            remove_all_actions('user_admin_notices');
+        }
+
+        /**
 		 * Callback to add the Settings link to the plugin action links.
 		 *
 		 * @access private
@@ -79,6 +100,14 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 //                                wp_enqueue_style( 'ez-toc' );
 //                                self::inlineStickyToggleCSS();
 			wp_enqueue_script( 'cn_toc_admin_script' );
+            $data = array(
+                'ajax_url'      		       => admin_url( 'admin-ajax.php' ),
+                'eztoc_security_nonce'         => wp_create_nonce('eztoc_ajax_check_nonce'),
+            );
+
+            $data = apply_filters( 'eztoc_localize_filter', $data, 'eztoc_admin_data' );
+
+            wp_localize_script( 'cn_toc_admin_script', 'cn_toc_admin_data', $data );
 			self::inlineAdminStickyToggleJS();
 
 		}
@@ -103,11 +132,12 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
  */
 jQuery(function($) {
 
-    var stickyToggleCheckbox = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle]']");
-    var stickyToggleWidth = $('#eztoc-general').find("select[name='ez-toc-settings[sticky-toggle-width]']");
-    var stickyToggleWidthCustom = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-width-custom]']");
-    var stickyToggleHeight = $('#eztoc-general').find("select[name='ez-toc-settings[sticky-toggle-height]']");
-    var stickyToggleHeightCustom = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-height-custom]']");
+    let stickyToggleCheckbox = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle]']");
+    let stickyToggleWidth = $('#eztoc-general').find("select[name='ez-toc-settings[sticky-toggle-width]']");
+    let stickyToggleWidthCustom = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-width-custom]']");
+    let stickyToggleHeight = $('#eztoc-general').find("select[name='ez-toc-settings[sticky-toggle-height]']");
+    let stickyToggleHeightCustom = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-height-custom]']");
+    
     
     
     $stickyToggleOpenButtonTextJS
@@ -537,7 +567,7 @@ INLINESTICKYTOGGLEJS;
 
 		}
 
-          
+
 	     /**
 	     * Enqueue Admin js scripts
 	     *
