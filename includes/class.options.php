@@ -799,7 +799,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
         */
         public static function getCounterListDecimal() {
             return array(
-                 'decimal' => __( 'Decimal (default)', 'easy-table-of-contents' ),
+				'decimal' => __( 'Decimal (default)', 'easy-table-of-contents' ),
                 'decimal-leading-zero' => __( 'Decimal Leading Zero', 'easy-table-of-contents' ),
                 'cjk-decimal' => __( 'CJK Decimal', 'easy-table-of-contents' ),
             );
@@ -816,7 +816,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
             return array(
                 'upper-roman' => __( 'Upper Roman', 'easy-table-of-contents' ),
                 'lower-roman' => __( 'Lower Roman', 'easy-table-of-contents' ),
-                'upper-greek' => __( 'Upper Greek', 'easy-table-of-contents' ),
+//                'upper-greek' => __( 'Upper Greek', 'easy-table-of-contents' ),
                 'lower-greek' => __( 'Lower Greek', 'easy-table-of-contents' ),
                 'upper-alpha' => __( 'Upper Alpha/Latin', 'easy-table-of-contents' ),
                 'lower-alpha' => __( 'Lower Alpha/Latin', 'easy-table-of-contents' ),

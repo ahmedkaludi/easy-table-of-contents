@@ -399,12 +399,29 @@ if ( ! class_exists( 'ezTOC' ) ) {
             $inlineCSS .= <<<INLINECSS
 .$directionClass {
     direction: $direction;
-}
+}\n\n
 INLINECSS;
-            if( in_array($list_type, $listTypesForCounting) ) {
-                if( $direction == 'rtl' ) {
-                    $class .= '-rtl';
-                    $directionClass .= '-rtl';
+			$listAnchorPosition = 'before';
+            $marginCSS = 'margin-right: .2em;';
+            if( $direction == 'rtl' )
+            {
+                $class .= '-rtl';
+                if($list_type == 'cjk-earthly-branch')
+                    $listAnchorPosition = 'after';
+
+                $marginCSS = 'margin-left: .2em;';
+            }
+
+			if( $list_type == '- ' ) {
+                $inlineCSS .= <<<INLINECSS
+.$class nav ul li {
+    list-style-type: '- ' !important;
+    list-style-position: inside !important;
+}\n\n
+INLINECSS;
+			} else if( in_array($list_type, $listTypesForCounting)) {
+                if( $direction == 'rtl' )
+				{
                     $length = 6;
                     $counterRTLCSS = self::rtlCounterResetCSS( $length, $class );
                     $counterRTLCSS .= self::rtlCounterIncrementCSS( $length, $class );
@@ -413,29 +430,34 @@ INLINECSS;
 $counterRTLCSS
 INLINECSS;
                 }
-                if( $direction == 'ltr' ) {
+                if( $direction == 'ltr' )
+				{
                      $inlineCSS .= <<<INLINECSS
 .$class ul {
     counter-reset: item;
-}
+}\n\n
 
-.$class nav ul li a::before {
+.$class nav ul li a::$listAnchorPosition {
     content: counters(item, ".", $list_type) ". ";
     display: inline-block;
     counter-increment: item;
-    margin-right: .2em;
-}
+    $marginCSS
+}\n\n
 INLINECSS;
                 }
             } else {
+
+
                 $inlineCSS .= <<<INLINECSS
 .$class ul {
+    direction: $direction;
     counter-reset: item;
-}
-.$class nav ul li a::before {
+}\n\n
+.$class nav ul li a::$listAnchorPosition {
     content: counter(item, $list_type) " ";
-    margin-right: .2em;
-}
+    $marginCSS
+    counter-increment: item;
+}\n\n
 INLINECSS;
 
             }
