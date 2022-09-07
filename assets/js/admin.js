@@ -5,17 +5,18 @@ jQuery(document).ready(function ($) {
     if (ez_toc_color_picker.length) {
         ez_toc_color_picker.wpColorPicker();
     }
-    var tableBody = document.getElementById('eztoc-appearance');
-    var tableRows = tableBody.getElementsByTagName('tr');
-    var targetElement = tableRows[1];
-    targetElement.style.display = "none";
-    document.getElementById('ez-toc-settings[width]').addEventListener('change', function () {
-        if (document.getElementById('ez-toc-settings[width]').value == 'custom') {
-            targetElement.style.display = "revert";
-        } else {
-            targetElement.style.display = "none";
-        }
-    });
+
+    var ezTocSettingsCustomWidth = document.getElementById('ez-toc-settings[width_custom]');
+    if(ezTocSettingsCustomWidth) {
+        ezTocSettingsCustomWidth.parentNode.parentNode.style.display = "none";
+        document.getElementById('ez-toc-settings[width]').addEventListener('change', function () {
+            if (document.getElementById('ez-toc-settings[width]').value == 'custom') {
+                ezTocSettingsCustomWidth.parentNode.parentNode.style.display = "revert";
+            } else {
+                ezTocSettingsCustomWidth.parentNode.parentNode.style.display = "none";
+            }
+        });
+    }
     $("#subscribe-newsletter-form").on('submit', function (e) {
         e.preventDefault();
         var $form = $("#subscribe-newsletter-form");
