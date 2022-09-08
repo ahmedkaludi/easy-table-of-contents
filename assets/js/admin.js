@@ -6,10 +6,14 @@ jQuery(document).ready(function ($) {
         ez_toc_color_picker.wpColorPicker();
     }
 
+    var ezTocSettingsWidth = document.getElementById('ez-toc-settings[width]');
     var ezTocSettingsCustomWidth = document.getElementById('ez-toc-settings[width_custom]');
+
     if(ezTocSettingsCustomWidth) {
-        ezTocSettingsCustomWidth.parentNode.parentNode.style.display = "none";
-        document.getElementById('ez-toc-settings[width]').addEventListener('change', function () {
+        if(ezTocSettingsWidth.value != 'custom')
+            ezTocSettingsCustomWidth.parentNode.parentNode.style.display = "none";
+
+        ezTocSettingsWidth.addEventListener('change', function () {
             if (document.getElementById('ez-toc-settings[width]').value == 'custom') {
                 ezTocSettingsCustomWidth.parentNode.parentNode.style.display = "revert";
             } else {
@@ -17,6 +21,7 @@ jQuery(document).ready(function ($) {
             }
         });
     }
+
     $("#subscribe-newsletter-form").on('submit', function (e) {
         e.preventDefault();
         var $form = $("#subscribe-newsletter-form");
