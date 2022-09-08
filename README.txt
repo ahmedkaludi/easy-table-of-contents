@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.33.1
+Stable tag: 2.0.33.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -106,10 +106,13 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
-= 2.0.33.1 08/07/2022 =
+= 2.0.33.2 09/08/2022 =
+* BUG: Default settings set in options for ltr/rtl text direction - The numbering of the titles has disappeared after latest update. #281
+
+= 2.0.33.1 09/07/2022 =
 * BUG: The numbering of the titles has disappeared after latest update. #281
 
-= 2.0.33 08/06/2022 =
+= 2.0.33 09/06/2022 =
 * BUG: Sticky Toggle JS issue when disabled Auto Insert & not added manual Shortcode #272
 * BUG: Ad Invalid Click Protector plugin is having conflicted #267
 * TWEAK: Trailing equal signs in changelog area of readme.txt are missing #264
