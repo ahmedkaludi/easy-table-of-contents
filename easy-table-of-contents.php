@@ -369,11 +369,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
              * RTL Direction
              * @since 2.0.33
             */
-            self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction' ) );
-            self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction' ),'ez-toc-widget-direction','ez-toc-widget-container' );
+            self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
+            self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
 
             if( ezTOC_Option::get( 'sticky-toggle' ) ) {
-                self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction' ), 'ez-toc-sticky-toggle-direction', 'ez-toc-sticky-toggle-counter' );
+                self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ), 'ez-toc-sticky-toggle-direction', 'ez-toc-sticky-toggle-counter', 'counter', 'ez-toc-sticky-container' );
             }
             /* End rtl direction */
 		}
@@ -387,11 +387,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
          * @param string $directionClass
          * @param string $class
          * @param string $counter
+         * @param string $containerId
          * @return void
         */
-        private static function InlineCountingCSS( $direction = 'ltr', $directionClass = 'ez-toc-container-direction', $class = 'ez-toc-counter',  $counter = 'counter' )
+        private static function InlineCountingCSS( $direction = 'ltr', $directionClass = 'ez-toc-container-direction', $class = 'ez-toc-counter',  $counter = 'counter', $containerId = 'ez-toc-container' )
         {
-            $list_type = ezTOC_Option::get( $counter );
+            $list_type = ezTOC_Option::get( $counter, 'decimal' );
             wp_enqueue_style('ez-toc');
             $inlineCSS = '';
             $counterListAll = array_merge(ezTOC_Option::getCounterListDecimal(), ezTOC_Option::getCounterList_i18n());
@@ -403,18 +404,18 @@ if ( ! class_exists( 'ezTOC' ) ) {
 INLINECSS;
 			$listAnchorPosition = 'before';
             $marginCSS = 'margin-right: .2em;';
+            $floatPosition = 'float: left;';
             if( $direction == 'rtl' )
             {
                 $class .= '-rtl';
-                if($list_type == 'cjk-earthly-branch')
-                    $listAnchorPosition = 'after';
 
                 $marginCSS = 'margin-left: .2em;';
+				$floatPosition = 'float: right;';
             }
 
 			if( $list_type == '- ' ) {
                 $inlineCSS .= <<<INLINECSS
-.$class nav ul li {
+#$containerId.$class nav ul li {
     list-style-type: '- ' !important;
     list-style-position: inside !important;
 }\n\n
@@ -441,7 +442,8 @@ INLINECSS;
     content: counters(item, ".", $list_type) ". ";
     display: inline-block;
     counter-increment: item;
-    $marginCSS
+    $marginCSS \n
+    $floatPosition
 }\n\n
 INLINECSS;
                 }
@@ -457,6 +459,7 @@ INLINECSS;
     content: counter(item, $list_type) " ";
     $marginCSS
     counter-increment: item;
+    $floatPosition
 }\n\n
 INLINECSS;
 
@@ -563,7 +566,9 @@ COUNTERINCREMENTCSS;
                 $items = implode(' "." ', $items);
                 $counterContentCSS .= <<<COUNTERINCREMENTCSS
 .$class nav $ul li a::before {
-    content: $items " ";
+    content: $items ". ";
+    float: right;
+    margin-left: 0.2rem;
 }\n\n
 COUNTERINCREMENTCSS;
             }

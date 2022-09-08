@@ -1097,10 +1097,10 @@ class ezTOC_Post {
 		$htmlSticky  = '';
 		if ( $this->hasTOCItems() ) {
 			$classSticky[] = 'counter-flat';
-			if( ezTOC_Option::get( 'heading-text-direction' ) == 'ltr' ) {
+			if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'ltr' ) {
                 $classSticky[] = 'ez-toc-sticky-toggle-counter';
             }
-            if( ezTOC_Option::get( 'heading-text-direction' ) == 'rtl' ) {
+            if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'rtl' ) {
                 $classSticky[] = 'ez-toc-sticky-toggle-counter-rtl';
             }
 
@@ -1192,10 +1192,10 @@ class ezTOC_Post {
 				$class[] .= 'counter-flat';
 			}
 
-            if( ezTOC_Option::get( 'heading-text-direction' ) == 'ltr' ) {
+            if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'ltr' ) {
                 $class[] = 'ez-toc-counter';
             }
-            if( ezTOC_Option::get( 'heading-text-direction' ) == 'rtl' ) {
+            if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'rtl' ) {
                 $class[] = 'ez-toc-counter-rtl';
             }
 			// colour themes
