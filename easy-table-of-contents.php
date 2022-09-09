@@ -393,78 +393,84 @@ if ( ! class_exists( 'ezTOC' ) ) {
         private static function InlineCountingCSS( $direction = 'ltr', $directionClass = 'ez-toc-container-direction', $class = 'ez-toc-counter',  $counter = 'counter', $containerId = 'ez-toc-container' )
         {
             $list_type = ezTOC_Option::get( $counter, 'decimal' );
-            wp_enqueue_style('ez-toc');
-            $inlineCSS = '';
-            $counterListAll = array_merge(ezTOC_Option::getCounterListDecimal(), ezTOC_Option::getCounterList_i18n());
-            $listTypesForCounting = array_keys($counterListAll);
-            $inlineCSS .= <<<INLINECSS
+			if( $list_type != 'none' ) {
+	            wp_enqueue_style( 'ez-toc' );
+	            $inlineCSS = '';
+	            $counterListAll = array_merge( ezTOC_Option::getCounterListDecimal(), ezTOC_Option::getCounterList_i18n() );
+	            $listTypesForCounting = array_keys( $counterListAll );
+	            $inlineCSS .= <<<INLINECSS
 .$directionClass {
     direction: $direction;
 }\n\n
 INLINECSS;
-			$listAnchorPosition = 'before';
-            $marginCSS = 'margin-right: .2em;';
-            $floatPosition = 'float: left;';
-            if( $direction == 'rtl' )
-            {
-                $class .= '-rtl';
+				$listAnchorPosition = 'before';
+	            $marginCSS = 'margin-right: .2em;';
+	            $floatPosition = 'float: left;';
+	            if( $direction == 'rtl' )
+	            {
+	                $class .= '-rtl';
 
-                $marginCSS = 'margin-left: .2em;';
-				$floatPosition = 'float: right;';
-            }
+	                $marginCSS = 'margin-left: .2em;';
+					$floatPosition = 'float: right;';
+	            }
 
-			if( $list_type == '- ' ) {
-                $inlineCSS .= <<<INLINECSS
-#$containerId.$class nav ul li {
-    list-style-type: '- ' !important;
-    list-style-position: inside !important;
-}\n\n
-INLINECSS;
-			} else if( in_array($list_type, $listTypesForCounting)) {
-                if( $direction == 'rtl' )
+				if( $list_type == '- ' )
 				{
-                    $length = 6;
-                    $counterRTLCSS = self::rtlCounterResetCSS( $length, $class );
-                    $counterRTLCSS .= self::rtlCounterIncrementCSS( $length, $class );
-                    $counterRTLCSS .= self::rtlCounterContentCSS( $length, $list_type, $class );
-                    $inlineCSS .= <<<INLINECSS
-$counterRTLCSS
+	                $inlineCSS .= <<<INLINECSS
+	#$containerId.$class nav ul li {
+	    list-style-type: '- ' !important;
+	    list-style-position: inside !important;
+	}\n\n
 INLINECSS;
-                }
-                if( $direction == 'ltr' )
-				{
-                     $inlineCSS .= <<<INLINECSS
-.$class ul {
-    counter-reset: item;
-}\n\n
-
-.$class nav ul li a::$listAnchorPosition {
-    content: counters(item, ".", $list_type) ". ";
-    display: inline-block;
-    counter-increment: item;
-    $marginCSS \n
-    $floatPosition
-}\n\n
+				} else if( in_array( $list_type, $listTypesForCounting ) ) {
+	                if( $direction == 'rtl' )
+					{
+	                    $length = 6;
+	                    $counterRTLCSS = self::rtlCounterResetCSS( $length, $class );
+	                    $counterRTLCSS .= self::rtlCounterIncrementCSS( $length, $class );
+	                    $counterRTLCSS .= self::rtlCounterContentCSS( $length, $list_type, $class );
+	                    $inlineCSS .= <<<INLINECSS
+	$counterRTLCSS
 INLINECSS;
-                }
-            } else {
+	                }
+	                if( $direction == 'ltr' )
+					{
+	                     $inlineCSS .= <<<INLINECSS
+	.$class ul {
+	    counter-reset: item;
+	}\n\n
+	
+	.$class nav ul li a::$listAnchorPosition {
+	    content: counters(item, ".", $list_type) ". ";
+	    display: inline-block;
+	    counter-increment: item;
+	    $marginCSS \n
+	    $floatPosition
+	}\n\n
+INLINECSS;
+	                }
+	            } else {
 
+					$content = "  ";
+					if( $list_type == 'numeric' || $list_type == 'cjk-earthly-branch' )
+						$content = ". ";
 
-                $inlineCSS .= <<<INLINECSS
-.$class ul {
-    direction: $direction;
-    counter-reset: item;
-}\n\n
-.$class nav ul li a::$listAnchorPosition {
-    content: counter(item, $list_type) " ";
-    $marginCSS
-    counter-increment: item;
-    $floatPosition
-}\n\n
+	                $inlineCSS .= <<<INLINECSS
+	.$class ul {
+	    direction: $direction;
+	    counter-reset: item;
+	}\n\n
+	.$class nav ul li a::$listAnchorPosition {
+	    content: counter(item, $list_type) "$content";
+	    $marginCSS
+	    counter-increment: item;
+	    $floatPosition
+	}\n\n
 INLINECSS;
 
+	            }
+				wp_add_inline_style( 'ez-toc', $inlineCSS );
             }
-             wp_add_inline_style('ez-toc', $inlineCSS);
         }
 
         /**
