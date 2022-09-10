@@ -742,7 +742,7 @@ INLINESTICKYTOGGLECSS;
  * Sticky Sidebar JS
  */ 
 function hideBar(e) {
-    e.preventDefault();
+//    e.preventDefault();
     var sidebar = document.querySelector(".ez-toc-sticky-fixed");
     sidebar.classList.remove("show");
     sidebar.classList.add("hide");
@@ -751,7 +751,7 @@ function hideBar(e) {
     }, 200);
 }
 function showBar(e) {
-    e.preventDefault();
+//    e.preventDefault();
     document.querySelector(".ez-toc-open-icon").style = "z-index: -1;";
     setTimeout(function() {
 		var sidebar = document.querySelector(".ez-toc-sticky-fixed");
@@ -763,7 +763,8 @@ function showBar(e) {
 	let ez_toc_sticky_fixed_container = document.querySelector('div.ez-toc-sticky-fixed');
 	if(ez_toc_sticky_fixed_container) {
 		document.body.addEventListener("click", function (evt) {
-		    hideBar(event);
+			hideBar(evt);
+			evt.stopPropagation();
 		});
 		ez_toc_sticky_fixed_container.addEventListener('click', function(event) {
 			event.stopPropagation();
