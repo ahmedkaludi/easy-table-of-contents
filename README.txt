@@ -1,6 +1,6 @@
 === Easy Table of Contents ===
 Contributors: magazine3
-Donate link: https://magazine3.company/
+Donate link: https://tocwp.com/
 Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0

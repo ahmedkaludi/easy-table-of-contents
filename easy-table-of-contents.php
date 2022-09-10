@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Easy Table of Contents
- * Plugin URI: https://magazine3.company/
+ * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
  * Version: 2.0.33.2
  * Author: Magazine3
- * Author URI: https://magazine3.company/
+ * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
  * Domain Path: /languages
  *
