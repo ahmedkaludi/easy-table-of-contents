@@ -561,3 +561,28 @@ add_filter(
 		return $apply;
 	}
 );
+/**
+ * Beaver Builder Plugin Customization
+ * for remove excluding heading contents
+ * @since 2.0.34
+ */
+add_filter(
+	'fl_builder_layout_data',
+	'flBuilderLayoutDataEZTOC',
+	12,
+	1
+);
+function flBuilderLayoutDataEZTOC( $data ) {
+	if( has_action( 'the_content' ) ) {
+		$post = get_post( get_the_ID() );
+		foreach( $data as $nodeKey => $node )
+		{
+			if( $node->type == 'module' )
+			{
+				$node->settings->text = ezTOC::the_content($post->post_content);
+			}
+			$data[$nodeKey] = $node;
+		}
+	}
+	return $data;
+}

@@ -146,3 +146,8 @@ function ez_toc_woo_cat_desc_remove(){
 //
 //return $content;
 //}
+
+//if( is_plugin_active('beaver-builder-lite-version/fl-builder.php') )
+//{
+//	add_filter( 'the_content', array( ezTOC::class, 'the_content' ) );
+//}

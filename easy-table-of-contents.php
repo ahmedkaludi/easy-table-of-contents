@@ -153,13 +153,28 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			//add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
 			add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
-			// Run after shortcodes are interpreted (priority 10).
-			add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
-			add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
-			add_shortcode( 'lwptoc', array( __CLASS__, 'shortcode' ) );
-			add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
+
+			if( !self::checkBeaverBuilderPluginActive() ) {
+				add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
+
+				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
+				add_shortcode( 'lwptoc', array( __CLASS__, 'shortcode' ) );
+				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
+
+			}
 		}
 
+		/**
+         * checkBeaverBuilderPluginActive Method
+         * @since 2.0.34
+		 * @return bool
+		 */
+		private static function checkBeaverBuilderPluginActive() {
+			if( has_action( 'the_content' ) && isset($_REQUEST['fl_builder'])) {
+				return true;
+			}
+			return false;
+		}
 		/**
 		 * Load the plugin translation.
 		 *
@@ -1164,7 +1179,7 @@ INLINESTICKYTOGGLEJS;
             /**
              * @since 2.0.32
              */
-            if ( ezTOC_Option::get('sticky-toggle') && !is_home() ) {
+            if ( ezTOC_Option::get('sticky-toggle') && !is_home() && !self::checkBeaverBuilderPluginActive() ) {
                 add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
             }
 
