@@ -577,10 +577,10 @@ function flBuilderLayoutDataEZTOC( $data ) {
 		$post = get_post( get_the_ID() );
 		foreach( $data as $nodeKey => $node )
 		{
-			if( $node->type == 'module' )
-			{
-				$node->settings->text = ezTOC::the_content($post->post_content);
-			}
+//			if( $node->type == 'module' )
+//			{
+////				$node->settings->text = ezTOC::the_content($post->post_content);
+//			}
 			$data[$nodeKey] = $node;
 		}
 	}
