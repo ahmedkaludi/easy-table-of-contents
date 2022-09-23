@@ -156,6 +156,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 */
 		private static function getRegistered() {
 
+			$eztoc_latest_link=home_url();
+			$args = array( 'numberposts' => '1');
+			$recent_posts = wp_get_recent_posts( $args );
+			foreach( $recent_posts as $recent ){
+			 $eztoc_latest_link= add_query_arg( 'eztoc-edit-position', '', get_permalink($recent["ID"] ));
+			}
+	
+
 			$options = array(
 				'general' => apply_filters(
 					'ez_toc_settings_general',
@@ -733,7 +741,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'fixedtoc' => array(
 							'id' => 'fixedtoc',
 							'name' => __( 'Fixed TOC', 'easy-table-of-contents' ),
-							'desc' => __( 'Fixed TOC in the page display so it can be easier to navigate', 'easy-table-of-contents' ),
+							'desc' => __( 'Fixed TOC in the page display so it can be easier to navigate.<a  target="_blank" href="https://tocwp.com/docs/knowledge-base/how-to-use-toc-fixed-position-pro-feature/"> Learn More</a><br><a class="button button-primary" target="_blank" href="'.$eztoc_latest_link.'"> Set TOC Position</a>', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
 						),		 
