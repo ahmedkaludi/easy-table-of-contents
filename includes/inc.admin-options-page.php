@@ -13,7 +13,7 @@
         $pro = '';
 
         if (function_exists('ez_toc_pro_activation_link')) {
-            $pro = '<a id="eztoc-default" class="eztoc-tablinks" data-href="no" href="#eztoc-prosettings" onclick="ezTocTabToggle(event, \'prosettings\')">PRO Settings</a>';
+            $pro = '<a id="eztoc-default" class="eztoc-tablinks" data-href="no" href="#eztoc-prosettings" onclick="ezTocTabToggle(event, \'general\')">PRO Settings</a>';
         } ?>
         <?php echo $pro; ?>
 
