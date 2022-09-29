@@ -151,3 +151,29 @@ function ez_toc_woo_cat_desc_remove(){
 //{
 //	add_filter( 'the_content', array( ezTOC::class, 'the_content' ) );
 //}
+
+/**
+ * EzPrintR method
+ * to print_r content with pre tags
+ * @since 2.0.34
+ * @param $content
+ * @return void
+*/
+function EzPrintR($content){
+	echo "<pre>";
+    print_r($content);
+    echo "</pre>";
+}
+
+/**
+ * EzDumper method
+ * to var_dump content with pre tags
+ * @since 2.0.34
+ * @param $content
+ * @return void
+*/
+function EzDumper($content){
+	echo "<pre>";
+    var_dump($content);
+    echo "</pre>";
+}
