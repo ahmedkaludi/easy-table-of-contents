@@ -1,11 +1,11 @@
 === Easy Table of Contents ===
 Contributors: magazine3
-Donate link: https://magazine3.company/
+Donate link: https://tocwp.com/
 Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.33
+Stable tag: 2.0.34
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,8 +105,23 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.34 09/29/2022 =
+* BUG: Enabling sticky toggle makes the other links unclickable. #301
+* BUG: Need to fix Pro Settings #300
+* BUG: PRO Settings link design is disturb after esc_html_e() added in code #283
+* BUG: Links are disabled when Sticky Toggle is on #282
+* BUG: The numbering of the titles has disappeared after latest update. #281
+* BUG: Sticky Toggle is not working on the plugin "Multiple Page Generator – MPG" #279
+* BUG: makesure this link goes to tocwp #273
+* BUG: Admin JS issue not working well on other pages of WordPress #269
 
-= 2.0.33 08/06/2022 =
+= 2.0.33.2 09/08/2022 =
+* BUG: Default settings set in options for ltr/rtl text direction - The numbering of the titles has disappeared after latest update. #281
+
+= 2.0.33.1 09/07/2022 =
+* BUG: The numbering of the titles has disappeared after latest update. #281
+
+= 2.0.33 09/06/2022 =
 * BUG: Sticky Toggle JS issue when disabled Auto Insert & not added manual Shortcode #272
 * BUG: Ad Invalid Click Protector plugin is having conflicted #267
 * TWEAK: Trailing equal signs in changelog area of readme.txt are missing #264

@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Easy Table of Contents
- * Plugin URI: https://magazine3.company/
+ * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.33
+ * Version: 2.0.34
  * Author: Magazine3
- * Author URI: https://magazine3.company/
+ * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
  * Domain Path: /languages
  *
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.33
+ * @version  2.0.34
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -48,7 +48,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.33';
+		const VERSION = '2.0.34';
 
 		/**
 		 * Stores the instance of this class.
@@ -153,13 +153,28 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			//add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
 			add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
-			// Run after shortcodes are interpreted (priority 10).
-			add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
-			add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
-			add_shortcode( 'lwptoc', array( __CLASS__, 'shortcode' ) );
-			add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
+
+			if( !self::checkBeaverBuilderPluginActive() ) {
+				add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
+
+				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
+				add_shortcode( 'lwptoc', array( __CLASS__, 'shortcode' ) );
+				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
+
+			}
 		}
 
+		/**
+         * checkBeaverBuilderPluginActive Method
+         * @since 2.0.34
+		 * @return bool
+		 */
+		private static function checkBeaverBuilderPluginActive() {
+			if( has_action( 'the_content' ) && isset($_REQUEST['fl_builder'])) {
+				return true;
+			}
+			return false;
+		}
 		/**
 		 * Load the plugin translation.
 		 *
@@ -369,11 +384,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
              * RTL Direction
              * @since 2.0.33
             */
-            self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction' ) );
-            self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction' ),'ez-toc-widget-direction','ez-toc-widget-container' );
+            self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
+            self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
 
             if( ezTOC_Option::get( 'sticky-toggle' ) ) {
-                self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction' ), 'ez-toc-sticky-toggle-direction', 'ez-toc-sticky-toggle-counter' );
+                self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ), 'ez-toc-sticky-toggle-direction', 'ez-toc-sticky-toggle-counter', 'counter', 'ez-toc-sticky-container' );
             }
             /* End rtl direction */
 		}
@@ -387,59 +402,90 @@ if ( ! class_exists( 'ezTOC' ) ) {
          * @param string $directionClass
          * @param string $class
          * @param string $counter
+         * @param string $containerId
          * @return void
         */
-        private static function InlineCountingCSS( $direction = 'ltr', $directionClass = 'ez-toc-container-direction', $class = 'ez-toc-counter',  $counter = 'counter' )
+        private static function InlineCountingCSS( $direction = 'ltr', $directionClass = 'ez-toc-container-direction', $class = 'ez-toc-counter',  $counter = 'counter', $containerId = 'ez-toc-container' )
         {
-            $list_type = ezTOC_Option::get( $counter );
-            wp_enqueue_style('ez-toc');
-            $inlineCSS = '';
-            $counterListAll = array_merge(ezTOC_Option::getCounterListDecimal(), ezTOC_Option::getCounterList_i18n());
-            $listTypesForCounting = array_keys($counterListAll);
-            $inlineCSS .= <<<INLINECSS
+            $list_type = ezTOC_Option::get( $counter, 'decimal' );
+			if( $list_type != 'none' ) {
+	            wp_enqueue_style( 'ez-toc' );
+	            $inlineCSS = '';
+	            $counterListAll = array_merge( ezTOC_Option::getCounterListDecimal(), ezTOC_Option::getCounterList_i18n() );
+	            $listTypesForCounting = array_keys( $counterListAll );
+	            $inlineCSS .= <<<INLINECSS
 .$directionClass {
     direction: $direction;
-}
+}\n\n
 INLINECSS;
-            if( in_array($list_type, $listTypesForCounting) ) {
-                if( $direction == 'rtl' ) {
-                    $class .= '-rtl';
-                    $directionClass .= '-rtl';
-                    $length = 6;
-                    $counterRTLCSS = self::rtlCounterResetCSS( $length, $class );
-                    $counterRTLCSS .= self::rtlCounterIncrementCSS( $length, $class );
-                    $counterRTLCSS .= self::rtlCounterContentCSS( $length, $list_type, $class );
-                    $inlineCSS .= <<<INLINECSS
-$counterRTLCSS
-INLINECSS;
-                }
-                if( $direction == 'ltr' ) {
-                     $inlineCSS .= <<<INLINECSS
-.$class ul {
-    counter-reset: item;
-}
+				$listAnchorPosition = 'before';
+	            $marginCSS = 'margin-right: .2em;';
+	            $floatPosition = 'float: left;';
+	            if( $direction == 'rtl' )
+	            {
+	                $class .= '-rtl';
 
-.$class nav ul li a::before {
-    content: counters(item, ".", $list_type) ". ";
-    display: inline-block;
-    counter-increment: item;
-    margin-right: .2em;
-}
+	                $marginCSS = 'margin-left: .2em;';
+					$floatPosition = 'float: right;';
+	            }
+
+				if( $list_type == '- ' )
+				{
+	                $inlineCSS .= <<<INLINECSS
+	#$containerId.$class nav ul li {
+	    list-style-type: '- ' !important;
+	    list-style-position: inside !important;
+	}\n\n
 INLINECSS;
-                }
-            } else {
-                $inlineCSS .= <<<INLINECSS
-.$class ul {
-    counter-reset: item;
-}
-.$class nav ul li a::before {
-    content: counter(item, $list_type) " ";
-    margin-right: .2em;
-}
+				} else if( in_array( $list_type, $listTypesForCounting ) ) {
+	                if( $direction == 'rtl' )
+					{
+	                    $length = 6;
+	                    $counterRTLCSS = self::rtlCounterResetCSS( $length, $class );
+	                    $counterRTLCSS .= self::rtlCounterIncrementCSS( $length, $class );
+	                    $counterRTLCSS .= self::rtlCounterContentCSS( $length, $list_type, $class );
+	                    $inlineCSS .= <<<INLINECSS
+	$counterRTLCSS
+INLINECSS;
+	                }
+	                if( $direction == 'ltr' )
+					{
+	                     $inlineCSS .= <<<INLINECSS
+	.$class ul {
+	    counter-reset: item;
+	}\n\n
+	
+	.$class nav ul li a::$listAnchorPosition {
+	    content: counters(item, ".", $list_type) ". ";
+	    display: inline-block;
+	    counter-increment: item;
+	    $marginCSS \n
+	    $floatPosition
+	}\n\n
+INLINECSS;
+	                }
+	            } else {
+
+					$content = "  ";
+					if( $list_type == 'numeric' || $list_type == 'cjk-earthly-branch' )
+						$content = ". ";
+
+	                $inlineCSS .= <<<INLINECSS
+	.$class ul {
+	    direction: $direction;
+	    counter-reset: item;
+	}\n\n
+	.$class nav ul li a::$listAnchorPosition {
+	    content: counter(item, $list_type) "$content";
+	    $marginCSS
+	    counter-increment: item;
+	    $floatPosition
+	}\n\n
 INLINECSS;
 
+	            }
+				wp_add_inline_style( 'ez-toc', $inlineCSS );
             }
-             wp_add_inline_style('ez-toc', $inlineCSS);
         }
 
         /**
@@ -541,7 +587,9 @@ COUNTERINCREMENTCSS;
                 $items = implode(' "." ', $items);
                 $counterContentCSS .= <<<COUNTERINCREMENTCSS
 .$class nav $ul li a::before {
-    content: $items " ";
+    content: $items ". ";
+    float: right;
+    margin-left: 0.2rem;
 }\n\n
 COUNTERINCREMENTCSS;
             }
@@ -709,7 +757,7 @@ INLINESTICKYTOGGLECSS;
  * Sticky Sidebar JS
  */ 
 function hideBar(e) {
-    e.preventDefault();
+//    e.preventDefault();
     var sidebar = document.querySelector(".ez-toc-sticky-fixed");
     sidebar.classList.remove("show");
     sidebar.classList.add("hide");
@@ -718,7 +766,7 @@ function hideBar(e) {
     }, 200);
 }
 function showBar(e) {
-    e.preventDefault();
+//    e.preventDefault();
     document.querySelector(".ez-toc-open-icon").style = "z-index: -1;";
     setTimeout(function() {
 		var sidebar = document.querySelector(".ez-toc-sticky-fixed");
@@ -730,7 +778,8 @@ function showBar(e) {
 	let ez_toc_sticky_fixed_container = document.querySelector('div.ez-toc-sticky-fixed');
 	if(ez_toc_sticky_fixed_container) {
 		document.body.addEventListener("click", function (evt) {
-		    hideBar(event);
+			hideBar(evt);
+			evt.stopPropagation();
 		});
 		ez_toc_sticky_fixed_container.addEventListener('click', function(event) {
 			event.stopPropagation();
@@ -1130,7 +1179,7 @@ INLINESTICKYTOGGLEJS;
             /**
              * @since 2.0.32
              */
-            if ( ezTOC_Option::get('sticky-toggle') && !is_home() ) {
+            if ( ezTOC_Option::get('sticky-toggle') && !is_home() && !self::checkBeaverBuilderPluginActive() ) {
                 add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
             }
 

@@ -189,10 +189,10 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 					$class[] = 'counter-flat';
 				}
 
-				if( ezTOC_Option::get( 'heading-text-direction' ) == 'ltr' ) {
+				if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'ltr' ) {
                     $class[] = 'ez-toc-widget-container';
                 }
-                if( ezTOC_Option::get( 'heading-text-direction' ) == 'rtl' ) {
+                if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'rtl' ) {
                     $class[] = 'ez-toc-widget-container-rtl';
                 }
 
@@ -224,7 +224,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				echo $before_widget;				
 				do_action( 'ez_toc_before_widget_container');
 
-				echo '<div class="ez-toc-widget-container ' . implode( ' ', $class ) . '">' . PHP_EOL;
+				echo '<div id="ez-toc-widget-container" class="ez-toc-widget-container ' . implode( ' ', $class ) . '">' . PHP_EOL;
 
 				do_action( 'ez_toc_before_widget' );
 

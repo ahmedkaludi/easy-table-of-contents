@@ -125,24 +125,55 @@ function ez_toc_woo_cat_desc_remove(){
 }
 
 
-if (function_exists( 'mpg_run' )) {
-	add_filter('the_content', 'ez_toc_mpg');
+//if (function_exists( 'mpg_run' )) {
+//	add_filter('the_content', 'ez_toc_mpg');
+//}
+//function ez_toc_mpg($content){
+//  if (is_front_page() || is_single()) {
+//  	return $content;
+//  }
+/*  preg_match_all( '/<h(.*?).*?>(.*?)<\/h(.*?)>/', $content, $matches );*/
+//  $array = $matches[2];
+//  $container = '<div id="ez-toc-container" class="container counter-hierarchy counter-decimal ez-toc-grey"><div class="ez-toc-title-container"><p class="ez-toc-title">' . esc_html_e('Table of Contents', 'easy-table-of-contents') . '</p><span class="ez-toc-title-toggle"><a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: inline;"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></a></span></div><nav><ul class="ez-toc-list">';
+//    foreach ( $array as $val ) {
+//      $val = preg_replace('/\[(.*?)\](.*?)\[(.*?)\]/', '$2', $val);
+//      $val = preg_replace('/{(.*?)\|(.*?)\|(.*?)}/', '$3', $val);
+//      $vals .= '<li><a class="anchor" href="#'.$val.'">'.$val.'</a></li>';
+/*      $content = preg_replace('/<h(.*?).*?>(.*?)<\/h(.*?)>/', "<h$3 id='$2'>$2</h$3>", $content);*/
+//    }
+//    $last .= '</ul></nav></div>';
+//    $content = $container . $vals . $last . $content;
+//
+//return $content;
+//}
+
+//if( is_plugin_active('beaver-builder-lite-version/fl-builder.php') )
+//{
+//	add_filter( 'the_content', array( ezTOC::class, 'the_content' ) );
+//}
+
+/**
+ * EzPrintR method
+ * to print_r content with pre tags
+ * @since 2.0.34
+ * @param $content
+ * @return void
+*/
+function EzPrintR($content){
+	echo "<pre>";
+    print_r($content);
+    echo "</pre>";
 }
-function ez_toc_mpg($content){
-  if (is_front_page() || is_single()) {
-  	return $content;
-  }
-  preg_match_all( '/<h(.*?).*?>(.*?)<\/h(.*?)>/', $content, $matches );
-  $array = $matches[2];
-  $container = '<div id="ez-toc-container" class="container counter-hierarchy counter-decimal ez-toc-grey"><div class="ez-toc-title-container"><p class="ez-toc-title">' . esc_html_e('Table of Contents', 'easy-table-of-contents') . '</p><span class="ez-toc-title-toggle"><a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: inline;"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></a></span></div><nav><ul class="ez-toc-list">';
-    foreach ( $array as $val ) { 
-      $val = preg_replace('/\[(.*?)\](.*?)\[(.*?)\]/', '$2', $val);
-      $val = preg_replace('/{(.*?)\|(.*?)\|(.*?)}/', '$3', $val);
-      $vals .= '<li><a class="anchor" href="#'.$val.'">'.$val.'</a></li>';
-      $content = preg_replace('/<h(.*?).*?>(.*?)<\/h(.*?)>/', "<h$3 id='$2'>$2</h$3>", $content);
-    } 
-    $last .= '</ul></nav></div>';
-    $content = $container . $vals . $last . $content;
-     
-return $content;
+
+/**
+ * EzDumper method
+ * to var_dump content with pre tags
+ * @since 2.0.34
+ * @param $content
+ * @return void
+*/
+function EzDumper($content){
+	echo "<pre>";
+    var_dump($content);
+    echo "</pre>";
 }
