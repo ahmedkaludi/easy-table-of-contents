@@ -96,4 +96,19 @@ jQuery(document).ready(function ($) {
             }
         );
     });
+
+
+    $('.eztoc-set-pos-btn').hide(); 
+    $("[name='ez-toc-settings[fixedtoc]']").on('click', function (e) {
+        if($(this).is(':checked'))
+        {
+            $('.eztoc-set-pos-btn').show();
+            console.log('checkbox checked');
+        }
+        else{
+            $('.eztoc-set-pos-btn').hide(); 
+            console.log('checkbox unchecked');
+        }
+    });
 });
+
