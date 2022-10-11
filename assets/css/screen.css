@@ -111,6 +111,9 @@ div.ez-toc-widget-container li {
     box-shadow: none;
     text-decoration: none;
     text-shadow: none;
+    display: inline-flex;
+    align-items: stretch;
+    flex-wrap: nowrap;
 }
 
 #ez-toc-container a:visited {
@@ -372,7 +375,10 @@ div#ez-toc-container.afterpara + p {
 }
 
 .ez-toc-widget-container ul li a {
-    padding-left: 10px
+    padding-left: 10px;
+    display: inline-flex;
+    align-items: stretch;
+    flex-wrap: nowrap;
 }
 
 .ez-toc-widget-container ul.ez-toc-list li.active {

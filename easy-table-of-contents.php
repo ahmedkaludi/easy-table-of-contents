@@ -459,6 +459,8 @@ INLINECSS;
 	    content: counters(item, ".", $list_type) ". ";
 	    display: inline-block;
 	    counter-increment: item;
+        flex-grow: 0;
+        flex-shrink: 0;
 	    $marginCSS \n
 	    $floatPosition
 	}\n\n
@@ -479,6 +481,8 @@ INLINECSS;
 	    content: counter(item, $list_type) "$content";
 	    $marginCSS
 	    counter-increment: item;
+        flex-grow: 0;
+        flex-shrink: 0;
 	    $floatPosition
 	}\n\n
 INLINECSS;
@@ -590,6 +594,8 @@ COUNTERINCREMENTCSS;
     content: $items ". ";
     float: right;
     margin-left: 0.2rem;
+    flex-grow: 0;
+    flex-shrink: 0;
 }\n\n
 COUNTERINCREMENTCSS;
             }
@@ -636,7 +642,6 @@ COUNTERINCREMENTCSS;
     position: relative;
     top: auto;
     width: auto !important;
-    {$custom_width}
     height: 100%;
     box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);
     box-sizing: border-box;
