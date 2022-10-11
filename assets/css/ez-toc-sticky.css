@@ -308,24 +308,6 @@ div.ez-toc-sticky-widget-container li {
     margin-left: 2px;
 }
 
-[class*="ez-toc-sticky-icon-"] {
-    font-family: 'ez-toc-sticky-icomoon' !important; /* For better glyphicon compatibility */
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.ez-toc-sticky-icon-toggle:before {
-    content: "\e87a";
-}
-
 #ez-toc-sticky-container input {
     position: absolute;
     left: -999em;

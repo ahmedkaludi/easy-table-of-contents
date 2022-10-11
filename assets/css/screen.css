@@ -273,6 +273,19 @@ div.ez-toc-widget-container li {
     margin-left: 10px;
 }
 
+.ez-toc-pull-right svg {
+    position: relative;
+    left: -4px;
+    top: 3.5px;
+}
+.ez-toc-pull-right span.dashicons-leftright {
+    transform: rotate(90deg);
+    position: relative;
+    top: 3.5px;
+    font-size: 10px;
+    right: 18.5px;
+}
+
 .ez-toc-glyphicon {
     position: relative;
     top: 1px;
@@ -294,22 +307,6 @@ div.ez-toc-widget-container li {
     margin-left: 2px;
 }
 
-[class*="ez-toc-icon-"] {
-    font-family: 'ez-toc-icomoon' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.ez-toc-icon-toggle:before {
-    content: "\e87a";
-}
-
 #ez-toc-container input {
     position: absolute;
     left: -999em;
@@ -328,11 +325,13 @@ div.ez-toc-widget-container li {
     left: 3px;
     font-size: 16px;
     /* background: #f9efef; */
-    padding: 0px 4px 0px 5px;
+    padding: 0 4px 0 5px;
     border: 1px solid #999191;
     border-radius: 5px;
     cursor: pointer;
+    width: 30px;
 }
+
 
 div#ez-toc-container p.ez-toc-title {
     display: contents;

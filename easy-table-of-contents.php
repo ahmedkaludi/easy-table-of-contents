@@ -246,9 +246,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
                 return false;
 			}
 
-			wp_register_style( 'ez-icomoon', EZ_TOC_URL . "vendor/icomoon/style$min.css", array(), ezTOC::VERSION );
+//			wp_register_style( 'ez-icomoon', EZ_TOC_URL . "vendor/icomoon/style$min.css", array(), ezTOC::VERSION );
 			if (!ezTOC_Option::get( 'inline_css' )) {
-				wp_register_style( 'ez-toc', EZ_TOC_URL . "assets/css/screen$min.css", array( 'ez-icomoon' ), ezTOC::VERSION );
+				wp_register_style( 'ez-toc', EZ_TOC_URL . "assets/css/screen$min.css",
+//				 array( 'ez-icomoon' ),
+				 ezTOC::VERSION );
 			}
 			wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', TRUE );
 			wp_register_script( 'ez-toc-jquery-smooth-scroll', EZ_TOC_URL . "vendor/smooth-scroll/jquery.smooth-scroll$min.js", array( 'jquery' ), '2.2.0', TRUE );
@@ -274,7 +276,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				wp_register_style(
 					'ez-toc-sticky',
 					EZ_TOC_URL . "assets/css/ez-toc-sticky{$min}.css",
-					array( 'ez-icomoon' ),
+//					array( 'ez-icomoon' ),
 					self::VERSION
 				);
 				wp_enqueue_style( 'ez-toc-sticky' );
