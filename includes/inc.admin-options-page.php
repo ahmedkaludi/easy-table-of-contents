@@ -26,7 +26,7 @@
         <a class="eztoc-tablinks" id="eztoc-technical" href="#technical-support"
            onclick="ezTocTabToggle(event, 'technical')" data-href="no"><?= esc_html_e( 'Help & Support', 'easy-table-of-contents' ) ?></a>
            <?php if (!function_exists('ez_toc_pro_activation_link')) { ?>
-            <a class="eztoc-tablinks" id="eztoc-upgrade" href="https://tocwp.com/pricing/" target="_blank"><?= esc_html_e( 'UPGRADE to PRO', 'easy-table-of-contents' ) ?></a>
+            <a class="eztoc-tablinks" id="eztoc-upgrade" href="https://tocwp.com/pricing/" target="_blank"><?= esc_html( 'UPGRADE to PRO', 'easy-table-of-contents' ) ?></a>
             <?php } ?>
         <?php
 
