@@ -273,17 +273,32 @@ div.ez-toc-widget-container li {
     margin-left: 10px;
 }
 
-.ez-toc-pull-right svg {
+#ez-toc-container label.cssicon {
+    height: 30px;
+}
+
+.ez-toc-pull-right svg.list-377408 {
     position: relative;
     left: -4px;
     top: 3.5px;
 }
-.ez-toc-pull-right span.dashicons-leftright {
-    transform: rotate(90deg);
+
+.cssicon svg.list-377408 {
     position: relative;
+    left: -4px;
     top: 3.5px;
-    font-size: 10px;
-    right: 18.5px;
+}
+
+.ez-toc-pull-right svg.arrow-unsorted-368013 {
+    position: absolute;
+    top: 9px;
+    right: 1px;
+}
+
+.cssicon svg.arrow-unsorted-368013 {
+    position: relative;
+    top: -30.5px;
+    right: -12.5px;
 }
 
 .ez-toc-glyphicon {

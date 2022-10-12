@@ -1274,7 +1274,7 @@ class ezTOC_Post {
 				
 				if ( ezTOC_Option::get( 'visibility' ) ) {
 					if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
-						$icon = '<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none"><path d="M6 6H4v2h2V6zm14 0H8v2h12V6zM4 11h2v2H4v-2zm16 0H8v2h12v-2zM4 16h2v2H4v-2zm16 0H8v2h12v-2z" fill="currentColor"></path></svg><span class="dashicons dashicons-leftright"></span>';
+						$icon = ezTOC::getTOCToggleIcon();
 						if(function_exists('ez_toc_pro_activation_link')){
 							$icon = apply_filters('ez_toc_modify_icon',$icon);
 						}
@@ -1284,7 +1284,7 @@ class ezTOC_Post {
 						if(ezTOC_Option::get('visibility_hide_by_default')==true){
 							$toggle_view= "checked";
 						}
-						$html .= '<label for="item" class="cssicon"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></label><label for="item" class="cssiconcheckbox">1</label><input type="checkbox" id="item" '.$toggle_view.'>';
+						$html .= '<label for="item" class="cssicon">' . ezTOC::getTOCToggleIcon() . '</label><label for="item" class="cssiconcheckbox">1</label><input type="checkbox" id="item" '.$toggle_view.'>';
 					}
 				}
 
@@ -1297,7 +1297,7 @@ class ezTOC_Post {
 			}else{
 				$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
 				$html .= '<span class="ez-toc-title-toggle">';
-				$html .= '<a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;"><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none"><path d="M6 6H4v2h2V6zm14 0H8v2h12V6zM4 11h2v2H4v-2zm16 0H8v2h12v-2zM4 16h2v2H4v-2zm16 0H8v2h12v-2z" fill="currentColor"></path></svg><span class="dashicons dashicons-leftright"></span></a>';
+				$html .= '<a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;">' . ezTOC::getTOCToggleIcon() . '</a>';
 				$html .= '</span>';
 				$html .= '</div>' . PHP_EOL;
 			}
