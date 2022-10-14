@@ -979,10 +979,10 @@ INLINESTICKYTOGGLEJS;
 		 */
 		public static function shortcode( $atts, $content, $tag ) {
 
-			static $run = true;
+//			static $run = true;
 			$html = '';
 
-			if ( $run ) {
+			if ( 'ez-toc' == $tag  ) {
 
 				$post = self::get( get_the_ID() );
 
@@ -994,7 +994,7 @@ INLINESTICKYTOGGLEJS;
 				}
 
 				$html = $post->getTOC();
-				$run  = false;
+//				$run  = false;
 			}
 
 			if( !empty( $html ) )
