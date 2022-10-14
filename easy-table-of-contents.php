@@ -151,6 +151,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		private static function hooks() {
 
 			//add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
+			add_option('ez-toc-shortcode-exist-and-render', false);
+
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
 			add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
 
@@ -162,6 +164,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
 
 			}
+
 		}
 
 		/**
@@ -242,7 +245,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			$isEligible = self::is_eligible( get_post() );
 
-			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) ) {
+			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! get_option( 'ez-toc-shortcode-exist-and-render' ) ) {
                 return false;
 			}
 
@@ -993,6 +996,14 @@ INLINESTICKYTOGGLEJS;
 				$html = $post->getTOC();
 				$run  = false;
 			}
+
+			if( !empty( $html ) )
+			{
+				update_option('ez-toc-shortcode-exist-and-render', true);
+			} else
+			{
+				update_option('ez-toc-shortcode-exist-and-render', false);
+			}
 			if (isset($atts["initial_view"]) && !empty($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
 				$html = preg_replace('/class="ez-toc-list ez-toc-list-level-1"/', 'class="ez-toc-list ez-toc-list-level-1" style="display:none"', $html);
 			}
@@ -1072,7 +1083,7 @@ INLINESTICKYTOGGLEJS;
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
 
-			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) ) {
+			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! get_option( 'ez-toc-shortcode-exist-and-render' ) ) {
 
 				return Debug::log()->appendTo( $content );
 			}
