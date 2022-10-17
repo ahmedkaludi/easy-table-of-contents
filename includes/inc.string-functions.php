@@ -355,7 +355,15 @@ function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 	return $string;
 }
 endif;
-
+/**
+ * ezTOC_FilterString Function
+ * for removing unlike character and convert some encoding character from headings.
+ * @access public
+ * @since  2.0.35
+ * @param string|mixed $string
+ *
+ * @return string
+ */
 if( ! function_exists('ezTOC_FilterString') ):
 	function ezTOC_FilterString( $string ) {
 
