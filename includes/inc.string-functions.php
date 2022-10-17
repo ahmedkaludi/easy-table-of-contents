@@ -294,6 +294,8 @@ function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 			//	;
 			//}
 
+			$string = ezTOC_FilterString( $string );
+
 			for ( $i = 0; $i < count( $find ); $i ++ ) {
 
 				$needle = $find[ $i ];
@@ -368,22 +370,24 @@ if( ! function_exists('ezTOC_FilterString') ):
 	function ezTOC_FilterString( $string ) {
 
 		$return = html_entity_decode( $string, ENT_QUOTES, get_option( 'blog_charset' ) );
-        $return = br2( $return, ' ' );
-        $return = trim( strip_tags( $return ) );
+
+//        $return = br2( $return, ' ' );
+//        $return = trim( strip_tags( $return ) );
 
         // Convert accented characters to ASCII.
-        $return = remove_accents( $return );
+//        $return = remove_accents( $return );
 
         // replace newlines with spaces (eg when headings are split over multiple lines)
-        $return = str_replace( array( "\r", "\n", "\n\r", "\r\n" ), ' ', $return );
+//        $return = str_replace( array( "\r", "\n", "\n\r", "\r\n" ), ' ', $return );
 
         // Remove `&amp;` and `&nbsp;` NOTE: in order to strip "hidden" `&nbsp;`,
         // title needs to be converted to HTML entities.
         // @link https://stackoverflow.com/a/21801444/5351316
-        $return = htmlentities2( $return );
+//        $return = htmlentities2( $return );
         $return = str_replace( array( '&amp;', '&nbsp;'), ' ', $return );
         $return = str_replace( array( '&shy;' ),'', $return );					// removed silent hypen
-        $return = html_entity_decode( $return, ENT_QUOTES, get_option( 'blog_charset' ) );
+
+//        $return = html_entity_decode( $string, ENT_QUOTES, get_option( 'blog_charset' ) );
 
         // remove non alphanumeric chars
         //$return = preg_replace( '/[^a-zA-Z0-9 \-_]*/', '', $return );
