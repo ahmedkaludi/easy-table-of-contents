@@ -1,6 +1,7 @@
 <?php
 
 use function Easy_Plugins\Table_Of_Contents\String\br2;
+use function Easy_Plugins\Table_Of_Contents\String\ezTOC_FilterString;
 
 class ezTOC_Post {
 
@@ -994,17 +995,18 @@ class ezTOC_Post {
 			foreach ( $matches as $i => $match ) {
 
 				//$anchor     = $matches[ $i ]['id'];
-				$headings[] = str_replace(
-					array(
-						$matches[ $i ][1],                // start of heading
-						'</h' . $matches[ $i ][2] . '>'   // end of heading
-					),
-					array(
-						'>',
-						'</h' . $matches[ $i ][2] . '>'
-					),
-					$matches[ $i ][0]
-				);
+//				$headings[] = str_replace(
+//					array(
+//						$match[1],                // start of heading
+//						'</h' . $match[2] . '>'   // end of heading
+//					),
+//					array(
+//						'>',
+//						'</h' . $match[2] . '>'
+//					),
+//					$str
+//				);
+				$headings[] = '>'  . ezTOC_FilterString( $match[3] ) . '</h' . $match[2] . '>';
 			}
 		}
 

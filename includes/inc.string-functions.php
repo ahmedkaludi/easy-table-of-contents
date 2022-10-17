@@ -320,7 +320,7 @@ function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 
 					$needle = str_replace(array('’','“','”'), array('\'','"','"'), $needle);
 
-					$start = mb_strpos( $string, $needle );
+					$start = mb_stripos( $string, $needle, 0, get_option( 'blog_charset' ) );
 				}
 
 				/*
@@ -354,4 +354,50 @@ function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 
 	return $string;
 }
+endif;
+
+if( ! function_exists('ezTOC_FilterString') ):
+	function ezTOC_FilterString( $string ) {
+
+		$return = html_entity_decode( $string, ENT_QUOTES, get_option( 'blog_charset' ) );
+        $return = br2( $return, ' ' );
+        $return = trim( strip_tags( $return ) );
+
+        // Convert accented characters to ASCII.
+        $return = remove_accents( $return );
+
+        // replace newlines with spaces (eg when headings are split over multiple lines)
+        $return = str_replace( array( "\r", "\n", "\n\r", "\r\n" ), ' ', $return );
+
+        // Remove `&amp;` and `&nbsp;` NOTE: in order to strip "hidden" `&nbsp;`,
+        // title needs to be converted to HTML entities.
+        // @link https://stackoverflow.com/a/21801444/5351316
+        $return = htmlentities2( $return );
+        $return = str_replace( array( '&amp;', '&nbsp;'), ' ', $return );
+        $return = str_replace( array( '&shy;' ),'', $return );					// removed silent hypen
+        $return = html_entity_decode( $return, ENT_QUOTES, get_option( 'blog_charset' ) );
+
+        // remove non alphanumeric chars
+        //$return = preg_replace( '/[^a-zA-Z0-9 \-_]*/', '', $return );
+        $return = preg_replace( '/[\x00-\x1F\x7F]*/u', '', $return );
+
+        // Dashes
+        // Special Characters.
+        // - (minus) - (dash) – (en dash) — (em dash)
+        $return = str_replace(
+            array( '-', '-', '–', '—' ),
+            '-',
+            $return
+        );
+
+        // Curley quotes.
+        // ‘ (curly single open quote) ’ (curly single close quote) “ (curly double open quote) ” (curly double close quote)
+        $return = str_replace(
+            array( '‘', '’', '“', '”' ),
+            '',
+            $return
+        );
+
+		return $return;
+	}
 endif;
