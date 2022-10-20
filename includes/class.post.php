@@ -853,16 +853,16 @@ class ezTOC_Post {
 			);
 
 			// AMP/Caching plugins seems to break URL with the following characters, so lets replace them.
-			$return = str_replace( array( ':' ), '_', $return );
+			$return = str_replace( array( ':' ), '-', $return );
 
 			// Convert space characters to an `_` (underscore).
-			$return = preg_replace( '/\s+/', '_', $return );
+			$return = preg_replace( '/\s+/', '-', $return );
 
 			// Replace multiple `-` (hyphen) with a single `-` (hyphen).
 			$return = preg_replace( '/-+/', '-', $return );
 
 			// Replace multiple `_` (underscore) with a single `_` (underscore).
-			$return = preg_replace( '/_+/', '_', $return );
+			$return = preg_replace( '/_+/', '-', $return );
 
 			// Remove trailing `-` (hyphen) and `_` (underscore).
 			$return = rtrim( $return, '-_' );
