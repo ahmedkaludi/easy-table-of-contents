@@ -261,9 +261,17 @@ class ezTOC_Post {
 		//
 		//	require_once( EZ_TOC_PATH . '/includes/vendor/ultimate-web-scraper/tag_filter.php' );
 		//}
+		$content = $this->post->post_content;
 
-		$split = preg_split( '/<!--nextpage-->/msuU', $this->post->post_content );
+		if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			if ( empty( $content ) ) {
+				$content = get_option( 'ez-toc-post-meta-content' );
+			}
+		}
+
 		$pages = array();
+
+		$split = preg_split( '/<!--nextpage-->/msuU', $content );
 
 		if ( is_array( $split ) ) {
 

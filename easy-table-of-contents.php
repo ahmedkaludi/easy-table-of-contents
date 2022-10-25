@@ -152,6 +152,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			//add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
 			add_option('ez-toc-shortcode-exist-and-render', false);
+			if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+				add_option( 'ez-toc-post-meta-content', '' );
+			}
 
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
 			add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
@@ -242,6 +245,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 			$js_vars = array();
+
+			if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+				$postMetaContent = get_post_meta( get_the_ID(), '_nectar_portfolio_extra_content',
+					true );
+				if( !empty( $postMetaContent ) )
+					update_option( 'ez-toc-post-meta-content', do_shortcode( $postMetaContent ) );
+			}
 
 			$isEligible = self::is_eligible( get_post() );
 
