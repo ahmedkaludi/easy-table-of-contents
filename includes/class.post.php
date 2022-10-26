@@ -1089,7 +1089,12 @@ class ezTOC_Post {
 				$html .= $this->createTOC( $page, $attribute['headings'], $prefix );
 			}
 
-			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1'>" . $html . "</ul>";
+			$displayList = '';
+			if( ezTOC_Option::get( 'visibility_hide_by_default' ) )
+			{
+				$displayList = "style='display:none'";
+			}
+			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1' $displayList>" . $html . "</ul>";
 		}
 
 		return $html;
