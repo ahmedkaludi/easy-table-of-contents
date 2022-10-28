@@ -132,7 +132,10 @@ div.ez-toc-widget-container li {
     color: #FFF;
 }
 
+
 #ez-toc-container a.ez-toc-toggle {
+    display: flex;
+    align-items: center;
     color: #444444;
 }
 
@@ -277,30 +280,6 @@ div.ez-toc-widget-container li {
     height: 30px;
 }
 
-.ez-toc-pull-right svg.list-377408 {
-    position: relative;
-    left: -4px;
-    top: 3.5px;
-}
-
-.cssicon svg.list-377408 {
-    position: relative;
-    left: -4px;
-    top: 3.5px;
-}
-
-.ez-toc-pull-right svg.arrow-unsorted-368013 {
-    position: absolute;
-    top: 9px;
-    right: 1px;
-}
-
-.cssicon svg.arrow-unsorted-368013 {
-    position: relative;
-    top: -25.5px;
-    right: -12.5px;
-}
-
 .ez-toc-glyphicon {
     position: relative;
     top: 1px;
@@ -347,6 +326,17 @@ div.ez-toc-widget-container li {
     width: 30px;
 }
 
+#ez-toc-container .ez-toc-toggle label, #ez-toc-container label.cssicon  {
+    float: right;
+    position: relative;
+    font-size: 16px;
+    padding: 0;
+    border: 1px solid #999191;
+    border-radius: 5px;
+    cursor: pointer;
+    left: 10px;
+    width: 35px;
+}
 
 div#ez-toc-container p.ez-toc-title {
     display: contents;
