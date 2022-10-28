@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.34
+Stable tag: 2.0.35
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,22 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.35 10/28/2022 =
+* BUG: TOC shows on reload even if is closed #322
+* BUG: Sticky Toggle TOC Container is showing in footer on disabled TOC #317
+* BUG: wp-content/plugins/easy-table-of-contents/vendor/icomoon/fonts/ez-toc-icomoon.eot #308
+* BUG: Second line of heading should equally align to first line, If the heading is large #307
+* BUG: Some bugs occurring due to a "-" in pages created with Elementor #306
+* BUG: Not working in Persian Language. duplicate #303
+* NEW: get it listed on https://amp-wp.org/ecosystem/ #302
+* BUG: TOC Pro Elementor block bugs. #298
+* BUG: Not working in sidebar if Auto insert is disabled. #297
+* TWEAK: Move TOC Pro setting section to TOC Pro plugin #296
+* BUG/TWEAK: Audit the PRO version #277
+* BUG/TWEAK: Need to audit and fix Fixed TOC feature in pro #276
+* BUG: Shortcode are not working with Salient theme #271
+* BUG: While using the WP Bakery page builder, in the custom heading module, TOC is not working. #205
+
 = 2.0.34 09/29/2022 =
 * BUG: Enabling sticky toggle makes the other links unclickable. #301
 * BUG: Need to fix Pro Settings #300
