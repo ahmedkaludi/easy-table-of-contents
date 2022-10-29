@@ -111,6 +111,9 @@ div.ez-toc-widget-container li {
     box-shadow: none;
     text-decoration: none;
     text-shadow: none;
+    display: inline-flex;
+    align-items: stretch;
+    flex-wrap: nowrap;
 }
 
 #ez-toc-container a:visited {
@@ -129,7 +132,10 @@ div.ez-toc-widget-container li {
     color: #FFF;
 }
 
+
 #ez-toc-container a.ez-toc-toggle {
+    display: flex;
+    align-items: center;
     color: #444444;
 }
 
@@ -270,6 +276,10 @@ div.ez-toc-widget-container li {
     margin-left: 10px;
 }
 
+#ez-toc-container label.cssicon {
+    height: 30px;
+}
+
 .ez-toc-glyphicon {
     position: relative;
     top: 1px;
@@ -291,22 +301,6 @@ div.ez-toc-widget-container li {
     margin-left: 2px;
 }
 
-[class*="ez-toc-icon-"] {
-    font-family: 'ez-toc-icomoon' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.ez-toc-icon-toggle:before {
-    content: "\e87a";
-}
-
 #ez-toc-container input {
     position: absolute;
     left: -999em;
@@ -325,10 +319,23 @@ div.ez-toc-widget-container li {
     left: 3px;
     font-size: 16px;
     /* background: #f9efef; */
-    padding: 0px 4px 0px 5px;
+    padding: 0 4px 0 5px;
     border: 1px solid #999191;
     border-radius: 5px;
     cursor: pointer;
+    width: 30px;
+}
+
+#ez-toc-container .ez-toc-toggle label, #ez-toc-container label.cssicon  {
+    float: right;
+    position: relative;
+    font-size: 16px;
+    padding: 0;
+    border: 1px solid #999191;
+    border-radius: 5px;
+    cursor: pointer;
+    left: 10px;
+    width: 35px;
 }
 
 div#ez-toc-container p.ez-toc-title {
@@ -372,7 +379,10 @@ div#ez-toc-container.afterpara + p {
 }
 
 .ez-toc-widget-container ul li a {
-    padding-left: 10px
+    padding-left: 10px;
+    display: inline-flex;
+    align-items: stretch;
+    flex-wrap: nowrap;
 }
 
 .ez-toc-widget-container ul.ez-toc-list li.active {

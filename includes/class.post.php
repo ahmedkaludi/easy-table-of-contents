@@ -1,6 +1,7 @@
 <?php
 
 use function Easy_Plugins\Table_Of_Contents\String\br2;
+use function Easy_Plugins\Table_Of_Contents\String\ezTOC_FilterString;
 
 class ezTOC_Post {
 
@@ -260,9 +261,19 @@ class ezTOC_Post {
 		//
 		//	require_once( EZ_TOC_PATH . '/includes/vendor/ultimate-web-scraper/tag_filter.php' );
 		//}
+		$content = $this->post->post_content;
 
-		$split = preg_split( '/<!--nextpage-->/msuU', $this->post->post_content );
+		if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			if ( empty( $content ) ) {
+				$content = get_option( 'ez-toc-post-meta-content' );
+			} else {
+				$content .= get_option( 'ez-toc-post-meta-content' );
+			}
+		}
+
 		$pages = array();
+
+		$split = preg_split( '/<!--nextpage-->/msuU', $content );
 
 		if ( is_array( $split ) ) {
 
@@ -994,17 +1005,18 @@ class ezTOC_Post {
 			foreach ( $matches as $i => $match ) {
 
 				//$anchor     = $matches[ $i ]['id'];
-				$headings[] = str_replace(
-					array(
-						$matches[ $i ][1],                // start of heading
-						'</h' . $matches[ $i ][2] . '>'   // end of heading
-					),
-					array(
-						'>',
-						'</h' . $matches[ $i ][2] . '>'
-					),
-					$matches[ $i ][0]
-				);
+//				$headings[] = str_replace(
+//					array(
+//						$match[1],                // start of heading
+//						'</h' . $match[2] . '>'   // end of heading
+//					),
+//					array(
+//						'>',
+//						'</h' . $match[2] . '>'
+//					),
+//					$str
+//				);
+				$headings[] = '>'  . ezTOC_FilterString( $match[3] ) . '</h' . $match[2] . '>';
 			}
 		}
 
@@ -1077,7 +1089,12 @@ class ezTOC_Post {
 				$html .= $this->createTOC( $page, $attribute['headings'], $prefix );
 			}
 
-			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1'>" . $html . "</ul>";
+			$displayList = '';
+			if( ezTOC_Option::get( 'visibility_hide_by_default' ) )
+			{
+				$displayList = "style='display:none'";
+			}
+			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1' $displayList>" . $html . "</ul>";
 		}
 
 		return $html;
@@ -1274,7 +1291,7 @@ class ezTOC_Post {
 				
 				if ( ezTOC_Option::get( 'visibility' ) ) {
 					if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
-						$icon = '<i class="ez-toc-glyphicon ez-toc-icon-toggle"></i>';
+						$icon = ezTOC::getTOCToggleIcon();
 						if(function_exists('ez_toc_pro_activation_link')){
 							$icon = apply_filters('ez_toc_modify_icon',$icon);
 						}
@@ -1284,7 +1301,7 @@ class ezTOC_Post {
 						if(ezTOC_Option::get('visibility_hide_by_default')==true){
 							$toggle_view= "checked";
 						}
-						$html .= '<label for="item" class="cssicon"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></label><label for="item" class="cssiconcheckbox">1</label><input type="checkbox" id="item" '.$toggle_view.'>';
+						$html .= '<label for="item" class="cssicon">' . ezTOC::getTOCToggleIcon() . '</label><label for="item" class="cssiconcheckbox">1</label><input type="checkbox" id="item" '.$toggle_view.'>';
 					}
 				}
 
@@ -1297,7 +1314,7 @@ class ezTOC_Post {
 			}else{
 				$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
 				$html .= '<span class="ez-toc-title-toggle">';
-				$html .= '<a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;"><i class="ez-toc-glyphicon ez-toc-icon-toggle"></i></a>';
+				$html .= '<a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;">' . ezTOC::getTOCToggleIcon() . '</a>';
 				$html .= '</span>';
 				$html .= '</div>' . PHP_EOL;
 			}

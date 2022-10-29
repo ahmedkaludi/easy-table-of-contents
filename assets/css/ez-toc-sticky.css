@@ -128,6 +128,9 @@ div.ez-toc-sticky-widget-container li {
     box-shadow: none;
     text-decoration: none;
     text-shadow: none;
+    display: inline-flex;
+    align-items: stretch;
+    flex-wrap: nowrap;
 }
 
 #ez-toc-sticky-container a:visited {
@@ -303,24 +306,6 @@ div.ez-toc-sticky-widget-container li {
 .ez-toc-sticky-toggle i.ez-toc-sticky-glyphicon {
     font-size: 16px;
     margin-left: 2px;
-}
-
-[class*="ez-toc-sticky-icon-"] {
-    font-family: 'ez-toc-sticky-icomoon' !important; /* For better glyphicon compatibility */
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.ez-toc-sticky-icon-toggle:before {
-    content: "\e87a";
 }
 
 #ez-toc-sticky-container input {

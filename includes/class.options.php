@@ -726,37 +726,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
                     )
                 ),
 				'prosettings' => apply_filters(
-					'ez_toc_settings_prosettings',
-						array(
-						'exclude_by_class' => array(
-							'id' => 'exclude_by_class',
-							'name' => __( 'Exclude Headings by Class', 'easy-table-of-contents' ),
-							'desc' => '<br/>' . __( 'You can hide the TOC heading by its class and if you want to hide multiple headings then please saparate them with a comma (,)', 'easy-table-of-contents' ),
-							'type' => 'text',
-							'default' => '',
-						),		
-						'fixedtoc' => array(
-							'id' => 'fixedtoc',
-							'name' => __( 'Fixed TOC', 'easy-table-of-contents' ),
-							'desc' => __( 'Fixed TOC in the page display so it can be easier to navigate.<a  target="_blank" href="https://tocwp.com/docs/knowledge-base/how-to-use-toc-fixed-position-pro-feature/"> Learn More</a><br><a class="eztoc-set-pos-btn button button-primary" target="_blank" href="'.$eztoc_latest_link.'"> Set TOC Position</a>', 'easy-table-of-contents' ),
-							'type' => 'checkbox',
-							'default' => false,
-						),		 
-						'highlightheadings' => array(
-							'id' => 'highlightheadings',
-							'name' => __( 'Highlight TOC Headings ', 'easy-table-of-contents' ),
-							'desc' => __( 'Highlight TOC headings while scrolling ', 'easy-table-of-contents' ),
-							'type' => 'checkbox',
-							'default' => false,
-						),
-						'shrinkthewidth' => array(
-							'id' => 'shrinkthewidth',
-							'name' => __( 'Shrink the width', 'easy-table-of-contents' ),
-							'desc' => __( 'Shrink the width to the size of the title' ),
-							'type' => 'checkbox',
-							'default' => false,
-						),
-					)
+					'ez_toc_settings_prosettings', array()
 				),
 			);
 

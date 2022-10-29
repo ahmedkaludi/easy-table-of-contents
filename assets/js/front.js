@@ -129,7 +129,7 @@ jQuery( function( $ ) {
 			var toggle = $( 'a.ez-toc-toggle' );
 			var invert = ezTOC.visibility_hide_by_default;
 
-			toggle.css( 'display', 'inline' );
+			toggle.css( 'display', 'flex' );
 
 			if ( Cookies ) {
 
