@@ -106,7 +106,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 = 2.0.35.1 10/31/2022 =
-* BUG: Last version is buggy #329
+* BUG: Last version removed sidebar & some other contents #329
 * BUG: Apostrophes removed from content #328
 
 = 2.0.35 10/29/2022 =
