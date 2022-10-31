@@ -384,31 +384,31 @@ if( ! function_exists('ezTOC_FilterString') ):
         // title needs to be converted to HTML entities.
         // @link https://stackoverflow.com/a/21801444/5351316
 //        $return = htmlentities2( $return );
-        $return = str_replace( array( '&amp;', '&nbsp;'), ' ', $return );
-        $return = str_replace( array( '&shy;' ),'', $return );					// removed silent hypen
+//        $return = str_replace( array( '&amp;', '&nbsp;'), ' ', $return );
+//        $return = str_replace( array( '&shy;' ),' ', $return );					// removed silent hypen
 
 //        $return = html_entity_decode( $string, ENT_QUOTES, get_option( 'blog_charset' ) );
 
         // remove non alphanumeric chars
         //$return = preg_replace( '/[^a-zA-Z0-9 \-_]*/', '', $return );
-        $return = preg_replace( '/[\x00-\x1F\x7F]*/u', '', $return );
+//        $return = preg_replace( '/[\x00-\x1F\x7F]*/u', '', $return );
 
         // Dashes
         // Special Characters.
         // - (minus) - (dash) – (en dash) — (em dash)
-        $return = str_replace(
-            array( '-', '-', '–', '—' ),
-            '-',
-            $return
-        );
+//        $return = str_replace(
+//            array( '-', '-', '–', '—' ),
+//            '-',
+//            $return
+//        );
 
         // Curley quotes.
         // ‘ (curly single open quote) ’ (curly single close quote) “ (curly double open quote) ” (curly double close quote)
-        $return = str_replace(
-            array( '‘', '’', '“', '”' ),
-            '',
-            $return
-        );
+//        $return = str_replace(
+//            array( '‘', '’', '“', '”' ),
+//            '',
+//            $return
+//        );
 
 		return $return;
 	}
