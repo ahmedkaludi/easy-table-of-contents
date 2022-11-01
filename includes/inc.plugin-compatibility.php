@@ -586,3 +586,31 @@ function flBuilderLayoutDataEZTOC( $data ) {
 	}
 	return $data;
 }
+
+/**
+ * Avada Theme Compatibility
+ * add inline custom css to set ez toc container
+ * on sidebar, for scrolling setup
+ * @since 2.0.35
+ */
+if ( in_array( 'fusion-core/fusion-core.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && ( 'Avada Child' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) || 'Avada' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) ) {
+
+	add_action( 'wp_enqueue_scripts', 'enqueueScriptsforAvada', -1 );
+
+	if( ! function_exists( 'enqueueScriptsforAvada' ) ) {
+    	function enqueueScriptsforAvada() {
+
+			wp_register_style( 'ez-toc-avada', '', array( 'ez-toc' ), ezTOC::VERSION );
+			wp_enqueue_style( 'ez-toc-avada' );
+		    $inlineCSSAvada = <<<INLINECSSAVADA
+.sidebar .fusion-sidebar-inner-content #ez-toc-container nav {
+	overflow-y: scroll;
+	height: auto;
+	max-height: 35vh;
+	padding-bottom: 60px;
+}\n\n
+INLINECSSAVADA;
+		    wp_add_inline_style( 'ez-toc-avada', $inlineCSSAvada );
+		}
+	}
+}
