@@ -328,7 +328,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 			$defaults = array(
 				'affix' => '0',
 				'highlight_color' => '#ededed',
-				'title' => '',
+				'title' => 'Table of Contents',
 			);
 
 			$instance = wp_parse_args( (array) $instance, $defaults );
