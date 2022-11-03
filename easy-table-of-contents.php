@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.35.1
+ * Version: 2.0.35.2
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.35.1
+ * @version  2.0.35.2
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -48,7 +48,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.35.1';
+		const VERSION = '2.0.35.2';
 
 		/**
 		 * Stores the instance of this class.
@@ -153,7 +153,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			//add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
 			add_option('ez-toc-shortcode-exist-and-render', false);
 			if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-				add_option( 'ez-toc-post-meta-content', array( get_the_ID() => false ) );
+				add_option( 'ez-toc-post-meta-content', '' );
 			}
 
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
@@ -250,7 +250,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$postMetaContent = get_post_meta( get_the_ID(), '_nectar_portfolio_extra_content',
 					true );
 				if( !empty( $postMetaContent ) )
-					update_option( 'ez-toc-post-meta-content', array( get_the_ID() => do_shortcode( $postMetaContent ) ) );
+					update_option( 'ez-toc-post-meta-content', do_shortcode( $postMetaContent ) );
 			}
 
 			$isEligible = self::is_eligible( get_post() );
