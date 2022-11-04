@@ -349,10 +349,6 @@ label.cssiconcheckbox {
     display: none;
 }
 
-div#ez-toc-sticky-container.afterpara + p {
-    display: none;
-}
-
 .ez-toc-sticky-widget-container ul li a {
     padding-left: 10px;
 }

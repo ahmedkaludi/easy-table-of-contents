@@ -1241,9 +1241,6 @@ class ezTOC_Post {
 			$custom_classes = ezTOC_Option::get( 'css_container_class', '' );
 
 			$position = ezTOC_Option::get( 'position' );
-			if($position == 'afterpara'){
-				$custom_classes .= "afterpara";
-			}
 
             $class[] = 'ez-toc-container-direction';
 			

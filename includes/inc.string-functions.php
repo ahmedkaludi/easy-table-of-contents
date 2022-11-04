@@ -2,6 +2,8 @@
 
 namespace Easy_Plugins\Table_Of_Contents\String;
 
+use DOMDocument;
+
 /**
  * Replace `<br />` tags with parameter.
  *
@@ -353,5 +355,23 @@ function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 	}
 
 	return $string;
+}
+endif;
+
+if( ! function_exists( __NAMESPACE__ . '\insertElementByPTag' ) ):
+/**
+ * insertElementByPTag Method
+ *
+ * @since 2.0.36
+ * @param $content
+ * @param $toc
+ * @return false|string
+ * @throws \DOMException
+*/
+function insertElementByPTag($content, $toc)
+{
+	$find = array('</p>');
+	$replace = array('</p>' . $toc);
+	return mb_find_replace( $find, $replace, $content );
 }
 endif;

@@ -30,6 +30,7 @@
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
+use function Easy_Plugins\Table_Of_Contents\String\insertElementByPTag;
 use function Easy_Plugins\Table_Of_Contents\String\mb_find_replace;
 
 // Exit if accessed directly
@@ -1216,9 +1217,7 @@ INLINESTICKYTOGGLEJS;
 					$content    = mb_find_replace( $find, $replace, $content );
 					break;
 				case 'afterpara':
-					$get_para = preg_match_all('%(<p[^>]*>.*?</p>)%i', $content, $matches);
-  					$first_para = $matches[1][0];
-					$content = $first_para . $toc . $content;
+					$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );
 					break;	
 				case 'before':
 				default:
