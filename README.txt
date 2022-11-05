@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.35.2
+Stable tag: 2.0.36
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,15 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.36 11/05/2022 =
+* BUG: Last version removed sidebar & some other contents #329
+* BUG: Structured plugin is broken with TOC 2.0.35 + Pure CSS stopped working #327
+* BUG: 更新2.0.35 10/29/2022版本后，导致界面code组件只能显示一行了 #326
+* BUG: Anchor links not working if the position "After first paragraph" is selected. #319
+* BUG: Name entity should be a mandatory field while adding the TOC as a block in widget area. #318
+* BUG: It is making the heading to repeat when we are selecting the option "After the first paragraph." #310
+* BUG: Shortcode are not working with Salient theme #271
+
 = 2.0.35.2 11/02/2022 =
 * BUG: Jump anchors on new headings not working after the update of last version 2.0.35
 * BUG: The TOC is not showing on the sidebar of all posts with the latest update 2.0.35
