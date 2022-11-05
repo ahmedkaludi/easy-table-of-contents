@@ -2,8 +2,6 @@
 
 namespace Easy_Plugins\Table_Of_Contents\String;
 
-use DOMDocument;
-
 /**
  * Replace `<br />` tags with parameter.
  *
