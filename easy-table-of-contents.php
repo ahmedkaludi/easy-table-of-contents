@@ -1045,7 +1045,7 @@ INLINESTICKYTOGGLEJS;
 //			static $run = true;
 			$html = '';
 
-			if ( 'ez-toc' == $tag  ) {
+			if ( 'ez-toc' == $tag || 'toc' == $tag ) {
 
 				$post = self::get( get_the_ID() );
 
