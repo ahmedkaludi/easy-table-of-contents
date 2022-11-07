@@ -571,7 +571,7 @@ function addCustomSpan()
                                     <span class="d-amt"><sup>$</sup>499</span>
                                     <span class="amt"><sup>$</sup>499</span>
                                     <span class="s-amt"><?= esc_html_e("(Save $199)", 'easy-table-of-contents'); ?></span>
-                                    <span class="bil"><?= esc_html_e("Billed Annually", 'easy-table-of-contents'); ?></span>
+                                    <span class="bil"><?= esc_html_e("One-Time Fee", 'easy-table-of-contents'); ?></span>
                                     <span class="s"><?= esc_html_e("Unlimited Sites", 'easy-table-of-contents'); ?></span>
                                     <span class="e"><?= esc_html_e("Unlimited E-mail support", 'easy-table-of-contents'); ?></span>
                                     <span class="f"><?= esc_html_e("Lifetime License", 'easy-table-of-contents'); ?></span>
