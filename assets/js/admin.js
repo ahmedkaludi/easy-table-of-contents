@@ -22,6 +22,19 @@ jQuery(document).ready(function ($) {
         });
     }
 
+    $("#reset-options-to-default-button").click(function() {
+        let text = "Do you want reset settings to default options?";
+        if (confirm(text) == true) {
+            $.post(ajaxurl, { action: 'eztoc_reset_options_to_default', eztoc_security_nonce: cn_toc_admin_data.eztoc_security_nonce },
+                function (data) {
+                    alert('Default Options Reset Now!');
+                    window.location.reload();
+                }
+            );
+        }
+
+    });
+
     $("#subscribe-newsletter-form").on('submit', function (e) {
         e.preventDefault();
         var $form = $("#subscribe-newsletter-form");

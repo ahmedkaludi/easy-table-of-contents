@@ -1665,7 +1665,27 @@ public static function child_font_size( $args ) {
 				echo '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 			}
 		}
+
+		/**
+         * reset_options_to_default Method
+         * to reset options
+         * @since 2.0.37
+         * @return bool|string
+        */
+        public static function eztoc_reset_options_to_default() {
+            if( !wp_verify_nonce( sanitize_text_field( $_POST['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) )
+            {
+                return esc_attr__('Security Alert: nonce not verified!', 'easy-table-of-contents' );
+            }
+
+            delete_option('ez-toc-settings');
+            return add_option( 'ez-toc-settings', self::getDefaults() );
+        }
 	}
 
 	add_action( 'admin_init', array( 'ezTOC_Option', 'register' ) );
+
+	add_action( 'wp_ajax_eztoc_reset_options_to_default', array( 'ezTOC_Option', 'eztoc_reset_options_to_default' ) );
+
+
 }

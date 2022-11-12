@@ -32,7 +32,10 @@
 
         if (function_exists('ez_toc_pro_activation_link')) {
             $license_info = get_option("easytoc_pro_upgrade_license");
-            $license_exp = date('Y-m-d', strtotime($license_info['pro']['license_key_expires']));
+            $license_exp = null;
+            if( !empty( $license_info['pro']['license_key_expires'] ) ) {
+                $license_exp = date( 'Y-m-d', strtotime($license_info['pro']['license_key_expires'] ) );
+            }
             $today = date('Y-m-d');
             $exp_date = $license_exp;
             $date1 = date_create($today);
@@ -160,7 +163,10 @@
                 </div><!-- /.metabox-holder -->
             <?php } ?>
             <?php settings_fields('ez-toc-settings'); ?>
-            <?php submit_button(esc_html('Save Changes', 'easy-table-of-contents')); ?>
+            <p class="submit">
+                <?php submit_button( esc_html( 'Save Changes', 'easy-table-of-contents'  ), 'primary large', 'submit', false) ; ?>
+                <button type="button" id="reset-options-to-default-button" class="button button-primary button-large" style="background-color: #cd3241"><?= __( 'Reset', 'easy-table-of-contents' ) ?></button>
+            </p>
         </form>
     </div><!-- /.General Settings ended -->
 
