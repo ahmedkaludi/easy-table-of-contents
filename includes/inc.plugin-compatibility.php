@@ -614,3 +614,22 @@ INLINECSSAVADA;
 		}
 	}
 }
+
+/**
+ * Thrive Theme Builder Compatibility
+ * add inline custom CSS to remove double line
+ * on links of our Easy TOC container
+ * @since 2.0.38
+ */
+if ( 'Thrive Theme Builder' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+
+    add_action( 'wp_head', 'enqueueScriptsforThriveThemeBuilder' );
+
+    if( ! function_exists( 'enqueueScriptsforThriveThemeBuilder' ) ) {
+    	function enqueueScriptsforThriveThemeBuilder() {
+            echo <<<INLINECSSAVADA
+<style>#ez-toc-container a:hover{text-decoration: none;}</style>
+INLINECSSAVADA;
+        }
+    }
+}
