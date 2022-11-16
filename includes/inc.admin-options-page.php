@@ -13,7 +13,7 @@
         $pro = '';
 
         if (function_exists('ez_toc_pro_activation_link')) {
-            $pro = '<a id="eztoc-default" class="eztoc-tablinks" data-href="no" href="#eztoc-prosettings" onclick="ezTocTabToggle(event, \'general\')">PRO Settings</a>';
+            $pro = '<a id="eztoc-default" class="eztoc-tablinks ez-toc-pro-settings-link-paid" data-href="no" href="#eztoc-prosettings" onclick="ezTocTabToggle(event, \'general\')">PRO Settings</a>';
         } ?>
         <?php echo $pro; ?>
 
@@ -72,14 +72,14 @@
     </div>
     <div class="eztoc-tabcontent" id="general">
         <div id="eztoc-tabs" style="margin-top: 10px;">
-            <a href="#eztoc-general"><?= esc_html_e( 'General', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-appearance"><?= esc_html_e( 'Appearance', 'easy-table-of-contents' ) ?></a> | <a
-                    href="#eztoc-advanced"><?= esc_html_e( 'Advanced', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-shortcode"><?= esc_html_e( 'Shortcode', 'easy-table-of-contents' ) ?></a>
+            <a href="#eztoc-general" id="eztoc-link-general" class="active"><?= esc_html_e( 'General', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-appearance" id="eztoc-link-appearance"><?= esc_html_e( 'Appearance', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-advanced" id="eztoc-link-advanced"><?= esc_html_e( 'Advanced', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-shortcode" id="eztoc-link-shortcode"><?= esc_html_e( 'Shortcode', 'easy-table-of-contents' ) ?></a>
         </div>
         <form method="post" action="<?php echo esc_url(self_admin_url('options.php')); ?>">
 
             <div class="metabox-holder">
 
                 <div class="postbox" id="eztoc-general">
+                    <br />
                     <h3><span><?= esc_html_e('General', 'easy-table-of-contents'); ?></span></h3>
 
                     <div class="inside">
@@ -98,6 +98,7 @@
             <div class="metabox-holder">
 
                 <div class="postbox" id="eztoc-appearance">
+                    <br />
                     <h3><span><?= esc_html_e('Appearance', 'easy-table-of-contents'); ?></span></h3>
 
                     <div class="inside">
@@ -116,6 +117,7 @@
             <div class="metabox-holder">
 
                 <div class="postbox" id="eztoc-advanced">
+                    <br />
                     <h3><span><?= esc_html_e('Advanced', 'easy-table-of-contents'); ?></span></h3>
 
                     <div class="inside">
@@ -134,6 +136,7 @@
             <div class="metabox-holder">
 
                 <div class="postbox" id="eztoc-shortcode">
+                    <br />
                     <h3><span><?= esc_html_e('Shortcode', 'easy-table-of-contents'); ?></span></h3>
                     <div class="inside">
 
@@ -149,6 +152,7 @@
                 <div class="metabox-holder">
 
                     <div class="postbox" id="eztoc-prosettings">
+                        <br />
                         <h3><span><?= esc_html_e('PRO Settings', 'easy-table-of-contents'); ?></span></h3>
                         <div class="inside">
 
