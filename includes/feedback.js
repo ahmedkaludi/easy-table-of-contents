@@ -24,56 +24,70 @@ jQuery(document).ready(function ($) {
     // show text fields
     $('#eztoc-reloaded-feedback-content input[type="radio"]').click(function () {
         // show text field if there is one
-        $(this).parents('li').next('li').children('input[type="text"], textarea').show();
+        var elementText = $(this).parents('li').next('li').children('input[type="text"], textarea');
+        $(this).parents('ul').find('input[type="text"], textarea').not(elementText).hide().val('').attr('required', false);
+        elementText.attr('required', 'required').show();
     });
     // send form or close it
-    $('#eztoc-reloaded-feedback-content .button').click(function (e) {
+    $('#eztoc-reloaded-feedback-content form').submit(function (e) {
         e.preventDefault();
+
+        eztoc_set_feedback_cookie();
+
+        // Send form data
+        $.post(ajaxurl, {
+            action: 'eztoc_send_feedback',
+            data: $('#eztoc-reloaded-feedback-content form').serialize() + "&eztoc_security_nonce=" + cn_toc_admin_data.eztoc_security_nonce
+        },
+                function (data) {
+
+                    if (data == 'Sent') {
+                        // deactivate the plugin and close the popup
+                        $('#eztoc-reloaded-feedback-overlay').remove();
+                        window.location.href = eztoc_deactivate_link_url;
+                    } else {
+                        console.log('Error: ' + data);
+                        alert(data);
+                    }
+                }
+        );
+    });
+
+    $("#eztoc-reloaded-feedback-content .eztoc-feedback-only-deactivate").click(function (e) {
+        e.preventDefault();
+
+        eztoc_set_feedback_cookie();
+
+        $('#eztoc-reloaded-feedback-overlay').remove();
+        window.location.href = eztoc_deactivate_link_url;
+    });
+
+    // close form without doing anything
+    $('.eztoc-feedback-not-deactivate').click(function (e) {
+        $('#eztoc-reloaded-feedback-content form')[0].reset();
+        var elementText = $('#eztoc-reloaded-feedback-content input[type="radio"]').parents('li').next('li').children('input[type="text"], textarea');
+        $(elementText).parents('ul').find('input[type="text"], textarea').hide().val('').attr('required', false);
+        $('#eztoc-reloaded-feedback-overlay').hide();
+    });
+
+    function eztoc_admin_get_cookie(name) {
+        var i, x, y, eztoc_cookies = document.cookie.split(";");
+        for (i = 0; i < eztoc_cookies.length; i++)
+        {
+            x = eztoc_cookies[i].substr(0, eztoc_cookies[i].indexOf("="));
+            y = eztoc_cookies[i].substr(eztoc_cookies[i].indexOf("=") + 1);
+            x = x.replace(/^\s+|\s+$/g, "");
+            if (x === name)
+            {
+                return unescape(y);
+            }
+        }
+    }
+
+    function eztoc_set_feedback_cookie() {
         // set cookie for 30 days
         var exdate = new Date();
         exdate.setSeconds(exdate.getSeconds() + 2592000);
         document.cookie = "eztoc_hide_deactivate_feedback=1; expires=" + exdate.toUTCString() + "; path=/";
-
-        $('#eztoc-reloaded-feedback-overlay').hide();
-        if ('eztoc-reloaded-feedback-submit' === this.id) {
-            // Send form data
-            $.ajax({
-                type: 'POST',
-                url: ajaxurl,
-                dataType: 'json',
-                data: {
-                    action: 'eztoc_send_feedback',
-                    data: $('#eztoc-reloaded-feedback-content form').serialize()
-                },
-                complete: function (MLHttpRequest, textStatus, errorThrown) {
-                    // deactivate the plugin and close the popup
-                    $('#eztoc-reloaded-feedback-overlay').remove();
-                    window.location.href = eztoc_deactivate_link_url;
-
-                }
-            });
-        } else {
-            $('#eztoc-reloaded-feedback-overlay').remove();
-            window.location.href = eztoc_deactivate_link_url;
-        }
-    });
-    // close form without doing anything
-    $('.eztoc-feedback-not-deactivate').click(function (e) {
-        $('#eztoc-reloaded-feedback-overlay').hide();
-    });
-    
-    function eztoc_admin_get_cookie (name) {
-	var i, x, y, eztoc_cookies = document.cookie.split( ";" );
-	for (i = 0; i < eztoc_cookies.length; i++)
-	{
-		x = eztoc_cookies[i].substr( 0, eztoc_cookies[i].indexOf( "=" ) );
-		y = eztoc_cookies[i].substr( eztoc_cookies[i].indexOf( "=" ) + 1 );
-		x = x.replace( /^\s+|\s+$/g, "" );
-		if (x === name)
-		{
-			return unescape( y );
-		}
-	}
-}
-
+    }
 }); // document ready
