@@ -113,15 +113,16 @@ add_action( 'admin_enqueue_scripts', 'eztoc_enqueue_makebetter_email_js' );
 add_action('wp_ajax_eztoc_subscribe_newsletter','eztoc_subscribe_for_newsletter');
 add_action('wp_ajax_nopriv_eztoc_subscribe_newsletter','eztoc_subscribe_for_newsletter');
 function eztoc_subscribe_for_newsletter(){
-	if( !wp_verify_nonce( $_POST['eztoc_security_nonce'], 'eztoc_security_nonce')){
-		return 'nonce not verified';
-	}
+    if( !wp_verify_nonce( sanitize_text_field( $_POST['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) ) {
+        echo _e( 'Security nonce not verified', 'easy-table-of-contents' );
+        die();
+    }
     $api_url = 'http://magazine3.company/wp-json/api/central/email/subscribe';
     $api_params = array(
         'name' => sanitize_text_field($_POST['name']),
         'email'=> sanitize_text_field($_POST['email']),
         'website'=> sanitize_text_field($_POST['website']),
-        'type'=> 'eztoc'
+        'type'=> 'etoc'
     );
     $response = wp_remote_post( $api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
     $response = wp_remote_retrieve_body( $response );
