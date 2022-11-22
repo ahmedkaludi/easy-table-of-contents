@@ -276,7 +276,7 @@ div.ez-toc-widget-container li {
     margin-left: 10px;
 }
 
-#ez-toc-container label.cssicon {
+#ez-toc-container label.cssicon, #ez-toc-widget-container label.cssicon {
     height: 30px;
 }
 
@@ -306,7 +306,7 @@ div.ez-toc-widget-container li {
     left: -999em;
 }
 
-#ez-toc-container input[type="checkbox"]:checked + nav {
+#ez-toc-container input[type="checkbox"]:checked + nav, #ez-toc-widget-container input[type="checkbox"]:checked + nav {
     opacity: 0;
     max-height: 0;
     border: none;
@@ -326,7 +326,7 @@ div.ez-toc-widget-container li {
     width: 30px;
 }
 
-#ez-toc-container .ez-toc-toggle label, #ez-toc-container label.cssicon  {
+#ez-toc-container .ez-toc-toggle label, #ez-toc-container label.cssicon, #ez-toc-widget-container label.cssicon  {
     float: right;
     position: relative;
     font-size: 16px;

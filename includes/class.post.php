@@ -1297,7 +1297,8 @@ class ezTOC_Post {
 						if(ezTOC_Option::get('visibility_hide_by_default')==true){
 							$toggle_view= "checked";
 						}
-						$html .= '<label for="item" class="cssicon">' . ezTOC::getTOCToggleIcon() . '</label><label for="item" class="cssiconcheckbox">1</label><input type="checkbox" id="item" '.$toggle_view.'>';
+                                                $cssIconID = uniqid();
+						$html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="cssicon">' . ezTOC::getTOCToggleIcon() . '</label><label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="cssiconcheckbox">1</label><input type="checkbox" id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.'>';
 					}
 				}
 

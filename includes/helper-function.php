@@ -54,7 +54,12 @@ function eztoc_send_feedback() {
     if( isset( $_POST['data'] ) ) {
         parse_str( $_POST['data'], $form );
     }
-
+    
+    if( !isset( $form['eztoc_security_nonce'] ) || isset( $form['eztoc_security_nonce'] ) && !wp_verify_nonce( sanitize_text_field( $form['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) ) {
+        echo _e( 'Security nonce not verified', 'easy-table-of-contents' );
+        die();
+    }
+    
     $text = '';
     if( isset( $form['eztoc_disable_text'] ) ) {
         $text = implode( "\n\r", $form['eztoc_disable_text'] );
@@ -86,7 +91,8 @@ function eztoc_send_feedback() {
     }
 
     $success = wp_mail( 'team@magazine3.in', $subject, $text, $headers );
-
+    
+    echo _e( 'Sent', 'easy-table-of-contents' );
     die();
 }
 add_action( 'wp_ajax_eztoc_send_feedback', 'eztoc_send_feedback' );

@@ -256,7 +256,7 @@ html {
 }
 
 /* #technical p{
-	line-height: 0.5rem;
+        line-height: 0.5rem;
 } */
 #technical-form {
 
@@ -389,13 +389,13 @@ html {
     color: #fff;
     text-decoration: none;
     text-shadow: none;
-    margin-left: 70px !important;;
+    margin-left: 70px !important;
 }
 
 @media screen and (min-width: 870px) and (max-width: 1300px ) {
     .eztoc-bio-box {
         padding-top: 20px;
-        height: 29.1rem;;
+        height: 29.1rem;
     }
 
     .eztoc-bio-box h1 {
@@ -1405,4 +1405,40 @@ div#wp-pointer-0 {
 
 #eztoc-technical-how-to-use li{
     list-style: auto !important;
+}
+
+#general #eztoc-tabs {
+    margin-top: 10px;
+    z-index: 9999;
+    width: 100%;
+    background-color: #f1f1f1;
+}
+#general #eztoc-tabs.stay {
+    transition: top -0.1s cubic-bezier(0.4, 0, 1, 1);
+    top: 148px;
+}
+#general #eztoc-tabs.moving {
+    position: fixed;
+    transition: top -0.1s cubic-bezier(0.4, 0, 1, 1);
+    top: 20px;
+    line-height: 25px;
+}
+#general form.moving {
+    margin-top: 18px;
+}
+div#eztoc-tabs a:first-child, div#eztoc-tabs a {
+    color: #000000;
+}
+div#eztoc-tabs a:first-child.active, div#eztoc-tabs a.active {
+    color: #ea4c89;
+}
+@media screen and (max-width: 782px){
+    #general #eztoc-tabs.moving {
+        top: 38px;
+    }
+}
+@media screen and (max-width: 601px){
+    #general #eztoc-tabs.moving {
+        top: -12px;
+    }
 }

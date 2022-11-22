@@ -125,79 +125,84 @@ jQuery( function( $ ) {
 
 		if ( typeof ezTOC.visibility_hide_by_default != 'undefined' ) {
 
-			var toc = $( 'ul.ez-toc-list' );
-			var toggle = $( 'a.ez-toc-toggle' );
+			var toggles = $( 'a.ez-toc-toggle' );
+//			var toc = $( 'ul.ez-toc-list' );
 			var invert = ezTOC.visibility_hide_by_default;
+                        toggles.css( 'display', 'flex' );
+                        $.each(toggles, function(i, obj) {
+                            
+                            var toggle = $(this);
+                            var toc = $( toggle ).parents('#ez-toc-container,#ez-toc-widget-container').find( 'ul.ez-toc-list' );
+                            
+                            if ( Cookies ) {
 
-			toggle.css( 'display', 'flex' );
+                                    Cookies.get( 'ezTOC_hidetoc-' + i ) == 1 ? $(toggle).data( 'visible', false ) : $(toggle).data( 'visible', true );
+                                    Cookies.remove('ezTOC_hidetoc-' + i)
 
-			if ( Cookies ) {
+                            } else {
 
-				Cookies.get( 'ezTOC_hidetoc' ) == 1 ? toggle.data( 'visible', false ) : toggle.data( 'visible', true );
-				Cookies.remove('ezTOC_hidetoc')
+                                    $(toggle).data( 'visible', true );
+                                    // Cookies.remove('ezTOC_hidetoc');
+                                    delete_cookie('ezTOC_hidetoc-' + i);
+                            }
 
-			} else {
+                            if ( invert ) {
 
-				toggle.data( 'visible', true );
-				// Cookies.remove('ezTOC_hidetoc');
-                delete_cookie('ezTOC_hidetoc');
-			}
+                                    $(toggle).data( 'visible', false )
+                            }
 
-			if ( invert ) {
+                            if ( ! $(toggle).data( 'visible' ) ) {
 
-				toggle.data( 'visible', false )
-			}
+                                    toc.hide();
+                            }
 
-			if ( ! toggle.data( 'visible' ) ) {
+                            $(toggle).on( 'click', function( event ) {
 
-				toc.hide();
-			}
+                                    event.preventDefault();
 
-			toggle.on( 'click', function( event ) {
+                                    const main = document.querySelector("#ez-toc-container");
+                                    if(main){
+                                            main.classList.toggle("toc_close");
+                                    }
+                                    else
+                                    {
+                                            const side = document.querySelector(".ez-toc-widget-container");
+                                            side.classList.toggle("toc_close");					
+                                    }
 
-				event.preventDefault();
-				
-				const main = document.querySelector("#ez-toc-container");
-				if(main){
-					main.classList.toggle("toc_close");
-				}
-				else
-				{
-					const side = document.querySelector(".ez-toc-widget-container");
-					side.classList.toggle("toc_close");					
-				}
+                                    if ( $( this ).data( 'visible' ) ) {
 
-				if ( $( this ).data( 'visible' ) ) {
+                                            $( this ).data( 'visible', false );
 
-					$( this ).data( 'visible', false );
+                                            if ( Cookies ) {
 
-					if ( Cookies ) {
+                                                    if ( invert )
+                                                            Cookies.set( 'ezTOC_hidetoc-' + i, null, { path: '/' } );
+                                                    else
+                                                            Cookies.set( 'ezTOC_hidetoc-' + i, '1', { expires: 30, path: '/' } );
+                                            }
 
-						if ( invert )
-							Cookies.set( 'ezTOC_hidetoc', null, { path: '/' } );
-						else
-							Cookies.set( 'ezTOC_hidetoc', '1', { expires: 30, path: '/' } );
-					}
+                                            toc.hide( 'fast' );
 
-					toc.hide( 'fast' );
+                                    } else {
 
-				} else {
+                                            $( this ).data( 'visible', true );
 
-					$( this ).data( 'visible', true );
+                                            if ( Cookies ) {
 
-					if ( Cookies ) {
+                                                    if ( invert )
+                                                            Cookies.set( 'ezTOC_hidetoc-' + i, '1', { expires: 30, path: '/' } );
+                                                    else
+                                                            Cookies.set( 'ezTOC_hidetoc-' + i, null, { path: '/' } );
+                                            }
 
-						if ( invert )
-							Cookies.set( 'ezTOC_hidetoc', '1', { expires: 30, path: '/' } );
-						else
-							Cookies.set( 'ezTOC_hidetoc', null, { path: '/' } );
-					}
+                                            toc.show( 'fast' );
 
-					toc.show( 'fast' );
+                                    }
 
-				}
-
-			} );
+                            } );
+                        
+                        });
 		}
 
 

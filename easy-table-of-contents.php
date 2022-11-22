@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.37
+ * Version: 2.0.38
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.37
+ * @version  2.0.38
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -49,7 +49,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.37';
+		const VERSION = '2.0.38';
 
 		/**
 		 * Stores the instance of this class.
@@ -267,8 +267,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 //				 array( 'ez-icomoon' ),
 				 ezTOC::VERSION );
 			}
-			wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', TRUE );
-			wp_register_script( 'ez-toc-jquery-smooth-scroll', EZ_TOC_URL . "vendor/smooth-scroll/jquery.smooth-scroll$min.js", array( 'jquery' ), '2.2.0', TRUE );
+                        if ( 'css' != ezTOC_Option::get( 'toc_loading' ) ) {
+                            wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', TRUE );
+                            wp_register_script( 'ez-toc-jquery-smooth-scroll', EZ_TOC_URL . "vendor/smooth-scroll/jquery.smooth-scroll$min.js", array( 'jquery' ), '2.2.0', TRUE );
+                        }
 			wp_register_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', TRUE );
 
 			if (ezTOC_Option::get( 'toc_loading' ) != 'css') {

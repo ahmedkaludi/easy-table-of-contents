@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.37
+Stable tag: 2.0.38
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,11 +105,21 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.38 11/21/2022 =
+* BUG: Deactivate Feedback Form need to be filtered #345
+* NEW: BFCM internal offer #342
+* BUG: Ajax call is missing security nonce #340
+* BUG: On hover, the contents heads show in two lines. #337
+* BUG: Easy table of content is visible in FAQ section #321
+* BUG: TOC Container Toggle is working on widget TOC container. #316
+* BUG: Problem with TOC on mobile #284
+* NEW: Admin General Settings Section Tabs customization #270
+
 = 2.0.37 11/11/2022 =
 * BUG: Need to test compatibility with wp 6.1. #335
 * BUG: Warning: Trying to access array offset on value of type null #334
 * BUG: Numbers are wrong #330
-* BUG: Add a new functionality "reset to default settings" #293
+* NEW: Add a new functionality "reset to default settings" #293
 * BUG: Shortcode are not working with Salient theme #271
 
 = 2.0.36.1 11/07/2022 =
