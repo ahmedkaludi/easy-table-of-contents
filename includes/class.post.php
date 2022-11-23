@@ -1088,12 +1088,12 @@ class ezTOC_Post {
 				$html .= $this->createTOC( $page, $attribute['headings'], $prefix );
 			}
 
-			$displayList = '';
-			if( ezTOC_Option::get( 'visibility_hide_by_default' ) )
+			$visiblityClass = '';
+			if( ezTOC_Option::get( 'visibility_hide_by_default' ) && 'css' != ezTOC_Option::get( 'toc_loading' ) )
 			{
-				$displayList = "style='display:block'";
+				$visiblityClass = "eztoc-visibility-hide-by-default";
 			}
-			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1' $displayList>" . $html . "</ul>";
+			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1 $visiblityClass' >" . $html . "</ul>";
 		}
 
 		return $html;
