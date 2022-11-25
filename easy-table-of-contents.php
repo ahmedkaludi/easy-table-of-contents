@@ -673,6 +673,20 @@ COUNTERINCREMENTCSS;
                 $custom_height = 'max-height: ' . ezTOC_Option::get('sticky-toggle-height-custom') . ';' . PHP_EOL;
                 $custom_height .= 'min-height: ' . ezTOC_Option::get('sticky-toggle-height-custom') . ';' . PHP_EOL;
             }
+            
+            $topMarginStickyContainer = '65px';
+            if ( ezTOC_Option::get( 'show_heading_text' ) ) {
+                $toc_title = ezTOC_Option::get( 'heading_text' );
+                if( strlen($toc_title) > 20 ) {
+                    $topMarginStickyContainer = '70px';
+                }
+                if( strlen($toc_title) > 40 ) {
+                    $topMarginStickyContainer = '80px';
+                }
+                if( strlen($toc_title) > 60 ) {
+                    $topMarginStickyContainer = '90px';
+                }
+            }
             $inlineStickyToggleCSS = <<<INLINESTICKYTOGGLECSS
 /**
 * Ez Toc Sidebar Sticky CSS
@@ -706,7 +720,7 @@ COUNTERINCREMENTCSS;
     padding: 0px;
     border: none;
     margin-bottom: 0;
-    margin-top: 65px;
+    margin-top: $topMarginStickyContainer;
 }
 #ez-toc-sticky-container a {
     color: #000;
