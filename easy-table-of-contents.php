@@ -818,26 +818,28 @@ INLINESTICKYTOGGLECSS;
 		 * @static
 		 */
 		private static function inlineStickyToggleJS() {
-			$inlineStickyToggleJS = <<<'INLINESTICKYTOGGLEJS'
+			$inlineStickyToggleJS = <<<INLINESTICKYTOGGLEJS
 /**
  * Sticky Sidebar JS
  */ 
 function hideBar(e) {
 //    e.preventDefault();
     var sidebar = document.querySelector(".ez-toc-sticky-fixed");
-    sidebar.classList.remove("show");
-    sidebar.classList.add("hide");
-    setTimeout(function() {
-        document.querySelector(".ez-toc-open-icon").style = "z-index: 9999999";
-    }, 200);
+    if ( typeof(sidebar) !== "undefined" && sidebar !== null ) {
+        sidebar.classList.remove("show");
+        sidebar.classList.add("hide");
+        setTimeout(function() {
+            document.querySelector(".ez-toc-open-icon").style = "z-index: 9999999";
+        }, 200);
+    }
 }
 function showBar(e) {
 //    e.preventDefault();
     document.querySelector(".ez-toc-open-icon").style = "z-index: -1;";
     setTimeout(function() {
-		var sidebar = document.querySelector(".ez-toc-sticky-fixed");
-		sidebar.classList.remove("hide");
-		sidebar.classList.add("show");
+        var sidebar = document.querySelector(".ez-toc-sticky-fixed");
+        sidebar.classList.remove("hide");
+        sidebar.classList.add("show");
     }, 200);  
 }
 (function() {
@@ -845,7 +847,7 @@ function showBar(e) {
 	if(ez_toc_sticky_fixed_container) {
 		document.body.addEventListener("click", function (evt) {
 			hideBar(evt);
-			evt.stopPropagation();
+//			evt.stopPropagation();
 		});
 		ez_toc_sticky_fixed_container.addEventListener('click', function(event) {
 			event.stopPropagation();
