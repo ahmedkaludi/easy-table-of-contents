@@ -3,9 +3,9 @@ Contributors: magazine3
 Donate link: https://tocwp.com/
 Tags: table of contents, toc
 Requires at least: 5.3
-Tested up to: 6.1
+Tested up to: 6.1.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.38
+Stable tag: 2.0.39
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,13 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.39 11/30/2022 =
+* BUG: Toggle Icons going to opposite side when rtl option settings used #348
+* BUG: Newsletter subscribe form is not popping up during plugin activation. #344
+* BUG: Causing CLS issues #339
+* BUG: Unable to access Divi module when Sticky Toggle is enable. #309
+* BUG: When the name of the Open Button Text in sticky toggle is long, the sticky toggle is not working on mobile devices. #294
+
 = 2.0.38 11/21/2022 =
 * BUG: Deactivate Feedback Form need to be filtered #345
 * NEW: BFCM internal offer #342
