@@ -56,7 +56,7 @@ function eztoc_send_feedback() {
     }
     
     if( !isset( $form['eztoc_security_nonce'] ) || isset( $form['eztoc_security_nonce'] ) && !wp_verify_nonce( sanitize_text_field( $form['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) ) {
-        echo _e( 'Security nonce not verified', 'easy-table-of-contents' );
+        echo 'security_nonce_not_verified';
         die();
     }
     
@@ -92,7 +92,7 @@ function eztoc_send_feedback() {
 
     $success = wp_mail( 'team@magazine3.in', $subject, $text, $headers );
     
-    echo _e( 'Sent', 'easy-table-of-contents' );
+    echo 'sent';
     die();
 }
 add_action( 'wp_ajax_eztoc_send_feedback', 'eztoc_send_feedback' );
@@ -114,7 +114,7 @@ add_action('wp_ajax_eztoc_subscribe_newsletter','eztoc_subscribe_for_newsletter'
 add_action('wp_ajax_nopriv_eztoc_subscribe_newsletter','eztoc_subscribe_for_newsletter');
 function eztoc_subscribe_for_newsletter(){
     if( !wp_verify_nonce( sanitize_text_field( $_POST['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) ) {
-        echo _e( 'Security nonce not verified', 'easy-table-of-contents' );
+        echo 'security_nonce_not_verified';
         die();
     }
     $api_url = 'http://magazine3.company/wp-json/api/central/email/subscribe';

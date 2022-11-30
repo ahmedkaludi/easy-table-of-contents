@@ -43,8 +43,8 @@ jQuery(document).ready(function ($) {
         var website = $form.find('input[name="company"]').val();
         $.post(ajaxurl, {action: 'eztoc_subscribe_newsletter', name: name, email: email, website: website, eztoc_security_nonce: cn_toc_admin_data.eztoc_security_nonce},
                 function (data) {
-                    if(data === 'Security nonce not verified' ){
-                        alert(data);
+                    if(data === 'security_nonce_not_verified' ){
+                        alert('Security nonce not verified');
                         return false;
                     } 
                     
