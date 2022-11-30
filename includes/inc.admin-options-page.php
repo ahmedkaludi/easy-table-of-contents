@@ -668,7 +668,7 @@ function addCustomSpan()
         <span class="eztoc-promotion-close-btn">  &times;  </span>
         <div class="eztoc-ocassional-pop-up-contents">
 
-            <img src="https://cdn-icons-png.flaticon.com/512/2349/2349820.png" class="eztoc-promotion-surprise-icon" />
+            <img src="<?= plugins_url('assets/offer-gift-icon.png', dirname(__FILE__)) ?>" class="eztoc-promotion-surprise-icon" />
             <p class="eztoc-ocassional-pop-up-headline"><?= esc_html_e('40% OFF on', 'easy-table-of-contents'); ?> <span><?= esc_html_e('Easy TOC PRO', 'easy-table-of-contents');?></span></p>
             <p class="eztoc-ocassional-pop-up-second-headline"><?= esc_html_e('Upgrade the PRO version during this festive season and get our biggest discount of all time on New Purchases, Renewals &amp; Upgrades', 'easy-table-of-contents'); ?></p>
             <a class="eztoc-ocassional-pop-up-offer-btn" href="<?= esc_url('https://tocwp.com/november-deal/') ?>" target="_blank"><?= esc_html_e('Get This Offer Now', 'easy-table-of-contents'); ?></a>

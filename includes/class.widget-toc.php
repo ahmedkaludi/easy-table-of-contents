@@ -259,7 +259,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
                                                     <?php
                                                     if ( ezTOC_Option::get( 'visibility' ) ) {
 
-                                                            echo '<a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle">' . ezTOC::getTOCToggleIcon() . '</a>';
+                                                            echo '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Widget Easy TOC toggle icon">' . ezTOC::getTOCToggleIcon() . '</a>';
                                                     }
                                                     ?>
 

@@ -41,7 +41,7 @@ jQuery(document).ready(function ($) {
         },
                 function (data) {
 
-                    if (data == 'Sent') {
+                    if (data == 'sent') {
                         // deactivate the plugin and close the popup
                         $('#eztoc-reloaded-feedback-overlay').remove();
                         window.location.href = eztoc_deactivate_link_url;

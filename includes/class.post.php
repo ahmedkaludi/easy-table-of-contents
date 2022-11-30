@@ -1088,12 +1088,12 @@ class ezTOC_Post {
 				$html .= $this->createTOC( $page, $attribute['headings'], $prefix );
 			}
 
-			$displayList = '';
-			if( ezTOC_Option::get( 'visibility_hide_by_default' ) )
+			$visiblityClass = '';
+			if( ezTOC_Option::get( 'visibility_hide_by_default' ) && 'css' != ezTOC_Option::get( 'toc_loading' ) )
 			{
-				$displayList = "style='display:block'";
+				$visiblityClass = "eztoc-visibility-hide-by-default";
 			}
-			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1' $displayList>" . $html . "</ul>";
+			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1 $visiblityClass' >" . $html . "</ul>";
 		}
 
 		return $html;
@@ -1142,12 +1142,12 @@ class ezTOC_Post {
 //				}
 				$htmlSticky .= '<p class="ez-toc-sticky-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ) . '</p>' . PHP_EOL;
 //				if ( ezTOC_Option::get( 'toc_loading' ) !== 'css' ) {
-					$htmlSticky .= '<a class="ez-toc-close-icon" href="javascript:void(0)" onclick="hideBar(event)"><span aria-hidden="true">×</span></a>' . PHP_EOL;
+					$htmlSticky .= '<a class="ez-toc-close-icon" href="javascript:void(0)" onclick="ezTOC_hideBar(event)" aria-label="×"><span aria-hidden="true">×</span></a>' . PHP_EOL;
 					$htmlSticky .= '</div>' . PHP_EOL;
 //				}
 			} else {
 				$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
-				$htmlSticky .= '<a class="ez-toc-close-icon" href="javascript:void(0)" onclick="hideBar(event)"><span aria-hidden="true">×</span></a>' . PHP_EOL;
+				$htmlSticky .= '<a class="ez-toc-close-icon" href="javascript:void(0)" onclick="ezTOC_hideBar(event)" aria-label="×"><span aria-hidden="true">×</span></a>' . PHP_EOL;
 				$htmlSticky .= '</div>' . PHP_EOL;
 			}
 			$htmlSticky  .= '<div id="ez-toc-sticky-container" class="' . implode( ' ', $classSticky ) . '">' . PHP_EOL;
@@ -1260,7 +1260,11 @@ class ezTOC_Post {
 			$class = array_map( 'sanitize_html_class', $class );
 
 			$html .= '<div id="ez-toc-container" class="' . implode( ' ', $class ) . '">' . PHP_EOL;
-
+                        
+                        if ( ezTOC_Option::get( 'toc_loading' ) != 'css' ) {
+                                $html .= '<div class="ez-toc-title-container">' . PHP_EOL;
+                        }
+                                
 			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
 
 				$toc_title = ezTOC_Option::get( 'heading_text' );
@@ -1275,46 +1279,41 @@ class ezTOC_Post {
 					$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 				}
 
-				if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
-					$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
-				}
 
 				$html .= '<p class="ez-toc-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</p>' . PHP_EOL;
+                                
+                        } else {
+                            $html .= '<p class="ez-toc-title">&nbsp;</p>' . PHP_EOL;
+                        }
 
-				if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
-					$html .= '<span class="ez-toc-title-toggle">';
-				}
-				
-				if ( ezTOC_Option::get( 'visibility' ) ) {
-					if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
-						$icon = ezTOC::getTOCToggleIcon();
-						if(function_exists('ez_toc_pro_activation_link')){
-							$icon = apply_filters('ez_toc_modify_icon',$icon);
-						}
-						$html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;"><label for="item" aria-label="'.__( 'Table of Content', 'easy-table-of-contents' ).'">'.$icon.'</label><input type="checkbox" id="item"></a>';
-					}else{
-						$toggle_view='';
-						if(ezTOC_Option::get('visibility_hide_by_default')==true){
-							$toggle_view= "checked";
-						}
-                                                $cssIconID = uniqid();
-						$html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="cssicon">' . ezTOC::getTOCToggleIcon() . '</label><label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="cssiconcheckbox">1</label><input type="checkbox" id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.'>';
-					}
-				}
+                        if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
+                                $html .= '<span class="ez-toc-title-toggle">';
+                        }
 
-				if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
-					$html .= '</span>';
-				}
-				if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
-					$html .= '</div>' . PHP_EOL;
-				}
-			}else{
-				$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
-				$html .= '<span class="ez-toc-title-toggle">';
-				$html .= '<a class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" style="display: none;">' . ezTOC::getTOCToggleIcon() . '</a>';
-				$html .= '</span>';
-				$html .= '</div>' . PHP_EOL;
-			}
+                        if ( ezTOC_Option::get( 'visibility' ) ) {
+                            $cssIconID = uniqid();
+                            if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
+                                    $icon = ezTOC::getTOCToggleIcon();
+                                    if( function_exists( 'ez_toc_pro_activation_link' ) ) {
+                                            $icon = apply_filters('ez_toc_modify_icon',$icon);
+                                    }
+                                    
+                                    $html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" area-label="ez-toc-toggle-icon-1"><label for="item-' . $cssIconID . '" aria-label="'.__( 'Table of Content', 'easy-table-of-contents' ).'">'.$icon.'</label><input type="checkbox" id="item-' . $cssIconID . '"></a>';
+                            } else {
+                                    $toggle_view='';
+                                    if(ezTOC_Option::get('visibility_hide_by_default')==true){
+                                            $toggle_view= "checked";
+                                    }
+                                    $html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="cssicon">' . ezTOC::getTOCToggleIcon() . '</label><label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="cssiconcheckbox">1</label><input type="checkbox" id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.'>';
+                            }
+                        }
+
+                        if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
+                                $html .= '</span>';
+                        }
+                        if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
+                                $html .= '</div>' . PHP_EOL;
+                        }
 
 			ob_start();
 			do_action( 'ez_toc_before' );

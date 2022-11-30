@@ -128,7 +128,7 @@ jQuery( function( $ ) {
 			var toggles = $( 'a.ez-toc-toggle' );
 //			var toc = $( 'ul.ez-toc-list' );
 			var invert = ezTOC.visibility_hide_by_default;
-                        toggles.css( 'display', 'flex' );
+//                        toggles.css( 'display', 'flex' );
                         $.each(toggles, function(i, obj) {
                             
                             var toggle = $(this);
@@ -142,8 +142,7 @@ jQuery( function( $ ) {
                             } else {
 
                                     $(toggle).data( 'visible', true );
-                                    // Cookies.remove('ezTOC_hidetoc');
-                                    delete_cookie('ezTOC_hidetoc-' + i);
+                                    Cookies.remove('ezTOC_hidetoc-' + i);
                             }
 
                             if ( invert ) {
@@ -339,10 +338,4 @@ jQuery( function( $ ) {
 		// Start EZ TOC on page load.
 		ezTOCInit();
 	}
-    function set_cookie(name, value) {
-      document.cookie = name +'='+ value +'; Path=/;';
-    }
-    function delete_cookie(name) {
-      document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    }
 } );
