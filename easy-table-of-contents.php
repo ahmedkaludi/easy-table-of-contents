@@ -269,7 +269,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
                         if ( 'css' != ezTOC_Option::get( 'toc_loading' ) ) {
                             wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', TRUE );
-                            wp_register_script( 'ez-toc-jquery-smooth-scroll', EZ_TOC_URL . "vendor/smooth-scroll/jquery.smooth-scroll$min.js", array( 'jquery' ), '2.2.0', TRUE );
                         }
 			wp_register_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', TRUE );
 
@@ -277,7 +276,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				wp_register_script(
 				'ez-toc-js',
 				EZ_TOC_URL . "assets/js/front{$min}.js",
-				array( 'ez-toc-jquery-smooth-scroll', 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ),
+				array( 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ),
 				ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/front{$min}.js" ),
 				true
 				);
@@ -287,6 +286,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				wp_enqueue_style( 'ez-toc' );
 				self::inlineCSS();
+                                if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
+                                    self::inlineScrollCSS();
+                                }
 			}
 
 			if ( ezTOC_Option::get( 'sticky-toggle' ) ) {
@@ -341,7 +343,28 @@ if ( ! class_exists( 'ezTOC' ) ) {
                 self::inlineWPBakeryJS();
 			}
 		}
-
+        
+        /**
+         * inlineScrollCSS Method
+         * Set scroll offset & smoothness
+         *
+         * @since  2.0.40
+         * @static
+         * @uses wp_add_inline_style()
+         * @return void
+         *
+         */
+        private static function inlineScrollCSS()
+        {
+            
+            $offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
+            $offset .= 'px';
+            $inlineScrollCSS = <<<INLINESCROLLCSS
+html, body{ scroll-behavior: smooth; } span.ez-toc-section{ scroll-margin-top: $offset;}
+INLINESCROLLCSS;
+            wp_add_inline_style( 'ez-toc', $inlineScrollCSS );
+        }
+        
         /**
          * inlineWPBakeryJS Method
          * Javascript code for WP Bakery Plugin issue for mobile screen
@@ -444,6 +467,8 @@ INLINEWPBAKERYJS;
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:hover {color: ' . ezTOC_Option::get( 'custom_link_hover_colour' ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:visited {color: ' . ezTOC_Option::get( 'custom_link_visited_colour' ) . ';}';
 				}
+                                
+                                
 			}
 
 			if ( $css ) {
