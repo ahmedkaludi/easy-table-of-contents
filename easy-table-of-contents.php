@@ -158,7 +158,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
-			add_action( 'wp_head', array( __CLASS__, 'inlineMainCountingCSS' ) );
+                        if ( ezTOC_Option::get( 'exclude_css' ) && 'css' == ezTOC_Option::get( 'toc_loading' ) ) {
+                            add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScriptsforExcludeCSS' ) );
+                        }
 			add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
 
 			if( !self::checkBeaverBuilderPluginActive() ) {
@@ -172,6 +174,23 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 		}
 
+
+        /**
+	 * enqueueScriptsforExcludeCSS Method
+	 * for adding toggle css on loading as CSS
+	 * @access public
+	 * @since  2.0.40
+         * @static
+	 */
+        public static function enqueueScriptsforExcludeCSS()
+        {
+                                
+            $cssChecked = '#ez-toc-container input[type="checkbox"]:checked + nav, #ez-toc-widget-container input[type="checkbox"]:checked + nav {opacity: 0;max-height: 0;border: none;display: none;}';
+            wp_register_style( 'ez-toc-exclude-toggle-css', '', array(), ezTOC::VERSION );
+            wp_enqueue_style( 'ez-toc-exclude-toggle-css', '', array(), ezTOC::VERSION );
+            wp_add_inline_style( 'ez-toc-exclude-toggle-css', $cssChecked );
+        }
+        
 		/**
          * checkBeaverBuilderPluginActive Method
          * @since 2.0.34
@@ -261,10 +280,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
                 return false;
 			}
 
-//			wp_register_style( 'ez-icomoon', EZ_TOC_URL . "vendor/icomoon/style$min.css", array(), ezTOC::VERSION );
 			if (!ezTOC_Option::get( 'inline_css' )) {
 				wp_register_style( 'ez-toc', EZ_TOC_URL . "assets/css/screen$min.css",
-//				 array( 'ez-icomoon' ),
+				 array( ),
 				 ezTOC::VERSION );
 			}
                         if ( 'css' != ezTOC_Option::get( 'toc_loading' ) ) {
@@ -289,19 +307,21 @@ if ( ! class_exists( 'ezTOC' ) ) {
                                 if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
                                     self::inlineScrollCSS();
                                 }
+                                
 			}
+                       
 
 			if ( ezTOC_Option::get( 'sticky-toggle' ) ) {
 				wp_register_style(
 					'ez-toc-sticky',
 					EZ_TOC_URL . "assets/css/ez-toc-sticky{$min}.css",
-//					array( 'ez-icomoon' ),
+					array( ),
 					self::VERSION
 				);
 				wp_enqueue_style( 'ez-toc-sticky' );
 				self::inlineStickyToggleCSS();
 				wp_register_script( 'ez-toc-sticky', '', array(), '', true );
-                wp_enqueue_script( 'ez-toc-sticky', '', '','', true );
+                                wp_enqueue_script( 'ez-toc-sticky', '', '', '', true );
 				self::inlineStickyToggleJS();
 			}
 
@@ -342,6 +362,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
                 self::inlineWPBakeryJS();
 			}
+                        
+                         self::inlineMainCountingCSS();
 		}
         
         /**
@@ -479,16 +501,16 @@ INLINEWPBAKERYJS;
 
 		}
 
-		/**
+        /**
          * inlineMainCountingCSS Method
          * for adding inlineCounting CSS
          * in wp_head in last
-		 * @since 2.0.37
-		 * @return void
+         * @since 2.0.37
+         * @return void
         */
-		public static function inlineMainCountingCSS() {
-			$css = '';
-			/**
+        public static function inlineMainCountingCSS() {
+            $css = '';
+            /**
              * RTL Direction
              * @since 2.0.33
             */
@@ -496,12 +518,15 @@ INLINEWPBAKERYJS;
             $css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
 
             if( ezTOC_Option::get( 'sticky-toggle' ) ) {
-                $css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ), 'ez-toc-sticky-toggle-direction', 'ez-toc-sticky-toggle-counter', 'counter', 'ez-toc-sticky-container' );
+                $cssSticky = self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ), 'ez-toc-sticky-toggle-direction', 'ez-toc-sticky-toggle-counter', 'counter', 'ez-toc-sticky-container' );
+                wp_add_inline_style( 'ez-toc-sticky', $cssSticky );
             }
             /* End rtl direction */
 
-            echo "<style>$css</style>";
-		}
+            if ( ! ezTOC_Option::get( 'exclude_css' ) ) {
+                  wp_add_inline_style( 'ez-toc', $css );
+            }
+        }
 
         /**
          * InlineCountingCSS Method
@@ -519,7 +544,6 @@ INLINEWPBAKERYJS;
         {
             $list_type = ezTOC_Option::get( $counter, 'decimal' );
 			if( $list_type != 'none' ) {
-	            wp_enqueue_style( 'ez-toc' );
 	            $inlineCSS = '';
 	            $counterListAll = array_merge( ezTOC_Option::getCounterListDecimal(), ezTOC_Option::getCounterList_i18n() );
 	            $listTypesForCounting = array_keys( $counterListAll );
@@ -570,8 +594,7 @@ INLINECSS;
 INLINECSS;
 
 	            }
-//				wp_add_inline_style( 'ez-toc', $inlineCSS );
-				return $inlineCSS;
+                  return $inlineCSS;
             }
         }
 
