@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.39
+ * Version: 2.0.40
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.39
+ * @version  2.0.40
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -49,7 +49,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.39';
+		const VERSION = '2.0.40';
 
 		/**
 		 * Stores the instance of this class.
@@ -158,7 +158,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
-			add_action( 'wp_head', array( __CLASS__, 'inlineMainCountingCSS' ) );
+                        if ( ezTOC_Option::get( 'exclude_css' ) && 'css' == ezTOC_Option::get( 'toc_loading' ) ) {
+                            add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScriptsforExcludeCSS' ) );
+                        }
 			add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
 
 			if( !self::checkBeaverBuilderPluginActive() ) {
@@ -172,6 +174,23 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 		}
 
+
+        /**
+	 * enqueueScriptsforExcludeCSS Method
+	 * for adding toggle css on loading as CSS
+	 * @access public
+	 * @since  2.0.40
+         * @static
+	 */
+        public static function enqueueScriptsforExcludeCSS()
+        {
+                                
+            $cssChecked = '#ez-toc-container input[type="checkbox"]:checked + nav, #ez-toc-widget-container input[type="checkbox"]:checked + nav {opacity: 0;max-height: 0;border: none;display: none;}';
+            wp_register_style( 'ez-toc-exclude-toggle-css', '', array(), ezTOC::VERSION );
+            wp_enqueue_style( 'ez-toc-exclude-toggle-css', '', array(), ezTOC::VERSION );
+            wp_add_inline_style( 'ez-toc-exclude-toggle-css', $cssChecked );
+        }
+        
 		/**
          * checkBeaverBuilderPluginActive Method
          * @since 2.0.34
@@ -261,15 +280,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
                 return false;
 			}
 
-//			wp_register_style( 'ez-icomoon', EZ_TOC_URL . "vendor/icomoon/style$min.css", array(), ezTOC::VERSION );
 			if (!ezTOC_Option::get( 'inline_css' )) {
 				wp_register_style( 'ez-toc', EZ_TOC_URL . "assets/css/screen$min.css",
-//				 array( 'ez-icomoon' ),
+				 array( ),
 				 ezTOC::VERSION );
 			}
                         if ( 'css' != ezTOC_Option::get( 'toc_loading' ) ) {
                             wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', TRUE );
-                            wp_register_script( 'ez-toc-jquery-smooth-scroll', EZ_TOC_URL . "vendor/smooth-scroll/jquery.smooth-scroll$min.js", array( 'jquery' ), '2.2.0', TRUE );
                         }
 			wp_register_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', TRUE );
 
@@ -277,7 +294,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				wp_register_script(
 				'ez-toc-js',
 				EZ_TOC_URL . "assets/js/front{$min}.js",
-				array( 'ez-toc-jquery-smooth-scroll', 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ),
+				array( 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ),
 				ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/front{$min}.js" ),
 				true
 				);
@@ -287,19 +304,24 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				wp_enqueue_style( 'ez-toc' );
 				self::inlineCSS();
+                                if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
+                                    self::inlineScrollCSS();
+                                }
+                                
 			}
+                       
 
 			if ( ezTOC_Option::get( 'sticky-toggle' ) ) {
 				wp_register_style(
 					'ez-toc-sticky',
 					EZ_TOC_URL . "assets/css/ez-toc-sticky{$min}.css",
-//					array( 'ez-icomoon' ),
+					array( ),
 					self::VERSION
 				);
 				wp_enqueue_style( 'ez-toc-sticky' );
 				self::inlineStickyToggleCSS();
 				wp_register_script( 'ez-toc-sticky', '', array(), '', true );
-                wp_enqueue_script( 'ez-toc-sticky', '', '','', true );
+                                wp_enqueue_script( 'ez-toc-sticky', '', '', '', true );
 				self::inlineStickyToggleJS();
 			}
 
@@ -340,8 +362,31 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
                 self::inlineWPBakeryJS();
 			}
+                        
+                         self::inlineMainCountingCSS();
 		}
-
+        
+        /**
+         * inlineScrollCSS Method
+         * Set scroll offset & smoothness
+         *
+         * @since  2.0.40
+         * @static
+         * @uses wp_add_inline_style()
+         * @return void
+         *
+         */
+        private static function inlineScrollCSS()
+        {
+            
+            $offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
+            $offset .= 'px';
+            $inlineScrollCSS = <<<INLINESCROLLCSS
+html, body{ scroll-behavior: smooth; } span.ez-toc-section{ scroll-margin-top: $offset;}
+INLINESCROLLCSS;
+            wp_add_inline_style( 'ez-toc', $inlineScrollCSS );
+        }
+        
         /**
          * inlineWPBakeryJS Method
          * Javascript code for WP Bakery Plugin issue for mobile screen
@@ -444,6 +489,8 @@ INLINEWPBAKERYJS;
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:hover {color: ' . ezTOC_Option::get( 'custom_link_hover_colour' ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:visited {color: ' . ezTOC_Option::get( 'custom_link_visited_colour' ) . ';}';
 				}
+                                
+                                
 			}
 
 			if ( $css ) {
@@ -454,16 +501,16 @@ INLINEWPBAKERYJS;
 
 		}
 
-		/**
+        /**
          * inlineMainCountingCSS Method
          * for adding inlineCounting CSS
          * in wp_head in last
-		 * @since 2.0.37
-		 * @return void
+         * @since 2.0.37
+         * @return void
         */
-		public static function inlineMainCountingCSS() {
-			$css = '';
-			/**
+        public static function inlineMainCountingCSS() {
+            $css = '';
+            /**
              * RTL Direction
              * @since 2.0.33
             */
@@ -471,12 +518,15 @@ INLINEWPBAKERYJS;
             $css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
 
             if( ezTOC_Option::get( 'sticky-toggle' ) ) {
-                $css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ), 'ez-toc-sticky-toggle-direction', 'ez-toc-sticky-toggle-counter', 'counter', 'ez-toc-sticky-container' );
+                $cssSticky = self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ), 'ez-toc-sticky-toggle-direction', 'ez-toc-sticky-toggle-counter', 'counter', 'ez-toc-sticky-container' );
+                wp_add_inline_style( 'ez-toc-sticky', $cssSticky );
             }
             /* End rtl direction */
 
-            echo "<style>$css</style>";
-		}
+            if ( ! ezTOC_Option::get( 'exclude_css' ) ) {
+                  wp_add_inline_style( 'ez-toc', $css );
+            }
+        }
 
         /**
          * InlineCountingCSS Method
@@ -494,7 +544,6 @@ INLINEWPBAKERYJS;
         {
             $list_type = ezTOC_Option::get( $counter, 'decimal' );
 			if( $list_type != 'none' ) {
-	            wp_enqueue_style( 'ez-toc' );
 	            $inlineCSS = '';
 	            $counterListAll = array_merge( ezTOC_Option::getCounterListDecimal(), ezTOC_Option::getCounterList_i18n() );
 	            $listTypesForCounting = array_keys( $counterListAll );
@@ -545,8 +594,7 @@ INLINECSS;
 INLINECSS;
 
 	            }
-//				wp_add_inline_style( 'ez-toc', $inlineCSS );
-				return $inlineCSS;
+                  return $inlineCSS;
             }
         }
 
