@@ -354,7 +354,10 @@ class ezTOC_Post {
 
 		if ( ! class_exists( 'TagFilter' ) ) {
 
-			require_once( EZ_TOC_PATH . '/includes/vendor/ultimate-web-scraper/tag_filter.php' );
+                        if(phpversion() <= 5.6)
+                            require_once( EZ_TOC_PATH . '/includes/vendor/ultimate-web-scraper/tag_filter56.php' );
+                        else
+                            require_once( EZ_TOC_PATH . '/includes/vendor/ultimate-web-scraper/tag_filter.php' );
 		}
 
 		$tagFilterOptions = TagFilter::GetHTMLOptions();
