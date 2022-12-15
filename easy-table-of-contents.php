@@ -156,7 +156,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 				add_option( 'ez-toc-post-meta-content', array( get_the_ID() => false ) );
 			}
-
+                        
+                        add_option( 'ez-toc-list', '' );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
                         if ( ezTOC_Option::get( 'exclude_css' ) && 'css' == ezTOC_Option::get( 'toc_loading' ) ) {
                             add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScriptsforExcludeCSS' ) );
