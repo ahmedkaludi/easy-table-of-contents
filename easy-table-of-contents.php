@@ -135,6 +135,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			require_once( EZ_TOC_PATH . '/includes/class.post.php' );
 			require_once( EZ_TOC_PATH . '/includes/class.widget-toc.php' );
+			require_once( EZ_TOC_PATH . '/includes/class.widget-toc-sticky.php' );
 			require_once( EZ_TOC_PATH . '/includes/Debug.php' );
 			require_once( EZ_TOC_PATH . '/includes/inc.functions.php' );
 			require_once( EZ_TOC_PATH . '/includes/inc.string-functions.php' );
@@ -541,7 +542,7 @@ INLINEWPBAKERYJS;
          * @param string $containerId
          * @return string
         */
-        private static function InlineCountingCSS( $direction = 'ltr', $directionClass = 'ez-toc-container-direction', $class = 'ez-toc-counter',  $counter = 'counter', $containerId = 'ez-toc-container' )
+        public static function InlineCountingCSS( $direction = 'ltr', $directionClass = 'ez-toc-container-direction', $class = 'ez-toc-counter',  $counter = 'counter', $containerId = 'ez-toc-container' )
         {
             $list_type = ezTOC_Option::get( $counter, 'decimal' );
 			if( $list_type != 'none' ) {
