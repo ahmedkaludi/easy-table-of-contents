@@ -171,6 +171,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
 				add_shortcode( 'lwptoc', array( __CLASS__, 'shortcode' ) );
 				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
+                                
+				add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
 
 			}
 
@@ -278,7 +280,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			$isEligible = self::is_eligible( get_post() );
 
-			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! get_option( 'ez-toc-shortcode-exist-and-render' ) ) {
+			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! get_option( 'ez-toc-shortcode-exist-and-render' ) && ! is_active_widget( false, false, 'ez_toc_widget_sticky' ) ) {
                 return false;
 			}
 
@@ -818,7 +820,7 @@ INLINESTICKYTOGGLEJS;
 				Debug::log( 'has_ez_toc_shortcode', 'Has instance of shortcode.', true );
 				return true;
 			}
-
+                        
 			if ( is_front_page() && ! ezTOC_Option::get( 'include_homepage' ) ) {
 
 				Debug::log( 'is_front_page', 'Is frontpage, TOC is not enabled.', false );
@@ -917,6 +919,88 @@ INLINESTICKYTOGGLEJS;
 			return $post;
 		}
 
+        /**
+         * Callback for the registered shortcode `[ez-toc-widget-sticky]`
+         *
+         * NOTE: Shortcode is run before the callback @see ezTOC::the_content() for the `the_content` filter
+         *
+         * @access private
+         * @since  2.0.41
+         *
+         * @param array|string $atts    Shortcode attributes array or empty string.
+         * @param string       $content The enclosed content (if the shortcode is used in its enclosing form)
+         * @param string       $tag     Shortcode name.
+         *
+         * @return string
+         */
+        public static function ez_toc_widget_sticky_shortcode( $atts, $content, $tag ) {             global $wp_widget_factory;
+
+            if ( 'ez-toc-widget-sticky' == $tag ) {
+    
+                extract( shortcode_atts( array(
+                    'highlight_color' => '#ededed',
+                    'title' => 'Table of Contents',
+                    'advanced_options' => '',
+                    'scroll_fixed_position' => 30,
+                    'sidebar_width' => 'auto',
+                    'sidebar_width_size_unit' => 'none',
+                    'fixed_top_position' => 30,
+                    'fixed_top_position_size_unit' => 'px',
+                    'navigation_scroll_bar' => 'on',
+                    'scroll_max_height' => 'auto',
+                    'scroll_max_height_size_unit' => 'none',
+                    'ez_toc_widget_sticky_before_widget_container' => '',
+                    'ez_toc_widget_sticky_before_widget' => '',
+                    'ez_toc_widget_sticky_before' => '',
+                    'ez_toc_widget_sticky_after' => '',
+                    'ez_toc_widget_sticky_after_widget' => '',
+                    'ez_toc_widget_sticky_after_widget_container' => '',
+                ), $atts ) );
+
+                $widget_name = wp_specialchars( 'ezTOC_WidgetSticky' );
+                
+                $instance = array(
+                    'title' => ( ! empty ( $title ) ) ? $title : '',
+                    'highlight_color' => ( ! empty ( $highlight_color ) ) ? $highlight_color : '#ededed',
+                    'advanced_options' => ( ! empty ( $advanced_options ) ) ? $advanced_options : '',
+                    'scroll_fixed_position' => ( ! empty ( $scroll_fixed_position ) ) ? ( int ) $scroll_fixed_position : 30,
+                    'sidebar_width' => ( ! empty ( $sidebar_width ) ) ? ( 'auto' == $sidebar_width ) ? $sidebar_width : ( int ) strip_tags ( $sidebar_width ) : 'auto',
+                    'sidebar_width_size_unit' => ( ! empty ( $sidebar_width_size_unit ) ) ? $sidebar_width_size_unit : 'none',
+                    'fixed_top_position' => ( ! empty ( $fixed_top_position ) ) ? ( 'auto' == $fixed_top_position ) ? $fixed_top_position : ( int ) strip_tags ( $fixed_top_position ) : 30,
+                    'fixed_top_position_size_unit' => ( ! empty ( $fixed_top_position_size_unit ) ) ? $fixed_top_position_size_unit : 'px',
+                    'navigation_scroll_bar' => ( ! empty ( $navigation_scroll_bar ) ) ? $navigation_scroll_bar : 'on',
+                    'scroll_max_height' => ( ! empty ( $scroll_max_height ) ) ? ( 'auto' == $scroll_max_height ) ? $scroll_max_height : ( int ) strip_tags ( $scroll_max_height ) : 'auto',
+                    'scroll_max_height_size_unit' => ( ! empty ( $scroll_max_height_size_unit ) ) ? $scroll_max_height_size_unit : 'none',
+                );
+                
+                if ( !is_a( $wp_widget_factory->widgets[ $widget_name ], 'WP_Widget' ) ):
+                    $wp_class = 'WP_Widget_' . ucwords(strtolower($class));
+
+                    if (!is_a($wp_widget_factory->widgets[$wp_class], 'WP_Widget')):
+                        return '<p>'.sprintf(__("%s: Widget class not found. Make sure this widget exists and the class name is correct"),'<strong>'.$class.'</strong>').'</p>';
+                    else:
+                        $class = $wp_class;
+                    endif;
+                endif;
+
+                $id = uniqid( time() );
+                ob_start();
+                the_widget( $widget_name, $instance, array(
+                    'widget_id' => 'ez-toc-widget-sticky-' . $id,
+                    'ez_toc_widget_sticky_before_widget_container' => $ez_toc_widget_sticky_before_widget_container,
+                    'ez_toc_widget_sticky_before_widget' => $ez_toc_widget_sticky_before_widget,
+                    'ez_toc_widget_sticky_before' => $ez_toc_widget_sticky_before,
+                    'ez_toc_widget_sticky_after' => $ez_toc_widget_sticky_after,
+                    'ez_toc_widget_sticky_after_widget' => $ez_toc_widget_sticky_after_widget,
+                    'ez_toc_widget_sticky_after_widget_container' => $ez_toc_widget_sticky_after_widget_container,
+                    ) 
+                );
+                $output = ob_get_contents();
+                ob_end_clean();
+                return $output;
+            }
+        }
+                
 		/**
 		 * Callback for the registered shortcode `[ez-toc]`
 		 *
@@ -962,11 +1046,12 @@ INLINESTICKYTOGGLEJS;
 				$html = preg_replace('/class="ez-toc-list ez-toc-list-level-1"/', 'class="ez-toc-list ez-toc-list-level-1" style="display:none"', $html);
 			}
 
-            if( !is_home() ) {
-                if ( ezTOC_Option::get('sticky-toggle') ) {
-                    add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
-                }
-            }
+                        if( !is_home() ) {
+                            if ( ezTOC_Option::get('sticky-toggle') ) {
+                                add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
+                            }
+                        }
+                        
 			return $html;
 		}
 
@@ -1037,7 +1122,7 @@ INLINESTICKYTOGGLEJS;
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
 
-			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! get_option( 'ez-toc-shortcode-exist-and-render' ) ) {
+			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! get_option( 'ez-toc-shortcode-exist-and-render' ) && ! is_active_widget( false, false, 'ez_toc_widget_sticky' ) ) {
 
 				return Debug::log()->appendTo( $content );
 			}

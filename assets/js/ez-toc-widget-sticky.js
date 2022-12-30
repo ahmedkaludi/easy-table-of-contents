@@ -43,8 +43,8 @@ jQuery(function ($) {
     }
 
     function ezTOCWidgetStickygetScrollOffset() {
-        var ezTOCWidgetStickyscrollOffset = 5; // so if smooth offset is off, the correct title is set as active
-        if (typeof ezTOC.smooth_scroll != 'undefined' && parseInt(ezTOC.smooth_scroll) === 1) {
+        var ezTOCWidgetStickyscrollOffset = 30; // so if smooth offset is off, the correct title is set as active
+        if (typeof ezTOC != 'undefined' && typeof ezTOC.smooth_scroll != 'undefined' && parseInt(ezTOC.smooth_scroll) === 1) {
             ezTOCWidgetStickyscrollOffset = (typeof ezTOC.scroll_offset != 'undefined') ? parseInt(ezTOC.scroll_offset) : 30;
         }
 
@@ -135,11 +135,42 @@ jQuery(function ($) {
     var ezTocActiveList = '';
     function ezTOCWidgetStickysetScrollActiveEzTocListElement(e) {
         e.preventDefault();
-        if (jQuery(window).scrollTop() >= 30) {
-            jQuery('.ez-toc-widget-sticky').css({'position': 'fixed', 'width': $('#ez-toc-widget-sticky-container').parents('.widget-area').width(), 'top': '30px'});
-            jQuery('.ez-toc-widget-sticky nav').css({'overflow-y': 'auto', 'max-height': 'calc(100vh - 111px)'});
+        /**
+         * $ezTocWidgetStickyScrollFixedPosition = '30'/manual;
+         * $ezTocWidgetStickyWidth = $('#ez-toc-widget-sticky-container').parents('.widget-area').width()/manual;
+         * $ezTocWidgetStickyFixedTopPosition = '30px'/manual;
+         * $ezTocWidgetStickyNavigationScrollBar = true('auto')/false;
+         * $ezTocWidgetStickyScrollMaxHeight = 'calc(100vh - 111px)'/manual;
+         * 
+         * `ezTocWidgetSticky` variable define for setup 
+         *  $js_vars[ 'advanced_options' ] = '';
+         $js_vars[ 'scroll_fixed_position' ] = '30';
+         $js_vars[ 'sidebar_width' ] = 'auto';
+         $js_vars[ 'sidebar_width_size_unit' ] = 'none';
+         $js_vars[ 'fixed_top_position' ] = '30';
+         $js_vars[ 'fixed_top_position_size_unit' ] = 'px';
+         $js_vars[ 'navigation_scroll_bar' ] = 'on';
+         $js_vars[ 'scroll_max_height' ] = 'auto';
+         $js_vars[ 'scroll_max_height_size_unit' ] = 'none';
+         * 
+         * 
+         */
+
+
+        if (jQuery(window).scrollTop() >= ezTocWidgetSticky.scroll_fixed_position && jQuery(window).scrollTop() <= jQuery('.post').height()) {
+            jQuery('.ez-toc-widget-sticky').css({
+                'position': 'fixed',
+                'width': (ezTocWidgetSticky.sidebar_width != 'auto') ? ezTocWidgetSticky.sidebar_width + '' + ezTocWidgetSticky.sidebar_width_size_unit : $('#ez-toc-widget-sticky-container').parents('.widget-area').width(),
+                'top': (ezTocWidgetSticky.fixed_top_position != '30') ? ezTocWidgetSticky.fixed_top_position + '' + ezTocWidgetSticky.fixed_top_position_size_unit : '30px',
+                'z-index': '9999999',
+                'background-color': jQuery(document).find('body').css("background-color"),
+            });
+            jQuery('.ez-toc-widget-sticky nav').css({
+                'overflow-y': (ezTocWidgetSticky.navigation_scroll_bar == 'on') ? 'auto' : 'hidden',
+                'max-height': (ezTocWidgetSticky.scroll_max_height != 'auto') ? ezTocWidgetSticky.scroll_max_height + '' + ezTocWidgetSticky.scroll_max_height_size_unit : 'calc(100vh - 111px)'
+            });
         } else {
-            jQuery('.ez-toc-widget-sticky').attr('style', false);
+            jQuery('.ez-toc-widget-sticky,.ez-toc-widget-sticky nav').attr('style', false);
         }
         var ezTocHrefActive = jQuery("#ez-toc-widget-sticky-container li.active a").attr('href');
         var ezTocLastChild = "#ez-toc-widget-sticky-container nav>ul>li:last-child a";
@@ -147,9 +178,9 @@ jQuery(function ($) {
 //        var ezTocTotalScrollBarHeight = Math.round(jQuery('#ez-toc-widget-sticky-container').prop('scrollHeight'));
         var ezTocLastChildTop = Math.round(jQuery(ezTocLastChild).position().top);
         if (ezTocHrefActive != ezTocActiveList) {
-            console.log('ezTocOffsetTopDynamic:' + ezTocOffsetTopDynamic);
-            console.log('ezTocLastChildTop:' + ezTocLastChildTop);
-            console.log(jQuery('.ez-toc-widget-sticky nav').scrollTop() + ezTocOffsetTopDynamic);
+//            console.log('ezTocOffsetTopDynamic:' + ezTocOffsetTopDynamic);
+//            console.log('ezTocLastChildTop:' + ezTocLastChildTop);
+//            console.log(jQuery('.ez-toc-widget-sticky nav').scrollTop() + ezTocOffsetTopDynamic);
 //            if ((ezTocLastChildTop - 100) >= ezTocOffsetTopDynamic) {
 //                console.log('height - if');
             jQuery('.ez-toc-widget-sticky nav').scrollTop(Math.round(jQuery('.ez-toc-widget-sticky nav').scrollTop() + ezTocOffsetTopDynamic) - 50);
