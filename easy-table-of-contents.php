@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.40
+ * Version: 2.0.41
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.40
+ * @version  2.0.41
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -49,7 +49,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.40';
+		const VERSION = '2.0.41';
 
 		/**
 		 * Stores the instance of this class.
@@ -135,6 +135,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			require_once( EZ_TOC_PATH . '/includes/class.post.php' );
 			require_once( EZ_TOC_PATH . '/includes/class.widget-toc.php' );
+			require_once( EZ_TOC_PATH . '/includes/class.widget-toc-sticky.php' );
 			require_once( EZ_TOC_PATH . '/includes/Debug.php' );
 			require_once( EZ_TOC_PATH . '/includes/inc.functions.php' );
 			require_once( EZ_TOC_PATH . '/includes/inc.string-functions.php' );
@@ -156,7 +157,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 				add_option( 'ez-toc-post-meta-content', array( get_the_ID() => false ) );
 			}
-
+                        
+                        add_option( 'ez-toc-list', '' );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
                         if ( ezTOC_Option::get( 'exclude_css' ) && 'css' == ezTOC_Option::get( 'toc_loading' ) ) {
                             add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScriptsforExcludeCSS' ) );
@@ -169,6 +171,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
 				add_shortcode( 'lwptoc', array( __CLASS__, 'shortcode' ) );
 				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
+                                
+				add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
 
 			}
 
@@ -276,7 +280,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			$isEligible = self::is_eligible( get_post() );
 
-			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! get_option( 'ez-toc-shortcode-exist-and-render' ) ) {
+			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! get_option( 'ez-toc-shortcode-exist-and-render' ) && ! is_active_widget( false, false, 'ez_toc_widget_sticky' ) ) {
                 return false;
 			}
 
@@ -305,7 +309,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				wp_enqueue_style( 'ez-toc' );
 				self::inlineCSS();
                                 if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
-                                    self::inlineScrollCSS();
+                                    self::inlineScrollEnqueueScripts();
                                 }
                                 
 			}
@@ -367,7 +371,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
         
         /**
-         * inlineScrollCSS Method
+         * inlineScrollEnqueueScripts Method
          * Set scroll offset & smoothness
          *
          * @since  2.0.40
@@ -376,15 +380,34 @@ if ( ! class_exists( 'ezTOC' ) ) {
          * @return void
          *
          */
-        private static function inlineScrollCSS()
+        private static function inlineScrollEnqueueScripts()
         {
             
             $offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
             $offset .= 'px';
+//html, body{ scroll-behavior: smooth; } 
             $inlineScrollCSS = <<<INLINESCROLLCSS
-html, body{ scroll-behavior: smooth; } span.ez-toc-section{ scroll-margin-top: $offset;}
+span.ez-toc-section{ scroll-margin-top: $offset;}
 INLINESCROLLCSS;
             wp_add_inline_style( 'ez-toc', $inlineScrollCSS );
+            
+            $inlineScrollJS = <<<INLINESCROLLJS
+function ezTocScrollScriptJS() {
+    document.querySelectorAll('a.ez-toc-link').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+};           
+document.addEventListener('DOMContentLoaded', ezTocScrollScriptJS, false);
+INLINESCROLLJS;
+            wp_register_script( 'ez-toc-scroll-scriptjs', '', array(), ezTOC::VERSION );
+            wp_enqueue_script( 'ez-toc-scroll-scriptjs', '', array(), ezTOC::VERSION );
+            wp_add_inline_script( 'ez-toc-scroll-scriptjs', $inlineScrollJS );
         }
         
         /**
@@ -540,7 +563,7 @@ INLINEWPBAKERYJS;
          * @param string $containerId
          * @return string
         */
-        private static function InlineCountingCSS( $direction = 'ltr', $directionClass = 'ez-toc-container-direction', $class = 'ez-toc-counter',  $counter = 'counter', $containerId = 'ez-toc-container' )
+        public static function InlineCountingCSS( $direction = 'ltr', $directionClass = 'ez-toc-container-direction', $class = 'ez-toc-counter',  $counter = 'counter', $containerId = 'ez-toc-container' )
         {
             $list_type = ezTOC_Option::get( $counter, 'decimal' );
 			if( $list_type != 'none' ) {
@@ -816,7 +839,7 @@ INLINESTICKYTOGGLEJS;
 				Debug::log( 'has_ez_toc_shortcode', 'Has instance of shortcode.', true );
 				return true;
 			}
-
+                        
 			if ( is_front_page() && ! ezTOC_Option::get( 'include_homepage' ) ) {
 
 				Debug::log( 'is_front_page', 'Is frontpage, TOC is not enabled.', false );
@@ -915,6 +938,88 @@ INLINESTICKYTOGGLEJS;
 			return $post;
 		}
 
+        /**
+         * Callback for the registered shortcode `[ez-toc-widget-sticky]`
+         *
+         * NOTE: Shortcode is run before the callback @see ezTOC::the_content() for the `the_content` filter
+         *
+         * @access private
+         * @since  2.0.41
+         *
+         * @param array|string $atts    Shortcode attributes array or empty string.
+         * @param string       $content The enclosed content (if the shortcode is used in its enclosing form)
+         * @param string       $tag     Shortcode name.
+         *
+         * @return string
+         */
+        public static function ez_toc_widget_sticky_shortcode( $atts, $content, $tag ) {             global $wp_widget_factory;
+
+            if ( 'ez-toc-widget-sticky' == $tag ) {
+    
+                extract( shortcode_atts( array(
+                    'highlight_color' => '#ededed',
+                    'title' => 'Table of Contents',
+                    'advanced_options' => '',
+                    'scroll_fixed_position' => 30,
+                    'sidebar_width' => 'auto',
+                    'sidebar_width_size_unit' => 'none',
+                    'fixed_top_position' => 30,
+                    'fixed_top_position_size_unit' => 'px',
+                    'navigation_scroll_bar' => 'on',
+                    'scroll_max_height' => 'auto',
+                    'scroll_max_height_size_unit' => 'none',
+                    'ez_toc_widget_sticky_before_widget_container' => '',
+                    'ez_toc_widget_sticky_before_widget' => '',
+                    'ez_toc_widget_sticky_before' => '',
+                    'ez_toc_widget_sticky_after' => '',
+                    'ez_toc_widget_sticky_after_widget' => '',
+                    'ez_toc_widget_sticky_after_widget_container' => '',
+                ), $atts ) );
+
+                $widget_name = wp_specialchars( 'ezTOC_WidgetSticky' );
+                
+                $instance = array(
+                    'title' => ( ! empty ( $title ) ) ? $title : '',
+                    'highlight_color' => ( ! empty ( $highlight_color ) ) ? $highlight_color : '#ededed',
+                    'advanced_options' => ( ! empty ( $advanced_options ) ) ? $advanced_options : '',
+                    'scroll_fixed_position' => ( ! empty ( $scroll_fixed_position ) ) ? ( int ) $scroll_fixed_position : 30,
+                    'sidebar_width' => ( ! empty ( $sidebar_width ) ) ? ( 'auto' == $sidebar_width ) ? $sidebar_width : ( int ) strip_tags ( $sidebar_width ) : 'auto',
+                    'sidebar_width_size_unit' => ( ! empty ( $sidebar_width_size_unit ) ) ? $sidebar_width_size_unit : 'none',
+                    'fixed_top_position' => ( ! empty ( $fixed_top_position ) ) ? ( 'auto' == $fixed_top_position ) ? $fixed_top_position : ( int ) strip_tags ( $fixed_top_position ) : 30,
+                    'fixed_top_position_size_unit' => ( ! empty ( $fixed_top_position_size_unit ) ) ? $fixed_top_position_size_unit : 'px',
+                    'navigation_scroll_bar' => ( ! empty ( $navigation_scroll_bar ) ) ? $navigation_scroll_bar : 'on',
+                    'scroll_max_height' => ( ! empty ( $scroll_max_height ) ) ? ( 'auto' == $scroll_max_height ) ? $scroll_max_height : ( int ) strip_tags ( $scroll_max_height ) : 'auto',
+                    'scroll_max_height_size_unit' => ( ! empty ( $scroll_max_height_size_unit ) ) ? $scroll_max_height_size_unit : 'none',
+                );
+                
+                if ( !is_a( $wp_widget_factory->widgets[ $widget_name ], 'WP_Widget' ) ):
+                    $wp_class = 'WP_Widget_' . ucwords(strtolower($class));
+
+                    if (!is_a($wp_widget_factory->widgets[$wp_class], 'WP_Widget')):
+                        return '<p>'.sprintf(__("%s: Widget class not found. Make sure this widget exists and the class name is correct"),'<strong>'.$class.'</strong>').'</p>';
+                    else:
+                        $class = $wp_class;
+                    endif;
+                endif;
+
+                $id = uniqid( time() );
+                ob_start();
+                the_widget( $widget_name, $instance, array(
+                    'widget_id' => 'ez-toc-widget-sticky-' . $id,
+                    'ez_toc_widget_sticky_before_widget_container' => $ez_toc_widget_sticky_before_widget_container,
+                    'ez_toc_widget_sticky_before_widget' => $ez_toc_widget_sticky_before_widget,
+                    'ez_toc_widget_sticky_before' => $ez_toc_widget_sticky_before,
+                    'ez_toc_widget_sticky_after' => $ez_toc_widget_sticky_after,
+                    'ez_toc_widget_sticky_after_widget' => $ez_toc_widget_sticky_after_widget,
+                    'ez_toc_widget_sticky_after_widget_container' => $ez_toc_widget_sticky_after_widget_container,
+                    ) 
+                );
+                $output = ob_get_contents();
+                ob_end_clean();
+                return $output;
+            }
+        }
+                
 		/**
 		 * Callback for the registered shortcode `[ez-toc]`
 		 *
@@ -960,11 +1065,12 @@ INLINESTICKYTOGGLEJS;
 				$html = preg_replace('/class="ez-toc-list ez-toc-list-level-1"/', 'class="ez-toc-list ez-toc-list-level-1" style="display:none"', $html);
 			}
 
-            if( !is_home() ) {
-                if ( ezTOC_Option::get('sticky-toggle') ) {
-                    add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
-                }
-            }
+                        if( !is_home() ) {
+                            if ( ezTOC_Option::get('sticky-toggle') ) {
+                                add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
+                            }
+                        }
+                        
 			return $html;
 		}
 
@@ -1035,7 +1141,7 @@ INLINESTICKYTOGGLEJS;
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
 
-			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! get_option( 'ez-toc-shortcode-exist-and-render' ) ) {
+			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! get_option( 'ez-toc-shortcode-exist-and-render' ) && ! is_active_widget( false, false, 'ez_toc_widget_sticky' ) ) {
 
 				return Debug::log()->appendTo( $content );
 			}

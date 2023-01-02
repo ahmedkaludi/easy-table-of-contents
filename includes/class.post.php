@@ -354,7 +354,10 @@ class ezTOC_Post {
 
 		if ( ! class_exists( 'TagFilter' ) ) {
 
-			require_once( EZ_TOC_PATH . '/includes/vendor/ultimate-web-scraper/tag_filter.php' );
+                        if(phpversion() <= 5.6)
+                            require_once( EZ_TOC_PATH . '/includes/vendor/ultimate-web-scraper/tag_filter56.php' );
+                        else
+                            require_once( EZ_TOC_PATH . '/includes/vendor/ultimate-web-scraper/tag_filter.php' );
 		}
 
 		$tagFilterOptions = TagFilter::GetHTMLOptions();
@@ -1337,6 +1340,7 @@ class ezTOC_Post {
 			wp_enqueue_script( 'ez-toc-js' );
 		}
 
+                update_option('ez-toc-list', wp_kses_post( $html ) );
 		return $html;
 	}
         

@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.1.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.40
+Stable tag: 2.0.41
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,14 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.41 01/02/2023 =
+* BUG: Deprecated: Return type of TagFilterNodeIterator::current() should either be compatible with Iterator::current(): mixed, or the #356
+* NEW: Avada theme conflicted with the sidebar widget. #315
+* NEW: Side bar headings are not scrolling down. #341
+* BUG: While adding the TOC in the Gutenberg block, the H2 subheadings are showing, but not when we add the TOC through the shortcode. #351
+* BUG: Smooth Scroll Offset #143
+* BUG: Conflict issue with latest version in Generatepress Theme #370
+
 = 2.0.40 12/13/2022 =
 * BUG: Broken CSS after the new update #352
 * BUG: Fixed TOC is combine & conflict with sidebar shortcode TOC #349
