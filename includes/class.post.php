@@ -1340,7 +1340,7 @@ class ezTOC_Post {
 			wp_enqueue_script( 'ez-toc-js' );
 		}
 
-                update_option('ez-toc-list', $html);
+                update_option('ez-toc-list', wp_kses_post( $html ) );
 		return $html;
 	}
         
