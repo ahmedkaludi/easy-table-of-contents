@@ -588,34 +588,6 @@ function flBuilderLayoutDataEZTOC( $data ) {
 }
 
 /**
- * Avada Theme Compatibility
- * add inline custom css to set ez toc container
- * on sidebar, for scrolling setup
- * @since 2.0.35
- */
-//if ( in_array( 'fusion-core/fusion-core.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && ( 'Avada Child' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) || 'Avada' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) ) {
-//
-//	add_action( 'wp_enqueue_scripts', 'enqueueScriptsforAvada', -1 );
-//
-//	if( ! function_exists( 'enqueueScriptsforAvada' ) ) {
-//    	function enqueueScriptsforAvada() {
-//
-//			wp_register_style( 'ez-toc-avada', '', array( 'ez-toc' ), ezTOC::VERSION );
-//			wp_enqueue_style( 'ez-toc-avada' );
-//		    $inlineCSSAvada = <<<INLINECSSAVADA
-//.sidebar .fusion-sidebar-inner-content #ez-toc-container nav {
-//	overflow-y: scroll;
-//	height: auto;
-//	max-height: 35vh;
-//	padding-bottom: 60px;
-//}\n\n
-//INLINECSSAVADA;
-//		    wp_add_inline_style( 'ez-toc-avada', $inlineCSSAvada );
-//		}
-//	}
-//}
-
-/**
  * Thrive Theme Builder Compatibility
  * add inline custom CSS to remove double line
  * on links of our Easy TOC container
@@ -623,10 +595,10 @@ function flBuilderLayoutDataEZTOC( $data ) {
  */
 if ( 'Thrive Theme Builder' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
 
-    add_action( 'wp_head', 'enqueueScriptsforThriveThemeBuilder' );
+    add_action( 'wp_head', 'ezTocEnqueueScriptsforThriveThemeBuilder' );
 
-    if( ! function_exists( 'enqueueScriptsforThriveThemeBuilder' ) ) {
-    	function enqueueScriptsforThriveThemeBuilder() {
+    if( ! function_exists( 'ezTocEnqueueScriptsforThriveThemeBuilder' ) ) {
+    	function ezTocEnqueueScriptsforThriveThemeBuilder() {
             echo <<<INLINECSSAVADA
 <style>#ez-toc-container a:hover{text-decoration: none;}</style>
 INLINECSSAVADA;
@@ -707,10 +679,10 @@ if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', g
  * @since 2.0.39
  */
 if ( 'Foodie Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
-    add_action( 'wp_head', 'enqueueScriptsforFoodieProTheme' );
+    add_action( 'wp_head', 'ezTocEnqueueScriptsforFoodieProTheme' );
 
-    if( ! function_exists( 'enqueueScriptsforFoodieProTheme' ) ) {
-    	function enqueueScriptsforFoodieProTheme() {
+    if( ! function_exists( 'ezTocEnqueueScriptsforFoodieProTheme' ) ) {
+    	function ezTocEnqueueScriptsforFoodieProTheme() {
             echo <<<INLINECSSFOODPRO
 <style>@media only screen and (max-width: 940px){ .ez-toc-sticky #ez-toc-sticky-container .menu-toggle,#ez-toc-container .menu-toggle, #ez-toc-widget-container .menu-toggle{display:none} .ez-toc-sticky #ez-toc-sticky-container nav,#ez-toc-container nav, #ez-toc-widget-container nav {display:block}  }</style>
 INLINECSSFOODPRO;
