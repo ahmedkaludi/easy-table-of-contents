@@ -309,7 +309,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				wp_enqueue_style( 'ez-toc' );
 				self::inlineCSS();
                                 if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
-                                    self::inlineScrollCSS();
+                                    self::inlineScrollEnqueueScripts();
                                 }
                                 
 			}
@@ -371,7 +371,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
         
         /**
-         * inlineScrollCSS Method
+         * inlineScrollEnqueueScripts Method
          * Set scroll offset & smoothness
          *
          * @since  2.0.40
@@ -380,15 +380,34 @@ if ( ! class_exists( 'ezTOC' ) ) {
          * @return void
          *
          */
-        private static function inlineScrollCSS()
+        private static function inlineScrollEnqueueScripts()
         {
             
             $offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
             $offset .= 'px';
+//html, body{ scroll-behavior: smooth; } 
             $inlineScrollCSS = <<<INLINESCROLLCSS
-html, body{ scroll-behavior: smooth; } span.ez-toc-section{ scroll-margin-top: $offset;}
+span.ez-toc-section{ scroll-margin-top: $offset;}
 INLINESCROLLCSS;
             wp_add_inline_style( 'ez-toc', $inlineScrollCSS );
+            
+            $inlineScrollJS = <<<INLINESCROLLJS
+function ezTocScrollScriptJS() {
+    document.querySelectorAll('a.ez-toc-link').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+};           
+document.addEventListener('DOMContentLoaded', ezTocScrollScriptJS, false);
+INLINESCROLLJS;
+            wp_register_script( 'ez-toc-scroll-scriptjs', '', array(), ezTOC::VERSION );
+            wp_enqueue_script( 'ez-toc-scroll-scriptjs', '', array(), ezTOC::VERSION );
+            wp_add_inline_script( 'ez-toc-scroll-scriptjs', $inlineScrollJS );
         }
         
         /**
