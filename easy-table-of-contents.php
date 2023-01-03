@@ -393,11 +393,17 @@ INLINESCROLLCSS;
             
             $inlineScrollJS = <<<INLINESCROLLJS
 function ezTocScrollScriptJS() {
+    document.querySelectorAll('.ez-toc-section').forEach(span => {
+//        console.log(span.getAttribute('id'));
+        span.setAttribute('ez-toc-data-id', '#' + decodeURI(span.getAttribute('id')));
+	});
     document.querySelectorAll('a.ez-toc-link').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
+//            console.log('[id="' + this.getAttribute('href') + '"]');
+//            console.log(document.getElementById('[id="' + this.getAttribute('href') + '"]'));
+            
+            document.querySelector('[ez-toc-data-id="' + decodeURI(this.getAttribute('href')) + '"]').scrollIntoView({
                 behavior: 'smooth'
             });
         });
