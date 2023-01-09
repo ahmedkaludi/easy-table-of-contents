@@ -415,7 +415,11 @@ class ezTOC_Post {
 		/** @todo does this need to be used??? */
 		//self::$collision_collector = array();
 
-		$content = apply_filters( 'ez_toc_extract_headings_content', wptexturize( $content ) );
+		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+                    $content = apply_filters( 'ez_toc_extract_headings_content', $content );           
+                } else {
+                    $content = apply_filters( 'ez_toc_extract_headings_content', wptexturize( $content ) );
+                }
 
 		// get all headings
 		// the html spec allows for a maximum of 6 heading depths
