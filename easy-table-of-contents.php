@@ -392,7 +392,7 @@ INLINESCROLLCSS;
             wp_add_inline_style( 'ez-toc', $inlineScrollCSS );
             
             $inlineScrollJS = <<<INLINESCROLLJS
-function ezTocScrollScriptJS(){document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),document.querySelectorAll("a.ez-toc-link").forEach(t=>{t.addEventListener("click",function(t){t.preventDefault();var e=this.getAttribute("href");document.querySelector('[ez-toc-data-id="'+decodeURI(this.getAttribute("href"))+'"]').scrollIntoView({behavior:"smooth"}),history.replaceState("data","title",location.origin+location.pathname+e)})})}document.addEventListener("DOMContentLoaded",ezTocScrollScriptJS,!1);
+function ezTocScrollScriptJS(){document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),document.querySelectorAll("a.ez-toc-link").forEach(t=>{t.addEventListener("click",function(t){t.preventDefault();var e=this.getAttribute("href");document.querySelector('[ez-toc-data-id="'+decodeURI(this.getAttribute("href"))+'"]').scrollIntoView({behavior:"smooth"}),history.replaceState("data","title",location.origin+location.pathname+location.search+e)})})}document.addEventListener("DOMContentLoaded",ezTocScrollScriptJS,!1);
 INLINESCROLLJS;
             wp_register_script( 'ez-toc-scroll-scriptjs', '', array(), ezTOC::VERSION );
             wp_enqueue_script( 'ez-toc-scroll-scriptjs', '', array(), ezTOC::VERSION );
