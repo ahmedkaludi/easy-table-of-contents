@@ -15,7 +15,7 @@ Adds a user friendly and fully automatic way to create and display a table of co
 
 A user friendly, featured focused [Easy Table of Contents](https://tocwp.com/) plugin which allows you to insert a table of contents into your posts, pages and custom post types.
 
-[Home](https://tocwp.com/) | [Documentation](https://tocwp.com/docs/) | [Help](https://tocwp.com/contact/) | [Premium version Features](https://tocwp.com/pricing/)
+[Home](https://tocwp.com/) | [Help & Tech Support](https://tocwp.com/contact/) | [Documentation](https://tocwp.com/docs/)  | [Pro version Features](https://tocwp.com/pricing/)
 
 ### Features 
 * Automatically generate a table of contents for your posts, pages and custom post types by parsing its contents for headers.
@@ -55,17 +55,12 @@ Bug reports for Easy Table of Contents are [welcomed on GitHub](https://github.c
 
 ### [JOIN TELEGRAM GROUP COMMUNITY](https://t.me/+XADGN24lHNk0YjE1/)**: Purpose of this group is to get proper suggestions and feedback from plugin users and the community so that we can make the plugin even better.
 
-### Live Examples
-
-* [cMap Template Docs](http://connections-pro.com/documentation/cmap/)
-* [Circled Template Docs](http://connections-pro.com/documentation/circled/)
-* [Gridder Template Docs](http://connections-pro.com/documentation/gridder/)
-
 ### Roadmap 
 * Fragment caching for improved performance.
 * Improve SEO by adding options to add nofollow to TOC link and wrap TOC nav in noindex tag.
 * Improve accessibility.
 * Add Bullet and Arrow options for list counter style.
+* [View Full Road Map](https://github.com/ahmedkaludi/Easy-Table-of-Contents/milestones)
 
 ### Credit 
 
@@ -636,6 +631,10 @@ You can nest up 6 levels deep if needed. I hope this helps you understand how to
 = Is there any shortcode to add the table of content to anywhere I want ? =
 
 Yes you can add the TOC with this shortcode – [ez-toc] and with the help of this you can easily add the TOC in the content or anywhere in the WordPress and if you want to add the shortcode on the theme file then you can add it with the help of this code – <?php echo do_shortcode( ‘[ez-toc]’ ); ?> and with this, you can add the TOC on any file according to your need.
+
+== Contact | Help | Technical Support ==
+
+[Contact Us](https://tocwp.com/contact/)
 
 == Upgrade Notice ==
 
