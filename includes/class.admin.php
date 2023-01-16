@@ -110,7 +110,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
             wp_localize_script( 'cn_toc_admin_script', 'cn_toc_admin_data', $data );
 			self::inlineAdminStickyToggleJS();
                         
-                        self::inlineAdminOccasionalAdsPopUpCSS_JS();
+//                        self::inlineAdminOccasionalAdsPopUpCSS_JS();
 		}
                 
                 /**

@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.42
+ * Version: 2.0.43
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.42
+ * @version  2.0.43
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -49,7 +49,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.42';
+		const VERSION = '2.0.43';
 
 		/**
 		 * Stores the instance of this class.
@@ -392,24 +392,7 @@ INLINESCROLLCSS;
             wp_add_inline_style( 'ez-toc', $inlineScrollCSS );
             
             $inlineScrollJS = <<<INLINESCROLLJS
-function ezTocScrollScriptJS() {
-    document.querySelectorAll('.ez-toc-section').forEach(span => {
-//        console.log(span.getAttribute('id'));
-        span.setAttribute('ez-toc-data-id', '#' + decodeURI(span.getAttribute('id')));
-	});
-    document.querySelectorAll('a.ez-toc-link').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-//            console.log('[id="' + this.getAttribute('href') + '"]');
-//            console.log(document.getElementById('[id="' + this.getAttribute('href') + '"]'));
-            
-            document.querySelector('[ez-toc-data-id="' + decodeURI(this.getAttribute('href')) + '"]').scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    });
-};           
-document.addEventListener('DOMContentLoaded', ezTocScrollScriptJS, false);
+function ezTocScrollScriptJS(){document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),document.querySelectorAll("a.ez-toc-link").forEach(t=>{t.addEventListener("click",function(t){t.preventDefault();var e=this.getAttribute("href");document.querySelector('[ez-toc-data-id="'+decodeURI(this.getAttribute("href"))+'"]').scrollIntoView({behavior:"smooth"}),history.replaceState("data","title",location.origin+location.pathname+location.search+e)})})}document.addEventListener("DOMContentLoaded",ezTocScrollScriptJS,!1);
 INLINESCROLLJS;
             wp_register_script( 'ez-toc-scroll-scriptjs', '', array(), ezTOC::VERSION );
             wp_enqueue_script( 'ez-toc-scroll-scriptjs', '', array(), ezTOC::VERSION );
