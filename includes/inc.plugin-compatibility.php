@@ -279,7 +279,7 @@ add_action(
 			add_filter(
 				'uncode_single_content',
 				function( $content ) {
-					return ( ! in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) ? wptexturize( $content ) : $content;
+					return ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == get_browser_name() ) ? $content : wptexturize($content);
 				},
 				10,
 				1

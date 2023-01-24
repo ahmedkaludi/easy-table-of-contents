@@ -154,8 +154,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			//add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
 			add_option('ez-toc-shortcode-exist-and-render', false);
-                        if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-				add_option( 'ez-toc-post-content-divi-machine-comp', false );
+                        if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == get_browser_name() ) {
+				add_option( 'ez-toc-post-content-core-level', false );
 			}
 			if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 				add_option( 'ez-toc-post-meta-content', array( get_the_ID() => false ) );
@@ -1115,8 +1115,8 @@ INLINESTICKYTOGGLEJS;
 		public static function the_content( $content ) {
 			$maybeApplyFilter = self::maybeApplyTheContentFilter();
 
-                        if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-                            update_option( 'ez-toc-post-content-divi-machine-comp', $content );
+                        if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == get_browser_name() ) {
+                            update_option( 'ez-toc-post-content-core-level', $content );
 			}
 			Debug::log( 'the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter );
 
