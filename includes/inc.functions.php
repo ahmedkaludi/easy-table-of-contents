@@ -194,7 +194,7 @@ if( !function_exists( 'ez_toc_wp_check_browser_version' ) ) {
  * @since 2.0.44
  * @return string
  */
-function get_browser_name() {
+function ez_toc_get_browser_name() {
     $browserDetails = ez_toc_wp_check_browser_version();
     
     if( $browserDetails !== null && key_exists( 'name', $browserDetails ) ) {
