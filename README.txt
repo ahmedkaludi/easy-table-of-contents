@@ -101,7 +101,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 = 2.0.44.1 01/25/2023 =
-* BUG: Heading not working in the Russian language on the Pale Moon Browser. #368
+* BUG: Update to 2.0.44 caused Dashboard critical error #368
 
 = 2.0.44 01/25/2023 =
 * BUG: Anchor links are no longer appearing in the URLs #394
