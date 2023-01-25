@@ -197,7 +197,7 @@ if( !function_exists( 'ez_toc_wp_check_browser_version' ) ) {
 function ez_toc_get_browser_name() {
     $browserDetails = ez_toc_wp_check_browser_version();
     
-    if( $browserDetails !== null && key_exists( 'name', $browserDetails ) ) {
+    if( $browserDetails !== null && !empty( $browserDetails ) && is_array( $browserDetails ) && key_exists( 'name', $browserDetails ) ) {
         if( !empty( $browserDetails['name'] ) ){
             return $browserDetails['name'];
         }
