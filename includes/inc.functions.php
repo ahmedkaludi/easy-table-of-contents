@@ -126,7 +126,7 @@ function ez_toc_woo_cat_desc_remove(){
 } 
 
 
-if( !function_exists( 'wp_check_browser_version' ) ) {
+if( !function_exists( 'ez_toc_wp_check_browser_version' ) ) {
     /**
      * wp_check_browser_version Method
      * if not predefined in 
@@ -134,7 +134,7 @@ if( !function_exists( 'wp_check_browser_version' ) ) {
      * @since 2.0.44
      * @return boolean|array
      */
-    function wp_check_browser_version() {
+    function ez_toc_wp_check_browser_version() {
 	if ( empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
 		return false;
 	}
@@ -195,7 +195,7 @@ if( !function_exists( 'wp_check_browser_version' ) ) {
  * @return string
  */
 function get_browser_name() {
-    $browserDetails = wp_check_browser_version();
+    $browserDetails = ez_toc_wp_check_browser_version();
     
     if( $browserDetails !== null && key_exists( 'name', $browserDetails ) ) {
         if( !empty( $browserDetails['name'] ) ){
