@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.1.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.43
+Stable tag: 2.0.44.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,8 +100,25 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.44.3 01/27/2023 =
+* BUG: PHP 8.1 error on inc.plugin-compatibility.php:282 #295 #291
+
+= 2.0.44.2 01/25/2023 =
+* BUG: Warning and Fatal error with version 2.0.44.1 and PHP 8.1 #368
+
+= 2.0.44.1 01/25/2023 =
+* BUG: Update to 2.0.44 caused Dashboard critical error #368
+
+= 2.0.44 01/25/2023 =
+* BUG: Anchor links are no longer appearing in the URLs #394
+* BUG: While Heading created with Divi pixel are not working. #295
+* BUG: Need to make a feature or functionality where after clicking on the link, Toc should automatically get closed. #291
+* BUG: Some headings are not working with WP-Typography #407
+* BUG: Not working in Persian Language. #303
+* BUG: Heading not working in the Russian language on the Pale Moon Browser. #368
+
 = 2.0.43 01/13/2023 =
-* TWEAK: update readme
+* TWEAK: update readme #396
 * BUG: Anchor links are no longer appearing in the URLs #394
 * TWEAK: Remove Offer banner #393
 

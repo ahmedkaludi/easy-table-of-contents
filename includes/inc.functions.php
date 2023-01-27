@@ -123,7 +123,88 @@ function ez_toc_woo_cat_desc_remove(){
     return false;
   }
   remove_action( 'woocommerce_archive_description', 'woocommerce_taxonomy_archive_description', 10 );
+} 
+
+
+if( !function_exists( 'ez_toc_wp_check_browser_version' ) ) {
+    /**
+     * wp_check_browser_version Method
+     * if not predefined in 
+     * latest wordpress version
+     * @since 2.0.44
+     * @return boolean|array
+     */
+    function ez_toc_wp_check_browser_version() {
+	if ( empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
+		return false;
+	}
+
+	$key = md5( $_SERVER['HTTP_USER_AGENT'] );
+
+	$response = get_site_transient( 'browser_' . $key );
+
+	if ( false === $response ) {
+		// Include an unmodified $wp_version.
+		require ABSPATH . WPINC . '/version.php';
+
+		$url     = 'http://api.wordpress.org/core/browse-happy/1.1/';
+		$options = array(
+			'body'       => array( 'useragent' => $_SERVER['HTTP_USER_AGENT'] ),
+			'user-agent' => 'WordPress/' . $wp_version . '; ' . home_url( '/' ),
+		);
+
+		if ( wp_http_supports( array( 'ssl' ) ) ) {
+			$url = set_url_scheme( $url, 'https' );
+		}
+
+		$response = wp_remote_post( $url, $options );
+
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			return false;
+		}
+
+		/**
+		 * Response should be an array with:
+		 *  'platform' - string - A user-friendly platform name, if it can be determined
+		 *  'name' - string - A user-friendly browser name
+		 *  'version' - string - The version of the browser the user is using
+		 *  'current_version' - string - The most recent version of the browser
+		 *  'upgrade' - boolean - Whether the browser needs an upgrade
+		 *  'insecure' - boolean - Whether the browser is deemed insecure
+		 *  'update_url' - string - The url to visit to upgrade
+		 *  'img_src' - string - An image representing the browser
+		 *  'img_src_ssl' - string - An image (over SSL) representing the browser
+		 */
+		$response = json_decode( wp_remote_retrieve_body( $response ), true );
+
+		if ( ! is_array( $response ) ) {
+			return false;
+		}
+
+		set_site_transient( 'browser_' . $key, $response, WEEK_IN_SECONDS );
+	}
+
+	return $response;
+    }
 }
+
+/**
+ * get_browser_name Method
+ * for getting browser name
+ * @since 2.0.44
+ * @return string
+ */
+function ez_toc_get_browser_name() {
+    $browserDetails = ez_toc_wp_check_browser_version();
+    
+    if( $browserDetails !== null && !empty( $browserDetails ) && is_array( $browserDetails ) && key_exists( 'name', $browserDetails ) ) {
+        if( !empty( $browserDetails['name'] ) ){
+            return $browserDetails['name'];
+        }
+    }
+}
+
+
 
 /**
  * EzPrintR method

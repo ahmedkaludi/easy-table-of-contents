@@ -268,7 +268,11 @@ class ezTOC_Post {
 			} else {
 				$content .= get_option( 'ez-toc-post-meta-content' )[ get_the_ID() ];
 			}
-		}
+		} else if ( ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) && false != get_option( 'ez-toc-post-content-core-level' ) ) {
+                    $content = get_option( 'ez-toc-post-content-core-level' );
+                } else {
+                       
+                }
 
 		$pages = array();
 
@@ -415,7 +419,7 @@ class ezTOC_Post {
 		/** @todo does this need to be used??? */
 		//self::$collision_collector = array();
 
-		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
                     $content = apply_filters( 'ez_toc_extract_headings_content', $content );           
                 } else {
                     $content = apply_filters( 'ez_toc_extract_headings_content', wptexturize( $content ) );
@@ -610,7 +614,7 @@ class ezTOC_Post {
 					$found = false;
 
 					$against = html_entity_decode(
-						wptexturize( strip_tags( str_replace( array( "\r", "\n" ), ' ', $matches[ $i ][0] ) ) ),
+                                                ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) ? strip_tags( str_replace( array( "\r", "\n" ), ' ', $matches[ $i ][0] ) ) : wptexturize(strip_tags( str_replace( array( "\r", "\n" ), ' ', $matches[ $i ][0] ) ) ),
 						ENT_NOQUOTES,
 						get_option( 'blog_charset' )
 					);
@@ -620,7 +624,7 @@ class ezTOC_Post {
 						// Since WP manipulates the post content it is required that the excluded header and
 						// the actual header be manipulated similarly so a match can be made.
 						$pattern = html_entity_decode(
-							wptexturize( $excluded_headings[ $j ] ),
+							( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) ? $excluded_headings[ $j ] : wptexturize($excluded_headings[ $j ]),
 							ENT_NOQUOTES,
 							get_option( 'blog_charset' )
 						);
@@ -723,8 +727,11 @@ class ezTOC_Post {
 				foreach ( $alt_headings as $original_heading => $alt_heading ) {
 
 					// Cleanup and texturize so alt heading can match heading in post content.
-					$original_heading = wptexturize( trim( $original_heading ) );
-
+                                        if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+                                            $original_heading = trim( $original_heading );
+                                        }else {
+                                            $original_heading = wptexturize( trim( $original_heading ) );
+                                        }
 					// Deal with special characters such as non-breakable space.
 					$original_heading = str_replace(
 						array( "\xc2\xa0" ),
