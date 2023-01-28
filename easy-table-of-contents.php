@@ -341,7 +341,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( ezTOC_Option::get( 'show_heading_text' ) && ezTOC_Option::get( 'visibility' ) ) {
 
-				$width = ezTOC_Option::get( 'width' ) !== 'custom' ? ezTOC_Option::get( 'width' ) : ezTOC_Option::get( 'width_custom' ) . ezTOC_Option::get( 'width_custom_units' );
+				$width = ezTOC_Option::get( 'width' ) !== 'custom' ? ezTOC_Option::get( 'width' ) : (wp_is_mobile() ? 'auto' : ezTOC_Option::get( 'width_custom' ) . ezTOC_Option::get( 'width_custom_units' ));
 
 				$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
 
@@ -481,7 +481,7 @@ INLINEWPBAKERYJS;
 
 						} else {
 
-							$css .= ezTOC_Option::get( 'width_custom' ) . ezTOC_Option::get( 'width_custom_units' );
+							$css .= wp_is_mobile() ? 'auto' : ezTOC_Option::get( 'width_custom' ) . ezTOC_Option::get( 'width_custom_units' );
 						}
 
 						$css .= ';';
