@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.3
 Tested up to: 6.1.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.44.3
+Stable tag: 2.0.45
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,13 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.45 01/30/2023 =
+* BUG: Some linking span tags are not being created inside headings due to Internationalization characters #312
+* BUG: When a user adds the TOC while using Elementor PRO, the TOC does not scroll down. #372
+* BUG: TOC conflicts with the Beaver Builder plugin. #280
+* BUG: Empty space appears after removing the header label. #376
+* BUG: When selecting the "User defined" option in width then the TOC goes off to right side of the screen. #374
+
 = 2.0.44.3 01/27/2023 =
 * BUG: PHP 8.1 error on inc.plugin-compatibility.php:282 #295 #291
 
