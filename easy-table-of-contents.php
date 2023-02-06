@@ -154,7 +154,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			//add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
 			add_option('ez-toc-shortcode-exist-and-render', false);
-                        if ( ezTOC::isCoreLevel() ) {
+                        if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
 				add_option( 'ez-toc-post-content-core-level', false );
 			}
 			if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
@@ -1098,26 +1098,6 @@ INLINESTICKYTOGGLEJS;
 			 */
 			return apply_filters( 'ez_toc_maybe_apply_the_content_filter', $apply );
 		}
-                
-                /**
-                 * isCoreLevel Method
-                 * to check is core level issue
-                 * @since 2.0.45
-                 * @return bool true/false
-                 */
-                public static function isCoreLevel() {
-                    if( 
-                            in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) 
-                            || 'Pale Moon' == ez_toc_get_browser_name() 
-                            || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) 
-//                            || in_array( 'elementor-pro/elementor-pro.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) 
-                            || 'Divi' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) 
-                            || in_array( 'beaver-builder-lite-version/fl-builder.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) 
-                    ) {
-                        return true;
-                    }
-                    return false;
-                }
 
 		/**
 		 * Callback for the `the_content` filter.
@@ -1134,7 +1114,7 @@ INLINESTICKYTOGGLEJS;
 		public static function the_content( $content ) {
 			$maybeApplyFilter = self::maybeApplyTheContentFilter();
 
-                        if ( ezTOC::isCoreLevel() ) {
+                        if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
                             update_option( 'ez-toc-post-content-core-level', $content );
 			}
 			Debug::log( 'the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter );
