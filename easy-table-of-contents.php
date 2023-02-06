@@ -134,6 +134,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 
 			require_once( EZ_TOC_PATH . '/includes/class.post.php' );
+                        /**
+                         * @since 2.0.46
+                         */
+			require_once( EZ_TOC_PATH . '/includes/class.post.static.php' );
 			require_once( EZ_TOC_PATH . '/includes/class.widget-toc.php' );
 			require_once( EZ_TOC_PATH . '/includes/class.widget-toc-sticky.php' );
 			require_once( EZ_TOC_PATH . '/includes/Debug.php' );
@@ -179,8 +183,24 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			}
 
-		}
+                        /**
+                         * @since 2.0.46
+                         */
+                        add_action( "loop_start", array( __CLASS__, "ezToc_execute_on_loop_start_event" ), 10, 1);
 
+		}
+                
+        /**
+         * ezToc_execute_on_loop_start_event
+         * @since 2.0.46
+         * @param object $query
+         */
+        public static function ezToc_execute_on_loop_start_event($query) {
+            $content = apply_filters('the_content', $query->post->post_content);
+            ezTOC_Post_Static::$the_content = $content;
+            $content_post = get_post( get_the_ID() );
+            ezTOC_Post_Static::init( $content_post );
+        }
 
         /**
 	 * enqueueScriptsforExcludeCSS Method
@@ -1027,16 +1047,22 @@ INLINESTICKYTOGGLEJS;
 
 			if ( 'ez-toc' == $tag || 'toc' == $tag ) {
 
-				$post = self::get( get_the_ID() );
+				
+                                if ( ! ezTOC::isCoreLevel() ) {
+                                    
+                                    $post = self::get( get_the_ID() );
 
-				if ( ! $post instanceof ezTOC_Post ) {
+                                    if ( ! $post instanceof ezTOC_Post ) {
 
-					Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
+                                            Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
 
-					return Debug::log()->appendTo( $content );
-				}
+                                            return Debug::log()->appendTo( $content );
+                                    }
 
-				$html = $post->getTOC();
+                                    $html = $post->getTOC();
+                                } else {
+                                    $html = ezTOC_Post_Static::getTOC();
+                                }
 //				$run  = false;
 			}
 
@@ -1128,9 +1154,9 @@ INLINESTICKYTOGGLEJS;
 		public static function the_content( $content ) {
 			$maybeApplyFilter = self::maybeApplyTheContentFilter();
 
-                        if ( ezTOC::isCoreLevel() ) {
-                            update_option( 'ez-toc-post-content-core-level', $content );
-			}
+//                        if ( ezTOC::isCoreLevel() ) {
+//                            update_option( 'ez-toc-post-content-core-level', $content );
+//			}
 			Debug::log( 'the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter );
 
 			if ( ! $maybeApplyFilter ) {
@@ -1162,10 +1188,16 @@ INLINESTICKYTOGGLEJS;
 
 				return Debug::log()->appendTo( $content );
 			}
-
-			$find    = $post->getHeadings();
-			$replace = $post->getHeadingsWithAnchors();
-			$toc     = $post->getTOC();
+                        
+                        if ( ! ezTOC::isCoreLevel() ) {
+                            $find    = $post->getHeadings();
+                            $replace = $post->getHeadingsWithAnchors();
+                            $toc     = $post->getTOC();
+                        } else {
+                            $find    = ezTOC_Post_Static::getHeadings();
+                            $replace = ezTOC_Post_Static::getHeadingsWithAnchors();
+                            $toc     = ezTOC_Post_Static::getTOC();
+                        }
 			$headings = implode( PHP_EOL, $find );
 			$anchors  = implode( PHP_EOL, $replace );
 
