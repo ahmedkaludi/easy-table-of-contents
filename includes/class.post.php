@@ -425,9 +425,19 @@ class ezTOC_Post {
                     $content = apply_filters( 'ez_toc_extract_headings_content', wptexturize( $content ) );
                 }
 
+                /**
+                * Lasso Product Compatibility
+                * @since 2.0.46
+                */
+                $regEx = '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuU';
+                
+               if ( in_array( 'lasso/affiliate-plugin.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+                    $regEx = '/(<(?:h|H){1}([1-6]{1})[^>]*>)(.*)<\/(?:h|H){1}\2>/msuU';
+                }
+                
 		// get all headings
 		// the html spec allows for a maximum of 6 heading depths
-		if ( preg_match_all( '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuU', $content, $matches, PREG_SET_ORDER ) ) {
+		if ( preg_match_all( $regEx, $content, $matches, PREG_SET_ORDER ) ) {
 
 			$minimum = absint( ezTOC_Option::get( 'start' ) );
 
