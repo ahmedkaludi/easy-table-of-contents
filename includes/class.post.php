@@ -98,7 +98,10 @@ class ezTOC_Post {
 
 			return null;
 		}
-
+                
+                if ( in_array( 'basic-user-avatars/init.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+                    return $post;
+                }
 		return new static( $post );
 	}
 
