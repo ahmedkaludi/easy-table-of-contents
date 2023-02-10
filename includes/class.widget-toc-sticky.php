@@ -161,6 +161,8 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
             //$post = ezTOC_Post::get( get_the_ID() );//->applyContentFilter()->process();
             $post = ezTOC::get ( get_the_ID () );
 
+            if( post_password_required() ) return;
+            
             /**
              * @link https://wordpress.org/support/topic/fatal-error-when-trying-to-access-widget-area/
              */
