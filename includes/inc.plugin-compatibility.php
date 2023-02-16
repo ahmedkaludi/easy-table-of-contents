@@ -704,11 +704,19 @@ if ( 'PokaTheme' == apply_filters( 'current_theme', get_option( 'current_theme' 
         remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
         add_action( 'poka_before_main', 'poka_before_content', 5, 0 );
     }
+    add_action( 'poka_before_main', 'ez_toc_poka_before_main_after', 6, 0 );
+    function ez_toc_poka_before_main_after() {
+        add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
+    }
     add_action( 'poka_after_main', 'ez_toc_poka_after_main', 3, 0 );
     function ez_toc_poka_after_main() {
         remove_action( 'poka_after_main', 'poka_banner_footer', 4, 0 );
         remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
         add_action( 'poka_after_main', 'poka_banner_footer', 4, 0 );
+    }
+    add_action( 'poka_after_main', 'ez_toc_poka_after_main_after', 5, 0 );
+    function ez_toc_poka_after_main_after() {
+        add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
     }
 }
  
