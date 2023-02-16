@@ -157,7 +157,7 @@ jQuery(function ($) {
          */
 
 
-        if (jQuery(document).width() > 980 && jQuery(window).scrollTop() >= ezTocWidgetSticky.scroll_fixed_position && jQuery(window).scrollTop() <= jQuery('.post,.post-content').height()) {
+        if (jQuery(document).width() > 980 && jQuery(window).scrollTop() >= ezTocWidgetSticky.scroll_fixed_position && (jQuery('.post,.post-content').length == 0 || jQuery('.post,.post-content').length > 0 && jQuery(window).scrollTop() <= jQuery('.post,.post-content').height())) {
             jQuery('.ez-toc-widget-sticky').css({
                 'position': 'fixed',
                 'width': (ezTocWidgetSticky.sidebar_width != 'auto') ? ezTocWidgetSticky.sidebar_width + '' + ezTocWidgetSticky.sidebar_width_size_unit : $('#ez-toc-widget-sticky-container').parents('.widget-area').width(),
