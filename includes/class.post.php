@@ -99,9 +99,6 @@ class ezTOC_Post {
 			return null;
 		}
                 
-                if ( in_array( 'basic-user-avatars/init.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-                    return $post;
-                }
 		return new static( $post );
 	}
 
@@ -137,7 +134,11 @@ class ezTOC_Post {
 		 */
 		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
-		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
+                if ( in_array( 'basic-user-avatars/init.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && has_shortcode( $this->post->post_content, 'basic-user-avatars' ) ) {
+                    $this->post->post_content = strip_shortcodes( $this->post->post_content );
+                } else {
+                    $this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
+                }
 
 		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
 
