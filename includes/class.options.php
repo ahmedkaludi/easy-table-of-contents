@@ -344,6 +344,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'default'     => false,
 							'placeholder' => __( 'Enter sticky toggle open button text here..', 'easy-table-of-contents' )
 						),
+                                                'sticky-toggle-open-button-hover-sticky-open'     => array(
+							'id'          => 'sticky-toggle-open-button-hover-sticky-open',
+							'name'    => __( 'Hover Sticky Open', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type'    => 'checkbox',
+							'default' => 'Off',
+						),
 //                                                'sticky-toggle-position'          => array(
 //                                                        'id'      => 'sticky-toggle-position',
 //                                                        'name'    => __( 'Sticky Toggle Position', 'easy-table-of-contents' ),

@@ -161,6 +161,7 @@ jQuery(function($) {
     let stickyToggleWidthCustom = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-width-custom]']");
     let stickyToggleHeight = $('#eztoc-general').find("select[name='ez-toc-settings[sticky-toggle-height]']");
     let stickyToggleHeightCustom = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-height-custom]']");
+    let stickyToggleOpenButtonHoverStickyOpen = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-open-button-hover-sticky-open]']");
     
     
     
@@ -171,9 +172,11 @@ jQuery(function($) {
         $(stickyToggleWidth).parents('tr').hide(500);
         $(stickyToggleWidthCustom).parents('tr').hide(500);
         $(stickyToggleHeight).parents('tr').hide(500);
+        $(stickyToggleOpenButtonHoverStickyOpen).parents('tr').hide(500);
         $(stickyToggleHeightCustom).parents('tr').hide(500);
         $(stickyToggleWidth).val('auto');
         $(stickyToggleHeight).val('auto');
+        $(stickyToggleOpenButtonHoverStickyOpen).prop('checked', false);
         $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').parents('tr').hide(500);
         $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').val('Index');
     }
@@ -182,16 +185,19 @@ jQuery(function($) {
         if($(stickyToggleCheckbox).prop('checked') == true) {
             $(stickyToggleWidth).parents('tr').show(500);
             $(stickyToggleHeight).parents('tr').show(500);
+            $(stickyToggleOpenButtonHoverStickyOpen).parents('tr').show(500);
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').parents('tr').show(500);
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').val('Index');
         } else {
             $(stickyToggleWidth).parents('tr').hide(500);
             $(stickyToggleWidthCustom).parents('tr').hide(500);
             $(stickyToggleHeight).parents('tr').hide(500);
+            $(stickyToggleOpenButtonHoverStickyOpen).parents('tr').hide(500);
             $(stickyToggleHeightCustom).parents('tr').hide(500);
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').parents('tr').hide(500);
             $(stickyToggleWidth).val('auto');
             $(stickyToggleHeight).val('auto');
+            $(stickyToggleOpenButtonHoverStickyOpen).prop('checked', false);;
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').val('Index');
         }
         
@@ -217,7 +223,7 @@ jQuery(function($) {
         $(stickyToggleHeightCustom).parents('tr').hide();
         
     $(document).on("change", "select[name='ez-toc-settings[sticky-toggle-height]']", function() {
-        console.log("change-stickyToggleHeight");
+//        console.log("change-stickyToggleHeight");
         if($(stickyToggleHeight).val() == 'custom') {
             $(stickyToggleHeightCustom).val('800px');
             $(stickyToggleHeightCustom).parents('tr').show(500);

@@ -757,10 +757,75 @@ INLINESTICKYTOGGLECSS;
 		 * @static
 		 */
 		private static function inlineStickyToggleJS() {
-			$inlineStickyToggleJS = <<<INLINESTICKYTOGGLEJS
-function ezTOC_hideBar(e) { var sidebar = document.querySelector(".ez-toc-sticky-fixed"); if ( typeof(sidebar) !== "undefined" && sidebar !== null ) { sidebar.classList.remove("show"); sidebar.classList.add("hide"); setTimeout(function() { document.querySelector(".ez-toc-open-icon").style = "z-index: 9999999"; }, 200); } } function ezTOC_showBar(e) { document.querySelector(".ez-toc-open-icon").style = "z-index: -1;";setTimeout(function() { var sidebar = document.querySelector(".ez-toc-sticky-fixed"); sidebar.classList.remove("hide"); sidebar.classList.add("show"); }, 200); } (function() { let ez_toc_sticky_fixed_container = document.querySelector('div.ez-toc-sticky-fixed');if(ez_toc_sticky_fixed_container) { document.body.addEventListener("click", function (evt) { ezTOC_hideBar(evt); }); ez_toc_sticky_fixed_container.addEventListener('click', function(event) { event.stopPropagation(); }); document.querySelector('.ez-toc-open-icon').addEventListener('click', function(event) { event.stopPropagation(); }); } })();
+                    $ezTOC_OptionStickyHoverOpen = ezTOC_Option::get ( 'sticky-toggle-open-button-hover-sticky-open' );
+                    $inlineStickyToggleJS = <<<INLINESTICKYTOGGLEJS
+function ezTOC_hideBar(e) {
+    var sidebar = document.querySelector(".ez-toc-sticky-fixed");
+    if (typeof(sidebar) !== "undefined" && sidebar !== null) {
+        sidebar.classList.remove("show");
+        sidebar.classList.add("hide");
+        setTimeout(function() {
+            document.querySelector(".ez-toc-open-icon").style = "z-index: 9999999";
+        }, 200);
+    }
+}
+function ezTOC_showBar(e) {
+    document.querySelector(".ez-toc-open-icon").style = "z-index: -1;";
+    setTimeout(function() {
+        var sidebar = document.querySelector(".ez-toc-sticky-fixed");
+        sidebar.classList.remove("hide");
+        sidebar.classList.add("show");
+    }, 200);
+}
+function ezTOC_Sticky_Reloaded(evt, ezTOC_StickyContainerCurrent) {
+    if(ezTOC_StickyContainerCurrent == true) {        
+        ezTOC_StickyContainerCurrent = false;
+        ezTOC_hideBar(evt);
+    }
+}
+(function() {
+    var ezTOC_StickyContainerCurrent = false;
+    let ez_toc_sticky_fixed_container = document.querySelector('div.ez-toc-sticky-fixed');
+    if (ez_toc_sticky_fixed_container) {
+        if( 1 == $ezTOC_OptionStickyHoverOpen ) {
+            document.querySelector('.ez-toc-open-icon').addEventListener("mouseover", function(evt) {
+                if(ezTOC_StickyContainerCurrent == false) {
+                    ezTOC_showBar(evt);
+                    setTimeout(function () {
+                        if(ezTOC_StickyContainerCurrent == false) {        
+                            ezTOC_StickyContainerCurrent = true;
+                            document.body.addEventListener("mouseover", function(evt) {
+                                ezTOC_Sticky_Reloaded(evt, ezTOC_StickyContainerCurrent);
+                                document.body.removeEventListener("mouseover", function(evt){ezTOC_Sticky_Reloaded(evt, ezTOC_StickyContainerCurrent); });
+
+                            ezTOC_StickyContainerCurrent = false;
+                            });
+                        } else {
+                            document.body.removeEventListener("mouseover", function(evt){ezTOC_Sticky_Reloaded(evt, ezTOC_StickyContainerCurrent); });
+
+                            ezTOC_StickyContainerCurrent = false;
+                        }
+                    }, 1000, ezTOC_StickyContainerCurrent);
+                }
+            });
+            ez_toc_sticky_fixed_container.addEventListener('mouseover', function(evt) {
+                evt.stopPropagation();
+            });
+        }
+
+        document.body.addEventListener("click", function(evt) {
+            ezTOC_hideBar(evt);
+        });
+        ez_toc_sticky_fixed_container.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+        document.querySelector('.ez-toc-open-icon').addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    }
+})();
 INLINESTICKYTOGGLEJS;
-			wp_add_inline_script( 'ez-toc-sticky', $inlineStickyToggleJS );
+                    wp_add_inline_script( 'ez-toc-sticky', $inlineStickyToggleJS );
 		}
 
 		/**
