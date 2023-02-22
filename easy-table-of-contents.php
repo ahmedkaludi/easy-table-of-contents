@@ -789,23 +789,25 @@ function ezTOC_Sticky_Reloaded(evt, ezTOC_StickyContainerCurrent) {
     if (ez_toc_sticky_fixed_container) {
         if( 1 == $ezTOC_OptionStickyHoverOpen ) {
             document.querySelector('.ez-toc-open-icon').addEventListener("mouseover", function(evt) {
+//                console.log(ezTOC_StickyContainerCurrent);
                 if(ezTOC_StickyContainerCurrent == false) {
                     ezTOC_showBar(evt);
                     setTimeout(function () {
                         if(ezTOC_StickyContainerCurrent == false) {        
+//                            console.log("Call_ezTOC_StickyContainerCurrent = false");
                             ezTOC_StickyContainerCurrent = true;
                             document.body.addEventListener("mouseover", function(evt) {
                                 ezTOC_Sticky_Reloaded(evt, ezTOC_StickyContainerCurrent);
                                 document.body.removeEventListener("mouseover", function(evt){ezTOC_Sticky_Reloaded(evt, ezTOC_StickyContainerCurrent); });
 
-                            ezTOC_StickyContainerCurrent = false;
+                                ezTOC_StickyContainerCurrent = false;
                             });
                         } else {
-                            document.body.removeEventListener("mouseover", function(evt){ezTOC_Sticky_Reloaded(evt, ezTOC_StickyContainerCurrent); });
+                            //document.body.removeEventListener("mouseover", function(evt){ezTOC_Sticky_Reloaded(evt, ezTOC_StickyContainerCurrent); });
 
-                            ezTOC_StickyContainerCurrent = false;
+//                            ezTOC_StickyContainerCurrent = false;
                         }
-                    }, 1000, ezTOC_StickyContainerCurrent);
+                    }, 350, ezTOC_StickyContainerCurrent);
                 }
             });
             ez_toc_sticky_fixed_container.addEventListener('mouseover', function(evt) {
