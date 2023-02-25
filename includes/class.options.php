@@ -351,6 +351,102 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type'    => 'checkbox',
 							'default' => 'Off',
 						),
+                                                'sticky-toggle-container-background-color' => array(
+							'id' => 'sticky-toggle-container-background-color',
+							'name' => __( 'Container Background Color', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'color',
+							'default' => '#fff',
+						),
+                                                'sticky-toggle-open-icon-background-color' => array(
+                                                        'id' => 'sticky-toggle-open-icon-background-color',
+                                                        'name' => __( 'Open Icon Background Color', 'easy-table-of-contents' ),
+                                                        'desc' => '',
+                                                        'type' => 'color',
+                                                        'default' => '#fff',
+                                                ),
+                                                'sticky-toggle-open-icon-text-color' => array(
+                                                        'id' => 'sticky-toggle-open-icon-text-color',
+                                                        'name' => __( 'Open Icon Text Color', 'easy-table-of-contents' ),
+                                                        'desc' => '',
+                                                        'type' => 'color',
+                                                        'default' => '#00000000',
+                                                ),
+                                                'sticky-toggle-open-icon-box-shadow' => array(
+                                                        'id' => 'sticky-toggle-open-icon-box-shadow',
+                                                        'name' => __( 'Open Icon Box Shadow', 'easy-table-of-contents' ),
+                                                        'desc' => '',
+                                                        'type' => 'color',
+                                                        'default' => '#0000001a',
+                                                ),
+                                                'sticky-toggle-sidebar-box-shadow' => array(
+                                                        'id' => 'sticky-toggle-sidebar-box-shadow',
+                                                        'name' => __( 'Sidebar Box Shadow', 'easy-table-of-contents' ),
+                                                        'desc' => '',
+                                                        'type' => 'color',
+                                                        'default' => '#0000001a',
+                                                ),
+                                              
+                                                'sticky-toggle-title-container-background-color' => array(
+                                                        'id' => 'sticky-toggle-title-container-background-color',
+                                                        'name' => __( 'Title Container Background Color', 'easy-table-of-contents' ),
+                                                        'desc' => '',
+                                                        'type' => 'color',
+                                                        'default' => '#fafafa',
+                                                ),
+                                              
+                                                'sticky-toggle-title-container-text-color' => array(
+                                                        'id' => 'sticky-toggle-title-container-text-color',
+                                                        'name' => __( 'Title Container Text Color', 'easy-table-of-contents' ),
+                                                        'desc' => '',
+                                                        'type' => 'color',
+                                                        'default' => '#111',
+                                                ),
+                                               
+                                                'sticky-toggle-title-container-border-bottom-color' => array(
+                                                        'id' => 'sticky-toggle-title-container-border-bottom-color',
+                                                        'name' => __( 'Title Container Text Border Bottom Color', 'easy-table-of-contents' ),
+                                                        'desc' => '',
+                                                        'type' => 'color',
+                                                        'default' => '#eeeeee',
+                                                ),
+                                                'sticky-toggle-title-container-font-size' => array(
+							'id' => 'sticky-toggle-title-container-font-size',
+							'name' => __( 'Title Font Size', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'font_size',
+							'default' => 112.50,
+						), 
+                                                'sticky-toggle-container-headings-font-size' => array(
+							'id' => 'sticky-toggle-container-headings-font-size',
+							'name' => __( 'Headings Font Size', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'font_size',
+							'default' => 95,
+						), 
+                                                'sticky-toggle-container-headings-color' => array(
+                                                        'id' => 'sticky-toggle-container-headings-color',
+                                                        'name' => __( 'Headings Link Color', 'easy-table-of-contents' ),
+                                                        'desc' => '',
+                                                        'type' => 'color',
+                                                        'default' => '#000',
+                                                ),
+                                                'sticky-toggle-container-headings-color-hover' => array(
+                                                        'id' => 'sticky-toggle-container-headings-color-hover',
+                                                        'name' => __( 'Headings Link Hover Color', 'easy-table-of-contents' ),
+                                                        'desc' => '',
+                                                        'type' => 'color',
+                                                        'default' => '#474747',
+                                                ),
+                                                'sticky-toggle-container-headings-color-visited' => array(
+                                                        'id' => 'sticky-toggle-container-headings-color-visited',
+                                                        'name' => __( 'Headings Link Visited Color ', 'easy-table-of-contents' ),
+                                                        'desc' => '',
+                                                        'type' => 'color',
+                                                        'default' => '#898989',
+                                                ),
+                                            
+                                            
 //                                                'sticky-toggle-position'          => array(
 //                                                        'id'      => 'sticky-toggle-position',
 //                                                        'name'    => __( 'Sticky Toggle Position', 'easy-table-of-contents' ),

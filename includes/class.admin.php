@@ -162,21 +162,120 @@ jQuery(function($) {
     let stickyToggleHeight = $('#eztoc-general').find("select[name='ez-toc-settings[sticky-toggle-height]']");
     let stickyToggleHeightCustom = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-height-custom]']");
     let stickyToggleOpenButtonHoverStickyOpen = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-open-button-hover-sticky-open]']");
-    
-    
+               
+   
+    let stickyToggleContainerBackgroundColor = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-container-background-color]']");
+                                
+    let stickyToggleOpenIconBackgroundColor = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-open-icon-background-color]']");
+                                
+    let stickyToggleOpenIconTextColor = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-open-icon-text-color]']");
+                     
+    let stickyToggleOpenIconBoxShadow = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-open-icon-box-shadow]']");
+                                
+    let stickyToggleSidebarBoxShadow = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-sidebar-box-shadow]']");
+                                
+    let stickyToggleTitleContainerBackgroundColor = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-title-container-background-color]']");
+                                
+    let stickyToggleTitleContainerTextColor = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-title-container-text-color]']");
+                  
+    let stickyToggleTitleContainerBorderBottomColor = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-title-container-border-bottom-color]']");
+                                
+    let stickyToggleTitleContainerFontSize = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-title-container-font-size]']");
+                                
+    let stickyToggleHeadingsFontSize = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-container-headings-font-size]']");
+                                
+    let stickyToggleHeadingsColor = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-container-headings-color]']");
+                                
+    let stickyToggleHeadingsColorHover = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-container-headings-color-hover]']");
+                                
+    let stickyToggleHeadingsColorVisited = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-container-headings-color-visited]']");
+
+//                                if ( matchMedia('(min-width: 600px)').matches ) {
+
+//                                    console.log('50%');
+//                                    console.log($(stickyToggleContainerBackgroundColor).parents('td'));
+//                                    $(stickyToggleContainerBackgroundColor).parents('td').css({width:'50%'});
+//                                    $(stickyToggleOpenIconBackgroundColor).parents('td').css({width:'50%'});
+//                                    $(stickyToggleOpenIconTextColor).parents('td').css({width:'50%'});
+//                                    $(stickyToggleOpenIconBoxShadow).parents('td').css({width:'50%'});
+//                                    $(stickyToggleSidebarBoxShadow).parents('td').css({width:'50%'});
+//                                    $(stickyToggleTitleContainerBackgroundColor).parents('td').css({width:'50%'});
+//                                    $(stickyToggleTitleContainerTextColor).parents('td').css({width:'50%'});
+//                                    $(stickyToggleTitleContainerBorderBottomColor).parents('td').css({width:'50%'});
+//                                    $(stickyToggleTitleContainerFontSize).parents('td').css({width:'50%'});
+//                                    $(stickyToggleHeadingsFontSize).parents('td').css({width:'50%'});
+                                
+//                                } else if ( matchMedia('(min-width: 480px)').matches ) {
+//                                
+//                                    console.log('100%');
+//                                    $(stickyToggleContainerBackgroundColor).parents('td').css({width:'100%'});
+//                                    $(stickyToggleOpenIconBackgroundColor).parents('td').css({width:'100%'});
+//                                    $(stickyToggleOpenIconTextColor).parents('td').css({width:'100%'});
+//                                    $(stickyToggleOpenIconBoxShadow).parents('td').css({width:'100%'});
+//                                    $(stickyToggleSidebarBoxShadow).parents('td').css({width:'100%'});
+//                                    $(stickyToggleTitleContainerBackgroundColor).parents('td').css({width:'100%'});
+//                                    $(stickyToggleTitleContainerTextColor).parents('td').css({width:'100%'});
+//                                    $(stickyToggleTitleContainerBorderBottomColor).parents('td').css({width:'100%'});
+//                                    $(stickyToggleTitleContainerFontSize).parents('td').css({width:'100%'});
+//                                    $(stickyToggleHeadingsFontSize).parents('td').css({width:'100%'});
+//                                } else {
+//                                    console.log('33.33%');
+//                                    $(stickyToggleContainerBackgroundColor).parents('td').css({width:'33.33%'});
+//                                    $(stickyToggleOpenIconBackgroundColor).parents('td').css({width:'33.33%'});
+//                                    $(stickyToggleOpenIconTextColor).parents('td').css({width:'33.33%'});
+//                                    $(stickyToggleOpenIconBoxShadow).parents('td').css({width:'33.33%'});
+//                                    $(stickyToggleSidebarBoxShadow).parents('td').css({width:'33.33%'});
+//                                    $(stickyToggleTitleContainerBackgroundColor).parents('td').css({width:'33.33%'});
+//                                    $(stickyToggleTitleContainerTextColor).parents('td').css({width:'33.33%'});
+//                                    $(stickyToggleTitleContainerBorderBottomColor).parents('td').css({width:'33.33%'});
+//                                    $(stickyToggleTitleContainerFontSize).parents('td').css({width:'33.33%'});
+//                                    $(stickyToggleHeadingsFontSize).parents('td').css({width:'33.33%'}); 
+//                                }
+//    console.log(matchMedia('(max-width: 800px)').matches);
     
     $stickyToggleOpenButtonTextJS
-    
     
     if($(stickyToggleCheckbox).prop('checked') == false) {
         $(stickyToggleWidth).parents('tr').hide(500);
         $(stickyToggleWidthCustom).parents('tr').hide(500);
         $(stickyToggleHeight).parents('tr').hide(500);
         $(stickyToggleOpenButtonHoverStickyOpen).parents('tr').hide(500);
+     
+        $(stickyToggleContainerBackgroundColor).parents('tr').hide(500);
+        $(stickyToggleOpenIconBackgroundColor).parents('tr').hide(500);
+        $(stickyToggleOpenIconTextColor).parents('tr').hide(500);
+        $(stickyToggleOpenIconBoxShadow).parents('tr').hide(500);
+        $(stickyToggleSidebarBoxShadow).parents('tr').hide(500);
+        $(stickyToggleTitleContainerBackgroundColor).parents('tr').hide(500);
+        $(stickyToggleTitleContainerTextColor).parents('tr').hide(500);
+        $(stickyToggleTitleContainerBorderBottomColor).parents('tr').hide(500);
+        $(stickyToggleTitleContainerFontSize).parents('tr').hide(500);
+        $(stickyToggleHeadingsFontSize).parents('tr').hide(500);
+        $(stickyToggleHeadingsColor).parents('tr').hide(500);
+        $(stickyToggleHeadingsColorHover).parents('tr').hide(500);
+        $(stickyToggleHeadingsColorVisited).parents('tr').hide(500);
+                                
         $(stickyToggleHeightCustom).parents('tr').hide(500);
         $(stickyToggleWidth).val('auto');
         $(stickyToggleHeight).val('auto');
         $(stickyToggleOpenButtonHoverStickyOpen).prop('checked', false);
+                                
+        $(stickyToggleContainerBackgroundColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+        $(stickyToggleOpenIconBackgroundColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+        $(stickyToggleOpenIconTextColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+        $(stickyToggleOpenIconBoxShadow).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+        $(stickyToggleSidebarBoxShadow).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+        $(stickyToggleTitleContainerBackgroundColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+        $(stickyToggleTitleContainerTextColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+        $(stickyToggleTitleContainerBorderBottomColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+        $(stickyToggleTitleContainerFontSize).val('112.5');
+        $(stickyToggleTitleContainerFontSize).siblings("select[name='ez-toc-settings[sticky-toggle-title-container-font-size_units]'").val('%');
+        $(stickyToggleHeadingsFontSize).val('95');
+        $(stickyToggleHeadingsFontSize).siblings("select[name='ez-toc-settings[sticky-toggle-container-headings-font-size_units]'").val('%');
+        $(stickyToggleHeadingsColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+        $(stickyToggleHeadingsColorHover).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+        $(stickyToggleHeadingsColorVisited).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+                                
         $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').parents('tr').hide(500);
         $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').val('Index');
     }
@@ -186,6 +285,21 @@ jQuery(function($) {
             $(stickyToggleWidth).parents('tr').show(500);
             $(stickyToggleHeight).parents('tr').show(500);
             $(stickyToggleOpenButtonHoverStickyOpen).parents('tr').show(500);
+            
+            $(stickyToggleContainerBackgroundColor).parents('tr').show(500);
+            $(stickyToggleOpenIconBackgroundColor).parents('tr').show(500);
+            $(stickyToggleOpenIconTextColor).parents('tr').show(500);
+            $(stickyToggleOpenIconBoxShadow).parents('tr').show(500);
+            $(stickyToggleSidebarBoxShadow).parents('tr').show(500);
+            $(stickyToggleTitleContainerBackgroundColor).parents('tr').show(500);
+            $(stickyToggleTitleContainerTextColor).parents('tr').show(500);
+            $(stickyToggleTitleContainerBorderBottomColor).parents('tr').show(500);
+            $(stickyToggleTitleContainerFontSize).parents('tr').show(500);
+            $(stickyToggleHeadingsFontSize).parents('tr').show(500);
+            $(stickyToggleHeadingsColor).parents('tr').show(500);
+            $(stickyToggleHeadingsColorHover).parents('tr').show(500);
+            $(stickyToggleHeadingsColorVisited).parents('tr').show(500);
+                                
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').parents('tr').show(500);
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').val('Index');
         } else {
@@ -193,11 +307,43 @@ jQuery(function($) {
             $(stickyToggleWidthCustom).parents('tr').hide(500);
             $(stickyToggleHeight).parents('tr').hide(500);
             $(stickyToggleOpenButtonHoverStickyOpen).parents('tr').hide(500);
+            
+            $(stickyToggleContainerBackgroundColor).parents('tr').hide(500);
+            $(stickyToggleOpenIconBackgroundColor).parents('tr').hide(500);
+            $(stickyToggleOpenIconTextColor).parents('tr').hide(500);
+            $(stickyToggleOpenIconBoxShadow).parents('tr').hide(500);
+            $(stickyToggleSidebarBoxShadow).parents('tr').hide(500);
+            $(stickyToggleTitleContainerBackgroundColor).parents('tr').hide(500);
+            $(stickyToggleTitleContainerTextColor).parents('tr').hide(500);
+            $(stickyToggleTitleContainerBorderBottomColor).parents('tr').hide(500);
+            $(stickyToggleTitleContainerFontSize).parents('tr').hide(500);
+            $(stickyToggleHeadingsFontSize).parents('tr').hide(500);
+            $(stickyToggleHeadingsColor).parents('tr').hide(500);
+            $(stickyToggleHeadingsColorHover).parents('tr').hide(500);
+            $(stickyToggleHeadingsColorVisited).parents('tr').hide(500);
+                                
             $(stickyToggleHeightCustom).parents('tr').hide(500);
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').parents('tr').hide(500);
             $(stickyToggleWidth).val('auto');
             $(stickyToggleHeight).val('auto');
-            $(stickyToggleOpenButtonHoverStickyOpen).prop('checked', false);;
+            $(stickyToggleOpenButtonHoverStickyOpen).prop('checked', false);
+
+            $(stickyToggleContainerBackgroundColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+            $(stickyToggleOpenIconBackgroundColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+            $(stickyToggleOpenIconTextColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+            $(stickyToggleOpenIconBoxShadow).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+            $(stickyToggleSidebarBoxShadow).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+            $(stickyToggleTitleContainerBackgroundColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+            $(stickyToggleTitleContainerTextColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+            $(stickyToggleTitleContainerBorderBottomColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+            $(stickyToggleTitleContainerFontSize).val('112.5');
+            $(stickyToggleTitleContainerFontSize).siblings("select[name='ez-toc-settings[sticky-toggle-title-container-font-size_units]'").val('%');
+            $(stickyToggleHeadingsFontSize).val('95');
+            $(stickyToggleHeadingsFontSize).siblings("select[name='ez-toc-settings[sticky-toggle-container-headings-font-size_units]'").val('%');
+            $(stickyToggleHeadingsColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+            $(stickyToggleHeadingsColorHover).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+            $(stickyToggleHeadingsColorVisited).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+                                
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').val('Index');
         }
         
