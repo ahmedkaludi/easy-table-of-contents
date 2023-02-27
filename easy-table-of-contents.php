@@ -768,12 +768,10 @@ COUNTERINCREMENTCSS;
                 $stickyToggleOpenIconBoxShadow = ezTOC_Option::get( 'sticky-toggle-open-icon-box-shadow' );
             }
             
-            
             $stickyToggleSidebarBoxShadow = '#0000001a';
             if ( ezTOC_Option::get( 'sticky-toggle-sidebar-box-shadow' ) ) {
                 $stickyToggleSidebarBoxShadow = ezTOC_Option::get( 'sticky-toggle-sidebar-box-shadow' );
             }
-            
             
             $stickyToggleTitleContainerBackgroundColor = '#fafafa';
             if ( ezTOC_Option::get( 'sticky-toggle-title-container-background-color' ) ) {
@@ -788,8 +786,6 @@ COUNTERINCREMENTCSS;
             if ( ezTOC_Option::get( 'sticky-toggle-title-container-border-bottom-color' ) ) {
                 $stickyToggleTitleContainerBorderBottomColor = ezTOC_Option::get( 'sticky-toggle-title-container-border-bottom-color' );
             }
-            
-            
             
             $stickyToggleTitleContainerFontSize = '112.50';
             if ( ezTOC_Option::get( 'sticky-toggle-title-container-font-size' ) ) {
@@ -806,35 +802,6 @@ COUNTERINCREMENTCSS;
                 $stickyToggleHeadingsColor = ezTOC_Option::get( 'sticky-toggle-container-headings-color' );
             }
             
-            
-            /**
-             *  let stickyToggleContainerBackgroundColor = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-container-background-color]']");
-             * 
-             *  let stickyToggleOpenIconBackgroundColor = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-open-icon-background-color]']");
-             *
-             *  let stickyToggleOpenIconTextColor = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-open-icon-text-color]']"); 
-             * 
-             * let stickyToggleOpenIconBoxShadow = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-open-icon-box-shadow]']");
-             * 
-             * let stickyToggleSidebarBoxShadow = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-sidebar-box-shadow]']");
-             *            
-             * let stickyToggleTitleContainerBackgroundColor = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-title-container-background-color]']");
-             * 
-             * let stickyToggleTitleContainerTextColor = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-title-container-text-color]']");
-             * 
-             * let stickyToggleTitleContainerBorderBottomColor = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-title-container-border-bottom-color]']");
-             * let stickyToggleTitleContainerFontSize = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-title-container-font-size]']");
-             * 
-             * 
-             * let stickyToggleHeadingsFontSize = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-container-headings-font-size]']");
-             * 
-             *  let stickyToggleHeadingsColor = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-container-headings-color]']");
-             * 
-             *  let stickyToggleHeadingsColorHover = $('#eztoc-general').find("input[name='sticky-toggle-container-headings-color-hover]']");
-             * 
-             *  let stickyToggleHeadingsColorVisited = $('#eztoc-general').find("input[name='sticky-toggle-container-headings-color-visited]']");
-            */
-            
             $stickyToggleHeadingsColorHover = '#474747';
             if ( ezTOC_Option::get( 'sticky-toggle-container-headings-color-hover' ) ) {
                 $stickyToggleHeadingsColorHover = ezTOC_Option::get( 'sticky-toggle-container-headings-color-hover' );
@@ -844,181 +811,9 @@ COUNTERINCREMENTCSS;
             if ( ezTOC_Option::get( 'sticky-toggle-container-headings-color-visited' ) ) {
                 $stickyToggleHeadingsColorVisited = ezTOC_Option::get( 'sticky-toggle-container-headings-color-visited' );
             }
-            /**
-            * 1. x
-            * .ez-toc-sticky-fixed .ez-toc-sidebar, #ez-toc-sticky-container x
-            *      background: #FFF;x
-            * 
-            * 2. x
-            * .ez-toc-open-icon
-            *      box-shadow: 1px -5px 10px 5px rgb(0 0 0 / 10%) #0000001a; x
-            *      background-color: #fff; x
-            *      color: #fff; x
-            * 
-            * 3. x
-            * .ez-toc-sticky-fixed .ez-toc-sidebar x
-            *      box-shadow: 1px 1px 10px 3px x #ffffdd; 
-            * 
-            * 4.
-            * .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container 
-            *      border-bottom-color: #EEEEEE;
-            *      background-color: #FAFAFA; x
-            *      border-bottom: 1px solid #e5e5e5;
-            *      color: #fff;
-            *      font-size: 1rem;
-            * 
-            * 5.
-            * #ez-toc-sticky-container a
-            *      color: #077beb;
-            *      font-size: 1rem;
-            *  
-            *  6. #ez-toc-sticky-container a:visited
-             * color: #
-             * 
-             * 7. #ez-toc-sticky-container a:hover
-             *      color: #
-           */
+            
             $inlineStickyToggleCSS = <<<INLINESTICKYTOGGLECSS
-.ez-toc-sticky-fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999999;
-    width: auto;
-    max-width: 100%;
-}
-
-.ez-toc-sticky-fixed .ez-toc-sidebar {
-    position: relative;
-    top: auto;
-    width: auto !important;
-    height: 100%;
-    box-shadow: 1px 1px 10px 3px $stickyToggleSidebarBoxShadow;
-    box-sizing: border-box;
-    padding: 20px 30px;
-    background: white;
-    margin-left: 0 !important;
-    height: auto;
-    {$custom_height}
-
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-                    
-.ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container {
-    {$custom_width}
-
-    background-color: $stickyToggleContainerBackgroundColor,
-    max-width: auto;
-    padding: 0px;
-    border: none;
-    margin-bottom: 0;
-    margin-top: $topMarginStickyContainer;
-}
-
-#ez-toc-sticky-container a {
-    color: $stickyToggleHeadingsColor;
-    font-size: $stickyToggleHeadingsFontSize;
-}           
-#ez-toc-sticky-container a:visited {
-    color: $stickyToggleHeadingsColorVisited;
-}            
-#ez-toc-sticky-container a:hover {
-    color: $stickyToggleHeadingsColorHover;
-}
-
-.ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {
-    border-bottom-color: $stickyToggleTitleContainerBorderBottomColor;
-    background-color: $stickyToggleTitleContainerBackgroundColor;
-    padding: 15px;
-    border-bottom: 1px solid $stickyToggleTitleContainerBorderBottomColor;
-    width: 100%;
-    position: absolute;
-    height: auto;
-    top: 0;
-    left: 0;
-    z-index: 99999999;
-    color: $stickyToggleTitleContainerTextColor;
-    font-size: $stickyToggleTitleContainerFontSize;
-}
-
-.ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title {
-    font-weight: 550;
-    font-size: $stickyToggleTitleContainerFontSize;
-    color: $stickyToggleTitleContainerTextColor;
-}
-
-.ez-toc-sticky-fixed .ez-toc-close-icon {
-    -webkit-appearance: none;
-    padding: 0;
-    cursor: pointer;
-    background: 0 0;
-    border: 0;
-    float: right;
-    font-size: 30px;
-    font-weight: 600;
-    line-height: 1;
-    position: relative;
-    color: #000;
-    top: -2px;
-    text-decoration: none;
-}
-
-.ez-toc-open-icon {
-    position: fixed;
-    left: 0px;
-    top: 8%;
-    text-decoration: none;
-    font-weight: bold;
-    padding: 5px 10px 15px 10px;
-    box-shadow: 1px -5px 10px 5px $stickyToggleOpenIconBoxShadow;
-    background-color: $stickyToggleOpenIconBackgroundColor;
-    display: inline-grid;
-    line-height: 1.4;
-    border-radius: 0px 10px 10px 0px;
-    z-index: 999999;
-    {$stickyToggleOpenIconTextColorCSS}
-}
-
-.ez-toc-sticky-fixed.hide {
-    -webkit-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);
-    -ms-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);
-    -o-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);
-    transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);
-    left: -100%;
-}
-
-.ez-toc-sticky-fixed.show {
-    -webkit-transition: left 0.3s linear, left 0.3s easy-out;
-    -moz-transition: left 0.3s linear;
-    -o-transition: left 0.3s linear;
-    transition: left 0.3s linear;
-    left: 0;
-}
-
-.ez-toc-open-icon span.arrow {
-    font-size: 18px;
-}
-
-.ez-toc-open-icon span.text {
-    font-size: 13px;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-}
-
-@media screen and (max-device-width: 640px) {
-    .ez-toc-sticky-fixed .ez-toc-sidebar {
-        min-width: auto;
-    }
-
-    .ez-toc-sticky-fixed .ez-toc-sidebar.show {
-        padding-top: 35px;
-    }
-
-    .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container {
-        min-width: 100%;
-    }
-}
+.ez-toc-sticky-fixed { position: fixed; top: 0; left: 0; z-index: 999999; width: auto; max-width: 100%; } .ez-toc-sticky-fixed .ez-toc-sidebar { position: relative; top: auto; width: auto !important; height: 100%; box-shadow: 1px 1px 10px 3px $stickyToggleSidebarBoxShadow; box-sizing: border-box; padding: 20px 30px; background: white; margin-left: 0 !important; height: auto; overflow-y: auto; overflow-x: hidden; {$custom_height} } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container {     background-color: $stickyToggleContainerBackgroundColor; max-width: auto; padding: 0px; border: none; margin-bottom: 0; margin-top: $topMarginStickyContainer; {$custom_width} }#ez-toc-sticky-container a { color: $stickyToggleHeadingsColor; font-size: $stickyToggleHeadingsFontSize; } #ez-toc-sticky-container a:visited { color: $stickyToggleHeadingsColorVisited; } #ez-toc-sticky-container a:hover { color: $stickyToggleHeadingsColorHover; } .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container { border-bottom-color: $stickyToggleTitleContainerBorderBottomColor; background-color: $stickyToggleTitleContainerBackgroundColor; padding: 15px; border-bottom: 1px solid $stickyToggleTitleContainerBorderBottomColor; width: 100%; position: absolute; height: auto; top: 0; left: 0; z-index: 99999999; color: $stickyToggleTitleContainerTextColor; font-size: $stickyToggleTitleContainerFontSize; } .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title { font-weight: 550; font-size: $stickyToggleTitleContainerFontSize; color: $stickyToggleTitleContainerTextColor; } .ez-toc-sticky-fixed .ez-toc-close-icon { -webkit-appearance: none; padding: 0; cursor: pointer; background: 0 0; border: 0; float: right; font-size: 30px; font-weight: 600; line-height: 1; position: relative; color: #000; top: -2px; text-decoration: none; } .ez-toc-open-icon { position: fixed; left: 0px; top: 8%; text-decoration: none; font-weight: bold; padding: 5px 10px 15px 10px; box-shadow: 1px -5px 10px 5px $stickyToggleOpenIconBoxShadow; background-color: $stickyToggleOpenIconBackgroundColor; display: inline-grid; line-height: 1.4; border-radius: 0px 10px 10px 0px; z-index: 999999; {$stickyToggleOpenIconTextColorCSS} } .ez-toc-sticky-fixed.hide { -webkit-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1); -ms-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1); -o-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1); transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1); left: -100%; } .ez-toc-sticky-fixed.show { -webkit-transition: left 0.3s linear, left 0.3s easy-out; -moz-transition: left 0.3s linear; -o-transition: left 0.3s linear; transition: left 0.3s linear; left: 0; } .ez-toc-open-icon span.arrow { font-size: 18px; } .ez-toc-open-icon span.text { font-size: 13px; writing-mode: vertical-rl; text-orientation: mixed; } @media screen and (max-device-width: 640px) { .ez-toc-sticky-fixed .ez-toc-sidebar { min-width: auto; } .ez-toc-sticky-fixed .ez-toc-sidebar.show { padding-top: 35px; } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { min-width: 100%; } }
 INLINESTICKYTOGGLECSS;
 			wp_add_inline_style( 'ez-toc-sticky', $inlineStickyToggleCSS );
 		}

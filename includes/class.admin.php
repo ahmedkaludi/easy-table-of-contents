@@ -189,49 +189,6 @@ jQuery(function($) {
     let stickyToggleHeadingsColorHover = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-container-headings-color-hover]']");
                                 
     let stickyToggleHeadingsColorVisited = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-container-headings-color-visited]']");
-
-//                                if ( matchMedia('(min-width: 600px)').matches ) {
-
-//                                    console.log('50%');
-//                                    console.log($(stickyToggleContainerBackgroundColor).parents('td'));
-//                                    $(stickyToggleContainerBackgroundColor).parents('td').css({width:'50%'});
-//                                    $(stickyToggleOpenIconBackgroundColor).parents('td').css({width:'50%'});
-//                                    $(stickyToggleOpenIconTextColor).parents('td').css({width:'50%'});
-//                                    $(stickyToggleOpenIconBoxShadow).parents('td').css({width:'50%'});
-//                                    $(stickyToggleSidebarBoxShadow).parents('td').css({width:'50%'});
-//                                    $(stickyToggleTitleContainerBackgroundColor).parents('td').css({width:'50%'});
-//                                    $(stickyToggleTitleContainerTextColor).parents('td').css({width:'50%'});
-//                                    $(stickyToggleTitleContainerBorderBottomColor).parents('td').css({width:'50%'});
-//                                    $(stickyToggleTitleContainerFontSize).parents('td').css({width:'50%'});
-//                                    $(stickyToggleHeadingsFontSize).parents('td').css({width:'50%'});
-                                
-//                                } else if ( matchMedia('(min-width: 480px)').matches ) {
-//                                
-//                                    console.log('100%');
-//                                    $(stickyToggleContainerBackgroundColor).parents('td').css({width:'100%'});
-//                                    $(stickyToggleOpenIconBackgroundColor).parents('td').css({width:'100%'});
-//                                    $(stickyToggleOpenIconTextColor).parents('td').css({width:'100%'});
-//                                    $(stickyToggleOpenIconBoxShadow).parents('td').css({width:'100%'});
-//                                    $(stickyToggleSidebarBoxShadow).parents('td').css({width:'100%'});
-//                                    $(stickyToggleTitleContainerBackgroundColor).parents('td').css({width:'100%'});
-//                                    $(stickyToggleTitleContainerTextColor).parents('td').css({width:'100%'});
-//                                    $(stickyToggleTitleContainerBorderBottomColor).parents('td').css({width:'100%'});
-//                                    $(stickyToggleTitleContainerFontSize).parents('td').css({width:'100%'});
-//                                    $(stickyToggleHeadingsFontSize).parents('td').css({width:'100%'});
-//                                } else {
-//                                    console.log('33.33%');
-//                                    $(stickyToggleContainerBackgroundColor).parents('td').css({width:'33.33%'});
-//                                    $(stickyToggleOpenIconBackgroundColor).parents('td').css({width:'33.33%'});
-//                                    $(stickyToggleOpenIconTextColor).parents('td').css({width:'33.33%'});
-//                                    $(stickyToggleOpenIconBoxShadow).parents('td').css({width:'33.33%'});
-//                                    $(stickyToggleSidebarBoxShadow).parents('td').css({width:'33.33%'});
-//                                    $(stickyToggleTitleContainerBackgroundColor).parents('td').css({width:'33.33%'});
-//                                    $(stickyToggleTitleContainerTextColor).parents('td').css({width:'33.33%'});
-//                                    $(stickyToggleTitleContainerBorderBottomColor).parents('td').css({width:'33.33%'});
-//                                    $(stickyToggleTitleContainerFontSize).parents('td').css({width:'33.33%'});
-//                                    $(stickyToggleHeadingsFontSize).parents('td').css({width:'33.33%'}); 
-//                                }
-//    console.log(matchMedia('(max-width: 800px)').matches);
     
     $stickyToggleOpenButtonTextJS
     
@@ -354,7 +311,7 @@ jQuery(function($) {
         $(stickyToggleWidthCustom).parents('tr').hide();
         
     $(document).on("change", "select[name='ez-toc-settings[sticky-toggle-width]']", function() {
-        console.log("change-stickyToggleWidth");
+//        console.log("change-stickyToggleWidth");
         if($(stickyToggleWidth).val() == 'custom') {
             $(stickyToggleWidthCustom).val('350px');
             $(stickyToggleWidthCustom).parents('tr').show(500);
