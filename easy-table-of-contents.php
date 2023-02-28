@@ -387,8 +387,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
             $offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
             
+            $scrollTopSpeed = ezTOC_Option::get( 'sticky-toggle-smooth-scroll-speed' ) ? ezTOC_Option::get( 'sticky-toggle-smooth-scroll-speed' ) : 500;
             $inlineScrollJS = <<<INLINESCROLLJS
-jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),jQuery("a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=0;$offset>30&&(i=$offset),e.length&&(i+=e.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(i=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-i),jQuery("html, body").animate({scrollTop:i},500)})});
+jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),jQuery("#ez-toc-sticky-container a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=0;$offset>30&&(i=$offset),e.length&&(i+=e.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(i=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-i),jQuery("html, body").animate({scrollTop:i},$scrollTopSpeed)}),jQuery("a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=0;$offset>30&&(i=$offset),e.length&&(i+=e.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(i=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-i),jQuery("html, body").animate({scrollTop:i},500)})});
 INLINESCROLLJS;
             wp_register_script( 'ez-toc-scroll-scriptjs', '', array( 'jquery' ), ezTOC::VERSION );
             wp_enqueue_script( 'ez-toc-scroll-scriptjs', '', array( 'jquery' ), ezTOC::VERSION );

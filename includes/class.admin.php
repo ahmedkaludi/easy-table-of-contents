@@ -189,6 +189,8 @@ jQuery(function($) {
     let stickyToggleHeadingsColorHover = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-container-headings-color-hover]']");
                                 
     let stickyToggleHeadingsColorVisited = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-container-headings-color-visited]']");
+                                
+    let stickyToggleSmoothScrollSpeed = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-smooth-scroll-speed]']");
     
     $stickyToggleOpenButtonTextJS
     
@@ -211,6 +213,7 @@ jQuery(function($) {
         $(stickyToggleHeadingsColor).parents('tr').hide(500);
         $(stickyToggleHeadingsColorHover).parents('tr').hide(500);
         $(stickyToggleHeadingsColorVisited).parents('tr').hide(500);
+        $(stickyToggleSmoothScrollSpeed).parents('tr').hide(500);
                                 
         $(stickyToggleHeightCustom).parents('tr').hide(500);
         $(stickyToggleWidth).val('auto');
@@ -232,6 +235,7 @@ jQuery(function($) {
         $(stickyToggleHeadingsColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
         $(stickyToggleHeadingsColorHover).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
         $(stickyToggleHeadingsColorVisited).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+        $(stickyToggleSmoothScrollSpeed).val('500');
                                 
         $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').parents('tr').hide(500);
         $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').val('Index');
@@ -256,6 +260,7 @@ jQuery(function($) {
             $(stickyToggleHeadingsColor).parents('tr').show(500);
             $(stickyToggleHeadingsColorHover).parents('tr').show(500);
             $(stickyToggleHeadingsColorVisited).parents('tr').show(500);
+            $(stickyToggleSmoothScrollSpeed).parents('tr').show(500);
                                 
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').parents('tr').show(500);
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').val('Index');
@@ -278,6 +283,7 @@ jQuery(function($) {
             $(stickyToggleHeadingsColor).parents('tr').hide(500);
             $(stickyToggleHeadingsColorHover).parents('tr').hide(500);
             $(stickyToggleHeadingsColorVisited).parents('tr').hide(500);
+            $(stickyToggleSmoothScrollSpeed).parents('tr').hide(500);
                                 
             $(stickyToggleHeightCustom).parents('tr').hide(500);
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').parents('tr').hide(500);
@@ -300,6 +306,7 @@ jQuery(function($) {
             $(stickyToggleHeadingsColor).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
             $(stickyToggleHeadingsColorHover).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
             $(stickyToggleHeadingsColorVisited).parents("span.wp-picker-input-wrap").find('input.wp-picker-default').click();
+            $(stickyToggleSmoothScrollSpeed).val('500');
                                 
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').val('Index');
         }

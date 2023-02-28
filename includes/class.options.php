@@ -445,6 +445,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
                                                         'type' => 'color',
                                                         'default' => '#898989',
                                                 ),
+                                                'sticky-toggle-smooth-scroll-speed' => array(
+							'id' => 'sticky-toggle-smooth-scroll-speed',
+							'name' => __( 'Smooth Scroll Speed', 'easy-table-of-contents' ),
+							'desc' => 'miliseconds<br/>' . __( 'You can set smooth scroll speed for sticky toggle toc according to miliseconds in it.', 'easy-table-of-contents' ),
+							'type' => 'number',
+							'size' => 'small',
+							'default' => 500,
+						),
                                             
                                             
 //                                                'sticky-toggle-position'          => array(
