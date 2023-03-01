@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.45
+ * Version: 2.0.45.1
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.45
+ * @version  2.0.45.1
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -49,7 +49,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.45';
+		const VERSION = '2.0.45.1';
 
 		/**
 		 * Stores the instance of this class.
@@ -134,7 +134,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 
 			require_once( EZ_TOC_PATH . '/includes/class.post.php' );
-			require_once( EZ_TOC_PATH . '/includes/class.widget-toc.php' );
+                        require_once( EZ_TOC_PATH . '/includes/class.widget-toc.php' );
 			require_once( EZ_TOC_PATH . '/includes/class.widget-toc-sticky.php' );
 			require_once( EZ_TOC_PATH . '/includes/Debug.php' );
 			require_once( EZ_TOC_PATH . '/includes/inc.functions.php' );
@@ -154,7 +154,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			//add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
 			add_option('ez-toc-shortcode-exist-and-render', false);
-                        if ( ezTOC::isCoreLevel() ) {
+                        if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
 				add_option( 'ez-toc-post-content-core-level', false );
 			}
 			if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
@@ -178,10 +178,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
 
 			}
-
+                        
 		}
-
-
+                
         /**
 	 * enqueueScriptsforExcludeCSS Method
 	 * for adding toggle css on loading as CSS
@@ -1026,17 +1025,17 @@ INLINESTICKYTOGGLEJS;
 			$html = '';
 
 			if ( 'ez-toc' == $tag || 'toc' == $tag ) {
+                            
+                                $post = self::get( get_the_ID() );
 
-				$post = self::get( get_the_ID() );
+                                if ( ! $post instanceof ezTOC_Post ) {
 
-				if ( ! $post instanceof ezTOC_Post ) {
+                                        Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
 
-					Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
+                                        return Debug::log()->appendTo( $content );
+                                }
 
-					return Debug::log()->appendTo( $content );
-				}
-
-				$html = $post->getTOC();
+                                $html = $post->getTOC();
 //				$run  = false;
 			}
 
@@ -1099,19 +1098,6 @@ INLINESTICKYTOGGLEJS;
 			 */
 			return apply_filters( 'ez_toc_maybe_apply_the_content_filter', $apply );
 		}
-                
-                /**
-                 * isCoreLevel Method
-                 * to check is core level issue
-                 * @since 2.0.45
-                 * @return bool true/false
-                 */
-                public static function isCoreLevel() {
-                    if( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) || in_array( 'elementor-pro/elementor-pro.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Divi' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) || in_array( 'beaver-builder-lite-version/fl-builder.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-                        return true;
-                    }
-                    return false;
-                }
 
 		/**
 		 * Callback for the `the_content` filter.
@@ -1128,7 +1114,7 @@ INLINESTICKYTOGGLEJS;
 		public static function the_content( $content ) {
 			$maybeApplyFilter = self::maybeApplyTheContentFilter();
 
-                        if ( ezTOC::isCoreLevel() ) {
+                        if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
                             update_option( 'ez-toc-post-content-core-level', $content );
 			}
 			Debug::log( 'the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter );
@@ -1162,10 +1148,11 @@ INLINESTICKYTOGGLEJS;
 
 				return Debug::log()->appendTo( $content );
 			}
-
-			$find    = $post->getHeadings();
-			$replace = $post->getHeadingsWithAnchors();
-			$toc     = $post->getTOC();
+                        
+                        $find    = $post->getHeadings();
+                        $replace = $post->getHeadingsWithAnchors();
+                        $toc     = $post->getTOC();
+                            
 			$headings = implode( PHP_EOL, $find );
 			$anchors  = implode( PHP_EOL, $replace );
 
