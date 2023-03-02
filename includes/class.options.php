@@ -453,6 +453,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'size' => 'small',
 							'default' => 500,
 						),
+                                                'toc-run-on-amp-pages' => array(
+							'id' => 'toc-run-on-amp-pages',
+							'name' => __( 'TOC AMP Page Support', 'easy-table-of-contents' ),
+							'desc' => 'On/Off<br/>' . __( 'You can on or off Easy TOC for the AMP Pages.', 'easy-table-of-contents' ),
+							'type'    => 'checkbox',
+							'default' => 'Off',
+						),
                                             
                                             
 //                                                'sticky-toggle-position'          => array(

@@ -204,6 +204,50 @@ function ez_toc_get_browser_name() {
     }
 }
 
+// Non amp checker
+if ( ! function_exists('ez_toc_is_amp_activated') ){
+    
+    function ez_toc_is_amp_activated() {
+        $result = false;
+        if (is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php')  ||
+                is_plugin_active('better-amp/better-amp.php')  ||
+                is_plugin_active('wp-amp/wp-amp.php') ||
+                is_plugin_active('amp-wp/amp-wp.php') ||
+                is_plugin_active('bunyad-amp/bunyad-amp.php') )
+            $result = true;
+        
+        return $result;
+    }
+    
+}
+
+
+
+// Non amp checker
+if ( ! function_exists('ez_toc_non_amp') ) {
+    
+    function ez_toc_non_amp() {
+
+        $non_amp = true;
+
+        if( function_exists('ampforwp_is_amp_endpoint') && @ampforwp_is_amp_endpoint() ) {                
+            $non_amp = false;                       
+        }     
+        if( function_exists('is_amp_endpoint') && @is_amp_endpoint() ){
+            $non_amp = false;           
+        }
+        if( function_exists('is_better_amp') && @is_better_amp() ){       
+            $non_amp = false;           
+        }
+        if( function_exists('is_amp_wp') && @is_amp_wp() ){       
+            $non_amp = false;           
+        }
+
+        return $non_amp;
+
+    }
+  
+}
 
 
 /**

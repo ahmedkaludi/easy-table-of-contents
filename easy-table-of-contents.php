@@ -967,6 +967,16 @@ INLINESTICKYTOGGLEJS;
 				Debug::log( 'is_front_page', 'Is frontpage, TOC is not enabled.', false );
 				return false;
 			}
+                        
+                        /**
+                         * Easy TOC Run On Amp Pages Check
+                         * @since 2.0.46
+                         */
+                        if ( (0 == ezTOC_Option::get( 'toc-run-on-amp-pages' ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages' ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages' )) && !ez_toc_non_amp() ) {
+				Debug::log( 'non_amp', 'Is frontpage, TOC is not enabled.', false );
+				return false;
+                            
+                        }
 
 			$type = get_post_type( $post->ID );
 
