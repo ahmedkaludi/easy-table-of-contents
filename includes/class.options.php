@@ -1017,6 +1017,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				//'show_toc_in_widget_only_post_types' => array(),
 				'widget_affix_selector'              => '',
 				'heading-text-direction'              => 'ltr',
+				'toc-run-on-amp-pages'              => 1,
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );

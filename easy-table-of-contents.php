@@ -972,7 +972,7 @@ INLINESTICKYTOGGLEJS;
                          * Easy TOC Run On Amp Pages Check
                          * @since 2.0.46
                          */
-                        if ( (0 == ezTOC_Option::get( 'toc-run-on-amp-pages' ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages' ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages' )) && !ez_toc_non_amp() ) {
+                        if ( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ) {
 				Debug::log( 'non_amp', 'Is frontpage, TOC is not enabled.', false );
 				return false;
                             
