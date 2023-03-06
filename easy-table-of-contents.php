@@ -157,9 +157,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
                         if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
 				add_option( 'ez-toc-post-content-core-level', false );
 			}
-			if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-				add_option( 'ez-toc-post-meta-content', array( get_the_ID() => false ) );
-			}
                         
                         add_option( 'ez-toc-list', '' );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
@@ -177,9 +174,26 @@ if ( ! class_exists( 'ezTOC' ) ) {
                                 
 				add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
 
+                                add_action( "loop_start", array( __CLASS__, "ezTOC_execute_on_loop_start_event" ), 10, 1);
 			}
                         
 		}
+		
+        /**
+         * ezTOC_execute_on_loop_start_event Method
+         *
+         * @access public
+         * @since  2.0.46
+         * @static
+         */
+        public static function ezTOC_execute_on_loop_start_event($query) {
+			 
+            if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+                $postMetaContent = get_post_meta( $query->post->ID, '_nectar_portfolio_extra_content', true );
+                if( null !== $postMetaContent && !empty( $postMetaContent ) )
+                    ezTOC_Post::$postExtraContent = do_shortcode( $postMetaContent );
+            }
+        }
                 
         /**
 	 * enqueueScriptsforExcludeCSS Method
@@ -273,12 +287,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			$js_vars = array();
 
-			if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-				$postMetaContent = get_post_meta( get_the_ID(), '_nectar_portfolio_extra_content',
-					true );
-				if( !empty( $postMetaContent ) )
-					update_option( 'ez-toc-post-meta-content', array( get_the_ID() => do_shortcode( $postMetaContent ) ) );
-			}
 
 			$isEligible = self::is_eligible( get_post() );
 
@@ -1053,7 +1061,7 @@ INLINESTICKYTOGGLEJS;
 
 			$post = null;
 
-			if ( isset( self::$store[ $id ] ) && self::$store[ $id ] instanceof ezTOC_Post ) {
+			if ( isset( self::$store[ $id ] ) && self::$store[ $id ] instanceof ezTOC_Post && !in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 
 				$post = self::$store[ $id ];
 

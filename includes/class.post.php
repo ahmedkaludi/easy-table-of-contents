@@ -57,7 +57,14 @@ class ezTOC_Post {
 	 * @var bool
 	 */
 	private $hasTOCItems = false;
-
+        
+        /**
+         * @var null|string
+         * @since 2.0.46
+         * 
+        */
+        public static $postExtraContent = null;
+        
 	/**
 	 * ezTOC_Post constructor.
 	 *
@@ -134,7 +141,7 @@ class ezTOC_Post {
 		 */
 		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
-                if ( in_array( 'basic-user-avatars/init.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && has_shortcode( $this->post->post_content, 'basic-user-avatars' ) ) {
+                if ( in_array( 'basic-user-avatars/init.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && has_shortcode( $this->post->post_content, 'basic-user-avatars' ) || in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
                     $this->post->post_content = strip_shortcodes( $this->post->post_content );
                 } else {
                     $this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
@@ -266,11 +273,11 @@ class ezTOC_Post {
 		//}
 		$content = $this->post->post_content;
 
-		if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && false !== get_option( 'ez-toc-post-meta-content' )[ get_the_ID() ] ) {
+		if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )  && !empty(ezTOC_Post::$postExtraContent) ) {
 			if ( empty( $content ) ) {
-				$content = get_option( 'ez-toc-post-meta-content' )[ get_the_ID() ];
+				$content = ezTOC_Post::$postExtraContent;
 			} else {
-				$content .= get_option( 'ez-toc-post-meta-content' )[ get_the_ID() ];
+				$content .= ezTOC_Post::$postExtraContent;
 			}
 		} else if ( ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) && false != get_option( 'ez-toc-post-content-core-level' ) ) {
                     $content = get_option( 'ez-toc-post-content-core-level' );
