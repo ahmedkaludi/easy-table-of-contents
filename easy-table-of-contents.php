@@ -167,7 +167,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if( !self::checkBeaverBuilderPluginActive() ) {
 				add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
-
+				add_filter( 'category_description',  array( __CLASS__, 'toc_category_content_filter' ), 99,2);
 				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
 				add_shortcode( 'lwptoc', array( __CLASS__, 'shortcode' ) );
 				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
@@ -1234,7 +1234,7 @@ INLINESTICKYTOGGLEJS;
 			}
 
 			// bail if feed, search or archive
-			if ( is_feed() || is_search() || is_archive() ) {
+			if ( is_feed() || is_search() || (is_archive() && !is_category()) ) {
 
 				$apply = false;
 			}
@@ -1508,6 +1508,21 @@ STICKYTOGGLEHTML;
 			}
 			return '<span style="display: flex;align-items: center;width: 35px;height: 30px;justify-content: center;direction:ltr;"><svg style="fill: ' . esc_attr($iconColor) . ';color:' . esc_attr($iconColor) . '" xmlns="http://www.w3.org/2000/svg" class="list-377408" width="20px" height="20px" viewBox="0 0 24 24" fill="none"><path d="M6 6H4v2h2V6zm14 0H8v2h12V6zM4 11h2v2H4v-2zm16 0H8v2h12v-2zM4 16h2v2H4v-2zm16 0H8v2h12v-2z" fill="currentColor"></path></svg><svg style="fill: ' . esc_attr($iconColor) . ';color:' . esc_attr($iconColor) . '" class="arrow-unsorted-368013" xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" viewBox="0 0 24 24" version="1.2" baseProfile="tiny"><path d="M18.2 9.3l-6.2-6.3-6.2 6.3c-.2.2-.3.4-.3.7s.1.5.3.7c.2.2.4.3.7.3h11c.3 0 .5-.1.7-.3.2-.2.3-.5.3-.7s-.1-.5-.3-.7zM5.8 14.7l6.2 6.3 6.2-6.3c.2-.2.3-.5.3-.7s-.1-.5-.3-.7c-.2-.2-.4-.3-.7-.3h-11c-.3 0-.5.1-.7.3-.2.2-.3.5-.3.7s.1.5.3.7z"/></svg></span>';
 		}
+
+		 /**
+         * the_category_content_filter Method
+         * @access public
+   		 * @since  2.0.46
+   		 * @static
+		 * @return string
+		 */
+		public static function toc_category_content_filter( $description , $cat_id ) {
+			if(!is_admin() && !empty($description)){
+				return self::the_content($description);
+			}
+			return $description;
+		}
+
 
 	}
 

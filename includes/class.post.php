@@ -273,6 +273,17 @@ class ezTOC_Post {
 		//}
 		$content = $this->post->post_content;
 
+		// Fix for wordpress category pages showing wrong toc if they have description
+		if(is_category()){
+			$cat_from_query=get_query_var( 'cat', null ); 
+			if($cat_from_query){
+				$category = get_category($cat_from_query);
+				if(is_object($category) && property_exists($category,'description') && !empty($category->description)){
+					$content = $category->description;
+				}
+			}
+		}
+
 		if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )  && !empty(ezTOC_Post::$postExtraContent) ) {
 			if ( empty( $content ) ) {
 				$content = ezTOC_Post::$postExtraContent;
@@ -1548,6 +1559,11 @@ class ezTOC_Post {
 
 		} elseif ( 1 === $page ) {
 
+			// Fix for wrong links on TOC on Wordpress category page
+			if(is_category()){
+				$current_url = get_term_link( $this->queriedObjectID );
+				return trailingslashit( $current_url ) . '#' . $id;
+			}
 			return trailingslashit( $this->permalink ) . '#' . $id;
 
 		}
