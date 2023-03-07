@@ -1267,7 +1267,10 @@ INLINESTICKYTOGGLEJS;
 		 * @return string
 		 */
 		public static function the_content( $content ) {
-                        if( post_password_required() ) return Debug::log()->appendTo( $content );
+                    
+                        if( function_exists( 'post_password_required' ) ) {
+                            if( post_password_required() ) return Debug::log()->appendTo( $content );
+                        }
                     
 			$maybeApplyFilter = self::maybeApplyTheContentFilter();
 
