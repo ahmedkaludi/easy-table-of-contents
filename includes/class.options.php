@@ -423,7 +423,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'name' => __( 'Title Font Size', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'font_size',
-							'default' => 112.50,
+							'default' => 100,
 						), 
                                                 'sticky-toggle-container-headings-font-size' => array(
 							'id' => 'sticky-toggle-container-headings-font-size',

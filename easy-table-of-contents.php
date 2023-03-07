@@ -787,21 +787,21 @@ COUNTERINCREMENTCSS;
                 $stickyToggleTitleContainerBackgroundColor = ezTOC_Option::get( 'sticky-toggle-title-container-background-color' );
             }
             
-            $stickyToggleTitleContainerTextColor = '#ffffff';
+            $stickyToggleTitleContainerTextColor = '#111';
             if ( ezTOC_Option::get( 'sticky-toggle-title-container-text-color' ) ) {
                 $stickyToggleTitleContainerTextColor = ezTOC_Option::get( 'sticky-toggle-title-container-text-color' );
             }
-            $stickyToggleTitleContainerBorderBottomColor = '#ffffff';
+            $stickyToggleTitleContainerBorderBottomColor = '#eeeeee';
             if ( ezTOC_Option::get( 'sticky-toggle-title-container-border-bottom-color' ) ) {
                 $stickyToggleTitleContainerBorderBottomColor = ezTOC_Option::get( 'sticky-toggle-title-container-border-bottom-color' );
             }
             
-            $stickyToggleTitleContainerFontSize = '112.50';
+            $stickyToggleTitleContainerFontSize = 'inherit';
             if ( ezTOC_Option::get( 'sticky-toggle-title-container-font-size' ) ) {
                 $stickyToggleTitleContainerFontSize = ezTOC_Option::get( 'sticky-toggle-title-container-font-size' ) . ezTOC_Option::get( 'sticky-toggle-title-container-font-size_units' );
             }
             
-            $stickyToggleHeadingsFontSize = '112.50';
+            $stickyToggleHeadingsFontSize = 'inherit';
             if ( ezTOC_Option::get( 'sticky-toggle-container-headings-font-size' ) ) {
                 $stickyToggleHeadingsFontSize = ezTOC_Option::get( 'sticky-toggle-container-headings-font-size' ) . ezTOC_Option::get( 'sticky-toggle-container-headings-font-size_units' );
             }
@@ -835,7 +835,7 @@ INLINESTICKYTOGGLECSS;
 		 * @static
 		 */
 		private static function inlineStickyToggleJS() {
-                    $ezTOC_OptionStickyHoverOpen = ezTOC_Option::get ( 'sticky-toggle-open-button-hover-sticky-open' );
+                    $ezTOC_OptionStickyHoverOpen = ezTOC_Option::get( 'sticky-toggle-open-button-hover-sticky-open' ) ? ezTOC_Option::get( 'sticky-toggle-open-button-hover-sticky-open' ) : 0;
                     $inlineStickyToggleJS = <<<INLINESTICKYTOGGLEJS
 function ezTOC_hideBar(e) {
     var sidebar = document.querySelector(".ez-toc-sticky-fixed");
