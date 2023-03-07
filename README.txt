@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.1.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.45.2
+Stable tag: 2.0.46
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,21 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.46 03/09/2023 =
+* BUG: When headings are added to Lasso product boxes, they are not displayed in the TOC. #375
+* BUG: While using the shortcode for the TOC on Poka Theme, the TOC is showing double. #361
+* BUG: TOC widget in sidebar on password protected pages will display. #40
+* BUG: User is unable to upload the Avatar/image if the plugin is activated. #410
+* TWEAK: We need to test with wp v5.0 and change Requires at least: 5.3 to Requires at least: 5.0 #408
+* BUG: to show proper message on license activation #369
+* BUG: TOC content is not working correctly in first load. #419
+* BUG: The sticky side bar is not working properly. #418
+* BUG: The attribute 'area-label' may not appear in tag 'a' #424
+* NEW: Add some new features to the Sticky Toggle. #421
+* NEW: Need to create an option where users can enable and disable the TOC on the AMP website. #382
+* BUG: Some warnings are appearing in the console while scrolling through the page. #420
+* BUG: Need to add option to show on Tags/Categories #427
+
 = 2.0.45.2 03/01/2023 =
 * BUG: The attribute 'area-label' may not appear in tag 'a' #424
 
