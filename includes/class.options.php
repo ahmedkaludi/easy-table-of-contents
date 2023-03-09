@@ -354,7 +354,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						),
                                                 'sticky-toggle-open-button-hover-sticky-open'     => array(
 							'id'          => 'sticky-toggle-open-button-hover-sticky-open',
-							'name'    => __( 'Hover Sticky Open', 'easy-table-of-contents' ),
+							'name'    => __( 'Open Sticky TOC on hover', 'easy-table-of-contents' ),
 							'desc'    => '',
 							'type'    => 'checkbox',
 							'default' => 'Off',
