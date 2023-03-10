@@ -962,6 +962,16 @@ INLINESTICKYTOGGLEJS;
 			//
 			//	return false;
 			//}
+                        
+                        /**
+                         * Easy TOC Run On Amp Pages Check
+                         * @since 2.0.46
+                         */
+                        if ( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ) {
+				Debug::log( 'non_amp', 'Is frontpage, TOC is not enabled.', false );
+				return false;
+                            
+                        }
 
 			if ( has_shortcode( $post->post_content, apply_filters( 'ez_toc_shortcode', 'toc' ) ) ||
 			     has_shortcode( $post->post_content, 'ez-toc' ) ) {
@@ -975,16 +985,6 @@ INLINESTICKYTOGGLEJS;
 				Debug::log( 'is_front_page', 'Is frontpage, TOC is not enabled.', false );
 				return false;
 			}
-                        
-                        /**
-                         * Easy TOC Run On Amp Pages Check
-                         * @since 2.0.46
-                         */
-                        if ( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ) {
-				Debug::log( 'non_amp', 'Is frontpage, TOC is not enabled.', false );
-				return false;
-                            
-                        }
 
 			$type = get_post_type( $post->ID );
 
@@ -1179,6 +1179,9 @@ INLINESTICKYTOGGLEJS;
 //			static $run = true;
 			$html = '';
 
+                        if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() )
+                            return $html;
+                            
 			if ( 'ez-toc' == $tag || 'toc' == $tag ) {
                             
                                 $post = self::get( get_the_ID() );
