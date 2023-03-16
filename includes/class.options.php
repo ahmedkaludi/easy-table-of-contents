@@ -1798,6 +1798,9 @@ public static function child_font_size( $args ) {
                 return esc_attr__('Security Alert: nonce not verified!', 'easy-table-of-contents' );
             }
 
+			if ( !current_user_can( 'manage_options' ) ) {
+				return esc_attr__('Security Alert: Unauthorized Access!', 'easy-table-of-contents' );
+			}
             delete_option('ez-toc-settings');
             return add_option( 'ez-toc-settings', self::getDefaults() );
         }
