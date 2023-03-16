@@ -159,24 +159,25 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
                         
                         add_option( 'ez-toc-list', '' );
-			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
-                        if ( ezTOC_Option::get( 'exclude_css' ) && 'css' == ezTOC_Option::get( 'toc_loading' ) ) {
-                            add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScriptsforExcludeCSS' ) );
+                        add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
+                        if( !is_admin() || (is_admin() && strpos( $_SERVER['REQUEST_URI'], "/post.php") !== false ) ) {
+                            add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
+                            if ( ezTOC_Option::get( 'exclude_css' ) && 'css' == ezTOC_Option::get( 'toc_loading' ) ) {
+                                add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScriptsforExcludeCSS' ) );
+                            }
+
+                            if( !self::checkBeaverBuilderPluginActive() ) {
+                                    add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
+                                    add_filter( 'category_description',  array( __CLASS__, 'toc_category_content_filter' ), 99,2);
+                                    add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
+                                    add_shortcode( 'lwptoc', array( __CLASS__, 'shortcode' ) );
+                                    add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
+
+                                    add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
+
+                                    add_action( "loop_start", array( __CLASS__, "ezTOC_execute_on_loop_start_event" ), 10, 1);
+                            }
                         }
-			add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
-
-			if( !self::checkBeaverBuilderPluginActive() ) {
-				add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
-				add_filter( 'category_description',  array( __CLASS__, 'toc_category_content_filter' ), 99,2);
-				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
-				add_shortcode( 'lwptoc', array( __CLASS__, 'shortcode' ) );
-				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
-                                
-				add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
-
-                                add_action( "loop_start", array( __CLASS__, "ezTOC_execute_on_loop_start_event" ), 10, 1);
-			}
-                        
 		}
 		
         /**
