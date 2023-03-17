@@ -892,17 +892,17 @@ class ezTOC_Post {
 
 			// Dashes
 			// Special Characters.
-			// - (minus) - (dash) – (en dash) — (em dash)
+			// - (minus) - (dash) â€“ (en dash) â€” (em dash)
 			$return = str_replace(
-				array( '-', '-', '–', '—' ),
+				array( '-', '-', 'â€“', 'â€”' ),
 				'-',
 				$return
 			);
 
 			// Curley quotes.
-			// ‘ (curly single open quote) ’ (curly single close quote) “ (curly double open quote) ” (curly double close quote)
+			// â€˜ (curly single open quote) â€™ (curly single close quote) â€œ (curly double open quote) â€ (curly double close quote)
 			$return = str_replace(
-				array( '‘', '’', '“', '”' ),
+				array( 'â€˜', 'â€™', 'â€œ', 'â€' ),
 				'',
 				$return
 			);
@@ -1188,12 +1188,12 @@ class ezTOC_Post {
 //				}
 				$htmlSticky .= '<p class="ez-toc-sticky-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ) . '</p>' . PHP_EOL;
 //				if ( ezTOC_Option::get( 'toc_loading' ) !== 'css' ) {
-					$htmlSticky .= '<a class="ez-toc-close-icon" href="javascript:void(0)" onclick="ezTOC_hideBar(event)" aria-label="×"><span aria-hidden="true">×</span></a>' . PHP_EOL;
+					$htmlSticky .= '<a class="ez-toc-close-icon" href="javascript:void(0)" onclick="ezTOC_hideBar(event)" aria-label="Ã—"><span aria-hidden="true">Ã—</span></a>' . PHP_EOL;
 					$htmlSticky .= '</div>' . PHP_EOL;
 //				}
 			} else {
 				$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
-				$htmlSticky .= '<a class="ez-toc-close-icon" href="javascript:void(0)" onclick="ezTOC_hideBar(event)" aria-label="×"><span aria-hidden="true">×</span></a>' . PHP_EOL;
+				$htmlSticky .= '<a class="ez-toc-close-icon" href="javascript:void(0)" onclick="ezTOC_hideBar(event)" aria-label="Ã—"><span aria-hidden="true">Ã—</span></a>' . PHP_EOL;
 				$htmlSticky .= '</div>' . PHP_EOL;
 			}
 			$htmlSticky  .= '<div id="ez-toc-sticky-container" class="' . implode( ' ', $classSticky ) . '">' . PHP_EOL;

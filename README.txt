@@ -236,7 +236,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * BUG: PRO Settings link design is disturb after esc_html_e() added in code #283
 * BUG: Links are disabled when Sticky Toggle is on #282
 * BUG: The numbering of the titles has disappeared after latest update. #281
-* BUG: Sticky Toggle is not working on the plugin "Multiple Page Generator – MPG" #279
+* BUG: Sticky Toggle is not working on the plugin "Multiple Page Generator â€“ MPG" #279
 * BUG: makesure this link goes to tocwp #273
 * BUG: Admin JS issue not working well on other pages of WordPress #269
 
@@ -251,7 +251,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * BUG: Ad Invalid Click Protector plugin is having conflicted #267
 * TWEAK: Trailing equal signs in changelog area of readme.txt are missing #264
 * TWEAK: Need to make the functionality numbers for the heading start from a right side. #262
-* NEW: Need to add compatibility with the plugin "Multiple Page Generator – MPG" #261
+* NEW: Need to add compatibility with the plugin "Multiple Page Generator â€“ MPG" #261
 * TWEAK: Need to improve the help page #259
 * BUG: Other plugins admin notices are appearing on our settings page #257
 * NEW: Need to add a shortcode tab in settings page #256
@@ -266,7 +266,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 = 2.0.31.1 08/03/2022 =
 * BUG: TOC not working with the SEOWP theme #230
-* BUG: TOC rendering area’s height is always changing in sidebar #244
+* BUG: TOC rendering areaâ€™s height is always changing in sidebar #244
 * BUG: The colon is getting removed from anchor links #248
 * BUG: After 2.0.27 version updates making conflict with Avada theme #229
 * BUG: Need to fix Easy table of content in sidebar #232
@@ -679,7 +679,7 @@ You can nest up 6 levels deep if needed. I hope this helps you understand how to
 
 = Is there any shortcode to add the table of content to anywhere I want ? =
 
-Yes you can add the TOC with this shortcode – [ez-toc] and with the help of this you can easily add the TOC in the content or anywhere in the WordPress and if you want to add the shortcode on the theme file then you can add it with the help of this code – <?php echo do_shortcode( ‘[ez-toc]’ ); ?> and with this, you can add the TOC on any file according to your need.
+Yes you can add the TOC with this shortcode â€“ [ez-toc] and with the help of this you can easily add the TOC in the content or anywhere in the WordPress and if you want to add the shortcode on the theme file then you can add it with the help of this code â€“ <?php echo do_shortcode( â€˜[ez-toc]â€™ ); ?> and with this, you can add the TOC on any file according to your need.
 
 == Contact | Help | Technical Support ==
 
