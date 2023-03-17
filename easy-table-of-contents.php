@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.45.2
+ * Version: 2.0.46
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.45.2
+ * @version  2.0.46
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -49,7 +49,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.45.2';
+		const VERSION = '2.0.46';
 
 		/**
 		 * Stores the instance of this class.
@@ -157,29 +157,44 @@ if ( ! class_exists( 'ezTOC' ) ) {
                         if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
 				add_option( 'ez-toc-post-content-core-level', false );
 			}
-			if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-				add_option( 'ez-toc-post-meta-content', array( get_the_ID() => false ) );
-			}
                         
                         add_option( 'ez-toc-list', '' );
-			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
-                        if ( ezTOC_Option::get( 'exclude_css' ) && 'css' == ezTOC_Option::get( 'toc_loading' ) ) {
-                            add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScriptsforExcludeCSS' ) );
-                        }
-			add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
+                        add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
+//                        if( false === strpos( $_SERVER['REQUEST_URI'], "/edit.php" ) ) {
+                            add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
+                            if ( ezTOC_Option::get( 'exclude_css' ) && 'css' == ezTOC_Option::get( 'toc_loading' ) ) {
+                                add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScriptsforExcludeCSS' ) );
+                            }
 
-			if( !self::checkBeaverBuilderPluginActive() ) {
-				add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
+                            if( !self::checkBeaverBuilderPluginActive() ) {
+                                    add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
+                                    add_filter( 'category_description',  array( __CLASS__, 'toc_category_content_filter' ), 99,2);
+                                    add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
+                                    add_shortcode( 'lwptoc', array( __CLASS__, 'shortcode' ) );
+                                    add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
 
-				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
-				add_shortcode( 'lwptoc', array( __CLASS__, 'shortcode' ) );
-				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
-                                
-				add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
+                                    add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
 
-			}
-                        
+                                    add_action( "loop_start", array( __CLASS__, "ezTOC_execute_on_loop_start_event" ), 10, 1);
+                            }
+//                        }
 		}
+		
+        /**
+         * ezTOC_execute_on_loop_start_event Method
+         *
+         * @access public
+         * @since  2.0.46
+         * @static
+         */
+        public static function ezTOC_execute_on_loop_start_event($query) {
+			 
+            if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+                $postMetaContent = get_post_meta( $query->post->ID, '_nectar_portfolio_extra_content', true );
+                if( null !== $postMetaContent && !empty( $postMetaContent ) )
+                    ezTOC_Post::$postExtraContent = do_shortcode( $postMetaContent );
+            }
+        }
                 
         /**
 	 * enqueueScriptsforExcludeCSS Method
@@ -273,12 +288,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			$js_vars = array();
 
-			if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-				$postMetaContent = get_post_meta( get_the_ID(), '_nectar_portfolio_extra_content',
-					true );
-				if( !empty( $postMetaContent ) )
-					update_option( 'ez-toc-post-meta-content', array( get_the_ID() => do_shortcode( $postMetaContent ) ) );
-			}
 
 			$isEligible = self::is_eligible( get_post() );
 
@@ -387,7 +396,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
             $offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
             
-            $inlineScrollJS = <<<INLINESCROLLJS
+             $inlineScrollJS = <<<INLINESCROLLJS
 jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),jQuery("a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=0;$offset>30&&(i=$offset),e.length&&(i+=e.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(i=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-i),jQuery("html, body").animate({scrollTop:i},500)})});
 INLINESCROLLJS;
             wp_register_script( 'ez-toc-scroll-scriptjs', '', array( 'jquery' ), ezTOC::VERSION );
@@ -743,6 +752,7 @@ COUNTERINCREMENTCSS;
                     $topMarginStickyContainer = '90px';
                 }
             }
+            
             $inlineStickyToggleCSS = <<<INLINESTICKYTOGGLECSS
 .ez-toc-sticky-fixed{position: fixed;top: 0;left: 0;z-index: 999999;width: auto;max-width: 100%;} .ez-toc-sticky-fixed .ez-toc-sidebar {position: relative;top: auto;width: auto !important;height: 100%;box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);box-sizing: border-box;padding: 20px 30px;background: white;margin-left: 0 !important;height: auto; {$custom_height} overflow-y: auto;overflow-x: hidden;} .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { {$custom_width} max-width: auto;padding: 0px;border: none;margin-bottom: 0;margin-top: $topMarginStickyContainer;} #ez-toc-sticky-container a { color: #000;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {border-bottom-color: #EEEEEE;background-color: #FAFAFA;padding: 15px;border-bottom: 1px solid #e5e5e5;width: 100%;position: absolute;height: auto;top: 0;left: 0;z-index: 99999999;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title {font-weight: 550;font-size: 18px;color: #111;} .ez-toc-sticky-fixed .ez-toc-close-icon {-webkit-appearance: none;padding: 0;cursor: pointer;background: 0 0;border: 0;float: right;font-size: 30px;font-weight: 600;line-height: 1;position: relative;color: #000;top: -2px;text-decoration: none;} .ez-toc-open-icon {position: fixed;left: 0px;top: 8%;text-decoration: none;font-weight: bold;padding: 5px 10px 15px 10px;box-shadow: 1px -5px 10px 5px rgb(0 0 0 / 10%);background-color: #fff;display: inline-grid;line-height: 1.4;border-radius: 0px 10px 10px 0px;z-index: 999999;} .ez-toc-sticky-fixed.hide {-webkit-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-ms-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-o-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);left: -100%;} .ez-toc-sticky-fixed.show {-webkit-transition: left 0.3s linear, left 0.3s easy-out;-moz-transition: left 0.3s linear;-o-transition: left 0.3s linear;transition: left 0.3s linear;left: 0;} .ez-toc-open-icon span.arrow { font-size: 18px; } .ez-toc-open-icon span.text {font-size: 13px;writing-mode: vertical-rl;text-orientation: mixed;} @media screen  and (max-device-width: 640px) {.ez-toc-sticky-fixed .ez-toc-sidebar {min-width: auto;} .ez-toc-sticky-fixed .ez-toc-sidebar.show { padding-top: 35px; } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { min-width: 100%; } }
 INLINESTICKYTOGGLECSS;
@@ -757,7 +767,7 @@ INLINESTICKYTOGGLECSS;
 		 * @static
 		 */
 		private static function inlineStickyToggleJS() {
-			$inlineStickyToggleJS = <<<INLINESTICKYTOGGLEJS
+                    $inlineStickyToggleJS = <<<INLINESTICKYTOGGLEJS
 function ezTOC_hideBar(e) { var sidebar = document.querySelector(".ez-toc-sticky-fixed"); if ( typeof(sidebar) !== "undefined" && sidebar !== null ) { sidebar.classList.remove("show"); sidebar.classList.add("hide"); setTimeout(function() { document.querySelector(".ez-toc-open-icon").style = "z-index: 9999999"; }, 200); } } function ezTOC_showBar(e) { document.querySelector(".ez-toc-open-icon").style = "z-index: -1;";setTimeout(function() { var sidebar = document.querySelector(".ez-toc-sticky-fixed"); sidebar.classList.remove("hide"); sidebar.classList.add("show"); }, 200); } (function() { let ez_toc_sticky_fixed_container = document.querySelector('div.ez-toc-sticky-fixed');if(ez_toc_sticky_fixed_container) { document.body.addEventListener("click", function (evt) { ezTOC_hideBar(evt); }); ez_toc_sticky_fixed_container.addEventListener('click', function(event) { event.stopPropagation(); }); document.querySelector('.ez-toc-open-icon').addEventListener('click', function(event) { event.stopPropagation(); }); } })();
 INLINESTICKYTOGGLEJS;
 			wp_add_inline_script( 'ez-toc-sticky', $inlineStickyToggleJS );
@@ -817,6 +827,16 @@ INLINESTICKYTOGGLEJS;
 			//
 			//	return false;
 			//}
+                        
+                        /**
+                         * Easy TOC Run On Amp Pages Check
+                         * @since 2.0.46
+                         */
+                        if ( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ) {
+				Debug::log( 'non_amp', 'Is frontpage, TOC is not enabled.', false );
+				return false;
+                            
+                        }
 
 			if ( has_shortcode( $post->post_content, apply_filters( 'ez_toc_shortcode', 'toc' ) ) ||
 			     has_shortcode( $post->post_content, 'ez-toc' ) ) {
@@ -906,7 +926,7 @@ INLINESTICKYTOGGLEJS;
 
 			$post = null;
 
-			if ( isset( self::$store[ $id ] ) && self::$store[ $id ] instanceof ezTOC_Post ) {
+			if ( isset( self::$store[ $id ] ) && self::$store[ $id ] instanceof ezTOC_Post && !in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 
 				$post = self::$store[ $id ];
 
@@ -1024,6 +1044,9 @@ INLINESTICKYTOGGLEJS;
 //			static $run = true;
 			$html = '';
 
+                        if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() )
+                            return $html;
+                            
 			if ( 'ez-toc' == $tag || 'toc' == $tag ) {
                             
                                 $post = self::get( get_the_ID() );
@@ -1079,7 +1102,7 @@ INLINESTICKYTOGGLEJS;
 			}
 
 			// bail if feed, search or archive
-			if ( is_feed() || is_search() || is_archive() ) {
+			if ( is_feed() || is_search() || (is_archive() && !is_category()) ) {
 
 				$apply = false;
 			}
@@ -1112,8 +1135,13 @@ INLINESTICKYTOGGLEJS;
 		 * @return string
 		 */
 		public static function the_content( $content ) {
+                    
+                        if( function_exists( 'post_password_required' ) ) {
+                            if( post_password_required() ) return Debug::log()->appendTo( $content );
+                        }
+                    
 			$maybeApplyFilter = self::maybeApplyTheContentFilter();
-
+                        
                         if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
                             update_option( 'ez-toc-post-content-core-level', $content );
 			}
@@ -1348,6 +1376,21 @@ STICKYTOGGLEHTML;
 			}
 			return '<span style="display: flex;align-items: center;width: 35px;height: 30px;justify-content: center;direction:ltr;"><svg style="fill: ' . esc_attr($iconColor) . ';color:' . esc_attr($iconColor) . '" xmlns="http://www.w3.org/2000/svg" class="list-377408" width="20px" height="20px" viewBox="0 0 24 24" fill="none"><path d="M6 6H4v2h2V6zm14 0H8v2h12V6zM4 11h2v2H4v-2zm16 0H8v2h12v-2zM4 16h2v2H4v-2zm16 0H8v2h12v-2z" fill="currentColor"></path></svg><svg style="fill: ' . esc_attr($iconColor) . ';color:' . esc_attr($iconColor) . '" class="arrow-unsorted-368013" xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" viewBox="0 0 24 24" version="1.2" baseProfile="tiny"><path d="M18.2 9.3l-6.2-6.3-6.2 6.3c-.2.2-.3.4-.3.7s.1.5.3.7c.2.2.4.3.7.3h11c.3 0 .5-.1.7-.3.2-.2.3-.5.3-.7s-.1-.5-.3-.7zM5.8 14.7l6.2 6.3 6.2-6.3c.2-.2.3-.5.3-.7s-.1-.5-.3-.7c-.2-.2-.4-.3-.7-.3h-11c-.3 0-.5.1-.7.3-.2.2-.3.5-.3.7s.1.5.3.7z"/></svg></span>';
 		}
+
+		 /**
+         * the_category_content_filter Method
+         * @access public
+   		 * @since  2.0.46
+   		 * @static
+		 * @return string
+		 */
+		public static function toc_category_content_filter( $description , $cat_id ) {
+			if(!is_admin() && !empty($description)){
+				return self::the_content($description);
+			}
+			return $description;
+		}
+
 
 	}
 

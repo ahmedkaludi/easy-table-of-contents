@@ -281,6 +281,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'js',
 						),
+                                            
+                                                'toc-run-on-amp-pages' => array(
+							'id' => 'toc-run-on-amp-pages',
+							'name' => __( 'TOC AMP Page Support', 'easy-table-of-contents' ),
+							'desc' => 'On/Off<br/>' . __( 'You can on or off Easy TOC for the AMP Pages.', 'easy-table-of-contents' ),
+							'type'    => 'checkbox',
+							'default' => 'Off',
+						),
 						'sticky-toggle-above-header'      => array(
 							'id'   => 'sticky-toggle-above-header',
 							'name' => '<strong>' . __( 'Sticky Toggle Options', 'easy-table-of-contents' ) . '</strong>',
@@ -344,17 +352,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'default'     => false,
 							'placeholder' => __( 'Enter sticky toggle open button text here..', 'easy-table-of-contents' )
 						),
-//                                                'sticky-toggle-position'          => array(
-//                                                        'id'      => 'sticky-toggle-position',
-//                                                        'name'    => __( 'Sticky Toggle Position', 'easy-table-of-contents' ),
-//                                                        'desc'    => '',
-//                                                        'type'    => 'radio',
-//                                                        'options'   => array(
-//                                                                'left'  => __( 'Left', 'easy-table-of-position' ),
-//                                                                'right' => __( 'Right', 'easy-table-of-position' ),
-//                                                        ),
-//                                                        'default' => 'left',
-//                                                ),
 					)
 				),
 				'appearance' => apply_filters(
@@ -899,6 +896,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				//'show_toc_in_widget_only_post_types' => array(),
 				'widget_affix_selector'              => '',
 				'heading-text-direction'              => 'ltr',
+				'toc-run-on-amp-pages'              => 1,
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );
@@ -1678,6 +1676,9 @@ public static function child_font_size( $args ) {
                 return esc_attr__('Security Alert: nonce not verified!', 'easy-table-of-contents' );
             }
 
+			if ( !current_user_can( 'manage_options' ) ) {
+				return esc_attr__('Security Alert: Unauthorized Access!', 'easy-table-of-contents' );
+			}
             delete_option('ez-toc-settings');
             return add_option( 'ez-toc-settings', self::getDefaults() );
         }

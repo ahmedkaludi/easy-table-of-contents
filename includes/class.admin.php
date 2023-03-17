@@ -111,7 +111,37 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			self::inlineAdminStickyToggleJS();
                         
 //                        self::inlineAdminOccasionalAdsPopUpCSS_JS();
+                        
+                        self::inlineAdminAMPNonJS();
 		}
+                
+                /**
+                 * inlineAdminAMPNonJS Method
+		 * Prints out inline AMP Non JS.
+		 *
+		 * @access private
+		 * @return void
+		 * @since  2.0.46
+		 * @static
+		*/
+                private static function inlineAdminAMPNonJS() {
+                    
+                    $isAmpActivated = ez_toc_is_amp_activated();
+                    
+                    if( false == $isAmpActivated ) {
+                        $inlineAdminAMPNonJS = <<<inlineAdminAMPNonJS
+jQuery(function($) {
+    let tocAMPSupportOption = $(document).find("input[name='ez-toc-settings[toc-run-on-amp-pages]']");
+    console.log(tocAMPSupportOption.length);
+    if( tocAMPSupportOption.length > 0 ) {
+        $(tocAMPSupportOption).attr('disabled', true);
+    }
+});
+inlineAdminAMPNonJS;
+                            
+			wp_add_inline_script( 'cn_toc_admin_script', $inlineAdminAMPNonJS );
+                    }
+                }
                 
                 /**
                  * inlineAdminOccasionalAdsPopUpCSS_JS Method
@@ -162,18 +192,18 @@ jQuery(function($) {
     let stickyToggleHeight = $('#eztoc-general').find("select[name='ez-toc-settings[sticky-toggle-height]']");
     let stickyToggleHeightCustom = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-height-custom]']");
     
-    
-    
     $stickyToggleOpenButtonTextJS
-    
     
     if($(stickyToggleCheckbox).prop('checked') == false) {
         $(stickyToggleWidth).parents('tr').hide(500);
         $(stickyToggleWidthCustom).parents('tr').hide(500);
         $(stickyToggleHeight).parents('tr').hide(500);
+                                
         $(stickyToggleHeightCustom).parents('tr').hide(500);
         $(stickyToggleWidth).val('auto');
         $(stickyToggleHeight).val('auto');
+
+                                
         $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').parents('tr').hide(500);
         $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').val('Index');
     }
@@ -182,16 +212,19 @@ jQuery(function($) {
         if($(stickyToggleCheckbox).prop('checked') == true) {
             $(stickyToggleWidth).parents('tr').show(500);
             $(stickyToggleHeight).parents('tr').show(500);
+                                
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').parents('tr').show(500);
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').val('Index');
         } else {
             $(stickyToggleWidth).parents('tr').hide(500);
             $(stickyToggleWidthCustom).parents('tr').hide(500);
             $(stickyToggleHeight).parents('tr').hide(500);
+                                
             $(stickyToggleHeightCustom).parents('tr').hide(500);
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').parents('tr').hide(500);
             $(stickyToggleWidth).val('auto');
             $(stickyToggleHeight).val('auto');
+                                
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').val('Index');
         }
         
@@ -202,7 +235,7 @@ jQuery(function($) {
         $(stickyToggleWidthCustom).parents('tr').hide();
         
     $(document).on("change", "select[name='ez-toc-settings[sticky-toggle-width]']", function() {
-        console.log("change-stickyToggleWidth");
+//        console.log("change-stickyToggleWidth");
         if($(stickyToggleWidth).val() == 'custom') {
             $(stickyToggleWidthCustom).val('350px');
             $(stickyToggleWidthCustom).parents('tr').show(500);
@@ -217,7 +250,7 @@ jQuery(function($) {
         $(stickyToggleHeightCustom).parents('tr').hide();
         
     $(document).on("change", "select[name='ez-toc-settings[sticky-toggle-height]']", function() {
-        console.log("change-stickyToggleHeight");
+//        console.log("change-stickyToggleHeight");
         if($(stickyToggleHeight).val() == 'custom') {
             $(stickyToggleHeightCustom).val('800px');
             $(stickyToggleHeightCustom).parents('tr').show(500);
