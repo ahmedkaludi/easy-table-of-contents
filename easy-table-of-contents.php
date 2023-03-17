@@ -160,7 +160,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
                         
                         add_option( 'ez-toc-list', '' );
                         add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
-                        if( !is_admin() || (is_admin() && strpos( $_SERVER['REQUEST_URI'], "/post.php") !== false ) ) {
+//                        if( false === strpos( $_SERVER['REQUEST_URI'], "/edit.php" ) ) {
                             add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
                             if ( ezTOC_Option::get( 'exclude_css' ) && 'css' == ezTOC_Option::get( 'toc_loading' ) ) {
                                 add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScriptsforExcludeCSS' ) );
@@ -177,7 +177,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
                                     add_action( "loop_start", array( __CLASS__, "ezTOC_execute_on_loop_start_event" ), 10, 1);
                             }
-                        }
+//                        }
 		}
 		
         /**
@@ -1277,7 +1277,7 @@ INLINESTICKYTOGGLEJS;
                         }
                     
 			$maybeApplyFilter = self::maybeApplyTheContentFilter();
-
+                        
                         if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
                             update_option( 'ez-toc-post-content-core-level', $content );
 			}
