@@ -396,9 +396,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
             $offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
             
-            $scrollTopSpeed = ezTOC_Option::get( 'sticky-toggle-smooth-scroll-speed' ) ? ezTOC_Option::get( 'sticky-toggle-smooth-scroll-speed' ) : 500;
-            $inlineScrollJS = <<<INLINESCROLLJS
-jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),jQuery("#ez-toc-sticky-container a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=0;$offset>30&&(i=$offset),e.length&&(i+=e.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(i=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-i),jQuery("html, body").animate({scrollTop:i},$scrollTopSpeed)}),jQuery("a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=0;$offset>30&&(i=$offset),e.length&&(i+=e.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(i=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-i),jQuery("html, body").animate({scrollTop:i},500)})});
+             $inlineScrollJS = <<<INLINESCROLLJS
+jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),jQuery("a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=0;$offset>30&&(i=$offset),e.length&&(i+=e.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(i=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-i),jQuery("html, body").animate({scrollTop:i},500)})});
 INLINESCROLLJS;
             wp_register_script( 'ez-toc-scroll-scriptjs', '', array( 'jquery' ), ezTOC::VERSION );
             wp_enqueue_script( 'ez-toc-scroll-scriptjs', '', array( 'jquery' ), ezTOC::VERSION );
@@ -754,76 +753,8 @@ COUNTERINCREMENTCSS;
                 }
             }
             
-            
-            $stickyToggleContainerBackgroundColor = '#fff';
-            if ( ezTOC_Option::get( 'sticky-toggle-container-background-color' ) ) {
-                $stickyToggleContainerBackgroundColor = ezTOC_Option::get( 'sticky-toggle-container-background-color' );
-            }
-            
-            $stickyToggleOpenIconBackgroundColor = '#fff';
-            if ( ezTOC_Option::get( 'sticky-toggle-open-icon-background-color' ) ) {
-                $stickyToggleOpenIconBackgroundColor = ezTOC_Option::get( 'sticky-toggle-open-icon-background-color' );
-            }
-            
-            $stickyToggleOpenIconTextColor = '#00000000';
-            $stickyToggleOpenIconTextColorCSS = ''; 
-            if ( ezTOC_Option::get( 'sticky-toggle-open-icon-text-color' ) ) {
-                $stickyToggleOpenIconTextColor = ezTOC_Option::get( 'sticky-toggle-open-icon-text-color' );
-                if( '#00000000' != $stickyToggleOpenIconTextColor ) 
-                    $stickyToggleOpenIconTextColorCSS = 'color: ' . $stickyToggleOpenIconTextColor;
-            }
-            
-            $stickyToggleOpenIconBoxShadow = '#0000001a';
-            if ( ezTOC_Option::get( 'sticky-toggle-open-icon-box-shadow' ) ) {
-                $stickyToggleOpenIconBoxShadow = ezTOC_Option::get( 'sticky-toggle-open-icon-box-shadow' );
-            }
-            
-            $stickyToggleSidebarBoxShadow = '#0000001a';
-            if ( ezTOC_Option::get( 'sticky-toggle-sidebar-box-shadow' ) ) {
-                $stickyToggleSidebarBoxShadow = ezTOC_Option::get( 'sticky-toggle-sidebar-box-shadow' );
-            }
-            
-            $stickyToggleTitleContainerBackgroundColor = '#fafafa';
-            if ( ezTOC_Option::get( 'sticky-toggle-title-container-background-color' ) ) {
-                $stickyToggleTitleContainerBackgroundColor = ezTOC_Option::get( 'sticky-toggle-title-container-background-color' );
-            }
-            
-            $stickyToggleTitleContainerTextColor = '#111';
-            if ( ezTOC_Option::get( 'sticky-toggle-title-container-text-color' ) ) {
-                $stickyToggleTitleContainerTextColor = ezTOC_Option::get( 'sticky-toggle-title-container-text-color' );
-            }
-            $stickyToggleTitleContainerBorderBottomColor = '#eeeeee';
-            if ( ezTOC_Option::get( 'sticky-toggle-title-container-border-bottom-color' ) ) {
-                $stickyToggleTitleContainerBorderBottomColor = ezTOC_Option::get( 'sticky-toggle-title-container-border-bottom-color' );
-            }
-            
-            $stickyToggleTitleContainerFontSize = 'inherit';
-            if ( ezTOC_Option::get( 'sticky-toggle-title-container-font-size' ) ) {
-                $stickyToggleTitleContainerFontSize = ezTOC_Option::get( 'sticky-toggle-title-container-font-size' ) . ezTOC_Option::get( 'sticky-toggle-title-container-font-size_units' );
-            }
-            
-            $stickyToggleHeadingsFontSize = 'inherit';
-            if ( ezTOC_Option::get( 'sticky-toggle-container-headings-font-size' ) ) {
-                $stickyToggleHeadingsFontSize = ezTOC_Option::get( 'sticky-toggle-container-headings-font-size' ) . ezTOC_Option::get( 'sticky-toggle-container-headings-font-size_units' );
-            }
-            
-            $stickyToggleHeadingsColor = '#000';
-            if ( ezTOC_Option::get( 'sticky-toggle-container-headings-color' ) ) {
-                $stickyToggleHeadingsColor = ezTOC_Option::get( 'sticky-toggle-container-headings-color' );
-            }
-            
-            $stickyToggleHeadingsColorHover = '#474747';
-            if ( ezTOC_Option::get( 'sticky-toggle-container-headings-color-hover' ) ) {
-                $stickyToggleHeadingsColorHover = ezTOC_Option::get( 'sticky-toggle-container-headings-color-hover' );
-            }
-            
-            $stickyToggleHeadingsColorVisited = '#898989';
-            if ( ezTOC_Option::get( 'sticky-toggle-container-headings-color-visited' ) ) {
-                $stickyToggleHeadingsColorVisited = ezTOC_Option::get( 'sticky-toggle-container-headings-color-visited' );
-            }
-            
             $inlineStickyToggleCSS = <<<INLINESTICKYTOGGLECSS
-.ez-toc-sticky-fixed { position: fixed; top: 0; left: 0; z-index: 999999; width: auto; max-width: 100%; } .ez-toc-sticky-fixed .ez-toc-sidebar { position: relative; top: auto; width: auto !important; height: 100%; box-shadow: 1px 1px 10px 3px $stickyToggleSidebarBoxShadow; box-sizing: border-box; padding: 20px 30px; background: white; margin-left: 0 !important; height: auto; overflow-y: auto; overflow-x: hidden; {$custom_height} } .ez-toc-sticky-fixed .ez-toc-sidebar{ background-color: $stickyToggleContainerBackgroundColor } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { background-color: $stickyToggleContainerBackgroundColor;box-shadow: none; max-width: auto; padding: 0px; border: none; margin-bottom: 0; margin-top: $topMarginStickyContainer; {$custom_width} }#ez-toc-sticky-container a { color: $stickyToggleHeadingsColor; font-size: $stickyToggleHeadingsFontSize; } #ez-toc-sticky-container a:visited { color: $stickyToggleHeadingsColorVisited; } #ez-toc-sticky-container a:hover { color: $stickyToggleHeadingsColorHover; } .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container { border-bottom-color: $stickyToggleTitleContainerBorderBottomColor; background-color: $stickyToggleTitleContainerBackgroundColor; padding: 15px; border-bottom: 1px solid $stickyToggleTitleContainerBorderBottomColor; width: 100%; position: absolute; height: auto; top: 0; left: 0; z-index: 99999999; color: $stickyToggleTitleContainerTextColor; font-size: $stickyToggleTitleContainerFontSize; } .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title { font-weight: 550; font-size: $stickyToggleTitleContainerFontSize; color: $stickyToggleTitleContainerTextColor; } .ez-toc-sticky-fixed .ez-toc-close-icon { -webkit-appearance: none; padding: 0; cursor: pointer; background: 0 0; border: 0; float: right; font-size: 30px; font-weight: 600; line-height: 1; position: relative; color: #000; top: -2px; text-decoration: none; } .ez-toc-open-icon { position: fixed; left: 0px; top: 8%; text-decoration: none; font-weight: bold; padding: 5px 10px 15px 10px; box-shadow: 1px -5px 10px 5px $stickyToggleOpenIconBoxShadow; background-color: $stickyToggleOpenIconBackgroundColor; display: inline-grid; line-height: 1.4; border-radius: 0px 10px 10px 0px; z-index: 999999; {$stickyToggleOpenIconTextColorCSS} } .ez-toc-sticky-fixed.hide { -webkit-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1); -ms-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1); -o-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1); transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1); left: -100%; } .ez-toc-sticky-fixed.show { -webkit-transition: left 0.3s linear, left 0.3s easy-out; -moz-transition: left 0.3s linear; -o-transition: left 0.3s linear; transition: left 0.3s linear; left: 0; } .ez-toc-open-icon span.arrow { font-size: 18px; } .ez-toc-open-icon span.text { font-size: 13px; writing-mode: vertical-rl; text-orientation: mixed; } @media screen and (max-device-width: 640px) { .ez-toc-sticky-fixed .ez-toc-sidebar { min-width: auto; } .ez-toc-sticky-fixed .ez-toc-sidebar.show { padding-top: 35px; } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { min-width: 100%; } }
+.ez-toc-sticky-fixed{position: fixed;top: 0;left: 0;z-index: 999999;width: auto;max-width: 100%;} .ez-toc-sticky-fixed .ez-toc-sidebar {position: relative;top: auto;width: auto !important;height: 100%;box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);box-sizing: border-box;padding: 20px 30px;background: white;margin-left: 0 !important;height: auto; {$custom_height} overflow-y: auto;overflow-x: hidden;} .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { {$custom_width} max-width: auto;padding: 0px;border: none;margin-bottom: 0;margin-top: $topMarginStickyContainer;} #ez-toc-sticky-container a { color: #000;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {border-bottom-color: #EEEEEE;background-color: #FAFAFA;padding: 15px;border-bottom: 1px solid #e5e5e5;width: 100%;position: absolute;height: auto;top: 0;left: 0;z-index: 99999999;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title {font-weight: 550;font-size: 18px;color: #111;} .ez-toc-sticky-fixed .ez-toc-close-icon {-webkit-appearance: none;padding: 0;cursor: pointer;background: 0 0;border: 0;float: right;font-size: 30px;font-weight: 600;line-height: 1;position: relative;color: #000;top: -2px;text-decoration: none;} .ez-toc-open-icon {position: fixed;left: 0px;top: 8%;text-decoration: none;font-weight: bold;padding: 5px 10px 15px 10px;box-shadow: 1px -5px 10px 5px rgb(0 0 0 / 10%);background-color: #fff;display: inline-grid;line-height: 1.4;border-radius: 0px 10px 10px 0px;z-index: 999999;} .ez-toc-sticky-fixed.hide {-webkit-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-ms-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-o-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);left: -100%;} .ez-toc-sticky-fixed.show {-webkit-transition: left 0.3s linear, left 0.3s easy-out;-moz-transition: left 0.3s linear;-o-transition: left 0.3s linear;transition: left 0.3s linear;left: 0;} .ez-toc-open-icon span.arrow { font-size: 18px; } .ez-toc-open-icon span.text {font-size: 13px;writing-mode: vertical-rl;text-orientation: mixed;} @media screen  and (max-device-width: 640px) {.ez-toc-sticky-fixed .ez-toc-sidebar {min-width: auto;} .ez-toc-sticky-fixed .ez-toc-sidebar.show { padding-top: 35px; } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { min-width: 100%; } }
 INLINESTICKYTOGGLECSS;
 			wp_add_inline_style( 'ez-toc-sticky', $inlineStickyToggleCSS );
 		}
@@ -836,77 +767,10 @@ INLINESTICKYTOGGLECSS;
 		 * @static
 		 */
 		private static function inlineStickyToggleJS() {
-                    $ezTOC_OptionStickyHoverOpen = ezTOC_Option::get( 'sticky-toggle-open-button-hover-sticky-open' ) ? ezTOC_Option::get( 'sticky-toggle-open-button-hover-sticky-open' ) : 0;
                     $inlineStickyToggleJS = <<<INLINESTICKYTOGGLEJS
-function ezTOC_hideBar(e) {
-    var sidebar = document.querySelector(".ez-toc-sticky-fixed");
-    if (typeof(sidebar) !== "undefined" && sidebar !== null) {
-        sidebar.classList.remove("show");
-        sidebar.classList.add("hide");
-        setTimeout(function() {
-            document.querySelector(".ez-toc-open-icon").style = "z-index: 9999999";
-        }, 200);
-    }
-}
-function ezTOC_showBar(e) {
-    document.querySelector(".ez-toc-open-icon").style = "z-index: -1;";
-    setTimeout(function() {
-        var sidebar = document.querySelector(".ez-toc-sticky-fixed");
-        sidebar.classList.remove("hide");
-        sidebar.classList.add("show");
-    }, 200);
-}
-function ezTOC_Sticky_Reloaded(evt, ezTOC_StickyContainerCurrent) {
-    if(ezTOC_StickyContainerCurrent == true) {        
-        ezTOC_StickyContainerCurrent = false;
-        ezTOC_hideBar(evt);
-    }
-}
-(function() {
-    var ezTOC_StickyContainerCurrent = false;
-    let ez_toc_sticky_fixed_container = document.querySelector('div.ez-toc-sticky-fixed');
-    if (ez_toc_sticky_fixed_container) {
-        if( 1 == $ezTOC_OptionStickyHoverOpen ) {
-            document.querySelector('.ez-toc-open-icon').addEventListener("mouseover", function(evt) {
-//                console.log(ezTOC_StickyContainerCurrent);
-                if(ezTOC_StickyContainerCurrent == false) {
-                    ezTOC_showBar(evt);
-                    setTimeout(function () {
-                        if(ezTOC_StickyContainerCurrent == false) {        
-//                            console.log("Call_ezTOC_StickyContainerCurrent = false");
-                            ezTOC_StickyContainerCurrent = true;
-                            document.body.addEventListener("mouseover", function(evt) {
-                                ezTOC_Sticky_Reloaded(evt, ezTOC_StickyContainerCurrent);
-                                document.body.removeEventListener("mouseover", function(evt){ezTOC_Sticky_Reloaded(evt, ezTOC_StickyContainerCurrent); });
-
-                                ezTOC_StickyContainerCurrent = false;
-                            });
-                        } else {
-                            //document.body.removeEventListener("mouseover", function(evt){ezTOC_Sticky_Reloaded(evt, ezTOC_StickyContainerCurrent); });
-
-//                            ezTOC_StickyContainerCurrent = false;
-                        }
-                    }, 350, ezTOC_StickyContainerCurrent);
-                }
-            });
-            ez_toc_sticky_fixed_container.addEventListener('mouseover', function(evt) {
-                evt.stopPropagation();
-            });
-        }
-
-        document.body.addEventListener("click", function(evt) {
-            ezTOC_hideBar(evt);
-        });
-        ez_toc_sticky_fixed_container.addEventListener('click', function(event) {
-            event.stopPropagation();
-        });
-        document.querySelector('.ez-toc-open-icon').addEventListener('click', function(event) {
-            event.stopPropagation();
-        });
-    }
-})();
+function ezTOC_hideBar(e) { var sidebar = document.querySelector(".ez-toc-sticky-fixed"); if ( typeof(sidebar) !== "undefined" && sidebar !== null ) { sidebar.classList.remove("show"); sidebar.classList.add("hide"); setTimeout(function() { document.querySelector(".ez-toc-open-icon").style = "z-index: 9999999"; }, 200); } } function ezTOC_showBar(e) { document.querySelector(".ez-toc-open-icon").style = "z-index: -1;";setTimeout(function() { var sidebar = document.querySelector(".ez-toc-sticky-fixed"); sidebar.classList.remove("hide"); sidebar.classList.add("show"); }, 200); } (function() { let ez_toc_sticky_fixed_container = document.querySelector('div.ez-toc-sticky-fixed');if(ez_toc_sticky_fixed_container) { document.body.addEventListener("click", function (evt) { ezTOC_hideBar(evt); }); ez_toc_sticky_fixed_container.addEventListener('click', function(event) { event.stopPropagation(); }); document.querySelector('.ez-toc-open-icon').addEventListener('click', function(event) { event.stopPropagation(); }); } })();
 INLINESTICKYTOGGLEJS;
-                    wp_add_inline_script( 'ez-toc-sticky', $inlineStickyToggleJS );
+			wp_add_inline_script( 'ez-toc-sticky', $inlineStickyToggleJS );
 		}
 
 		/**
