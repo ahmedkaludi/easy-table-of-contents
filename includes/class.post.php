@@ -1561,8 +1561,7 @@ class ezTOC_Post {
 
 			// Fix for wrong links on TOC on Wordpress category page
 			if(is_category()){
-				$current_url = get_term_link( $this->queriedObjectID );
-				return trailingslashit( $current_url ) . '#' . $id;
+				return  '#' . $id;
 			}
 			return trailingslashit( $this->permalink ) . '#' . $id;
 
