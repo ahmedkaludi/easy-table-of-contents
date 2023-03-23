@@ -352,6 +352,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'default'     => false,
 							'placeholder' => __( 'Enter sticky toggle open button text here..', 'easy-table-of-contents' )
 						),
+						'sticky-toggle-close-on-mobile'     => array(
+							'id'          => 'sticky-toggle-close-on-mobile',
+							'name'        => __( 'Click TOC Close on Mobile', 'easy-table-of-contents' ),
+							'desc'        => '',
+							'type'        => 'checkbox',
+							'default'     => false,
+							'placeholder' => __( 'Close Sticky Toggle on click over headings in mobile devices', 'easy-table-of-contents' )
+						),
 					)
 				),
 				'appearance' => apply_filters(

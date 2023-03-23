@@ -767,8 +767,21 @@ INLINESTICKYTOGGLECSS;
 		 * @static
 		 */
 		private static function inlineStickyToggleJS() {
+                    $mobileJS = '';
+                    if( ( 1 == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) || '1' == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) || true == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) ) && wp_is_mobile() ) {
+                        $mobileJS = <<<INLINESTICKYTOGGLEMOBILEJS
+jQuery(document).ready(function() {
+    jQuery("#ez-toc-sticky-container a.ez-toc-link").click(function(e) {
+        ezTOC_hideBar(e);
+    });
+});
+INLINESTICKYTOGGLEMOBILEJS;
+
+                    } 
                     $inlineStickyToggleJS = <<<INLINESTICKYTOGGLEJS
 function ezTOC_hideBar(e) { var sidebar = document.querySelector(".ez-toc-sticky-fixed"); if ( typeof(sidebar) !== "undefined" && sidebar !== null ) { sidebar.classList.remove("show"); sidebar.classList.add("hide"); setTimeout(function() { document.querySelector(".ez-toc-open-icon").style = "z-index: 9999999"; }, 200); } } function ezTOC_showBar(e) { document.querySelector(".ez-toc-open-icon").style = "z-index: -1;";setTimeout(function() { var sidebar = document.querySelector(".ez-toc-sticky-fixed"); sidebar.classList.remove("hide"); sidebar.classList.add("show"); }, 200); } (function() { let ez_toc_sticky_fixed_container = document.querySelector('div.ez-toc-sticky-fixed');if(ez_toc_sticky_fixed_container) { document.body.addEventListener("click", function (evt) { ezTOC_hideBar(evt); }); ez_toc_sticky_fixed_container.addEventListener('click', function(event) { event.stopPropagation(); }); document.querySelector('.ez-toc-open-icon').addEventListener('click', function(event) { event.stopPropagation(); }); } })();
+                
+                $mobileJS
 INLINESTICKYTOGGLEJS;
 			wp_add_inline_script( 'ez-toc-sticky', $inlineStickyToggleJS );
 		}
