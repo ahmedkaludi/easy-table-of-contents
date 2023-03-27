@@ -738,3 +738,21 @@ if ( 'Avada' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) 
     }
     
 }
+
+if ( 'MAKE9 Divi zh-tw Child' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+    add_filter('ez_toc_regex_filteration', 'ez_toc_regex_filteration_for_divi_chinese');
+    function ez_toc_regex_filteration_for_divi_chinese( $regEx ) {
+        $regEx = '/(<h([1-6]{1})(?:(?!\bclass="et_pb_slide_title")[^>])*>)(.*)<\/h\2>/msuU';
+    
+        return $regEx;
+    }
+}
+
+if ( in_array( 'lasso/affiliate-plugin.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+    add_filter('ez_toc_regex_filteration', 'ez_toc_regex_filteration_for_lasso_products');
+    function ez_toc_regex_filteration_for_lasso_products( $regEx ) {
+        $regEx = '/(<(?:h|H){1}([1-6]{1})[^>]*>)(.*)<\/(?:h|H){1}\2>/msuU';
+
+        return $regEx;
+    }
+}
