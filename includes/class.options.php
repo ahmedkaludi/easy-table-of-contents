@@ -306,6 +306,17 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type'    => 'checkbox',
 							'default' => false,
 						),
+						'sticky-toggle-position'                   => array(
+							'id'      => 'sticky-toggle-position',
+							'name'    => __( 'Position', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type' => 'radio',
+							'options' => array(
+								'left' => __( 'Left', 'easy-table-of-contents' ),
+								'right' => __( 'Right', 'easy-table-of-contents' ),
+							),
+							'default' => 'left',
+						),
 						'sticky-toggle-width'             => array(
 							'id'      => 'sticky-toggle-width',
 							'name'    => __( 'Width', 'easy-table-of-contents' ),
@@ -905,6 +916,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'widget_affix_selector'              => '',
 				'heading-text-direction'              => 'ltr',
 				'toc-run-on-amp-pages'              => 1,
+				'sticky-toggle-position'              => 'left',
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );
