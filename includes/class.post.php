@@ -58,13 +58,6 @@ class ezTOC_Post {
 	 */
 	private $hasTOCItems = false;
         
-        /**
-         * @var null|string
-         * @since 2.0.46
-         * 
-        */
-        public static $postExtraContent = null;
-        
 	/**
 	 * ezTOC_Post constructor.
 	 *
@@ -284,12 +277,16 @@ class ezTOC_Post {
 			}
 		}
 
-		if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )  && !empty(ezTOC_Post::$postExtraContent) ) {
-			if ( empty( $content ) ) {
-				$content = ezTOC_Post::$postExtraContent;
-			} else {
-				$content .= ezTOC_Post::$postExtraContent;
-			}
+		if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			$eztoc_post_id=get_the_ID();
+			$eztoc_post_meta = get_option( 'ez-toc-post-meta-content',false);
+			if(!empty($eztoc_post_meta) && !empty($eztoc_post_id) && isset($eztoc_post_meta[$eztoc_post_id])){
+				if ( empty( $content ) ) {
+					$content = $eztoc_post_meta[$eztoc_post_id];
+				} else {
+					$content .= $eztoc_post_meta[$eztoc_post_id];
+				}
+		}
 		} else if ( ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) && false != get_option( 'ez-toc-post-content-core-level' ) ) {
                     $content = get_option( 'ez-toc-post-content-core-level' );
                 } else {

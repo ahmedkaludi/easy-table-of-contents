@@ -175,26 +175,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
                                     add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
 
-                                    add_action( "loop_start", array( __CLASS__, "ezTOC_execute_on_loop_start_event" ), 10, 1);
                             }
 //                        }
 		}
-		
-        /**
-         * ezTOC_execute_on_loop_start_event Method
-         *
-         * @access public
-         * @since  2.0.46
-         * @static
-         */
-        public static function ezTOC_execute_on_loop_start_event($query) {
-			 
-            if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-                $postMetaContent = get_post_meta( $query->post->ID, '_nectar_portfolio_extra_content', true );
-                if( null !== $postMetaContent && !empty( $postMetaContent ) )
-                    ezTOC_Post::$postExtraContent = do_shortcode( $postMetaContent );
-            }
-        }
+	
                 
         /**
 	 * enqueueScriptsforExcludeCSS Method
@@ -282,16 +266,23 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @static
 		 */
 		public static function enqueueScripts() {
-
+			$eztoc_post_id = get_the_ID();
 			// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
 			$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 			$js_vars = array();
 
+			if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+				
+				$postMetaContent = get_post_meta( $eztoc_post_id, '_nectar_portfolio_extra_content',true );
+				if( !empty( $postMetaContent ) ){
+					update_option( 'ez-toc-post-meta-content', array( $eztoc_post_id => do_shortcode( $postMetaContent ) ) );
+				}
+			}
 
 			$isEligible = self::is_eligible( get_post() );
 
-			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! get_option( 'ez-toc-shortcode-exist-and-render' ) && ! is_active_widget( false, false, 'ez_toc_widget_sticky' ) ) {
+			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! get_option( 'ez-toc-shortcode-exist-and-render' ) && ! is_active_widget( false, false, 'ez_toc_widget_sticky' ) && !get_post_meta( $eztoc_post_id, '_nectar_portfolio_extra_content',true )) {
                 return false;
 			}
 
