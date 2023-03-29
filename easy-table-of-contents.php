@@ -360,6 +360,14 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$js_vars['affixSelector'] = ezTOC_Option::get( 'widget_affix_selector' );
 			}
 
+			if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
+				$icon = ezTOC::getTOCToggleIcon();
+				if( function_exists( 'ez_toc_pro_activation_link' ) ) {
+						$icon = apply_filters('ez_toc_modify_icon',$icon);
+				}
+				$js_vars['fallbackIcon'] = $icon;
+			}
+
 			if ( 0 < count( $js_vars ) ) {
 
 				wp_localize_script( 'ez-toc-js', 'ezTOC', $js_vars );
