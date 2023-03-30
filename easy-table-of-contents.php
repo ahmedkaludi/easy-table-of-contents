@@ -344,14 +344,14 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
                                 
-                                if( true == get_post_meta( $this->post->ID, '_ez-toc-visibility_hide_by_default', true ) )
+                                if( true == get_post_meta( $eztoc_post_id, '_ez-toc-visibility_hide_by_default', true ) )
                                     $js_vars['visibility_hide_by_default'] = true;
 
 				$js_vars['width'] = esc_js( $width );
 			}else{
 				if(ezTOC_Option::get( 'visibility' )){
 					$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
-                                        if( true == get_post_meta( $this->post->ID, '_ez-toc-visibility_hide_by_default', true ) )
+                                        if( true == get_post_meta( $eztoc_post_id, '_ez-toc-visibility_hide_by_default', true ) )
                                             $js_vars['visibility_hide_by_default'] = true;
 				}
 			}
