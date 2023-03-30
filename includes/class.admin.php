@@ -367,6 +367,7 @@ INLINESTICKYTOGGLEJS;
 			$headings = get_post_meta( $post->ID, '_ez-toc-heading-levels', true );
 			$exclude  = get_post_meta( $post->ID, '_ez-toc-exclude', true );
 			$altText  = get_post_meta( $post->ID, '_ez-toc-alttext', true );
+			$visibility_hide_by_default  = get_post_meta( $post->ID, '_ez-toc-visibility_hide_by_default', true );
 
 			if ( ! is_array( $headings ) ) {
 
@@ -450,6 +451,22 @@ INLINESTICKYTOGGLEJS;
 						?>
 					</td>
 				</tr>
+                                <tr>
+                                    <th scope="row"><?php esc_html_e( 'Initial View', 'easy-table-of-contents' ); ?></th>
+                                    <td>
+                                        <?php
+                                            ezTOC_Option::checkbox(
+                                                array(
+							'id' => 'visibility_hide_by_default',
+							'name' => __( 'Initial View', 'easy-table-of-contents' ),
+							'desc' => __( 'Initially hide the table of contents.', 'easy-table-of-contents' ),
+							'default' => false,
+						),
+                                                $visibility_hide_by_default
+                                            );
+                                        ?>
+                                    </td>
+                                </tr>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Alternate Headings', 'easy-table-of-contents' ); ?></th>
 					<td>
@@ -605,6 +622,31 @@ INLINESTICKYTOGGLEJS;
 				} else {
 
 					update_post_meta( $post_id, '_ez-toc-alttext', '' );
+				}
+                                
+				if ( isset( $_REQUEST['ez-toc-settings']['visibility_hide_by_default'] ) && ! empty( $_REQUEST['ez-toc-settings']['visibility_hide_by_default'] ) ) {
+
+					if ( is_string( $_REQUEST['ez-toc-settings']['visibility_hide_by_default'] ) ) {
+
+						$visibility_hide_by_default = trim( $_REQUEST['ez-toc-settings']['visibility_hide_by_default'] );
+
+					} else {
+
+						$visibility_hide_by_default = '';
+					}
+
+					/*
+					 * This is basically `esc_html()` but does not encode quotes.
+					 * This is to allow angle brackets and such which `wp_kses_post` would strip as "evil" scripts.
+					 */
+					$visibility_hide_by_default = wp_check_invalid_utf8( $visibility_hide_by_default );
+					$visibility_hide_by_default = _wp_specialchars( $visibility_hide_by_default, ENT_NOQUOTES );
+
+					update_post_meta( $post_id, '_ez-toc-visibility_hide_by_default', wp_kses_post( $visibility_hide_by_default ) );
+
+				} else {
+
+					update_post_meta( $post_id, '_ez-toc-visibility_hide_by_default', '' );
 				}
 
 				if ( isset( $_REQUEST['ez-toc-settings']['exclude'] ) && ! empty( $_REQUEST['ez-toc-settings']['exclude'] ) ) {

@@ -343,11 +343,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$width = ezTOC_Option::get( 'width' ) !== 'custom' ? ezTOC_Option::get( 'width' ) : (wp_is_mobile() ? 'auto' : ezTOC_Option::get( 'width_custom' ) . ezTOC_Option::get( 'width_custom_units' ));
 
 				$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
+                                
+                                if( true == get_post_meta( $this->post->ID, '_ez-toc-visibility_hide_by_default', true ) )
+                                    $js_vars['visibility_hide_by_default'] = true;
 
 				$js_vars['width'] = esc_js( $width );
 			}else{
 				if(ezTOC_Option::get( 'visibility' )){
 					$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
+                                        if( true == get_post_meta( $this->post->ID, '_ez-toc-visibility_hide_by_default', true ) )
+                                            $js_vars['visibility_hide_by_default'] = true;
 				}
 			}
 

@@ -1132,6 +1132,10 @@ class ezTOC_Post {
 			{
 				$visiblityClass = "eztoc-visibility-hide-by-default";
 			}
+			if( get_post_meta( $this->post->ID, '_ez-toc-visibility_hide_by_default', true ) && 'css' != ezTOC_Option::get( 'toc_loading' ) )
+			{
+				$visiblityClass = "eztoc-visibility-hide-by-default";
+			}
 			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1 $visiblityClass' >" . $html . "</ul>";
 		}
 
@@ -1347,6 +1351,9 @@ class ezTOC_Post {
                             } else {
                                     $toggle_view='';
                                     if(ezTOC_Option::get('visibility_hide_by_default')==true){
+                                            $toggle_view= "checked";
+                                    }
+                                    if( true == get_post_meta( $this->post->ID, '_ez-toc-visibility_hide_by_default', true ) ){
                                             $toggle_view= "checked";
                                     }
                                     $html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="cssicon">' . ezTOC::getTOCToggleIcon() . '</label><label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" ' . $inputCheckboxExludeStyle . ' class="cssiconcheckbox">1</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.'>';
