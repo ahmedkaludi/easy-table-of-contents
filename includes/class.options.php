@@ -954,7 +954,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 */
 		public static function get( $key, $default = false ) {
 
-			$options = self::getOptions();
+			$options = (array) self::getOptions();
 
 			$value = array_key_exists( $key, $options ) ? $options[ $key ] : $default;
 			$value = apply_filters( 'ez_toc_get_option', $value, $key, $default );
