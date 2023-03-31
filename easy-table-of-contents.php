@@ -1093,7 +1093,11 @@ INLINESTICKYTOGGLEJS;
 				update_option('ez-toc-shortcode-exist-and-render', false);
 			}
 			if (isset($atts["initial_view"]) && !empty($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
-				$html = preg_replace('/class="ez-toc-list ez-toc-list-level-1"/', 'class="ez-toc-list ez-toc-list-level-1" style="display:none"', $html);
+                            $options = array(
+                                'visibility_hide_by_default' => true,
+                            );
+                            $html = $post->getTOC($options);
+//				$html = preg_replace('/class="ez-toc-list ez-toc-list-level-1"/', 'class="ez-toc-list ez-toc-list-level-1" style="display:none"', $html);
 			}
 
                         if( !is_home() ) {

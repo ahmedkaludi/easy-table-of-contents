@@ -1116,7 +1116,7 @@ class ezTOC_Post {
 	 *
 	 * @return string
 	 */
-	public function getTOCList($prefix = "ez-toc") {
+	public function getTOCList($prefix = "ez-toc", $options = []) {
 
 		$html = '';
 
@@ -1136,6 +1136,9 @@ class ezTOC_Post {
 			{
 				$visiblityClass = "eztoc-visibility-hide-by-default";
 			}
+                        if( $options !== null && !empty( $options ) && is_array( $options ) && key_exists( 'visibility_hide_by_default', $options ) && true == $options['visibility_hide_by_default'] ) {
+                            $visiblityClass = "eztoc-visibility-hide-by-default";
+                        }
 			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1 $visiblityClass' >" . $html . "</ul>";
 		}
 
@@ -1216,7 +1219,7 @@ class ezTOC_Post {
 	 *
 	 * @return string
 	 */
-	public function getTOC() {
+	public function getTOC($options = []) {
 
 		$class = array( 'ez-toc-v' . str_replace( '.', '_', ezTOC::VERSION ) );
 		$html  = '';
@@ -1356,6 +1359,9 @@ class ezTOC_Post {
                                     if( true == get_post_meta( $this->post->ID, '_ez-toc-visibility_hide_by_default', true ) ){
                                             $toggle_view= "checked";
                                     }
+                                    if( $options !== null && !empty( $options ) && is_array( $options ) && key_exists( 'visibility_hide_by_default', $options ) && true == $options['visibility_hide_by_default'] ) {
+                                            $toggle_view= "checked";
+                                    }
                                     $html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="cssicon">' . ezTOC::getTOCToggleIcon() . '</label><label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" ' . $inputCheckboxExludeStyle . ' class="cssiconcheckbox">1</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.'>';
                             }
                         }
@@ -1371,7 +1377,7 @@ class ezTOC_Post {
 			do_action( 'ez_toc_before' );
 			$html .= ob_get_clean();
 
-			$html .= '<nav>' . $this->getTOCList() . '</nav>';
+			$html .= '<nav>' . $this->getTOCList('ez-toc', $options) . '</nav>';
 
 			ob_start();
 			do_action( 'ez_toc_after' );
