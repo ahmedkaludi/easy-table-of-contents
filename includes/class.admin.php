@@ -127,7 +127,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
                 private static function inlineAdminAMPNonJS() {
                     
                     $isAmpActivated = false;
-                    if ( ! function_exists('ez_toc_is_amp_activated') ) {
+                    if ( function_exists('ez_toc_is_amp_activated') ) {
                         $isAmpActivated = ez_toc_is_amp_activated();
                     }
                     
