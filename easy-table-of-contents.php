@@ -1133,6 +1133,12 @@ INLINESTICKYTOGGLEJS;
 
 				$apply = false;
 			}
+                        
+                        if( function_exists('get_current_screen') ) {
+                            if( get_current_screen()->id == 'edit-post' ) {          
+                                $apply = false;
+                            }
+                        }
 
 			if ( ! empty( array_intersect( $wp_current_filter, array( 'get_the_excerpt', 'init', 'wp_head' ) ) ) ) {
 				$apply = false;
