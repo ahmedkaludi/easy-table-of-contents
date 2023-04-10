@@ -126,20 +126,23 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		*/
                 private static function inlineAdminAMPNonJS() {
                     
-                    $isAmpActivated = ez_toc_is_amp_activated();
+                    $isAmpActivated = false;
+                    if ( ! function_exists('ez_toc_is_amp_activated') ) {
+                        $isAmpActivated = ez_toc_is_amp_activated();
+                    }
                     
                     if( false == $isAmpActivated ) {
                         $inlineAdminAMPNonJS = <<<inlineAdminAMPNonJS
 jQuery(function($) {
     let tocAMPSupportOption = $(document).find("input[name='ez-toc-settings[toc-run-on-amp-pages]']");
-    console.log(tocAMPSupportOption.length);
+//        console.log(tocAMPSupportOption.length);
     if( tocAMPSupportOption.length > 0 ) {
         $(tocAMPSupportOption).attr('disabled', true);
     }
 });
 inlineAdminAMPNonJS;
-                            
-			wp_add_inline_script( 'cn_toc_admin_script', $inlineAdminAMPNonJS );
+
+                        wp_add_inline_script( 'cn_toc_admin_script', $inlineAdminAMPNonJS );
                     }
                 }
                 
