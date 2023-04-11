@@ -276,7 +276,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 						if(ezTOC_Option::get('visibility_hide_by_default')==true){
 							$toggle_view= "checked";
 						}
-                                                if( true == get_post_meta( $this->post->ID, '_ez-toc-visibility_hide_by_default', true ) ) {
+                                                if( true == get_post_meta( get_the_ID(), '_ez-toc-visibility_hide_by_default', true ) ) {
                                                     $toggle_view = "checked";
                                                 }
                                                 $cssIconID = uniqid();
