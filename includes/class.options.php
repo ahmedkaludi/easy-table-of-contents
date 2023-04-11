@@ -588,6 +588,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'include_category' => array(
+							'id' => 'include_category',
+							'name' => __( 'Category', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the table of contents for description on the category pages.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'exclude_css' => array(
 							'id' => 'exclude_css',
 							'name' => __( 'CSS', 'easy-table-of-contents' ),
@@ -905,6 +912,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'hyphenate'                          => false,
 				//'bullet_spacing'                     => false,
 				'include_homepage'                   => false,
+				'include_category'                   => false,
 				'exclude_css'                        => false,
 				'inline_css'                        => false,
 				'exclude'                            => '',

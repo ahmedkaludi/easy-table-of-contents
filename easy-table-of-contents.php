@@ -1131,7 +1131,11 @@ INLINESTICKYTOGGLEJS;
 			// bail if feed, search or archive
 			if ( is_feed() || is_search() || is_archive() ) {
 
+                            if( true == ezTOC_Option::get( 'include_category', false) && is_category() ) {
+                                $apply = true;
+                            } else {
 				$apply = false;
+                            }
 			}
                         
 			if( function_exists('get_current_screen') ) {
@@ -1421,10 +1425,12 @@ STICKYTOGGLEHTML;
 		 * @return string
 		 */
 		public static function toc_category_content_filter( $description , $cat_id ) {
+                    if( true == ezTOC_Option::get( 'include_category', false) ) {
 			if(!is_admin() && !empty($description)){
 				return self::the_content($description);
 			}
-			return $description;
+                    }
+                    return $description;
 		}
 
 
