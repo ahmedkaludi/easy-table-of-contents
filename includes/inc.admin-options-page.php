@@ -39,7 +39,10 @@
             $today = date('Y-m-d');
             $exp_date = $license_exp;
             $date1 = date_create($today);
-            $date2 = date_create($exp_date);
+            $date2 = "1901-01-01";
+            if($license_exp != null) {
+                $date2 = date_create($exp_date);
+            }
             $diff = date_diff($date1, $date2);
             $days = $diff->format("%a");
             $days = intval($days); ?>
