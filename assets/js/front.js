@@ -257,6 +257,12 @@ jQuery( function( $ ) {
             correctActiveListElementBackgroundColorHeight( activeListElement );
         }
     }
+    if($( '#ez-toc-container').length){
+        if(!$( '#ez-toc-container .ez-toc-toggle label span').html()){
+            $( '#ez-toc-container .ez-toc-toggle label').html(ezTOC.fallbackIcon);
+        }
+    }
+    
 
     	/**
 		 * Attach global init handler to ezTOC window object.

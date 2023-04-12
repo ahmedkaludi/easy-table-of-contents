@@ -365,6 +365,9 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                                 {
                                     $toggle_view = "checked";
                                 }
+                                if( true == get_post_meta( get_the_ID(), '_ez-toc-visibility_hide_by_default', true ) ) {
+                                    $toggle_view = "checked";
+                                }
                                 $cssIconID = uniqid ();
                                 $htmlCSSIcon = '<label for="ez-toc-widget-sticky-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle">' . ezTOC::getTOCToggleIcon () . '</label>';
                                 echo $htmlCSSIcon;

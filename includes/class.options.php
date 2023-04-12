@@ -306,6 +306,17 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type'    => 'checkbox',
 							'default' => false,
 						),
+						'sticky-toggle-position'                   => array(
+							'id'      => 'sticky-toggle-position',
+							'name'    => __( 'Position', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type' => 'radio',
+							'options' => array(
+								'left' => __( 'Left', 'easy-table-of-contents' ),
+								'right' => __( 'Right', 'easy-table-of-contents' ),
+							),
+							'default' => 'left',
+						),
 						'sticky-toggle-width'             => array(
 							'id'      => 'sticky-toggle-width',
 							'name'    => __( 'Width', 'easy-table-of-contents' ),
@@ -351,6 +362,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type'        => 'text',
 							'default'     => false,
 							'placeholder' => __( 'Enter sticky toggle open button text here..', 'easy-table-of-contents' )
+						),
+						'sticky-toggle-close-on-mobile'     => array(
+							'id'          => 'sticky-toggle-close-on-mobile',
+							'name'        => __( 'Click TOC Close on Mobile', 'easy-table-of-contents' ),
+							'desc'        => '',
+							'type'        => 'checkbox',
+							'default'     => false,
+							'placeholder' => __( 'Close Sticky Toggle on click over headings in mobile devices', 'easy-table-of-contents' )
 						),
 					)
 				),
@@ -566,6 +585,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'id' => 'include_homepage',
 							'name' => __( 'Homepage', 'easy-table-of-contents' ),
 							'desc' => __( 'Show the table of contents for qualifying items on the homepage.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
+						'include_category' => array(
+							'id' => 'include_category',
+							'name' => __( 'Category', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the table of contents for description on the category pages.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
 						),
@@ -886,6 +912,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'hyphenate'                          => false,
 				//'bullet_spacing'                     => false,
 				'include_homepage'                   => false,
+				'include_category'                   => false,
 				'exclude_css'                        => false,
 				'inline_css'                        => false,
 				'exclude'                            => '',
@@ -897,6 +924,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'widget_affix_selector'              => '',
 				'heading-text-direction'              => 'ltr',
 				'toc-run-on-amp-pages'              => 1,
+				'sticky-toggle-position'              => 'left',
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );
@@ -934,7 +962,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 */
 		public static function get( $key, $default = false ) {
 
-			$options = self::getOptions();
+			$options = (array) self::getOptions();
 
 			$value = array_key_exists( $key, $options ) ? $options[ $key ] : $default;
 			$value = apply_filters( 'ez_toc_get_option', $value, $key, $default );

@@ -276,6 +276,9 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 						if(ezTOC_Option::get('visibility_hide_by_default')==true){
 							$toggle_view= "checked";
 						}
+                                                if( true == get_post_meta( get_the_ID(), '_ez-toc-visibility_hide_by_default', true ) ) {
+                                                    $toggle_view = "checked";
+                                                }
                                                 $cssIconID = uniqid();
                                                 $htmlCSSIcon = '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle">' . ezTOC::getTOCToggleIcon() . '</label>';
                                                 echo $htmlCSSIcon;

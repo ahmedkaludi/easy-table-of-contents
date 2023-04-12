@@ -36,22 +36,29 @@
             if( !empty( $license_info['pro']['license_key_expires'] ) ) {
                 $license_exp = date( 'Y-m-d', strtotime($license_info['pro']['license_key_expires'] ) );
             }
+
+            ?>
+            <a class="eztoc-tablinks" id="eztoc-license" href="#license"
+               onclick="ezTocTabToggle(event, 'license')"
+               data-href="no"><?= esc_html_e('License', 'easy-table-of-contents') ?>
+            </a>
+            <?php
+
             $today = date('Y-m-d');
             $exp_date = $license_exp;
             $date1 = date_create($today);
-            $date2 = date_create($exp_date);
-            $diff = date_diff($date1, $date2);
-            $days = $diff->format("%a");
-            $days = intval($days); ?>
-            <a class="eztoc-tablinks" id="eztoc-license" href="#license"
-               onclick="ezTocTabToggle(event, 'license')"
-               data-href="no"><?= esc_html_e('License', 'easy-table-of-contents') ?></a>
-            <?php
-            if ($days < 30) {
-                ?>
-                <span class="dashicons dashicons-warning" style="color: #ffb229;position: relative;top:
-                15px;left: -10px;"></span>
-            <?php }
+            if($exp_date){
+                $date2 = date_create($exp_date);
+                $diff = date_diff($date1, $date2);
+                $days = $diff->format("%a");
+                $days = intval($days);
+                if ($days < 30) {
+                    ?>
+                    <span class="dashicons dashicons-warning" style="color: #ffb229;position: relative;top:
+                    15px;left: -10px;"></span>
+                <?php }
+            }                                     
+            
         } ?>
     </div><!-- /.Tab panel -->
     <div class="eztoc_support_div eztoc-tabcontent" id="welcome" style="display: block;">

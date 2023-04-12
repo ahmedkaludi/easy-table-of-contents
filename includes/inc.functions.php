@@ -249,6 +249,18 @@ if ( ! function_exists('ez_toc_non_amp') ) {
   
 }
 
+/**
+ * MBString Extension Admin Notice
+ * if not loaded then msg to user
+ * @since 2.0.47
+ */
+if ( function_exists('extension_loaded') && extension_loaded('mbstring') == false ) {
+    function ez_toc_admin_notice_for_mbstring_extension() {
+        echo '<div class="notice notice-error is-not-dismissible"><p>' . esc_html__( 'PHP MBString Extension is not enabled in your php setup, please enabled to work perfectly', 'easy-table-of-contents' ) . ' <strong>' . esc_html__( 'Easy Table of Contents', 'easy-table-of-contents' ) . '</strong>. ' . esc_html__( 'Check official doc:', 'easy-table-of-contents' ). ' <a href="https://www.php.net/manual/en/mbstring.installation.php" target="_blank">' . esc_html__( 'PHP Manual', 'easy-table-of-contents' ) .'</a></p></div>';
+    }
+    add_action('admin_notices', 'ez_toc_admin_notice_for_mbstring_extension');
+}
+
 
 /**
  * EzPrintR method
