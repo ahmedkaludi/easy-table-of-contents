@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.2
 Requires PHP: 5.6.20
-Stable tag: 2.0.46
+Stable tag: 2.0.47
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,26 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.47 04/12/2023 =
+* BUG: Fatal Error #461
+* BUG: Errors appears after the update. #457
+* BUG: Deprecated: Creation of dynamic property EasyTOC_Data_EDD_SL_Plugin_Updater::$beta is deprecated #454
+* BUG: Deprecated: date_create(): Passing null to parameter #1 ($datetime) of type string is deprecated #453
+* TWEAK: Test with WordPress 6.2 and change tested up to in readme.txt #451
+* BUG: The TOC is auto insterted in category pages without concern #447
+* BUG: Fatal error: Uncaught TypeError: array_key_exists(): Argument #2 ($array) must be of type array, bool given #445
+* BUG: Gutenberg editor freezes when we use shortcode by using reusable blocks #443
+* NEW: Add a new Placement option to Sticky Toggle Option. #442
+* BUG: Conflict issue with latest 2.0.46 version #441
+* BUG: When the sticky toggle options are enabled, the other content gets hidden from the TOC. #439
+* BUG: the_content keeps loading #434
+* BUG: While using the TOC with the Avada theme and page builder, the TOC was showing twice. #432
+* BUG: Need to add option to show on Tags/Categories #427
+* BUG: Need to show notice box when MBString extension is not enabled. #389
+* NEW: Option to hide the initial view on a page/post editing section #379
+* BUG: ez-toc shortcode not working to hide the initial view on a page/post #378
+* BUG: Getting a message "No Headings Found" after adding the TOC via pro-Easy TOC block while adding a new Post/page #366
+
 = 2.0.46 03/17/2023 =
 * BUG: Security Vulnerability Fix #435
 * BUG: Need to add option to show on Tags/Categories #427
