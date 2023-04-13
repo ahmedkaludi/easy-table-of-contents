@@ -1139,9 +1139,17 @@ INLINESTICKYTOGGLEJS;
 			}
                         
 			if( function_exists('get_current_screen') ) {
-				if( get_current_screen()->id == 'edit-post' ) {          
-					$apply = false;
+
+				$my_current_screen = get_current_screen();
+
+				if ( isset( $my_current_screen->id )  ) {
+
+					if( $my_current_screen->id == 'edit-post' ) {          
+						$apply = false;
+					}
+
 				}
+				
 			}
 
 			if ( ! empty( array_intersect( $wp_current_filter, array( 'get_the_excerpt', 'init', 'wp_head' ) ) ) ) {
