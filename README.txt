@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.2
 Requires PHP: 5.6.20
-Stable tag: 2.0.47
+Stable tag: 2.0.47.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,9 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.47.1 04/13/2023 =
+* BUG: Warning: Attempt to read property "id" on null #463
+
 = 2.0.47 04/12/2023 =
 * BUG: Fatal Error #461
 * BUG: Errors appears after the update. #457
