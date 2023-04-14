@@ -609,6 +609,7 @@ class ezTOC_Post {
 
 			$exclude = ezTOC_Option::get( 'exclude' );
 		}
+		$exclude = apply_filters( 'ez_toc_exclude_headings', $exclude );
 
 		if ( $exclude ) {
 
