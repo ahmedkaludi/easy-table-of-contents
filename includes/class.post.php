@@ -59,6 +59,15 @@ class ezTOC_Post {
 	private $hasTOCItems = false;
         
 	/**
+	 * inApplyContentFilter Variable
+	 * for restrict the infinite loops
+	 * @static
+	 * @since 2.0.48
+     * @var bool
+     */
+	private static $inApplyContentFilter = false;
+
+	/**
 	 * ezTOC_Post constructor.
 	 *
 	 * @since 2.0
@@ -72,7 +81,7 @@ class ezTOC_Post {
 		$this->permalink       = get_permalink( $post );
 		$this->queriedObjectID = get_queried_object_id();
 
-		if ( $apply_content_filter ) {
+		if ( $apply_content_filter && false == static::$inApplyContentFilter ) {
 
 			$this->applyContentFilter()->process();
 
@@ -127,14 +136,15 @@ class ezTOC_Post {
 	 */
 	private function applyContentFilter() {
 
+		static::$inApplyContentFilter = true;
 		add_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ), 10, 2 );
 
 		/*
 		 * Ensure the ezTOC content filter is not applied when running `the_content` filter.
 		 */
 		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
-
-                if ( strpos($this->post->post_content, '<!-- wp:block {"ref":') !== false || in_array( 'basic-user-avatars/init.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && has_shortcode( $this->post->post_content, 'basic-user-avatars' ) || in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		
+                if ( ( in_array( 'basic-user-avatars/init.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && has_shortcode( $this->post->post_content, 'basic-user-avatars' ) ) || in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
                     $this->post->post_content = strip_shortcodes( $this->post->post_content );
                 } else {
                     $this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
@@ -144,6 +154,7 @@ class ezTOC_Post {
 
 		remove_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ) );
 
+		static::$inApplyContentFilter = false;
 		return $this;
 	}
 
@@ -173,7 +184,9 @@ class ezTOC_Post {
 			'ez_toc_strip_shortcodes_tagnames',
 			array(
 				'ez-toc',
+				'lwptoc',
 				apply_filters( 'ez_toc_shortcode', 'toc' ),
+				'ez-toc-widget-sticky',
 			),
 			$content
 		);
