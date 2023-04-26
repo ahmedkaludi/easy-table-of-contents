@@ -113,6 +113,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 //                        self::inlineAdminOccasionalAdsPopUpCSS_JS();
                         
                         self::inlineAdminAMPNonJS();
+						self::inlineAdminHeadingsPaddingJS();
 		}
                 
                 /**
@@ -146,6 +147,63 @@ inlineAdminAMPNonJS;
                     }
                 }
                 
+		
+				/**
+                 * inlineAdminHeadingsPaddingJS Method
+				 * Prints out inline AMP Non JS.
+				 *
+				 * @access private
+				 * @return void
+				 * @since  2.0.48
+				 * @static
+				*/
+				private static function inlineAdminHeadingsPaddingJS() {
+					
+					$inlineAdminHeadingsPaddingJS = <<<inlineAdminHeadingsPaddingJS
+jQuery(function($) {
+	
+	let headingsPaddingCheckbox = $('#eztoc-appearance').find("input[name='ez-toc-settings[headings-padding]']");
+    let headingsPaddingTop = $('#eztoc-appearance').find("input[name='ez-toc-settings[headings-padding-top]']");
+    let headingsPaddingBottom = $('#eztoc-appearance').find("input[name='ez-toc-settings[headings-padding-bottom]']");
+    let headingsPaddingLeft = $('#eztoc-appearance').find("input[name='ez-toc-settings[headings-padding-left]']");
+    let headingsPaddingRight = $('#eztoc-appearance').find("input[name='ez-toc-settings[headings-padding-right]']");
+
+    if($(headingsPaddingCheckbox).prop('checked') == false) {
+        $(headingsPaddingTop).parents('tr').hide(500);
+        $(headingsPaddingBottom).parents('tr').hide(500);
+        $(headingsPaddingLeft).parents('tr').hide(500);
+        $(headingsPaddingRight).parents('tr').hide(500);
+		$(headingsPaddingTop).val(0);
+		$(headingsPaddingBottom).val(0);
+		$(headingsPaddingLeft).val(0);
+		$(headingsPaddingRight).val(0);
+    }
+
+    $(document).on("change, click", "input[name='ez-toc-settings[headings-padding]']", function() {
+        if($(headingsPaddingCheckbox).prop('checked') == true) {
+            $(headingsPaddingTop).parents('tr').show(500);
+			$(headingsPaddingBottom).parents('tr').show(500);
+			$(headingsPaddingLeft).parents('tr').show(500);
+			$(headingsPaddingRight).parents('tr').show(500);
+        } else {
+            $(headingsPaddingTop).parents('tr').hide(500);
+			$(headingsPaddingBottom).parents('tr').hide(500);
+			$(headingsPaddingLeft).parents('tr').hide(500);
+			$(headingsPaddingRight).parents('tr').hide(500);
+			$(headingsPaddingTop).val(0);
+			$(headingsPaddingBottom).val(0);
+			$(headingsPaddingLeft).val(0);
+			$(headingsPaddingRight).val(0);
+        }
+        
+    });
+});
+inlineAdminHeadingsPaddingJS;
+
+					wp_add_inline_script( 'cn_toc_admin_script', $inlineAdminHeadingsPaddingJS );
+					 
+				}
+
                 /**
                  * inlineAdminOccasionalAdsPopUpCSS_JS Method
 		 * Prints out inline occasional ads PopUp JS.

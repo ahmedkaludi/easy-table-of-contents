@@ -356,7 +356,3 @@ label.cssiconcheckbox {
 .ez-toc-sticky-widget-container ul.ez-toc-sticky-list li.active {
     height: auto !important;
 }
-
-ul.ez-toc-list a.ez-toc-link {
-    padding: 3px 0px;
-}
