@@ -302,6 +302,10 @@ class ezTOC_Post {
 		}
 		} else if ( ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) && false != get_option( 'ez-toc-post-content-core-level' ) ) {
                     $content = get_option( 'ez-toc-post-content-core-level' );
+                } else if ( in_array( 'advanced-custom-fields-pro/acf.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && function_exists( 'ezTOC_getACFContentbyPost' ) && true == ezTOC_Option::get( 'acf-support', false ) ) {
+                    $acfContent = strip_shortcodes( ezTOC_getACFContentbyPost( get_the_ID() ) );
+                    if( !empty( $acfContent ) )
+                        $content .= $acfContent;
                 } else {
                        
                 }

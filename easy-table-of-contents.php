@@ -1230,7 +1230,27 @@ INLINESTICKYTOGGLEJS;
                         }
                     
 			$maybeApplyFilter = self::maybeApplyTheContentFilter();
-                        
+					
+			if ( in_array( 'advanced-custom-fields-pro/acf.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && function_exists( 'ezTOC_getACFContentbyPost' ) && true == ezTOC_Option::get( 'acf-support', false ) ) {
+				$acfContent = ezTOC_getACFContentbyPost( get_the_ID() );
+				if( !empty( $acfContent ) ) {
+					$post = self::get( get_the_ID() );
+					
+					$find    = $post->getHeadings();
+					$replace = $post->getHeadingsWithAnchors();
+					$toc     = $post->getTOC();
+					if( !has_shortcode( $acfContent, 'ez-toc' ) && !has_shortcode( $acfContent, 'toc' ) && !has_shortcode( $content, 'ez-toc' ) && !has_shortcode( $content, 'toc' ) && false === strpos( $content, "ez-toc-container" ) && false === strpos( $content, "ez-toc-container" ) )
+							$content = $toc . mb_find_replace( $find, $replace, $content );
+					else
+							$content = mb_find_replace( $find, $replace, $content );
+							
+					if ( ezTOC_Option::get( 'sticky-toggle' ) && !is_home() && !self::checkBeaverBuilderPluginActive() ) {
+							add_action( 'wp_footer', array(__CLASS__, 'stickyToggleContent' ) );
+					}
+					return Debug::log()->appendTo( $content );
+				}
+			}
+       
                         if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
                             update_option( 'ez-toc-post-content-core-level', $content );
 			}
