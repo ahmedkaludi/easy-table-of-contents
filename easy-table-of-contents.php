@@ -1231,7 +1231,7 @@ INLINESTICKYTOGGLEJS;
                     
 			$maybeApplyFilter = self::maybeApplyTheContentFilter();
 					
-			if ( in_array( 'advanced-custom-fields-pro/acf.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && function_exists( 'ezTOC_getACFContentbyPost' ) && true == ezTOC_Option::get( 'acf-support', false ) ) {
+			if ( ( in_array( 'advanced-custom-fields/acf.php', apply_filters('active_plugins', get_option( 'active_plugins') ) ) || in_array( 'advanced-custom-fields-pro/acf.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) && function_exists( 'ezTOC_getACFContentbyPost' ) && true == ezTOC_Option::get( 'acf-support', false ) ) {
 				$acfContent = ezTOC_getACFContentbyPost( get_the_ID() );
 				if( !empty( $acfContent ) ) {
 					$post = self::get( get_the_ID() );
