@@ -177,9 +177,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
                             }
 //                        }
-		}
-	
-                
+		}	               
         /**
 	 * enqueueScriptsforExcludeCSS Method
 	 * for adding toggle css on loading as CSS
@@ -1265,7 +1263,6 @@ INLINESTICKYTOGGLEJS;
 
 				return Debug::log()->appendTo( $content );
 			}
-                        
                         $find    = $post->getHeadings();
                         $replace = $post->getHeadingsWithAnchors();
                         $toc     = $post->getTOC();
@@ -1485,8 +1482,21 @@ STICKYTOGGLEHTML;
                     return $description;
 		}
 
+		/**
+		 * eztocProcessPages Method
+		 * helper for the ACF.
+		 *
+		 * @since  2.0.32
+		 * @static
+		 */
+		public static function eztocAcfProcessPages( $content ){
+			$post = self::get( get_the_ID() );
+			$post->eztocAcfProcessPages($content);
+		}
 
 	}
+
+	
 
 	/**
 	 * The main function responsible for returning the Easy Table of Contents instance to functions everywhere.
@@ -1524,3 +1534,4 @@ function ez_toc_redirect() {
         }
     }
 }
+

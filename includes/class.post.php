@@ -365,6 +365,29 @@ class ezTOC_Post {
 		$this->pages = $pages;
 	}
 
+	public function eztocAcfProcessPages($content) {
+	
+		$pages = array();
+
+		$split = preg_split( '/<!--nextpage-->/msuU', $content );
+
+		if ( is_array( $split ) ) {
+
+			$page = 1;
+			foreach ( $split as $content ) {
+				$this->extractExcludedNodes( $page, $content );
+				$pages[ $page ] = array(
+					'headings' => $this->extractHeadings( $content ),
+					'content'  => $content,
+				);
+
+				$page++;
+			}
+
+		}
+
+		$this->pages = $pages;
+	}
 	/**
 	 * Get the post's parse content and headings.
 	 *
