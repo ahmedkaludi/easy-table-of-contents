@@ -718,6 +718,38 @@ COUNTERINCREMENTCSS;
             return $counterContentCSS;
         }
 
+		/**
+         * inlineHeadingsPaddingCSS Method
+         *
+         * @since  2.0.48
+         * @static
+         */
+        private static function inlineHeadingsPaddingCSS()
+        {
+            $headingsPaddingTop = 0;
+            if ( null !== ezTOC_Option::get( 'headings-padding-top' ) && !empty( ezTOC_Option::get( 'headings-padding-top' ) ) && 0 != ezTOC_Option::get( 'headings-padding-top' ) && '0' != ezTOC_Option::get( 'headings-padding-top' ) ) {
+                $headingsPaddingTop =  ezTOC_Option::get( 'headings-padding-top' ) . '' . ezTOC_Option::get( 'headings-padding-top_units' );
+            }
+            $headingsPaddingBottom = 0;
+            if ( null !== ezTOC_Option::get( 'headings-padding-bottom' ) && !empty( ezTOC_Option::get( 'headings-padding-bottom' ) ) && 0 != ezTOC_Option::get( 'headings-padding-bottom' ) && '0' != ezTOC_Option::get( 'headings-padding-bottom' ) ) {
+                $headingsPaddingBottom =  ezTOC_Option::get( 'headings-padding-bottom' ) . '' . ezTOC_Option::get( 'headings-padding-bottom_units' );
+            }
+            $headingsPaddingLeft = 0;
+            if ( null !== ezTOC_Option::get( 'headings-padding-left' ) && !empty( ezTOC_Option::get( 'headings-padding-left' ) ) && 0 != ezTOC_Option::get( 'headings-padding-left' ) && '0' != ezTOC_Option::get( 'headings-padding-left' ) ) {
+                $headingsPaddingLeft =  ezTOC_Option::get( 'headings-padding-left' ) . '' . ezTOC_Option::get( 'headings-padding-left_units' );
+            }
+            $headingsPaddingRight = 0;
+            if ( null !== ezTOC_Option::get( 'headings-padding-right' ) && !empty( ezTOC_Option::get( 'headings-padding-right' ) ) && 0 != ezTOC_Option::get( 'headings-padding-right' ) && '0' != ezTOC_Option::get( 'headings-padding-right' ) ) {
+                $headingsPaddingRight =  ezTOC_Option::get( 'headings-padding-right' ) . '' . ezTOC_Option::get( 'headings-padding-right_units' );
+            }
+            
+            
+            $inlineHeadingsPaddingCSS = <<<inlineHeadingsPaddingCSS
+ul.ez-toc-list a.ez-toc-link { padding: $headingsPaddingTop $headingsPaddingRight $headingsPaddingBottom $headingsPaddingLeft; }
+inlineHeadingsPaddingCSS;
+
+			wp_add_inline_style( 'ez-toc-headings-padding', $inlineHeadingsPaddingCSS );
+		}
 
         /**
          * inlineStickyToggleCSS Method
@@ -1136,6 +1168,17 @@ INLINESTICKYTOGGLEJS;
                             } else {
 				$apply = false;
                             }
+			}
+
+			if ( ezTOC_Option::get( 'headings-padding' ) ) {
+				wp_register_style(
+					'ez-toc-headings-padding',
+					'',
+					array( ),
+					self::VERSION
+				);
+				wp_enqueue_style( 'ez-toc-headings-padding' );
+				self::inlineHeadingsPaddingCSS();
 			}
                         
 			if( function_exists('get_current_screen') ) {
