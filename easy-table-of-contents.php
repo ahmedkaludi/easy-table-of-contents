@@ -1482,18 +1482,6 @@ STICKYTOGGLEHTML;
                     return $description;
 		}
 
-		/**
-		 * eztocProcessPages Method
-		 * helper for the ACF.
-		 *
-		 * @since  2.0.32
-		 * @static
-		 */
-		public static function eztocAcfProcessPages( $content ){
-			$post = self::get( get_the_ID() );
-			$post->eztocAcfProcessPages($content);
-		}
-
 	}
 
 	

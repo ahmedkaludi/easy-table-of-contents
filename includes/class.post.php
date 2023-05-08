@@ -279,6 +279,12 @@ class ezTOC_Post {
 		//}
 		$content = $this->post->post_content;
 
+		//Adding ACF content to create combined toc
+		if(class_exists('ACF') && ezTOC_Option::get('acf-support') && function_exists('ezTOC_getACFContentbyPost')){
+			$eztoc_acf_content=ezTOC_getACFContentbyPost(get_the_ID());
+			$content = $content.$eztoc_acf_content; 
+		 }
+
 		// Fix for wordpress category pages showing wrong toc if they have description
 		if(is_category()){
 			$cat_from_query=get_query_var( 'cat', null ); 
@@ -352,30 +358,6 @@ class ezTOC_Post {
 
 				$this->extractExcludedNodes( $page, $content );
 
-				$pages[ $page ] = array(
-					'headings' => $this->extractHeadings( $content ),
-					'content'  => $content,
-				);
-
-				$page++;
-			}
-
-		}
-
-		$this->pages = $pages;
-	}
-
-	public function eztocAcfProcessPages($content) {
-	
-		$pages = array();
-
-		$split = preg_split( '/<!--nextpage-->/msuU', $content );
-
-		if ( is_array( $split ) ) {
-
-			$page = 1;
-			foreach ( $split as $content ) {
-				$this->extractExcludedNodes( $page, $content );
 				$pages[ $page ] = array(
 					'headings' => $this->extractHeadings( $content ),
 					'content'  => $content,
