@@ -720,25 +720,6 @@ if ( 'PokaTheme' == apply_filters( 'current_theme', get_option( 'current_theme' 
     }
 }
 
-/**
- * Avada Theme with Fusion Core/Builder Plugin Compatibility
- * remove duplicate eztoc containers
- * in footer sections
- * @since 2.0.47
- */
-if ( 'Avada' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) && in_array( 'fusion-builder/fusion-builder.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-
-    add_action( 'avada_render_footer', 'ez_toc_remove_the_footer_content', -1 );
-    function ez_toc_remove_the_footer_content() {
-        remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
-    }
-    add_action( 'avada_render_footer', 'ez_toc_remove_the_footer_content_after', 11 );
-    function ez_toc_remove_the_footer_content_after() {
-        add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
-    }
-    
-}
-
 if ( 'MAKE9 Divi zh-tw Child' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
     add_filter('ez_toc_regex_filteration', 'ez_toc_regex_filteration_for_divi_chinese');
     function ez_toc_regex_filteration_for_divi_chinese( $regEx ) {
