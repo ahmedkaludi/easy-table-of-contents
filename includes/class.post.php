@@ -279,6 +279,18 @@ class ezTOC_Post {
 		//}
 		$content = $this->post->post_content;
 
+		// Fix for reusable blocks/ block templates not included in TOC it will run on only those posts where block editor is present
+		if(function_exists('has_blocks') && function_exists('parse_blocks')){
+			$block_content="";
+			if ( has_blocks( $content ) ) {
+				$blocks = parse_blocks( $content );
+				foreach( $blocks as $block ) {
+					$block_content.=render_block( $block );
+				}
+				$content = $block_content;
+			}
+		}
+
 		//Adding ACF content to create combined toc
 		if(class_exists('ACF') && ezTOC_Option::get('acf-support') && function_exists('ezTOC_getACFContentbyPost')){
 			$eztoc_acf_content=ezTOC_getACFContentbyPost(get_the_ID());
