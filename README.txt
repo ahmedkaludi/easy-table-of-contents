@@ -44,6 +44,7 @@ With [EASY TABLE OF CONTENTS PRO](https://tocwp.com/pricing/) You will get acces
 * <strong>New - Elementor Widget </strong>: Easily create TOC using Elementor Widget without the need of any coding or shortcode.
 * <strong>New - Fixed/Sticky TOC </strong>: Users can find the content that they need, much faster through the option of sticky TOC.
 * <strong>New - Full AMP Support </strong>: Generates a TOC with your existing setup and make it AMP compatible automatically.
+* <strong>NEW – ACF Support </strong>: Easily create TOC with your custom ACF fields.
 
 ### Support
 
@@ -101,6 +102,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 = 2.0.48 05/08/2023 =
+* NEW: ADDED ACF Support (PRO)
 * BUG: unable to crawl data if the content is added via different modules #448
 * BUG: The toc does not appear on the custom post type produce.  #417
 * BUG: Shortcode is not working with Advanced Custom Fields PRO #358
