@@ -100,7 +100,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
-= 2.0.48 08/05/2023 =
+= 2.0.48 05/08/2023 =
 * BUG: unable to crawl data if the content is added via different modules #448
 * BUG: The toc does not appear on the custom post type produce.  #417
 * BUG: Shortcode is not working with Advanced Custom Fields PRO #358
