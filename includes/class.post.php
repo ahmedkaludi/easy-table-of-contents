@@ -58,14 +58,6 @@ class ezTOC_Post {
 	 */
 	private $hasTOCItems = false;
         
-	/**
-	 * inApplyContentFilter Variable
-	 * for restrict the infinite loops
-	 * @static
-	 * @since 2.0.48
-     * @var bool
-     */
-	private static $inApplyContentFilter = false;
 
 	/**
 	 * ezTOC_Post constructor.
@@ -81,7 +73,7 @@ class ezTOC_Post {
 		$this->permalink       = get_permalink( $post );
 		$this->queriedObjectID = get_queried_object_id();
 
-		if ( $apply_content_filter && false == static::$inApplyContentFilter ) {
+		if ( $apply_content_filter) {
 
 			$this->applyContentFilter()->process();
 
@@ -136,7 +128,6 @@ class ezTOC_Post {
 	 */
 	private function applyContentFilter() {
 
-		static::$inApplyContentFilter = true;
 		add_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ), 10, 2 );
 
 		/*
@@ -154,7 +145,6 @@ class ezTOC_Post {
 
 		remove_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ) );
 
-		static::$inApplyContentFilter = false;
 		return $this;
 	}
 
