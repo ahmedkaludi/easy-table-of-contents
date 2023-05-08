@@ -265,7 +265,13 @@ class ezTOC_Post {
 		//	require_once( EZ_TOC_PATH . '/includes/vendor/ultimate-web-scraper/tag_filter.php' );
 		//}
 		$content = $this->post->post_content;
-
+		
+		//Adding ACF content to create combined toc
+		if(class_exists('ACF') && ezTOC_Option::get('acf-support') && function_exists('ezTOC_getACFContentbyPost')){
+			$eztoc_acf_content=ezTOC_getACFContentbyPost(get_the_ID());
+			$content = $content.$eztoc_acf_content; 
+			}
+		
 		// Fix for wordpress category pages showing wrong toc if they have description
 		if(is_category()){
 			$cat_from_query=get_query_var( 'cat', null ); 

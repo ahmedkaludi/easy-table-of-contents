@@ -113,6 +113,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 //                        self::inlineAdminOccasionalAdsPopUpCSS_JS();
                         
                         self::inlineAdminAMPNonJS();
+						self::inlineAdminHeadingsPaddingJS();
 		}
                 
                 /**
@@ -146,6 +147,92 @@ inlineAdminAMPNonJS;
                     }
                 }
                 
+				/**
+                 * inlineAdminHeadingsPaddingJS Method
+				 * Prints out inline AMP Non JS.
+				 *
+				 * @access private
+				 * @return void
+				 * @since  2.0.48
+				 * @static
+				*/
+				private static function inlineAdminHeadingsPaddingJS() {
+					
+					$inlineAdminHeadingsPaddingJS = <<<inlineAdminHeadingsPaddingJS
+jQuery(function($) {
+	
+	let headingsPaddingCheckbox = $('#eztoc-appearance').find("input[name='ez-toc-settings[headings-padding]']");
+    let headingsPaddingTop = $('#eztoc-appearance').find("input[name='ez-toc-settings[headings-padding-top]']");
+    let headingsPaddingBottom = $('#eztoc-appearance').find("input[name='ez-toc-settings[headings-padding-bottom]']");
+    let headingsPaddingLeft = $('#eztoc-appearance').find("input[name='ez-toc-settings[headings-padding-left]']");
+    let headingsPaddingRight = $('#eztoc-appearance').find("input[name='ez-toc-settings[headings-padding-right]']");
+
+	let headingsPaddingTopHTML = $(headingsPaddingTop).parent();
+	$(headingsPaddingTopHTML).find("input[name='ez-toc-settings[headings-padding-top]']").attr("type", "number");
+	$(headingsPaddingTop).parents('tr').remove();
+	$(headingsPaddingCheckbox).parent().append("<br/><br/><span id='headings-padding-top-container'><label for='ez-toc-settings[headings-padding-top]'><strong>Top</strong></label>&nbsp;&nbsp;&nbsp;" + $(headingsPaddingTopHTML).html() + "</span>");
+	$('#eztoc-appearance').find("select[name='ez-toc-settings[headings-padding-top_units]']").html('<option value="px" selected="selected">px</option>');
+	
+
+	let headingsPaddingBottomHTML = $(headingsPaddingBottom).parent();
+	$(headingsPaddingBottomHTML).find("input[name='ez-toc-settings[headings-padding-bottom]']").attr("type", "number");
+	$(headingsPaddingBottom).parents('tr').remove();
+	$(headingsPaddingCheckbox).parent().append("&nbsp;&nbsp;&nbsp;&nbsp;<span id='headings-padding-bottom-container'><label for='ez-toc-settings[headings-padding-bottom]'><strong>Bottom</strong></label>&nbsp;&nbsp;&nbsp;" + $(headingsPaddingBottomHTML).html() + "</span>");
+	$('#eztoc-appearance').find("select[name='ez-toc-settings[headings-padding-bottom_units]']").html('<option value="px" selected="selected">px</option>');
+
+	let headingsPaddingLeftHTML = $(headingsPaddingLeft).parent();
+	$(headingsPaddingLeftHTML).find("input[name='ez-toc-settings[headings-padding-left]']").attr("type", "number");
+	$(headingsPaddingLeft).parents('tr').remove();
+	$(headingsPaddingCheckbox).parent().append("&nbsp;&nbsp;&nbsp;&nbsp;<span id='headings-padding-left-container'><label for='ez-toc-settings[headings-padding-left]'><strong>Left</strong></label>&nbsp;&nbsp;&nbsp;" + $(headingsPaddingLeftHTML).html() + "</span>");
+	$('#eztoc-appearance').find("select[name='ez-toc-settings[headings-padding-left_units]']").html('<option value="px" selected="selected">px</option>');
+
+	let headingsPaddingRightHTML = $(headingsPaddingRight).parent();
+	$(headingsPaddingRightHTML).find("input[name='ez-toc-settings[headings-padding-right]']").attr("type", "number");
+	$(headingsPaddingRight).parents('tr').remove();
+	$(headingsPaddingCheckbox).parent().append("&nbsp;&nbsp;&nbsp;&nbsp;<span id='headings-padding-right-container'><label for='ez-toc-settings[headings-padding-right]'><strong>Right</strong></label>&nbsp;&nbsp;&nbsp;" + $(headingsPaddingRightHTML).html() + "</span>");
+	$('#eztoc-appearance').find("select[name='ez-toc-settings[headings-padding-right_units]']").html('<option value="px" selected="selected">px</option>');
+
+	let headingsPaddingContainerTop = $('#eztoc-appearance').find("span#headings-padding-top-container");
+	let headingsPaddingContainerBottom = $('#eztoc-appearance').find("span#headings-padding-bottom-container");
+	let headingsPaddingContainerLeft = $('#eztoc-appearance').find("span#headings-padding-left-container");
+	let headingsPaddingContainerRight = $('#eztoc-appearance').find("span#headings-padding-right-container");
+
+    if($(headingsPaddingCheckbox).prop('checked') == false) {
+        $(headingsPaddingContainerTop).hide(500);
+        $(headingsPaddingContainerBottom).hide(500);
+        $(headingsPaddingContainerLeft).hide(500);
+        $(headingsPaddingContainerRight).hide(500);
+		$(headingsPaddingTop).val(0);
+		$(headingsPaddingBottom).val(0);
+		$(headingsPaddingLeft).val(0);
+		$(headingsPaddingRight).val(0);
+    }
+
+    $(document).on("change, click", "input[name='ez-toc-settings[headings-padding]']", function() {
+        if($(headingsPaddingCheckbox).prop('checked') == true) {
+            $(headingsPaddingContainerTop).show(500);
+			$(headingsPaddingContainerBottom).show(500);
+			$(headingsPaddingContainerLeft).show(500);
+			$(headingsPaddingContainerRight).show(500);
+        } else {
+            $(headingsPaddingContainerTop).hide(500);
+			$(headingsPaddingContainerBottom).hide(500);
+			$(headingsPaddingContainerLeft).hide(500);
+			$(headingsPaddingContainerRight).hide(500);
+			$(headingsPaddingTop).val(0);
+			$(headingsPaddingBottom).val(0);
+			$(headingsPaddingLeft).val(0);
+			$(headingsPaddingRight).val(0);
+        }
+        
+    });
+});
+inlineAdminHeadingsPaddingJS;
+
+					wp_add_inline_script( 'cn_toc_admin_script', $inlineAdminHeadingsPaddingJS );
+					 
+				}
+				
                 /**
                  * inlineAdminOccasionalAdsPopUpCSS_JS Method
 		 * Prints out inline occasional ads PopUp JS.
