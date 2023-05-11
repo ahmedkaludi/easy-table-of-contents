@@ -290,6 +290,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				wp_register_style( 'ez-toc', EZ_TOC_URL . "assets/css/screen$min.css",
 				 array( ),
 				 ezTOC::VERSION );
+			} else {
+				wp_register_style( 'ez-toc', '', array(), ezTOC::VERSION, true );
 			}
                         if ( 'css' != ezTOC_Option::get( 'toc_loading' ) ) {
                             wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', TRUE );
