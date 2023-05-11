@@ -584,6 +584,11 @@ INLINECSS;
 					$floatPosition = 'float: right;';
 	            }
 
+				$importantItem = '';
+				if ( 'Edition Child' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) )
+				{
+					$importantItem = ' !important';
+				}
 				if( $list_type == '- ' )
 				{
 	                $inlineCSS .= <<<INLINECSS
@@ -603,7 +608,7 @@ INLINECSS;
 	                if( $direction == 'ltr' )
 					{
 	                     $inlineCSS .= <<<INLINECSS
-.$class ul{counter-reset: item;}.$class nav ul li a::$listAnchorPosition {content: counters(item, ".", $list_type) ". ";display: inline-block;counter-increment: item;flex-grow: 0;flex-shrink: 0;$marginCSS $floatPosition}
+.$class ul{counter-reset: item $importantItem;}.$class nav ul li a::$listAnchorPosition {content: counters(item, ".", $list_type) ". ";display: inline-block;counter-increment: item;flex-grow: 0;flex-shrink: 0;$marginCSS $floatPosition}
 INLINECSS;
 	                }
 	            } else {
@@ -613,7 +618,7 @@ INLINECSS;
 						$content = ". ";
 
 	                $inlineCSS .= <<<INLINECSS
-.$class ul {direction: $direction;counter-reset: item;}.$class nav ul li a::$listAnchorPosition {content: counter(item, $list_type) "$content";$marginCSS counter-increment: item;flex-grow: 0;flex-shrink: 0;$floatPosition	}
+.$class ul {direction: $direction;counter-reset: item $importantItem;}.$class nav ul li a::$listAnchorPosition {content: counter(item, $list_type) "$content";$marginCSS counter-increment: item;flex-grow: 0;flex-shrink: 0;$floatPosition	}
 INLINECSS;
 
 	            }
