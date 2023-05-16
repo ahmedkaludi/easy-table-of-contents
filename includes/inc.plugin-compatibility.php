@@ -27,7 +27,8 @@ add_filter(
 	'ez_toc_strip_shortcodes_tagnames',
 	function( $tags_to_remove ) {
 
-		$shortcodes = array (
+		$shortcodes = array (			
+			'CARFORM',
 			'connections_form',
 			'cn_multi_category_search',
 			'cn_widget',
