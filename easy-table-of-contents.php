@@ -30,8 +30,8 @@
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
-use function Easy_Plugins\Table_Of_Contents\String\insertElementByPTag;
-use function Easy_Plugins\Table_Of_Contents\String\mb_find_replace;
+use function Easy_Plugins\Table_Of_Contents\Cord\insertElementByPTag;
+use function Easy_Plugins\Table_Of_Contents\Cord\mb_find_replace;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -138,7 +138,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			require_once( EZ_TOC_PATH . '/includes/class.widget-toc-sticky.php' );
 			require_once( EZ_TOC_PATH . '/includes/Debug.php' );
 			require_once( EZ_TOC_PATH . '/includes/inc.functions.php' );
-			require_once( EZ_TOC_PATH . '/includes/inc.string-functions.php' );
+			require_once( EZ_TOC_PATH . '/includes/inc.cord-functions.php' );
 
 			require_once( EZ_TOC_PATH . '/includes/inc.plugin-compatibility.php' );
 		}

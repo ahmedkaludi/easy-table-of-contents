@@ -1,6 +1,6 @@
 <?php
 
-namespace Easy_Plugins\Table_Of_Contents\String;
+namespace Easy_Plugins\Table_Of_Contents\Cord;
 
 /**
  * Replace `<br />` tags with parameter.

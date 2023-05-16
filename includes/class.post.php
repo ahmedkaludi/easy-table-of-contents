@@ -1,6 +1,6 @@
 <?php
 
-use function Easy_Plugins\Table_Of_Contents\String\br2;
+use function Easy_Plugins\Table_Of_Contents\Cord\br2;
 
 class ezTOC_Post {
 
