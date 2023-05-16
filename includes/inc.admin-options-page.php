@@ -13,8 +13,9 @@
         $pro = '';
 
         if (function_exists('ez_toc_pro_activation_link')) {
-            $pro = '<a id="eztoc-default" class="eztoc-tablinks ez-toc-pro-settings-link-paid" data-href="no" href="#eztoc-prosettings" onclick="ezTocTabToggle(event, \'general\')">' . esc_html_e( 'PRO Settings', 'easy-table-of-contents' ) . '</a>';
-        } ?>
+            $pro = '<a id="eztoc-default" class="eztoc-tablinks ez-toc-pro-settings-link-paid" data-href="no" href="#eztoc-prosettings" onclick="ezTocTabToggle(event, \'general\')">' . esc_html__( 'PRO Settings', 'easy-table-of-contents' ) . '</a>';
+        }
+        ?>
         <?php echo $pro; ?>
 
         <?php
