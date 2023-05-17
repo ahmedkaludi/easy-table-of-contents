@@ -758,3 +758,18 @@ if ( 'Avada' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) 
     }
     
 }
+
+/**
+ * Sportsidioten Theme Compatibility
+ *
+ * @since 2.0.50
+ */
+if ( 'Sportsidioten' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+	add_action( 'wp_head', 'ezTocEnqueueScriptsforSportsidiotenTheme' );
+	function ezTocEnqueueScriptsforSportsidiotenTheme() 
+	{
+		echo <<<EZTOC_THEMECONFLICTCSS
+		<style>div#ez-toc-container nav{display:block;}</style>
+		EZTOC_THEMECONFLICTCSS;
+	}
+}
