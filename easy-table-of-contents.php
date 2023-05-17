@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.48
+ * Version: 2.0.49
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,12 +26,12 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.48
+ * @version  2.0.49
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
-use function Easy_Plugins\Table_Of_Contents\String\insertElementByPTag;
-use function Easy_Plugins\Table_Of_Contents\String\mb_find_replace;
+use function Easy_Plugins\Table_Of_Contents\Cord\insertElementByPTag;
+use function Easy_Plugins\Table_Of_Contents\Cord\mb_find_replace;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -49,7 +49,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.48';
+		const VERSION = '2.0.49';
 
 		/**
 		 * Stores the instance of this class.
@@ -138,7 +138,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			require_once( EZ_TOC_PATH . '/includes/class.widget-toc-sticky.php' );
 			require_once( EZ_TOC_PATH . '/includes/Debug.php' );
 			require_once( EZ_TOC_PATH . '/includes/inc.functions.php' );
-			require_once( EZ_TOC_PATH . '/includes/inc.string-functions.php' );
+			require_once( EZ_TOC_PATH . '/includes/inc.cord-functions.php' );
 
 			require_once( EZ_TOC_PATH . '/includes/inc.plugin-compatibility.php' );
 		}
@@ -290,6 +290,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				wp_register_style( 'ez-toc', EZ_TOC_URL . "assets/css/screen$min.css",
 				 array( ),
 				 ezTOC::VERSION );
+			} else {
+				wp_register_style( 'ez-toc', '', array(), ezTOC::VERSION, true );
 			}
                         if ( 'css' != ezTOC_Option::get( 'toc_loading' ) ) {
                             wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', TRUE );
@@ -582,6 +584,11 @@ INLINECSS;
 					$floatPosition = 'float: right;';
 	            }
 
+				$importantItem = '';
+				if ( 'Edition Child' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) )
+				{
+					$importantItem = ' !important';
+				}
 				if( $list_type == '- ' )
 				{
 	                $inlineCSS .= <<<INLINECSS
@@ -601,7 +608,7 @@ INLINECSS;
 	                if( $direction == 'ltr' )
 					{
 	                     $inlineCSS .= <<<INLINECSS
-.$class ul{counter-reset: item;}.$class nav ul li a::$listAnchorPosition {content: counters(item, ".", $list_type) ". ";display: inline-block;counter-increment: item;flex-grow: 0;flex-shrink: 0;$marginCSS $floatPosition}
+.$class ul{counter-reset: item $importantItem;}.$class nav ul li a::$listAnchorPosition {content: counters(item, ".", $list_type) ". ";display: inline-block;counter-increment: item;flex-grow: 0;flex-shrink: 0;$marginCSS $floatPosition}
 INLINECSS;
 	                }
 	            } else {
@@ -611,7 +618,7 @@ INLINECSS;
 						$content = ". ";
 
 	                $inlineCSS .= <<<INLINECSS
-.$class ul {direction: $direction;counter-reset: item;}.$class nav ul li a::$listAnchorPosition {content: counter(item, $list_type) "$content";$marginCSS counter-increment: item;flex-grow: 0;flex-shrink: 0;$floatPosition	}
+.$class ul {direction: $direction;counter-reset: item $importantItem;}.$class nav ul li a::$listAnchorPosition {content: counter(item, $list_type) "$content";$marginCSS counter-increment: item;flex-grow: 0;flex-shrink: 0;$floatPosition	}
 INLINECSS;
 
 	            }

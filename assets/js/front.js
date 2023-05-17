@@ -54,13 +54,15 @@ jQuery( function( $ ) {
 
 		if ( typeof ezTOC.visibility_hide_by_default != 'undefined' ) {
 
-			var toggles = $( 'a.ez-toc-toggle,a.ez-toc-widget-sticky-toggle' );
+			// Get all toggles that have not been loaded.
+			var toggles = $( 'a.ez-toc-toggle:not(.ez-toc-loaded),a.ez-toc-widget-sticky-toggle:not(.ez-toc-loaded)' ); 
 //			var toc = $( 'ul.ez-toc-list' );
 			var invert = ezTOC.visibility_hide_by_default;
 //                        toggles.css( 'display', 'flex' );
                         $.each(toggles, function(i, obj) {
                             
                             var toggle = $(this);
+                            $(toggle).addClass('ez-toc-loaded'); // Attach loaded class.
                             var toc = $( toggle ).parents('#ez-toc-container,#ez-toc-widget-container,#ez-toc-widget-sticky-container').find( 'ul.ez-toc-list,ul.ez-toc-widget-sticky-list' );
                             
                             if ( Cookies ) {

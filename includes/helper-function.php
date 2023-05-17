@@ -120,7 +120,7 @@ function eztoc_subscribe_for_newsletter(){
     $api_url = 'http://magazine3.company/wp-json/api/central/email/subscribe';
     $api_params = array(
         'name' => sanitize_text_field($_POST['name']),
-        'email'=> sanitize_text_field($_POST['email']),
+        'email'=> sanitize_email($_POST['email']),
         'website'=> sanitize_text_field($_POST['website']),
         'type'=> 'etoc'
     );

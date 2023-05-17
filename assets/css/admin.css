@@ -263,7 +263,7 @@ html {
     width: 60%;
 }
 
-.support-label {
+.ez-toc-support-label {
     margin-top: 4px;
     float: left;
     width: 70px;
@@ -291,7 +291,7 @@ html {
     display: block;
 }
 
-.support-input select {
+.ez-toc-support-input select {
     border-radius: 4px;
     margin-top: -7px;
 }
@@ -360,12 +360,12 @@ html {
 
 }
 
-.company-link {
+.ez-toc-company-link {
     font-weight: 500;
     margin: 20px 0 0 0;
 }
 
-.company-link a {
+.ez-toc-company-link a {
 
     display: table;
     background: #e91e63;

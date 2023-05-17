@@ -1,6 +1,6 @@
 <?php
 
-use function Easy_Plugins\Table_Of_Contents\String\br2;
+use function Easy_Plugins\Table_Of_Contents\Cord\br2;
 
 class ezTOC_Post {
 
@@ -127,6 +127,15 @@ class ezTOC_Post {
 	 */
 	private function applyContentFilter() {
 
+		/*
+		 * Parses dynamic blocks out of post_content and re-renders them for gutenberg blocks.
+		 */		
+		if(function_exists('do_blocks')){
+			$this->post->post_content = do_blocks($this->post->post_content);
+		}else{
+			$this->post->post_content = $this->post->post_content;
+		}
+
 		add_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ), 10, 2 );
 
 		/*
@@ -134,11 +143,7 @@ class ezTOC_Post {
 		 */
 		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
-                if ( strpos($this->post->post_content, '<!-- wp:block {"ref":') !== false || in_array( 'basic-user-avatars/init.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && has_shortcode( $this->post->post_content, 'basic-user-avatars' ) || in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-                    $this->post->post_content = strip_shortcodes( $this->post->post_content );
-                } else {
-                    $this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
-                }
+		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
 
 		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
 

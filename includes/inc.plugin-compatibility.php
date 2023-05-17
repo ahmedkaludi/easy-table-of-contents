@@ -27,7 +27,9 @@ add_filter(
 	'ez_toc_strip_shortcodes_tagnames',
 	function( $tags_to_remove ) {
 
-		$shortcodes = array (
+		$shortcodes = array (	
+			'basic-user-avatars',		
+			'CARFORM',
 			'connections_form',
 			'cn_multi_category_search',
 			'cn_widget',
@@ -736,4 +738,23 @@ if ( in_array( 'lasso/affiliate-plugin.php', apply_filters( 'active_plugins', ge
 
         return $regEx;
     }
+}
+
+/**
+ * Avada Theme with Fusion Core/Builder Plugin Compatibility
+ * remove duplicate eztoc containers
+ * in footer sections
+ * @since 2.0.49
+ */
+if ( 'Avada' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) && in_array( 'fusion-builder/fusion-builder.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+
+    add_action( 'awb_remove_third_party_the_content_changes', 'ez_toc_remove_the_footer_content', 1 );
+    function ez_toc_remove_the_footer_content() {
+        remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
+    }
+    add_action( 'awb_readd_third_party_the_content_changes', 'ez_toc_remove_the_footer_content_after', 1 );
+    function ez_toc_remove_the_footer_content_after() {
+        add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
+    }
+    
 }
