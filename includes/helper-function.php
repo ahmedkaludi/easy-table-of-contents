@@ -35,12 +35,6 @@ function eztoc_add_deactivation_feedback_modal() {
         return;
     }
 
-    $current_user = wp_get_current_user();
-    if( !($current_user instanceof WP_User) ) {
-        $email = '';
-    } else {
-        $email = trim( $current_user->user_email );
-    }
     require_once EZ_TOC_PATH ."/includes/deactivate-feedback.php";
 }
 

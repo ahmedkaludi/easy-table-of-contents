@@ -1,4 +1,15 @@
-<?php 
+<?php
+/**
+ * Deactivate Feedback Template
+ * @since 2.0.27
+ */
+
+$current_user = wp_get_current_user();
+$email = '';
+if( $current_user instanceof WP_User ) {
+	$email = trim( $current_user->user_email );	
+}
+
 $reasons = array(
     		1 => '<li><label><input type="radio" name="eztoc_disable_reason" required value="temporary"/>' . __('It is only temporary', 'easy-table-of-contents') . '</label></li>',
 		2 => '<li><label><input type="radio" name="eztoc_disable_reason" required value="stopped showing toc"/>' . __('I stopped showing TOC on my site', 'easy-table-of-contents') . '</label></li>',
@@ -26,8 +37,8 @@ shuffle($reasons);
                 }
                 ?>
 	    </ul>
-	    <?php if ($email) : ?>
-    	    <input type="hidden" name="eztoc_disable_from" value="<?php echo $email; ?>"/>
+	    <?php if( null !== $email && !empty( $email ) ) : ?>
+    	    <input type="hidden" name="eztoc_disable_from" value="<?php echo $email; ?>" />
 	    <?php endif; ?>
 	    <input id="eztoc-reloaded-feedback-submit" class="button button-primary" type="submit" name="eztoc_disable_submit" value="<?php _e('Submit & Deactivate', 'easy-table-of-contents'); ?>"/>
 	    <a class="button eztoc-feedback-only-deactivate"><?php _e('Only Deactivate', 'easy-table-of-contents'); ?></a>
