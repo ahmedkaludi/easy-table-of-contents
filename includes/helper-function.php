@@ -30,8 +30,9 @@ if( !defined( 'ABSPATH' ) )
 
 add_filter('admin_footer', 'eztoc_add_deactivation_feedback_modal');
 function eztoc_add_deactivation_feedback_modal() {
-    
-    if( !is_admin()) {
+    global $pagenow;
+
+    if( ! is_admin() || ( is_admin() && 'plugins.php' != $pagenow ) ) {
         return;
     }
 
