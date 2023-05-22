@@ -152,7 +152,17 @@ class ezTOC_Post {
 		 */
 		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
+		if( in_array( 'booster-extension/booster-extension.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
+		{
+			remove_filter( 'the_content', array( $GLOBALS['be_global'], 'booster_extension_frontend_the_content' ) );
+		}
+
 		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
+
+		if( in_array( 'booster-extension/booster-extension.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
+		{
+			add_filter( 'the_content', array( $GLOBALS['be_global'], 'booster_extension_frontend_the_content' ) );
+		}
 
 		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
 
