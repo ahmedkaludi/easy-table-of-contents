@@ -57,15 +57,6 @@ class ezTOC_Post {
 	 * @var bool
 	 */
 	private $hasTOCItems = false;
-    
-	/**
-	 * $additionalTheContent;
-	 * @access public
-	 * @static
-	 * @since 2.0.50
-	 * @var string|mixed
-	 */
-	public static $additionalTheContent = '';
 
 	/**
 	 * ezTOC_Post constructor.
@@ -319,8 +310,6 @@ class ezTOC_Post {
 		}
 		} else if ( ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) && false != get_option( 'ez-toc-post-content-core-level' ) ) {
                     $content = get_option( 'ez-toc-post-content-core-level' );
-		} else if ( ! empty( static::$additionalTheContent ) ) {
-			$content .= static::$additionalTheContent;
 		} else {
                        
                 }
