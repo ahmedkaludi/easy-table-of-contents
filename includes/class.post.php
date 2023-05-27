@@ -312,9 +312,10 @@ class ezTOC_Post {
 
 		$split = preg_split( '/<!--nextpage-->/msuU', $content );
 
+		$page = $first_page = 1;
+		$totalHeadings = [];
 		if ( is_array( $split ) ) {
 
-			$page = 1;
 
 			//$tagFilterOptions = TagFilter::GetHTMLOptions();
 
@@ -354,8 +355,8 @@ class ezTOC_Post {
 
 				$this->extractExcludedNodes( $page, $content );
 
-				$pages[ $page ] = array(
-					'headings' => $this->extractHeadings( $content ),
+				$totalHeadings[] = array(
+					'headings' => $this->extractHeadings( $content, $page ),
 					'content'  => $content,
 				);
 
@@ -363,6 +364,7 @@ class ezTOC_Post {
 			}
 
 		}
+		$pages[$first_page] = $totalHeadings;
 
 		$this->pages = $pages;
 	}
@@ -443,7 +445,7 @@ class ezTOC_Post {
 	 *
 	 * @return array
 	 */
-	private function extractHeadings( $content ) {
+	private function extractHeadings( $content, $page = 1 ) {
 
 		$matches = array();
 
@@ -480,6 +482,7 @@ class ezTOC_Post {
 
 				$this->alternateHeadings( $matches );
 				$this->headingIDs( $matches );
+				$this->addPage( $matches, $page );
 				$this->hasTOCItems = true;
 
 			} else {
@@ -492,6 +495,22 @@ class ezTOC_Post {
 		return array_values( $matches ); // Rest the array index.
 	}
 
+	/**
+	 * addPage function
+	 *
+	 * @access private
+	 * @since 2.0.50
+	 * @param array|null|false $matches
+	 * @param int $page
+	 * @return void
+	 */
+	private function addPage( &$matches, $page )
+	{
+		foreach ( $matches as $i => $match ) {
+			$matches[ $i ][ 'page' ] = $page;
+		}
+		return $matches;
+	}
 	/**
 	 * Whether or not the string is in one of the excluded nodes.
 	 *
@@ -1047,11 +1066,11 @@ class ezTOC_Post {
 			$page = $this->getCurrentPage();
 		}
 
-		if ( isset( $this->pages[ $page ] ) ) {
+		if ( !empty( $this->pages ) || isset( $this->pages[ $page ] ) ) {
 
 			//$headings = wp_list_pluck( $this->pages[ $page ]['headings'], 0 );
 
-			$matches = $this->pages[ $page ]['headings'];
+			$matches = $this->getHeadingsfromPageContents( $page );
 			//$count   = count( $matches );
 
 			//for ( $i = 0; $i < $count; $i++ ) {
@@ -1095,9 +1114,9 @@ class ezTOC_Post {
 			$page = $this->getCurrentPage();
 		}
 
-		if ( isset( $this->pages[ $page ] ) ) {
+		if ( !empty( $this->pages ) || isset( $this->pages[ $page ] ) ) {
 
-			$matches = $this->pages[ $page ]['headings'];
+			$matches = $this->getHeadingsfromPageContents( $page );
 			//$count   = count( $matches );
 
 			//for ( $i = 0; $i < $count; $i++ ) {
@@ -1123,6 +1142,32 @@ class ezTOC_Post {
 	}
 
 	/**
+	 * getHeadingsfromPageContents function
+	 *
+	 * @access private
+	 * @since 2.0.50
+	 * @param int $page
+	 * @return array|null
+	 */
+	private function getHeadingsfromPageContents( $page = 1 )
+	{
+		$headings = [];
+		$first_page = 1;
+		foreach( $this->pages[ $first_page ] as $attributes ) 
+		{
+			if( $page == $attributes['headings'][0]['page'] ) 
+			{
+				foreach( $attributes['headings'] as $heading ) 
+				{
+					array_push( $headings, $heading );
+				}
+			}
+		}
+		
+		return $headings;
+	} 
+
+	/**
 	 * Get the post TOC list.
 	 *
 	 * @access public
@@ -1136,10 +1181,11 @@ class ezTOC_Post {
 		$html = '';
 
 		if ( $this->hasTOCItems ) {
+			
+			$first_page = 1;
+			foreach ( $this->pages[ $first_page ] as $attribute ) {
 
-			foreach ( $this->pages as $page => $attribute ) {
-
-				$html .= $this->createTOC( $page, $attribute['headings'], $prefix );
+				$html .= $this->createTOC( $first_page, $attribute['headings'], $prefix );
 			}
 
 			$visiblityClass = '';
@@ -1482,7 +1528,7 @@ class ezTOC_Post {
 				$title = br2( $title, ' ' );
 				$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
-				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title, $count );
+				$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
 
 				// end lists
 				if ( $i != count( $matches ) - 1 ) {
@@ -1527,7 +1573,7 @@ class ezTOC_Post {
 
 				$html .= "<li class='{$prefix}-page-" . $page . "'>";
 
-				$html .= $this->createTOCItemAnchor( $page, $matches[ $i ]['id'], $title, $count );
+				$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
 
 				$html .= '</li>';
 			}
