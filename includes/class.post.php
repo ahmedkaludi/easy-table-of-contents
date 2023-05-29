@@ -1168,6 +1168,29 @@ class ezTOC_Post {
 	} 
 
 	/**
+	 * createTOCParent function
+	 *
+	 * @param string $prefix
+	 * @return void|mixed|string|null
+	 */
+	private function createTOCParent( $prefix = "ez-toc" )
+	{
+		$html = ''; 
+		$first_page = 1;
+		$headings = array();
+		foreach ( $this->pages[ $first_page ] as $attribute )
+		{
+			$headings = array_merge( $headings, $attribute[ 'headings' ] );
+		}
+
+		if( !empty( $headings ) )
+		{
+			$html .= $this->createTOC( $first_page, $headings, $prefix );
+		}
+
+		return $html;
+	}
+	/**
 	 * Get the post TOC list.
 	 *
 	 * @access public
@@ -1182,12 +1205,7 @@ class ezTOC_Post {
 
 		if ( $this->hasTOCItems ) {
 			
-			$first_page = 1;
-			foreach ( $this->pages[ $first_page ] as $attribute ) {
-
-				$html .= $this->createTOC( $first_page, $attribute['headings'], $prefix );
-			}
-
+			$html = $this->createTOCParent();
 			$visiblityClass = '';
 			if( ezTOC_Option::get( 'visibility_hide_by_default' ) && 'css' != ezTOC_Option::get( 'toc_loading' ) )
 			{
