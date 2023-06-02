@@ -32,11 +32,11 @@ add_filter('admin_footer', 'eztoc_add_deactivation_feedback_modal');
 function eztoc_add_deactivation_feedback_modal() {
     global $pagenow;
 
-    if( ! is_admin() || ( is_admin() && 'plugins.php' != $pagenow ) ) {
-        return;
+    if(  is_admin() && 'plugins.php' == $pagenow ) 
+    {
+        require_once EZ_TOC_PATH ."/includes/deactivate-feedback.php";
     }
 
-    require_once EZ_TOC_PATH ."/includes/deactivate-feedback.php";
 }
 
 /**
