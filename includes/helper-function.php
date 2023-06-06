@@ -30,18 +30,13 @@ if( !defined( 'ABSPATH' ) )
 
 add_filter('admin_footer', 'eztoc_add_deactivation_feedback_modal');
 function eztoc_add_deactivation_feedback_modal() {
-    
-    if( !is_admin()) {
-        return;
+    global $pagenow;
+
+    if(  is_admin() && 'plugins.php' == $pagenow ) 
+    {
+        require_once EZ_TOC_PATH ."/includes/deactivate-feedback.php";
     }
 
-    $current_user = wp_get_current_user();
-    if( !($current_user instanceof WP_User) ) {
-        $email = '';
-    } else {
-        $email = trim( $current_user->user_email );
-    }
-    require_once EZ_TOC_PATH ."/includes/deactivate-feedback.php";
 }
 
 /**

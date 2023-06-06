@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.2
 Requires PHP: 5.6.20
-Stable tag: 2.0.49
+Stable tag: 2.0.50
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,17 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.50 06/06/2023 =
+* BUG: Error in console while using Sendpress Newsletter #469
+* BUG: The TOC toggle is not working/opening with the theme Sportsidioten on mobile devices #468
+* TWEAK: $email is defined but never used in function eztoc_add_deactivation_feedback_modal #465
+* NEW: Added compatibility with Booster extension #381
+* TWEAK: Add filter for process page for better customization #492
+* BUG: TOC hierarchy not working properly in Post pagination #486
+* BUG: Make compatibility with Generatepress gp-premium plugin #494
+* PR: Fixed some accessibility issues #495
+* NEW: Doesn't work in WooCommerce category description #134
+
 = 2.0.49 05/17/2023 =
 * BUG: While using the TOC with the Avada theme and page builder, the TOC was showing twice. #432
 * BUG: While using the Edition Child theme, numeric values are not showing properly. #475

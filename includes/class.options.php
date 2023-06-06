@@ -626,6 +626,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'include_product_category' => array(
+							'id' => 'include_product_category',
+							'name' => __( 'Product Category', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the table of contents for description on the product category pages.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'exclude_css' => array(
 							'id' => 'exclude_css',
 							'name' => __( 'CSS', 'easy-table-of-contents' ),

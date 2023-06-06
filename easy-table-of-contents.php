@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.49
+ * Version: 2.0.50
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.49
+ * @version  2.0.50
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -49,7 +49,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.49';
+		const VERSION = '2.0.50';
 
 		/**
 		 * Stores the instance of this class.
@@ -169,6 +169,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
                             if( !self::checkBeaverBuilderPluginActive() ) {
                                     add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
                                     add_filter( 'category_description',  array( __CLASS__, 'toc_category_content_filter' ), 99,2);
+									add_filter( 'woocommerce_taxonomy_archive_description_raw',  array( __CLASS__, 'toc_category_content_filter_woocommerce' ), 99,2);
                                     add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
                                     add_shortcode( 'lwptoc', array( __CLASS__, 'shortcode' ) );
                                     add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
@@ -1169,12 +1170,13 @@ INLINESTICKYTOGGLEJS;
 
 			// bail if feed, search or archive
 			if ( is_feed() || is_search() || is_archive() ) {
-
-                            if( true == ezTOC_Option::get( 'include_category', false) && is_category() ) {
-                                $apply = true;
-                            } else {
-				$apply = false;
-                            }
+				
+				if( (true == ezTOC_Option::get( 'include_category', false) && is_category()) || (true == ezTOC_Option::get( 'include_product_category', false) &&  (function_exists('is_product_category') && is_product_category()) )) {
+					
+					$apply = true;
+				} else {
+					$apply = false;
+				}
 			}
 
 			if ( ezTOC_Option::get( 'headings-padding' ) ) {
@@ -1209,7 +1211,7 @@ INLINESTICKYTOGGLEJS;
 			 * @since 2.0
 			 *
 			 * @param bool $apply
-			 */
+			 */			
 			return apply_filters( 'ez_toc_maybe_apply_the_content_filter', $apply );
 		}
 
@@ -1227,14 +1229,14 @@ INLINESTICKYTOGGLEJS;
 		 */
 		public static function the_content( $content ) {
                     
-                        if( function_exists( 'post_password_required' ) ) {
-                            if( post_password_required() ) return Debug::log()->appendTo( $content );
-                        }
-                    
-			$maybeApplyFilter = self::maybeApplyTheContentFilter();
-                        
-                        if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
-                            update_option( 'ez-toc-post-content-core-level', $content );
+				if( function_exists( 'post_password_required' ) ) {
+					if( post_password_required() ) return Debug::log()->appendTo( $content );
+				}
+			
+				$maybeApplyFilter = self::maybeApplyTheContentFilter();													
+				
+				if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Pale Moon' == ez_toc_get_browser_name() || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+					update_option( 'ez-toc-post-content-core-level', $content );
 			}
 			Debug::log( 'the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter );
 
@@ -1480,11 +1482,20 @@ STICKYTOGGLEHTML;
 		 */
 		public static function toc_category_content_filter( $description , $cat_id ) {
                     if( true == ezTOC_Option::get( 'include_category', false) ) {
-			if(!is_admin() && !empty($description)){
-				return self::the_content($description);
-			}
+						if(!is_admin() && !empty($description)){
+							return self::the_content($description);
+						}
                     }
                     return $description;
+		}
+
+		public static function toc_category_content_filter_woocommerce( $description , $term ) {
+					if( true == ezTOC_Option::get( 'include_product_category', false) ) {
+						if(!is_admin() && !empty($description)){
+							return self::the_content($description);
+						}
+					}
+					return $description;
 		}
 
 
