@@ -287,17 +287,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
                 return false;
 			}
 
-			$post = self::get( get_the_ID() );
-
-			if ( ! $post instanceof ezTOC_Post ) {
-				return false;
-			}
-
-			// Bail if no headings found.
-			if ( ! $post->hasTOCItems() ) {
-				return false;	
-			}
-
 			if (!ezTOC_Option::get( 'inline_css' )) {
 				wp_register_style( 'ez-toc', EZ_TOC_URL . "assets/css/screen$min.css",
 				 array( ),
