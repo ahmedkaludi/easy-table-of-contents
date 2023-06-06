@@ -546,8 +546,7 @@ add_filter(
 		if ( class_exists( 'WooCommerce' ) && FALSE !== stripos( $string, 'woocommerce.php' ) ) {
 
 			/** @noinspection PhpUndefinedFunctionInspection */
-			if ( is_shop() ||
-			     is_product_category() ||
+			if ( is_shop() ||			     
 			     is_product_tag() ||
 			     is_cart() ||
 			     is_checkout() ||

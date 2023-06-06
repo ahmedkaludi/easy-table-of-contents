@@ -292,6 +292,13 @@ class ezTOC_Post {
 			}
 		}
 
+		if(function_exists('is_product_category') && is_product_category()){
+			$term_object = get_queried_object();			
+			if(!empty($term_object->description)){
+				$content     = $term_object->description;
+			}						
+		}		
+
 		if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 			$eztoc_post_id=get_the_ID();
 			$eztoc_post_meta = get_option( 'ez-toc-post-meta-content',false);
@@ -1643,9 +1650,8 @@ class ezTOC_Post {
 			return '#' . $id;
 
 		} elseif ( 1 === $page ) {
-
 			// Fix for wrong links on TOC on Wordpress category page
-			if(is_category()){
+			if(is_category() || (function_exists('is_product_category') && is_product_category())){
 				return  '#' . $id;
 			}
 			return trailingslashit( $this->permalink ) . '#' . $id;
