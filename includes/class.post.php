@@ -87,7 +87,7 @@ class ezTOC_Post {
 	 * apply_filter_status function
 	 *
 	 * @since 2.0.51
-	 * @access public
+	 * @access private
 	 * @param bool $apply_content_filter
 	 * @return bool
 	 */
