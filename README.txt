@@ -101,7 +101,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
-= 2.0.50 06/06/2023 =
+= 2.0.50 06/07/2023 =
 * BUG: Error in console while using Sendpress Newsletter #469
 * BUG: The TOC toggle is not working/opening with the theme Sportsidioten on mobile devices #468
 * TWEAK: $email is defined but never used in function eztoc_add_deactivation_feedback_modal #465
