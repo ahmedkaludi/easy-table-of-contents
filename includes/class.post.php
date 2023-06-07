@@ -1436,10 +1436,7 @@ class ezTOC_Post {
                                     }
                                     
                                    
-                                    $html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Toggle Table of Content" role="button">';
-                                    $html .= '<span aria-hidden="true">' . $icon . '</span>';
-                                    $html .= '<span class="sr-only">Toggle Table of Content</span>';
-                                    $html .= '</a>';
+                                    $html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Toggle Table of Content" role="button"><label for="item-' . $cssIconID . '" aria-hidden="true">'.$icon.'</label><input ' . $inputCheckboxExludeStyle . ' type="checkbox" id="item-' . $cssIconID . '"></a>';
                             } else {
                                     $toggle_view='';
                                     if(ezTOC_Option::get('visibility_hide_by_default')==true){
