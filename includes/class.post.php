@@ -72,15 +72,49 @@ class ezTOC_Post {
 		$this->permalink       = get_permalink( $post );
 		$this->queriedObjectID = get_queried_object_id();
 
-		if ( $apply_content_filter ) {
+        $apply_content_filter  = $this->apply_filter_status( $apply_content_filter );
 
-			$this->applyContentFilter()->process();
+        if ( $apply_content_filter ) {
 
-		} else {
+            $this->applyContentFilter()->process();
+        } else {
 
-			$this->process();
-		}
-	}
+            $this->process();
+        }
+    }
+
+	/**
+	 * apply_filter_status function
+	 *
+	 * @since 2.0.51
+	 * @access public
+	 * @param bool $apply_content_filter
+	 * @return bool
+	 */
+	private function apply_filter_status( $apply_content_filter )
+    {
+
+		/**
+		 * ez_toc_apply_filter_status Apply filter
+		 * for any plugin which conflict 
+		 * in easy toc plugin
+		 * @since 2.0.51
+		 */
+        $plugins = apply_filters(
+            'ez_toc_apply_filter_status',
+            array(
+                'booster-extension/booster-extension.php',
+                'divi-bodycommerce/divi-bodyshop-woocommerce.php',
+            )
+        );
+
+        foreach ( $plugins as $value ) {
+            if ( in_array( $value, apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+                $apply_content_filter = false;
+            }
+        }
+        return $apply_content_filter;
+    }
 
 	/**
 	 * @access public
@@ -143,17 +177,7 @@ class ezTOC_Post {
 		 */
 		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
-		if( in_array( 'booster-extension/booster-extension.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
-		{
-			remove_filter( 'the_content', array( $GLOBALS['be_global'], 'booster_extension_frontend_the_content' ) );
-		}
-
 		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
-
-		if( in_array( 'booster-extension/booster-extension.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
-		{
-			add_filter( 'the_content', array( $GLOBALS['be_global'], 'booster_extension_frontend_the_content' ) );
-		}
 
 		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
 
