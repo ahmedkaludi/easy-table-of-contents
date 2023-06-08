@@ -105,6 +105,7 @@ class ezTOC_Post {
             array(
                 'booster-extension/booster-extension.php',
                 'divi-bodycommerce/divi-bodyshop-woocommerce.php',
+                'social-pug/index.php',
             )
         );
 
