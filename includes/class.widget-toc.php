@@ -263,7 +263,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
                                                     <?php
                                                     if ( ezTOC_Option::get( 'visibility' ) ) {
 
-                                                            echo '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Widget Easy TOC toggle icon">' . ezTOC::getTOCToggleIcon() . '</a>';
+														echo '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Widget Easy TOC toggle icon"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::getTOCToggleIcon() . '</a>';
                                                     }
                                                     ?>
 
@@ -280,7 +280,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
                                                     $toggle_view = "checked";
                                                 }
                                                 $cssIconID = uniqid();
-                                                $htmlCSSIcon = '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle">' . ezTOC::getTOCToggleIcon() . '</label>';
+                                                $htmlCSSIcon = '<label for="ez-toc-cssicon-toggle-item-count-' . $cssIconID . '" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::getTOCToggleIcon() . '</label>';
                                                 echo $htmlCSSIcon;
                                                 ?>
                                             <?php endif; ?>

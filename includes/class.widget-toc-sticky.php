@@ -351,7 +351,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                                 if ( ezTOC_Option::get ( 'visibility' ) )
                                 {
 
-                                    echo '<a href="#" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle" aria-label="Widget Easy TOC toggle icon">' . ezTOC::getTOCToggleIcon () . '</a>';
+                                    echo '<a href="#" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle" aria-label="Widget Easy TOC toggle icon"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::getTOCToggleIcon () . '</a>';
                                 }
                                 ?>
 
@@ -369,7 +369,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                                     $toggle_view = "checked";
                                 }
                                 $cssIconID = uniqid ();
-                                $htmlCSSIcon = '<label for="ez-toc-widget-sticky-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle">' . ezTOC::getTOCToggleIcon () . '</label>';
+                                $htmlCSSIcon = '<label for="ez-toc-widget-sticky-cssicon-toggle-item-count-' . $cssIconID . '" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::getTOCToggleIcon () . '</label>';
                                 echo $htmlCSSIcon;
                                 ?>
                             <?php endif; ?>
