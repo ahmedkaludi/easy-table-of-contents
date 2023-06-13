@@ -1461,7 +1461,7 @@ class ezTOC_Post {
                                     }
                                     
                                    
-                                    $html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Toggle Table of Content" role="button"><label for="item-' . $cssIconID . '" aria-hidden="true"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>'.$icon.'</label><input ' . $inputCheckboxExludeStyle . ' type="checkbox" id="item-' . $cssIconID . '"></a>';
+                                    $html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Toggle Table of Content" role="button"><label for="item-' . $cssIconID . '" aria-hidden="true"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>'.$icon.'</label><input aria-label="item-' . $cssIconID . '" ' . $inputCheckboxExludeStyle . ' type="checkbox" id="item-input-' . $cssIconID . '"></a>';
                             } else {
                                     $toggle_view='';
                                     if(ezTOC_Option::get('visibility_hide_by_default')==true){
