@@ -114,6 +114,9 @@ class ezTOC_Post {
                 $apply_content_filter = false;
             }
         }
+
+		$apply_content_filter = apply_filters('ez_toc_apply_filter_status_manually', $apply_content_filter);
+
         return $apply_content_filter;
     }
 
@@ -1500,8 +1503,6 @@ class ezTOC_Post {
 			wp_enqueue_script( 'ez-toc-js' );
 		}
 
-		if( function_exists( 'ez_toc_pro_activation_link' ) ) 
-			update_option( 'ez-toc-list', wp_kses_post( $html ) );
 		return $html;
 	}
         
