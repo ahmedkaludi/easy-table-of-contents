@@ -158,7 +158,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_option( 'ez-toc-post-content-core-level', false );
 			}
                         
-                        add_option( 'ez-toc-list', '' );
                         add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
 //                        if( false === strpos( $_SERVER['REQUEST_URI'], "/edit.php" ) ) {
                             add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
