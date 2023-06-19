@@ -193,7 +193,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 								'afterpara' => __( 'After first paragraph', 'easy-table-of-contents' ),
 								'top' => __( 'Top', 'easy-table-of-contents' ),
 								'bottom' => __( 'Bottom', 'easy-table-of-contents' ),
-								//'placeholder' => __( 'Replace [toc] placeholder. For backwards compatibility with Table of Content Plus.', 'easy-table-of-contents' ),
 							),
 							'default' => 1,
 						),
@@ -226,20 +225,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => true,
 						),
-						//'visibility_show' => array(
-						//	'id' => 'visibility_show',
-						//	'name' => __( 'Show Label', 'easy-table-of-contents' ),
-						//	'desc' => __( 'Eg: show', 'easy-table-of-contents' ),
-						//	'type' => 'text',
-						//	'default' => __( 'show', 'easy-table-of-contents' ),
-						//),
-						//'visibility_hide' => array(
-						//	'id' => 'visibility_hide',
-						//	'name' => __( 'Hide Label', 'easy-table-of-contents' ),
-						//	'desc' => __( 'Eg: hide', 'easy-table-of-contents' ),
-						//	'type' => 'text',
-						//	'default' => __( 'hide', 'easy-table-of-contents' ),
-						//),
 						'visibility_hide_by_default' => array(
 							'id' => 'visibility_hide_by_default',
 							'name' => __( 'Initial View', 'easy-table-of-contents' ),
@@ -300,13 +285,8 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'sticky-toggle-above-header'      => array(
 							'id'   => 'sticky-toggle-above-header',
 							'name' => '<strong>' . __( 'Sticky Toggle Options', 'easy-table-of-contents' ) . '</strong>',
-//                                                        'desc' => __( '', 'easy-table-of-contents' ),
 							'type' => 'header',
 						),
-//                                                'sticky-toggle-above-hr'          => array(
-//                                                        'id'   => 'sticky-toggle-above-hr',
-//                                                        'type' => 'hr',
-//                                                ),
 						'sticky-toggle'                   => array(
 							'id'      => 'sticky-toggle',
 							'name'    => __( 'On/Off', 'easy-table-of-contents' ),
@@ -479,7 +459,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'font_options_header' => array(
 							'id' => 'font_options',
 							'name' => '<strong>' . __( 'Font Option', 'easy-table-of-contents' ) . '</strong>',
-							//'desc' => __( 'For the following settings to apply, select the Custom Font option.', 'easy-table-of-contents' ),
 							'type' => 'header',
 						),
 						'title_font_size' => array(
@@ -524,7 +503,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'theme_option_header' => array(
 							'id' => 'theme_option_header',
 							'name' => '<strong>' . __( 'Theme Options', 'easy-table-of-contents' ) . '</strong>',
-							//'desc' => __( 'For the following settings to apply, select the Custom Theme option.', 'easy-table-of-contents' ),
 							'type' => 'header',
 						),
 						'theme' => array(
@@ -655,13 +633,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
-						//'bullet_spacing' => array(
-						//	'id' => 'bullet_spacing',
-						//	'name' => __( 'Theme Bullets', 'easy-table-of-contents' ),
-						//	'desc' => __( 'If your theme includes background images for unordered list elements, enable this option to support them.', 'easy-table-of-contents' ),
-						//	'type' => 'checkbox',
-						//	'default' => false,
-						//),
 						'heading_levels' => array(
 							'id' => 'heading_levels',
 							'name' => __( 'Headings:', 'easy-table-of-contents' ),
@@ -751,12 +722,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
                 'shortcode' => apply_filters(
                     'ez_toc_settings_shortcode',
                     array(
-//                        'shortcode-heading-paragraph'      => array(
-//                            'id'   => 'shortcode-heading-paragraph',
-//                            'name' => '',
-//                            'desc' => __( 'There are several ways to have the easy table of contents display on your website.', 'easy-table-of-contents' ),
-//                            'type' => 'paragraph',
-//                        ),
                         'shortcode-first-paragraph'      => array(
                             'id'   => 'shortcode-first-paragraph',
                             'name' => __( 'Manual Adding the shortcode', 'easy-table-of-contents' ),
@@ -876,7 +841,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
             return array(
                 'upper-roman' => __( 'Upper Roman', 'easy-table-of-contents' ),
                 'lower-roman' => __( 'Lower Roman', 'easy-table-of-contents' ),
-//                'upper-greek' => __( 'Upper Greek', 'easy-table-of-contents' ),
                 'lower-greek' => __( 'Lower Greek', 'easy-table-of-contents' ),
                 'upper-alpha' => __( 'Upper Alpha/Latin', 'easy-table-of-contents' ),
                 'lower-alpha' => __( 'Lower Alpha/Latin', 'easy-table-of-contents' ),
@@ -951,8 +915,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'visibility'                         => true,
 				'toc_loading'                        => 'js',
 				'remove_special_chars_from_title'    => false,
-				//'visibility_show'                    => 'show',
-				//'visibility_hide'                    => 'hide',
 				'visibility_hide_by_default'         => false,
 				'width'                              => 'auto',
 				'width_custom'                       => 275,
@@ -978,7 +940,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'custom_link_visited_colour'         => '#428bca',
 				'lowercase'                          => false,
 				'hyphenate'                          => false,
-				//'bullet_spacing'                     => false,
 				'include_homepage'                   => false,
 				'include_category'                   => false,
 				'exclude_css'                        => false,
@@ -987,8 +948,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'heading_levels'                     => array( '1', '2', '3', '4', '5', '6' ),
 				'restrict_path'                      => '',
 				'css_container_class'                => '',
-				//'show_toc_in_widget_only'            => false,
-				//'show_toc_in_widget_only_post_types' => array(),
 				'widget_affix_selector'              => '',
 				'heading-text-direction'              => 'ltr',
 				'toc-run-on-amp-pages'              => 1,
@@ -1012,7 +971,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			$defaults = self::getDefaults();
 			$options  = get_option( 'ez-toc-settings', $defaults );
 
-			//return apply_filters( 'ez_toc_get_options', wp_parse_args( $options, $defaults ) );
 			return apply_filters( 'ez_toc_get_options', $options );
 		}
 
@@ -1647,8 +1605,6 @@ HR_TAG;
 		 */
 		public static function custom_width( $args ) {
 
-			//$value = self::get( $args['id'], $args['default'] );
-
 			self::text(
 				array(
 					'id'      => $args['id'],
@@ -1688,8 +1644,6 @@ HR_TAG;
 		 */
 		public static function font_size( $args ) {
 
-			//$value = self::get( $args['id'], $args['default'] );
-
 			self::text(
 				array(
 					'id'      => $args['id'],
@@ -1728,8 +1682,6 @@ HR_TAG;
 		 * @param array $args
 		 */
 public static function child_font_size( $args ) {
-
-			//$value = self::get( $args['id'], $args['default'] );
 
 			self::text(
 				array(

@@ -20,7 +20,6 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		public function __construct() {
 
 			$this->hooks();
-			//$this->registerMetaboxes();
 		}
 
 		/**
@@ -96,9 +95,6 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			wp_register_script( 'cn_toc_admin_script', EZ_TOC_URL . 'assets/js/admin.js', array( 'jquery', 'wp-color-picker' ), ezTOC::VERSION, true );
 			wp_register_style( 'cn_toc_admin_style', EZ_TOC_URL . 'assets/css/admin.css', array( 'wp-color-picker' ), ezTOC::VERSION );
 
-
-//                                wp_enqueue_style( 'ez-toc' );
-//                                self::inlineStickyToggleCSS();
 			wp_enqueue_script( 'cn_toc_admin_script' );
             $data = array(
                 'ajax_url'      		       => admin_url( 'admin-ajax.php' ),
@@ -109,8 +105,6 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 
             wp_localize_script( 'cn_toc_admin_script', 'cn_toc_admin_data', $data );
 			self::inlineAdminStickyToggleJS();
-                        
-//                        self::inlineAdminOccasionalAdsPopUpCSS_JS();
                         
                         self::inlineAdminAMPNonJS();
 						self::inlineAdminHeadingsPaddingJS();
@@ -136,7 +130,6 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
                         $inlineAdminAMPNonJS = <<<inlineAdminAMPNonJS
 jQuery(function($) {
     let tocAMPSupportOption = $(document).find("input[name='ez-toc-settings[toc-run-on-amp-pages]']");
-//        console.log(tocAMPSupportOption.length);
     if( tocAMPSupportOption.length > 0 ) {
         $(tocAMPSupportOption).attr('disabled', true);
     }
@@ -337,7 +330,6 @@ jQuery(function($) {
         $(stickyToggleWidthCustom).parents('tr').hide();
         
     $(document).on("change", "select[name='ez-toc-settings[sticky-toggle-width]']", function() {
-//        console.log("change-stickyToggleWidth");
         if($(stickyToggleWidth).val() == 'custom') {
             $(stickyToggleWidthCustom).val('350px');
             $(stickyToggleWidthCustom).parents('tr').show(500);
@@ -352,7 +344,6 @@ jQuery(function($) {
         $(stickyToggleHeightCustom).parents('tr').hide();
         
     $(document).on("change", "select[name='ez-toc-settings[sticky-toggle-height]']", function() {
-//        console.log("change-stickyToggleHeight");
         if($(stickyToggleHeight).val() == 'custom') {
             $(stickyToggleHeightCustom).val('800px');
             $(stickyToggleHeightCustom).parents('tr').show(500);

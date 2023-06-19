@@ -152,14 +152,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		private static function hooks() {
 
-			//add_action( 'plugins_loaded', array( __CLASS__, 'loadTextdomain' ) );
 			add_option('ez-toc-shortcode-exist-and-render', false);
                         if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
 				add_option( 'ez-toc-post-content-core-level', false );
 			}
                         
                         add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
-//                        if( false === strpos( $_SERVER['REQUEST_URI'], "/edit.php" ) ) {
                             add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
                             if ( ezTOC_Option::get( 'exclude_css' ) && 'css' == ezTOC_Option::get( 'toc_loading' ) ) {
                                 add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScriptsforExcludeCSS' ) );
@@ -176,7 +174,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
                                     add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
 
                             }
-//                        }
 		}
 	
                 
@@ -337,8 +334,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				$js_vars['smooth_scroll'] = true;
 			}
-
-			//wp_enqueue_script( 'ez-toc-js' );
 
 			if ( ezTOC_Option::get( 'show_heading_text' ) && ezTOC_Option::get( 'visibility' ) ) {
 
@@ -507,7 +502,6 @@ INLINEWPBAKERYJS;
 				if ( 'custom' === ezTOC_Option::get( 'theme' ) ) {
 
 					$css .= 'div#ez-toc-container p.ez-toc-title {color: ' . ezTOC_Option::get( 'custom_title_colour' ) . ';}';
-					//$css .= 'div#ez-toc-container p.ez-toc-title a,div#ez-toc-container ul.ez-toc-list a {color: ' . ezTOC_Option::get( 'custom_link_colour' ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a {color: ' . ezTOC_Option::get( 'custom_link_colour' ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:hover {color: ' . ezTOC_Option::get( 'custom_link_hover_colour' ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:visited {color: ' . ezTOC_Option::get( 'custom_link_visited_colour' ) . ';}';
@@ -890,20 +884,12 @@ INLINESTICKYTOGGLEJS;
 		 */
 		public static function is_eligible( $post ) {
 
-			//global $wp_current_filter;
 
 			if ( empty( $post ) || ! $post instanceof WP_Post ) {
 
 				Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', $post );
 				return false;
 			}
-
-			// This can likely be removed since it is checked in maybeApplyTheContentFilter().
-			// Do not execute if root filter is one of those in the array.
-			//if ( in_array( $wp_current_filter[0], array( 'get_the_excerpt', 'wp_head' ), true ) ) {
-			//
-			//	return false;
-			//}
                         
                         /**
                          * Easy TOC Run On Amp Pages Check
@@ -1118,7 +1104,6 @@ INLINESTICKYTOGGLEJS;
 		 */
 		public static function shortcode( $atts, $content, $tag ) {
 
-//			static $run = true;
 			$html = '';
 
                         if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() )
@@ -1136,7 +1121,6 @@ INLINESTICKYTOGGLEJS;
                                 }
 
                                 $html = $post->getTOC();
-//				$run  = false;
 			}
 
 			if( !empty( $html ) )
@@ -1151,7 +1135,6 @@ INLINESTICKYTOGGLEJS;
                                 'visibility_hide_by_default' => true,
                             );
                             $html = $post->getTOC($options);
-//				$html = preg_replace('/class="ez-toc-list ez-toc-list-level-1"/', 'class="ez-toc-list ez-toc-list-level-1" style="display:none"', $html);
 			}
 
                         if( !is_home() ) {
@@ -1320,7 +1303,6 @@ INLINESTICKYTOGGLEJS;
 
 			Debug::log( 'toc_insert_position', 'Insert TOC at position', $position );
 
-			// else also add toc to content
 			switch ( $position ) {
 
 				case 'top':
@@ -1340,7 +1322,6 @@ INLINESTICKYTOGGLEJS;
 					break;	
 				case 'before':
 				default:
-					//$replace[0] = $html . $replace[0];
 					$content    = mb_find_replace( $find, $replace, $content );
 
 					/**
@@ -1368,9 +1349,6 @@ INLINESTICKYTOGGLEJS;
 
 						Debug::log( 'toc_insert_position_not_found', 'Insert TOC before first eligible heading not found.', $result );
 
-						// Somehow, there are scenarios where the processing get this far and
-						// the TOC is being added to pages where it should not. Disable for now.
-						//$content = $html . $content;
 					}
 			}
 

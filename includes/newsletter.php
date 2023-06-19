@@ -77,7 +77,6 @@ class eztoc_pointers {
 				);
 		}
 		if ($show_pointer) {
-			//var_dump($id);die;
 			$this->eztoc_pointer_script ($id, $options, esc_html__('No Thanks', 'easy-table-of-contents'), $button2, $function);
 		}
 	}

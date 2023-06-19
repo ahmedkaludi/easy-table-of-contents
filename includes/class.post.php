@@ -206,8 +206,6 @@ class ezTOC_Post {
 	 */
 	public static function stripShortcodes( $tags_to_remove, $content ) {
 
-		//error_log( var_export( $tags_to_remove, true ) );
-
 		/*
 		 * Ensure the ezTOC shortcodes are not processed when applying `the_content` filter
 		 * otherwise an infinite loop may occur.
@@ -220,8 +218,6 @@ class ezTOC_Post {
 			),
 			$content
 		);
-
-		//error_log( var_export( $tags_to_remove, true ) );
 
 		return $tags_to_remove;
 	}
@@ -303,10 +299,6 @@ class ezTOC_Post {
 	 */
 	private function processPages() {
 
-		//if ( ! class_exists( 'TagFilter' ) ) {
-		//
-		//	require_once( EZ_TOC_PATH . '/includes/vendor/ultimate-web-scraper/tag_filter.php' );
-		//}
 		$content = apply_filters( 'ez_toc_modify_process_page_content', $this->post->post_content );
 		
 		// Fix for wordpress category pages showing wrong toc if they have description
@@ -352,41 +344,7 @@ class ezTOC_Post {
 		if ( is_array( $split ) ) {
 
 
-			//$tagFilterOptions = TagFilter::GetHTMLOptions();
-
-			//// Set custom TagFilter options.
-			//$tagFilterOptions['charset'] = get_option( 'blog_charset' );
-			////$tagFilterOptions['output_mode'] = 'xml';
-
 			foreach ( $split as $content ) {
-
-				//$html = TagFilter::Explode( $content, $tagFilterOptions );
-				//
-				///**
-				// * @since 2.0
-				// *
-				// * @param $selectors array  Array of classes/id selector to exclude from TOC.
-				// * @param $content   string Post content.
-				// */
-				//$selectors = apply_filters( 'ez_toc_exclude_by_selector', array(), $content );
-				//
-				//$nodes = $html->Find( implode( ',', $selectors ) );
-				//
-				//foreach ( $nodes['ids'] as $id ) {
-				//
-				//	$html->Remove( $id );
-				//}
-				//
-				//$eligibleContent = $html->Implode( 0, $tagFilterOptions );
-				//
-				///**
-				// * TagFilter::Implode() writes br tags as `<br>` while WP normalizes to `<br />`.
-				// * Normalize `$eligibleContent` to match WP.
-				// *
-				// * @see wpautop()
-				// */
-				////$eligibleContent = str_replace( array( '<br>', '<br/>' ), array( '<br />' ), $eligibleContent );
-				//$eligibleContent = \Easy_Plugins\Table_Of_Contents\String\force_balance_tags( $eligibleContent );
 
 				$this->extractExcludedNodes( $page, $content );
 
@@ -439,7 +397,6 @@ class ezTOC_Post {
 
 		// Set custom TagFilter options.
 		$tagFilterOptions['charset'] = get_option( 'blog_charset' );
-		//$tagFilterOptions['output_mode'] = 'xml';
 
 		$html = TagFilter::Explode( $content, $tagFilterOptions );
 
@@ -455,11 +412,9 @@ class ezTOC_Post {
 		if(isset($nodes['ids'])){
 			foreach ( $nodes['ids'] as $id ) {
 
-				//$this->excludedNodes[ $page ][ $id ] = $html->Implode( $id, $tagFilterOptions );
 				array_push( $this->excludedNodes, $html->Implode( $id, $tagFilterOptions ) );
 			}
 		}
-		//$eligibleContent = $html->Implode( 0, $tagFilterOptions );
 
 		/**
 		 * TagFilter::Implode() writes br tags as `<br>` while WP normalizes to `<br />`.
@@ -467,7 +422,6 @@ class ezTOC_Post {
 		 *
 		 * @see wpautop()
 		 */
-		//$eligibleContent = \Easy_Plugins\Table_Of_Contents\String\force_balance_tags( $eligibleContent );
 	}
 
 	/**
@@ -483,12 +437,6 @@ class ezTOC_Post {
 	private function extractHeadings( $content, $page = 1 ) {
 
 		$matches = array();
-
-		// reset the internal collision collection as the_content may have been triggered elsewhere
-		// eg by themes or other plugins that need to read in content such as metadata fields in
-		// the head html tag, or to provide descriptions to twitter/facebook
-		/** @todo does this need to be used??? */
-		//self::$collision_collector = array();
 
 		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
                     $content = apply_filters( 'ez_toc_extract_headings_content', $content );           
@@ -641,9 +589,7 @@ class ezTOC_Post {
 		if ( count( $levels ) != 6 ) {
 
 			$new_matches = array();
-			//$count       = count( $matches );
 
-			//for ( $i = 0; $i < $count; $i++ ) {
 			foreach ( $matches as $i => $match ) {
 
 				if ( in_array( $matches[ $i ][2], $levels ) ) {
@@ -700,9 +646,7 @@ class ezTOC_Post {
 				}
 
 				$new_matches = array();
-				//$count       = count( $matches );
 
-				//for ( $i = 0; $i < $count; $i++ ) {
 				foreach ( $matches as $i => $match ) {
 
 					$found = false;
@@ -736,10 +680,7 @@ class ezTOC_Post {
 					}
 				}
 
-				//if ( count( $matches ) != count( $new_matches ) ) {
-
 					$matches = $new_matches;
-				//}
 			}
 		}
 
@@ -811,11 +752,9 @@ class ezTOC_Post {
 	private function alternateHeadings( &$matches ) {
 
 		$alt_headings = $this->getAlternateHeadings();
-		//$count        = count( $matches );
 
 		if ( 0 < count( $alt_headings ) ) {
 
-			//for ( $i = 0; $i < $count; $i++ ) {
 			foreach ( $matches as $i => $match ) {
 
 				foreach ( $alt_headings as $original_heading => $alt_heading ) {
@@ -878,9 +817,6 @@ class ezTOC_Post {
 	 */
 	private function headingIDs( &$matches ) {
 
-		//$count = count( $matches );
-
-		//for ( $i = 0; $i < $count; $i++ ) {
 		foreach ( $matches as $i => $match ) {
 
 			$matches[ $i ]['id'] = $this->generateHeadingIDFromTitle( $matches[ $i ][0] );
@@ -925,7 +861,6 @@ class ezTOC_Post {
 			$return = html_entity_decode( $return, ENT_QUOTES, get_option( 'blog_charset' ) );
 
 			// remove non alphanumeric chars
-			//$return = preg_replace( '/[^a-zA-Z0-9 \-_]*/', '', $return );
 			$return = preg_replace( '/[\x00-\x1F\x7F]*/u', '', $return );
 
 			// Reserved Characters.
@@ -1048,9 +983,6 @@ class ezTOC_Post {
 	private function removeEmptyHeadings( &$matches ) {
 
 		$new_matches = array();
-		//$count       = count( $matches );
-
-		//for ( $i = 0; $i < $count; $i ++ ) {
 		foreach ( $matches as $i => $match ) {
 
 			if ( trim( strip_tags( $matches[ $i ][0] ) ) != false ) {
@@ -1059,10 +991,8 @@ class ezTOC_Post {
 			}
 		}
 
-		//if ( count( $matches ) != count( $new_matches ) ) {
 
 			$matches = $new_matches;
-		//}
 
 		return $matches;
 	}
@@ -1103,15 +1033,10 @@ class ezTOC_Post {
 
 		if ( !empty( $this->pages ) || isset( $this->pages[ $page ] ) ) {
 
-			//$headings = wp_list_pluck( $this->pages[ $page ]['headings'], 0 );
-
 			$matches = $this->getHeadingsfromPageContents( $page );
-			//$count   = count( $matches );
 
-			//for ( $i = 0; $i < $count; $i++ ) {
 			foreach ( $matches as $i => $match ) {
 
-				//$anchor     = $matches[ $i ]['id'];
                 $headings[] = str_replace(
                     array(
                         $matches[ $i ][1],                // start of heading
@@ -1152,9 +1077,6 @@ class ezTOC_Post {
 		if ( !empty( $this->pages ) || isset( $this->pages[ $page ] ) ) {
 
 			$matches = $this->getHeadingsfromPageContents( $page );
-			//$count   = count( $matches );
-
-			//for ( $i = 0; $i < $count; $i++ ) {
 			foreach ( $matches as $i => $match ) {
 
 				$anchor     = $matches[ $i ]['id'];
@@ -1260,7 +1182,6 @@ class ezTOC_Post {
 	}
 
 	/**
-	/**
 	 * Get the post Sticky Toggle TOC content block.
 	 *
 	 * @access public
@@ -1297,14 +1218,11 @@ class ezTOC_Post {
 				if ( strpos( $toc_title, '%PAGE_NAME%' ) !== false ) {
 					$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 				}
-//				if ( ezTOC_Option::get( 'toc_loading' ) !== 'css' ) {
 					$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
-//				}
+
 				$htmlSticky .= '<p class="ez-toc-sticky-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ) . '</p>' . PHP_EOL;
-//				if ( ezTOC_Option::get( 'toc_loading' ) !== 'css' ) {
 					$htmlSticky .= '<a class="ez-toc-close-icon" href="javascript:void(0)" onclick="ezTOC_hideBar(event)" aria-label="×"><span aria-hidden="true">×</span></a>' . PHP_EOL;
 					$htmlSticky .= '</div>' . PHP_EOL;
-//				}
 			} else {
 				$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
 				$htmlSticky .= '<a class="ez-toc-close-icon" href="javascript:void(0)" onclick="ezTOC_hideBar(event)" aria-label="Close"><span aria-hidden="true">×</span></a>' . PHP_EOL;
@@ -1540,12 +1458,7 @@ class ezTOC_Post {
 			$numbered_items     = array();
 			$numbered_items_min = null;
 
-			// reset the internal collision collection
-			/** @todo does this need to be used??? */
-			//self::$collision_collector = array();
-
 			// find the minimum heading to establish our baseline
-			//for ( $i = 0; $i < count( $matches ); $i ++ ) {
 			foreach ( $matches as $i => $match ) {
 				if ( $current_depth > $matches[ $i ][2] ) {
 					$current_depth = (int) $matches[ $i ][2];
@@ -1555,7 +1468,6 @@ class ezTOC_Post {
 			$numbered_items[ $current_depth ] = 0;
 			$numbered_items_min               = $current_depth;
 
-			//for ( $i = 0; $i < count( $matches ); $i ++ ) {
 			foreach ( $matches as $i => $match ) {
 
 				$level = $matches[ $i ][2];
@@ -1615,7 +1527,6 @@ class ezTOC_Post {
 
 		} else {
 
-			//for ( $i = 0; $i < count( $matches ); $i++ ) {
 			foreach ( $matches as $i => $match ) {
 
 				$count = $i + 1;

@@ -279,20 +279,6 @@ function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 		// check if multibyte strings are supported
 		if ( function_exists( 'mb_strpos' ) ) {
 
-			//for ( $i = 0; $i < count( $find ); $i ++ ) {
-			//
-			//	$string = mb_substr(
-			//		          $string,
-			//		          0,
-			//		          mb_strpos( $string, $find[ $i ] )
-			//	          ) .    // everything before $find
-			//	          $replace[ $i ] . // its replacement
-			//	          mb_substr(
-			//		          $string,
-			//		          mb_strpos( $string, $find[ $i ] ) + mb_strlen( $find[ $i ] )
-			//	          )    // everything after $find
-			//	;
-			//}
 
 			for ( $i = 0; $i < count( $find ); $i ++ ) {
 

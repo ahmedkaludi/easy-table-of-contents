@@ -90,4 +90,4 @@ jQuery(document).ready(function ($) {
         exdate.setSeconds(exdate.getSeconds() + 2592000);
         document.cookie = "eztoc_hide_deactivate_feedback=1; expires=" + exdate.toUTCString() + "; path=/";
     }
-}); // document ready
+});

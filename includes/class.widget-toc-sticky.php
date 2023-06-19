@@ -155,10 +155,6 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
             if ( is_404 () || is_archive () || is_search () || ( ! is_front_page () && is_home () ) )
                 return;
 
-            //global $wp_query;
-            //$find    = $replace = array();
-            //$post    = get_post( $wp_query->post->ID );
-            //$post = ezTOC_Post::get( get_the_ID() );//->applyContentFilter()->process();
             $post = ezTOC::get ( get_the_ID () );
 
             if( function_exists( 'post_password_required' ) ) {
@@ -171,13 +167,6 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
             if ( ! $post instanceof ezTOC_Post )
                 return;
 
-            /*
-             * Ensure the ezTOC content filter is not applied when running `the_content` filter.
-             */
-            //remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
-            //$post->post_content = apply_filters( 'the_content', $post->post_content );
-            //add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
-
             if ( $post -> hasTOCItems () )
             {
 
@@ -189,23 +178,6 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                  */
                 extract ( $args );
 
-                /**
-                 * $ezTocWidgetStickyScrollFixedPosition = '30'/manual;
-                 * $ezTocWidgetStickySidebarWidth = $('#ez-toc-widget-sticky-container').parents('.widget-area').width()/manual;
-                 * $ezTocWidgetStickyFixedTopPosition = '30px'/manual;
-                 * $ezTocWidgetStickyNavigationScrollBar = true('auto')/false;
-                 * $ezTocWidgetStickyScrollMaxHeight = auto('calc(100vh - 111px)')/manual;
-                 *  
-                  'advanced_options' => '',
-                  'scroll_fixed_position' => '30',
-                  'sidebar_width' => 'auto',
-                  'sidebar_width_size_unit' => 'none',
-                  'fixed_top_position' => '30',
-                  'fixed_top_position_size_unit' => 'px',
-                  'navigation_scroll_bar' => 'on',
-                  'scroll_max_height' => 'auto',
-                  'scroll_max_height_size_unit' => 'none',
-                 */
                 $js_vars = array();
                 $js_vars[ 'advanced_options' ] = '';
                 $js_vars[ 'scroll_fixed_position' ] = '30';
@@ -265,7 +237,6 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 );
 
                 $title = apply_filters ( 'widget_title', $instance[ 'title' ], $instance, $this -> id_base );
-                //$items = ezTOC::extract_headings( $find, $replace, $post );
 
                 if ( false !== strpos ( $title, '%PAGE_TITLE%' ) || false !== strpos ( $title, '%PAGE_NAME%' ) )
                 {
@@ -430,9 +401,6 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
             $instance[ 'highlight_color' ] = strip_tags ( $new_instance[ 'highlight_color' ] );
 
             $instance[ 'hide_inline' ] = array_key_exists ( 'hide_inline', $new_instance ) ? $new_instance[ 'hide_inline' ] : '0';
-
-            //ezTOC_Option::set( 'show_toc_in_widget_only', $instance['hide_inline'] );
-            //ezTOC_Option::set( 'show_toc_in_widget_only_post_types', $new_instance['show_toc_in_widget_only_post_types'] );
 
             if ( isset ( $new_instance[ 'advanced_options' ] ) && $new_instance[ 'advanced_options' ] == 'on' )
             {

@@ -138,11 +138,6 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
 			if ( is_404() || is_archive() || is_search() || ( ! is_front_page() && is_home() )  ) return;
 
-			//global $wp_query;
-
-			//$find    = $replace = array();
-			//$post    = get_post( $wp_query->post->ID );
-			//$post = ezTOC_Post::get( get_the_ID() );//->applyContentFilter()->process();
 			$post = ezTOC::get( get_the_ID() );
 
                         if( function_exists( 'post_password_required' ) ) {
@@ -153,13 +148,6 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 			 * @link https://wordpress.org/support/topic/fatal-error-when-trying-to-access-widget-area/
 			 */
 			if ( ! $post instanceof ezTOC_Post ) return;
-
-			/*
-			 * Ensure the ezTOC content filter is not applied when running `the_content` filter.
-			 */
-			//remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
-			//$post->post_content = apply_filters( 'the_content', $post->post_content );
-			//add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
 			if ( $post->hasTOCItems() ) {
 
@@ -177,7 +165,6 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				);
 
 				$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
-				//$items = ezTOC::extract_headings( $find, $replace, $post );
 
 				if ( false !== strpos( $title, '%PAGE_TITLE%' ) || false !== strpos( $title, '%PAGE_NAME%' ) ) {
 
@@ -331,9 +318,6 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 			$instance['highlight_color'] = strip_tags( $new_instance['highlight_color'] );
 
 			$instance['hide_inline'] = array_key_exists( 'hide_inline', $new_instance ) ? $new_instance['hide_inline'] : '0';
-
-			//ezTOC_Option::set( 'show_toc_in_widget_only', $instance['hide_inline'] );
-			//ezTOC_Option::set( 'show_toc_in_widget_only_post_types', $new_instance['show_toc_in_widget_only_post_types'] );
 
 			return $instance;
 		}
