@@ -262,6 +262,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'options' => self::getCounterList(),
 							'default' => 'decimal',
 						),
+						'counter-position' => array(
+							'id' => 'counter-position',
+							'name' => __( 'Counter Position', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'select',
+							'options' => self::getCounterPositionList(),
+							'default' => 'inside',
+						),
 						'smooth_scroll' => array(
 							'id' => 'smooth_scroll',
 							'name' => __( 'Smooth Scroll', 'easy-table-of-contents' ),
@@ -805,6 +813,22 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
             return array_merge( self::getCounterListBasic(), self::getCounterListDecimal(), self::getCounterList_i18n() );
         }
 
+		/**
+		 * getCounterPositionList function
+		 *
+		 * @since 2.0.51
+		 * @static
+		 * @access protected
+		 * @return array
+		 */
+		protected static function getCounterPositionList() 
+		{
+			return array(
+				'inside' => 'Inside',
+				'outside' => 'Outside',
+			);
+		}
+
         /**
          * getCounterListBasic Method
          * @since 2.0.33
@@ -920,6 +944,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'auto_insert_post_types'             => array( 'post','page' ),
 				'show_hierarchy'                     => true,
 				'counter'                            => 'decimal',
+				'counter-position'                   => 'inside',
 				'smooth_scroll'                      => true,
 				'smooth_scroll_offset'               => 30,
 				'mobile_smooth_scroll_offset'        => 0,

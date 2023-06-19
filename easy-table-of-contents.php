@@ -589,12 +589,7 @@ INLINECSS;
 				{
 					$importantItem = ' !important';
 				}
-				if( $list_type == '- ' )
-				{
-	                $inlineCSS .= <<<INLINECSS
-#$containerId.$class nav ul li { list-style-type: '- ' !important; list-style-position: inside !important;}
-INLINECSS;
-				} else if( in_array( $list_type, $listTypesForCounting ) ) {
+				if( in_array( $list_type, $listTypesForCounting ) ) {
 	                if( $direction == 'rtl' )
 					{
 	                    $length = 6;
@@ -607,8 +602,12 @@ INLINECSS;
 	                }
 	                if( $direction == 'ltr' )
 					{
+						$counterPositionCSS = "";
+						if( 'outside' == ezTOC_Option::get( 'counter-position' ) )
+							$counterPositionCSS = "min-width: 22px;width: auto;";
+
 	                     $inlineCSS .= <<<INLINECSS
-.$class ul{counter-reset: item $importantItem;}.$class nav ul li a::$listAnchorPosition {content: counters(item, ".", $list_type) ". ";display: inline-block;counter-increment: item;flex-grow: 0;flex-shrink: 0;$marginCSS $floatPosition}
+.$class ul{counter-reset: item $importantItem;}.$class nav ul li a::$listAnchorPosition {content: counters(item, ".", $list_type) ". ";display: inline-block;counter-increment: item;flex-grow: 0;flex-shrink: 0;$marginCSS $floatPosition $counterPositionCSS}
 INLINECSS;
 	                }
 	            } else {
@@ -617,8 +616,21 @@ INLINECSS;
 					if( $list_type == 'numeric' || $list_type == 'cjk-earthly-branch' )
 						$content = ". ";
 
+					$counterPositionCSS = "";
+					if( 'outside' == ezTOC_Option::get( 'counter-position' ) )
+					{
+						$counterPositionCSS = "min-width: 15px;width: auto;";
+						if( 'square' == $list_type )
+							$counterPositionCSS = "min-width: 20px;width: auto;";
+						if( 'cjk-earthly-branch' == $list_type  )
+							$counterPositionCSS = "min-width: 25px;width: auto;";
+					}	
+					$counterContent = "counter(item, $list_type) '$content'";
+					if( $list_type == '- ' )
+						$counterContent = 'counter(item, none) "- "';
+
 	                $inlineCSS .= <<<INLINECSS
-.$class ul {direction: $direction;counter-reset: item $importantItem;}.$class nav ul li a::$listAnchorPosition {content: counter(item, $list_type) "$content";$marginCSS counter-increment: item;flex-grow: 0;flex-shrink: 0;$floatPosition	}
+.$class ul {direction: $direction;counter-reset: item $importantItem;}.$class nav ul li a::$listAnchorPosition {content: $counterContent;$marginCSS counter-increment: item;flex-grow: 0;flex-shrink: 0;$floatPosition	$counterPositionCSS }
 INLINECSS;
 
 	            }
@@ -700,6 +712,9 @@ COUNTERINCREMENTCSS;
         */
         private static function rtlCounterContentCSS( $length = 6, $list_type = 'decimal', $class = 'ez-toc-counter-rtl' )
         {
+			$counterPositionCSS = "";
+			if( 'outside' == ezTOC_Option::get( 'counter-position' ) )
+				$counterPositionCSS = "min-width: 22px;width: auto;";
             if ($length < 6) {
                 $length = 6;
             }
@@ -719,7 +734,7 @@ COUNTERINCREMENTCSS;
                 }
                 $items = implode(' "." ', $items);
                 $counterContentCSS .= <<<COUNTERINCREMENTCSS
-.$class nav $ul li a::before {content: $items ". ";float: right;margin-left: 0.2rem;flex-grow: 0;flex-shrink: 0;}
+.$class nav $ul li a::before {content: $items ". ";float: right;margin-left: 0.2rem;flex-grow: 0;flex-shrink: 0; $counterPositionCSS }
 COUNTERINCREMENTCSS;
             }
             return $counterContentCSS;
