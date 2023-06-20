@@ -299,7 +299,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				wp_register_script(
 				'ez-toc-js',
 				EZ_TOC_URL . "assets/js/front{$min}.js",
-				array( 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ),
+				array( 'jquery', 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ),
 				ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/front{$min}.js" ),
 				true
 				);
