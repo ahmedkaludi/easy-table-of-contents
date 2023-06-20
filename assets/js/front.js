@@ -234,7 +234,7 @@ jQuery( function( $ ) {
             var listItem = $( '#ez-toc-height-test' );
             var height = listItem.height();
 	        listItem.remove();
-            return height - $listElement.children( 'ul' ).first().height();
+            return height - ($listElement.children( 'ul' ).first().height() || 0);
         }
 
         function addListElementBackgroundColorHeightStyleToHead( listElementHeight ) {
