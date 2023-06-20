@@ -709,6 +709,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'text',
 							'default' => '',
 						),
+						'add_request_uri' => array(
+							'id' => 'add_request_uri',
+							'name' => __( 'Add Request URI', 'easy-table-of-contents' ),
+							'desc' => __( 'Add request URI before anchor link. ', 'easy-table-of-contents' ) . __( 'Eg: href="/post/id#xxxx"', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'remove_special_chars_from_title' => array(
 							'id' => 'remove_special_chars_from_title',
 							'name' => __( 'Remove \':\' from TOC Title', 'easy-table-of-contents' ),
@@ -952,6 +959,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'heading-text-direction'              => 'ltr',
 				'toc-run-on-amp-pages'              => 1,
 				'sticky-toggle-position'              => 'left',
+				'add_request_uri'                     => false
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );
