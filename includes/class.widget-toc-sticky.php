@@ -340,7 +340,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                                     $toggle_view = "checked";
                                 }
                                 $cssIconID = uniqid ();
-                                $htmlCSSIcon = '<label for="ez-toc-widget-sticky-cssicon-toggle-item-count-' . $cssIconID . '" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::getTOCToggleIcon () . '</label>';
+                                $htmlCSSIcon = '<label for="ez-toc-widget-sticky-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::getTOCToggleIcon () . '</label>';
                                 echo $htmlCSSIcon;
                                 ?>
                             <?php endif; ?>
@@ -349,7 +349,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
 
                     <?php echo $after_title; ?>
                     <?php if ( 'css' == ezTOC_Option::get ( 'toc_loading' ) ): ?>
-                        <label for="ez-toc-widget-sticky-cssicon-toggle-item-<?= $cssIconID ?>" class="cssiconcheckbox">1</label><input type="checkbox" id="ez-toc-widget-sticky-cssicon-toggle-item-<?= $cssIconID ?>" <?= $toggle_view ?> style="display:none" />
+                        <label for="ez-toc-widget-sticky-cssicon-toggle-item-count-<?= $cssIconID ?>" class="cssiconcheckbox">1</label><input type="checkbox" id="ez-toc-widget-sticky-cssicon-toggle-item-<?= $cssIconID ?>" <?= $toggle_view ?> style="display:none" />
                     <?php endif; ?>
                     <?php
                 }
