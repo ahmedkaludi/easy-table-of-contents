@@ -994,8 +994,9 @@ INLINESTICKYTOGGLEJS;
 				$post = self::$store[ $id ];
 
 			} else {
-
-				$post = ezTOC_Post::get( get_the_ID() );
+				
+				$post_id = ! empty( $id ) ? $id : get_the_ID();
+				$post = ezTOC_Post::get( $post_id );
 
 				if ( $post instanceof ezTOC_Post ) {
 
@@ -1104,6 +1105,8 @@ INLINESTICKYTOGGLEJS;
 		 */
 		public static function shortcode( $atts, $content, $tag ) {
 
+			$post_id = isset( $atts['post_id'] ) ? (int) $atts['post_id'] : get_the_ID();
+				
 			$html = '';
 
                         if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() )
@@ -1111,7 +1114,7 @@ INLINESTICKYTOGGLEJS;
                             
 			if ( 'ez-toc' == $tag || 'toc' == $tag ) {
                             
-                                $post = self::get( get_the_ID() );
+                                $post = self::get( $post_id );
 
                                 if ( ! $post instanceof ezTOC_Post ) {
 
