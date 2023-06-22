@@ -152,7 +152,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		private static function hooks() {
 
-			add_option('ez-toc-shortcode-exist-and-render', false);
+			
                         if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
 				add_option( 'ez-toc-post-content-core-level', false );
 			}
@@ -167,8 +167,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
                                     add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
                                     add_filter( 'category_description',  array( __CLASS__, 'toc_category_content_filter' ), 99,2);
 									add_filter( 'woocommerce_taxonomy_archive_description_raw',  array( __CLASS__, 'toc_category_content_filter_woocommerce' ), 99,2);
-                                    add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );
-                                    add_shortcode( 'lwptoc', array( __CLASS__, 'shortcode' ) );
+                                    add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );                                    
                                     add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
 
                                     add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
@@ -276,10 +275,14 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					update_option( 'ez-toc-post-meta-content', array( $eztoc_post_id => do_shortcode( $postMetaContent ) ) );
 				}
 			}
-
+			
+			$post = self::get( get_the_ID() );
+			if ( ! $post->hasTOCItems() ) {
+				return;	
+			}
 			$isEligible = self::is_eligible( get_post() );
 
-			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! get_option( 'ez-toc-shortcode-exist-and-render' ) && ! is_active_widget( false, false, 'ez_toc_widget_sticky' ) && !get_post_meta( $eztoc_post_id, '_nectar_portfolio_extra_content',true )) {
+			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! is_active_widget( false, false, 'ez_toc_widget_sticky' ) && !get_post_meta( $eztoc_post_id, '_nectar_portfolio_extra_content',true )) {
                 return false;
 			}
 
@@ -883,8 +886,7 @@ INLINESTICKYTOGGLEJS;
 		 * @return bool
 		 */
 		public static function is_eligible( $post ) {
-
-
+			
 			if ( empty( $post ) || ! $post instanceof WP_Post ) {
 
 				Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', $post );
@@ -1104,16 +1106,14 @@ INLINESTICKYTOGGLEJS;
 		 * @return string
 		 */
 		public static function shortcode( $atts, $content, $tag ) {
-
-			$post_id = isset( $atts['post_id'] ) ? (int) $atts['post_id'] : get_the_ID();
-				
-			$html = '';
+						
+						$post_id = isset( $atts['post_id'] ) ? (int) $atts['post_id'] : get_the_ID();
+							
+						$html = '';
 
                         if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() )
                             return $html;
-                            
-			if ( 'ez-toc' == $tag || 'toc' == $tag ) {
-                            
+                            			                            
                                 $post = self::get( $post_id );
 
                                 if ( ! $post instanceof ezTOC_Post ) {
@@ -1123,28 +1123,20 @@ INLINESTICKYTOGGLEJS;
                                         return Debug::log()->appendTo( $content );
                                 }
 
-                                $html = $post->getTOC();
-			}
+                                $html = $post->getTOC();			
+			
+							if (isset($atts["initial_view"]) && !empty($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
+											$options = array(
+												'visibility_hide_by_default' => true,
+											);
+											$html = $post->getTOC($options);
+							}
 
-			if( !empty( $html ) )
-			{
-				update_option('ez-toc-shortcode-exist-and-render', true);
-			} else
-			{
-				update_option('ez-toc-shortcode-exist-and-render', false);
-			}
-			if (isset($atts["initial_view"]) && !empty($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
-                            $options = array(
-                                'visibility_hide_by_default' => true,
-                            );
-                            $html = $post->getTOC($options);
-			}
-
-                        if( !is_home() ) {
-                            if ( ezTOC_Option::get('sticky-toggle') ) {
-                                add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
-                            }
-                        }
+							if( !is_home() ) {
+								if ( ezTOC_Option::get('sticky-toggle') ) {
+									add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
+								}
+							}
                         
 			return $html;
 		}
@@ -1250,7 +1242,7 @@ INLINESTICKYTOGGLEJS;
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
 
-			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! get_option( 'ez-toc-shortcode-exist-and-render' ) && ! is_active_widget( false, false, 'ez_toc_widget_sticky' ) ) {
+			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! is_active_widget( false, false, 'ez_toc_widget_sticky' ) ) {
 
 				return Debug::log()->appendTo( $content );
 			}
