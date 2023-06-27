@@ -375,7 +375,7 @@ label.cssiconcheckbox {
 .ez-toc-widget-container ul.ez-toc-list li.active {
     height: auto !important;
 }
-.ez-cssicon{
+.ez-toc-cssicon{
     float: right;
     position: relative;
     font-size: 16px;
@@ -385,4 +385,12 @@ label.cssiconcheckbox {
     cursor: pointer;
     left: 10px;
     width: 35px;
+}
+.ez-toc-icon-toggle-span {
+    display: flex;
+    align-items: center;
+    width: 35px;
+    height: 30px;
+    justify-content: center;
+    direction:ltr;
 }
