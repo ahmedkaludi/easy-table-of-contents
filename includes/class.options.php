@@ -155,12 +155,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 * @return array
 		 */
 		private static function getRegistered() {
-			$eztoc_latest_link=home_url();
-			$args = array( 'numberposts' => '1');
-			$recent_posts = wp_get_recent_posts( $args );
-			foreach( $recent_posts as $recent ){
-			 $eztoc_latest_link= add_query_arg( 'eztoc-edit-position', '', get_permalink($recent["ID"] ));
-			}
+												
 			$options = array(
 				'general' => apply_filters(
 					'ez_toc_settings_general',
@@ -1737,11 +1732,11 @@ public static function child_font_size( $args ) {
         public static function eztoc_reset_options_to_default() {
             if( !wp_verify_nonce( sanitize_text_field( $_POST['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) )
             {
-                return esc_attr__('Security Alert: nonce not verified!', 'easy-table-of-contents' );
+                return esc_html__('Security Alert: nonce not verified!', 'easy-table-of-contents' );
             }
 
 			if ( !current_user_can( 'manage_options' ) ) {
-				return esc_attr__('Security Alert: Unauthorized Access!', 'easy-table-of-contents' );
+				return esc_html__('Security Alert: Unauthorized Access!', 'easy-table-of-contents' );
 			}
             delete_option('ez-toc-settings');
             return add_option( 'ez-toc-settings', self::getDefaults() );
@@ -1751,6 +1746,5 @@ public static function child_font_size( $args ) {
 	add_action( 'admin_init', array( 'ezTOC_Option', 'register' ) );
 
 	add_action( 'wp_ajax_eztoc_reset_options_to_default', array( 'ezTOC_Option', 'eztoc_reset_options_to_default' ) );
-
 
 }
