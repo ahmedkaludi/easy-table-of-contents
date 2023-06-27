@@ -682,21 +682,20 @@ INLINESTICKYTOGGLEJS;
 
 				if ( isset( $_REQUEST['ez-toc-settings']['alttext'] ) && ! empty( $_REQUEST['ez-toc-settings']['alttext'] ) ) {
 
+					$alttext = '';
+					
 					if ( is_string( $_REQUEST['ez-toc-settings']['alttext'] ) ) {
 
 						$alttext = trim( $_REQUEST['ez-toc-settings']['alttext'] );
 
-					} else {
+							/*
+						* This is basically `esc_html()` but does not encode quotes.
+						* This is to allow angle brackets and such which `wp_kses_post` would strip as "evil" scripts.
+						*/
+						$alttext = wp_check_invalid_utf8( $alttext );
+						$alttext = _wp_specialchars( $alttext, ENT_NOQUOTES );
 
-						$alttext = '';
-					}
-
-					/*
-					 * This is basically `esc_html()` but does not encode quotes.
-					 * This is to allow angle brackets and such which `wp_kses_post` would strip as "evil" scripts.
-					 */
-					$alttext = wp_check_invalid_utf8( $alttext );
-					$alttext = _wp_specialchars( $alttext, ENT_NOQUOTES );
+					} 					
 
 					update_post_meta( $post_id, '_ez-toc-alttext', wp_kses_post( $alttext ) );
 
@@ -716,21 +715,19 @@ INLINESTICKYTOGGLEJS;
 
 				if ( isset( $_REQUEST['ez-toc-settings']['exclude'] ) && ! empty( $_REQUEST['ez-toc-settings']['exclude'] ) ) {
 
+					$exclude = '';
 					if ( is_string( $_REQUEST['ez-toc-settings']['exclude'] ) ) {
 
 						$exclude = trim( $_REQUEST['ez-toc-settings']['exclude'] );
 
-					} else {
+							/*
+						* This is basically `esc_html()` but does not encode quotes.
+						* This is to allow angle brackets and such which `wp_kses_post` would strip as "evil" scripts.
+						*/
+						$exclude = wp_check_invalid_utf8( $exclude );
+						$exclude = _wp_specialchars( $exclude, ENT_NOQUOTES );
 
-						$exclude = '';
-					}
-
-					/*
-					 * This is basically `esc_html()` but does not encode quotes.
-					 * This is to allow angle brackets and such which `wp_kses_post` would strip as "evil" scripts.
-					 */
-					$exclude = wp_check_invalid_utf8( $exclude );
-					$exclude = _wp_specialchars( $exclude, ENT_NOQUOTES );
+					} 					
 
 					update_post_meta( $post_id, '_ez-toc-exclude', wp_kses_post( $exclude ) );
 
