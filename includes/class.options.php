@@ -225,6 +225,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => true,
 						),
+						'visibility_on_header_text' => array(
+							'id' => 'visibility_on_header_text',
+							'name' => __( 'Toggle View On Header Text', 'easy-table-of-contents' ),
+							'desc' => __( 'Allow the user to toggle the visibility of the table of contents on header text', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'visibility_hide_by_default' => array(
 							'id' => 'visibility_hide_by_default',
 							'name' => __( 'Initial View', 'easy-table-of-contents' ),
@@ -911,6 +918,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'start'                              => 2,
 				'show_heading_text'                  => true,
 				'heading_text'                       => 'Table of Contents',
+				'visibility_on_header_text'			 => false,	
 				'enabled_post_types'                 => array( 'post','page' ),
 				'auto_insert_post_types'             => array( 'post','page' ),
 				'show_hierarchy'                     => true,

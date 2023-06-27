@@ -1343,28 +1343,7 @@ class ezTOC_Post {
                         if ( ezTOC_Option::get( 'toc_loading' ) != 'css' ) {
                                 $html .= '<div class="ez-toc-title-container">' . PHP_EOL;
                         }
-                                
-			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
-
-				$toc_title = ezTOC_Option::get( 'heading_text' );
-
-				if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
-
-					$toc_title = str_replace( '%PAGE_TITLE%', get_the_title(), $toc_title );
-				}
-
-				if ( strpos( $toc_title, '%PAGE_NAME%' ) !== false ) {
-
-					$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
-				}
-
-
-				$html .= '<p class="ez-toc-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</p>' . PHP_EOL;
-                                
-                        } else {
-                            $html .= '<p class="ez-toc-title"></p>' . PHP_EOL;
-                        }
-
+			
                         if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
                                 $html .= '<span class="ez-toc-title-toggle">';
                         }
@@ -1383,7 +1362,7 @@ class ezTOC_Post {
                                     }
                                     
                                    
-                                    $html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Toggle Table of Content" role="button"><label for="item-' . $cssIconID . '" aria-hidden="true"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>'.$icon.'</label><input aria-label="item-' . $cssIconID . '" ' . $inputCheckboxExludeStyle . ' type="checkbox" id="item-input-' . $cssIconID . '"></a>';
+                                    $html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Toggle Table of Content" role="button"><label for="item-' . $cssIconID . '" aria-hidden="true">'.$icon.'</label><input aria-label="item-' . $cssIconID . '" ' . $inputCheckboxExludeStyle . ' type="checkbox" id="item-input-' . $cssIconID . '"></a>';
                             } else {
                                     $toggle_view='';
                                     if(ezTOC_Option::get('visibility_hide_by_default')==true){
@@ -1395,7 +1374,30 @@ class ezTOC_Post {
                                     if( $options !== null && !empty( $options ) && is_array( $options ) && key_exists( 'visibility_hide_by_default', $options ) && true == $options['visibility_hide_by_default'] ) {
                                             $toggle_view= "checked";
                                     }
-                                    $html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="cssicon"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::getTOCToggleIcon() . '</label><label for="ez-toc-cssicon-toggle-item-count-' . $cssIconID . '" ' . $inputCheckboxExludeStyle . ' class="cssiconcheckbox">1</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' />';
+									if ( ezTOC_Option::get( 'show_heading_text' ) ) {
+
+										$toc_title = ezTOC_Option::get( 'heading_text' );
+
+										if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
+
+											$toc_title = str_replace( '%PAGE_TITLE%', get_the_title(), $toc_title );
+										}
+
+										if ( strpos( $toc_title, '%PAGE_NAME%' ) !== false ) {
+
+											$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
+										}
+
+										$header_label = '<p class="ez-toc-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</p>' . PHP_EOL;		
+
+										if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {
+											$html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '">' .$header_label. ezTOC::getTOCToggleIcon() . '</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' />';
+										}else{
+											$html .= $header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '">' . ezTOC::getTOCToggleIcon() . '</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' />';
+										}
+										
+									}
+                                    
                             }
                         }
 
