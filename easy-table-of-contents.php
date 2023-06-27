@@ -277,7 +277,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 			
 			$post = self::get( get_the_ID() );
-			if ( ! $post->hasTOCItems() ) {
+			if ($post && ! $post->hasTOCItems() ) {
 				return;	
 			}
 			$isEligible = self::is_eligible( get_post() );
