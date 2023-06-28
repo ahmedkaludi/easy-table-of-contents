@@ -55,7 +55,7 @@ jQuery( function( $ ) {
 		if ( typeof ezTOC.visibility_hide_by_default != 'undefined' ) {
 
 			// Get all toggles that have not been loaded.
-			var toggles = $( 'a.ez-toc-toggle:not(.ez-toc-loaded),a.ez-toc-widget-sticky-toggle:not(.ez-toc-loaded)' ); 
+			var toggles = $( '.ez-toc-toggle:not(.ez-toc-loaded),.ez-toc-widget-sticky-toggle:not(.ez-toc-loaded)' ); 
 
 			var invert = ezTOC.visibility_hide_by_default;
                         $.each(toggles, function(i, obj) {

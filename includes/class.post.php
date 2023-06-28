@@ -1357,7 +1357,15 @@ class ezTOC_Post {
 			
 								$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 							}
-							$header_label = '<p class="ez-toc-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</p>' . PHP_EOL;
+							
+							$headerTextToggleClass = '';
+							$headerTextToggleStyle = '';
+							
+							if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {
+								$headerTextToggleClass = 'ez-toc-toggle';
+								$headerTextToggleStyle = 'style="cursor: pointer"';
+							}
+							$header_label = '<p class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</p>' . PHP_EOL;
 							if ( ezTOC_Option::get( 'toc_loading' ) != 'css' ) {
                                 $html .= $header_label;
                         	}

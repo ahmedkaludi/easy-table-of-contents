@@ -241,7 +241,14 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
                                         </style>
 
 										<?php
-                                        $header_label = '<span class="ez-toc-title">' . $title . '</span>';
+										$headerTextToggleClass = '';
+										$headerTextToggleStyle = '';
+										
+										if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {
+											$headerTextToggleClass = 'ez-toc-toggle';
+											$headerTextToggleStyle = 'style="cursor: pointer"';
+										}
+                                        $header_label = '<span class="ez-toc-title ' . $headerTextToggleClass . '" ' .$headerTextToggleStyle . '>' . $title . '</span>';
 										?>
 										<span class="ez-toc-title-toggle">
                                             <?php if ( 'css' != ezTOC_Option::get( 'toc_loading' ) ): ?>
