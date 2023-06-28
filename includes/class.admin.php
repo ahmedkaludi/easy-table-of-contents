@@ -108,6 +108,8 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
                         
                         self::inlineAdminAMPNonJS();
 						self::inlineAdminHeadingsPaddingJS();
+						self::inlineAdminDisplayHeaderLabel();
+						self::inlineAdminInitialView();
 		}
                 
                 /**
@@ -225,6 +227,84 @@ inlineAdminHeadingsPaddingJS;
 					wp_add_inline_script( 'cn_toc_admin_script', $inlineAdminHeadingsPaddingJS );
 					 
 				}
+
+		/**
+		 * inlineAdminDisplayHeaderLabel Method
+		 * Prints out inline AMP Non JS.
+		 *
+		 * @access private
+		 * @return void
+		 * @since  2.0.51
+		 * @static
+		*/
+		private static function inlineAdminDisplayHeaderLabel() {
+			
+		$inlineAdminDisplayHeaderLabel = <<<inlineAdminDisplayHeaderLabel
+jQuery(function($) {
+
+	let showHeadingText = $('#eztoc-general').find("input[name='ez-toc-settings[show_heading_text]']");
+	let visiblityOnHeaderText = $('#eztoc-general').find("input[name='ez-toc-settings[visibility_on_header_text]']");
+	let headerText = $('#eztoc-general').find("input[name='ez-toc-settings[heading_text]']");
+
+	if($(showHeadingText).prop('checked') == false) {
+		$(visiblityOnHeaderText).parents('tr').hide(500);
+		$(headerText).parents('tr').hide(500);
+	}
+
+	$(document).on("change, click", "input[name='ez-toc-settings[show_heading_text]']", function() {
+	
+		if($(this).prop('checked') == true) {
+			$(visiblityOnHeaderText).parents('tr').show(500);
+			$(headerText).parents('tr').show(500);
+		} else {
+			$(visiblityOnHeaderText).parents('tr').hide(500);
+			$(headerText).parents('tr').hide(500);
+		}
+
+	});
+});
+inlineAdminDisplayHeaderLabel;
+
+			wp_add_inline_script( 'cn_toc_admin_script', $inlineAdminDisplayHeaderLabel );
+				
+		}
+
+		/**
+		 * inlineAdminInitialView Method
+		 * Prints out inline AMP Non JS.
+		 *
+		 * @access private
+		 * @return void
+		 * @since  2.0.51
+		 * @static
+		*/
+		private static function inlineAdminInitialView() {
+			
+		$inlineAdminInitialView = <<<inlineAdminInitialView
+jQuery(function($) {
+
+	let visibility = $('#eztoc-general').find("input[name='ez-toc-settings[visibility]']");
+	let visiblityHideByDefault = $('#eztoc-general').find("input[name='ez-toc-settings[visibility_hide_by_default]']");
+	
+	if($(visibility).prop('checked') == false) {
+		$(visiblityHideByDefault).parents('tr').hide(500);
+	}
+
+	$(document).on("change, click", "input[name='ez-toc-settings[visibility]']", function() {
+	
+		if($(this).prop('checked') == true) {
+			$(visiblityHideByDefault).parents('tr').show(500);
+		} else {
+			$(visiblityHideByDefault).parents('tr').hide(500);
+		}
+
+	});
+});
+inlineAdminInitialView;
+
+			wp_add_inline_script( 'cn_toc_admin_script', $inlineAdminInitialView );
+				
+		}
 				
                 /**
                  * inlineAdminOccasionalAdsPopUpCSS_JS Method

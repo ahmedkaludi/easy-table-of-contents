@@ -206,6 +206,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => true,
 						),
+						'visibility_on_header_text' => array(
+							'id' => 'visibility_on_header_text',
+							'name' => __( 'Toggle View On Header Text', 'easy-table-of-contents' ),
+							'desc' => __( 'Allow the user to toggle the visibility of the table of contents on header text', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'heading_text' => array(
 							'id' => 'heading_text',
 							'name' => __( 'Header Label', 'easy-table-of-contents' ),
@@ -219,13 +226,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'desc' => __( 'Allow the user to toggle the visibility of the table of contents.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => true,
-						),
-						'visibility_on_header_text' => array(
-							'id' => 'visibility_on_header_text',
-							'name' => __( 'Toggle View On Header Text', 'easy-table-of-contents' ),
-							'desc' => __( 'Allow the user to toggle the visibility of the table of contents on header text', 'easy-table-of-contents' ),
-							'type' => 'checkbox',
-							'default' => false,
 						),
 						'visibility_hide_by_default' => array(
 							'id' => 'visibility_hide_by_default',
