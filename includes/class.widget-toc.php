@@ -275,10 +275,10 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
                                                 }
                                                 $cssIconID = uniqid();
 												if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {
-													echo $header_label;
                                                 	$htmlCSSIcon = '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" style="cursor:pointer">' . $header_label . '<span class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle">' . ezTOC::getTOCToggleIcon( 'widget-with-visibility_on_header_text' ) . '</span></label>';
 												} else {
-													$htmlCSSIcon = '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle">' . ezTOC::getTOCToggleIcon() . '</span></label>';
+													echo $header_label;
+													$htmlCSSIcon = '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle">' . ezTOC::getTOCToggleIcon( 'widget-with-visibility_on_header_text' ) . '</span></label>';
 												}
                                                 echo $htmlCSSIcon;
 

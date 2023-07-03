@@ -311,7 +311,16 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                             }
                         </style>
 
-                        <span class="ez-toc-widget-sticky-title"><?php echo $title; ?></span>
+                        <?php
+                        $headerTextToggleClass = '';
+                        $headerTextToggleStyle = '';
+                        
+                        if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {
+                            $headerTextToggleClass = 'ez-toc-toggle';
+                            $headerTextToggleStyle = 'style="cursor: pointer"';
+                        }
+                        $header_label = '<span class="ez-toc-widget-sticky-title ' . $headerTextToggleClass . '" ' .$headerTextToggleStyle . '>' . $title . '</span>';
+                        ?>
                         <span class="ez-toc-widget-sticky-title-toggle">
                             <?php if ( 'css' != ezTOC_Option::get ( 'toc_loading' ) ): ?>
 
@@ -319,6 +328,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
 
 
                                 <?php
+                                echo $header_label;
                                 if ( ezTOC_Option::get ( 'visibility' ) )
                                 {
 
@@ -339,8 +349,13 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                                 if( true == get_post_meta( get_the_ID(), '_ez-toc-visibility_hide_by_default', true ) ) {
                                     $toggle_view = "checked";
                                 }
-                                $cssIconID = uniqid ();
-                                $htmlCSSIcon = '<label for="ez-toc-widget-sticky-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::getTOCToggleIcon () . '</label>';
+                                $cssIconID = uniqid();
+                                if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {
+                                    $htmlCSSIcon = '<label for="ez-toc-widget-sticky-cssicon-toggle-item-' . $cssIconID . '" style="cursor:pointer">' . $header_label . '<span class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::getTOCToggleIcon( 'widget-with-visibility_on_header_text' ) . '</span></label>';
+                                } else {
+                                    echo $header_label;
+                                    $htmlCSSIcon = '<label for="ez-toc-widget-sticky-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::getTOCToggleIcon( 'widget-with-visibility_on_header_text' ) . '</label>';
+                                }
                                 echo $htmlCSSIcon;
                                 ?>
                             <?php endif; ?>

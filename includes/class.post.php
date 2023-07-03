@@ -1389,7 +1389,7 @@ class ezTOC_Post {
                                     }
                                     
                                    
-                                    $html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Toggle Table of Content" role="button"><label for="item-' . $cssIconID . '" aria-hidden="true">'.$icon.'</label><input aria-label="item-' . $cssIconID . '" ' . $inputCheckboxExludeStyle . ' type="checkbox" id="item-input-' . $cssIconID . '"></a>';
+                                    $html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Toggle Table of Content" role="button"><label for="item-' . $cssIconID . '" >'.$icon.'</label><input aria-label="Toggle" aria-label="item-' . $cssIconID . '" ' . $inputCheckboxExludeStyle . ' type="checkbox" id="item-' . $cssIconID . '"></a>';
                             } else {
                                     $toggle_view='';
                                     if(ezTOC_Option::get('visibility_hide_by_default')==true){
@@ -1408,7 +1408,7 @@ class ezTOC_Post {
 										if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {
 											$html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '">' .$header_label. ezTOC::getTOCToggleIcon() . '</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' />';
 										}else{
-											$html .= $header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '">' . ezTOC::getTOCToggleIcon() . '</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' />';
+											$html .= $header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '">' . ezTOC::getTOCToggleIcon() . '</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' aria-label="Toggle" />';
 										}
 									}
 										                                    
