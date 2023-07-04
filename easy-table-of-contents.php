@@ -175,12 +175,18 @@ if ( ! class_exists( 'ezTOC' ) ) {
                             }
 		}
 	
-		public static function is_sidebar_hastoc(){
+		/**
+		 * is_sidebar_hastoc function
+		 * @since 2.0.51
+		 * @static
+		 * @return bool
+		 */
+		public static function is_sidebar_hastoc() {
 
 			$status = false;
 			$widget_blocks = get_option( 'widget_block' );
 			foreach( (array) $widget_blocks as $widget_block ) {
-				if ( ! empty( $widget_block['content'] ) && has_shortcode($widget_block['content'] , 'ez-toc') ) {					
+				if ( ! empty( $widget_block['content'] ) && ( has_shortcode( $widget_block['content'] , 'toc' ) || has_shortcode( $widget_block['content'] , 'ez-toc' ) || has_shortcode( $widget_block['content'] , 'ez-toc-widget-sticky' ) ) ) {					
 					$status = true;
 					break;
 				}
