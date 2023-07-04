@@ -175,6 +175,18 @@ if ( ! class_exists( 'ezTOC' ) ) {
                             }
 		}
 	
+		public static function is_sidebar_hastoc(){
+
+			$status = false;
+			$widget_blocks = get_option( 'widget_block' );
+			foreach( (array) $widget_blocks as $widget_block ) {
+				if ( ! empty( $widget_block['content'] ) && has_shortcode($widget_block['content'] , 'ez-toc') ) {					
+					$status = true;
+					break;
+				}
+			}
+			return $status;
+		}
                 
         /**
 	 * enqueueScriptsforExcludeCSS Method
@@ -281,6 +293,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return;	
 			}
 			$isEligible = self::is_eligible( get_post() );
+			if(!$isEligible && self::is_sidebar_hastoc()){
+				$isEligible = true;
+			}
 
 			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! is_active_widget( false, false, 'ez_toc_widget_sticky' ) && !get_post_meta( $eztoc_post_id, '_nectar_portfolio_extra_content',true )) {
                 return false;
@@ -1241,12 +1256,16 @@ INLINESTICKYTOGGLEJS;
 			$isEligible = self::is_eligible( get_post() );
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
-
+			$return_only_an = false; 
+			if(!$isEligible && self::is_sidebar_hastoc()){
+				$isEligible = true;
+				$return_only_an = true;
+			}
 			if ( ! $isEligible && ! is_active_widget( false, false, 'ezw_tco' ) && ! is_active_widget( false, false, 'ez_toc_widget_sticky' ) ) {
 
 				return Debug::log()->appendTo( $content );
 			}
-
+			
 			$post = self::get( get_the_ID() );
 
 			if ( ! $post instanceof ezTOC_Post ) {
@@ -1285,7 +1304,12 @@ INLINESTICKYTOGGLEJS;
 				'Replace found headings with:',
 				"<textarea rows='{$anchorRows}' style='{$style}' wrap='soft'>{$anchors}</textarea>"
 			);
+			
 
+			if ( $return_only_an ) {
+				Debug::log( 'side_bar_has shortcode', 'Shortcode found, add links to content.', true );
+				return mb_find_replace( $find, $replace, $content );
+			}
 			// If shortcode used or post not eligible, return content with anchored headings.
 			if ( strpos( $content, 'ez-toc-container' ) || ! $isEligible ) {
 
