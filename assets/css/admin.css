@@ -255,9 +255,6 @@ html {
     box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
 }
 
-/* #technical p{
-        line-height: 0.5rem;
-} */
 #technical-form {
 
     width: 60%;
@@ -325,7 +322,6 @@ html {
     padding: 15px 20px;
     border-radius: 4px;
     margin: 15px 15px 15px 0;
-    /* height: 22rem; */
     padding: 0px 20px;
 }
 
@@ -378,7 +374,6 @@ html {
     margin-bottom: 15px;
     border-radius: 6px;
     border: 0;
-    /* text-transform: uppercase; */
     font-size: 16px;
 
 }

@@ -5,7 +5,6 @@
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     display: table;
-    /*font-size: 95%;*/
     margin-bottom: 1em;
     padding: 10px;
     position: relative;
@@ -70,15 +69,8 @@ div.ez-toc-sticky-widget-container li {
     z-index: 1;
 }
 
-/*#ez-toc-sticky-container.have_bullets li {*/
-/*padding-left: 12px;*/
-/*}*/
-
 #ez-toc-sticky-container p.ez-toc-sticky-title {
     text-align: left;
-    /*font-family: "Arial Narrow", sans-serif;*/
-    /*font-size: 120%;*/
-    /*font-weight: 500;*/
     line-height: 1.45;
     margin: 0;
     padding: 0;
@@ -99,11 +91,6 @@ div.ez-toc-sticky-widget-container li {
 #ez-toc-sticky-container.ez-toc-sticky-black p.ez-toc-sticky-title {
     color: #FFF;
 }
-
-/*#ez-toc-sticky-container span.ez-toc-sticky-toggle {*/
-/*font-weight: 400;*/
-/*font-size: 90%;*/
-/*}*/
 
 #ez-toc-sticky-container div.ez-toc-sticky-title-container + ul.ez-toc-sticky-list {
     margin-top: 1em;
@@ -225,13 +212,6 @@ div.ez-toc-sticky-widget-container li {
 .ez-toc-sticky-btn-default:active, .ez-toc-sticky-btn-default.active {
     background-image: none
 }
-
-/*.btn-lg {*/
-/*padding: 10px 16px;*/
-/*font-size: 18px;*/
-/*line-height: 1.33;*/
-/*border-radius: 6px*/
-/*}*/
 
 .ez-toc-sticky-btn-sm, .ez-toc-sticky-btn-xs {
     padding: 5px 10px;

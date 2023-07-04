@@ -50,9 +50,6 @@
       fixed = false;
       bottomed = false;
       spacer = manual_spacer != null ? manual_spacer && elm.closest(manual_spacer) : $("<div />");
-      //if (spacer) {
-      //  spacer.css('position', elm.css('position'));
-      //}
       recalc = function() {
         var border_top, padding_top, restore;
         if (detached) {

@@ -119,13 +119,6 @@ add_filter(
 
 		if ( function_exists( 'vchelper' ) ) {
 
-			//$sourceId = intval( vchelper( "Request" )->input( 'vcv-source-id' ) );
-			//
-			//if ( $sourceId === get_the_ID() ) {
-			//
-			//	$apply = false;
-			//}
-
 			if ( vchelper( 'Frontend' )->isPageEditable() ) {
 
 				$apply = false;
@@ -195,29 +188,6 @@ add_action(
 );
 
 /**
- * Disabled for now as it does not appear to be required.
- *
- * Do not allow `the_content` TOC callback to run when rendering a Divi layout.
- *
- * @since 2.0
- */
-//add_filter(
-//	'ez_toc_maybe_apply_the_content_filter',
-//	function( $apply ) {
-//
-//		global $wp_current_filter;
-//
-//		// Do not execute if root current filter is one of those in the array.
-//		if ( in_array( $wp_current_filter[0], array( 'et_builder_render_layout' ), true ) ) {
-//
-//			$apply = false;
-//		}
-//
-//		return $apply;
-//	}
-//);
-
-/**
  * Callback the for `et_builder_render_layout` filter.
  *
  * Attaches the ezTOC `the_content` filter callback to the Divi layout content filter so the in page anchors will be
@@ -281,7 +251,7 @@ add_action(
 			add_filter(
 				'uncode_single_content',
 				function( $content ) {
-					return ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) || 'Pale Moon' == ez_toc_get_browser_name() ) ? $content : wptexturize($content);
+					return ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) ? $content : wptexturize($content);
 				},
 				10,
 				1
@@ -426,8 +396,6 @@ class ezTOC_Elementor {
 	 */
 	public function __construct() {
 
-		//add_filter( 'elementor/frontend/the_content', array( 'ezTOC', 'the_content' ), 100 );
-
 		// Hack to avoid enqueue post CSS while it's a `the_excerpt` call.
 		add_filter( 'get_the_excerpt', array( $this, 'start_excerpt_flag' ), 1 );
 		add_filter( 'get_the_excerpt', array( $this, 'end_excerpt_flag' ), 20 );
@@ -517,7 +485,6 @@ class ezTOC_Elementor {
 		return $apply;
 	}
 }
-//new ezTOC_Elementor();
 add_action( 'elementor/init', array( 'ezTOC_Elementor', 'start' ) );
 
 
@@ -578,10 +545,6 @@ function flBuilderLayoutDataEZTOC( $data ) {
 		$post = get_post( get_the_ID() );
 		foreach( $data as $nodeKey => $node )
 		{
-//			if( $node->type == 'module' )
-//			{
-////				$node->settings->text = ezTOC::the_content($post->post_content);
-//			}
 			$data[$nodeKey] = $node;
 		}
 	}

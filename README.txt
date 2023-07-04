@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.2
 Requires PHP: 5.6.20
-Stable tag: 2.0.50
+Stable tag: 2.0.51
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,24 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.51 07/04/2023 =
+* BUG: Title is not straight in the upper roman option #360
+* BUG: TOC Shortcode conflict with Grow Social Pro by Mediavine plugin #499
+* BUG: Conflicting with Divi BodyCommerce plugin #493
+* PR: fix getListElementHeightWithoutUlChildren() when their are no child in list element #142
+* PR: Add request url before anchor link #139
+* PR: add post_id attribute to toc shortcode #126
+* BUG: There is an error in the TOC when a user test his or her site using the https://wave.webaim.org/ tool. #430
+* BUG: TOC Toogle is not working with the Harper theme. #504
+* TWEAK: Remove the transient caching mechanism from the ez_toc_wp_check_browser_version() function. #503
+* BUG: Error occurring after the latest update "Form elements do not have associated labels" #505
+* BUG: Bug in getTOC() that causes DB updates #506
+* TWEAK: Remove all commented and unused code enhancement #509
+* BUG: A fatal error is occurring on the pages where TOC is not added #511
+* BUG: When TOC is not there do not load css #491
+* BUG: Not working in sidebar if Auto insert is disabled. #297
+* NEW: Need to add a new feautre header label clickable like hamburger menu #487
+
 = 2.0.50 06/07/2023 =
 * BUG: Error in console while using Sendpress Newsletter #469
 * BUG: The TOC toggle is not working/opening with the theme Sportsidioten on mobile devices #468

@@ -99,11 +99,7 @@ function ez_toc_clipboard(id, tooltipId, $this, event) {
     var copyText = $this.parentNode.parentNode.querySelectorAll("#" + id)[0];
     copyText.select();
     copyText.setSelectionRange(0, 99999);
-    // if (window.isSecureContext && navigator.clipboard) {
-    // 	navigator.clipboard.writeText(content);
-    // } else {
     unsecuredCopyToClipboard(copyText.value);
-    // }
 
     var tooltip = $this.querySelectorAll('span.' + tooltipId)[0];
     tooltip.innerHTML = "Copied: " + copyText.value;
@@ -133,10 +129,7 @@ function ezTocSettingsTabsFixed() {
 
     if(ezTocGeneralTabs !== null) {
         window.onscroll = function () {
-    //        var x = window.scrollX;
             var y = window.scrollY;
-    //        console.log("X:" + x);
-    //        console.log("Y:" + y);
 
             var ez_toc_pro_settings_link_paid = document.getElementsByClassName('ez-toc-pro-settings-link-paid');
             var ezTocElementProSettingsContainer = document.getElementsByClassName("general-pro-settings-container");
@@ -180,7 +173,6 @@ function ezTocSettingsTabsFixed() {
             }
 
             if (y >= ezTocGeneralContainerGeneral) {
-    //            console.log("Hit-General");
                 ezTocGeneralTabsLinkGeneral.classList.add('active');
                 ezTocGeneralTabsLinkAppearance.classList.remove('active');
                 ezTocGeneralTabsLinkAdvanced.classList.remove('active');
@@ -189,7 +181,6 @@ function ezTocSettingsTabsFixed() {
                     ezTocGeneralTabsLinkProSettings.classList.remove('active');
             }
             if (y >= ezTocGeneralContainerAppearance) {
-    //            console.log("Hit-Appearance");
                 ezTocGeneralTabsLinkGeneral.classList.remove('active');
                 ezTocGeneralTabsLinkAppearance.classList.add('active');
                 ezTocGeneralTabsLinkAdvanced.classList.remove('active');
@@ -198,7 +189,6 @@ function ezTocSettingsTabsFixed() {
                     ezTocGeneralTabsLinkProSettings.classList.remove('active');
             }
             if (y >= ezTocGeneralContainerAdvanced) {
-    //            console.log("Hit-Advanced");
                 ezTocGeneralTabsLinkGeneral.classList.remove('active');
                 ezTocGeneralTabsLinkAppearance.classList.remove('active');
                 ezTocGeneralTabsLinkAdvanced.classList.add('active');
@@ -207,7 +197,6 @@ function ezTocSettingsTabsFixed() {
                     ezTocGeneralTabsLinkProSettings.classList.remove('active');
             }
             if (y >= ezTocGeneralContainerShortcode) {
-    //            console.log("Hit-Shortcode");
                 ezTocGeneralTabsLinkGeneral.classList.remove('active');
                 ezTocGeneralTabsLinkAppearance.classList.remove('active');
                 ezTocGeneralTabsLinkAdvanced.classList.remove('active');
@@ -216,7 +205,6 @@ function ezTocSettingsTabsFixed() {
                     ezTocGeneralTabsLinkProSettings.classList.remove('active');
             }
             if (ezTocElementProSettingsContainer.length > 0 && y >= ezTocGeneralContainerProSettings) {
-    //            console.log("Hit-ProSettings");
                 ezTocGeneralTabsLinkGeneral.classList.remove('active');
                 ezTocGeneralTabsLinkAppearance.classList.remove('active');
                 ezTocGeneralTabsLinkAdvanced.classList.remove('active');

@@ -317,17 +317,9 @@ div.ez-toc-widget-container li {
     display: none;
 }
 
-#ez-toc-container label {
-    float: right;
-    position: relative;
-    left: 3px;
-    font-size: 16px;
-    /* background: #f9efef; */
-    padding: 0 4px 0 5px;
-    border: 1px solid #999191;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 30px;
+#ez-toc-container label {    
+    position: relative;            
+    cursor: pointer;    
 }
 
 #ez-toc-container .ez-toc-toggle label, #ez-toc-container label.cssicon, #ez-toc-widget-container label.cssicon  {
@@ -349,11 +341,6 @@ div#ez-toc-container p.ez-toc-title {
 div#ez-toc-container {
     padding-right: 20px;
 }
-
-#ez-toc-container label {
-    left: 10px;
-}
-
 .ez-toc-wrap-center {
     margin: 0 auto;
 }
@@ -387,4 +374,23 @@ label.cssiconcheckbox {
 
 .ez-toc-widget-container ul.ez-toc-list li.active {
     height: auto !important;
+}
+.ez-toc-cssicon{
+    float: right;
+    position: relative;
+    font-size: 16px;
+    padding: 0;
+    border: 1px solid #999191;
+    border-radius: 5px;
+    cursor: pointer;
+    left: 10px;
+    width: 35px;
+}
+.ez-toc-icon-toggle-span {
+    display: flex;
+    align-items: center;
+    width: 35px;
+    height: 30px;
+    justify-content: center;
+    direction:ltr;
 }

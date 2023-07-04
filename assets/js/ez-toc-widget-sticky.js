@@ -135,27 +135,6 @@ jQuery(function ($) {
     var ezTocActiveList = '';
     function ezTOCWidgetStickysetScrollActiveEzTocListElement(e) {
         e.preventDefault();
-        /**
-         * $ezTocWidgetStickyScrollFixedPosition = '30'/manual;
-         * $ezTocWidgetStickyWidth = $('#ez-toc-widget-sticky-container').parents('.widget-area').width()/manual;
-         * $ezTocWidgetStickyFixedTopPosition = '30px'/manual;
-         * $ezTocWidgetStickyNavigationScrollBar = true('auto')/false;
-         * $ezTocWidgetStickyScrollMaxHeight = 'calc(100vh - 111px)'/manual;
-         * 
-         * `ezTocWidgetSticky` variable define for setup 
-         *  $js_vars[ 'advanced_options' ] = '';
-         $js_vars[ 'scroll_fixed_position' ] = '30';
-         $js_vars[ 'sidebar_width' ] = 'auto';
-         $js_vars[ 'sidebar_width_size_unit' ] = 'none';
-         $js_vars[ 'fixed_top_position' ] = '30';
-         $js_vars[ 'fixed_top_position_size_unit' ] = 'px';
-         $js_vars[ 'navigation_scroll_bar' ] = 'on';
-         $js_vars[ 'scroll_max_height' ] = 'auto';
-         $js_vars[ 'scroll_max_height_size_unit' ] = 'none';
-         * 
-         * 
-         */
-
 
         if (jQuery(document).width() > 980 && jQuery(window).scrollTop() >= ezTocWidgetSticky.scroll_fixed_position && (jQuery('.post,.post-content').length == 0 || jQuery('.post,.post-content').length > 0 && jQuery(window).scrollTop() <= jQuery('.post,.post-content').height())) {
             jQuery('.ez-toc-widget-sticky').css({
@@ -175,19 +154,9 @@ jQuery(function ($) {
         var ezTocHrefActive = jQuery("#ez-toc-widget-sticky-container li.active a").attr('href');
         var ezTocLastChild = "#ez-toc-widget-sticky-container nav>ul>li:last-child a";
         let ezTocOffsetTopDynamic = Math.round(jQuery("#ez-toc-widget-sticky-container .ez-toc-link[href='" + ezTocHrefActive + "']").position().top);
-//        var ezTocTotalScrollBarHeight = Math.round(jQuery('#ez-toc-widget-sticky-container').prop('scrollHeight'));
         var ezTocLastChildTop = Math.round(jQuery(ezTocLastChild).position().top);
         if (ezTocHrefActive != ezTocActiveList) {
-//            console.log('ezTocOffsetTopDynamic:' + ezTocOffsetTopDynamic);
-//            console.log('ezTocLastChildTop:' + ezTocLastChildTop);
-//            console.log(jQuery('.ez-toc-widget-sticky nav').scrollTop() + ezTocOffsetTopDynamic);
-//            if ((ezTocLastChildTop - 100) >= ezTocOffsetTopDynamic) {
-//                console.log('height - if');
             jQuery('.ez-toc-widget-sticky nav').scrollTop(Math.round(jQuery('.ez-toc-widget-sticky nav').scrollTop() + ezTocOffsetTopDynamic) - 50);
-//            } else {
-//                console.log('height - else');
-//                jQuery('.ez-toc-widget-sticky nav>ul').scrollTop(ezTocLastChildTop + 100);
-//            }
         }
         ezTocActiveList = ezTocHrefActive;
     }

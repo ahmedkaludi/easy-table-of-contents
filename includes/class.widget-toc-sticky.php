@@ -155,10 +155,6 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
             if ( is_404 () || is_archive () || is_search () || ( ! is_front_page () && is_home () ) )
                 return;
 
-            //global $wp_query;
-            //$find    = $replace = array();
-            //$post    = get_post( $wp_query->post->ID );
-            //$post = ezTOC_Post::get( get_the_ID() );//->applyContentFilter()->process();
             $post = ezTOC::get ( get_the_ID () );
 
             if( function_exists( 'post_password_required' ) ) {
@@ -171,13 +167,6 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
             if ( ! $post instanceof ezTOC_Post )
                 return;
 
-            /*
-             * Ensure the ezTOC content filter is not applied when running `the_content` filter.
-             */
-            //remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
-            //$post->post_content = apply_filters( 'the_content', $post->post_content );
-            //add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
-
             if ( $post -> hasTOCItems () )
             {
 
@@ -189,23 +178,6 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                  */
                 extract ( $args );
 
-                /**
-                 * $ezTocWidgetStickyScrollFixedPosition = '30'/manual;
-                 * $ezTocWidgetStickySidebarWidth = $('#ez-toc-widget-sticky-container').parents('.widget-area').width()/manual;
-                 * $ezTocWidgetStickyFixedTopPosition = '30px'/manual;
-                 * $ezTocWidgetStickyNavigationScrollBar = true('auto')/false;
-                 * $ezTocWidgetStickyScrollMaxHeight = auto('calc(100vh - 111px)')/manual;
-                 *  
-                  'advanced_options' => '',
-                  'scroll_fixed_position' => '30',
-                  'sidebar_width' => 'auto',
-                  'sidebar_width_size_unit' => 'none',
-                  'fixed_top_position' => '30',
-                  'fixed_top_position_size_unit' => 'px',
-                  'navigation_scroll_bar' => 'on',
-                  'scroll_max_height' => 'auto',
-                  'scroll_max_height_size_unit' => 'none',
-                 */
                 $js_vars = array();
                 $js_vars[ 'advanced_options' ] = '';
                 $js_vars[ 'scroll_fixed_position' ] = '30';
@@ -265,7 +237,6 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 );
 
                 $title = apply_filters ( 'widget_title', $instance[ 'title' ], $instance, $this -> id_base );
-                //$items = ezTOC::extract_headings( $find, $replace, $post );
 
                 if ( false !== strpos ( $title, '%PAGE_TITLE%' ) || false !== strpos ( $title, '%PAGE_NAME%' ) )
                 {
@@ -340,7 +311,16 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                             }
                         </style>
 
-                        <span class="ez-toc-widget-sticky-title"><?php echo $title; ?></span>
+                        <?php
+                        $headerTextToggleClass = '';
+                        $headerTextToggleStyle = '';
+                        
+                        if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {
+                            $headerTextToggleClass = 'ez-toc-toggle';
+                            $headerTextToggleStyle = 'style="cursor: pointer"';
+                        }
+                        $header_label = '<span class="ez-toc-widget-sticky-title ' . $headerTextToggleClass . '" ' .$headerTextToggleStyle . '>' . $title . '</span>';
+                        ?>
                         <span class="ez-toc-widget-sticky-title-toggle">
                             <?php if ( 'css' != ezTOC_Option::get ( 'toc_loading' ) ): ?>
 
@@ -348,10 +328,11 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
 
 
                                 <?php
+                                echo $header_label;
                                 if ( ezTOC_Option::get ( 'visibility' ) )
                                 {
 
-                                    echo '<a href="#" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle" aria-label="Widget Easy TOC toggle icon">' . ezTOC::getTOCToggleIcon () . '</a>';
+                                    echo '<a href="#" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle" aria-label="Widget Easy TOC toggle icon"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::getTOCToggleIcon () . '</a>';
                                 }
                                 ?>
 
@@ -368,8 +349,13 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                                 if( true == get_post_meta( get_the_ID(), '_ez-toc-visibility_hide_by_default', true ) ) {
                                     $toggle_view = "checked";
                                 }
-                                $cssIconID = uniqid ();
-                                $htmlCSSIcon = '<label for="ez-toc-widget-sticky-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle">' . ezTOC::getTOCToggleIcon () . '</label>';
+                                $cssIconID = uniqid();
+                                if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {
+                                    $htmlCSSIcon = '<label for="ez-toc-widget-sticky-cssicon-toggle-item-' . $cssIconID . '" style="cursor:pointer">' . $header_label . '<span class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::getTOCToggleIcon( 'widget-with-visibility_on_header_text' ) . '</span></label>';
+                                } else {
+                                    echo $header_label;
+                                    $htmlCSSIcon = '<label for="ez-toc-widget-sticky-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::getTOCToggleIcon( 'widget-with-visibility_on_header_text' ) . '</label>';
+                                }
                                 echo $htmlCSSIcon;
                                 ?>
                             <?php endif; ?>
@@ -378,7 +364,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
 
                     <?php echo $after_title; ?>
                     <?php if ( 'css' == ezTOC_Option::get ( 'toc_loading' ) ): ?>
-                        <label for="ez-toc-widget-sticky-cssicon-toggle-item-<?= $cssIconID ?>" class="cssiconcheckbox">1</label><input type="checkbox" id="ez-toc-widget-sticky-cssicon-toggle-item-<?= $cssIconID ?>" <?= $toggle_view ?> style="display:none" />
+                        <label for="ez-toc-widget-sticky-cssicon-toggle-item-count-<?= $cssIconID ?>" class="cssiconcheckbox">1</label><input type="checkbox" id="ez-toc-widget-sticky-cssicon-toggle-item-<?= $cssIconID ?>" <?= $toggle_view ?> style="display:none" />
                     <?php endif; ?>
                     <?php
                 }
@@ -430,9 +416,6 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
             $instance[ 'highlight_color' ] = strip_tags ( $new_instance[ 'highlight_color' ] );
 
             $instance[ 'hide_inline' ] = array_key_exists ( 'hide_inline', $new_instance ) ? $new_instance[ 'hide_inline' ] : '0';
-
-            //ezTOC_Option::set( 'show_toc_in_widget_only', $instance['hide_inline'] );
-            //ezTOC_Option::set( 'show_toc_in_widget_only_post_types', $new_instance['show_toc_in_widget_only_post_types'] );
 
             if ( isset ( $new_instance[ 'advanced_options' ] ) && $new_instance[ 'advanced_options' ] == 'on' )
             {

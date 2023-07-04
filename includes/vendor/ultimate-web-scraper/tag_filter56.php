@@ -682,19 +682,6 @@
 						}
 					}
 
-//echo "Current output:\n" . $result . "\n\n";
-//echo "Prefix:  " . $prefix . "\n\n";
-//echo "Tag:  " . $tagname . "\n\n";
-//echo "Attrs:\n";
-//var_dump($attrs);
-//
-//echo "Tag stack:\n";
-//var_dump($this->stack);
-//
-//echo "\n\n";
-//echo $content . "\n";
-//exit();
-
 					$tag = false;
 				}
 				else
