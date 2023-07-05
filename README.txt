@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.2
 Requires PHP: 5.6.20
-Stable tag: 2.0.51
+Stable tag: 2.0.51.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,10 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.51.1 07/05/2023 =
+* BUG: ssue after last update (version - 2.0.51) #521
+
 = 2.0.51 07/04/2023 =
 * BUG: Title is not straight in the upper roman option #360
 * BUG: TOC Shortcode conflict with Grow Social Pro by Mediavine plugin #499
