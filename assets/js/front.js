@@ -51,153 +51,87 @@ jQuery( function( $ ) {
 				$( this ).css( 'width', '' );
 		};
 
-		var smoothScroll = parseInt( ezTOC.smooth_scroll );
-
-		if ( 1 === smoothScroll ) {
-
-			$( 'a.ez-toc-link' ).on( 'click', function() {
-
-				var self = $( this );
-
-				var target = '';
-				var hostname = self.prop( 'hostname' );
-				var pathname = self.prop( 'pathname' );
-				var qs = self.prop( 'search' );
-				var hash = self.prop( 'hash' );
-
-				// ie strips out the preceding / from pathname
-				if ( pathname.length > 0 ) {
-					if ( pathname.charAt( 0 ) !== '/' ) {
-						pathname = '/' + pathname;
-					}
-				}
-
-				if ( ( window.location.hostname === hostname ) &&
-					( window.location.pathname === pathname ) &&
-					( window.location.search === qs ) &&
-					( hash !== '' )
-				) {
-
-					// var id = decodeURIComponent( hash.replace( '#', '' ) );
-					target = '[id="' + hash.replace( '#', '' ) + '"]';
-
-					// verify it exists
-					if ( $( target ).length === 0 ) {
-						console.log( 'ezTOC scrollTarget Not Found: ' + target );
-						target = '';
-					}
-
-					// check offset setting
-					if ( typeof ezTOC.scroll_offset != 'undefined' ) {
-
-						var offset = -1 * ezTOC.scroll_offset;
-
-					} else {
-
-						var adminbar = $( '#wpadminbar' );
-
-						if ( adminbar.length > 0 ) {
-
-							if ( adminbar.is( ':visible' ) )
-								offset = -30;	// admin bar exists, give it the default
-							else
-								offset = 0;		// there is an admin bar but it's hidden, so no offset!
-
-						} else {
-
-							// no admin bar, so no offset!
-							offset = 0;
-						}
-					}
-
-					if ( target ) {
-						$.smoothScroll( {
-							scrollTarget: target,
-							offset:       offset,
-                            beforeScroll: deactivateSetActiveEzTocListElement,
-                            afterScroll: function() { setActiveEzTocListElement(); activateSetActiveEzTocListElement(); }
-						} );
-
-					}
-				}
-			} );
-		}
 
 		if ( typeof ezTOC.visibility_hide_by_default != 'undefined' ) {
 
-			var toc = $( 'ul.ez-toc-list' );
-			var toggle = $( 'a.ez-toc-toggle' );
+			// Get all toggles that have not been loaded.
+			var toggles = $( '.ez-toc-toggle:not(.ez-toc-loaded),.ez-toc-widget-sticky-toggle:not(.ez-toc-loaded)' ); 
+
 			var invert = ezTOC.visibility_hide_by_default;
+                        $.each(toggles, function(i, obj) {
+                            
+                            var toggle = $(this);
+                            $(toggle).addClass('ez-toc-loaded'); // Attach loaded class.
+                            var toc = $( toggle ).parents('#ez-toc-container,#ez-toc-widget-container,#ez-toc-widget-sticky-container').find( 'ul.ez-toc-list,ul.ez-toc-widget-sticky-list' );
+                            
+                            if ( Cookies ) {
 
-			toggle.css( 'display', 'flex' );
+                                    Cookies.get( 'ezTOC_hidetoc-' + i ) == 1 ? $(toggle).data( 'visible', false ) : $(toggle).data( 'visible', true );
+                                    Cookies.remove('ezTOC_hidetoc-' + i)
 
-			if ( Cookies ) {
+                            } else {
 
-				Cookies.get( 'ezTOC_hidetoc' ) == 1 ? toggle.data( 'visible', false ) : toggle.data( 'visible', true );
-				Cookies.remove('ezTOC_hidetoc')
+                                    $(toggle).data( 'visible', true );
+                                    Cookies.remove('ezTOC_hidetoc-' + i);
+                            }
 
-			} else {
+                            if ( invert ) {
 
-				toggle.data( 'visible', true );
-				// Cookies.remove('ezTOC_hidetoc');
-                delete_cookie('ezTOC_hidetoc');
-			}
+                                    $(toggle).data( 'visible', false )
+                            }
 
-			if ( invert ) {
+                            if ( ! $(toggle).data( 'visible' ) ) {
 
-				toggle.data( 'visible', false )
-			}
+                                    toc.hide();
+                            }
 
-			if ( ! toggle.data( 'visible' ) ) {
+                            $(toggle).on( 'click', function( event ) {
 
-				toc.hide();
-			}
+                                    event.preventDefault();
 
-			toggle.on( 'click', function( event ) {
+                                    const main = document.querySelector("#ez-toc-container");
+                                    if(main){
+                                            main.classList.toggle("toc_close");
+                                    }
+                                    else
+                                    {
+                                            const side = document.querySelector(".ez-toc-widget-container,.ez-toc-widget-sticky-container");
+                                            side.classList.toggle("toc_close");					
+                                    }
 
-				event.preventDefault();
-				
-				const main = document.querySelector("#ez-toc-container");
-				if(main){
-					main.classList.toggle("toc_close");
-				}
-				else
-				{
-					const side = document.querySelector(".ez-toc-widget-container");
-					side.classList.toggle("toc_close");					
-				}
+                                    if ( $( this ).data( 'visible' ) ) {
 
-				if ( $( this ).data( 'visible' ) ) {
+                                            $( this ).data( 'visible', false );
 
-					$( this ).data( 'visible', false );
+                                            if ( Cookies ) {
 
-					if ( Cookies ) {
+                                                    if ( invert )
+                                                            Cookies.set( 'ezTOC_hidetoc-' + i, null, { path: '/' } );
+                                                    else
+                                                            Cookies.set( 'ezTOC_hidetoc-' + i, '1', { expires: 30, path: '/' } );
+                                            }
 
-						if ( invert )
-							Cookies.set( 'ezTOC_hidetoc', null, { path: '/' } );
-						else
-							Cookies.set( 'ezTOC_hidetoc', '1', { expires: 30, path: '/' } );
-					}
+                                            toc.hide( 'fast' );
 
-					toc.hide( 'fast' );
+                                    } else {
 
-				} else {
+                                            $( this ).data( 'visible', true );
 
-					$( this ).data( 'visible', true );
+                                            if ( Cookies ) {
 
-					if ( Cookies ) {
+                                                    if ( invert )
+                                                            Cookies.set( 'ezTOC_hidetoc-' + i, '1', { expires: 30, path: '/' } );
+                                                    else
+                                                            Cookies.set( 'ezTOC_hidetoc-' + i, null, { path: '/' } );
+                                            }
 
-						if ( invert )
-							Cookies.set( 'ezTOC_hidetoc', '1', { expires: 30, path: '/' } );
-						else
-							Cookies.set( 'ezTOC_hidetoc', null, { path: '/' } );
-					}
+                                            toc.show( 'fast' );
 
-					toc.show( 'fast' );
+                                    }
 
-				}
-
-			} );
+                            } );
+                        
+                        });
 		}
 
 
@@ -300,7 +234,7 @@ jQuery( function( $ ) {
             var listItem = $( '#ez-toc-height-test' );
             var height = listItem.height();
 	        listItem.remove();
-            return height - $listElement.children( 'ul' ).first().height();
+            return height - ($listElement.children( 'ul' ).first().height() || 0);
         }
 
         function addListElementBackgroundColorHeightStyleToHead( listElementHeight ) {
@@ -308,12 +242,7 @@ jQuery( function( $ ) {
             $( '#ez-toc-active-height' ).remove();
             // jQuery(..).css(..) doesn't work, because ::before is a pseudo element and not part of the DOM
             // Workaround is to add it to head
-            $( '<style id="ez-toc-active-height">' +
-                '.ez-toc-widget-container ul.ez-toc-list li.active {' +
-                // 'line-heigh:' + listElementHeight + 'px; ' +
-                'height:' + listElementHeight + 'px;' +
-                '} </style>' )
-                .appendTo( 'head' );
+            $( '<style id="ez-toc-active-height">.ez-toc-widget-container ul.ez-toc-list li.active {height:' + listElementHeight + 'px;' + '} </style>' ).appendTo( 'head' );
         }
 
         function setStyleForActiveListElementElement( activeListElementLink ) {
@@ -324,6 +253,12 @@ jQuery( function( $ ) {
             correctActiveListElementBackgroundColorHeight( activeListElement );
         }
     }
+    if($( '#ez-toc-container').length){
+        if(!$( '#ez-toc-container .ez-toc-toggle label span').html()){
+            $( '#ez-toc-container .ez-toc-toggle label').html(ezTOC.fallbackIcon);
+        }
+    }
+    
 
     	/**
 		 * Attach global init handler to ezTOC window object.
@@ -334,10 +269,4 @@ jQuery( function( $ ) {
 		// Start EZ TOC on page load.
 		ezTOCInit();
 	}
-    function set_cookie(name, value) {
-      document.cookie = name +'='+ value +'; Path=/;';
-    }
-    function delete_cookie(name) {
-      document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    }
 } );

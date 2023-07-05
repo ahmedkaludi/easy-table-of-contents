@@ -155,12 +155,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 * @return array
 		 */
 		private static function getRegistered() {
-			$eztoc_latest_link=home_url();
-			$args = array( 'numberposts' => '1');
-			$recent_posts = wp_get_recent_posts( $args );
-			foreach( $recent_posts as $recent ){
-			 $eztoc_latest_link= add_query_arg( 'eztoc-edit-position', '', get_permalink($recent["ID"] ));
-			}
+												
 			$options = array(
 				'general' => apply_filters(
 					'ez_toc_settings_general',
@@ -193,7 +188,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 								'afterpara' => __( 'After first paragraph', 'easy-table-of-contents' ),
 								'top' => __( 'Top', 'easy-table-of-contents' ),
 								'bottom' => __( 'Bottom', 'easy-table-of-contents' ),
-								//'placeholder' => __( 'Replace [toc] placeholder. For backwards compatibility with Table of Content Plus.', 'easy-table-of-contents' ),
 							),
 							'default' => 1,
 						),
@@ -212,6 +206,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => true,
 						),
+						'visibility_on_header_text' => array(
+							'id' => 'visibility_on_header_text',
+							'name' => __( 'Toggle on Header Text', 'easy-table-of-contents' ),
+							'desc' => __( 'Allow the user to toggle the visibility of the table of contents on header text', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'heading_text' => array(
 							'id' => 'heading_text',
 							'name' => __( 'Header Label', 'easy-table-of-contents' ),
@@ -226,20 +227,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => true,
 						),
-						//'visibility_show' => array(
-						//	'id' => 'visibility_show',
-						//	'name' => __( 'Show Label', 'easy-table-of-contents' ),
-						//	'desc' => __( 'Eg: show', 'easy-table-of-contents' ),
-						//	'type' => 'text',
-						//	'default' => __( 'show', 'easy-table-of-contents' ),
-						//),
-						//'visibility_hide' => array(
-						//	'id' => 'visibility_hide',
-						//	'name' => __( 'Hide Label', 'easy-table-of-contents' ),
-						//	'desc' => __( 'Eg: hide', 'easy-table-of-contents' ),
-						//	'type' => 'text',
-						//	'default' => __( 'hide', 'easy-table-of-contents' ),
-						//),
 						'visibility_hide_by_default' => array(
 							'id' => 'visibility_hide_by_default',
 							'name' => __( 'Initial View', 'easy-table-of-contents' ),
@@ -262,6 +249,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'options' => self::getCounterList(),
 							'default' => 'decimal',
 						),
+						'counter-position' => array(
+							'id' => 'counter-position',
+							'name' => __( 'Counter Position', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'select',
+							'options' => self::getCounterPositionList(),
+							'default' => 'inside',
+						),
 						'smooth_scroll' => array(
 							'id' => 'smooth_scroll',
 							'name' => __( 'Smooth Scroll', 'easy-table-of-contents' ),
@@ -281,22 +276,36 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'js',
 						),
+                                            
+                                                'toc-run-on-amp-pages' => array(
+							'id' => 'toc-run-on-amp-pages',
+							'name' => __( 'TOC AMP Page Support', 'easy-table-of-contents' ),
+							'desc' => 'On/Off<br/>' . __( 'You can on or off Easy TOC for the AMP Pages.', 'easy-table-of-contents' ),
+							'type'    => 'checkbox',
+							'default' => 'Off',
+						),
 						'sticky-toggle-above-header'      => array(
 							'id'   => 'sticky-toggle-above-header',
 							'name' => '<strong>' . __( 'Sticky Toggle Options', 'easy-table-of-contents' ) . '</strong>',
-//                                                        'desc' => __( '', 'easy-table-of-contents' ),
 							'type' => 'header',
 						),
-//                                                'sticky-toggle-above-hr'          => array(
-//                                                        'id'   => 'sticky-toggle-above-hr',
-//                                                        'type' => 'hr',
-//                                                ),
 						'sticky-toggle'                   => array(
 							'id'      => 'sticky-toggle',
 							'name'    => __( 'On/Off', 'easy-table-of-contents' ),
 							'desc'    => '',
 							'type'    => 'checkbox',
 							'default' => false,
+						),
+						'sticky-toggle-position'                   => array(
+							'id'      => 'sticky-toggle-position',
+							'name'    => __( 'Position', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type' => 'radio',
+							'options' => array(
+								'left' => __( 'Left', 'easy-table-of-contents' ),
+								'right' => __( 'Right', 'easy-table-of-contents' ),
+							),
+							'default' => 'left',
 						),
 						'sticky-toggle-width'             => array(
 							'id'      => 'sticky-toggle-width',
@@ -344,17 +353,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'default'     => false,
 							'placeholder' => __( 'Enter sticky toggle open button text here..', 'easy-table-of-contents' )
 						),
-//                                                'sticky-toggle-position'          => array(
-//                                                        'id'      => 'sticky-toggle-position',
-//                                                        'name'    => __( 'Sticky Toggle Position', 'easy-table-of-contents' ),
-//                                                        'desc'    => '',
-//                                                        'type'    => 'radio',
-//                                                        'options'   => array(
-//                                                                'left'  => __( 'Left', 'easy-table-of-position' ),
-//                                                                'right' => __( 'Right', 'easy-table-of-position' ),
-//                                                        ),
-//                                                        'default' => 'left',
-//                                                ),
+						'sticky-toggle-close-on-mobile'     => array(
+							'id'          => 'sticky-toggle-close-on-mobile',
+							'name'        => __( 'Click TOC Close on Mobile', 'easy-table-of-contents' ),
+							'desc'        => '',
+							'type'        => 'checkbox',
+							'default'     => false,
+							'placeholder' => __( 'Close Sticky Toggle on click over headings in mobile devices', 'easy-table-of-contents' )
+						),
 					)
 				),
 				'appearance' => apply_filters(
@@ -421,10 +427,40 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'none',
 						),
+						'headings-padding'                   => array(
+							'id'      => 'headings-padding',
+							'name'    => __( 'Headings Padding', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type'    => 'checkbox',
+							'default' => false,
+						),
+						'headings-padding-top' => array(
+							'id' => 'headings-padding-top',
+							'name' => __( 'Headings Padding Top', 'easy-table-of-contents' ),
+							'type' => 'font_size',
+							'default' => 0,
+						),
+						'headings-padding-bottom' => array(
+							'id' => 'headings-padding-bottom',
+							'name' => __( 'Headings Padding Bottom', 'easy-table-of-contents' ),
+							'type' => 'font_size',
+							'default' => 0,
+						),
+						'headings-padding-left' => array(
+							'id' => 'headings-padding-left',
+							'name' => __( 'Headings Padding Left', 'easy-table-of-contents' ),
+							'type' => 'font_size',
+							'default' => 0,
+						),
+						'headings-padding-right' => array(
+							'id' => 'headings-padding-right',
+							'name' => __( 'Headings Padding Right', 'easy-table-of-contents' ),
+							'type' => 'font_size',
+							'default' => 0,
+						),
 						'font_options_header' => array(
 							'id' => 'font_options',
 							'name' => '<strong>' . __( 'Font Option', 'easy-table-of-contents' ) . '</strong>',
-							//'desc' => __( 'For the following settings to apply, select the Custom Font option.', 'easy-table-of-contents' ),
 							'type' => 'header',
 						),
 						'title_font_size' => array(
@@ -469,7 +505,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'theme_option_header' => array(
 							'id' => 'theme_option_header',
 							'name' => '<strong>' . __( 'Theme Options', 'easy-table-of-contents' ) . '</strong>',
-							//'desc' => __( 'For the following settings to apply, select the Custom Theme option.', 'easy-table-of-contents' ),
 							'type' => 'header',
 						),
 						'theme' => array(
@@ -572,6 +607,20 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'include_category' => array(
+							'id' => 'include_category',
+							'name' => __( 'Category', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the table of contents for description on the category pages.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
+						'include_product_category' => array(
+							'id' => 'include_product_category',
+							'name' => __( 'Product Category', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the table of contents for description on the product category pages.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'exclude_css' => array(
 							'id' => 'exclude_css',
 							'name' => __( 'CSS', 'easy-table-of-contents' ),
@@ -586,13 +635,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
-						//'bullet_spacing' => array(
-						//	'id' => 'bullet_spacing',
-						//	'name' => __( 'Theme Bullets', 'easy-table-of-contents' ),
-						//	'desc' => __( 'If your theme includes background images for unordered list elements, enable this option to support them.', 'easy-table-of-contents' ),
-						//	'type' => 'checkbox',
-						//	'default' => false,
-						//),
 						'heading_levels' => array(
 							'id' => 'heading_levels',
 							'name' => __( 'Headings:', 'easy-table-of-contents' ),
@@ -669,6 +711,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'text',
 							'default' => '',
 						),
+						'add_request_uri' => array(
+							'id' => 'add_request_uri',
+							'name' => __( 'Add Request URI', 'easy-table-of-contents' ),
+							'desc' => __( 'Add request URI before anchor link. ', 'easy-table-of-contents' ) . __( 'Eg: href="/post/id#xxxx"', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'remove_special_chars_from_title' => array(
 							'id' => 'remove_special_chars_from_title',
 							'name' => __( 'Remove \':\' from TOC Title', 'easy-table-of-contents' ),
@@ -682,12 +731,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
                 'shortcode' => apply_filters(
                     'ez_toc_settings_shortcode',
                     array(
-//                        'shortcode-heading-paragraph'      => array(
-//                            'id'   => 'shortcode-heading-paragraph',
-//                            'name' => '',
-//                            'desc' => __( 'There are several ways to have the easy table of contents display on your website.', 'easy-table-of-contents' ),
-//                            'type' => 'paragraph',
-//                        ),
                         'shortcode-first-paragraph'      => array(
                             'id'   => 'shortcode-first-paragraph',
                             'name' => __( 'Manual Adding the shortcode', 'easy-table-of-contents' ),
@@ -744,6 +787,22 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
             return array_merge( self::getCounterListBasic(), self::getCounterListDecimal(), self::getCounterList_i18n() );
         }
 
+		/**
+		 * getCounterPositionList function
+		 *
+		 * @since 2.0.51
+		 * @static
+		 * @access protected
+		 * @return array
+		 */
+		protected static function getCounterPositionList() 
+		{
+			return array(
+				'inside' => 'Inside',
+				'outside' => 'Outside',
+			);
+		}
+
         /**
          * getCounterListBasic Method
          * @since 2.0.33
@@ -791,7 +850,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
             return array(
                 'upper-roman' => __( 'Upper Roman', 'easy-table-of-contents' ),
                 'lower-roman' => __( 'Lower Roman', 'easy-table-of-contents' ),
-//                'upper-greek' => __( 'Upper Greek', 'easy-table-of-contents' ),
                 'lower-greek' => __( 'Lower Greek', 'easy-table-of-contents' ),
                 'upper-alpha' => __( 'Upper Alpha/Latin', 'easy-table-of-contents' ),
                 'lower-alpha' => __( 'Lower Alpha/Latin', 'easy-table-of-contents' ),
@@ -855,23 +913,28 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'start'                              => 2,
 				'show_heading_text'                  => true,
 				'heading_text'                       => 'Table of Contents',
+				'visibility_on_header_text'			 => false,	
 				'enabled_post_types'                 => array( 'post','page' ),
 				'auto_insert_post_types'             => array( 'post','page' ),
 				'show_hierarchy'                     => true,
 				'counter'                            => 'decimal',
+				'counter-position'                   => 'inside',
 				'smooth_scroll'                      => true,
 				'smooth_scroll_offset'               => 30,
 				'mobile_smooth_scroll_offset'        => 0,
 				'visibility'                         => true,
 				'toc_loading'                        => 'js',
 				'remove_special_chars_from_title'    => false,
-				//'visibility_show'                    => 'show',
-				//'visibility_hide'                    => 'hide',
 				'visibility_hide_by_default'         => false,
 				'width'                              => 'auto',
 				'width_custom'                       => 275,
 				'width_custom_units'                 => 'px',
 				'wrapping'                           => 'none',
+				'headings-padding'                   => false,
+				'headings-padding-top'               => 0,
+				'headings-padding-bottom'            => 0,
+				'headings-padding-left'              => 0,
+				'headings-padding-right'             => 0,
 				'title_font_size'                    => 120,
 				'title_font_size_units'              => '%',
 				'title_font_weight'                  => 500,
@@ -887,18 +950,19 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'custom_link_visited_colour'         => '#428bca',
 				'lowercase'                          => false,
 				'hyphenate'                          => false,
-				//'bullet_spacing'                     => false,
 				'include_homepage'                   => false,
+				'include_category'                   => false,
 				'exclude_css'                        => false,
 				'inline_css'                        => false,
 				'exclude'                            => '',
 				'heading_levels'                     => array( '1', '2', '3', '4', '5', '6' ),
 				'restrict_path'                      => '',
 				'css_container_class'                => '',
-				//'show_toc_in_widget_only'            => false,
-				//'show_toc_in_widget_only_post_types' => array(),
 				'widget_affix_selector'              => '',
 				'heading-text-direction'              => 'ltr',
+				'toc-run-on-amp-pages'              => 1,
+				'sticky-toggle-position'              => 'left',
+				'add_request_uri'                     => false
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );
@@ -918,7 +982,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			$defaults = self::getDefaults();
 			$options  = get_option( 'ez-toc-settings', $defaults );
 
-			//return apply_filters( 'ez_toc_get_options', wp_parse_args( $options, $defaults ) );
 			return apply_filters( 'ez_toc_get_options', $options );
 		}
 
@@ -936,7 +999,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 */
 		public static function get( $key, $default = false ) {
 
-			$options = self::getOptions();
+			$options = (array) self::getOptions();
 
 			$value = array_key_exists( $key, $options ) ? $options[ $key ] : $default;
 			$value = apply_filters( 'ez_toc_get_option', $value, $key, $default );
@@ -1553,8 +1616,6 @@ HR_TAG;
 		 */
 		public static function custom_width( $args ) {
 
-			//$value = self::get( $args['id'], $args['default'] );
-
 			self::text(
 				array(
 					'id'      => $args['id'],
@@ -1593,8 +1654,6 @@ HR_TAG;
 		 * @param array $args
 		 */
 		public static function font_size( $args ) {
-
-			//$value = self::get( $args['id'], $args['default'] );
 
 			self::text(
 				array(
@@ -1635,8 +1694,6 @@ HR_TAG;
 		 */
 public static function child_font_size( $args ) {
 
-			//$value = self::get( $args['id'], $args['default'] );
-
 			self::text(
 				array(
 					'id'      => $args['id'],
@@ -1665,7 +1722,29 @@ public static function child_font_size( $args ) {
 				echo '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 			}
 		}
+
+		/**
+         * reset_options_to_default Method
+         * to reset options
+         * @since 2.0.37
+         * @return bool|string
+        */
+        public static function eztoc_reset_options_to_default() {
+            if( !wp_verify_nonce( sanitize_text_field( $_POST['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) )
+            {
+                return esc_html__('Security Alert: nonce not verified!', 'easy-table-of-contents' );
+            }
+
+			if ( !current_user_can( 'manage_options' ) ) {
+				return esc_html__('Security Alert: Unauthorized Access!', 'easy-table-of-contents' );
+			}
+            delete_option('ez-toc-settings');
+            return add_option( 'ez-toc-settings', self::getDefaults() );
+        }
 	}
 
 	add_action( 'admin_init', array( 'ezTOC_Option', 'register' ) );
+
+	add_action( 'wp_ajax_eztoc_reset_options_to_default', array( 'ezTOC_Option', 'eztoc_reset_options_to_default' ) );
+
 }

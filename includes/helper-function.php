@@ -30,18 +30,13 @@ if( !defined( 'ABSPATH' ) )
 
 add_filter('admin_footer', 'eztoc_add_deactivation_feedback_modal');
 function eztoc_add_deactivation_feedback_modal() {
-    
-    if( !is_admin()) {
-        return;
+    global $pagenow;
+
+    if(  is_admin() && 'plugins.php' == $pagenow ) 
+    {
+        require_once EZ_TOC_PATH ."/includes/deactivate-feedback.php";
     }
 
-    $current_user = wp_get_current_user();
-    if( !($current_user instanceof WP_User) ) {
-        $email = '';
-    } else {
-        $email = trim( $current_user->user_email );
-    }
-    require_once EZ_TOC_PATH ."/includes/deactivate-feedback.php";
 }
 
 /**
@@ -54,7 +49,12 @@ function eztoc_send_feedback() {
     if( isset( $_POST['data'] ) ) {
         parse_str( $_POST['data'], $form );
     }
-
+    
+    if( !isset( $form['eztoc_security_nonce'] ) || isset( $form['eztoc_security_nonce'] ) && !wp_verify_nonce( sanitize_text_field( $form['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) ) {
+        echo 'security_nonce_not_verified';
+        die();
+    }
+    
     $text = '';
     if( isset( $form['eztoc_disable_text'] ) ) {
         $text = implode( "\n\r", $form['eztoc_disable_text'] );
@@ -86,7 +86,8 @@ function eztoc_send_feedback() {
     }
 
     $success = wp_mail( 'team@magazine3.in', $subject, $text, $headers );
-
+    
+    echo 'sent';
     die();
 }
 add_action( 'wp_ajax_eztoc_send_feedback', 'eztoc_send_feedback' );
@@ -107,15 +108,16 @@ add_action( 'admin_enqueue_scripts', 'eztoc_enqueue_makebetter_email_js' );
 add_action('wp_ajax_eztoc_subscribe_newsletter','eztoc_subscribe_for_newsletter');
 add_action('wp_ajax_nopriv_eztoc_subscribe_newsletter','eztoc_subscribe_for_newsletter');
 function eztoc_subscribe_for_newsletter(){
-	if( !wp_verify_nonce( $_POST['eztoc_security_nonce'], 'eztoc_security_nonce')){
-		return 'nonce not verified';
-	}
+    if( !wp_verify_nonce( sanitize_text_field( $_POST['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) ) {
+        echo 'security_nonce_not_verified';
+        die();
+    }
     $api_url = 'http://magazine3.company/wp-json/api/central/email/subscribe';
     $api_params = array(
         'name' => sanitize_text_field($_POST['name']),
-        'email'=> sanitize_text_field($_POST['email']),
+        'email'=> sanitize_email($_POST['email']),
         'website'=> sanitize_text_field($_POST['website']),
-        'type'=> 'eztoc'
+        'type'=> 'etoc'
     );
     $response = wp_remote_post( $api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
     $response = wp_remote_retrieve_body( $response );

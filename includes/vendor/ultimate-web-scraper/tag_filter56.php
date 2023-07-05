@@ -682,7 +682,6 @@
 						}
 					}
 
-
 					$tag = false;
 				}
 				else
@@ -1124,34 +1123,32 @@
 			$this->y = count($ids);
 		}
 
-		public function rewind(): void
+		public function rewind()
 		{
 			$this->x = 0;
 		}
 
-		public function valid(): bool
+		public function valid()
 		{
 			return ($this->x < $this->y);
 		}
 
-		#[\ReturnTypeWillChange]
 		public function current()
 		{
 			return $this->tfn->Get($this->ids[$this->x]);
 		}
 
-		#[\ReturnTypeWillChange]
 		public function key()
 		{
 			return $this->ids[$this->x];
 		}
 
-		public function next(): void
+		public function next()
 		{
 			$this->x++;
 		}
 
-		public function count(): int
+		public function count()
 		{
 			return $this->y;
 		}
