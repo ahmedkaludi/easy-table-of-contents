@@ -295,9 +295,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 						
 			$isEligible = self::is_eligible( get_post() );
-			if(!$isEligible){
-				$post = self::get( get_the_ID() );			
-				if( ($post && $post->hasTOCItems()) || self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || get_post_meta( $eztoc_post_id, '_nectar_portfolio_extra_content',true )){
+			if(!$isEligible){				
+				if( self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || get_post_meta( $eztoc_post_id, '_nectar_portfolio_extra_content',true )){
 					$isEligible = true;
 				}
 			}						
