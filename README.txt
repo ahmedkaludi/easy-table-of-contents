@@ -103,7 +103,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 == Changelog ==
 
 = 2.0.51.1 07/05/2023 =
-* BUG: ssue after last update (version - 2.0.51) #521
+* BUG: Issue after last update (version - 2.0.51) #521
 
 = 2.0.51 07/04/2023 =
 * BUG: Title is not straight in the upper roman option #360
