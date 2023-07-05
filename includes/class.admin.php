@@ -505,7 +505,7 @@ INLINESTICKYTOGGLEJS;
 		 */
 		public function metabox() {
 
-			add_meta_box( 'ez-toc', esc_html__( 'Table of Contents', 'ez-toc' ), array( $this, 'displayMetabox' ) );
+			add_meta_box( 'ez-toc', esc_html__( 'Table of Contents', 'easy-table-of-contents' ), array( $this, 'displayMetabox' ) );
 		}
 
 		/**
