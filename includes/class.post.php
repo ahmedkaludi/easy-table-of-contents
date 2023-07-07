@@ -1113,7 +1113,7 @@ class ezTOC_Post {
 		$first_page = 1;
 		foreach( $this->pages[ $first_page ] as $attributes ) 
 		{
-			if( $page == $attributes['headings'][0]['page'] ) 
+			if( isset($attributes['headings'][0]['page'])  && $page == $attributes['headings'][0]['page'] ) 
 			{
 				foreach( $attributes['headings'] as $heading ) 
 				{
