@@ -269,7 +269,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				load_plugin_textdomain( $domain, false, $languagesDirectory );
 			}
 		}
-
+		
 		/**
 		 * Call back for the `wp_enqueue_scripts` action.
 		 *
@@ -280,127 +280,160 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @static
 		 */
 		public static function enqueueScripts() {
-			$eztoc_post_id = get_the_ID();
-			// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
-			$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-			$js_vars = array();
+				$eztoc_post_id = get_the_ID();
 
-			if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+				// Check for the condition to load css and js if toc is there on page/post
+				$isEligible = self::is_eligible( get_post() );
+				if(!$isEligible){
+					if( self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || get_post_meta( $eztoc_post_id, '_nectar_portfolio_extra_content',true )){
+						$isEligible = true;
+					}
+				}
+
+				// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
+				$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';				
+
+				if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {					
+					$postMetaContent = get_post_meta( $eztoc_post_id, '_nectar_portfolio_extra_content',true );
+					if( !empty( $postMetaContent ) ){
+						update_option( 'ez-toc-post-meta-content', array( $eztoc_post_id => do_shortcode( $postMetaContent ) ) );
+					}
+				}
+									
+				// Register stylesheet which can be called later using wp_enqueue_style() 
+				wp_register_style( 'ez-toc', EZ_TOC_URL . "assets/css/screen$min.css",array( ), ezTOC::VERSION );
+				wp_register_style( 'ez-toc-sticky', EZ_TOC_URL . "assets/css/ez-toc-sticky{$min}.css", array(), self::VERSION );
+
+				// Register scripts which can be called later using wp_enqueue_script() 
+																
+				wp_register_script( 'ez-toc-sticky', '', array(), '', true );
+
+				if (ezTOC_Option::get( 'toc_loading' ) == 'js') {
+					wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', TRUE );
+					wp_register_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', TRUE );                        			
+					wp_register_script( 'ez-toc-js', EZ_TOC_URL . "assets/js/front{$min}.js", array( 'jquery', 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ), ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/front{$min}.js" ), true );
+					self::localize_scripts();
+					if ($isEligible) {
+						self::enqueue_registered_script();	
+					}
+					
+				}								
+				// Enqueue registered stylesheet 
+				if ($isEligible) {
+					self::enqueue_registered_style();	
+					if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+						self::inlineWPBakeryJS();
+					}							
+					self::inlineMainCountingCSS();
+				}												
 				
-				$postMetaContent = get_post_meta( $eztoc_post_id, '_nectar_portfolio_extra_content',true );
-				if( !empty( $postMetaContent ) ){
-					update_option( 'ez-toc-post-meta-content', array( $eztoc_post_id => do_shortcode( $postMetaContent ) ) );
+		}
+		
+		/**
+         * localize_scripts Method
+         * Localize scripts
+         *
+         * @since  2.0.52
+         * @static
+         * @uses wp_localize_script()
+         * @return void
+         *
+         */
+		public static function localize_scripts(){
+			    $eztoc_post_id = get_the_ID();
+				$js_vars = array();
+
+				if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
+					$js_vars['smooth_scroll'] = true;
 				}
-			}
-						
-			$isEligible = self::is_eligible( get_post() );
-			if(!$isEligible){				
-				if( self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || get_post_meta( $eztoc_post_id, '_nectar_portfolio_extra_content',true )){
-					$isEligible = true;
-				}
-			}						
-			if ( !$isEligible) {
-                return false;
-			}
 
-			if (!ezTOC_Option::get( 'inline_css' )) {
-				wp_register_style( 'ez-toc', EZ_TOC_URL . "assets/css/screen$min.css",
-				 array( ),
-				 ezTOC::VERSION );
-			} else {
-				wp_register_style( 'ez-toc', '', array(), ezTOC::VERSION, true );
-			}
-                        if ( 'css' != ezTOC_Option::get( 'toc_loading' ) ) {
-                            wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', TRUE );
-                        }
-			wp_register_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', TRUE );
+				if ( ezTOC_Option::get( 'show_heading_text' ) && ezTOC_Option::get( 'visibility' ) ) {
 
-			if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
-				wp_register_script(
-				'ez-toc-js',
-				EZ_TOC_URL . "assets/js/front{$min}.js",
-				array( 'jquery', 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ),
-				ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/front{$min}.js" ),
-				true
-				);
-			}
-
-			if ( ! ezTOC_Option::get( 'exclude_css' ) ) {
-
-				wp_enqueue_style( 'ez-toc' );
-				self::inlineCSS();
-                                if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
-                                    self::inlineScrollEnqueueScripts();
-                                }
+					$width = ezTOC_Option::get( 'width' ) !== 'custom' ? ezTOC_Option::get( 'width' ) : (wp_is_mobile() ? 'auto' : ezTOC_Option::get( 'width_custom' ) . ezTOC_Option::get( 'width_custom_units' ));
+					$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
                                 
+					if( true == get_post_meta( $eztoc_post_id, '_ez-toc-visibility_hide_by_default', true ) ){
+						$js_vars['visibility_hide_by_default'] = true;
+						$js_vars['width'] = esc_js( $width );
+					}                
+				}else{
+
+					if(ezTOC_Option::get( 'visibility' )){
+						$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
+						if( true == get_post_meta( $eztoc_post_id, '_ez-toc-visibility_hide_by_default', true ) ){
+							$js_vars['visibility_hide_by_default'] = true;
+						}
+												
+					}
+				}
+
+				$offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
+				$js_vars['scroll_offset'] = esc_js( $offset );
+
+				if ( ezTOC_Option::get( 'widget_affix_selector' ) ) {
+					$js_vars['affixSelector'] = ezTOC_Option::get( 'widget_affix_selector' );
+				}
+
+				if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
+					$icon = ezTOC::getTOCToggleIcon();
+					if( function_exists( 'ez_toc_pro_activation_link' ) ) {
+							$icon = apply_filters('ez_toc_modify_icon',$icon);
+					}
+					$js_vars['fallbackIcon'] = $icon;
+				}
+
+				if ( 0 < count( $js_vars ) ) {
+					wp_localize_script( 'ez-toc-js', 'ezTOC', $js_vars );
+				}						
+		}
+
+		/**
+         * enqueue_registered_style_and_script Method
+         * Enqueue styles and scripts later after registered
+         *
+         * @since  2.0.52
+         * @static
+         * @uses wp_enqueue_style() & wp_enqueue_script()
+         * @return void
+         *
+         */
+		public static function enqueue_registered_style(){
+
+			if ( ! ezTOC_Option::get( 'exclude_css' ) || !ezTOC_Option::get( 'inline_css' ) ) {
+				wp_enqueue_style( 'ez-toc' );
+				self::inlineCSS();				                                
 			}
-                       
 
 			if ( ezTOC_Option::get( 'sticky-toggle' ) ) {
-				wp_register_style(
-					'ez-toc-sticky',
-					EZ_TOC_URL . "assets/css/ez-toc-sticky{$min}.css",
-					array( ),
-					self::VERSION
-				);
 				wp_enqueue_style( 'ez-toc-sticky' );
-				self::inlineStickyToggleCSS();
-				wp_register_script( 'ez-toc-sticky', '', array(), '', true );
-                                wp_enqueue_script( 'ez-toc-sticky', '', '', '', true );
+				self::inlineStickyToggleCSS();				                				
+			}
+			
+		}
+		/**
+         * enqueue_registered_style_and_script Method
+         * Enqueue styles and scripts later after registered
+         *
+         * @since  2.0.52
+         * @static
+         * @uses wp_enqueue_style() & wp_enqueue_script()
+         * @return void
+         *
+         */
+		public static function enqueue_registered_script(){
+
+			if ( ! ezTOC_Option::get( 'exclude_css' ) ) {								
+				if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
+					self::inlineScrollEnqueueScripts();
+				}
+                                
+			}
+			if ( ezTOC_Option::get( 'sticky-toggle' ) ) {									
+                wp_enqueue_script( 'ez-toc-sticky', '', '', '', true );
 				self::inlineStickyToggleJS();
 			}
-
-			if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
-
-				$js_vars['smooth_scroll'] = true;
-			}
-
-			if ( ezTOC_Option::get( 'show_heading_text' ) && ezTOC_Option::get( 'visibility' ) ) {
-
-				$width = ezTOC_Option::get( 'width' ) !== 'custom' ? ezTOC_Option::get( 'width' ) : (wp_is_mobile() ? 'auto' : ezTOC_Option::get( 'width_custom' ) . ezTOC_Option::get( 'width_custom_units' ));
-
-				$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
-                                
-                                if( true == get_post_meta( $eztoc_post_id, '_ez-toc-visibility_hide_by_default', true ) )
-                                    $js_vars['visibility_hide_by_default'] = true;
-
-				$js_vars['width'] = esc_js( $width );
-			}else{
-				if(ezTOC_Option::get( 'visibility' )){
-					$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
-                                        if( true == get_post_meta( $eztoc_post_id, '_ez-toc-visibility_hide_by_default', true ) )
-                                            $js_vars['visibility_hide_by_default'] = true;
-				}
-			}
-
-			$offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
-
-			$js_vars['scroll_offset'] = esc_js( $offset );
-
-			if ( ezTOC_Option::get( 'widget_affix_selector' ) ) {
-
-				$js_vars['affixSelector'] = ezTOC_Option::get( 'widget_affix_selector' );
-			}
-
-			if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
-				$icon = ezTOC::getTOCToggleIcon();
-				if( function_exists( 'ez_toc_pro_activation_link' ) ) {
-						$icon = apply_filters('ez_toc_modify_icon',$icon);
-				}
-				$js_vars['fallbackIcon'] = $icon;
-			}
-
-			if ( 0 < count( $js_vars ) ) {
-
-				wp_localize_script( 'ez-toc-js', 'ezTOC', $js_vars );
-			}
-
-			if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-                self::inlineWPBakeryJS();
-			}
-                        
-                         self::inlineMainCountingCSS();
+			
 		}
         
         /**
