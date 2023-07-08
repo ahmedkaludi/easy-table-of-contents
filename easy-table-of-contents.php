@@ -152,27 +152,27 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		private static function hooks() {
 
-			
-                        if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+			add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
+			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
+			add_action( 'wp_head', array( __CLASS__, 'ez_toc_inline_styles' ) );
+
+			if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
 				add_option( 'ez-toc-post-content-core-level', false );
 			}
-                        
-                        add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
-                            add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
-                            if ( ezTOC_Option::get( 'exclude_css' ) && 'css' == ezTOC_Option::get( 'toc_loading' ) ) {
-                                add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScriptsforExcludeCSS' ) );
-                            }
+						
+			if ( ezTOC_Option::get( 'exclude_css' ) && 'css' == ezTOC_Option::get( 'toc_loading' ) ) {
+				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScriptsforExcludeCSS' ) );
+			}
+				
+			if( !self::checkBeaverBuilderPluginActive() ) {
+				add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
+				add_filter( 'category_description',  array( __CLASS__, 'toc_category_content_filter' ), 99,2);
+				add_filter( 'woocommerce_taxonomy_archive_description_raw',  array( __CLASS__, 'toc_category_content_filter_woocommerce' ), 99,2);
+				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );                                    
+				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
+				add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
 
-                            if( !self::checkBeaverBuilderPluginActive() ) {
-                                    add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
-                                    add_filter( 'category_description',  array( __CLASS__, 'toc_category_content_filter' ), 99,2);
-									add_filter( 'woocommerce_taxonomy_archive_description_raw',  array( __CLASS__, 'toc_category_content_filter_woocommerce' ), 99,2);
-                                    add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );                                    
-                                    add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
-
-                                    add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
-
-                            }
+			}
 		}
 	
 		/**
@@ -267,6 +267,14 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				// Load the default language files
 				load_plugin_textdomain( $domain, false, $languagesDirectory );
+			}
+		}
+
+		public static function ez_toc_inline_styles(){
+
+			if (ezTOC_Option::get( 'inline_css' )) {
+				$screen_min_css = file_get_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );
+				echo "<style>$screen_min_css</style>";
 			}
 		}
 		
@@ -393,12 +401,14 @@ if ( ! class_exists( 'ezTOC' ) ) {
          *
          */
 		public static function enqueue_registered_style(){
-
-			if ( ! ezTOC_Option::get( 'exclude_css' ) || !ezTOC_Option::get( 'inline_css' ) ) {
-				wp_enqueue_style( 'ez-toc' );
-				self::inlineCSS();				                                
-			}			
 			
+			if(!ezTOC_Option::get( 'exclude_css' )){
+				if ( ! ezTOC_Option::get( 'inline_css' ) ) {
+					wp_enqueue_style( 'ez-toc' );
+					self::inlineCSS();				                                
+				}
+			}
+												
 		}
 		/**
          * enqueue_registered_style_and_script Method

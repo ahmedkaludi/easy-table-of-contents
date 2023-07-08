@@ -90,15 +90,6 @@ function ez_toc_block( $post = null, $apply_content_filter = true ) {
 
 	echo get_ez_toc_block( $post, $apply_content_filter );
 }
-
-function ez_toc_inline_styles(){
-    $screen_min_css = file_get_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );
-    echo "<style>$screen_min_css</style>";
-}
-if (ezTOC_Option::get( 'inline_css' )) {
-	add_action('wp_head', 'ez_toc_inline_styles');
-}
-
 // Non amp checker
 if ( ! function_exists('ez_toc_is_amp_activated') ){
     
@@ -115,8 +106,6 @@ if ( ! function_exists('ez_toc_is_amp_activated') ){
     }
     
 }
-
-
 
 // Non amp checker
 if ( ! function_exists('ez_toc_non_amp') ) {
