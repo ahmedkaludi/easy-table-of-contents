@@ -306,18 +306,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				wp_register_style( 'ez-toc', EZ_TOC_URL . "assets/css/screen$min.css",array( ), ezTOC::VERSION );
 				wp_register_style( 'ez-toc-sticky', EZ_TOC_URL . "assets/css/ez-toc-sticky{$min}.css", array(), self::VERSION );
 
-				// Register scripts which can be called later using wp_enqueue_script() 
-																
+				// Register scripts which can be called later using wp_enqueue_script() 																																
 				wp_register_script( 'ez-toc-sticky', '', array(), '', true );
-				if ( ezTOC_Option::get( 'sticky-toggle' ) ) {									
-					wp_enqueue_script( 'ez-toc-sticky', '', '', '', true );
-					self::inlineStickyToggleJS();
-				}
-				if ( ezTOC_Option::get( 'sticky-toggle' ) ) {
-					wp_enqueue_style( 'ez-toc-sticky' );
-					self::inlineStickyToggleCSS();				                				
-				}
-				
 				wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', TRUE );
 				wp_register_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', TRUE );                        			
 				wp_register_script( 'ez-toc-js', EZ_TOC_URL . "assets/js/front{$min}.js", array( 'jquery', 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ), ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/front{$min}.js" ), true );
@@ -326,11 +316,20 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if ( self::is_enqueue_scripts_eligible() ) {
 					self::enqueue_registered_script();	
 					self::enqueue_registered_style();	
+					self::inlineMainCountingCSS();
 					if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 						self::inlineWPBakeryJS();
-					}							
-					self::inlineMainCountingCSS();
-				}												
+					}												
+				}											
+				
+				if ( ezTOC_Option::get( 'sticky-toggle' ) ) {
+					wp_enqueue_script( 'ez-toc-sticky', '', '', '', true );
+					self::inlineStickyToggleJS();
+				}
+				if ( ezTOC_Option::get( 'sticky-toggle' ) ) {
+					wp_enqueue_style( 'ez-toc-sticky' );
+					self::inlineStickyToggleCSS();				                				
+				}
 				
 		}
 		

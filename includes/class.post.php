@@ -1269,9 +1269,8 @@ class ezTOC_Post {
 					break;
 				case 'center':
 					$class[] = 'ez-toc-wrap-center';
-					break;	
-					
-				case 'none':
+					break;						
+				case 'none':					
 				default:
 					// do nothing
 			}
