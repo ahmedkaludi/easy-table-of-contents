@@ -273,8 +273,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		public static function ez_toc_inline_styles(){
 
 			if (ezTOC_Option::get( 'inline_css' )) {
-				$screen_min_css = file_get_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );
-				echo "<style>$screen_min_css</style>";
+				$screen_css = file_get_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );				
+				$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
+            	$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
+				echo '<style id="ez-toc-inline-css">'.$screen_css.'</style>';
 			}
 		}
 		
