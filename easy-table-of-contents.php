@@ -281,15 +281,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function enqueueScripts() {
 
-				$eztoc_post_id = get_the_ID();
-
-				// Check for the condition to load css and js if toc is there on page/post
-				$isEligible = self::is_eligible( get_post() );
-				if(!$isEligible){
-					if( self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || get_post_meta( $eztoc_post_id, '_nectar_portfolio_extra_content',true )){
-						$isEligible = true;
-					}
-				}				
+				$eztoc_post_id = get_the_ID();								
 				// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
 				$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';				
 
@@ -320,12 +312,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				wp_register_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', TRUE );                        			
 				wp_register_script( 'ez-toc-js', EZ_TOC_URL . "assets/js/front{$min}.js", array( 'jquery', 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ), ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/front{$min}.js" ), true );
 				self::localize_scripts();
-				if ($isEligible) {
+																													
+				if ( self::is_enqueue_scripts_eligible() ) {
 					self::enqueue_registered_script();	
-				}
-																	
-				// Enqueue registered stylesheet 
-				if ($isEligible) {
 					self::enqueue_registered_style();	
 					if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 						self::inlineWPBakeryJS();
@@ -919,6 +908,17 @@ INLINESTICKYTOGGLEJS;
 			return false;
 		}
 
+		public static function is_enqueue_scripts_eligible( ) {
+
+			$isEligible = self::is_eligible( get_post() );
+			if(!$isEligible){
+				if( self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || get_post_meta( get_the_ID(), '_nectar_portfolio_extra_content',true )){
+					$isEligible = true;
+				}
+			}
+
+			return $isEligible;
+		}
 		/**
 		 * Returns true if the table of contents is eligible to be printed, false otherwise.
 		 *
@@ -940,25 +940,21 @@ INLINESTICKYTOGGLEJS;
 				return false;
 			}
                         
-                        /**
-                         * Easy TOC Run On Amp Pages Check
-                         * @since 2.0.46
-                         */
-                        if ( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ) {
+			/**
+			 * Easy TOC Run On Amp Pages Check
+			 * @since 2.0.46
+			 */
+			if ( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ) {
 				Debug::log( 'non_amp', 'Is frontpage, TOC is not enabled.', false );
-				return false;
-                            
-                        }
+				return false;                            
+			}
 
-			if ( has_shortcode( $post->post_content, apply_filters( 'ez_toc_shortcode', 'toc' ) ) ||
-			     has_shortcode( $post->post_content, 'ez-toc' ) ) {
-
+			if ( has_shortcode( $post->post_content, apply_filters( 'ez_toc_shortcode', 'toc' ) ) || has_shortcode( $post->post_content, 'ez-toc' ) ) {
 				Debug::log( 'has_ez_toc_shortcode', 'Has instance of shortcode.', true );
 				return true;
 			}
                         
 			if ( is_front_page() && ! ezTOC_Option::get( 'include_homepage' ) ) {
-
 				Debug::log( 'is_front_page', 'Is frontpage, TOC is not enabled.', false );
 				return false;
 			}
