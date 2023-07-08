@@ -1237,9 +1237,7 @@ class ezTOC_Post {
 			ob_start();
 			do_action( 'ez_toc_sticky_toggle_after' );
 			$htmlSticky .= ob_get_clean();
-			$htmlSticky .= '</div>' . PHP_EOL;
-			// Enqueue the script.
-			wp_enqueue_script( 'ez-toc-js' );
+			$htmlSticky .= '</div>' . PHP_EOL;						
 		}
 		return $htmlSticky;
 	}
@@ -1433,9 +1431,7 @@ class ezTOC_Post {
 			$html .= ob_get_clean();
 
 			$html .= '</div>' . PHP_EOL;
-
-			// Enqueue the script.
-			wp_enqueue_script( 'ez-toc-js' );
+			
 		}
 
 		return $html;
