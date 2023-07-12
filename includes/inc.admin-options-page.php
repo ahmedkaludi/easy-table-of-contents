@@ -378,8 +378,8 @@ function addCustomSpan()
                         </div>
                         <div class="ezoc-bio-wrap">
                             <img width="50px" height="50px"
-                                 src="<?php echo plugins_url('assets/zabi.jpg', dirname(__FILE__)) ?>"
-                                 alt="zabi.jpg"/>
+                                 src="<?php echo plugins_url('assets/sanjeev.jpg', dirname(__FILE__)) ?>"
+                                 alt="Sanjeev"/>
                             <p><?= esc_html_e('Developer', 'easy-table-of-contents'); ?></p>
                         </div>
                     </section>
