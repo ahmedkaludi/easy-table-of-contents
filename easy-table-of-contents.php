@@ -1276,7 +1276,7 @@ INLINESTICKYTOGGLEJS;
 			$post = self::get( get_the_ID() );
 			if ( null !== $post ) {
 				$stickyToggleTOC = $post->getStickyToggleTOC();
-				$openButtonText = "Index";
+				$openButtonText = __( 'Index', 'easy-table-of-contents' );
 				if( !empty( ezTOC_Option::get( 'sticky-toggle-open-button-text' ) ) ) {
 					$openButtonText = ezTOC_Option::get( 'sticky-toggle-open-button-text' );
 				}

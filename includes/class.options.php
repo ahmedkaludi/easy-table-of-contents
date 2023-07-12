@@ -383,7 +383,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 								'relative' => array(
 									'name' => __( 'Relative', 'easy-table-of-contents' ),
 									'options' => array(
-										'auto' => 'Auto',
+										'auto' => __( 'Auto', 'easy-table-of-contents' ),
 										'25%' => '25%',
 										'33%' => '33%',
 										'50%' => '50%',

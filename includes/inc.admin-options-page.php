@@ -26,7 +26,7 @@
         <a class="eztoc-tablinks" id="eztoc-technical" href="#technical-support"
            onclick="ezTocTabToggle(event, 'technical')" data-href="no"><?= esc_html_e( 'Help & Support', 'easy-table-of-contents' ) ?></a>
            <?php if (!function_exists('ez_toc_pro_activation_link')) { ?>
-            <a class="eztoc-tablinks" id="eztoc-upgrade" href="https://tocwp.com/pricing/" target="_blank"><?= esc_html( 'UPGRADE to PRO', 'easy-table-of-contents' ) ?></a>
+            <a class="eztoc-tablinks" id="eztoc-upgrade" href="https://tocwp.com/pricing/" target="_blank"><?= esc_html_e( 'UPGRADE to PRO', 'easy-table-of-contents' ) ?></a>
             <?php } ?>
         <?php
 
@@ -160,7 +160,7 @@
                 </div><!-- /.metabox-holder -->
             <?php } ?>
             <?php settings_fields('ez-toc-settings'); ?>
-            <?php submit_button(esc_html('Save Changes', 'easy-table-of-contents')); ?>
+            <?php submit_button(esc_html__('Save Changes', 'easy-table-of-contents')); ?>
         </form>
     </div><!-- /.General Settings ended -->
 
@@ -212,7 +212,7 @@
                                     <label for="eztoc_query_message">
                                     <textarea rows="5" cols="50" id="eztoc_query_message"
                                               name="eztoc_query_message"
-                                              placeholder="Write your query"></textarea></label>
+                                              placeholder="<?= esc_html_e( 'Write your query', 'easy-table-of-contents' ) ?>"></textarea></label>
                                 </div>
 
 
@@ -367,7 +367,7 @@ function addCustomSpan()
                         </div>
                     </section>
                     <p class="eztoc_boxdesk"><?= esc_html_e('Delivering a good user experience means a lot to us, so we try our best to reply each and every question.', 'easy-table-of-contents'); ?></p>
-                    <p class="company-link"><?= esc_html_e('Support the innovation & development by upgrading to PRO ', 'easy-table-of-contents'); ?> <a href="https://tocwp.com/pricing/">I Want To Upgrade!</a></p>
+                    <p class="company-link"><?= esc_html_e('Support the innovation & development by upgrading to PRO ', 'easy-table-of-contents'); ?> <a href="https://tocwp.com/pricing/"><?= esc_html_e('I Want To Upgrade!', 'easy-table-of-contents'); ?></a></p>
                 </div>
             </div>
         </div>
@@ -380,7 +380,7 @@ function addCustomSpan()
                     <span class="sp_ov"></span>
                 </div>
                 <div class="etoc-eztoc-cnt">
-                    <h1><?= esc_html_e('UPGRADE to PRO Version'); ?></h1>
+                    <h1><?= esc_html_e('UPGRADE to PRO Version', 'easy-table-of-contents'); ?></h1>
                     <p><?= esc_html_e('Take your Table of Contents to the NEXT Level!', 'easy-table-of-contents'); ?></p>
                     <a class="buy" href="#upgrade"><?= esc_html_e('Purchase Now', 'easy-table-of-contents'); ?></a>
                 </div>
@@ -571,7 +571,7 @@ function addCustomSpan()
                                     <span class="d-amt"><sup>$</sup>499</span>
                                     <span class="amt"><sup>$</sup>499</span>
                                     <span class="s-amt"><?= esc_html_e("(Save $199)", 'easy-table-of-contents'); ?></span>
-                                    <span class="bil"><?= esc_html_e("Billed Annually", 'easy-table-of-contents'); ?></span>
+                                    <span class="bil"><?= esc_html_e("One-Time Fee", 'easy-table-of-contents'); ?></span>
                                     <span class="s"><?= esc_html_e("Unlimited Sites", 'easy-table-of-contents'); ?></span>
                                     <span class="e"><?= esc_html_e("Unlimited E-mail support", 'easy-table-of-contents'); ?></span>
                                     <span class="f"><?= esc_html_e("Lifetime License", 'easy-table-of-contents'); ?></span>
