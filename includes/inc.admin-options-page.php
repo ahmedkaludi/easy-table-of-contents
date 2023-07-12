@@ -175,7 +175,7 @@
             <?php } ?>
             <?php settings_fields('ez-toc-settings'); ?>
             <p class="submit">
-                <?php submit_button( esc_html( 'Save Changes', 'easy-table-of-contents'  ), 'primary large', 'submit', false) ; ?>
+                <?php submit_button(esc_html__( 'Save Changes', 'easy-table-of-contents'  ), 'primary large', 'submit', false) ; ?>
                 <button type="button" id="reset-options-to-default-button" class="button button-primary button-large" style="background-color: #cd3241"><?= __( 'Reset', 'easy-table-of-contents' ) ?></button>
             </p>
         </form>
@@ -229,7 +229,7 @@
                                     <label for="eztoc_query_message">
                                     <textarea rows="5" cols="50" id="eztoc_query_message"
                                               name="eztoc_query_message"
-                                              placeholder="Write your query"></textarea></label>
+                                              placeholder="<?= esc_html_e( 'Write your query', 'easy-table-of-contents' ) ?>"></textarea></label>
                                 </div>
 
 
@@ -397,7 +397,7 @@ function addCustomSpan()
                     <span class="sp_ov"></span>
                 </div>
                 <div class="etoc-eztoc-cnt">
-                    <h1><?= esc_html_e('UPGRADE to PRO Version'); ?></h1>
+                    <h1><?= esc_html_e('UPGRADE to PRO Version', 'easy-table-of-contents'); ?></h1>
                     <p><?= esc_html_e('Take your Table of Contents to the NEXT Level!', 'easy-table-of-contents'); ?></p>
                     <a class="buy" href="#upgrade"><?= esc_html_e('Purchase Now', 'easy-table-of-contents'); ?></a>
                 </div>
@@ -588,7 +588,7 @@ function addCustomSpan()
                                     <span class="d-amt"><sup>$</sup>499</span>
                                     <span class="amt"><sup>$</sup>499</span>
                                     <span class="s-amt"><?= esc_html_e("(Save $199)", 'easy-table-of-contents'); ?></span>
-                                    <span class="bil"><?= esc_html_e("Billed Annually", 'easy-table-of-contents'); ?></span>
+                                    <span class="bil"><?= esc_html_e("One-Time Fee", 'easy-table-of-contents'); ?></span>
                                     <span class="s"><?= esc_html_e("Unlimited Sites", 'easy-table-of-contents'); ?></span>
                                     <span class="e"><?= esc_html_e("Unlimited E-mail support", 'easy-table-of-contents'); ?></span>
                                     <span class="f"><?= esc_html_e("Lifetime License", 'easy-table-of-contents'); ?></span>
