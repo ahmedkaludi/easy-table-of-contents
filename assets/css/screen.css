@@ -318,6 +318,7 @@ div.ez-toc-widget-container li {
 #ez-toc-container label {    
     position: relative;            
     cursor: pointer;    
+    display: initial;
 }
 
 #ez-toc-container .ez-toc-toggle label, #ez-toc-container label.cssicon, #ez-toc-widget-container label.cssicon  {
