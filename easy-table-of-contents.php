@@ -987,15 +987,15 @@ INLINESTICKYTOGGLEJS;
 					/**
 					 * @link https://wordpress.org/support/topic/restrict-path-logic-does-not-work-correctly?
 					 */
-					if ( false !== strpos( ezTOC_Option::get( 'restrict_path' ), $_SERVER['REQUEST_URI'] ) ) {
+					if ( false === strpos(esc_url($_SERVER['REQUEST_URI']), ezTOC_Option::get( 'restrict_path' ) ) ) {
 
 						Debug::log( 'is_restricted_path', 'In restricted path, post not eligible.', ezTOC_Option::get( 'restrict_path' ) );
-						return false;
+						return true;
 
 					} else {
 
 						Debug::log( 'is_not_restricted_path', 'Not in restricted path, post is eligible.', ezTOC_Option::get( 'restrict_path' ) );
-						return true;
+						return false;
 					}
 
 				} else {
