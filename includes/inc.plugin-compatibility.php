@@ -724,6 +724,7 @@ if ( 'Avada' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) 
 
 /**
  * Grow, Social Pro by Mediavine plugin compatibility
+ * Anchors were not being generated for special char like inverted comma.
  * @since 2.0.52
  */
 add_filter('ez_toc_extract_headings_content', 'ez_toc_social_pro_by_mediavine_com',10,1);
@@ -739,5 +740,22 @@ function ez_toc_social_pro_by_mediavine_com($content){
 						
 	}
 		
+	return $content;
+}
+
+/**
+ * Create by Mediavine plugin compatibility
+ * shortcode were not being parse for custom post type mv_create added by this plugin inside post content
+ * @since 2.0.52
+ */
+add_filter('ez_toc_modify_process_page_content', 'ez_toc_parse_mv_create_shortcode',10,1);
+
+function ez_toc_parse_mv_create_shortcode($content){
+	
+	if ( in_array( 'mediavine-create/mediavine-create.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		if ( has_shortcode( $content, 'mv_create' )) {
+			$content = do_shortcode($content);		
+		}		
+	}			
 	return $content;
 }
