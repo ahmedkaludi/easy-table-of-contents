@@ -721,3 +721,23 @@ if ( 'Avada' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) 
     
 }
 
+
+/**
+ * Grow, Social Pro by Mediavine plugin compatibility
+ * @since 2.0.52
+ */
+add_filter('ez_toc_extract_headings_content', 'ez_toc_social_pro_by_mediavine_com',10,1);
+
+function ez_toc_social_pro_by_mediavine_com($content){
+	
+	if(class_exists( '\Mediavine\Grow\Shortcodes' )){
+
+		$settings = Mediavine\Grow\Settings::get_setting( 'dpsp_pinterest_share_images_setting', [] );		
+		if ( !empty( $settings['share_image_page_builder_compatibility'] ) || ! empty( $settings['share_image_lazy_load_compatibility'] )  ) {
+			$content = mb_convert_encoding( html_entity_decode($content), 'HTML-ENTITIES', 'UTF-8' );	
+		}
+						
+	}
+		
+	return $content;
+}
