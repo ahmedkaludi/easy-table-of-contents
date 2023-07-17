@@ -857,6 +857,9 @@ INLINESTICKYTOGGLEJS;
 		        if ( !wp_verify_nonce( $_POST['eztoc_security_nonce'], 'eztoc_ajax_check_nonce' ) ){
 		           return;  
 		        }   
+				if ( !current_user_can( 'manage_options' ) ) {
+					return;  					
+				}
 		        $message        = $this->eztoc_sanitize_textarea_field($_POST['message']); 
 		        $email          = sanitize_email($_POST['email']);
 		                                
