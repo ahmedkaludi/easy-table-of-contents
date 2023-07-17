@@ -191,6 +191,27 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					break;
 				}
 			}
+			if(!$status){
+				$widget_texts = get_option( 'widget_text' );
+				foreach( (array) $widget_texts as $widget_text ) {
+					if ( ! empty( $widget_text['text'] ) && ( has_shortcode( $widget_text['text'] , 'toc' ) || has_shortcode( $widget_text['text'] , 'ez-toc' ) || has_shortcode( $widget_text['text'] , 'ez-toc-widget-sticky' ) ) ) {					
+						$status = true;						
+						break;
+					}
+				}
+
+			}
+			if(!$status){
+				$widget_cust_htmls = get_option( 'widget_custom_html' );				
+				foreach( (array) $widget_cust_htmls as $widget_cust_html ) {
+					if ( ! empty( $widget_cust_html['content'] ) && ( has_shortcode( $widget_cust_html['content'] , 'toc' ) || has_shortcode( $widget_cust_html['content'] , 'ez-toc' ) || has_shortcode( $widget_cust_html['content'] , 'ez-toc-widget-sticky' ) ) ) {					
+						$status = true;						
+						break;
+					}
+				}
+
+			}
+			
 			return $status;
 		}
                 
