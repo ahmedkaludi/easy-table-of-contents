@@ -310,11 +310,6 @@ div.ez-toc-widget-container li {
     border: none;
     display: none;
 }
-
-#ez-toc-container nav ul.eztoc-visibility-hide-by-default, #ez-toc-widget-container nav ul.eztoc-visibility-hide-by-default {
-    display: none;
-}
-
 #ez-toc-container label {    
     position: relative;            
     cursor: pointer;    

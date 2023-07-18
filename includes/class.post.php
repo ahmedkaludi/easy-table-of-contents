@@ -1165,17 +1165,17 @@ class ezTOC_Post {
 			
 			$html = $this->createTOCParent();
 			$visiblityClass = '';
-			if( ezTOC_Option::get( 'visibility_hide_by_default' ) && 'css' != ezTOC_Option::get( 'toc_loading' ) )
+			if( ezTOC_Option::get( 'visibility_hide_by_default' ) && 'js' == ezTOC_Option::get( 'toc_loading' ) )
 			{
-				$visiblityClass = "eztoc-visibility-hide-by-default";
+				$visiblityClass = "eztoc-toggle-hide-by-default";
 			}
-			if( get_post_meta( $this->post->ID, '_ez-toc-visibility_hide_by_default', true ) && 'css' != ezTOC_Option::get( 'toc_loading' ) )
+			if( get_post_meta( $this->post->ID, '_ez-toc-visibility_hide_by_default', true ) && 'js' == ezTOC_Option::get( 'toc_loading' ) )
 			{
-				$visiblityClass = "eztoc-visibility-hide-by-default";
+				$visiblityClass = "eztoc-toggle-hide-by-default";
 			}
-                        if( $options !== null && !empty( $options ) && is_array( $options ) && key_exists( 'visibility_hide_by_default', $options ) && true == $options['visibility_hide_by_default'] ) {
-                            $visiblityClass = "eztoc-visibility-hide-by-default";
-                        }
+			if(is_array($options) && key_exists( 'visibility_hide_by_default', $options ) && $options['visibility_hide_by_default'] == true && 'js' == ezTOC_Option::get( 'toc_loading' ) ){
+				$visiblityClass = "eztoc-toggle-hide-by-default";
+			}			
 			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1 $visiblityClass' >" . $html . "</ul>";
 		}
 

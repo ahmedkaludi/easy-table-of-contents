@@ -1201,14 +1201,12 @@ INLINESTICKYTOGGLEJS;
 
                                         return Debug::log()->appendTo( $content );
                                 }
-
-                                $html = $post->getTOC();			
-			
-							if (isset($atts["initial_view"]) && !empty($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
-											$options = array(
-												'visibility_hide_by_default' => true,
-											);
-											$html = $post->getTOC($options);
+                                			
+							if (isset($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
+								$options = array('visibility_hide_by_default' => true);
+								$html = $post->getTOC($options);
+							}else{
+								$html = $post->getTOC();			
 							}
 
 							if( !is_home() ) {
