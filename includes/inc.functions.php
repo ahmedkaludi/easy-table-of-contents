@@ -171,3 +171,29 @@ function EzDumper($content){
     var_dump($content);
     echo "</pre>";
 }
+
+/**
+ * Since version 2.0.52
+ * Export all settings to json file
+ */
+add_action( 'wp_ajax_ez_toc_export_all_settings', 'ez_toc_export_all_settings'); 
+function ez_toc_export_all_settings()
+{
+    if ( !current_user_can( 'manage_options' ) ) {
+        die('-1');
+    }
+    if(!isset($_GET['_wpnonce'])){
+        die('-1');
+    }
+    if( !wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), '_wpnonce' ) ){
+        die('-1');
+    }
+
+    $export_settings_data = get_option('ez-toc-settings');
+    if(!empty($export_settings_data)){
+        header('Content-type: application/json');
+        header('Content-disposition: attachment; filename=ez_toc_settings_backup.json');
+        echo json_encode($export_settings_data);   
+    }                             
+    wp_die();
+}

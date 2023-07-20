@@ -93,6 +93,35 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				return $input;
 			}
 
+			// Code to settings backup file
+			$uploaded_file_settings = array();
+			if(isset($_FILES['eztoc_import_backup'])){
+		    	$fileInfo = wp_check_filetype(basename($_FILES['eztoc_import_backup']['name']));
+		        if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'json') {
+		            if(!empty($_FILES["eztoc_import_backup"]["tmp_name"])){
+		            	$uploaded_file_settings = json_decode(file_get_contents($_FILES["eztoc_import_backup"]["tmp_name"]), true);	
+		              // $urls = wp_handle_upload($_FILES["eztoc_import_backup"], array('test_form' => FALSE));    
+		              // $url = $urls["url"];
+		              // update_option('ez-toc-file-upload_url',esc_url($url));
+		           }
+		        }
+		    }
+		    if(!empty($uploaded_file_settings) && is_array($uploaded_file_settings)){
+		    	if(!empty($input) && is_array($input)){
+		    		foreach ($input as $inkey => $invalue) {
+				    	foreach ($uploaded_file_settings as $ufs_key => $ufs_value) {
+				    		if($inkey == $ufs_key){
+								if(is_array($ufs_value)){
+									$input[$inkey] = array_map('sanitize_text_field', $ufs_value);	
+								}else{
+				    				$input[$inkey] = sanitize_text_field($ufs_value);
+								}
+				    		}
+				    	}
+				    }
+			    }
+		    }
+
 			$registered = self::getRegistered();
 
 			foreach ( $registered as $sectionID => $sectionOptions ) {
