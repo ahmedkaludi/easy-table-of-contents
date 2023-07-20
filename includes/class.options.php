@@ -794,6 +794,18 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
                         ),
                     )
                 ),
+                'compatibility' => apply_filters(
+                    'ez_toc_settings_compatibility',
+                    array(
+                        'mediavine-create' => array(
+							'id' => 'mediavine-create',
+							'name' => __( 'Create by Mediavine', 'easy-table-of-contents' ),
+							'desc' => __( 'It includes headings created by mediavine recipe card custom post.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
+                    )
+                ),
 				'prosettings' => apply_filters(
 					'ez_toc_settings_prosettings', array()
 				),
@@ -988,7 +1000,8 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'heading-text-direction'              => 'ltr',
 				'toc-run-on-amp-pages'              => 1,
 				'sticky-toggle-position'              => 'left',
-				'add_request_uri'                     => false
+				'add_request_uri'                     => false,
+				'mediavine-create'                    => 0,
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );

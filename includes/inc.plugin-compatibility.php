@@ -715,7 +715,7 @@ add_filter('ez_toc_extract_headings_content', 'ez_toc_social_pro_by_mediavine_co
 
 function ez_toc_social_pro_by_mediavine_com($content){
 	
-	if(class_exists( '\Mediavine\Grow\Shortcodes' )){
+	if(class_exists( '\Mediavine\Grow\Shortcodes' ) && ezTOC_Option::get('mediavine-create') == 1){
 
 		$settings = Mediavine\Grow\Settings::get_setting( 'dpsp_pinterest_share_images_setting', [] );		
 		if ( !empty( $settings['share_image_page_builder_compatibility'] ) || ! empty( $settings['share_image_lazy_load_compatibility'] )  ) {
@@ -736,7 +736,7 @@ add_filter('ez_toc_modify_process_page_content', 'ez_toc_parse_mv_create_shortco
 
 function ez_toc_parse_mv_create_shortcode($content){
 	
-	if ( in_array( 'mediavine-create/mediavine-create.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+	if ( in_array( 'mediavine-create/mediavine-create.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && ezTOC_Option::get('mediavine-create') == 1) {
 		if ( has_shortcode( $content, 'mv_create' )) {
 			$content = do_shortcode($content);		
 		}		
@@ -753,9 +753,9 @@ function ez_toc_parse_mv_create_shortcode($content){
 add_filter(
 	'ez_toc_exclude_by_selector',
 	function( $selectors ) {
-
-		$selectors['mediavine-create'] = '.mv-create-card';
-
+		if(ezTOC_Option::get('mediavine-create') != 1){
+			$selectors['mediavine-create'] = '.mv-create-card';
+		}	
 		return $selectors;
 	}
 );
