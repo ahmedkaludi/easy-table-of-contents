@@ -345,22 +345,6 @@ add_filter(
 );
 
 /**
- * Remove the Create by Mediavine node from the post content before extracting headings.
- *
- * @link https://wordpress.org/plugins/mediavine-create/
- * @since 2.0.8
- */
-add_filter(
-	'ez_toc_exclude_by_selector',
-	function( $selectors ) {
-
-		$selectors['mediavine-create'] = '.mv-create-card';
-
-		return $selectors;
-	}
-);
-
-/**
  * Remove the Contextual Related Posts node from the post content before extracting headings.
  *
  * @link https://wordpress.org/plugins/contextual-related-posts/
@@ -759,3 +743,19 @@ function ez_toc_parse_mv_create_shortcode($content){
 	}			
 	return $content;
 }
+/**
+ * Remove the Create by Mediavine node from the post content before extracting headings.
+ *
+ * @link https://wordpress.org/plugins/mediavine-create/
+ * @since 2.0.8
+ * Modifyed in 2.0.52
+ */
+add_filter(
+	'ez_toc_exclude_by_selector',
+	function( $selectors ) {
+
+		$selectors['mediavine-create'] = '.mv-create-card';
+
+		return $selectors;
+	}
+);
