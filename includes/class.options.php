@@ -100,9 +100,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		        if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'json') {
 		            if(!empty($_FILES["eztoc_import_backup"]["tmp_name"])){
 		            	$uploaded_file_settings = json_decode(file_get_contents($_FILES["eztoc_import_backup"]["tmp_name"]), true);	
-		              // $urls = wp_handle_upload($_FILES["eztoc_import_backup"], array('test_form' => FALSE));    
-		              // $url = $urls["url"];
-		              // update_option('ez-toc-file-upload_url',esc_url($url));
 		           }
 		        }
 		    }
