@@ -1400,6 +1400,32 @@ INLINESTICKYTOGGLEJS;
 					break;
 				case 'afterpara':
 					$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );
+					break;
+				case 'aftercustompara':
+					$paragraph_index = ezTOC_Option::get( 'custom_para_number' );
+					if($paragraph_index == 1){
+						$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );
+					}else if($paragraph_index > 1){
+						$closing_p = '</p>';
+						$paragraphs = explode( $closing_p, $content );
+						if(!empty($paragraphs) && is_array($paragraphs) && $paragraph_index <= count($paragraphs)){
+							$paragraph_id = $paragraph_index;
+							foreach ($paragraphs as $index => $paragraph) {
+								if ( trim( $paragraph ) ) {
+									$paragraphs[$index] .= $closing_p;
+								}
+								$pos = strpos($paragraph, '<p');
+								if ( $paragraph_id == $index + 1 && $pos !== false ) {
+									$paragraphs[$index] .= $toc;
+								}
+							}
+							$content = implode( '', $paragraphs );
+						}else{
+							$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );	
+						}
+					}else{
+						$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );	
+					}
 					break;	
 				case 'before':
 				default:

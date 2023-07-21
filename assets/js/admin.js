@@ -51,6 +51,22 @@ jQuery(document).ready(function ($) {
                 }
         );
     });
+
+    let position = $('#eztoc-general').find("select[name='ez-toc-settings[position]']");
+    let customParaNumber = $('#eztoc-general').find("input[name='ez-toc-settings[custom_para_number]']");
+    if($(position).val() == 'aftercustompara'){
+        $(customParaNumber).parents('tr').show();
+    }else{
+        $(customParaNumber).parents('tr').hide();
+    }
+    $(document).on("change", "select[name='ez-toc-settings[position]']", function() {
+        if($(this).val() == 'aftercustompara'){
+            $(customParaNumber).parents('tr').show(500);    
+        }else{
+            $(customParaNumber).parents('tr').hide(500);
+        }    
+    });
+
 });
 
 /**

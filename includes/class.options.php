@@ -212,9 +212,18 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 								'before' => __( 'Before first heading (default)', 'easy-table-of-contents' ),
 								'after' => __( 'After first heading', 'easy-table-of-contents' ),
 								'afterpara' => __( 'After first paragraph', 'easy-table-of-contents' ),
+								'aftercustompara' => __( 'After paragraph number', 'easy-table-of-contents' ),
 								'top' => __( 'Top', 'easy-table-of-contents' ),
 								'bottom' => __( 'Bottom', 'easy-table-of-contents' ),
 							),
+							'default' => 1,
+						),
+						'custom_para_number' => array(
+							'id' => 'custom_para_number',
+							'name' => __( 'Select Paragraph', 'easy-table-of-contents' ),
+							'desc' => __( 'Select paragraph after which ETOC should get display', 'easy-table-of-contents' ),
+							'type' => 'number',
+							'size' => 'small',
 							'default' => 1,
 						),
 						'start' => array(
@@ -1002,6 +1011,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'sticky-toggle-position'              => 'left',
 				'add_request_uri'                     => false,
 				'mediavine-create'                    => 0,
+				'custom_para_number'                  => 1,
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );
