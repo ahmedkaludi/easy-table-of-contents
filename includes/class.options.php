@@ -103,18 +103,32 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		           }
 		        }
 		    }
-		    if(!empty($uploaded_file_settings) && is_array($uploaded_file_settings)){
-		    	if(!empty($input) && is_array($input)){
-		    		foreach ($input as $inkey => $invalue) {
+		    if(!empty($uploaded_file_settings) && is_array($uploaded_file_settings) && count($uploaded_file_settings) >= 40){
+		    	$etoc_default_settings = self::getDefaults();
+		    	if(!empty($etoc_default_settings) && is_array($etoc_default_settings)){
+		    		// Pro Options
+		    		$etoc_default_settings['exclude_by_class'] = '';
+		    		$etoc_default_settings['exclude_by_shortcode'] = '';
+		    		$etoc_default_settings['fixedtoc'] = false;
+		    		$etoc_default_settings['highlightheadings'] = false;
+		    		$etoc_default_settings['shrinkthewidth'] = false;
+		    		$etoc_default_settings['acf-support'] = false;
+		    		$etoc_default_settings['gp-premium-element-support'] = false;
+		    		$exported_array = array();
+		    		foreach ($etoc_default_settings as $inkey => $invalue) {
 				    	foreach ($uploaded_file_settings as $ufs_key => $ufs_value) {
 				    		if($inkey == $ufs_key){
 								if(is_array($ufs_value)){
-									$input[$inkey] = array_map('sanitize_text_field', $ufs_value);	
+									$exported_array[$inkey] = array_map('sanitize_text_field', $ufs_value);	
 								}else{
-				    				$input[$inkey] = sanitize_text_field($ufs_value);
+				    				$exported_array[$inkey] = sanitize_text_field($ufs_value);
 								}
 				    		}
 				    	}
+				    }
+				    if(count($exported_array) >= 40){
+				    	$input = array();
+				    	$input = $exported_array;
 				    }
 			    }
 		    }
