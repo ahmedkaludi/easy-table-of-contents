@@ -958,12 +958,12 @@ INLINESTICKYTOGGLEJS;
 		 * @since  2.0.52
 		 */
 		public function eztoc_dequeue_scripts( $pagenow ) {
-			if (isset($pagenow) && $pagenow != 'settings_page_table-of-contents' && strpos($pagenow, 'table-of-contents') == false) {
-                
-                return false;
-            }
-            wp_dequeue_script( 'chats-js' ); 
-        	wp_dequeue_script( 'custom_wp_admin_js' );
+			
+			if($pagenow == 'settings_page_table-of-contents'){
+				wp_dequeue_script( 'chats-js' ); 
+				wp_dequeue_script( 'custom_wp_admin_js' );
+			}			
+            
 		}
 	}
 
