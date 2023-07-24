@@ -826,13 +826,10 @@ INLINESTICKYTOGGLEJS;
 	     *
 	     */
 		public function load_scripts($pagenow){
+			
+			 if($pagenow == 'settings_page_table-of-contents'){
 
-			if (isset($pagenow) && $pagenow != 'settings_page_table-of-contents' && strpos($pagenow, 'table-of-contents') == false) {
-                
-                return false;
-             }
-
-			  wp_enqueue_script( 'eztoc-admin-js', EZ_TOC_URL . 'assets/js/eztoc-admin.js',array('jquery'), ezTOC::VERSION,true );
+				wp_enqueue_script( 'eztoc-admin-js', EZ_TOC_URL . 'assets/js/eztoc-admin.js',array('jquery'), ezTOC::VERSION,true );
 
 				 $data = array(     
 					'ajax_url'      		       => admin_url( 'admin-ajax.php' ),
@@ -843,7 +840,10 @@ INLINESTICKYTOGGLEJS;
 
 				wp_localize_script( 'eztoc-admin-js', 'eztoc_admin_data', $data );
 
-				$this->eztoc_dequeue_scripts($pagenow);
+				$this->eztoc_dequeue_scripts();
+
+			 }
+			  
 		}
 
      /**
@@ -957,13 +957,9 @@ INLINESTICKYTOGGLEJS;
 		 *
 		 * @since  2.0.52
 		 */
-		public function eztoc_dequeue_scripts( $pagenow ) {
-			
-			if($pagenow == 'settings_page_table-of-contents'){
+		public function eztoc_dequeue_scripts() {						
 				wp_dequeue_script( 'chats-js' ); 
-				wp_dequeue_script( 'custom_wp_admin_js' );
-			}			
-            
+				wp_dequeue_script( 'custom_wp_admin_js' );						            
 		}
 	}
 
