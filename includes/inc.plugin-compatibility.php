@@ -759,3 +759,27 @@ add_filter(
 		return $selectors;
 	}
 );
+
+/**
+ * Custom Field Suite plugin sidebar compatibility
+ *
+ * @link https://wordpress.org/plugins/custom-field-suite/
+ * @since 2.0.52
+ *
+ */
+
+add_filter('ez_toc_sidebar_has_toc_filter', 'ez_toc_sidebar_has_toc_status_cfs', 10,1);
+
+function ez_toc_sidebar_has_toc_status_cfs($status){
+
+	global $post;
+	if(function_exists('CFS')){
+		$fields = CFS()->get(false, $post->ID);
+		if(isset($fields['use_ez_toc']) &&  $fields['use_ez_toc'] == true){
+			$status = true;
+		}
+
+	}
+	
+	return $status;
+}

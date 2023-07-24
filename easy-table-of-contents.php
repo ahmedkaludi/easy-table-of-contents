@@ -212,7 +212,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			}
 			
-			return $status;
+			return apply_filters('ez_toc_sidebar_has_toc_filter', $status);
 		}
                 
         /**
