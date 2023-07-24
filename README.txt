@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.2
 Requires PHP: 5.6.20
-Stable tag: 2.0.51.1
+Stable tag: 2.0.52
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,21 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.52 07/24/2023 =
+* BUG: ez-toc shortcode not working to hide the initial view on a page/post #378
+* NEW: Add an option to place show toc based on paragraph count (TOC Positioning) #507
+* BUG: Alignment is not working properly #515
+* BUG: While using shortcode, TOC not working #523
+* BUG: Header no longer showing in Pure CSS mode #524
+* BUG: Need to create an option to import/export the settings #525
+* BUG: ACF compatibility fatal error #526
+* BUG: When we select Inline CSS option, Counter does not display #527
+* BUG: Limit path option is not working #532
+* BUG: When the Pure CSS option is enabled, then the TOC heading and Toogle are not shown in the line #533
+* BUG: Conflict with social pro by mediavine plugin #534
+* BUG: Create By Mediavine plugin recipe shortcode is not being parsed inside toc generation #535
+* BUG: JS Conflict with User Activity Log Plugin #539
 
 = 2.0.51.1 07/05/2023 =
 * BUG: Issue after last update (version - 2.0.51) #521
