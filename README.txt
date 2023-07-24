@@ -37,6 +37,7 @@ A user friendly, featured focused [Easy Table of Contents](https://tocwp.com/) p
 * The widgets supports being affixed or stuck on the page so it is always visible as you scroll down the page. NOTE: this is an advanced option since every theme is different, you might need support from your theme developer to learn what the correct item selector to use in the settings to enable this feature.
 * The widget auto highlights the sections currently visible on the page. The highlight color is configurable.
 * Developer friendly with many action hooks and filters available. More can be added by request on [Github](https://github.com/shazahm1/Easy-Table-of-Contents). Pull requests are welcomed.
+* An option to show toc based on dynamic paragraph count.
 
 = TAKE IT A STEP FURTHER WITH EASY TABLE OF CONTENTS PRO =
 With [EASY TABLE OF CONTENTS PRO](https://tocwp.com/pricing/) You will get access to more professional Settings, options and positions to really push your TOC to the next level.
@@ -108,7 +109,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * BUG: Alignment is not working properly #515
 * BUG: While using shortcode, TOC not working #523
 * BUG: Header no longer showing in Pure CSS mode #524
-* BUG: Need to create an option to import/export the settings #525
+* NEW: Need to create an option to import/export the settings #525
 * BUG: ACF compatibility fatal error #526
 * BUG: When we select Inline CSS option, Counter does not display #527
 * BUG: Limit path option is not working #532
