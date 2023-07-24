@@ -842,6 +842,8 @@ INLINESTICKYTOGGLEJS;
 				$data = apply_filters('eztoc_localize_filter',$data,'eztoc_admin_data');
 
 				wp_localize_script( 'eztoc-admin-js', 'eztoc_admin_data', $data );
+
+				$this->eztoc_dequeue_scripts($pagenow);
 		}
 
      /**
@@ -948,6 +950,20 @@ INLINESTICKYTOGGLEJS;
 		public function page() {
 
 			include EZ_TOC_PATH . '/includes/inc.admin-options-page.php';
+		}
+
+		/**
+		 * Function used to dequeue unwanted scripts on ETOC settings page.
+		 *
+		 * @since  2.0.52
+		 */
+		public function eztoc_dequeue_scripts( $pagenow ) {
+			if (isset($pagenow) && $pagenow != 'settings_page_table-of-contents' && strpos($pagenow, 'table-of-contents') == false) {
+                
+                return false;
+            }
+            wp_dequeue_script( 'chats-js' ); 
+        	wp_dequeue_script( 'custom_wp_admin_js' );
 		}
 	}
 
