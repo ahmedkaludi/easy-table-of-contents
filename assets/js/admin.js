@@ -238,8 +238,8 @@ function ezTocSettingsTabsFixed() {
                 ezTocGeneralTabsLinkGeneral.classList.remove('active');
                 ezTocGeneralTabsLinkAppearance.classList.remove('active');
                 ezTocGeneralTabsLinkAdvanced.classList.remove('active');
-                ezTocGeneralTabsLinkShortcode.classList.add('active');
-                ezTocGeneralTabsLinkCompatibility.classList.remove('active');
+                ezTocGeneralTabsLinkShortcode.classList.remove('active');
+                ezTocGeneralTabsLinkCompatibility.classList.add('active');
                 ezTocGeneralTabsLinkIeSettings.classList.remove('active');
                 if(ez_toc_pro_settings_link_paid !== null && ez_toc_pro_settings_link_paid.length > 0 && ezTocElementProSettingsContainer.length > 0 && ezTocGeneralTabsLinkProSettings !== null)
                     ezTocGeneralTabsLinkProSettings.classList.remove('active');
