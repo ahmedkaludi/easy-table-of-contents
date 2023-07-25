@@ -91,9 +91,9 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 * @static
 		 */
 		public function registerScripts() {
-
-			wp_register_script( 'cn_toc_admin_script', EZ_TOC_URL . 'assets/js/admin.js', array( 'jquery', 'wp-color-picker' ), ezTOC::VERSION, true );
-			wp_register_style( 'cn_toc_admin_style', EZ_TOC_URL . 'assets/css/admin.css', array( 'wp-color-picker' ), ezTOC::VERSION );
+			$min = defined ( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+			wp_register_script( 'cn_toc_admin_script', EZ_TOC_URL . "assets/js/admin$min.js", array( 'jquery', 'wp-color-picker' ), ezTOC::VERSION, true );
+			wp_register_style( 'cn_toc_admin_style', EZ_TOC_URL . "assets/css/admin$min.css", array( 'wp-color-picker' ), ezTOC::VERSION );
 
 			wp_enqueue_script( 'cn_toc_admin_script' );
             $data = array(
@@ -826,13 +826,10 @@ INLINESTICKYTOGGLEJS;
 	     *
 	     */
 		public function load_scripts($pagenow){
-
-			if (isset($pagenow) && $pagenow != 'settings_page_table-of-contents' && strpos($pagenow, 'table-of-contents') == false) {
-                
-                return false;
-             }
-
-			  wp_enqueue_script( 'eztoc-admin-js', EZ_TOC_URL . 'assets/js/eztoc-admin.js',array('jquery'), ezTOC::VERSION,true );
+			
+			 if($pagenow == 'settings_page_table-of-contents'){
+			 	$min = defined ( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+				wp_enqueue_script( 'eztoc-admin-js', EZ_TOC_URL . "assets/js/eztoc-admin$min.js",array('jquery'), ezTOC::VERSION,true );
 
 				 $data = array(     
 					'ajax_url'      		       => admin_url( 'admin-ajax.php' ),
@@ -842,6 +839,11 @@ INLINESTICKYTOGGLEJS;
 				$data = apply_filters('eztoc_localize_filter',$data,'eztoc_admin_data');
 
 				wp_localize_script( 'eztoc-admin-js', 'eztoc_admin_data', $data );
+
+				$this->eztoc_dequeue_scripts();
+
+			 }
+			  
 		}
 
      /**
@@ -857,6 +859,9 @@ INLINESTICKYTOGGLEJS;
 		        if ( !wp_verify_nonce( $_POST['eztoc_security_nonce'], 'eztoc_ajax_check_nonce' ) ){
 		           return;  
 		        }   
+				if ( !current_user_can( 'manage_options' ) ) {
+					return;  					
+				}
 		        $message        = $this->eztoc_sanitize_textarea_field($_POST['message']); 
 		        $email          = sanitize_email($_POST['email']);
 		                                
@@ -945,6 +950,16 @@ INLINESTICKYTOGGLEJS;
 		public function page() {
 
 			include EZ_TOC_PATH . '/includes/inc.admin-options-page.php';
+		}
+
+		/**
+		 * Function used to dequeue unwanted scripts on ETOC settings page.
+		 *
+		 * @since  2.0.52
+		 */
+		public function eztoc_dequeue_scripts() {						
+				wp_dequeue_script( 'chats-js' ); 
+				wp_dequeue_script( 'custom_wp_admin_js' );						            
 		}
 	}
 

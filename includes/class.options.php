@@ -93,6 +93,46 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				return $input;
 			}
 
+			// Code to settings backup file
+			$uploaded_file_settings = array();
+			if(isset($_FILES['eztoc_import_backup'])){
+		    	$fileInfo = wp_check_filetype(basename($_FILES['eztoc_import_backup']['name']));
+		        if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'json') {
+		            if(!empty($_FILES["eztoc_import_backup"]["tmp_name"])){
+		            	$uploaded_file_settings = json_decode(file_get_contents($_FILES["eztoc_import_backup"]["tmp_name"]), true);	
+		           }
+		        }
+		    }
+		    if(!empty($uploaded_file_settings) && is_array($uploaded_file_settings) && count($uploaded_file_settings) >= 40){
+		    	$etoc_default_settings = self::getDefaults();
+		    	if(!empty($etoc_default_settings) && is_array($etoc_default_settings)){
+		    		// Pro Options
+		    		$etoc_default_settings['exclude_by_class'] = '';
+		    		$etoc_default_settings['exclude_by_shortcode'] = '';
+		    		$etoc_default_settings['fixedtoc'] = false;
+		    		$etoc_default_settings['highlightheadings'] = false;
+		    		$etoc_default_settings['shrinkthewidth'] = false;
+		    		$etoc_default_settings['acf-support'] = false;
+		    		$etoc_default_settings['gp-premium-element-support'] = false;
+		    		$exported_array = array();
+		    		foreach ($etoc_default_settings as $inkey => $invalue) {
+				    	foreach ($uploaded_file_settings as $ufs_key => $ufs_value) {
+				    		if($inkey == $ufs_key){
+								if(is_array($ufs_value)){
+									$exported_array[$inkey] = array_map('sanitize_text_field', $ufs_value);	
+								}else{
+				    				$exported_array[$inkey] = sanitize_text_field($ufs_value);
+								}
+				    		}
+				    	}
+				    }
+				    if(count($exported_array) >= 40){
+				    	$input = array();
+				    	$input = $exported_array;
+				    }
+			    }
+		    }
+
 			$registered = self::getRegistered();
 
 			foreach ( $registered as $sectionID => $sectionOptions ) {
@@ -186,9 +226,18 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 								'before' => __( 'Before first heading (default)', 'easy-table-of-contents' ),
 								'after' => __( 'After first heading', 'easy-table-of-contents' ),
 								'afterpara' => __( 'After first paragraph', 'easy-table-of-contents' ),
+								'aftercustompara' => __( 'After paragraph number', 'easy-table-of-contents' ),
 								'top' => __( 'Top', 'easy-table-of-contents' ),
 								'bottom' => __( 'Bottom', 'easy-table-of-contents' ),
 							),
+							'default' => 1,
+						),
+						'custom_para_number' => array(
+							'id' => 'custom_para_number',
+							'name' => __( 'Select Paragraph', 'easy-table-of-contents' ),
+							'desc' => __( 'Select paragraph after which ETOC should get display', 'easy-table-of-contents' ),
+							'type' => 'number',
+							'size' => 'small',
 							'default' => 1,
 						),
 						'start' => array(
@@ -768,6 +817,18 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
                         ),
                     )
                 ),
+                'compatibility' => apply_filters(
+                    'ez_toc_settings_compatibility',
+                    array(
+                        'mediavine-create' => array(
+							'id' => 'mediavine-create',
+							'name' => __( 'Create by Mediavine', 'easy-table-of-contents' ),
+							'desc' => __( 'It includes headings created by mediavine recipe card custom post.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
+                    )
+                ),
 				'prosettings' => apply_filters(
 					'ez_toc_settings_prosettings', array()
 				),
@@ -962,7 +1023,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'heading-text-direction'              => 'ltr',
 				'toc-run-on-amp-pages'              => 1,
 				'sticky-toggle-position'              => 'left',
-				'add_request_uri'                     => false
+				'add_request_uri'                     => false,
+				'mediavine-create'                    => 0,
+				'custom_para_number'                  => 1,
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );

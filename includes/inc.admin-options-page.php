@@ -80,9 +80,9 @@
     </div>
     <div class="eztoc-tabcontent" id="general">
         <div id="eztoc-tabs" style="margin-top: 10px;">
-            <a href="#eztoc-general" id="eztoc-link-general" class="active"><?= esc_html_e( 'General', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-appearance" id="eztoc-link-appearance"><?= esc_html_e( 'Appearance', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-advanced" id="eztoc-link-advanced"><?= esc_html_e( 'Advanced', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-shortcode" id="eztoc-link-shortcode"><?= esc_html_e( 'Shortcode', 'easy-table-of-contents' ) ?></a>
+            <a href="#eztoc-general" id="eztoc-link-general" class="active"><?= esc_html_e( 'General', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-appearance" id="eztoc-link-appearance"><?= esc_html_e( 'Appearance', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-advanced" id="eztoc-link-advanced"><?= esc_html_e( 'Advanced', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-shortcode" id="eztoc-link-shortcode"><?= esc_html_e( 'Shortcode', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-compatibility" id="eztoc-link-compatibility"><?= esc_html_e( 'Compatibility', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-iesettings" id="eztoc-link-iesettings"><?= esc_html_e( 'Import/Export', 'easy-table-of-contents' ) ?></a>
         </div>
-        <form method="post" action="<?php echo esc_url(self_admin_url('options.php')); ?>">
+        <form method="post" action="<?php echo esc_url(self_admin_url('options.php')); ?>" enctype="multipart/form-data">
 
             <div class="metabox-holder">
 
@@ -155,6 +155,55 @@
                 </div><!-- /.postbox -->
 
             </div><!-- /.metabox-holder -->
+
+            <div class="metabox-holder">
+
+                <div class="postbox" id="eztoc-compatibility">
+                    <br />
+                    <h3><span><?= esc_html_e('Compatibility', 'easy-table-of-contents'); ?></span></h3>
+                    <div class="inside">
+
+                        <table class="form-table">
+                            <?php do_settings_fields('ez_toc_settings_compatibility', 'ez_toc_settings_compatibility'); ?>
+                        </table>
+
+                    </div><!-- /.inside -->
+                </div><!-- /.postbox -->
+
+            </div><!-- /.metabox-holder -->
+
+            <div class="metabox-holder">
+
+                <div class="postbox" id="eztoc-iesettings">
+                    <br />
+                    <h3><span><?= esc_html_e('Import/Export Settings', 'easy-table-of-contents'); ?></span></h3>
+                    <div class="inside">
+
+                        <table class="form-table">
+                            <tbody>
+                                <tr>
+                                    <?php $url = wp_nonce_url(admin_url('admin-ajax.php?action=ez_toc_export_all_settings'), '_wpnonce'); ?>
+                                    <th scope="row"><?php echo __( 'Export Settings', 'easy-table-of-contents' ) ?></th>
+                                    <td>
+                                        <button type="button"><a href="<?php echo esc_url($url); ?>" style="text-decoration:none; color: black;"><?php echo __('Export', 'easy-table-of-contents'); ?></a></button>
+                                        <label> <br><?php echo __('Export all ETOC settings to json file', 'easy-table-of-contents'); ?></label>
+                                    </td>
+                                </tr> 
+                                <tr>
+                                    <th scope="row"><?php echo __( 'Import Settings', 'easy-table-of-contents' ) ?></th>
+                                    <td>
+                                        <input type="file" name="eztoc_import_backup" id="eztoc-import-backup">
+                                        <label> <br><?php echo __('Upload json settings file to import', 'easy-table-of-contents'); ?></label>
+                                    </td>
+                                </tr>                       
+                            </tbody>
+                        </table>
+
+                    </div><!-- /.inside -->
+                </div><!-- /.postbox -->
+
+            </div><!-- /.metabox-holder -->
+
             <?php if (function_exists('ez_toc_pro_activation_link')) { ?>
                 <div class="metabox-holder">
 
@@ -378,8 +427,8 @@ function addCustomSpan()
                         </div>
                         <div class="ezoc-bio-wrap">
                             <img width="50px" height="50px"
-                                 src="<?php echo plugins_url('assets/zabi.jpg', dirname(__FILE__)) ?>"
-                                 alt="zabi.jpg"/>
+                                 src="<?php echo plugins_url('assets/sanjeev.jpg', dirname(__FILE__)) ?>"
+                                 alt="Sanjeev"/>
                             <p><?= esc_html_e('Developer', 'easy-table-of-contents'); ?></p>
                         </div>
                     </section>

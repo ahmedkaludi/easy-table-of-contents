@@ -303,9 +303,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				do_action( 'ez_toc_after_widget_container' );
 
 				echo $after_widget;
-
-				// Enqueue the script.
-				wp_enqueue_script( 'ez-toc-js' );
+								
 			}
 		}
 

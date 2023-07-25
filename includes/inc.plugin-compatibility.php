@@ -345,22 +345,6 @@ add_filter(
 );
 
 /**
- * Remove the Create by Mediavine node from the post content before extracting headings.
- *
- * @link https://wordpress.org/plugins/mediavine-create/
- * @since 2.0.8
- */
-add_filter(
-	'ez_toc_exclude_by_selector',
-	function( $selectors ) {
-
-		$selectors['mediavine-create'] = '.mv-create-card';
-
-		return $selectors;
-	}
-);
-
-/**
  * Remove the Contextual Related Posts node from the post content before extracting headings.
  *
  * @link https://wordpress.org/plugins/contextual-related-posts/
@@ -721,3 +705,81 @@ if ( 'Avada' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) 
     
 }
 
+
+/**
+ * Grow, Social Pro by Mediavine plugin compatibility
+ * Anchors were not being generated for special char like inverted comma.
+ * @since 2.0.52
+ */
+add_filter('ez_toc_extract_headings_content', 'ez_toc_social_pro_by_mediavine_com',10,1);
+
+function ez_toc_social_pro_by_mediavine_com($content){
+	
+	if(class_exists( '\Mediavine\Grow\Shortcodes' ) && ezTOC_Option::get('mediavine-create') == 1){
+
+		$settings = Mediavine\Grow\Settings::get_setting( 'dpsp_pinterest_share_images_setting', [] );		
+		if ( !empty( $settings['share_image_page_builder_compatibility'] ) || ! empty( $settings['share_image_lazy_load_compatibility'] )  ) {
+			$content = mb_convert_encoding( html_entity_decode($content), 'HTML-ENTITIES', 'UTF-8' );	
+		}
+						
+	}
+		
+	return $content;
+}
+
+/**
+ * Create by Mediavine plugin compatibility
+ * shortcode were not being parse for custom post type mv_create added by this plugin inside post content
+ * @since 2.0.52
+ */
+add_filter('ez_toc_modify_process_page_content', 'ez_toc_parse_mv_create_shortcode',10,1);
+
+function ez_toc_parse_mv_create_shortcode($content){
+	
+	if ( in_array( 'mediavine-create/mediavine-create.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && ezTOC_Option::get('mediavine-create') == 1) {
+		if ( has_shortcode( $content, 'mv_create' )) {
+			$content = do_shortcode($content);		
+		}		
+	}			
+	return $content;
+}
+/**
+ * Remove the Create by Mediavine node from the post content before extracting headings.
+ *
+ * @link https://wordpress.org/plugins/mediavine-create/
+ * @since 2.0.8
+ * Modifyed in 2.0.52
+ */
+add_filter(
+	'ez_toc_exclude_by_selector',
+	function( $selectors ) {
+		if(ezTOC_Option::get('mediavine-create') != 1){
+			$selectors['mediavine-create'] = '.mv-create-card';
+		}	
+		return $selectors;
+	}
+);
+
+/**
+ * Custom Field Suite plugin sidebar compatibility
+ *
+ * @link https://wordpress.org/plugins/custom-field-suite/
+ * @since 2.0.52
+ *
+ */
+
+add_filter('ez_toc_sidebar_has_toc_filter', 'ez_toc_sidebar_has_toc_status_cfs', 10,1);
+
+function ez_toc_sidebar_has_toc_status_cfs($status){
+
+	global $post;
+	if(function_exists('CFS')){
+		$fields = CFS()->get(false, $post->ID);
+		if(isset($fields['use_ez_toc']) &&  $fields['use_ez_toc'] == true){
+			$status = true;
+		}
+
+	}
+	
+	return $status;
+}

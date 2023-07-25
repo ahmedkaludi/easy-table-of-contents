@@ -97,13 +97,11 @@ div.ez-toc-widget-container li {
 }
 
 .ez-toc-wrap-left {
-    float: left;
-    margin-right: 10px;
+    margin: 0px auto 0px 0px;
 }
 
 .ez-toc-wrap-right {
-    float: right;
-    margin-left: 10px;
+    margin: 0px 0px 0px auto;
 }
 
 #ez-toc-container a {
@@ -312,14 +310,10 @@ div.ez-toc-widget-container li {
     border: none;
     display: none;
 }
-
-#ez-toc-container nav ul.eztoc-visibility-hide-by-default, #ez-toc-widget-container nav ul.eztoc-visibility-hide-by-default {
-    display: none;
-}
-
 #ez-toc-container label {    
     position: relative;            
     cursor: pointer;    
+    display: initial;
 }
 
 #ez-toc-container .ez-toc-toggle label, #ez-toc-container label.cssicon, #ez-toc-widget-container label.cssicon  {
