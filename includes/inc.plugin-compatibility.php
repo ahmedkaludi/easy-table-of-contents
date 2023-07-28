@@ -783,3 +783,26 @@ function ez_toc_sidebar_has_toc_status_cfs($status){
 	
 	return $status;
 }
+
+/** 
+ * If Chamomile theme is active then remove hamburger div from content
+ * @since 2.0.53
+ * */
+if(function_exists('wp_get_theme')){
+	$activated_theme = wp_get_theme();
+	if(!empty($activated_theme) && is_object($activated_theme)){
+		if($activated_theme->get( 'Name' ) === 'Chamomile'){
+			add_action('wp_footer', 'ez_toc_add_custom_script');
+			function ez_toc_add_custom_script()
+			{
+				?>
+				<script type="text/javascript">
+					jQuery(document).ready(function($){
+						$('#ez-toc-container').find('.hamburger').remove();
+					});
+				</script>
+				<?php
+			}
+		}
+	}
+}
