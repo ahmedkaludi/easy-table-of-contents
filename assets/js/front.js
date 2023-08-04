@@ -242,10 +242,11 @@ jQuery( function( $ ) {
 
         function addListElementBackgroundColorHeightStyleToHead( listElementHeight ) {
             // Remove existing
-            $( '#ez-toc-active-height' ).remove();
+            //$( '#ez-toc-active-height' ).remove();
             // jQuery(..).css(..) doesn't work, because ::before is a pseudo element and not part of the DOM
             // Workaround is to add it to head
-            $( '<style id="ez-toc-active-height">.ez-toc-widget-container ul.ez-toc-list li.active {height:' + listElementHeight + 'px;' + '} </style>' ).appendTo( 'head' );
+           // $( '<style id="ez-toc-active-height">.ez-toc-widget-container ul.ez-toc-list li.active {height:' + listElementHeight + 'px;' + '} </style>' ).appendTo( 'head' );
+		   $( '.ez-toc-widget-container ul.ez-toc-list li.active' ).css( 'height',listElementHeight + 'px' );
         }
 
         function setStyleForActiveListElementElement( activeListElementLink ) {
