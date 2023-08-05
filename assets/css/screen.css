@@ -97,11 +97,11 @@ div.ez-toc-widget-container li {
 }
 
 .ez-toc-wrap-left {
-    margin: 0px auto 0px 0px;
+    margin: 0px auto 0px 0px !important;
 }
 
 .ez-toc-wrap-right {
-    margin: 0px 0px 0px auto;
+    margin: 0px 0px 0px auto !important;
 }
 
 #ez-toc-container a {
@@ -336,7 +336,7 @@ div#ez-toc-container {
     padding-right: 20px;
 }
 .ez-toc-wrap-center {
-    margin: 0 auto;
+    margin: 0 auto !important;
 }
 
 #ez-toc-container a.ez-toc-toggle {
