@@ -297,6 +297,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$screen_css = file_get_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );				
 				$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
             	$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
+				$screen_css .= self::inlineCSS();
 				echo '<style id="ez-toc-inline-css">'.$screen_css.'</style>';
 			}
 		}
@@ -427,7 +428,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if(!ezTOC_Option::get( 'exclude_css' )){
 				if ( ! ezTOC_Option::get( 'inline_css' ) ) {
 					wp_enqueue_style( 'ez-toc' );
-					self::inlineCSS();				                                
+					$css = self::inlineCSS();
+					wp_add_inline_style( 'ez-toc', $css );
 				}
 			}
 												
@@ -594,12 +596,8 @@ INLINEWPBAKERYJS;
                                 
 			}
 
-			if ( $css ) {
-
-				wp_add_inline_style( 'ez-toc', $css );
-			}
-
-
+			return $css;
+			
 		}
 
         /**
