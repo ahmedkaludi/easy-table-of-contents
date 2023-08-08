@@ -537,17 +537,12 @@ INLINEWPBAKERYJS;
 
 			$css = '';
 
-			if(function_exists('wp_get_theme')){
-				$activated_theme = wp_get_theme();
-				if(!empty($activated_theme) && is_object($activated_theme)){
-					if($activated_theme->get( 'Name' ) === 'Chamomile'){
-						$css .= '@media screen and (max-width: 1000px) {
-						          #ez-toc-container nav{
-						            display: block;        
-						          }    
-						        }';
-					}
-				}
+			if('Chamomile' == apply_filters( 'current_theme', get_option( 'current_theme' ) )){
+				$css .= '@media screen and (max-width: 1000px) {
+				          #ez-toc-container nav{
+				            display: block;        
+				          }    
+				        }';
 			}
 
 			if ( ! ezTOC_Option::get( 'exclude_css' ) ) {
