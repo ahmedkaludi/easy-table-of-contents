@@ -728,6 +728,20 @@ function ez_toc_social_pro_by_mediavine_com($content){
 }
 
 /**
+ * Parse Gutenberg reusable block
+ * @since 2.0.53
+ */
+add_filter('ez_toc_modify_process_page_content', 'ez_toc_parse_gutenberg_reusable_block',10,1);
+
+function ez_toc_parse_gutenberg_reusable_block($content){
+	
+	if(function_exists('do_blocks')){
+		$content = do_blocks($content);
+	}
+	return $content;
+}
+
+/**
  * Create by Mediavine plugin compatibility
  * shortcode were not being parse for custom post type mv_create added by this plugin inside post content
  * @since 2.0.52
