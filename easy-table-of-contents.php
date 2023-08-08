@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.52
+ * Version: 2.0.53
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.52
+ * @version  2.0.53
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -49,7 +49,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.52';
+		const VERSION = '2.0.53';
 
 		/**
 		 * Stores the instance of this class.
@@ -297,6 +297,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$screen_css = file_get_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );				
 				$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
             	$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
+				$screen_css .= self::inlineCSS();
 				echo '<style id="ez-toc-inline-css">'.$screen_css.'</style>';
 			}
 		}
@@ -427,7 +428,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if(!ezTOC_Option::get( 'exclude_css' )){
 				if ( ! ezTOC_Option::get( 'inline_css' ) ) {
 					wp_enqueue_style( 'ez-toc' );
-					self::inlineCSS();				                                
+					$css = self::inlineCSS();
+					wp_add_inline_style( 'ez-toc', $css );
 				}
 			}
 												
@@ -535,6 +537,14 @@ INLINEWPBAKERYJS;
 
 			$css = '';
 
+			if('Chamomile' == apply_filters( 'current_theme', get_option( 'current_theme' ) )){
+				$css .= '@media screen and (max-width: 1000px) {
+				          #ez-toc-container nav{
+				            display: block;        
+				          }    
+				        }';
+			}
+
 			if ( ! ezTOC_Option::get( 'exclude_css' ) ) {
 
 				$css .= 'div#ez-toc-container p.ez-toc-title {font-size: ' . ezTOC_Option::get( 'title_font_size', 120 ) . ezTOC_Option::get( 'title_font_size_units', '%' ) . ';}';
@@ -581,12 +591,8 @@ INLINEWPBAKERYJS;
                                 
 			}
 
-			if ( $css ) {
-
-				wp_add_inline_style( 'ez-toc', $css );
-			}
-
-
+			return $css;
+			
 		}
 
         /**
@@ -1008,15 +1014,15 @@ INLINESTICKYTOGGLEJS;
 					/**
 					 * @link https://wordpress.org/support/topic/restrict-path-logic-does-not-work-correctly?
 					 */
-					if ( false === strpos(esc_url($_SERVER['REQUEST_URI']), ezTOC_Option::get( 'restrict_path' ) ) ) {
+					if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( ezTOC_Option::get( 'restrict_path' ), $_SERVER['REQUEST_URI'] ) ) {
 
 						Debug::log( 'is_restricted_path', 'In restricted path, post not eligible.', ezTOC_Option::get( 'restrict_path' ) );
-						return true;
+						return false;
 
 					} else {
 
 						Debug::log( 'is_not_restricted_path', 'Not in restricted path, post is eligible.', ezTOC_Option::get( 'restrict_path' ) );
-						return false;
+						return true;
 					}
 
 				} else {

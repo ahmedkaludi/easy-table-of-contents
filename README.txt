@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.2
 Requires PHP: 5.6.20
-Stable tag: 2.0.52
+Stable tag: 2.0.53
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,15 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.53 08/08/2023 =
+* BUG: The TOC Toogle button issue with the Chamomile theme #531
+* BUG: Limit path option is not working #532
+* BUG: Not seeing Re-usuable H2 blocks #540
+* BUG: Fixed Alignment issue after recent update #545
+* BUG: If the option Inline CSS is enabled then custom theme options are not working anymore #546
+* TWEAK: Added compatibility with the Big Spark Theme  #548
+* BUG: Fixed TOC issue on IOS #550
 
 = 2.0.52 07/24/2023 =
 * BUG: ez-toc shortcode not working to hide the initial view on a page/post #378
