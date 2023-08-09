@@ -171,6 +171,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );                                    
 				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
 				add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
+				add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
 
 			}
 		}
@@ -1213,13 +1214,7 @@ INLINESTICKYTOGGLEJS;
 								$html = $post->getTOC($options);
 							}else{
 								$html = $post->getTOC();			
-							}
-
-							if( !is_home() ) {
-								if ( ezTOC_Option::get('sticky-toggle') ) {
-									add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
-								}
-							}
+							}							
                         
 			return $html;
 		}
@@ -1322,10 +1317,11 @@ INLINESTICKYTOGGLEJS;
 
 			// Bail if post not eligible and widget is not active.
 			$isEligible = self::is_eligible( get_post() );
+			
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
 			$return_only_an = false; 
-			if(!$isEligible && (self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ))){
+			if(!$isEligible && (self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || ezTOC_Option::get('sticky-toggle') )){
 				$isEligible = true;
 				$return_only_an = true;
 			}
@@ -1464,14 +1460,7 @@ INLINESTICKYTOGGLEJS;
 
 					}
 			}
-
-            /**
-             * @since 2.0.32
-             */
-            if ( ezTOC_Option::get('sticky-toggle') && !is_home() && !self::checkBeaverBuilderPluginActive() ) {
-                add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
-            }
-
+            
 			return Debug::log()->appendTo( $content );
 		}
 
@@ -1483,30 +1472,36 @@ INLINESTICKYTOGGLEJS;
 		 * @static
 		 */
 		public static function stickyToggleContent() {
-			$post = self::get( get_the_ID() );
-			if ( null !== $post ) {
-				$stickyToggleTOC = $post->getStickyToggleTOC();
-				if(!empty($stickyToggleTOC)){
-					$openButtonText = __( 'Index', 'easy-table-of-contents' );
-					if( !empty( ezTOC_Option::get( 'sticky-toggle-open-button-text' ) ) ) {
-						$openButtonText = ezTOC_Option::get( 'sticky-toggle-open-button-text' );
+
+			if(!is_home() && ezTOC_Option::get('sticky-toggle')){
+
+				$post = self::get( get_the_ID() );
+				if ( null !== $post ) {
+					$stickyToggleTOC = $post->getStickyToggleTOC();
+					if(!empty($stickyToggleTOC)){
+						$openButtonText = __( 'Index', 'easy-table-of-contents' );
+						if( !empty( ezTOC_Option::get( 'sticky-toggle-open-button-text' ) ) ) {
+							$openButtonText = ezTOC_Option::get( 'sticky-toggle-open-button-text' );
+						}
+									$arrowSide = "&#8594;";
+									if( 'right' == ezTOC_Option::get( 'sticky-toggle-position', 'left') )
+										$arrowSide = "&#8592;"; 
+					echo <<<STICKYTOGGLEHTML
+						<div class="ez-toc-sticky">
+							<div class="ez-toc-sticky-fixed hide">
+								<div class='ez-toc-sidebar'>{$stickyToggleTOC}</div>
+							</div>
+							<a class='ez-toc-open-icon' href='javascript:void(0)' onclick='ezTOC_showBar(event)'>
+								<span class="arrow">{$arrowSide}</span>
+								<span class="text">{$openButtonText}</span>
+							</a>
+						</div>
+	STICKYTOGGLEHTML;
 					}
-                                $arrowSide = "&#8594;";
-                                if( 'right' == ezTOC_Option::get( 'sticky-toggle-position', 'left') )
-                                    $arrowSide = "&#8592;"; 
-				echo <<<STICKYTOGGLEHTML
-					<div class="ez-toc-sticky">
-				        <div class="ez-toc-sticky-fixed hide">
-		                    <div class='ez-toc-sidebar'>{$stickyToggleTOC}</div>
-				        </div>
-			            <a class='ez-toc-open-icon' href='javascript:void(0)' onclick='ezTOC_showBar(event)'>
-                            <span class="arrow">{$arrowSide}</span>
-                            <span class="text">{$openButtonText}</span>
-                        </a>
-					</div>
-STICKYTOGGLEHTML;
 				}
+
 			}
+			
 		}
 
 		/**
