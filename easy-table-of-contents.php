@@ -1486,10 +1486,11 @@ INLINESTICKYTOGGLEJS;
 			$post = self::get( get_the_ID() );
 			if ( null !== $post ) {
 				$stickyToggleTOC = $post->getStickyToggleTOC();
-				$openButtonText = __( 'Index', 'easy-table-of-contents' );
-				if( !empty( ezTOC_Option::get( 'sticky-toggle-open-button-text' ) ) ) {
-					$openButtonText = ezTOC_Option::get( 'sticky-toggle-open-button-text' );
-				}
+				if(!empty($stickyToggleTOC)){
+					$openButtonText = __( 'Index', 'easy-table-of-contents' );
+					if( !empty( ezTOC_Option::get( 'sticky-toggle-open-button-text' ) ) ) {
+						$openButtonText = ezTOC_Option::get( 'sticky-toggle-open-button-text' );
+					}
                                 $arrowSide = "&#8594;";
                                 if( 'right' == ezTOC_Option::get( 'sticky-toggle-position', 'left') )
                                     $arrowSide = "&#8592;"; 
@@ -1504,6 +1505,7 @@ INLINESTICKYTOGGLEJS;
                         </a>
 					</div>
 STICKYTOGGLEHTML;
+				}
 			}
 		}
 
