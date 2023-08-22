@@ -774,6 +774,30 @@ add_filter(
 	}
 );
 
+
+/**
+ * UpSolution Core compatibility
+ * @link https://help.us-themes.com/impreza/us-core/
+ * @since 2.0.54
+ */
+
+ add_filter('ez_toc_sidebar_has_toc_filter', 'ez_toc_sidebar_has_toc_status_us_core', 10,1);
+
+ function ez_toc_sidebar_has_toc_status_us_core($status){
+ 
+	if(function_exists('us_get_page_area_id')){
+		$content_template_id = us_get_page_area_id( 'content' );
+		$content_template    = get_post( (int) $content_template_id );
+		if(isset($content_template->post_content)){
+			if ( has_shortcode( $content_template->post_content, 'toc' ) || has_shortcode( $content_template->post_content, 'ez-toc' ) ) {
+				$status = true;				
+			}
+		}
+	}
+
+	 return $status;
+}
+
 /**
  * Custom Field Suite plugin sidebar compatibility
  *
