@@ -372,7 +372,7 @@ label.cssiconcheckbox {
     flex-wrap: nowrap;
 }
 
-.ez-toc-widget-container ul.ez-toc-list li.active {
+.ez-toc-widget-container ul.ez-toc-list li {
     height: auto !important;
 }
 .ez-toc-cssicon{
