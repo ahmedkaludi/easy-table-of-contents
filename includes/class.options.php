@@ -476,6 +476,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'none',
 						),
+						'toc_wrapping'  => array(
+							'id'      => 'toc_wrapping',
+							'name'    => __( 'Enable Wrapping', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type'    => 'checkbox',
+							'default' => false,
+						),
 						'headings-padding'                   => array(
 							'id'      => 'headings-padding',
 							'name'    => __( 'Headings Padding', 'easy-table-of-contents' ),
@@ -991,6 +998,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'width_custom'                       => 275,
 				'width_custom_units'                 => 'px',
 				'wrapping'                           => 'none',
+				'toc_wrapping'                       => false,
 				'headings-padding'                   => false,
 				'headings-padding-top'               => 0,
 				'headings-padding-bottom'            => 0,

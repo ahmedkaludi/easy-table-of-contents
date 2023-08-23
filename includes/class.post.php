@@ -1256,16 +1256,19 @@ class ezTOC_Post {
 		$html  = '';
 
 		if ( $this->hasTOCItems() ) {
-
+			$wrapping_class_add = "";
+			if(ezTOC_Option::get( 'toc_wrapping' )){
+				$wrapping_class_add='-text';
+			}
 			// wrapping css classes
 			switch ( ezTOC_Option::get( 'wrapping' ) ) {
 
 				case 'left':
-					$class[] = 'ez-toc-wrap-left';
+					$class[] = 'ez-toc-wrap-left'.esc_attr($wrapping_class_add);
 					break;
 
 				case 'right':
-					$class[] = 'ez-toc-wrap-right';
+					$class[] = 'ez-toc-wrap-right'.esc_attr($wrapping_class_add);
 					break;
 				case 'center':
 					$class[] = 'ez-toc-wrap-center';

@@ -97,11 +97,17 @@ div.ez-toc-widget-container li {
 }
 
 .ez-toc-wrap-left {
-    margin: 0px auto 0px 0px !important;
+    margin: 0px auto 1em 0px !important;
+}
+.ez-toc-wrap-left-text {
+    float: left;
 }
 
 .ez-toc-wrap-right {
-    margin: 0px 0px 0px auto !important;
+    margin: 0px 0px 1em auto !important;
+}
+.ez-toc-wrap-right-text {
+    float: right;
 }
 
 #ez-toc-container a {
@@ -336,7 +342,7 @@ div#ez-toc-container {
     padding-right: 20px;
 }
 .ez-toc-wrap-center {
-    margin: 0 auto !important;
+    margin: 0 auto 1em auto !important;
 }
 
 #ez-toc-container a.ez-toc-toggle {
