@@ -472,7 +472,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
             $offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
             
              $inlineScrollJS = <<<INLINESCROLLJS
-jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),jQuery("a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=0;$offset>30&&(i=$offset),e.length&&(i+=e.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(i=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-i),jQuery("html, body").animate({scrollTop:i},500)})});
+jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-link").forEach(t=>{t=t.replaceWith(t.cloneNode(!0))}),document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),jQuery("a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=jQuery("header"),o=0;$offset>30&&(o=$offset),e.length&&(o+=e.height()),(i.length&&"fixed"==i.css("position")||"sticky"==i.css("position"))&&(o+=i.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(o=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-o),jQuery("html, body").animate({scrollTop:o},500)})});
 INLINESCROLLJS;
             wp_register_script( 'ez-toc-scroll-scriptjs', '', array( 'jquery' ), ezTOC::VERSION );
             wp_enqueue_script( 'ez-toc-scroll-scriptjs', '', array( 'jquery' ), ezTOC::VERSION );
