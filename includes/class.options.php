@@ -269,6 +269,19 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'text',
 							'default' => __( 'Contents', 'easy-table-of-contents' ),
 						),
+						'heading_text_tag' => array(
+							'id' => 'heading_text_tag',
+							'name' => __( 'Header Label Tag', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'select',
+							'options' => array(
+								'p' => __( 'p (default)', 'easy-table-of-contents' ),
+								'span' => __( 'span', 'easy-table-of-contents' ),
+								'div' => __( 'div', 'easy-table-of-contents' ),
+								'label' => __( 'label', 'easy-table-of-contents' ),
+							),
+							'default' => 'p',
+						),
 						'visibility' => array(
 							'id' => 'visibility',
 							'name' => __( 'Toggle View', 'easy-table-of-contents' ),
@@ -981,6 +994,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'start'                              => 2,
 				'show_heading_text'                  => true,
 				'heading_text'                       => 'Table of Contents',
+				'heading_text_tag'                   => 'p',
 				'visibility_on_header_text'			 => false,	
 				'enabled_post_types'                 => array( 'post','page' ),
 				'auto_insert_post_types'             => array( 'post','page' ),
