@@ -922,30 +922,6 @@ INLINESTICKYTOGGLEJS;
 			wp_add_inline_script( 'ez-toc-sticky', $inlineStickyToggleJS );
 		}
 
-		/**
-		 * Array search deep.
-		 *
-		 * Search an array recursively for a value.
-		 *
-		 * @link https://stackoverflow.com/a/5427665/5351316
-		 *
-		 * @param        $search
-		 * @param array  $array
-		 * @param string $mode
-		 *
-		 * @return bool
-		 */
-		public static function array_search_deep( $search, array $array, $mode = 'value' ) {
-
-			foreach ( new RecursiveIteratorIterator( new RecursiveArrayIterator( $array ) ) as $key => $value ) {
-
-				if ( $search === ${${"mode"}} ) {
-					return true;
-				}
-			}
-
-			return false;
-		}
 
 		public static function is_enqueue_scripts_eligible( ) {
 
