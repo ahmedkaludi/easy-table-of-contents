@@ -1,5 +1,6 @@
 function ezTocTabToggle(evt, idname, tabContentClass = 'eztoc-tabcontent', tabLinksClass = 'eztoc-tablinks') {
     var i, tabcontent, tablinks;
+    evt.preventDefault();
     tabcontent = document.getElementsByClassName(tabContentClass);
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";

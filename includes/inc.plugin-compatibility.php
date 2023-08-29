@@ -774,6 +774,30 @@ add_filter(
 	}
 );
 
+
+/**
+ * UpSolution Core compatibility
+ * @link https://help.us-themes.com/impreza/us-core/
+ * @since 2.0.54
+ */
+
+ add_filter('ez_toc_sidebar_has_toc_filter', 'ez_toc_sidebar_has_toc_status_us_core', 10,1);
+
+ function ez_toc_sidebar_has_toc_status_us_core($status){
+ 
+	if(function_exists('us_get_page_area_id')){
+		$content_template_id = us_get_page_area_id( 'content' );
+		$content_template    = get_post( (int) $content_template_id );
+		if(isset($content_template->post_content)){
+			if ( has_shortcode( $content_template->post_content, 'toc' ) || has_shortcode( $content_template->post_content, 'ez-toc' ) ) {
+				$status = true;				
+			}
+		}
+	}
+
+	 return $status;
+}
+
 /**
  * Custom Field Suite plugin sidebar compatibility
  *
@@ -815,3 +839,30 @@ if('Chamomile' == apply_filters( 'current_theme', get_option( 'current_theme' ) 
 		<?php
 	}
 }
+
+/**
+ * Block Editor Template
+ *
+ * @link https://developer.wordpress.org/block-editor/
+ * @since 2.0.54
+ *
+ */
+
+ if(function_exists('wp_is_block_theme') && wp_is_block_theme()){
+	add_filter('ez_toc_sidebar_has_toc_filter', 'ez_toc_guttenberg_has_toc', 10,1);
+ }
+
+ function ez_toc_guttenberg_has_toc($status){
+
+	$block_post_template = get_block_template(get_stylesheet() . '//' .'single');
+	$block_page_template = get_block_template(get_stylesheet() . '//' .'page');
+	if(is_single() && (has_shortcode($block_post_template->content,'toc') || has_shortcode($block_post_template->content,'ez-toc')))
+	{
+		$status=true;
+	}
+	if(is_page() && (has_shortcode($block_page_template->content,'toc') || has_shortcode($block_page_template->content,'ez-toc')))
+	{
+		$status=true;
+	}
+	return $status;
+ }

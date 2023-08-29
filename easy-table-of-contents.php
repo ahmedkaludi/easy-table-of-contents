@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.53
+ * Version: 2.0.54
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.53
+ * @version  2.0.54
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -49,7 +49,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.53';
+		const VERSION = '2.0.54';
 
 		/**
 		 * Stores the instance of this class.
@@ -171,6 +171,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );                                    
 				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
 				add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
+				add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
 
 			}
 		}
@@ -471,7 +472,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
             $offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
             
              $inlineScrollJS = <<<INLINESCROLLJS
-jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),jQuery("a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=0;$offset>30&&(i=$offset),e.length&&(i+=e.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(i=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-i),jQuery("html, body").animate({scrollTop:i},500)})});
+jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-link").forEach(t=>{t=t.replaceWith(t.cloneNode(!0))}),document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),jQuery("a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=jQuery("header"),o=0;$offset>30&&(o=$offset),e.length&&(o+=e.height()),(i.length&&"fixed"==i.css("position")||"sticky"==i.css("position"))&&(o+=i.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(o=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-o),jQuery("html, body").animate({scrollTop:o},500)})});
 INLINESCROLLJS;
             wp_register_script( 'ez-toc-scroll-scriptjs', '', array( 'jquery' ), ezTOC::VERSION );
             wp_enqueue_script( 'ez-toc-scroll-scriptjs', '', array( 'jquery' ), ezTOC::VERSION );
@@ -547,8 +548,8 @@ INLINEWPBAKERYJS;
 
 			if ( ! ezTOC_Option::get( 'exclude_css' ) ) {
 
-				$css .= 'div#ez-toc-container p.ez-toc-title {font-size: ' . ezTOC_Option::get( 'title_font_size', 120 ) . ezTOC_Option::get( 'title_font_size_units', '%' ) . ';}';
-				$css .= 'div#ez-toc-container p.ez-toc-title {font-weight: ' . ezTOC_Option::get( 'title_font_weight', 500 ) . ';}';
+				$css .= 'div#ez-toc-container .ez-toc-title {font-size: ' . ezTOC_Option::get( 'title_font_size', 120 ) . ezTOC_Option::get( 'title_font_size_units', '%' ) . ';}';
+				$css .= 'div#ez-toc-container .ez-toc-title {font-weight: ' . ezTOC_Option::get( 'title_font_weight', 500 ) . ';}';
 				$css .= 'div#ez-toc-container ul li {font-size: ' . ezTOC_Option::get( 'font_size' ) . ezTOC_Option::get( 'font_size_units' ) . ';}';
 				$css .= 'div#ez-toc-container nav ul ul li ul li {font-size: ' . ezTOC_Option::get( 'child_font_size' ) . ezTOC_Option::get( 'font_size_units' ) . '!important;}';
 
@@ -914,37 +915,13 @@ INLINESTICKYTOGGLEMOBILEJS;
 
                     } 
                     $inlineStickyToggleJS = <<<INLINESTICKYTOGGLEJS
-function ezTOC_hideBar(e) { var sidebar = document.querySelector(".ez-toc-sticky-fixed"); if ( typeof(sidebar) !== "undefined" && sidebar !== null ) { sidebar.classList.remove("show"); sidebar.classList.add("hide"); setTimeout(function() { document.querySelector(".ez-toc-open-icon").style = "z-index: 9999999"; }, 200); } } function ezTOC_showBar(e) { document.querySelector(".ez-toc-open-icon").style = "z-index: -1;";setTimeout(function() { var sidebar = document.querySelector(".ez-toc-sticky-fixed"); sidebar.classList.remove("hide"); sidebar.classList.add("show"); }, 200); } (function() { let ez_toc_sticky_fixed_container = document.querySelector('div.ez-toc-sticky-fixed');if(ez_toc_sticky_fixed_container) { document.body.addEventListener("click", function (evt) { ezTOC_hideBar(evt); }); ez_toc_sticky_fixed_container.addEventListener('click', function(event) { event.stopPropagation(); }); document.querySelector('.ez-toc-open-icon').addEventListener('click', function(event) { event.stopPropagation(); }); } })();
+function ezTOC_hideBar(e) { e.preventDefault();var sidebar = document.querySelector(".ez-toc-sticky-fixed"); if ( typeof(sidebar) !== "undefined" && sidebar !== null ) { sidebar.classList.remove("show"); sidebar.classList.add("hide"); setTimeout(function() { document.querySelector(".ez-toc-open-icon").style = "z-index: 9999999"; }, 200); } } function ezTOC_showBar(e) { e.preventDefault();document.querySelector(".ez-toc-open-icon").style = "z-index: -1;";setTimeout(function() { var sidebar = document.querySelector(".ez-toc-sticky-fixed"); sidebar.classList.remove("hide"); sidebar.classList.add("show"); }, 200); } (function() { let ez_toc_sticky_fixed_container = document.querySelector('div.ez-toc-sticky-fixed');if(ez_toc_sticky_fixed_container) { document.body.addEventListener("click", function (evt) { ezTOC_hideBar(evt); }); ez_toc_sticky_fixed_container.addEventListener('click', function(event) { event.stopPropagation(); }); document.querySelector('.ez-toc-open-icon').addEventListener('click', function(event) { event.stopPropagation(); }); } })();
                 
                 $mobileJS
 INLINESTICKYTOGGLEJS;
 			wp_add_inline_script( 'ez-toc-sticky', $inlineStickyToggleJS );
 		}
 
-		/**
-		 * Array search deep.
-		 *
-		 * Search an array recursively for a value.
-		 *
-		 * @link https://stackoverflow.com/a/5427665/5351316
-		 *
-		 * @param        $search
-		 * @param array  $array
-		 * @param string $mode
-		 *
-		 * @return bool
-		 */
-		public static function array_search_deep( $search, array $array, $mode = 'value' ) {
-
-			foreach ( new RecursiveIteratorIterator( new RecursiveArrayIterator( $array ) ) as $key => $value ) {
-
-				if ( $search === ${${"mode"}} ) {
-					return true;
-				}
-			}
-
-			return false;
-		}
 
 		public static function is_enqueue_scripts_eligible( ) {
 
@@ -1213,13 +1190,7 @@ INLINESTICKYTOGGLEJS;
 								$html = $post->getTOC($options);
 							}else{
 								$html = $post->getTOC();			
-							}
-
-							if( !is_home() ) {
-								if ( ezTOC_Option::get('sticky-toggle') ) {
-									add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
-								}
-							}
+							}							
                         
 			return $html;
 		}
@@ -1322,10 +1293,11 @@ INLINESTICKYTOGGLEJS;
 
 			// Bail if post not eligible and widget is not active.
 			$isEligible = self::is_eligible( get_post() );
+			
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
 			$return_only_an = false; 
-			if(!$isEligible && (self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ))){
+			if(!$isEligible && (self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || ezTOC_Option::get('sticky-toggle') )){
 				$isEligible = true;
 				$return_only_an = true;
 			}
@@ -1464,14 +1436,7 @@ INLINESTICKYTOGGLEJS;
 
 					}
 			}
-
-            /**
-             * @since 2.0.32
-             */
-            if ( ezTOC_Option::get('sticky-toggle') && !is_home() && !self::checkBeaverBuilderPluginActive() ) {
-                add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
-            }
-
+            
 			return Debug::log()->appendTo( $content );
 		}
 
@@ -1483,28 +1448,45 @@ INLINESTICKYTOGGLEJS;
 		 * @static
 		 */
 		public static function stickyToggleContent() {
-			$post = self::get( get_the_ID() );
-			if ( null !== $post ) {
-				$stickyToggleTOC = $post->getStickyToggleTOC();
-				$openButtonText = __( 'Index', 'easy-table-of-contents' );
-				if( !empty( ezTOC_Option::get( 'sticky-toggle-open-button-text' ) ) ) {
-					$openButtonText = ezTOC_Option::get( 'sticky-toggle-open-button-text' );
+
+			if(!is_home() && ezTOC_Option::get('sticky-toggle')){
+				$toggleClass="hide";
+				$linkZindex="";
+				$post = self::get( get_the_ID() );
+				if ( null !== $post ) {
+					$stickyToggleTOC = $post->getStickyToggleTOC();
+					if(!empty($stickyToggleTOC)){
+						$openButtonText = __( 'Index', 'easy-table-of-contents' );
+						if( !empty( ezTOC_Option::get( 'sticky-toggle-open-button-text' ) ) ) {
+							$openButtonText = ezTOC_Option::get( 'sticky-toggle-open-button-text' );
+						}
+						if( !empty( ezTOC_Option::get( 'sticky-toggle-open' ) ) ) {
+							$isTOCOpen = ezTOC_Option::get( 'sticky-toggle-open' );
+							if($isTOCOpen){
+								$toggleClass="show";
+								$linkZindex="style='z-index:-1;'";
+							}
+						}
+						
+									$arrowSide = "&#8594;";
+									if( 'right' == ezTOC_Option::get( 'sticky-toggle-position', 'left') )
+										$arrowSide = "&#8592;"; 
+					echo <<<STICKYTOGGLEHTML
+						<div class="ez-toc-sticky">
+							<div class="ez-toc-sticky-fixed {$toggleClass}">
+								<div class='ez-toc-sidebar'>{$stickyToggleTOC}</div>
+							</div>
+							<a class='ez-toc-open-icon' href='#' onclick='ezTOC_showBar(event)' {$linkZindex}>
+								<span class="arrow">{$arrowSide}</span>
+								<span class="text">{$openButtonText}</span>
+							</a>
+						</div>
+	STICKYTOGGLEHTML;
+					}
 				}
-                                $arrowSide = "&#8594;";
-                                if( 'right' == ezTOC_Option::get( 'sticky-toggle-position', 'left') )
-                                    $arrowSide = "&#8592;"; 
-				echo <<<STICKYTOGGLEHTML
-					<div class="ez-toc-sticky">
-				        <div class="ez-toc-sticky-fixed hide">
-		                    <div class='ez-toc-sidebar'>{$stickyToggleTOC}</div>
-				        </div>
-			            <a class='ez-toc-open-icon' href='javascript:void(0)' onclick='ezTOC_showBar(event)'>
-                            <span class="arrow">{$arrowSide}</span>
-                            <span class="text">{$openButtonText}</span>
-                        </a>
-					</div>
-STICKYTOGGLEHTML;
+
 			}
+			
 		}
 
 		/**

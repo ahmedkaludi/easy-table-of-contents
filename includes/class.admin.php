@@ -356,6 +356,7 @@ jQuery(function($) {
     let stickyToggleHeight = $('#eztoc-general').find("select[name='ez-toc-settings[sticky-toggle-height]']");
     let stickyToggleHeightCustom = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-height-custom]']");
     let stickyToggleCloseOnMobile = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-close-on-mobile]']");
+	let stickyToggleOpen = $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-open]']");
     
     $stickyToggleOpenButtonTextJS
     
@@ -365,12 +366,14 @@ jQuery(function($) {
         $(stickyToggleWidthCustom).parents('tr').hide(500);
         $(stickyToggleHeight).parents('tr').hide(500);
         $(stickyToggleCloseOnMobile).parents('tr').hide(500);
+		$(stickyToggleOpen).parents('tr').hide(500);
                                 
         $(stickyToggleHeightCustom).parents('tr').hide(500);
         $('#eztoc-general').find("input[name='ez-toc-settings[sticky-toggle-position]'][value='left']").prop('checked', true);
         $(stickyToggleWidth).val('auto');
         $(stickyToggleHeight).val('auto');
         $(stickyToggleCloseOnMobile).prop('checked', false);
+		$(stickyToggleOpen).prop('checked', false);
 
                                 
         $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').parents('tr').hide(500);
@@ -383,6 +386,7 @@ jQuery(function($) {
             $(stickyToggleWidth).parents('tr').show(500);
             $(stickyToggleHeight).parents('tr').show(500);
             $(stickyToggleCloseOnMobile).parents('tr').show(500);
+			$(stickyToggleOpen).parents('tr').show(500);
                                 
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').parents('tr').show(500);
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').val('Index');
@@ -392,6 +396,7 @@ jQuery(function($) {
             $(stickyToggleWidthCustom).parents('tr').hide(500);
             $(stickyToggleHeight).parents('tr').hide(500);
             $(stickyToggleCloseOnMobile).parents('tr').hide(500);
+			$(stickyToggleOpen).parents('tr').hide(500);
                                 
             $(stickyToggleHeightCustom).parents('tr').hide(500);
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').parents('tr').hide(500);
@@ -399,6 +404,7 @@ jQuery(function($) {
             $(stickyToggleWidth).val('auto');
             $(stickyToggleHeight).val('auto');
             $(stickyToggleCloseOnMobile).prop('checked', false);
+			$(stickyToggleOpen).prop('checked', false);
                                 
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').val('Index');
         }
