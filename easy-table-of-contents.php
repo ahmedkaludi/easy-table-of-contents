@@ -1450,7 +1450,8 @@ INLINESTICKYTOGGLEJS;
 		public static function stickyToggleContent() {
 
 			if(!is_home() && ezTOC_Option::get('sticky-toggle')){
-
+				$toggleClass="hide";
+				$linkZindex="";
 				$post = self::get( get_the_ID() );
 				if ( null !== $post ) {
 					$stickyToggleTOC = $post->getStickyToggleTOC();
@@ -1459,15 +1460,23 @@ INLINESTICKYTOGGLEJS;
 						if( !empty( ezTOC_Option::get( 'sticky-toggle-open-button-text' ) ) ) {
 							$openButtonText = ezTOC_Option::get( 'sticky-toggle-open-button-text' );
 						}
+						if( !empty( ezTOC_Option::get( 'sticky-toggle-open' ) ) ) {
+							$isTOCOpen = ezTOC_Option::get( 'sticky-toggle-open' );
+							if($isTOCOpen){
+								$toggleClass="show";
+								$linkZindex="style='z-index:-1;'";
+							}
+						}
+						
 									$arrowSide = "&#8594;";
 									if( 'right' == ezTOC_Option::get( 'sticky-toggle-position', 'left') )
 										$arrowSide = "&#8592;"; 
 					echo <<<STICKYTOGGLEHTML
 						<div class="ez-toc-sticky">
-							<div class="ez-toc-sticky-fixed hide">
+							<div class="ez-toc-sticky-fixed {$toggleClass}">
 								<div class='ez-toc-sidebar'>{$stickyToggleTOC}</div>
 							</div>
-							<a class='ez-toc-open-icon' href='javascript:void(0)' onclick='ezTOC_showBar(event)'>
+							<a class='ez-toc-open-icon' href='javascript:void(0)' onclick='ezTOC_showBar(event)' {$linkZindex}>
 								<span class="arrow">{$arrowSide}</span>
 								<span class="text">{$openButtonText}</span>
 							</a>

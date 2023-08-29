@@ -369,6 +369,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'left',
 						),
+						'sticky-toggle-open' => array(
+							'id'      => 'sticky-toggle-open',
+							'name'    => __( 'TOC open on load', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type'    => 'checkbox',
+							'default' => false,
+						),
 						'sticky-toggle-width'             => array(
 							'id'      => 'sticky-toggle-width',
 							'name'    => __( 'Width', 'easy-table-of-contents' ),
