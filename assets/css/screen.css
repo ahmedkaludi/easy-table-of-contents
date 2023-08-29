@@ -69,7 +69,7 @@ div.ez-toc-widget-container li {
     z-index: 1;
 }
 
-#ez-toc-container p.ez-toc-title {
+#ez-toc-container .ez-toc-title {
     text-align: left;
     line-height: 1.45;
     margin: 0;
@@ -334,7 +334,7 @@ div.ez-toc-widget-container li {
     width: 35px;
 }
 
-div#ez-toc-container p.ez-toc-title {
+div#ez-toc-container .ez-toc-title {
     display: contents;
 }
 
