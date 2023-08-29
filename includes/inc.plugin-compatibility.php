@@ -856,11 +856,11 @@ if('Chamomile' == apply_filters( 'current_theme', get_option( 'current_theme' ) 
 
 	$block_post_template = get_block_template(get_stylesheet() . '//' .'single');
 	$block_page_template = get_block_template(get_stylesheet() . '//' .'page');
-	if(is_single() && has_shortcode($block_post_template->content,'toc') || has_shortcode($block_post_template->content,'ez-toc'))
+	if(is_single() && (has_shortcode($block_post_template->content,'toc') || has_shortcode($block_post_template->content,'ez-toc')))
 	{
 		$status=true;
 	}
-	if(is_page() && has_shortcode($block_page_template->content,'toc') || has_shortcode($block_page_template->content,'ez-toc'))
+	if(is_page() && (has_shortcode($block_page_template->content,'toc') || has_shortcode($block_page_template->content,'ez-toc')))
 	{
 		$status=true;
 	}
