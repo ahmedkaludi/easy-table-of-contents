@@ -839,3 +839,30 @@ if('Chamomile' == apply_filters( 'current_theme', get_option( 'current_theme' ) 
 		<?php
 	}
 }
+
+/**
+ * Block Editor Template
+ *
+ * @link https://developer.wordpress.org/block-editor/
+ * @since 2.0.54
+ *
+ */
+
+ if(function_exists('wp_is_block_theme') && wp_is_block_theme()){
+	add_filter('ez_toc_sidebar_has_toc_filter', 'ez_toc_guttenberg_has_toc', 10,1);
+ }
+
+ function ez_toc_guttenberg_has_toc($status){
+
+	$block_post_template = get_block_template(get_stylesheet() . '//' .'single');
+	$block_page_template = get_block_template(get_stylesheet() . '//' .'page');
+	if(is_single() && has_shortcode($block_post_template->content,'toc') || has_shortcode($block_post_template->content,'ez-toc'))
+	{
+		$status=true;
+	}
+	if(is_page() && has_shortcode($block_page_template->content,'toc') || has_shortcode($block_page_template->content,'ez-toc'))
+	{
+		$status=true;
+	}
+	return $status;
+ }
