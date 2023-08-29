@@ -233,22 +233,22 @@
 
     <div class="eztoc_support_div eztoc-tabcontent" id="technical">
         <div id="eztoc-tabs-technical">
-            <a href="javascript:void(0)" onclick="ezTocTabToggle(event, 'eztoc-technical-support',
+            <a href="#" onclick="ezTocTabToggle(event, 'eztoc-technical-support',
             'eztoc-tabcontent-technical', 'eztoc-tablinks-technical')"
                class="eztoc-tablinks-technical active"><?php echo esc_html_e('Technical Support', 'easy-table-of-contents') ?></a>
             |
-            <a href="javascript:void(0)" onclick="ezTocTabToggle(event, 'eztoc-technical-how-to-use',
+            <a href="#" onclick="ezTocTabToggle(event, 'eztoc-technical-how-to-use',
             'eztoc-tabcontent-technical', 'eztoc-tablinks-technical')"
                class="eztoc-tablinks-technical"><?php echo esc_html_e('How to Use', 'easy-table-of-contents') ?></a>
             |
-            <a href="javascript:void(0)" onclick="ezTocTabToggle(event, 'eztoc-technical-shortcode',
+            <a href="#" onclick="ezTocTabToggle(event, 'eztoc-technical-shortcode',
             'eztoc-tabcontent-technical', 'eztoc-tablinks-technical')"
                class="eztoc-tablinks-technical"><?php echo esc_html_e('Shortcode', 'easy-table-of-contents') ?></a>
             |
             <a href="https://tocwp.com/docs/" target="_blank" class="eztoc-tablinks-technical"><?php echo
                 esc_html_e('Documentation', 'easy-table-of-contents') ?></a>
             |
-            <a href="javascript:void(0)" onclick="ezTocTabToggle(event, 'eztoc-technical-hooks-for-developers',
+            <a href="#" onclick="ezTocTabToggle(event, 'eztoc-technical-hooks-for-developers',
             'eztoc-tabcontent-technical', 'eztoc-tablinks-technical')"
                class="eztoc-tablinks-technical"><?php echo esc_html_e('Hooks (for Developers)', 'easy-table-of-contents') ?></a>
         </div>
