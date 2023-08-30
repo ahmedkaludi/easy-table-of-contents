@@ -335,7 +335,7 @@ div.ez-toc-widget-container li {
 }
 
 div#ez-toc-container .ez-toc-title {
-    display: contents;
+    display: initial;
 }
 
 div#ez-toc-container {
