@@ -394,6 +394,6 @@ label.cssiconcheckbox {
     justify-content: center;
     direction:ltr;
 }
-.eztoc-toggle-hide-by-default{
+#ez-toc-container .eztoc-toggle-hide-by-default{
     display:none;
 }
