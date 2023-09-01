@@ -916,7 +916,7 @@ INLINESTICKYTOGGLECSS;
 		 */
 		private static function inlineStickyToggleJS() {
                     $mobileJS = '';
-                    if( ( 1 == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) || '1' == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) || true == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) ) && wp_is_mobile() ) {
+                    if( (( 1 == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) || '1' == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) || true == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) ) && wp_is_mobile()) ||  ( 1 == ezTOC_Option::get('sticky-toggle-close-on-desktop', 0) || '1' == ezTOC_Option::get('sticky-toggle-close-on-desktop', 0) || true == ezTOC_Option::get('sticky-toggle-close-on-desktop', 0) ) ) {
                         $mobileJS = <<<INLINESTICKYTOGGLEMOBILEJS
 jQuery(document).ready(function() {
     jQuery("#ez-toc-sticky-container a.ez-toc-link").click(function(e) {

@@ -442,6 +442,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'default'     => false,
 							'placeholder' => __( 'Close Sticky Toggle on click over headings in mobile devices', 'easy-table-of-contents' )
 						),
+						'sticky-toggle-close-on-desktop'     => array(
+							'id'          => 'sticky-toggle-close-on-desktop',
+							'name'        => __( 'Click TOC Close on desktop', 'easy-table-of-contents' ),
+							'desc'        => '',
+							'type'        => 'checkbox',
+							'default'     => false,
+							'placeholder' => __( 'Close Sticky Toggle on click over headings in desktop', 'easy-table-of-contents' )
+						),
 					)
 				),
 				'appearance' => apply_filters(
