@@ -400,6 +400,7 @@ jQuery(function($) {
             $('input[name="ez-toc-settings[sticky-toggle-open-button-text]"').val('Index');
         } else {
             $(stickyTogglePosition).parents('tr').hide(500);
+			$(stickyToggleAlignment).parents('tr').hide(500);
             $(stickyToggleWidth).parents('tr').hide(500);
             $(stickyToggleWidthCustom).parents('tr').hide(500);
             $(stickyToggleHeight).parents('tr').hide(500);
