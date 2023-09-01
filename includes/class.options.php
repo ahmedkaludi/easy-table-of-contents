@@ -369,6 +369,18 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'left',
 						),
+						'sticky-toggle-alignment'                   => array(
+							'id'      => 'sticky-toggle-alignment',
+							'name'    => __( 'Alignment', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type' => 'radio',
+							'options' => array(
+								'top' => __( 'Top', 'easy-table-of-contents' ),
+								'middle' => __( 'Middle', 'easy-table-of-contents' ),
+								'bottom' => __( 'Bottom', 'easy-table-of-contents' ),
+							),
+							'default' => 'top',
+						),
 						'sticky-toggle-open' => array(
 							'id'      => 'sticky-toggle-open',
 							'name'    => __( 'TOC open on load', 'easy-table-of-contents' ),
@@ -1052,6 +1064,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'heading-text-direction'              => 'ltr',
 				'toc-run-on-amp-pages'              => 1,
 				'sticky-toggle-position'              => 'left',
+				'sticky-toggle-alignment'             => 'top',
 				'add_request_uri'                     => false,
 				'mediavine-create'                    => 0,
 				'custom_para_number'                  => 1,
