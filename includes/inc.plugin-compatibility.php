@@ -867,16 +867,9 @@ if('Chamomile' == apply_filters( 'current_theme', get_option( 'current_theme' ) 
 	return $status;
  }
 
- if(function_exists('init_goodlayers_core_system')){
-	// Modifying  Goodlayers content  to create heading link for toc	
-	add_action('gdlr_core_the_content', 'ez_toc_gdlr_core_the_content', 999);
+ if(function_exists('init_goodlayers_core_system') && ezTOC_Option::get('goodlayers-core') == 1){
 
-	// Adding Goodlayers Content  to create combined toc
-   add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_gdlr_core_process_page_content', 10, 1 );
-}
-
-
- // function to get combined content of goodlayers builder
+// function to get combined content of goodlayers builder
 function ezTOC_gdlr_core()
 {
    $postID =  get_the_ID(); 
@@ -896,6 +889,7 @@ function ezTOC_gdlr_core()
 } 
 
 // Adding Goodlayers Content  to create combined toc
+add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_gdlr_core_process_page_content', 10, 1 );
 function ez_toc_gdlr_core_process_page_content( $content )
 {
 
@@ -908,10 +902,11 @@ function ez_toc_gdlr_core_process_page_content( $content )
 }
 
 // Modifying  Goodlayers content  to create heading link for toc
+add_action('gdlr_core_the_content', 'ez_toc_gdlr_core_the_content', 999);
 function ez_toc_gdlr_core_the_content($content){
         $post     = ezTOC::get( get_the_ID() );
         if($post){
-			$find    = $post->getHeadings();
+			$find    = $post->getHeadings();	
             $replace = $post->getHeadingsWithAnchors();
             if ( !is_array($content ) && !empty( $find ) && !empty( $replace ) && !empty( $content ) ) 
             {
@@ -920,4 +915,6 @@ function ez_toc_gdlr_core_the_content($content){
         } 
 		
 		return $content;
+}
+
 }

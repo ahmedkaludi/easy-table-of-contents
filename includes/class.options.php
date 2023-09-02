@@ -874,6 +874,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'goodlayers-core' => array(
+							'id' => 'goodlayers-core',
+							'name' => __( 'Goodlayers Core Builder', 'easy-table-of-contents' ),
+							'desc' => __( 'It includes Goodlayers Builder content to TOC.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
                     )
                 ),
 				'prosettings' => apply_filters(
