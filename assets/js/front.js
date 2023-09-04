@@ -65,7 +65,7 @@ jQuery( function( $ ) {
                             $(toggle).addClass('ez-toc-loaded'); // Attach loaded class.
                             var toc = $( toggle ).parents('#ez-toc-container,#ez-toc-widget-container,#ez-toc-widget-sticky-container').find( 'ul.ez-toc-list,ul.ez-toc-widget-sticky-list' );
                             if($(toc).hasClass('eztoc-toggle-hide-by-default')){
-                                var invert = 1;
+                                invert = 1;
                             }                                
                             if ( Cookies ) {
 
