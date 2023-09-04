@@ -322,7 +322,7 @@ div.ez-toc-widget-container li {
     display: initial;
 }
 
-#ez-toc-container .ez-toc-toggle label, #ez-toc-container label.cssicon, #ez-toc-widget-container label.cssicon  {
+#ez-toc-container .ez-toc-toggle label  {
     float: right;
     position: relative;
     font-size: 16px;
