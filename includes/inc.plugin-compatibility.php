@@ -866,3 +866,55 @@ if('Chamomile' == apply_filters( 'current_theme', get_option( 'current_theme' ) 
 	}
 	return $status;
  }
+
+ if(function_exists('init_goodlayers_core_system') && ezTOC_Option::get('goodlayers-core') == 1){
+
+// function to get combined content of goodlayers builder
+function ezTOC_gdlr_core()
+{
+   $postID =  get_the_ID(); 
+   $gdlr_core_builder  = get_post_meta( $postID ,'gdlr-core-page-builder' , false );
+   $gdlr_core_builder = isset($gdlr_core_builder[0])?$gdlr_core_builder[0]:$gdlr_core_builder;
+   $content="";
+   if(!empty($gdlr_core_builder) && is_array($gdlr_core_builder))
+   {
+     foreach($gdlr_core_builder as $element)
+     {
+        if(isset($element['value']['content'])){
+            $content= $content . $element['value']['content'];
+        }
+     }
+   }
+   return $content;
+} 
+
+// Adding Goodlayers Content  to create combined toc
+add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_gdlr_core_process_page_content', 10, 1 );
+function ez_toc_gdlr_core_process_page_content( $content )
+{
+
+    if (function_exists( 'ezTOC_gdlr_core' ) )
+    {
+        $eztoc_gdlr_core_content = ezTOC_gdlr_core( get_the_ID() );
+        $content = $content . $eztoc_gdlr_core_content;
+    }
+    return $content;
+}
+
+// Modifying  Goodlayers content  to create heading link for toc
+add_action('gdlr_core_the_content', 'ez_toc_gdlr_core_the_content', 999);
+function ez_toc_gdlr_core_the_content($content){
+        $post     = ezTOC::get( get_the_ID() );
+        if($post){
+			$find    = $post->getHeadings();	
+            $replace = $post->getHeadingsWithAnchors();
+            if ( !is_array($content ) && !empty( $find ) && !empty( $replace ) && !empty( $content ) ) 
+            {
+                return Easy_Plugins\Table_Of_Contents\Cord\mb_find_replace( $find, $replace, $content );
+            }
+        } 
+		
+		return $content;
+}
+
+}
