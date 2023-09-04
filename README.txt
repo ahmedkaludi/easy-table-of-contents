@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.3
 Requires PHP: 5.6.20
-Stable tag: 2.0.54.1
+Stable tag: 2.0.55
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,12 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.55 04/09/2023 =
+* New: Option to set position for sticky TOC toggle. #576
+* New: Compatibility with TravelTour theme builder. #574
+* BUG: CLS issue due to TOC #572
+* BUG: Double Border Display Issue on TOC for Pages #573
 
 = 2.0.54.1 30/08/2023 =
 * BUG: E_PARSE error in PHP 7.2 after recent update  #579
