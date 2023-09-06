@@ -214,56 +214,17 @@ add_filter(
  * @since 2.0.11
  */
 add_action(
+
 	'after_setup_theme',
 	function() {
-
 		if ( function_exists( 'uncode_setup' ) ) {
-
-			/**
-			 * Callback the for `the_content` filter.
-			 *
-			 * Trick the theme into applying its content filter.
-			 *
-			 * In its page/post templates it applies `the_content` filter passing an empty string.
-			 * If the value passed pack is `null` or an empty string, the theme will not run its content filter.
-			 *
-			 * This simply wraps the page/post content in comment tags that way it is not possible to return empty
-			 * and its content filter will be run. Now ezTOC can hook into the theme's content filter to insert the TOC.
-			 *
-			 * @since 2.0.11
-			 */
-			add_filter(
-				'the_content',
-				function( $content ) {
-					return '<!-- <ezTOC> -->' . $content . '<!-- </ezTOC> -->';
-				},
-				9,
-				1
-			);
-
-			/**
-			 * Callback the for `uncode_single_content` filter.
-			 *
-			 * Need to texturize the page/post content first.
-			 *
-			 * @since 2.0.11
-			 */
-			add_filter(
-				'uncode_single_content',
-				function( $content ) {
-					return ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) ? $content : wptexturize($content);
-				},
+		add_filter(
+				'uncode_single_content_final_output',
+				array( 'ezTOC', 'the_content' ),
 				10,
 				1
 			);
-			add_filter(
-				'uncode_single_content',
-				array( 'ezTOC', 'the_content' ),
-				11,
-				1
-			);
 		}
-
 	},
 	11
 );
