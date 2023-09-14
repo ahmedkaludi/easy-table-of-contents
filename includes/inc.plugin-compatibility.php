@@ -905,6 +905,7 @@ add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_content_molongui_autho
 	function ez_toc_content_molongui_authorship($content){
 		if(!empty($content))
 		{
+			libxml_use_internal_errors(true);
 			$dom = new DOMDocument();
 			$dom->loadHTML($content);
 			$xpath = new DOMXPath($dom);
