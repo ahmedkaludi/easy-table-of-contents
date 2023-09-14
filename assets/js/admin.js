@@ -66,6 +66,11 @@ jQuery(document).ready(function ($) {
             $(customParaNumber).parents('tr').hide(500);
         }    
     });
+    $(document).on("click", "#eztoc-tabs a", function() {
+        $('#eztoc-tabs a').removeClass('active');  
+        $(this).addClass('active');  
+    });
+    
 
 });
 
@@ -166,10 +171,12 @@ function ezTocSettingsTabsFixed() {
             var ezTocGeneralContainerShortcode = document.querySelector("#general div#eztoc-shortcode").offsetTop - minusOffsetTop;
             var ezTocGeneralContainerCompatibility = document.querySelector("#general div#eztoc-compatibility").offsetTop - minusOffsetTop;
             var ezTocGeneralContainerIeSettings = document.querySelector("#general div#eztoc-iesettings").offsetTop - minusOffsetTop;
+           
             if(ez_toc_pro_settings_link_paid !== null && ez_toc_pro_settings_link_paid.length > 0) {
                 var ezTocGeneralContainerProSettings = document.querySelector("#general div#eztoc-prosettings").offsetTop - minusOffsetTop - 150;
             } else {
-                ezTocGeneralContainerCompatibility -= 250;
+                ezTocGeneralContainerCompatibility -= 150;
+                ezTocGeneralContainerIeSettings -= 150;
             }
             ezTocGeneralTabsLinkGeneral.classList.add('active');
             ezTocGeneralTabsLinkAppearance.classList.remove('active');
@@ -234,7 +241,7 @@ function ezTocSettingsTabsFixed() {
                 if(ez_toc_pro_settings_link_paid !== null && ez_toc_pro_settings_link_paid.length > 0 && ezTocElementProSettingsContainer.length > 0 && ezTocGeneralTabsLinkProSettings !== null)
                     ezTocGeneralTabsLinkProSettings.classList.remove('active');
             }
-            if (y >= ezTocGeneralTabsLinkCompatibility) {
+            if (y >= ezTocGeneralContainerCompatibility) {
                 ezTocGeneralTabsLinkGeneral.classList.remove('active');
                 ezTocGeneralTabsLinkAppearance.classList.remove('active');
                 ezTocGeneralTabsLinkAdvanced.classList.remove('active');
@@ -270,3 +277,4 @@ function ezTocSettingsTabsFixed() {
     }
 }
 ezTocSettingsTabsFixed();
+
