@@ -66,7 +66,8 @@ jQuery(document).ready(function ($) {
             $(customParaNumber).parents('tr').hide(500);
         }    
     });
-    $(document).on("click", "#eztoc-tabs a", function() {
+    $(document).on("click", "#eztoc-tabs a", function(e) {
+        e.preventDefault();
         $('#eztoc-tabs a').removeClass('active');  
         $(this).addClass('active');  
     });
