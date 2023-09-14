@@ -879,3 +879,17 @@ function ez_toc_gdlr_core_the_content($content){
 }
 
 }
+
+if(function_exists('rest_get_url_prefix') && ezTOC_Option::get('disable_in_restapi') == 1){
+	add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_check_for_wp_json_request', 999, 1 );
+	function ez_toc_check_for_wp_json_request($content){
+		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
+			return $content;
+		}
+		$rest_prefix         = trailingslashit( rest_get_url_prefix() );
+		if(strpos( $_SERVER['REQUEST_URI'], $rest_prefix ) !== false){
+			return '';
+		}
+		return $content;
+	}
+}

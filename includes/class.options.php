@@ -821,6 +821,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'disable_in_restapi' => array(
+							'id' => 'disable_in_restapi',
+							'name' => __( 'Disable TOC in RestAPI', 'easy-table-of-contents' ),
+							'desc' => __( 'It excludes TOC from Rest API Content.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						
 					)
 				),
@@ -1083,6 +1090,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'add_request_uri'                     => false,
 				'mediavine-create'                    => 0,
 				'custom_para_number'                  => 1,
+				'disable_in_restapi'                  => false,
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );
