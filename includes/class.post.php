@@ -882,8 +882,9 @@ class ezTOC_Post {
 
 			// Special Characters.
 			// $ - _ . + ! * ' ( ) ,
+			// Special case for Apostrophes (’) which is causing TOC link to break in Block themes and CM Tooltip Glossary plugin #556
 			$return = str_replace(
-				array( '$', '.', '+', '!', '*', '\'', '(', ')', ',' ),
+				array( '$', '.', '+', '!', '*', '\'', '(', ')', ',', '’' ),
 				'',
 				$return
 			);
