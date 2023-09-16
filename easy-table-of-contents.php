@@ -1641,3 +1641,26 @@ function ez_toc_redirect() {
         }
     }
 }
+
+
+/**
+ * Added [no-ez-toc] to disbale TOC on specific page/post
+ * @since 2.0.56
+ */
+add_shortcode( 'no-ez-toc', 'ez_toc_noeztoc_callback' );
+function ez_toc_noeztoc_callback( $atts, $content = "" ) {
+	add_filter(
+		'ez_toc_maybe_apply_the_content_filter',	function( $apply ) {
+			return false;
+		}
+		,999
+	);
+	//  condition when  `the_content` filter is not used by the theme
+	add_filter(
+		'ez_toc_modify_process_page_content',	function( $apply ) {
+			return '';
+		}
+		,999
+	);
+	return $content;
+}
