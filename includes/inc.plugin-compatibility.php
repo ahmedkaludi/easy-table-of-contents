@@ -830,6 +830,42 @@ if('Chamomile' == apply_filters( 'current_theme', get_option( 'current_theme' ) 
 
  if(function_exists('init_goodlayers_core_system') && ezTOC_Option::get('goodlayers-core') == 1){
 
+add_action( 'init', function() {
+	ob_start();
+} );
+add_action('shutdown', function() {
+    $final = '';
+    $levels = ob_get_level();
+
+    for ($i = 0; $i < $levels; $i++) {
+        $final .= ob_get_clean();
+    }
+    echo apply_filters('eztoc_wordpress_final_output', $final);
+}, 0);
+
+add_filter('eztoc_wordpress_final_output', 'ez_toc_gdlr_core_the_content', 10, 1);
+
+function ez_toc_gdlr_core_the_content($content){
+	if(is_admin()){
+		return $content;
+	}
+	$post     = ezTOC::get( get_the_ID() );
+	if($post){
+		$find    = $post->getHeadings();	
+		$replace = $post->getHeadingsWithAnchors();
+		$toc     = $post->getTOC();
+		if ( !is_array($content ) && !empty( $find ) && !empty( $replace ) && !empty( $content ) ){
+			$content =  str_replace( $find, $replace, $content );
+		}
+
+		if ( strpos('id="ez-toc-container"',$content) === false ){
+			$content =  str_replace( '<div class="traveltour-single-article-content">', '<div class="traveltour-single-article-content">'.$toc, $content );
+		}
+	} 
+	
+	return $content;
+}
+
 // function to get combined content of goodlayers builder
 function ezTOC_gdlr_core()
 {
@@ -841,14 +877,41 @@ function ezTOC_gdlr_core()
    {
      foreach($gdlr_core_builder as $element)
      {
-        if(isset($element['value']['content'])){
-            $content= $content . $element['value']['content'];
-        }
-     }
+		
+		if(isset($element['items']))
+		{
+			
+			foreach($element['items'] as $inner_element){
+				if($inner_element['template'] === 'element'){
+					$content= $content . ez_toc_gdlr_core_fetch_content($inner_element);
+			    }else if(isset($inner_element['items'])){
+					foreach($inner_element['items'] as $level2_element){
+						if($level2_element['template'] === 'element'){
+							$content= $content . ez_toc_gdlr_core_fetch_content($level2_element);
+						}
+					}
+				}
+			}
+	   }
+
+	   if(isset($element['template']) && $element['template'] === 'element'){
+		$content= $content . ez_toc_gdlr_core_fetch_content($element);
    }
+}
+}
    return $content;
 } 
 
+function ez_toc_gdlr_core_fetch_content($element){
+	if(isset($element['type']) && isset($element['value'])){
+		$type = $element['type'];
+		$element_class = 'gdlr_core_pb_element_'.$type;
+			if(class_exists($element_class)){
+				return $element_class::get_content($element['value']);
+			}
+	}
+	return '';
+}
 // Adding Goodlayers Content  to create combined toc
 add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_gdlr_core_process_page_content', 10, 1 );
 function ez_toc_gdlr_core_process_page_content( $content )
@@ -856,26 +919,10 @@ function ez_toc_gdlr_core_process_page_content( $content )
 
     if (function_exists( 'ezTOC_gdlr_core' ) )
     {
-        $eztoc_gdlr_core_content = ezTOC_gdlr_core( get_the_ID() );
+        $eztoc_gdlr_core_content = ezTOC_gdlr_core();
         $content = $content . $eztoc_gdlr_core_content;
     }
     return $content;
-}
-
-// Modifying  Goodlayers content  to create heading link for toc
-add_action('gdlr_core_the_content', 'ez_toc_gdlr_core_the_content', 999);
-function ez_toc_gdlr_core_the_content($content){
-        $post     = ezTOC::get( get_the_ID() );
-        if($post){
-			$find    = $post->getHeadings();	
-            $replace = $post->getHeadingsWithAnchors();
-            if ( !is_array($content ) && !empty( $find ) && !empty( $replace ) && !empty( $content ) ) 
-            {
-                return Easy_Plugins\Table_Of_Contents\Cord\mb_find_replace( $find, $replace, $content );
-            }
-        } 
-		
-		return $content;
 }
 
 }
