@@ -821,14 +821,20 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'show_title_in_toc' => array(
+							'id' => 'show_title_in_toc',
+							'name' => __( 'Show Page title in TOC', 'easy-table-of-contents' ),
+							'desc' => __( 'It will add page title to the list in TOC', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'disable_in_restapi' => array(
 							'id' => 'disable_in_restapi',
 							'name' => __( 'Disable TOC in RestAPI', 'easy-table-of-contents' ),
 							'desc' => __( 'It excludes TOC from Rest API Content.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
-						),
-						
+						)
 					)
 				),
                 'shortcode' => apply_filters(
@@ -1091,6 +1097,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'mediavine-create'                    => 0,
 				'custom_para_number'                  => 1,
 				'disable_in_restapi'                  => false,
+				'show_title_in_toc'				      => false,	
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );
