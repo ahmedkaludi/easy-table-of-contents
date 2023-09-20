@@ -198,7 +198,7 @@ function ez_toc_export_all_settings()
     wp_die();
 }
 
-if(ezTOC_Option::get('show_title_in_toc') == 1){
+if(ezTOC_Option::get('show_title_in_toc') == 1 && !is_admin()){
 
 add_filter( 'the_title', 'ez_toc_include_page_title_filter', 10, 1 );
 function ez_toc_include_page_title_filter( $title ) {
