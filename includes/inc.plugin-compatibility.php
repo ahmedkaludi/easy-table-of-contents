@@ -971,3 +971,30 @@ add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_content_molongui_autho
 		
 	}
 }
+
+/* 
+* Compatibility for Walker News Template
+* @since 2.0.56
+*/
+if(function_exists('wp_get_theme')){
+    $theme_data = wp_get_theme();
+	if(!empty($theme_data) && $theme_data->get_template()== 'walker-news-template')
+    {
+		add_filter( 'ez_toc_sidebar_has_toc_filter', 'ez_toc_walker_news_template_fix');
+
+		function ez_toc_walker_news_template_fix($status){
+			
+				$content = get_the_content();
+				if(function_exists('do_blocks')){
+					$content = do_blocks($content);
+				}
+				if(has_shortcode($content,'toc') || has_shortcode($content,'ez-toc')){
+					return true;
+				}
+
+				return 	$status;
+			}	
+		
+	}
+	
+}
