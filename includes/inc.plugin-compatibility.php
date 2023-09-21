@@ -830,20 +830,8 @@ if('Chamomile' == apply_filters( 'current_theme', get_option( 'current_theme' ) 
 
  if(function_exists('init_goodlayers_core_system') && ezTOC_Option::get('goodlayers-core') == 1){
 
-add_action( 'init', function() {
-	ob_start();
-} );
-add_action('shutdown', function() {
-    $final = '';
-    $levels = ob_get_level();
-
-    for ($i = 0; $i < $levels; $i++) {
-        $final .= ob_get_clean();
-    }
-    echo apply_filters('eztoc_wordpress_final_output', $final);
-}, 0);
-
-add_filter('eztoc_wordpress_final_output', 'ez_toc_gdlr_core_the_content', 10, 1);
+	eztoc_enable_output_buffer_filter();
+	add_filter('eztoc_wordpress_final_output', 'ez_toc_gdlr_core_the_content', 10, 1);
 
 function ez_toc_gdlr_core_the_content($content){
 	if(is_admin()){
