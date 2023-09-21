@@ -346,110 +346,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type'    => 'checkbox',
 							'default' => 'Off',
 						),
-						'sticky-toggle-above-header'      => array(
-							'id'   => 'sticky-toggle-above-header',
-							'name' => '<strong>' . __( 'Sticky Toggle Options', 'easy-table-of-contents' ) . '</strong>',
-							'type' => 'header',
-						),
-						'sticky-toggle'                   => array(
-							'id'      => 'sticky-toggle',
-							'name'    => __( 'On/Off', 'easy-table-of-contents' ),
-							'desc'    => '',
-							'type'    => 'checkbox',
-							'default' => false,
-						),
-						'sticky-toggle-position'                   => array(
-							'id'      => 'sticky-toggle-position',
-							'name'    => __( 'Position', 'easy-table-of-contents' ),
-							'desc'    => '',
-							'type' => 'radio',
-							'options' => array(
-								'left' => __( 'Left', 'easy-table-of-contents' ),
-								'right' => __( 'Right', 'easy-table-of-contents' ),
-							),
-							'default' => 'left',
-						),
-						'sticky-toggle-alignment'                   => array(
-							'id'      => 'sticky-toggle-alignment',
-							'name'    => __( 'Alignment', 'easy-table-of-contents' ),
-							'desc'    => '',
-							'type' => 'radio',
-							'options' => array(
-								'top' => __( 'Top', 'easy-table-of-contents' ),
-								'middle' => __( 'Middle', 'easy-table-of-contents' ),
-								'bottom' => __( 'Bottom', 'easy-table-of-contents' ),
-							),
-							'default' => 'top',
-						),
-						'sticky-toggle-open' => array(
-							'id'      => 'sticky-toggle-open',
-							'name'    => __( 'TOC open on load', 'easy-table-of-contents' ),
-							'desc'    => '',
-							'type'    => 'checkbox',
-							'default' => false,
-						),
-						'sticky-toggle-width'             => array(
-							'id'      => 'sticky-toggle-width',
-							'name'    => __( 'Width', 'easy-table-of-contents' ),
-							'desc'    => '',
-							'type'    => 'select',
-							'options' => array(
-								'auto'   => __( 'Auto', 'easy-table-of-contents' ),
-								'custom' => __( 'User Defined', 'easy-table-of-contents' ),
-							),
-							'default' => 'auto',
-						),
-						'sticky-toggle-width-custom'      => array(
-							'id'          => 'sticky-toggle-width-custom',
-							'name'        => __( 'Custom Width', 'easy-table-of-contents' ),
-							'desc'        => '',
-							'type'        => 'text',
-							'default'     => false,
-							'placeholder' => __( 'Enter sticky toggle custom width here..', 'easy-table-of-contents' )
-						),
-						'sticky-toggle-height'            => array(
-							'id'      => 'sticky-toggle-height',
-							'name'    => __( 'Height', 'easy-table-of-contents' ),
-							'desc'    => '',
-							'type'    => 'select',
-							'options' => array(
-								'auto'   => __( 'Auto', 'easy-table-of-contents' ),
-								'custom' => __( 'User Defined', 'easy-table-of-contents' ),
-							),
-							'default' => 'auto',
-						),
-						'sticky-toggle-height-custom'     => array(
-							'id'          => 'sticky-toggle-height-custom',
-							'name'        => __( 'Custom Height', 'easy-table-of-contents' ),
-							'desc'        => '',
-							'type'        => 'text',
-							'default'     => false,
-							'placeholder' => __( 'Enter sticky toggle custom height here..', 'easy-table-of-contents' )
-						),
-						'sticky-toggle-open-button-text'     => array(
-							'id'          => 'sticky-toggle-open-button-text',
-							'name'        => __( 'Open Button Text', 'easy-table-of-contents' ),
-							'desc'        => '',
-							'type'        => 'text',
-							'default'     => false,
-							'placeholder' => __( 'Enter sticky toggle open button text here..', 'easy-table-of-contents' )
-						),
-						'sticky-toggle-close-on-mobile'     => array(
-							'id'          => 'sticky-toggle-close-on-mobile',
-							'name'        => __( 'Click TOC Close on Mobile', 'easy-table-of-contents' ),
-							'desc'        => '',
-							'type'        => 'checkbox',
-							'default'     => false,
-							'placeholder' => __( 'Close Sticky Toggle on click over headings in mobile devices', 'easy-table-of-contents' )
-						),
-						'sticky-toggle-close-on-desktop'     => array(
-							'id'          => 'sticky-toggle-close-on-desktop',
-							'name'        => __( 'Click TOC Close on desktop', 'easy-table-of-contents' ),
-							'desc'        => '',
-							'type'        => 'checkbox',
-							'default'     => false,
-							'placeholder' => __( 'Close Sticky Toggle on click over headings in desktop', 'easy-table-of-contents' )
-						),
 					)
 				),
 				'appearance' => apply_filters(
@@ -838,7 +734,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 					)
 				),
                 'shortcode' => apply_filters(
-                    'ez_toc_settings_shortcode',
+                    'Copy shortcode  ',
                     array(
                         'shortcode-first-paragraph'      => array(
                             'id'   => 'shortcode-first-paragraph',
@@ -875,6 +771,119 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
                             'desc' => __( 'You can add `Easy Table of Contents` without using shortcode from `Auto Insert` option in General Setting so then there is no need to add shortcode while post, page or any post type editing.', 'easy-table-of-contents' ),
                             'type' => 'paragraph',
                         ),
+                    )
+                ),
+				'sticky' => apply_filters(
+                    'ez_toc_settings_sticky',
+                    array(
+						'sticky-toggle'                   => array(
+							'id'      => 'sticky-toggle',
+							'name'    => __( 'Enable Sticky TOC', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type'    => 'checkbox',
+							'default' => false,
+						),
+						'auto_insert_post_types' => array(
+							'id' => 'sticky-post-types',
+							'name' => __( 'Enable Support', 'easy-table-of-contents' ),
+							'desc' => __( 'Select the post types which will have the Sticky TOC inserted.', 'easy-table-of-contents' ) .
+							          '<br><span class="description">' . __( 'NOTE: The Sticky TOC will only be inserted on post types for which it has been enabled.', 'easy-table-of-contents' ) . '<span>',
+							'type' => 'checkboxgroup',
+							'options' => array('post'=>'Post','page'=>'Page','product'=>'Product'),
+							'default' => array(),
+						),
+						'sticky-toggle-position'                   => array(
+							'id'      => 'sticky-toggle-position',
+							'name'    => __( 'Position', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type' => 'radio',
+							'options' => array(
+								'left' => __( 'Left', 'easy-table-of-contents' ),
+								'right' => __( 'Right', 'easy-table-of-contents' ),
+							),
+							'default' => 'left',
+						),
+						'sticky-toggle-alignment'                   => array(
+							'id'      => 'sticky-toggle-alignment',
+							'name'    => __( 'Alignment', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type' => 'radio',
+							'options' => array(
+								'top' => __( 'Top', 'easy-table-of-contents' ),
+								'middle' => __( 'Middle', 'easy-table-of-contents' ),
+								'bottom' => __( 'Bottom', 'easy-table-of-contents' ),
+							),
+							'default' => 'top',
+						),
+						'sticky-toggle-open' => array(
+							'id'      => 'sticky-toggle-open',
+							'name'    => __( 'TOC open on load', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type'    => 'checkbox',
+							'default' => false,
+						),
+						'sticky-toggle-width'             => array(
+							'id'      => 'sticky-toggle-width',
+							'name'    => __( 'Width', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type'    => 'select',
+							'options' => array(
+								'auto'   => __( 'Auto', 'easy-table-of-contents' ),
+								'custom' => __( 'User Defined', 'easy-table-of-contents' ),
+							),
+							'default' => 'auto',
+						),
+						'sticky-toggle-width-custom'      => array(
+							'id'          => 'sticky-toggle-width-custom',
+							'name'        => __( 'Custom Width', 'easy-table-of-contents' ),
+							'desc'        => '',
+							'type'        => 'text',
+							'default'     => false,
+							'placeholder' => __( 'Enter sticky toggle custom width here..', 'easy-table-of-contents' )
+						),
+						'sticky-toggle-height'            => array(
+							'id'      => 'sticky-toggle-height',
+							'name'    => __( 'Height', 'easy-table-of-contents' ),
+							'desc'    => '',
+							'type'    => 'select',
+							'options' => array(
+								'auto'   => __( 'Auto', 'easy-table-of-contents' ),
+								'custom' => __( 'User Defined', 'easy-table-of-contents' ),
+							),
+							'default' => 'auto',
+						),
+						'sticky-toggle-height-custom'     => array(
+							'id'          => 'sticky-toggle-height-custom',
+							'name'        => __( 'Custom Height', 'easy-table-of-contents' ),
+							'desc'        => '',
+							'type'        => 'text',
+							'default'     => false,
+							'placeholder' => __( 'Enter sticky toggle custom height here..', 'easy-table-of-contents' )
+						),
+						'sticky-toggle-open-button-text'     => array(
+							'id'          => 'sticky-toggle-open-button-text',
+							'name'        => __( 'Open Button Text', 'easy-table-of-contents' ),
+							'desc'        => '',
+							'type'        => 'text',
+							'default'     => false,
+							'placeholder' => __( 'Enter sticky toggle open button text here..', 'easy-table-of-contents' )
+						),
+						'sticky-toggle-close-on-mobile'     => array(
+							'id'          => 'sticky-toggle-close-on-mobile',
+							'name'        => __( 'Click TOC Close on Mobile', 'easy-table-of-contents' ),
+							'desc'        => '',
+							'type'        => 'checkbox',
+							'default'     => false,
+							'placeholder' => __( 'Close Sticky Toggle on click over headings in mobile devices', 'easy-table-of-contents' )
+						),
+						'sticky-toggle-close-on-desktop'     => array(
+							'id'          => 'sticky-toggle-close-on-desktop',
+							'name'        => __( 'Click TOC Close on desktop', 'easy-table-of-contents' ),
+							'desc'        => '',
+							'type'        => 'checkbox',
+							'default'     => false,
+							'placeholder' => __( 'Close Sticky Toggle on click over headings in desktop', 'easy-table-of-contents' )
+						)
                     )
                 ),
                 'compatibility' => apply_filters(
@@ -1098,6 +1107,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'custom_para_number'                  => 1,
 				'disable_in_restapi'                  => false,
 				'show_title_in_toc'				      => false,	
+				'sticky-post-types'					=> array(),
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );

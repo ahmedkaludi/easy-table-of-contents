@@ -111,5 +111,53 @@ jQuery(document).ready(function ($) {
             console.log('checkbox unchecked');
         }
     });
+
+    let stickyToggleCheckbox = $('#eztoc-sticky').find("input[name='ez-toc-settings[sticky-toggle]']");
+let stickyToggleWidth = $('#eztoc-sticky').find("select[name='ez-toc-settings[sticky-toggle-width]']");
+let stickyToggleWidthCustom = $('#eztoc-sticky').find("input[name='ez-toc-settings[sticky-toggle-width-custom]']");
+let stickyToggleHeight = $('#eztoc-sticky').find("select[name='ez-toc-settings[sticky-toggle-height]']");
+let stickyToggleHeightCustom = $('#eztoc-sticky').find("input[name='ez-toc-settings[sticky-toggle-height-custom]']");
+
+if($(stickyToggleCheckbox).prop('checked') == false) {
+    $('#eztoc-sticky').find('tr:not(:first-child)').hide(500);
+}
+
+$(document).on("change", "input[name='ez-toc-settings[sticky-toggle]']", function() {
+    
+    if($(stickyToggleCheckbox).prop('checked') == true) {
+
+        $('#eztoc-sticky').find('tr:not(:first-child)').show(500);
+
+        if($(stickyToggleWidth).val() == '' || $(stickyToggleWidth).val() != 'custom'){
+            $(stickyToggleWidthCustom).parents('tr').hide();
+        }
+        if($(stickyToggleHeight).val() == '' || $(stickyToggleHeight).val() != 'custom'){
+            $(stickyToggleHeightCustom).parents('tr').hide();
+        }
+    } else {
+        $('#eztoc-sticky').find('tr:not(:first-child)').hide(500);
+    }
+    
 });
 
+$(document).on("change", "select[name='ez-toc-settings[sticky-toggle-width]']", function() {
+if($(stickyToggleWidth).val() == 'custom') {
+    $(stickyToggleWidthCustom).val('350px');
+    $(stickyToggleWidthCustom).parents('tr').show(500);
+} else {
+    $(stickyToggleWidthCustom).val('');
+    $(stickyToggleWidthCustom).parents('tr').hide(500);
+}
+});
+
+$(document).on("change", "select[name='ez-toc-settings[sticky-toggle-height]']", function() {
+if($(stickyToggleHeight).val() == 'custom') {
+    $(stickyToggleHeightCustom).val('800px');
+    $(stickyToggleHeightCustom).parents('tr').show(500);
+} else {
+    $(stickyToggleHeightCustom).val('');
+    $(stickyToggleHeightCustom).parents('tr').hide(500);
+}
+});
+
+});

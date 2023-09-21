@@ -1462,10 +1462,19 @@ INLINESTICKYTOGGLEJS;
 		public static function stickyToggleContent() {
 
 			if(!is_home() && ezTOC_Option::get('sticky-toggle')){
+				$stickyPostTypes = apply_filters('ez_toc_sticky_post_types', ezTOC_Option::get('sticky-post-types'));
+				$isEligible = true;
+				if(!empty($stickyPostTypes)){
+					$postType = get_post_type();
+					if(!in_array($postType,$stickyPostTypes)){
+						$isEligible = false;
+					}
+				}
+				$isEligible = apply_filters('ez_toc_sticky_visible', $isEligible);
 				$toggleClass="hide";
 				$linkZindex="";
 				$post = self::get( get_the_ID() );
-				if ( null !== $post ) {
+				if ( null !== $post && $isEligible) {
 					$stickyToggleTOC = $post->getStickyToggleTOC();
 					if(!empty($stickyToggleTOC)){
 						$openButtonText = __( 'Index', 'easy-table-of-contents' );
