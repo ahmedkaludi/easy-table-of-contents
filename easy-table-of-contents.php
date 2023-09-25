@@ -583,7 +583,7 @@ INLINEWPBAKERYJS;
 
 				if ( 'custom' === ezTOC_Option::get( 'theme' ) ) {
 
-					$css .= 'div#ez-toc-container p.ez-toc-title {color: ' . ezTOC_Option::get( 'custom_title_colour' ) . ';}';
+					$css .= 'div#ez-toc-container p.ez-toc-title , #ez-toc-container .ez_toc_custom_title_icon , #ez-toc-container .ez_toc_custom_toc_icon {color: ' . ezTOC_Option::get( 'custom_title_colour' ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a {color: ' . ezTOC_Option::get( 'custom_link_colour' ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:hover {color: ' . ezTOC_Option::get( 'custom_link_hover_colour' ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:visited {color: ' . ezTOC_Option::get( 'custom_link_visited_colour' ) . ';}';
@@ -592,7 +592,7 @@ INLINEWPBAKERYJS;
                                 
 			}
 
-			return $css;
+			return apply_filters('ez_toc_pro_inline_css',$css);
 			
 		}
 
