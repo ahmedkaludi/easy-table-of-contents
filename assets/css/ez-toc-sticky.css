@@ -1,9 +1,9 @@
 #ez-toc-sticky-container {
-    background: #FFF;
+    background: transparent;
     border: 1px solid #AAAAAA;
     border-radius: 4px;
-    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    /* -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); */
     display: table;
     margin-bottom: 1em;
     padding: 10px;
