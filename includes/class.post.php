@@ -1287,7 +1287,7 @@ class ezTOC_Post {
 
 			} else {
 
-				$class[] .= 'counter-flat';
+				$class[] = 'counter-flat';
 			}
 
             if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'ltr' ) {
@@ -1312,11 +1312,15 @@ class ezTOC_Post {
 					break;
 
 				case 'transparent':
-					$class[] .= 'ez-toc-transparent';
+					$class[] = 'ez-toc-transparent';
 					break;
 
 				case 'grey':
 					$class[] = 'ez-toc-grey';
+					break;
+
+				case 'custom':
+					$class[] = 'ez-toc-custom';
 					break;
 			}
 

@@ -559,7 +559,7 @@ INLINEWPBAKERYJS;
 
 					if ( ezTOC_Option::get( 'theme' ) === 'custom' ) {
 
-						$css .= 'background: ' . ezTOC_Option::get( 'custom_background_colour' ) . ';border: 1px solid ' . ezTOC_Option::get( 'custom_border_colour' ) . ';';
+						$css .= 'background: ' . ezTOC_Option::get( 'custom_background_colour' ) . ';border: '.ezTOC_Option::get( 'custom_border_size' ).'px solid ' . ezTOC_Option::get( 'custom_border_colour' ) . ';';
 					}
 
 					if ( 'auto' !== ezTOC_Option::get( 'width' ) ) {

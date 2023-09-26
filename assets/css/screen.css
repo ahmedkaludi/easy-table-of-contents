@@ -6,11 +6,10 @@
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     display: table;
     margin-bottom: 1em;
-    /* padding: 10px; */
+    padding: 10px;
     position: relative;
     width: auto;
 }
-
 div.ez-toc-widget-container {
     padding: 0;
     position: relative;
@@ -75,14 +74,10 @@ div.ez-toc-widget-container li {
     margin: 0;
     padding: 0;
 }
-
 .ez-toc-title-container {
-    display: flex;
+    display: table;
     width: 100%;
-    align-items: center;
-    justify-content: space-between;
 }
-
 .ez-toc-title,
 .ez-toc-title-toggle {
     display: inline;
@@ -340,9 +335,9 @@ div#ez-toc-container .ez-toc-title {
     display: initial;
 }
 
-/* div#ez-toc-container {
+div#ez-toc-container {
     padding-right: 20px;
-} */
+}
 .ez-toc-wrap-center {
     margin: 0 auto 1em auto !important;
 }
@@ -398,16 +393,4 @@ label.cssiconcheckbox {
 }
 #ez-toc-container .eztoc-toggle-hide-by-default{
     display:none;
-}
-
-#ez-toc-container .ez-toc-title-container , #ez-toc-container nav ul:first-child{
-    padding: 5px 20px 5px 10px;
-}
-
-#ez-toc-container .ez-toc-title-container{
-    border-radius: 4px 4px 0 0;
-}
-
-.ez_toc_custom_title_icon{
-    margin-right:5px;
 }
