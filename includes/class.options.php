@@ -783,7 +783,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type'    => 'checkbox',
 							'default' => false,
 						),
-						'auto_insert_post_types' => array(
+						'sticky-post-types' => array(
 							'id' => 'sticky-post-types',
 							'name' => __( 'Enable Support', 'easy-table-of-contents' ),
 							'desc' => __( 'Select the post types which will have the Sticky TOC inserted.', 'easy-table-of-contents' ) .
