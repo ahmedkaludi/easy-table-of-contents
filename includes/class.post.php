@@ -1396,7 +1396,7 @@ class ezTOC_Post {
 			$headerTextToggleClass = 'ez-toc-toggle';
 			$headerTextToggleStyle = 'style="cursor: pointer"';
 		}
-		$header_label = '<'.esc_attr($toc_title_tag).' class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' .'<span class="ez_toc_custom_title_icon"></span>'. esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</'.esc_attr($toc_title_tag).'>' . PHP_EOL;
+		$header_label = '<'.esc_attr($toc_title_tag).' class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</'.esc_attr($toc_title_tag).'>' . PHP_EOL;
 		$html .= $header_label;
 													
 	} 
@@ -1446,7 +1446,7 @@ class ezTOC_Post {
 			$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 		}
 								
-		$header_label = '<'.esc_attr($toc_title_tag).' class="ez-toc-title">'.'<span class="ez_toc_custom_title_icon"></span>' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</'.esc_attr($toc_title_tag).'>' . PHP_EOL;
+		$header_label = '<'.esc_attr($toc_title_tag).' class="ez-toc-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</'.esc_attr($toc_title_tag).'>' . PHP_EOL;
 		if (!ezTOC_Option::get( 'visibility' ) ) {
 			$html .= $header_label;
 		}															

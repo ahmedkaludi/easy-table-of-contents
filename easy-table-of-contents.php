@@ -1511,7 +1511,7 @@ INLINESTICKYTOGGLEJS;
 		 */
 		public static function stickyToggleContent() {
 
-			if(!is_home() && ezTOC_Option::get('sticky-toggle')){
+			if(ezTOC_Option::get('sticky-toggle')){
 				$stickyPostTypes = apply_filters('ez_toc_sticky_post_types', ezTOC_Option::get('sticky-post-types'));
 				$isEligible = true;
 				if(!empty($stickyPostTypes)){

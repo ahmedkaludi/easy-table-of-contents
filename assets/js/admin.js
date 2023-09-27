@@ -155,6 +155,7 @@ function ezTocSettingsTabsFixed() {
             var ezTocGeneralTabsLinkAppearance = document.querySelector("#general #eztoc-tabs #eztoc-link-appearance");
             var ezTocGeneralTabsLinkAdvanced = document.querySelector("#general #eztoc-tabs #eztoc-link-advanced");
             var ezTocGeneralTabsLinkShortcode = document.querySelector("#general #eztoc-tabs #eztoc-link-shortcode");
+            var ezTocGeneralTabsLinkSticky = document.querySelector("#general #eztoc-tabs #eztoc-link-sticky");
             var ezTocGeneralTabsLinkCompatibility = document.querySelector("#general #eztoc-tabs #eztoc-link-compatibility");
             var ezTocGeneralTabsLinkIeSettings = document.querySelector("#general #eztoc-tabs #eztoc-link-iesettings");
             var ezTocGeneralTabsLinkProSettings = document.querySelector("#general #eztoc-tabs #eztoc-link-prosettings");
@@ -167,6 +168,7 @@ function ezTocSettingsTabsFixed() {
             var ezTocGeneralContainerShortcode = document.querySelector("#general div#eztoc-shortcode").offsetTop - minusOffsetTop;
             var ezTocGeneralContainerCompatibility = document.querySelector("#general div#eztoc-compatibility").offsetTop - minusOffsetTop;
             var ezTocGeneralContainerIeSettings = document.querySelector("#general div#eztoc-iesettings").offsetTop - minusOffsetTop;
+            var ezTocGeneralContainerSticky = document.querySelector("#eztoc-sticky").offsetTop - minusOffsetTop;
            
             if(ez_toc_pro_settings_link_paid !== null && ez_toc_pro_settings_link_paid.length > 0) {
                 var ezTocGeneralContainerProSettings = document.querySelector("#general div#eztoc-prosettings").offsetTop - minusOffsetTop - 150;
@@ -180,6 +182,7 @@ function ezTocSettingsTabsFixed() {
             ezTocGeneralTabsLinkShortcode.classList.remove('active');
             ezTocGeneralTabsLinkCompatibility.classList.remove('active');
             ezTocGeneralTabsLinkIeSettings.classList.remove('active');
+            ezTocGeneralTabsLinkSticky.classList.remove('active');
             if (ezTocElementProSettingsContainer.length > 0 && ezTocGeneralTabsLinkProSettings !== null)
                 ezTocGeneralTabsLinkProSettings.classList.remove('active');
 
@@ -204,6 +207,7 @@ function ezTocSettingsTabsFixed() {
                 ezTocGeneralTabsLinkShortcode.classList.remove('active');
                 ezTocGeneralTabsLinkCompatibility.classList.remove('active');
                 ezTocGeneralTabsLinkIeSettings.classList.remove('active');
+                ezTocGeneralTabsLinkSticky.classList.remove('active');
                 if(ez_toc_pro_settings_link_paid !== null && ez_toc_pro_settings_link_paid.length > 0 && ezTocElementProSettingsContainer.length > 0 && ezTocGeneralTabsLinkProSettings !== null)
                     ezTocGeneralTabsLinkProSettings.classList.remove('active');
             }
@@ -214,6 +218,7 @@ function ezTocSettingsTabsFixed() {
                 ezTocGeneralTabsLinkShortcode.classList.remove('active');
                 ezTocGeneralTabsLinkCompatibility.classList.remove('active');
                 ezTocGeneralTabsLinkIeSettings.classList.remove('active');
+                ezTocGeneralTabsLinkSticky.classList.remove('active');
                if(ez_toc_pro_settings_link_paid !== null && ez_toc_pro_settings_link_paid.length > 0 && ezTocElementProSettingsContainer.length > 0 && ezTocGeneralTabsLinkProSettings !== null)
                     ezTocGeneralTabsLinkProSettings.classList.remove('active');
             }
@@ -224,6 +229,7 @@ function ezTocSettingsTabsFixed() {
                 ezTocGeneralTabsLinkShortcode.classList.remove('active');
                 ezTocGeneralTabsLinkCompatibility.classList.remove('active');
                 ezTocGeneralTabsLinkIeSettings.classList.remove('active');
+                ezTocGeneralTabsLinkSticky.classList.remove('active');
                 if(ez_toc_pro_settings_link_paid !== null && ez_toc_pro_settings_link_paid.length > 0 && ezTocElementProSettingsContainer.length > 0 && ezTocGeneralTabsLinkProSettings !== null)
                     ezTocGeneralTabsLinkProSettings.classList.remove('active');
             }
@@ -234,6 +240,19 @@ function ezTocSettingsTabsFixed() {
                 ezTocGeneralTabsLinkShortcode.classList.add('active');
                 ezTocGeneralTabsLinkCompatibility.classList.remove('active');
                 ezTocGeneralTabsLinkIeSettings.classList.remove('active');
+                ezTocGeneralTabsLinkSticky.classList.remove('active');
+                if(ez_toc_pro_settings_link_paid !== null && ez_toc_pro_settings_link_paid.length > 0 && ezTocElementProSettingsContainer.length > 0 && ezTocGeneralTabsLinkProSettings !== null)
+                    ezTocGeneralTabsLinkProSettings.classList.remove('active');
+            }
+            if (y >= ezTocGeneralContainerSticky) {
+                ezTocGeneralTabsLinkGeneral.classList.remove('active');
+                ezTocGeneralTabsLinkAppearance.classList.remove('active');
+                ezTocGeneralTabsLinkAdvanced.classList.remove('active');
+                ezTocGeneralTabsLinkShortcode.classList.remove('active');
+                ezTocGeneralTabsLinkCompatibility.classList.remove('active');
+                ezTocGeneralTabsLinkIeSettings.classList.remove('active');
+                ezTocGeneralTabsLinkSticky.classList.add('active');
+                
                 if(ez_toc_pro_settings_link_paid !== null && ez_toc_pro_settings_link_paid.length > 0 && ezTocElementProSettingsContainer.length > 0 && ezTocGeneralTabsLinkProSettings !== null)
                     ezTocGeneralTabsLinkProSettings.classList.remove('active');
             }
@@ -244,6 +263,7 @@ function ezTocSettingsTabsFixed() {
                 ezTocGeneralTabsLinkShortcode.classList.remove('active');
                 ezTocGeneralTabsLinkCompatibility.classList.add('active');
                 ezTocGeneralTabsLinkIeSettings.classList.remove('active');
+                ezTocGeneralTabsLinkSticky.classList.remove('active');
                 if(ez_toc_pro_settings_link_paid !== null && ez_toc_pro_settings_link_paid.length > 0 && ezTocElementProSettingsContainer.length > 0 && ezTocGeneralTabsLinkProSettings !== null)
                     ezTocGeneralTabsLinkProSettings.classList.remove('active');
             }
@@ -254,6 +274,7 @@ function ezTocSettingsTabsFixed() {
                 ezTocGeneralTabsLinkShortcode.classList.remove('active');
                 ezTocGeneralTabsLinkCompatibility.classList.remove('active');
                 ezTocGeneralTabsLinkIeSettings.classList.add('active');
+                ezTocGeneralTabsLinkSticky.classList.remove('active');
                 if(ez_toc_pro_settings_link_paid !== null && ez_toc_pro_settings_link_paid.length > 0 && ezTocElementProSettingsContainer.length > 0 && ezTocGeneralTabsLinkProSettings !== null)
                     ezTocGeneralTabsLinkProSettings.classList.remove('active');
             }
@@ -264,6 +285,7 @@ function ezTocSettingsTabsFixed() {
                 ezTocGeneralTabsLinkShortcode.classList.remove('active');
                 ezTocGeneralTabsLinkCompatibility.classList.remove('active');
                 ezTocGeneralTabsLinkIeSettings.classList.remove('active');
+                ezTocGeneralTabsLinkSticky.classList.remove('active');
                 if(ez_toc_pro_settings_link_paid !== null && ez_toc_pro_settings_link_paid.length > 0 && ezTocElementProSettingsContainer.length > 0 && ezTocGeneralTabsLinkProSettings !== null)
                     ezTocGeneralTabsLinkProSettings.classList.add('active');
             }

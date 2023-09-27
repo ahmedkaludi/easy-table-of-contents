@@ -789,8 +789,8 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'desc' => __( 'Select the post types which will have the Sticky TOC inserted.', 'easy-table-of-contents' ) .
 							          '<br><span class="description">' . __( 'NOTE: The Sticky TOC will only be inserted on post types for which it has been enabled.', 'easy-table-of-contents' ) . '<span>',
 							'type' => 'checkboxgroup',
-							'options' => array('post'=>'Post','page'=>'Page','product'=>'Product'),
-							'default' => array(),
+							'options' => self::getPostTypes(),
+							'default' => array('post'=>'Post','page'=>'Page'),
 						),
 						'sticky-toggle-position'                   => array(
 							'id'      => 'sticky-toggle-position',
