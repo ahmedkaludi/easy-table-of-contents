@@ -1129,7 +1129,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'custom_para_number'                  => 1,
 				'disable_in_restapi'                  => false,
 				'show_title_in_toc'				      => false,	
-				'sticky-post-types'					  => array(),
+				'sticky-post-types'					  => array('post','page'),
 				'sticky_include_homepage' 			  => false,
 				'sticky_include_category' 			  => true,
 				'sticky_include_product_category'     => true,
