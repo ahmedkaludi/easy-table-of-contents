@@ -792,6 +792,27 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'options' => self::getPostTypes(),
 							'default' => array('post'=>'Post','page'=>'Page'),
 						),
+						'sticky_include_homepage' => array(
+							'id' => 'sticky_include_homepage',
+							'name' => __( 'Homepage', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the Sticky TOC for qualifying items on the homepage.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						  ),
+						  'sticky_include_category' => array(
+							'id' => 'sticky_include_category',
+							'name' => __( 'Category', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the Sticky TOC for description on the category pages.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => true,
+						  ),
+						  'sticky_include_product_category' => array(
+							'id' => 'sticky_include_product_category',
+							'name' => __( 'Product Category', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the Sticky TOC for description on the product category pages.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => true,
+						  ),
 						'sticky-toggle-position'                   => array(
 							'id'      => 'sticky-toggle-position',
 							'name'    => __( 'Position', 'easy-table-of-contents' ),
@@ -803,6 +824,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'left',
 						),
+
 						'sticky-toggle-alignment'                   => array(
 							'id'      => 'sticky-toggle-alignment',
 							'name'    => __( 'Alignment', 'easy-table-of-contents' ),
@@ -1107,7 +1129,10 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'custom_para_number'                  => 1,
 				'disable_in_restapi'                  => false,
 				'show_title_in_toc'				      => false,	
-				'sticky-post-types'					=> array(),
+				'sticky-post-types'					  => array(),
+				'sticky_include_homepage' 			  => false,
+				'sticky_include_category' 			  => true,
+				'sticky_include_product_category'     => true,
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );
