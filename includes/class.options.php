@@ -778,7 +778,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
                     array(
 						'sticky-toggle'                   => array(
 							'id'      => 'sticky-toggle',
-							'name'    => __( 'Enable Sticky TOC', 'easy-table-of-contents' ),
+							'name'    => __( 'Sticky TOC', 'easy-table-of-contents' ),
 							'desc'    => '',
 							'type'    => 'checkbox',
 							'default' => false,
@@ -1917,4 +1917,22 @@ public static function child_font_size( $args ) {
 
 	add_action( 'wp_ajax_eztoc_reset_options_to_default', array( 'ezTOC_Option', 'eztoc_reset_options_to_default' ) );
 
+}
+
+add_filter("ez_toc_settings_sticky", "ez_toc_settings_sticky_func_nonpro");
+function ez_toc_settings_sticky_func_nonpro($settings)
+{
+	if(function_exists('is_plugin_active') && !is_plugin_active('easy-table-of-contents-pro/easy-table-of-contents-pro.php')){
+			$sticky_pro_settings = array(
+			'upgrade-paragraph'      => array(
+				'id'   => 'upgrade-paragraph',
+				'name' => __( 'Unlock Sticky Theme Design', 'easy-table-of-contents' ),
+				'desc' => __( 'Upgrade to TOC Pro to unlock Sticky Theme Design options', 'easy-table-of-contents' ),
+				'type' => 'paragraph',
+			)
+		);
+		return array_merge($settings, $sticky_pro_settings);
+	}
+	return $settings;
+	
 }
