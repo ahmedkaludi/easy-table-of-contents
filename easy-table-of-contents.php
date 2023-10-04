@@ -1417,6 +1417,7 @@ INLINESTICKYTOGGLEJS;
 								}
 							}
 							$content = implode( '', $paragraphs );
+							$content = mb_find_replace( $find, $replace, $content );
 						}else{
 							$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );	
 						}
