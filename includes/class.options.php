@@ -730,6 +730,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'desc' => __( 'It excludes TOC from Rest API Content.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
+						),
+						'generate_toc_link_ids' => array(
+							'id' => 'generate_toc_link_ids',
+							'name' => __( 'Generate TOC link ids', 'easy-table-of-contents' ),
+							'desc' => __( 'Enable This option when the TOC shortcode is used inside custom template, sidebar or when manually added do_shortcode("[ez-toc]") function in php files', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
 						)
 					)
 				),
@@ -1133,6 +1140,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'sticky_include_homepage' 			  => false,
 				'sticky_include_category' 			  => true,
 				'sticky_include_product_category'     => true,
+				'generate_toc_link_ids'               => false,
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );

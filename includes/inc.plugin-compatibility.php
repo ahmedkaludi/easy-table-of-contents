@@ -986,16 +986,3 @@ if(function_exists('wp_get_theme')){
 	}
 	
 }
-/* 
-* Fix for heading links not generating when toc shortcode 
-* is used directly in php templates using do_shortcode
-* @since 2.0.56
-*/
-
-add_action('do_shortcode_tag','function_after_do_shortcode_cb',10,3);
-function function_after_do_shortcode_cb($output, $tag, $attr){
-	if($tag=='ez-toc'){
-	add_filter( 'ez_toc_sidebar_has_toc_filter', '__return_true');
-	}
-	return $output;
-}
