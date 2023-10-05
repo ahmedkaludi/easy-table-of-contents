@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.55
+ * Version: 2.0.56
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.55
+ * @version  2.0.56
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -49,7 +49,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.55';
+		const VERSION = '2.0.56';
 
 		/**
 		 * Stores the instance of this class.
@@ -190,7 +190,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if($generate_toc_link_ids){
 				return true;
 			}
-			
+
 			$widget_blocks = get_option( 'widget_block' );
 			foreach( (array) $widget_blocks as $widget_block ) {
 				if ( ! empty( $widget_block['content'] ) && ( has_shortcode( $widget_block['content'] , 'toc' ) || has_shortcode( $widget_block['content'] , 'ez-toc' ) || has_shortcode( $widget_block['content'] , 'ez-toc-widget-sticky' ) ) ) {					
