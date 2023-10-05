@@ -1934,7 +1934,7 @@ function ez_toc_settings_sticky_func_nonpro($settings)
 			$sticky_pro_settings = array(
 			'upgrade-paragraph'      => array(
 				'id'   => 'upgrade-paragraph',
-				'name' => '<h4 class="ez-toc-upgrade-paragraph"><a href="https://tocwp.com/pricing/" target="_blank">'.__( 'Upgrade to TOC Pro to unlock Sticky Theme Design options', 'easy-table-of-contents' ).'</a></h4><br>',
+				'name' => '<h4 class="ez-toc-upgrade-paragraph">'.__( 'To unlock Sticky Theme Design options', 'easy-table-of-contents' ).'<a href="https://tocwp.com/pricing/" target="_blank"> <u>'.__( 'Upgrade to  Pro', 'easy-table-of-contents' ).'</u></a></h4><br>',
 				'type' => 'header',
 			)
 		);
