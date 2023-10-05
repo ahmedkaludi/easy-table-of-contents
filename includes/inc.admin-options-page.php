@@ -80,7 +80,7 @@
     </div>
     <div class="eztoc-tabcontent" id="general">
         <div id="eztoc-tabs" style="margin-top: 10px;">
-            <a href="#eztoc-general" id="eztoc-link-general" class="active"><?= esc_html_e( 'General', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-appearance" id="eztoc-link-appearance"><?= esc_html_e( 'Appearance', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-advanced" id="eztoc-link-advanced"><?= esc_html_e( 'Advanced', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-shortcode" id="eztoc-link-shortcode"><?= esc_html_e( 'Shortcode', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-compatibility" id="eztoc-link-compatibility"><?= esc_html_e( 'Compatibility', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-iesettings" id="eztoc-link-iesettings"><?= esc_html_e( 'Import/Export', 'easy-table-of-contents' ) ?></a>
+            <a href="#eztoc-general" id="eztoc-link-general" class="active"><?= esc_html_e( 'General', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-appearance" id="eztoc-link-appearance"><?= esc_html_e( 'Appearance', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-advanced" id="eztoc-link-advanced"><?= esc_html_e( 'Advanced', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-shortcode" id="eztoc-link-shortcode"><?= esc_html_e( 'Shortcode', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-sticky" id="eztoc-link-sticky"><?= esc_html_e( 'Sticky TOC', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-compatibility" id="eztoc-link-compatibility"><?= esc_html_e( 'Compatibility', 'easy-table-of-contents' ) ?></a> | <a href="#eztoc-iesettings" id="eztoc-link-iesettings"><?= esc_html_e( 'Import/Export', 'easy-table-of-contents' ) ?></a>
         </div>
         <form method="post" action="<?php echo esc_url(self_admin_url('options.php')); ?>" enctype="multipart/form-data">
 
@@ -153,6 +153,22 @@
 
                     </div><!-- /.inside -->
                 </div><!-- /.postbox -->
+
+            </div><!-- /.metabox-holder -->
+
+            <div class="metabox-holder">
+
+            <div class="postbox" id="eztoc-sticky">
+                <br />
+                <h3><span><?= esc_html_e('Sticky TOC', 'easy-table-of-contents'); ?></span></h3>
+                <div class="inside">
+
+                    <table class="form-table">
+                        <?php do_settings_fields('ez_toc_settings_sticky', 'ez_toc_settings_sticky'); ?>
+                    </table>
+
+                </div><!-- /.inside -->
+            </div><!-- /.postbox -->
 
             </div><!-- /.metabox-holder -->
 

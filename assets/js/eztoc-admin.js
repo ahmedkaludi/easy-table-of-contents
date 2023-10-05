@@ -111,5 +111,65 @@ jQuery(document).ready(function ($) {
             console.log('checkbox unchecked');
         }
     });
+
+    let stickyToggleCheckbox = $('#eztoc-sticky').find("input[name='ez-toc-settings[sticky-toggle]']");
+let stickyToggleWidth = $('#eztoc-sticky').find("select[name='ez-toc-settings[sticky-toggle-width]']");
+let stickyToggleWidthCustom = $('#eztoc-sticky').find("input[name='ez-toc-settings[sticky-toggle-width-custom]']");
+let stickyToggleHeight = $('#eztoc-sticky').find("select[name='ez-toc-settings[sticky-toggle-height]']");
+let stickyToggleHeightCustom = $('#eztoc-sticky').find("input[name='ez-toc-settings[sticky-toggle-height-custom]']");
+
+if($(stickyToggleCheckbox).prop('checked') == false) {
+    $('#eztoc-sticky').find('tr:not(:first-child)').hide(500);
+}
+
+$(document).on("change", "input[name='ez-toc-settings[sticky-toggle]']", function() {
+    
+    if($(stickyToggleCheckbox).prop('checked') == true) {
+
+        $('#eztoc-sticky').find('tr:not(:first-child)').show(500);
+
+        if($(stickyToggleWidth).val() == '' || $(stickyToggleWidth).val() != 'custom'){
+            $(stickyToggleWidthCustom).parents('tr').hide();
+        }
+        if($(stickyToggleHeight).val() == '' || $(stickyToggleHeight).val() != 'custom'){
+            $(stickyToggleHeightCustom).parents('tr').hide();
+        }
+    } else {
+        $('#eztoc-sticky').find('tr:not(:first-child)').hide(500);
+    }
+    
+});
+update_sticky_width_field(stickyToggleWidth.value);
+update_sticky_height_field(stickyToggleWidth.value);
+
+$(document).on("change", "select[name='ez-toc-settings[sticky-toggle-width]']", function() {
+    update_sticky_width_field($(stickyToggleWidth).val());
 });
 
+$(document).on("change", "select[name='ez-toc-settings[sticky-toggle-height]']", function() {
+   update_sticky_height_field($(stickyToggleHeight).val());
+});
+
+});
+
+function update_sticky_width_field(width){
+    let stickyToggleWidthCustom = jQuery('#eztoc-sticky').find("input[name='ez-toc-settings[sticky-toggle-width-custom]']");
+    if(width == 'custom') {
+        jQuery(stickyToggleWidthCustom).val('350px');
+        jQuery(stickyToggleWidthCustom).parents('tr').show(500);
+    } else {
+        jQuery(stickyToggleWidthCustom).val('');
+        jQuery(stickyToggleWidthCustom).parents('tr').hide(500);
+    }
+}
+
+function update_sticky_height_field(height){
+    let stickyToggleHeightCustom = jQuery('#eztoc-sticky').find("input[name='ez-toc-settings[sticky-toggle-height-custom]']");
+    if(height == 'custom') {
+        jQuery(stickyToggleHeightCustom).val('800px');
+        jQuery(stickyToggleHeightCustom).parents('tr').show(500);
+    } else {
+        jQuery(stickyToggleHeightCustom).val('');
+        jQuery(stickyToggleHeightCustom).parents('tr').hide(500);
+    }
+}

@@ -197,3 +197,120 @@ function ez_toc_export_all_settings()
     }                             
     wp_die();
 }
+
+/**
+ * Adding page/post title in TOC list
+ * @since 2.0.56
+ */
+add_action( 'init', function() {
+    if(ezTOC_Option::get('show_title_in_toc') == 1 && !is_admin())
+    {
+        ob_start();
+    }
+} );
+add_action('shutdown', function() {
+    if(ezTOC_Option::get('show_title_in_toc') == 1 && !is_admin()){
+        $final = '';
+        $levels = ob_get_level();
+    
+        for ($i = 0; $i < $levels; $i++) {
+            $final .= ob_get_clean();
+        }
+        echo apply_filters('eztoc_wordpress_final_output', $final);
+    }
+ 
+}, 10);
+
+    add_filter('eztoc_wordpress_final_output', function($content){
+        if(!is_singular('post') && !is_page()) { return $content;}
+        if(ezTOC_Option::get('show_title_in_toc') == 1 && !is_admin()){ 
+        return preg_replace_callback(
+            '/<h1(.*?)>(.*?)<\/h1>/i',
+            function ($matches) {
+                $title = $matches[2];
+                $added_link ='<h1'.$matches[1].'><span class="ez-toc-section" id="'.esc_attr(ezTOCGenerateHeadingIDFromTitle($title)).'" ez-toc-data-id="#'.esc_attr(ezTOCGenerateHeadingIDFromTitle($title)).'"></span>';
+                $added_link .= esc_attr($title);
+                $added_link .= '<span class="ez-toc-section-end"></span></h1>';
+                return $added_link;
+            },
+            $content
+        );
+    }
+    }, 10, 1);
+    
+    add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_page_content_include_page_title', 10, 1 );
+    function ez_toc_page_content_include_page_title( $content ) {
+        if(ezTOC_Option::get('show_title_in_toc') == 1 && !is_admin()){ 
+            $title = get_the_title();
+            $added_page_title= '<h1 class="entry-title">'.wp_kses_post($title).'</h1>';
+            $content = $added_page_title.$content;
+        }
+        return $content;
+    }
+     function ezTOCGenerateHeadingIDFromTitle( $heading ) {
+        $return = false;
+        if ( $heading ) {
+            $heading = apply_filters( 'ez_toc_url_anchor_target_before', $heading );
+            $return = html_entity_decode( $heading, ENT_QUOTES, get_option( 'blog_charset' ) );
+            $return = trim( strip_tags( $return ) );
+            $return = remove_accents( $return );
+            $return = str_replace( array( "\r", "\n", "\n\r", "\r\n" ), ' ', $return );
+            $return = htmlentities2( $return );
+            $return = str_replace( array( '&amp;', '&nbsp;'), ' ', $return );
+            $return = str_replace( array( '&shy;' ),'', $return );					// removed silent hypen 
+            $return = html_entity_decode( $return, ENT_QUOTES, get_option( 'blog_charset' ) );
+            $return = preg_replace( '/[\x00-\x1F\x7F]*/u', '', $return );
+            $return = str_replace(
+                array( '*', '\'', '(', ')', ';', '@', '&', '=', '+', '$', ',', '/', '?', '#', '[', ']' ),
+                '',
+                $return
+            );
+            $return = str_replace(
+                array( '%', '{', '}', '|', '\\', '^', '~', '[', ']', '`' ),
+                '',
+                $return
+            );
+            $return = str_replace(
+                array( '$', '.', '+', '!', '*', '\'', '(', ')', ',', '’' ),
+                '',
+                $return
+            );
+            $return = str_replace(
+                array( '-', '-', 'â€“', 'â€”' ),
+                '-',
+                $return
+            );
+            $return = str_replace(
+                array( 'â€˜', 'â€™', 'â€œ', 'â€' ),
+                '',
+                $return
+            );
+            $return = str_replace( array( ':' ), '_', $return );
+            $return = preg_replace( '/\s+/', '_', $return );
+            $return = preg_replace( '/-+/', '-', $return );
+            $return = preg_replace( '/_+/', '_', $return );
+            $return = rtrim( $return, '-_' );
+            $return = preg_replace_callback(
+                "{[^0-9a-z_.!~*'();,/?:@&=+$#-]}i",
+                function( $m ) {
+    
+                    return sprintf( '%%%02X', ord( $m[0] ) );
+                },
+                $return
+            );
+            if ( ezTOC_Option::get( 'lowercase' ) ) {
+    
+                $return = strtolower( $return );
+            }
+            if ( ! $return ) {
+    
+                $return = ( ezTOC_Option::get( 'fragment_prefix' ) ) ? ezTOC_Option::get( 'fragment_prefix' ) : '_';
+            }
+            if ( ezTOC_Option::get( 'hyphenate' ) ) {
+    
+                $return = str_replace( '_', '-', $return );
+                $return = preg_replace( '/-+/', '-', $return );
+            }
+        }
+        return apply_filters( 'ez_toc_url_anchor_target', $return, $heading );
+    }

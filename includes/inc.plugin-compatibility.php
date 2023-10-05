@@ -214,56 +214,17 @@ add_filter(
  * @since 2.0.11
  */
 add_action(
+
 	'after_setup_theme',
 	function() {
-
 		if ( function_exists( 'uncode_setup' ) ) {
-
-			/**
-			 * Callback the for `the_content` filter.
-			 *
-			 * Trick the theme into applying its content filter.
-			 *
-			 * In its page/post templates it applies `the_content` filter passing an empty string.
-			 * If the value passed pack is `null` or an empty string, the theme will not run its content filter.
-			 *
-			 * This simply wraps the page/post content in comment tags that way it is not possible to return empty
-			 * and its content filter will be run. Now ezTOC can hook into the theme's content filter to insert the TOC.
-			 *
-			 * @since 2.0.11
-			 */
-			add_filter(
-				'the_content',
-				function( $content ) {
-					return '<!-- <ezTOC> -->' . $content . '<!-- </ezTOC> -->';
-				},
-				9,
-				1
-			);
-
-			/**
-			 * Callback the for `uncode_single_content` filter.
-			 *
-			 * Need to texturize the page/post content first.
-			 *
-			 * @since 2.0.11
-			 */
-			add_filter(
-				'uncode_single_content',
-				function( $content ) {
-					return ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) ? $content : wptexturize($content);
-				},
+		add_filter(
+				'uncode_single_content_final_output',
+				array( 'ezTOC', 'the_content' ),
 				10,
 				1
 			);
-			add_filter(
-				'uncode_single_content',
-				array( 'ezTOC', 'the_content' ),
-				11,
-				1
-			);
 		}
-
 	},
 	11
 );
@@ -869,6 +830,30 @@ if('Chamomile' == apply_filters( 'current_theme', get_option( 'current_theme' ) 
 
  if(function_exists('init_goodlayers_core_system') && ezTOC_Option::get('goodlayers-core') == 1){
 
+	eztoc_enable_output_buffer_filter();
+	add_filter('eztoc_wordpress_final_output', 'ez_toc_gdlr_core_the_content', 10, 1);
+
+function ez_toc_gdlr_core_the_content($content){
+	if(is_admin()){
+		return $content;
+	}
+	$post     = ezTOC::get( get_the_ID() );
+	if($post){
+		$find    = $post->getHeadings();	
+		$replace = $post->getHeadingsWithAnchors();
+		$toc     = $post->getTOC();
+		if ( !is_array($content ) && !empty( $find ) && !empty( $replace ) && !empty( $content ) ){
+			$content =  str_replace( $find, $replace, $content );
+		}
+
+		if ( strpos('id="ez-toc-container"',$content) === false ){
+			$content =  str_replace( '<div class="traveltour-single-article-content">', '<div class="traveltour-single-article-content">'.$toc, $content );
+		}
+	} 
+	
+	return $content;
+}
+
 // function to get combined content of goodlayers builder
 function ezTOC_gdlr_core()
 {
@@ -880,14 +865,41 @@ function ezTOC_gdlr_core()
    {
      foreach($gdlr_core_builder as $element)
      {
-        if(isset($element['value']['content'])){
-            $content= $content . $element['value']['content'];
-        }
-     }
+		
+		if(isset($element['items']))
+		{
+			
+			foreach($element['items'] as $inner_element){
+				if($inner_element['template'] === 'element'){
+					$content= $content . ez_toc_gdlr_core_fetch_content($inner_element);
+			    }else if(isset($inner_element['items'])){
+					foreach($inner_element['items'] as $level2_element){
+						if($level2_element['template'] === 'element'){
+							$content= $content . ez_toc_gdlr_core_fetch_content($level2_element);
+						}
+					}
+				}
+			}
+	   }
+
+	   if(isset($element['template']) && $element['template'] === 'element'){
+		$content= $content . ez_toc_gdlr_core_fetch_content($element);
    }
+}
+}
    return $content;
 } 
 
+function ez_toc_gdlr_core_fetch_content($element){
+	if(isset($element['type']) && isset($element['value'])){
+		$type = $element['type'];
+		$element_class = 'gdlr_core_pb_element_'.$type;
+			if(class_exists($element_class)){
+				return $element_class::get_content($element['value']);
+			}
+	}
+	return '';
+}
 // Adding Goodlayers Content  to create combined toc
 add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_gdlr_core_process_page_content', 10, 1 );
 function ez_toc_gdlr_core_process_page_content( $content )
@@ -895,26 +907,82 @@ function ez_toc_gdlr_core_process_page_content( $content )
 
     if (function_exists( 'ezTOC_gdlr_core' ) )
     {
-        $eztoc_gdlr_core_content = ezTOC_gdlr_core( get_the_ID() );
+        $eztoc_gdlr_core_content = ezTOC_gdlr_core();
         $content = $content . $eztoc_gdlr_core_content;
     }
     return $content;
 }
 
-// Modifying  Goodlayers content  to create heading link for toc
-add_action('gdlr_core_the_content', 'ez_toc_gdlr_core_the_content', 999);
-function ez_toc_gdlr_core_the_content($content){
-        $post     = ezTOC::get( get_the_ID() );
-        if($post){
-			$find    = $post->getHeadings();	
-            $replace = $post->getHeadingsWithAnchors();
-            if ( !is_array($content ) && !empty( $find ) && !empty( $replace ) && !empty( $content ) ) 
-            {
-                return Easy_Plugins\Table_Of_Contents\Cord\mb_find_replace( $find, $replace, $content );
-            }
-        } 
-		
-		return $content;
 }
 
+if(function_exists('rest_get_url_prefix') && ezTOC_Option::get('disable_in_restapi') == 1){
+	add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_check_for_wp_json_request', 999, 1 );
+	function ez_toc_check_for_wp_json_request($content){
+		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
+			return $content;
+		}
+		$rest_prefix         = trailingslashit( rest_get_url_prefix() );
+		if(strpos( $_SERVER['REQUEST_URI'], $rest_prefix ) !== false){
+			return '';
+		}
+		return $content;
+	}
+}
+
+/**
+ * Molongui Authorship plugin compatibility
+ * @link https://wordpress.org/plugins/molongui-authorship/
+ * @since 2.0.55
+ */
+if(function_exists( 'molongui_authorship_load_plugin_textdomain' ))
+{
+add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_content_molongui_authorship');
+	function ez_toc_content_molongui_authorship($content){
+		if(!empty($content))
+		{
+			libxml_use_internal_errors(true);
+			$dom = new DOMDocument();
+			$dom->loadHTML($content);
+			$xpath = new DOMXPath($dom);
+			if($xpath){
+			$divs = $xpath->query('//div[@class="m-a-box-container"]');
+			foreach ($divs as $div) {
+				$div->parentNode->removeChild($div);
+			}
+			// Save the modified HTML content
+			$modifiedHtml = $dom->saveHTML();
+			// Return the modified HTML content
+			return $modifiedHtml;
+		}
+	}
+			return $content;
+		
+	}
+}
+
+/* 
+* Compatibility for Walker News Template
+* @since 2.0.56
+*/
+if(function_exists('wp_get_theme')){
+    $theme_data = wp_get_theme();
+	if(!empty($theme_data) && $theme_data->get_template()== 'walker-news-template')
+    {
+		add_filter( 'ez_toc_sidebar_has_toc_filter', 'ez_toc_walker_news_template_fix');
+
+		function ez_toc_walker_news_template_fix($status){
+			
+				$content = get_the_content();
+				if(function_exists('do_blocks')){
+					$content = do_blocks($content);
+				}
+				if(has_shortcode($content,'toc') || has_shortcode($content,'ez-toc')){
+					return true;
+				}
+
+				return 	$status;
+			}	
+		
+	}
+	
 }

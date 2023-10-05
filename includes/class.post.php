@@ -882,8 +882,9 @@ class ezTOC_Post {
 
 			// Special Characters.
 			// $ - _ . + ! * ' ( ) ,
+			// Special case for Apostrophes (’) which is causing TOC link to break in Block themes and CM Tooltip Glossary plugin #556
 			$return = str_replace(
-				array( '$', '.', '+', '!', '*', '\'', '(', ')', ',' ),
+				array( '$', '.', '+', '!', '*', '\'', '(', ')', ',', '’' ),
 				'',
 				$return
 			);
@@ -1286,7 +1287,7 @@ class ezTOC_Post {
 
 			} else {
 
-				$class[] .= 'counter-flat';
+				$class[] = 'counter-flat';
 			}
 
             if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'ltr' ) {
@@ -1311,11 +1312,15 @@ class ezTOC_Post {
 					break;
 
 				case 'transparent':
-					$class[] .= 'ez-toc-transparent';
+					$class[] = 'ez-toc-transparent';
 					break;
 
 				case 'grey':
 					$class[] = 'ez-toc-grey';
+					break;
+
+				case 'custom':
+					$class[] = 'ez-toc-custom';
 					break;
 			}
 
@@ -1465,11 +1470,14 @@ class ezTOC_Post {
 			if( $options !== null && !empty( $options ) && is_array( $options ) && key_exists( 'visibility_hide_by_default', $options ) && true == $options['visibility_hide_by_default'] ) {
 					$toggle_view= "checked";
 			}
-						
+			$toc_icon = ezTOC::getTOCToggleIcon();
+			if( function_exists( 'ez_toc_pro_activation_link' ) ) {
+				$toc_icon = apply_filters('ez_toc_modify_icon',$toc_icon);
+		     }				
 			if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {		
-				$html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '">' .$header_label. ezTOC::getTOCToggleIcon() . '</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' />';
+				$html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class=" ez-toc-cssicon-toggle-label">' .$header_label. $toc_icon . '</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' />';
 			}else{
-				$html .= $header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '">' . ezTOC::getTOCToggleIcon() . '</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' aria-label="Toggle" />';
+				$html .= $header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . ' ez-toc-cssicon-toggle-label" class=" ez-toc-cssicon-toggle-label">' . $toc_icon . '</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' aria-label="Toggle" />';
 			}
 					
 		}		

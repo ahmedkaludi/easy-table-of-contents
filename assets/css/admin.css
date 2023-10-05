@@ -1437,3 +1437,12 @@ div#eztoc-tabs a:first-child.active, div#eztoc-tabs a.active {
         top: -12px;
     }
 }
+.ez-toc-upgrade-paragraph{
+    position: absolute;
+}
+.ez-toc-upgrade-paragraph a {
+    color: #ea4c89;
+}
+#eztoc-sticky tr:nth-child(16) hr {
+    display: none;
+}

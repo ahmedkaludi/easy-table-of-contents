@@ -10,7 +10,6 @@
     position: relative;
     width: auto;
 }
-
 div.ez-toc-widget-container {
     padding: 0;
     position: relative;
@@ -75,12 +74,10 @@ div.ez-toc-widget-container li {
     margin: 0;
     padding: 0;
 }
-
 .ez-toc-title-container {
     display: table;
     width: 100%;
 }
-
 .ez-toc-title,
 .ez-toc-title-toggle {
     display: inline;
