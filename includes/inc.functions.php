@@ -202,11 +202,28 @@ function ez_toc_export_all_settings()
  * Adding page/post title in TOC list
  * @since 2.0.56
  */
+add_action( 'init', function() {
+    if(ezTOC_Option::get('show_title_in_toc') == 1 && !is_admin())
+    {
+        ob_start();
+    }
+} );
+add_action('shutdown', function() {
+    if(ezTOC_Option::get('show_title_in_toc') == 1 && !is_admin()){
+        $final = '';
+        $levels = ob_get_level();
+    
+        for ($i = 0; $i < $levels; $i++) {
+            $final .= ob_get_clean();
+        }
+        echo apply_filters('eztoc_wordpress_final_output', $final);
+    }
+ 
+}, 10);
 
-if(ezTOC_Option::get('show_title_in_toc') == 1 && !is_admin()){ 
-    eztoc_enable_output_buffer_filter();   
     add_filter('eztoc_wordpress_final_output', function($content){
         if(!is_singular('post') && !is_page()) { return $content;}
+        if(ezTOC_Option::get('show_title_in_toc') == 1 && !is_admin()){ 
         return preg_replace_callback(
             '/<h1(.*?)>(.*?)<\/h1>/i',
             function ($matches) {
@@ -218,13 +235,16 @@ if(ezTOC_Option::get('show_title_in_toc') == 1 && !is_admin()){
             },
             $content
         );
+    }
     }, 10, 1);
     
     add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_page_content_include_page_title', 10, 1 );
     function ez_toc_page_content_include_page_title( $content ) {
-        $title = get_the_title();
-        $added_page_title= '<h1 class="entry-title">'.wp_kses_post($title).'</h1>';
-        $content = $added_page_title.$content;
+        if(ezTOC_Option::get('show_title_in_toc') == 1 && !is_admin()){ 
+            $title = get_the_title();
+            $added_page_title= '<h1 class="entry-title">'.wp_kses_post($title).'</h1>';
+            $content = $added_page_title.$content;
+        }
         return $content;
     }
      function ezTOCGenerateHeadingIDFromTitle( $heading ) {
@@ -294,19 +314,3 @@ if(ezTOC_Option::get('show_title_in_toc') == 1 && !is_admin()){
         }
         return apply_filters( 'ez_toc_url_anchor_target', $return, $heading );
     }
-}
-
-function eztoc_enable_output_buffer_filter(){
-    add_action( 'init', function() {
-        ob_start();
-    } );
-    add_action('shutdown', function() {
-        $final = '';
-        $levels = ob_get_level();
-    
-        for ($i = 0; $i < $levels; $i++) {
-            $final .= ob_get_clean();
-        }
-        echo apply_filters('eztoc_wordpress_final_output', $final);
-    }, 0);
-}
