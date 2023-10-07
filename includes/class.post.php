@@ -1477,8 +1477,13 @@ class ezTOC_Post {
 			if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {		
 				$html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-cssicon-toggle-label">' .$header_label. $toc_icon . '</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' />';
 			}else{
-				$html .= '<div class="ez-toc-cssicon-toggle-label">'.$header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '">' . $toc_icon . '</label></div><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' aria-label="Toggle" />';
-				//$html .= $header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-cssicon-toggle-label">' . $toc_icon . '</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' aria-label="Toggle" />';
+				if(function_exists('ez_toc_pro_inline_css_func')){
+					$html .= '<div class="ez-toc-cssicon-toggle-label">'.$header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '">' . $toc_icon . '</label></div><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' aria-label="Toggle" />';
+				}else{
+					$html .= $header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-cssicon-toggle-label">' . $toc_icon . '</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' aria-label="Toggle" />';
+				}
+				
+				
 			}
 					
 		}		

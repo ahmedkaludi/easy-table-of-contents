@@ -593,9 +593,10 @@ INLINEWPBAKERYJS;
 					$css .= 'div#ez-toc-container ul.ez-toc-list a {color: ' . ezTOC_Option::get( 'custom_link_colour' ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:hover {color: ' . ezTOC_Option::get( 'custom_link_hover_colour' ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:visited {color: ' . ezTOC_Option::get( 'custom_link_visited_colour' ) . ';}';
+					
 				}
                                 
-                                
+				$css .= '#ez-toc-container .ez-toc-cssicon-toggle-label{padding: 5px !important;padding-right: 20px !important;border-radius: 0 !important;}';              
 			}
 
 			return apply_filters('ez_toc_pro_inline_css',$css);
