@@ -565,7 +565,7 @@ INLINEWPBAKERYJS;
 
 					if ( ezTOC_Option::get( 'theme' ) === 'custom' ) {
 
-						$css .= 'background: ' . ezTOC_Option::get( 'custom_background_colour' ) . ';border: '.ezTOC_Option::get( 'custom_border_size' ).'px solid ' . ezTOC_Option::get( 'custom_border_colour' ) . ';';
+						$css .= 'background: ' . ezTOC_Option::get( 'custom_background_colour','#f9f9f9' ) . ';border: '.ezTOC_Option::get( 'custom_border_size' ,1).'px solid ' . ezTOC_Option::get( 'custom_border_colour' ,'#aaa') . ';';
 					}
 
 					if ( 'auto' !== ezTOC_Option::get( 'width' ) ) {
