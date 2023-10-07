@@ -1477,7 +1477,7 @@ class ezTOC_Post {
 			if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {		
 				$html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class=" ez-toc-cssicon-toggle-label">' .$header_label. $toc_icon . '</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' />';
 			}else{
-				$html .= $header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . ' ez-toc-cssicon-toggle-label" class=" ez-toc-cssicon-toggle-label">' . $toc_icon . '</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' aria-label="Toggle" />';
+				$html .= $header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class=" ez-toc-cssicon-toggle-label">' . $toc_icon . '</label><input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' aria-label="Toggle" />';
 			}
 					
 		}		
