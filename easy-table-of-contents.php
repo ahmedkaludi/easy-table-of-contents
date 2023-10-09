@@ -596,7 +596,6 @@ INLINEWPBAKERYJS;
 					
 				}
                                 
-				$css .= '#ez-toc-container .ez-toc-cssicon-toggle-label{padding: 5px !important;padding-right: 20px !important;border-radius: 0 !important;} #ez-toc-container nav ul:first-child{padding: 5px 10px 5px 5px !important;}';              
 			}
 
 			return apply_filters('ez_toc_pro_inline_css',$css);
