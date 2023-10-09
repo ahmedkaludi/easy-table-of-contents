@@ -44,7 +44,7 @@ With [EASY TABLE OF CONTENTS PRO](https://tocwp.com/pricing/) You will get acces
 * <strong>New - Gutenberg Block </strong>: Easily create TOC in Gutenberg block without the need of any coding or shortcode.
 * <strong>New - Elementor Widget </strong>: Easily create TOC using Elementor Widget without the need of any coding or shortcode.
 * <strong>New - Fixed/Sticky TOC </strong>: Users can find the content that they need, much faster through the option of sticky TOC.
-* <strong>New - Fixed/Sticky TOC Theme Design Option</strong>: Customize the appearance of Sticky TOC with different options.
+* <strong>New - Fixed/Sticky TOC Customization </strong>: Customize the appearance of Sticky TOC with Theme Design options.
 * <strong>New - Full AMP Support </strong>: Generates a TOC with your existing setup and make it AMP compatible automatically.
 * <strong>NEW – ACF Support </strong>: Easily create TOC with your custom ACF fields.
 
