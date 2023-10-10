@@ -378,6 +378,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
 					$js_vars['smooth_scroll'] = true;
+				}else{
+					$js_vars['smooth_scroll'] = false;
 				}
 
 				if ( ezTOC_Option::get( 'show_heading_text' ) && ezTOC_Option::get( 'visibility' ) ) {
@@ -453,38 +455,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
          */
 		public static function enqueue_registered_script(){
 
-			if (ezTOC_Option::get( 'toc_loading' ) == 'js') {	
-					wp_enqueue_script( 'ez-toc-js' );
-					if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
-						self::inlineScrollEnqueueScripts();
-					}													
+			if (ezTOC_Option::get( 'toc_loading' ) == 'js') {
+					wp_enqueue_script( 'ez-toc-js' );					
 			}
 
 		}
-        
-        /**
-         * inlineScrollEnqueueScripts Method
-         * Set scroll offset & smoothness
-         *
-         * @since  2.0.40
-         * @static
-         * @uses wp_add_inline_style()
-         * @return void
-         *
-         */
-        private static function inlineScrollEnqueueScripts()
-        {
-
-            $offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
-            
-             $inlineScrollJS = <<<INLINESCROLLJS
-jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-link").forEach(t=>{t=t.replaceWith(t.cloneNode(!0))}),document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),jQuery("a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=jQuery("header"),o=0;$offset>30&&(o=$offset),e.length&&(o+=e.height()),(i.length&&"fixed"==i.css("position")||"sticky"==i.css("position"))&&(o+=i.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(o=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-o),jQuery("html, body").animate({scrollTop:o},500)})});
-INLINESCROLLJS;
-            wp_register_script( 'ez-toc-scroll-scriptjs', '', array( 'jquery' ), ezTOC::VERSION );
-            wp_enqueue_script( 'ez-toc-scroll-scriptjs', '', array( 'jquery' ), ezTOC::VERSION,true);
-            wp_add_inline_script( 'ez-toc-scroll-scriptjs', $inlineScrollJS );
-        }
-        
+                        
         /**
          * inlineWPBakeryJS Method
          * Javascript code for WP Bakery Plugin issue for mobile screen
