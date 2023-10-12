@@ -940,23 +940,27 @@ add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_content_molongui_autho
 	function ez_toc_content_molongui_authorship($content){
 		if(!empty($content))
 		{
-			libxml_use_internal_errors(true);
-			$dom = new DOMDocument();
-			$dom->loadHTML($content);
-			$xpath = new DOMXPath($dom);
-			if($xpath){
-			$divs = $xpath->query('//div[@class="m-a-box-container"]');
-			foreach ($divs as $div) {
-				$div->parentNode->removeChild($div);
+			if(strpos($content, "m-a-box-container") !== false){
+
+					libxml_use_internal_errors(true);
+					$dom = new DOMDocument();
+					$dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
+					$xpath = new DOMXPath($dom);
+					if($xpath){
+					$divs = $xpath->query('//div[@class="m-a-box-container"]');
+					foreach ($divs as $div) {
+						$div->parentNode->removeChild($div);
+					}
+					// Save the modified HTML content
+					$modifiedHtml = $dom->saveHTML();
+					// Return the modified HTML content
+					return $modifiedHtml;
+				}
+
 			}
-			// Save the modified HTML content
-			$modifiedHtml = $dom->saveHTML();
-			// Return the modified HTML content
-			return $modifiedHtml;
+			
 		}
-	}
-			return $content;
-		
+		return $content;		
 	}
 }
 
