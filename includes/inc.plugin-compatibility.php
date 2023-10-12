@@ -947,15 +947,17 @@ add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_content_molongui_autho
 					$dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
 					$xpath = new DOMXPath($dom);
 					if($xpath){
-					$divs = $xpath->query('//div[@class="m-a-box-container"]');
-					foreach ($divs as $div) {
-						$div->parentNode->removeChild($div);
+						$divs = $xpath->query('//div[@class="m-a-box-container"]');
+							if($divs){
+								foreach ($divs as $div) {
+									$div->parentNode->removeChild($div);
+								}
+							}					
+						// Save the modified HTML content
+						$modifiedHtml = $dom->saveHTML();
+						// Return the modified HTML content
+						return $modifiedHtml;
 					}
-					// Save the modified HTML content
-					$modifiedHtml = $dom->saveHTML();
-					// Return the modified HTML content
-					return $modifiedHtml;
-				}
 
 			}
 			
