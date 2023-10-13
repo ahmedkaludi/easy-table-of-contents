@@ -107,6 +107,7 @@ class ezTOC_Post {
                 'divi-bodycommerce/divi-bodyshop-woocommerce.php',
                 'social-pug/index.php',
 				'fusion-builder/fusion-builder.php',
+				'modern-footnotes/modern-footnotes.php',
             )
         );
 
