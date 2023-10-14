@@ -1275,6 +1275,8 @@ INLINESTICKYTOGGLEJS;
 		 * @return string
 		 */
 		public static function the_content( $content ) {
+
+				$content = apply_filters('eztoc_modify_the_content',$content);
                     
 				if( function_exists( 'post_password_required' ) ) {
 					if( post_password_required() ) return Debug::log()->appendTo( $content );

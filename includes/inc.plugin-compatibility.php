@@ -992,3 +992,15 @@ if(function_exists('wp_get_theme')){
 	}
 	
 }
+
+/**
+ * Mediavine trellis compatibility
+ * @since 2.0.57
+ */
+add_filter('eztoc_modify_the_content','eztoc_mediavine_trellis_content_improver');
+function eztoc_mediavine_trellis_content_improver($content){
+	if(class_exists('Mediavine\Trellis\Custom_Content')){
+		$content = mb_convert_encoding( html_entity_decode($content), 'HTML-ENTITIES', 'UTF-8' );
+	}
+	return $content;
+}
