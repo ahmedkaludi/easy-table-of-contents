@@ -282,4 +282,14 @@ jQuery( function( $ ) {
 
         
 	}
+    $("#toc-more-links-enabler").click(function () { 
+        $(".toc-more-link").show();
+        $("#toc-more-links-enabler").hide();
+        $("#toc-more-links-disabler").show();
+    });
+    $("#toc-more-links-disabler").click(function () { 
+        $(".toc-more-link").hide();
+        $("#toc-more-links-enabler").show();
+        $("#toc-more-links-disabler").hide();
+    });
 } );

@@ -1517,6 +1517,8 @@ class ezTOC_Post {
 
 		// Whether or not the TOC should be built flat or hierarchical.
 		$hierarchical = ezTOC_Option::get( 'show_hierarchy' );
+		//No. of Headings
+		$no_of_headings = ezTOC_Option::get( 'limit_headings_num' ) != '' ? ezTOC_Option::get( 'limit_headings_num' ) : count($matches);
 		$html         = '';
 
 		if ( $hierarchical ) {
@@ -1601,11 +1603,30 @@ class ezTOC_Post {
 				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
 				$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
-				$html .= "<li class='{$prefix}-page-" . $page . "'>";
+				if($count <= $no_of_headings){
+					$html .= "<li class='{$prefix}-page-" . $page . "'>";
+					$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
+					$html .= '</li>';
+				}else{
+					$html .= "<li class='{$prefix}-page-" . $page . " toc-more-link'>";
+					$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
+					$html .= '</li>';
+				}
 
-				$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
-
-				$html .= '</li>';
+			}
+			if(count($matches) > $no_of_headings){
+				$html .= '<button id="toc-more-links-enabler" class="toc-more-links-tgl">
+					<span class="toc-more">Show more</span>
+					<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-chevron-double-down" viewBox="0 0 14 14">
+				  	<path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+				  	<path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+					</svg></button>';
+				$html .= '<button id="toc-more-links-disabler" class="toc-more-links-tgl" style="display:none;">
+					<span class="toc-less">Show less</span>
+					<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-chevron-double-up" viewBox="0 0 16 16">
+				  	<path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 3.707 2.354 9.354a.5.5 0 1 1-.708-.708l6-6z"/>
+				  	<path fill-rule="evenodd" d="M7.646 6.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 7.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+					</svg></button>';	
 			}
 		}
 
