@@ -572,7 +572,7 @@ INLINEWPBAKERYJS;
 					
 				}
 
-				if(ezTOC_Option::get( 'limit_headings_num' ) != ''){
+				if(ezTOC_Option::get( 'ctrl_headings' ) == true){
 					$css .= '.toc-more-link {display: none;} .toc-more-links-tgl { font-size: 10px; background: #fff; margin-top: 10px; border-radius: 10px; padding: 10px 20px; border: 1px solid #ccc; -webkit-box-shadow: none; text-decoration: none; letter-spacing: .05em; text-transform: capitalize; cursor: pointer; color: #999; } .toc-more-links-tgl:hover { background: #444; color: #eee; border-color: #444; } .toc-more-links-tgl span {position: relative;} .toc-more-links-tgl .toc-more {bottom: 0.5px;} .toc-more-links-tgl .toc-less {bottom: 1px;} .toc-more-links-tgl svg {margin-left: 5px;}';
 				}
                                 
@@ -1301,6 +1301,8 @@ INLINESTICKYTOGGLEJS;
 			// Bail if post not eligible and widget is not active.
 			$isEligible = self::is_eligible( get_post() );
 			
+			$toc_origin = "insert";
+
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
 			$return_only_an = false; 
@@ -1330,7 +1332,7 @@ INLINESTICKYTOGGLEJS;
                         
                         $find    = $post->getHeadings();
                         $replace = $post->getHeadingsWithAnchors();
-                        $toc     = $post->getTOC();
+                        $toc     = $post->getTOC($toc_origin);
                             
 			$headings = implode( PHP_EOL, $find );
 			$anchors  = implode( PHP_EOL, $replace );
