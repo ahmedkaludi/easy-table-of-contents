@@ -1608,9 +1608,15 @@ class ezTOC_Post {
 							$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
 							$html .= '</li>';
 						}else{
+							if('css' == ezTOC_Option::get( 'toc_loading' ) && $i == $no_of_headings){
+								$html .= '<input type="checkbox" id="ez-toc-more-toggle-css"/><span class="toc-more-wrp">';
+							}
 							$html .= "<li class='{$prefix}-page-" . $page . " toc-more-link'>";
 							$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
 							$html .= '</li>';
+							if('css' == ezTOC_Option::get( 'toc_loading' ) && $i == count($matches)-1){
+								$html .= '</span>';
+							}
 						}
 					}
 				}
@@ -1627,18 +1633,18 @@ class ezTOC_Post {
 				}
 			}
 			if($prefix == 'insert' && ezTOC_Option::get( 'ctrl_headings' ) == true && count($matches) > $no_of_headings){
-				$html .= '<button id="toc-more-links-enabler" class="toc-more-links-tgl">
+				$html .= '<label for="ez-toc-more-toggle-css" class="ez-toc-more-toggle-label"><span id="toc-more-links-enabler" class="toc-more-links-tgl">
 					<span class="toc-more">View more</span>
 					<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-chevron-double-down" viewBox="0 0 14 14">
 				  	<path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
 				  	<path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-					</svg></button>';
-				$html .= '<button id="toc-more-links-disabler" class="toc-more-links-tgl" style="display:none;">
+					</svg></span></label>';
+				$html .= '<label for="ez-toc-more-toggle-css" class="ez-toc-more-toggle-label"><span id="toc-more-links-disabler" class="toc-more-links-tgl">
 					<span class="toc-less">View less</span>
 					<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-chevron-double-up" viewBox="0 0 16 16">
 				  	<path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 3.707 2.354 9.354a.5.5 0 1 1-.708-.708l6-6z"/>
 				  	<path fill-rule="evenodd" d="M7.646 6.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 7.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
-					</svg></button>';	
+					</svg></span></label>';	
 			}
 		}
 
