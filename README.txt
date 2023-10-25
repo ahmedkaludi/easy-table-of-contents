@@ -3,9 +3,9 @@ Contributors: magazine3
 Donate link: https://tocwp.com/
 Tags: table of contents, toc
 Requires at least: 5.0
-Tested up to: 6.3
+Tested up to: 6.3.2
 Requires PHP: 5.6.20
-Stable tag: 2.0.56
+Stable tag: 2.0.57
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,14 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.57 25/10/2023 =
+* New: A feature to show only limited number of headings and rest should be as "View More" #474
+* Bug: The Footnotes are being repeated if the plugin is activated #597
+* Bug: A warning is showing while using the TOC #606
+* Bug: Jump anchors with apostrophe headings not working if theme Bamboo by Mediavine is active #607
+* Bug: Conflict issue with Molongui Authorship plugin in 2.0.56 version #608
+* Bug: Widget Auto-Highlight Issue After Update 2.0.56.1 #610
 
 = 2.0.56.1 09/10/2023 =
 * Bug: Toggle is not working with the pure CSS loading method. #604
