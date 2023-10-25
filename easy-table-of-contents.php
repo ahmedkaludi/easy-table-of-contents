@@ -575,16 +575,6 @@ INLINEWPBAKERYJS;
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:visited {color: ' . ezTOC_Option::get( 'custom_link_visited_colour' ) . ';}';
 					
 				}
-
-				if(ezTOC_Option::get( 'ctrl_headings' ) == true){
-					if('js' == ezTOC_Option::get( 'toc_loading' )){
-						$css .= '.toc-more-link {display: none;}';
-					}
-					if('css' == ezTOC_Option::get( 'toc_loading' )){
-						$css .= '.toc-more-wrp {display: none;} #ez-toc-container input[type="checkbox"]:checked + .toc-more-wrp { display: block; } #ez-toc-container input[type="checkbox"]:checked + .toc-more-wrp + label.ez-toc-more-toggle-label #toc-more-links-enabler { display: none; } #ez-toc-container input[type="checkbox"]:checked + .toc-more-wrp + label.ez-toc-more-toggle-label + label.ez-toc-more-toggle-label #toc-more-links-disabler {display: inline-block;}';
-					}
-					$css .= '#toc-more-links-disabler {display: none;}.toc-more-links-tgl { font-size: 10px; background: #fff; margin-top: 10px; border-radius: 10px; padding: 10px 20px; border: 1px solid #ccc; -webkit-box-shadow: none; text-decoration: none; letter-spacing: .05em; text-transform: capitalize; cursor: pointer; color: #999; display: inline-block; } .toc-more-links-tgl:hover { background: #444; color: #eee; border-color: #444; } .toc-more-links-tgl span {position: relative;} .toc-more-links-tgl .toc-more {bottom: 0.5px;} .toc-more-links-tgl .toc-less {bottom: 1px;} .toc-more-links-tgl svg {margin-left: 5px;}';
-				}
                                 
 			}
 
@@ -1342,7 +1332,7 @@ INLINESTICKYTOGGLEJS;
                         
                         $find    = $post->getHeadings();
                         $replace = $post->getHeadingsWithAnchors();
-                        $toc     = $post->getTOC($toc_origin);
+                        $toc     = $post->getTOC(false,$toc_origin);
                             
 			$headings = implode( PHP_EOL, $find );
 			$anchors  = implode( PHP_EOL, $replace );

@@ -1159,7 +1159,7 @@ class ezTOC_Post {
 	 *
 	 * @return string
 	 */
-	public function getTOCList($prefix = "ez-toc", $toc_origin = '', $options = []) {
+	public function getTOCList($prefix = "ez-toc", $options = [], $toc_origin = '') {
 
 		$html = '';
 
@@ -1254,7 +1254,7 @@ class ezTOC_Post {
 	 *
 	 * @return string
 	 */
-	public function getTOC($toc_origin = '', $options = []) {
+	public function getTOC($options = [], $toc_origin = '') {
 
 		$class = array( 'ez-toc-v' . str_replace( '.', '_', ezTOC::VERSION ) );
 		$html  = '';
@@ -1356,7 +1356,7 @@ class ezTOC_Post {
 			do_action( 'ez_toc_before' );
 			$html .= ob_get_clean();
 
-			$html .= '<nav>' . $this->getTOCList('ez-toc', $toc_origin, $options) . '</nav>';
+			$html .= '<nav>' . $this->getTOCList('ez-toc', $options, $toc_origin) . '</nav>';
 
 			ob_start();
 			do_action( 'ez_toc_after' );
@@ -1520,6 +1520,8 @@ class ezTOC_Post {
 
 		$html         = '';
 
+		$count_matches = is_array($matches) ? count($matches) : '';
+
 		if ( $hierarchical ) {
 
 			$current_depth      = 100;    // headings can't be larger than h6 but 100 as a default to be sure
@@ -1594,7 +1596,6 @@ class ezTOC_Post {
 			}
 
 		} else {
-
 			if($prefix == 'insert' && ezTOC_Option::get( 'ctrl_headings' ) == true){
 				//No. of Headings
 				$no_of_headings = ezTOC_Option::get( 'limit_headings_num' ) != '' ? ezTOC_Option::get( 'limit_headings_num' ) : count($matches);
@@ -1638,21 +1639,9 @@ class ezTOC_Post {
 					}
 				}
 			}
-			if($prefix == 'insert' && ezTOC_Option::get( 'ctrl_headings' ) == true && count($matches) > $no_of_headings && function_exists('ez_toc_non_amp') && ez_toc_non_amp()){
-				$html .= '<label for="ez-toc-more-toggle-css" class="ez-toc-more-toggle-label"><span id="toc-more-links-enabler" class="toc-more-links-tgl">
-					<span class="toc-more">View more</span>
-					<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-chevron-double-down" viewBox="0 0 14 14">
-				  	<path fill-rule="evenodd" d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-				  	<path fill-rule="evenodd" d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-					</svg></span></label>';
-				$html .= '<label for="ez-toc-more-toggle-css" class="ez-toc-more-toggle-label"><span id="toc-more-links-disabler" class="toc-more-links-tgl">
-					<span class="toc-less">View less</span>
-					<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-chevron-double-up" viewBox="0 0 16 16">
-				  	<path fill-rule="evenodd" d="M7.646 2.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 3.707 2.354 9.354a.5.5 0 1 1-.708-.708l6-6z"/>
-				  	<path fill-rule="evenodd" d="M7.646 6.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 7.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
-					</svg></span></label>';	
-			}
 		}
+
+		$html = apply_filters('ez_toc_pro_html_modifier', $html, $prefix, $count_matches);
 
 		return do_shortcode($html);
 	}
