@@ -528,7 +528,7 @@ function addCustomSpan()
                                                     dirname(__FILE__)) ?>" alt="right-tick"/>
                                                 <h4><?= esc_html_e('Fixed/Sticky TOC', 'easy-table-of-contents'); ?></h4>
                                             </div>
-                                            <p><?= esc_html_e('Users can faster find the content they want with sticky', 'easy-table-of-contents'); ?></p>
+                                            <p><?= esc_html_e('Users can faster find the content they want with sticky. Also customize the appearance of Sticky TOC with different options.', 'easy-table-of-contents'); ?></p>
                                         </div>
 
 
@@ -555,6 +555,14 @@ function addCustomSpan()
                                                 <h4><?= esc_html_e("Documentation", 'easy-table-of-contents'); ?></h4>
                                             </div>
                                             <p><?= esc_html_e("We create tutorials for every possible feature and keep it updated for you.", 'easy-table-of-contents'); ?></p>
+                                        </div>
+                                        <div class="fe-2">
+                                            <div class="fe-t">
+                                                <img src="<?php echo plugins_url('assets/right-tick.png',
+                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <h4><?= esc_html_e("ACF Support", 'easy-table-of-contents'); ?></h4>
+                                            </div>
+                                            <p><?= esc_html_e("Easily create TOC with your custom ACF fields.", 'easy-table-of-contents'); ?></p>
                                         </div>
                                     </div><!-- /. fet -->
                                     <div class="pr-btn">

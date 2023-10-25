@@ -44,6 +44,7 @@ With [EASY TABLE OF CONTENTS PRO](https://tocwp.com/pricing/) You will get acces
 * <strong>New - Gutenberg Block </strong>: Easily create TOC in Gutenberg block without the need of any coding or shortcode.
 * <strong>New - Elementor Widget </strong>: Easily create TOC using Elementor Widget without the need of any coding or shortcode.
 * <strong>New - Fixed/Sticky TOC </strong>: Users can find the content that they need, much faster through the option of sticky TOC.
+* <strong>New - Fixed/Sticky TOC Customization </strong>: Customize the appearance of Sticky TOC with Theme Design options.
 * <strong>New - Full AMP Support </strong>: Generates a TOC with your existing setup and make it AMP compatible automatically.
 * <strong>NEW – ACF Support </strong>: Easily create TOC with your custom ACF fields.
 
@@ -102,6 +103,11 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.56.1 09/10/2023 =
+* Bug: Toggle is not working with the pure CSS loading method. #604
+* Bug: Border colour is not changing in TOC #603
+* Bug: jQuery issue showing in console #605
 
 = 2.0.56 05/10/2023 =
 * New: Option to exclude toc from wp-json rest api #580

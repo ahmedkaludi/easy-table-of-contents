@@ -817,11 +817,11 @@ if('Chamomile' == apply_filters( 'current_theme', get_option( 'current_theme' ) 
 
 	$block_post_template = get_block_template(get_stylesheet() . '//' .'single');
 	$block_page_template = get_block_template(get_stylesheet() . '//' .'page');
-	if(is_single() && (has_shortcode($block_post_template->content,'toc') || has_shortcode($block_post_template->content,'ez-toc')))
+	if(is_single() && is_object($block_post_template) && (has_shortcode($block_post_template->content,'toc') || has_shortcode($block_post_template->content,'ez-toc')))
 	{
 		$status=true;
 	}
-	if(is_page() && (has_shortcode($block_page_template->content,'toc') || has_shortcode($block_page_template->content,'ez-toc')))
+	if(is_page() && is_object($block_post_template) && (has_shortcode($block_page_template->content,'toc') || has_shortcode($block_page_template->content,'ez-toc')))
 	{
 		$status=true;
 	}
@@ -940,23 +940,29 @@ add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_content_molongui_autho
 	function ez_toc_content_molongui_authorship($content){
 		if(!empty($content))
 		{
-			libxml_use_internal_errors(true);
-			$dom = new DOMDocument();
-			$dom->loadHTML($content);
-			$xpath = new DOMXPath($dom);
-			if($xpath){
-			$divs = $xpath->query('//div[@class="m-a-box-container"]');
-			foreach ($divs as $div) {
-				$div->parentNode->removeChild($div);
+			if(strpos($content, "m-a-box-container") !== false){
+
+					libxml_use_internal_errors(true);
+					$dom = new DOMDocument();
+					$dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
+					$xpath = new DOMXPath($dom);
+					if($xpath){
+						$divs = $xpath->query('//div[@class="m-a-box-container"]');
+							if($divs){
+								foreach ($divs as $div) {
+									$div->parentNode->removeChild($div);
+								}
+							}					
+						// Save the modified HTML content
+						$modifiedHtml = $dom->saveHTML();
+						// Return the modified HTML content
+						return $modifiedHtml;
+					}
+
 			}
-			// Save the modified HTML content
-			$modifiedHtml = $dom->saveHTML();
-			// Return the modified HTML content
-			return $modifiedHtml;
+			
 		}
-	}
-			return $content;
-		
+		return $content;		
 	}
 }
 
@@ -985,4 +991,16 @@ if(function_exists('wp_get_theme')){
 		
 	}
 	
+}
+
+/**
+ * Mediavine trellis compatibility
+ * @since 2.0.57
+ */
+add_filter('eztoc_modify_the_content','eztoc_mediavine_trellis_content_improver');
+function eztoc_mediavine_trellis_content_improver($content){
+	if(class_exists('Mediavine\Trellis\Custom_Content')){
+		$content = mb_convert_encoding( html_entity_decode($content), 'HTML-ENTITIES', 'UTF-8' );
+	}
+	return $content;
 }

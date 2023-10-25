@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.56
+ * Version: 2.0.56.1
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.56
+ * @version  2.0.56.1
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -49,7 +49,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.56';
+		const VERSION = '2.0.56.1';
 
 		/**
 		 * Stores the instance of this class.
@@ -340,6 +340,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', TRUE );
 				wp_register_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', TRUE );                        			
 				wp_register_script( 'ez-toc-js', EZ_TOC_URL . "assets/js/front{$min}.js", array( 'jquery', 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ), ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/front{$min}.js" ), true );
+				wp_register_script( 'ez-toc-scroll-scriptjs', EZ_TOC_URL . "assets/js/smooth_scroll{$min}.js", array( 'jquery' ), ezTOC::VERSION, true );
 				self::localize_scripts();
 																													
 				if ( self::is_enqueue_scripts_eligible() ) {
@@ -378,6 +379,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
 					$js_vars['smooth_scroll'] = true;
+				}else{
+					$js_vars['smooth_scroll'] = false;
 				}
 
 				if ( ezTOC_Option::get( 'show_heading_text' ) && ezTOC_Option::get( 'visibility' ) ) {
@@ -453,38 +456,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
          */
 		public static function enqueue_registered_script(){
 
-			if (ezTOC_Option::get( 'toc_loading' ) == 'js') {	
+			if (ezTOC_Option::get( 'toc_loading' ) == 'js') {
 					wp_enqueue_script( 'ez-toc-js' );
 					if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
-						self::inlineScrollEnqueueScripts();
-					}													
+						wp_enqueue_script( 'ez-toc-scroll-scriptjs' );
+					}					
 			}
 
 		}
-        
-        /**
-         * inlineScrollEnqueueScripts Method
-         * Set scroll offset & smoothness
-         *
-         * @since  2.0.40
-         * @static
-         * @uses wp_add_inline_style()
-         * @return void
-         *
-         */
-        private static function inlineScrollEnqueueScripts()
-        {
-
-            $offset = wp_is_mobile() ? ezTOC_Option::get( 'mobile_smooth_scroll_offset', 0 ) : ezTOC_Option::get( 'smooth_scroll_offset', 30 );
-            
-             $inlineScrollJS = <<<INLINESCROLLJS
-jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-link").forEach(t=>{t=t.replaceWith(t.cloneNode(!0))}),document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),jQuery("a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=jQuery("header"),o=0;$offset>30&&(o=$offset),e.length&&(o+=e.height()),(i.length&&"fixed"==i.css("position")||"sticky"==i.css("position"))&&(o+=i.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(o=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-o),jQuery("html, body").animate({scrollTop:o},500)})});
-INLINESCROLLJS;
-            wp_register_script( 'ez-toc-scroll-scriptjs', '', array( 'jquery' ), ezTOC::VERSION );
-            wp_enqueue_script( 'ez-toc-scroll-scriptjs', '', array( 'jquery' ), ezTOC::VERSION );
-            wp_add_inline_script( 'ez-toc-scroll-scriptjs', $inlineScrollJS );
-        }
-        
+                        
         /**
          * inlineWPBakeryJS Method
          * Javascript code for WP Bakery Plugin issue for mobile screen
@@ -565,7 +545,7 @@ INLINEWPBAKERYJS;
 
 					if ( ezTOC_Option::get( 'theme' ) === 'custom' ) {
 
-						$css .= 'background: ' . ezTOC_Option::get( 'custom_background_colour' ) . ';border: '.ezTOC_Option::get( 'custom_border_size' ).'px solid ' . ezTOC_Option::get( 'custom_border_colour' ) . ';';
+						$css .= 'background: ' . ezTOC_Option::get( 'custom_background_colour','#f9f9f9' ) . ';border: '.ezTOC_Option::get( 'custom_border_size' ,1).'px solid ' . ezTOC_Option::get( 'custom_border_colour' ,'#aaa') . ';';
 					}
 
 					if ( 'auto' !== ezTOC_Option::get( 'width' ) ) {
@@ -593,8 +573,8 @@ INLINEWPBAKERYJS;
 					$css .= 'div#ez-toc-container ul.ez-toc-list a {color: ' . ezTOC_Option::get( 'custom_link_colour' ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:hover {color: ' . ezTOC_Option::get( 'custom_link_hover_colour' ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:visited {color: ' . ezTOC_Option::get( 'custom_link_visited_colour' ) . ';}';
+					
 				}
-                                
                                 
 			}
 
@@ -1299,6 +1279,8 @@ INLINESTICKYTOGGLEJS;
 		 * @return string
 		 */
 		public static function the_content( $content ) {
+
+				$content = apply_filters('eztoc_modify_the_content',$content);
                     
 				if( function_exists( 'post_password_required' ) ) {
 					if( post_password_required() ) return Debug::log()->appendTo( $content );
@@ -1319,6 +1301,8 @@ INLINESTICKYTOGGLEJS;
 			// Bail if post not eligible and widget is not active.
 			$isEligible = self::is_eligible( get_post() );
 			
+			$toc_origin = "insert";
+
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
 			$return_only_an = false; 
@@ -1348,7 +1332,7 @@ INLINESTICKYTOGGLEJS;
                         
                         $find    = $post->getHeadings();
                         $replace = $post->getHeadingsWithAnchors();
-                        $toc     = $post->getTOC();
+                        $toc     = $post->getTOC(array(),$toc_origin);
                             
 			$headings = implode( PHP_EOL, $find );
 			$anchors  = implode( PHP_EOL, $replace );

@@ -262,8 +262,7 @@ jQuery( function( $ ) {
             $( '#ez-toc-container .ez-toc-toggle label').html(ezTOC.fallbackIcon);
         }
     }
-    
-
+        
     	/**
 		 * Attach global init handler to ezTOC window object.
 		 */
@@ -272,5 +271,17 @@ jQuery( function( $ ) {
 		}
 		// Start EZ TOC on page load.
 		ezTOCInit();
+
+        
 	}
+    $("#toc-more-links-enabler").click(function () { 
+        $(".toc-more-link").show();
+        $("#toc-more-links-enabler").hide();
+        $("#toc-more-links-disabler").attr("style","display:inline-block");
+    });
+    $("#toc-more-links-disabler").click(function () { 
+        $(".toc-more-link").hide();
+        $("#toc-more-links-enabler").show();
+        $("#toc-more-links-disabler").hide();
+    });
 } );
