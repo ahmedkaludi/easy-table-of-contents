@@ -1133,7 +1133,7 @@ class ezTOC_Post {
 	 * @param string $prefix
 	 * @return void|mixed|string|null
 	 */
-	private function createTOCParent( $prefix = "ez-toc" )
+	private function createTOCParent( $prefix = "ez-toc",$toc_origin = '' )
 	{
 		$html = ''; 
 		$first_page = 1;
@@ -1145,7 +1145,7 @@ class ezTOC_Post {
 
 		if( !empty( $headings ) )
 		{
-			$html .= $this->createTOC( $first_page, $headings, $prefix );
+			$html .= $this->createTOC( $first_page, $headings, $prefix, $toc_origin );
 		}
 
 		return $html;
@@ -1165,7 +1165,7 @@ class ezTOC_Post {
 
 		if ( $this->hasTOCItems ) {
 			
-			$html = $this->createTOCParent($toc_origin);
+			$html = $this->createTOCParent($prefix, $toc_origin);
 			$visiblityClass = '';
 			if( ezTOC_Option::get( 'visibility_hide_by_default' ) && 'js' == ezTOC_Option::get( 'toc_loading' ) &&  ezTOC_Option::get( 'visibility' ))
 			{
@@ -1513,7 +1513,7 @@ class ezTOC_Post {
 	 *
 	 * @return string The HTML list of TOC items.
 	 */
-	private function createTOC( $page, $matches, $prefix = "ez-toc" ) {
+	private function createTOC( $page, $matches, $prefix = "ez-toc", $toc_origin = '' ) {
 
 		// Whether or not the TOC should be built flat or hierarchical.
 		$hierarchical = ezTOC_Option::get( 'show_hierarchy' );
@@ -1596,7 +1596,7 @@ class ezTOC_Post {
 			}
 
 		} else {
-			if($prefix == 'insert' && ezTOC_Option::get( 'ctrl_headings' ) == true){
+			if($toc_origin == 'insert' && ezTOC_Option::get( 'ctrl_headings' ) == true){
 				//No. of Headings
 				$no_of_headings = ezTOC_Option::get( 'limit_headings_num' ) != '' ? ezTOC_Option::get( 'limit_headings_num' ) : count($matches);
 				if(is_array($matches)){
@@ -1641,7 +1641,7 @@ class ezTOC_Post {
 			}
 		}
 
-		$html = apply_filters('ez_toc_pro_html_modifier', $html, $prefix, $count_matches);
+		$html = apply_filters('ez_toc_pro_html_modifier', $html, $toc_origin, $count_matches);
 
 		return do_shortcode($html);
 	}
