@@ -175,6 +175,13 @@ class ezTOC_Post {
 		}else{
 			$this->post->post_content = $this->post->post_content;
 		}
+		
+		if( defined('EASY_TOC_AMP_VERSION') && function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint() ){
+			$ampforwp_pagebuilder_enable = get_post_meta(get_the_ID(),'ampforwp_page_builder_enable', true);
+			if($ampforwp_pagebuilder_enable=='yes'){
+				$this->post->post_content = $this->ampforwpPageBuildercontent();
+			}
+		}
 
 		add_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ), 10, 2 );
 
@@ -291,6 +298,97 @@ class ezTOC_Post {
 	protected function isMultipage() {
 
 		return 1 < $this->getNumberOfPages();
+	}
+
+	public static function ampforwpPageBuildercontent() {
+
+		global $post,  $redux_builder_amp;
+		global $moduleTemplate, $layoutTemplate, $containerCommonSettings;
+
+		$postId = (is_object($post)? $post->ID: '');
+		if( ampforwp_is_front_page() ){
+			$postId = ampforwp_get_frontpage_id();
+		}
+		if ( ampforwp_polylang_front_page() ) {
+			$front_page_id = get_option('page_on_front');
+			if($front_page_id){
+				$postId = pll_get_post($front_page_id);
+			}
+		}
+		$previousData = get_post_meta($postId,'amp-page-builder');
+		$previousData = isset($previousData[0])? $previousData[0]: null;
+		$ampforwp_pagebuilder_enable = get_post_meta($postId,'ampforwp_page_builder_enable', true);
+		$html ="";
+		if($previousData!="" && $ampforwp_pagebuilder_enable=='yes'){
+			$previousData = json_decode($previousData,true);
+			//Call Sorting for rows 
+			if(is_array($previousData) && count($previousData['rows'])>0){
+				$mainContentClass = '';
+				if(isset($previousData['settingdata']) && isset($previousData['settingdata']['front_class'])){
+					$mainContentClass = $previousData['settingdata']['front_class'];
+				}
+				$html = '<div class="amp_pb '.$mainContentClass.'">';
+				$previousData = sortByIndex($previousData['rows']);
+
+				//rander its html
+				foreach ($previousData as $key => $rowsData) {
+
+					$customClass = '';
+					$rowStartTemplate = $containerCommonSettings['front_template_start'];
+					$rowEndTemplate = $containerCommonSettings['front_template_end'];
+					foreach ($containerCommonSettings['fields'] as $key => $field) {
+						if($field['content_type']=='html'){
+							$replace ='';
+							if($field['name'] == 'row_class'){
+								$replace .= 'ap_r_'.esc_attr($rowsData['id'])." ";
+							}
+							if(isset($rowsData['data'][$field['name']]) && !is_array($rowsData['data'][$field['name']])){
+								if($field['name']=='grid_type' && $rowsData['data'][$field['name']] == 'amppb-fluid' ){
+									$replace .= 'ap-fl';
+								}elseif($field['name']=='grid_type' && $rowsData['data'][$field['name']]=='amppb-fixed'){
+									$replace .= 'ap-fi';
+								}else{
+									$allowed_tags = '<p><a><b><strong><i><u><ul><ol><li><h1><h2><h3><h4><h5><h6><table><tr><th><td><em><span><div>';
+									$replace .= strip_tags($rowsData['data'][$field['name']],$allowed_tags);
+								}
+							}else{
+								$replace .= '';
+							}
+							if(! is_array($field['name']) && $field['content_type']=='html'){
+								$rowStartTemplate = str_replace('{{'.$field['name'].'}}', $replace, $rowStartTemplate);
+							}
+							$rowStartTemplate = ampforwp_replaceIfContentConditional($field['name'], $replace, $rowStartTemplate);
+						}
+					}
+					$html .= $rowStartTemplate;
+					//$html .= '<div class="row '.$customClass.'">';
+					if(count($rowsData['cell_data'])>0){
+						switch ($rowsData['cells']) {
+							case '1':
+								$html .= ampforwp_rowData($rowsData['cell_data'],$rowsData['cells'],$moduleTemplate);
+							break;
+							case '2':
+								$colData = array();
+								foreach($rowsData['cell_data'] as $colDevider){
+									$colData[$colDevider['cell_container']][] = $colDevider;
+								}
+								$html .= '<div class="col-2-wrap col">';
+								foreach($colData as $data)
+									$html .= ampforwp_rowData($data,$rowsData['cells'],$moduleTemplate);
+								$html .= '</div>';
+							break;
+							
+							default:
+								# code...
+								break;
+						}
+					}
+					$html .= $rowEndTemplate;
+				}
+					$html .= '</div>';
+			}
+		}
+		return $html;
 	}
 
 	/**
