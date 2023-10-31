@@ -423,7 +423,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				if ( 0 < count( $js_vars ) ) {
 					wp_localize_script( 'ez-toc-js', 'ezTOC', $js_vars );
-				}						
+					// smooth scroll js localization
+					$js_scroll = array();
+					$js_scroll['scroll_offset'] = esc_js( $offset );	
+					wp_localize_script( 'ez-toc-scroll-scriptjs', 'eztoc_smooth_local', $js_scroll );						
+				}		
+												
 		}
 
 		/**
