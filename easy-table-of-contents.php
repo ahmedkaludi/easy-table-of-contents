@@ -1637,11 +1637,17 @@ INLINESTICKYTOGGLEJS;
 
 			if(ezTOC_Option::get('sticky-toggle')){
 				$stickyPostTypes = apply_filters('ez_toc_sticky_post_types', ezTOC_Option::get('sticky-post-types'));
-				$isEligible = true;
+				$isEligible = false;
 				if(!empty($stickyPostTypes)){
 					$postType = get_post_type();
-					if(!in_array($postType,$stickyPostTypes)){
+					if(in_array($postType,$stickyPostTypes)){
+						$isEligible = true;
+					}
+					if(is_home() && $postType == 'post'){
 						$isEligible = false;
+						if(in_array('page',$stickyPostTypes)){
+							$isEligible = true;
+						}
 					}
 				}
 				$isEligible = apply_filters('ez_toc_sticky_visible', $isEligible);
