@@ -697,7 +697,13 @@ add_filter('ez_toc_modify_process_page_content', 'ez_toc_parse_gutenberg_reusabl
 function ez_toc_parse_gutenberg_reusable_block($content){
 	
 	if(function_exists('do_blocks')){
-		$content = do_blocks($content);
+		if(has_block('easytoc/toc')){
+			$content =  str_replace( '<!-- wp:easytoc/toc /-->', 'eztoctempblock', $content );		
+			$content = do_blocks($content);
+			$content =  str_replace( 'eztoctempblock', '<!-- wp:easytoc/toc /-->', $content );				
+		}else{
+			$content = do_blocks($content);
+		}			
 	}
 	return $content;
 }
