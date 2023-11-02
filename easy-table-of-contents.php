@@ -1419,6 +1419,19 @@ INLINESTICKYTOGGLEJS;
 				    }
 					break;
 				case 'aftercustompara':
+					$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
+					//blockqoute
+					if($exc_blkqt == true){
+						preg_match_all("/<blockquote>(.*?)<\/blockquote>/s", $content, $blockquotes);
+						if(!empty($blockquotes)){
+					    	$bId = 0;
+					    	foreach($blockquotes[0] as $blockquote){
+					        	$replace = '#eztocbq' . $bId . '#';
+					        	$content = str_replace( trim($blockquote), $replace, $content );
+					        	$bId++;
+					    	}
+					   	}
+					}
 					$paragraph_index = ezTOC_Option::get( 'custom_para_number' );
 					if($paragraph_index == 1){
 						$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );
@@ -1444,6 +1457,15 @@ INLINESTICKYTOGGLEJS;
 					}else{
 						$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );	
 					}
+					//add blockqoute back
+					if($exc_blkqt == true && !empty($blockquotes)){
+				    	$bId = 0;
+				    	foreach($blockquotes[0] as $blockquote){
+				        	$search = '#eztocbq' . $bId . '#'; 
+				        	$content = str_replace( $search, trim($blockquote), $content );
+				        	$bId++;
+				      	}
+				    }
 					break;	
 				case 'before':
 				default:
@@ -1587,9 +1609,44 @@ INLINESTICKYTOGGLEJS;
 					$content    = mb_find_replace( $find, $replace, $content );
 					break;
 				case 'afterpara':
+					$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
+					//blockqoute
+					if($exc_blkqt == true){
+						preg_match_all("/<blockquote>(.*?)<\/blockquote>/s", $content, $blockquotes);
+						if(!empty($blockquotes)){
+					    	$bId = 0;
+					    	foreach($blockquotes[0] as $blockquote){
+					        	$replace = '#eztocbq' . $bId . '#';
+					        	$content = str_replace( trim($blockquote), $replace, $content );
+					        	$bId++;
+					    	}
+					   	}
+					}
 					$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );
+					//add blockqoute back
+					if($exc_blkqt == true && !empty($blockquotes)){
+				    	$bId = 0;
+				    	foreach($blockquotes[0] as $blockquote){
+				        	$search = '#eztocbq' . $bId . '#'; 
+				        	$content = str_replace( $search, trim($blockquote), $content );
+				        	$bId++;
+				      	}
+				    }
 					break;
 				case 'aftercustompara':
+					$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
+					//blockqoute
+					if($exc_blkqt == true){
+						preg_match_all("/<blockquote>(.*?)<\/blockquote>/s", $content, $blockquotes);
+						if(!empty($blockquotes)){
+					    	$bId = 0;
+					    	foreach($blockquotes[0] as $blockquote){
+					        	$replace = '#eztocbq' . $bId . '#';
+					        	$content = str_replace( trim($blockquote), $replace, $content );
+					        	$bId++;
+					    	}
+					   	}
+					}
 					$paragraph_index = ezTOC_Option::get( 'custom_para_number' );
 					if($paragraph_index == 1){
 						$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );
@@ -1615,6 +1672,15 @@ INLINESTICKYTOGGLEJS;
 					}else{
 						$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );	
 					}
+					//add blockqoute back
+					if($exc_blkqt == true && !empty($blockquotes)){
+				    	$bId = 0;
+				    	foreach($blockquotes[0] as $blockquote){
+				        	$search = '#eztocbq' . $bId . '#'; 
+				        	$content = str_replace( $search, trim($blockquote), $content );
+				        	$bId++;
+				      	}
+				    }
 					break;	
 				case 'before':
 				default:
