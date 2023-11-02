@@ -240,6 +240,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'size' => 'small',
 							'default' => 1,
 						),
+						'blockqoute_checkbox' => array(
+							'id' => 'blockqoute_checkbox',
+							'name' => __( 'Exclude Blockqoute', 'easy-table-of-contents' ),
+							'desc' => __( 'Do not consider Paragraphs which are inside Blockqoute', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'start' => array(
 							'id' => 'start',
 							'name' => __( 'Show when', 'easy-table-of-contents' ),
@@ -1134,6 +1141,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'add_request_uri'                     => false,
 				'mediavine-create'                    => 0,
 				'custom_para_number'                  => 1,
+				'blockqoute_checkbox'                  => false,
 				'disable_in_restapi'                  => false,
 				'show_title_in_toc'				      => false,	
 				'sticky-post-types'					  => array('post','page'),
