@@ -465,10 +465,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		public static function enqueue_registered_script(){
 
 			if (ezTOC_Option::get( 'toc_loading' ) == 'js') {
-					wp_enqueue_script( 'ez-toc-js' );
 					if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
 						wp_enqueue_script( 'ez-toc-scroll-scriptjs' );
 					}					
+					wp_enqueue_script( 'ez-toc-js' );
 			}
 
 		}
