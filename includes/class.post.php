@@ -1156,6 +1156,21 @@ class ezTOC_Post {
 		return $headings;
 	}
 
+	public function getTocTitleId( $page = null ) {
+		$nav_data = array();
+		if ( is_null( $page ) ) {
+			$page = $this->getCurrentPage();
+		}
+		if ( !empty( $this->pages ) || isset( $this->pages[ $page ] ) ) {
+			$matches = $this->getHeadingsfromPageContents( $page );
+			foreach ( $matches as $i => $match ) {
+				$nav_data[$i]['title'] = strip_tags( $matches[ $i ][0] );
+				$nav_data[ $i ]['id'] = strtolower(str_replace( '_', '-', $matches[ $i ]['id'] ));
+			}
+		}
+		return $nav_data;
+	}
+
 	/**
 	 * Get the heading with in page anchors of the current page of the post.
 	 *

@@ -669,6 +669,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							          '<p>' . __( '<strong>Note:</strong> This is not case sensitive.', 'easy-table-of-contents' ) . '</p>',
 							'type' => 'descriptive_text',
 						),
+						'schema_sitenav_checkbox' => array(
+							'id' => 'schema_sitenav_checkbox',
+							'name' => __( 'Generate Schema SiteNavigation', 'easy-table-of-contents' ),
+							'desc' => __( 'This option helps generating SiteNavigation Schema of the table of contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'smooth_scroll_offset' => array(
 							'id' => 'smooth_scroll_offset',
 							'name' => __( 'Smooth Scroll Offset', 'easy-table-of-contents' ),
