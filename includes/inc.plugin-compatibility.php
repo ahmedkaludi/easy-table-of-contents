@@ -1019,3 +1019,29 @@ function ez_toc_perfmatters_touch_css($css){
 	}
   	return $css;
 }
+function ez_toc_woodmart_gallery_fix(){
+	if(function_exists('woodmart_load_classes') && class_exists('Vc_Manager')){
+		
+		if(!wp_style_is('el-section-title')){
+			wp_register_style( 'el-section-title', WOODMART_THEME_DIR.'/css/parts/el-section-title.min.css');
+			wp_enqueue_style( 'el-section-title' );
+		}
+		
+		if(!wp_style_is('wd-section-title-style-simple-and-brd')){
+		wp_register_style( 'wd-section-title-style-simple-and-brd', WOODMART_THEME_DIR.'/css/parts/el-section-title-style-simple-and-brd.min.css');
+		wp_enqueue_style( 'wd-section-title-style-simple-and-brd' );
+		}
+		
+		if(!wp_style_is('wd-owl-carousel')){
+			wp_register_style( 'wd-owl-carousel', WOODMART_THEME_DIR.'/css/parts/lib-owl-carousel.min.css');
+			wp_enqueue_style( 'wd-owl-carousel' );
+		}
+		
+		if(!wp_style_is('wd-image-gallery')){
+			wp_register_style( 'wd-image-gallery', WOODMART_THEME_DIR.'/css/parts/el-gallery.min.css');
+			wp_enqueue_style( 'wd-image-gallery' );
+		}
+			
+	}	
+}
+add_action('wp_enqueue_scripts', 'ez_toc_woodmart_gallery_fix');
