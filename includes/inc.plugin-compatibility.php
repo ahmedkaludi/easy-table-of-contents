@@ -1019,6 +1019,10 @@ function ez_toc_perfmatters_touch_css($css){
 	}
   	return $css;
 }
+/**
+ * Woodmart + WPbakery Gallery compatibility
+ * @since 2.0.58
+ */
 function ez_toc_woodmart_gallery_fix(){
 	if(function_exists('woodmart_load_classes') && class_exists('Vc_Manager')){
 		
