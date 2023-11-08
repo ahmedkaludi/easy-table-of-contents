@@ -1010,3 +1010,12 @@ function eztoc_mediavine_trellis_content_improver($content){
 	}
 	return $content;
 }
+
+//Perfmatters Compatibility
+add_filter('ez_toc_pro_inline_css','ez_toc_perfmatters_touch_css');
+function ez_toc_perfmatters_touch_css($css){
+	if('css' == ezTOC_Option::get( 'toc_loading' ) && class_exists('Perfmatters\Config') && !empty(Perfmatters\Config::$options['assets']['delay_js']) && !empty(Perfmatters\Config::$options['assets']['fastclick'])) {
+	 	$css .= 'label > * { pointer-events:none; }';
+	}
+  	return $css;
+}
