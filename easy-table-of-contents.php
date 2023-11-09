@@ -155,11 +155,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
 			add_action( 'wp_head', array( __CLASS__, 'ez_toc_inline_styles' ) );
-			
-			//Schema
-			if(ezTOC_Option::get( 'schema_sitenav_checkbox' ) == true){
-				add_action( 'wp_head', array( __CLASS__, 'ez_toc_schema_sitenav_creator' ) );
-			}
+			add_action( 'wp_head', array( __CLASS__, 'ez_toc_schema_sitenav_creator' ) );			
 
 			if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
 				add_option( 'ez-toc-post-content-core-level', false );
@@ -318,26 +314,26 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		public static function ez_toc_schema_sitenav_creator(){
-			$post = ezTOC::get( get_the_ID() );
-			if($post){
-				$items = $post->getTocTitleId();
-			}
-			if(!empty($items)){
-		        foreach($items as $item){
-		            $output_array[] = array(
-		              	"@context" => "https://schema.org",
-		                "@type"    => "SiteNavigationElement",
-		              	'@id'      => '#ez-toc',
-		                "name"     => wp_strip_all_tags($item['title']),
-		                "url"      => get_permalink() ."#". $item['id'],
-		            );
-		        }
-		    }
-		    $markup = wp_json_encode( $output_array, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
-		    $output .= '<script type="application/ld+json" class="ez-toc-schema-markup-output">';
-		    $output .= $markup;
-		    $output .= '</script>';
-			echo $output;
+
+			if(ezTOC_Option::get( 'schema_sitenav_checkbox' ) == true){
+			
+				$post = ezTOC::get( get_the_ID() );
+				if($post){
+					$items = $post->getTocTitleId();
+					if(!empty($items)){
+						foreach($items as $item){
+							$output_array[] = array(
+								"@context" => "https://schema.org",
+								"@type"    => "SiteNavigationElement",
+								'@id'      => '#ez-toc',
+								"name"     => wp_strip_all_tags($item['title']),
+								"url"      => get_permalink() ."#". $item['id'],
+							);
+						}
+						echo '<script type="application/ld+json" class="ez-toc-schema-markup-output">'.wp_json_encode( $output_array, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ).'</script>';
+					}
+				}							
+			}			
 		}
 		
 		/**

@@ -1155,7 +1155,16 @@ class ezTOC_Post {
 
 		return $headings;
 	}
-
+	/**
+	 * Get the heading title id.
+	 *
+	 * @access public
+	 * @since  2.0.58
+	 *
+	 * @param int|null $page
+	 *
+	 * @return array
+	 */
 	public function getTocTitleId( $page = null ) {
 		$nav_data = array();
 		if ( is_null( $page ) ) {
