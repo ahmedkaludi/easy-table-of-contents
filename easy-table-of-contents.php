@@ -321,6 +321,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if($post){
 					$items = $post->getTocTitleId();
 					if(!empty($items)){
+						$output_array = array();
 						foreach($items as $item){
 							$output_array[] = array(
 								"@context" => "https://schema.org",
@@ -330,7 +331,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 								"url"      => get_permalink() ."#". $item['id'],
 							);
 						}
-						echo '<script type="application/ld+json" class="ez-toc-schema-markup-output">'.wp_json_encode( $output_array, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ).'</script>';
+						if(!empty($output_array)){
+							$schema_opt = array();	
+							$schema_opt['@context'] = "https://schema.org"; 
+							$schema_opt['@graph']   = $output_array; 
+							echo '<script type="application/ld+json" class="ez-toc-schema-markup-output">'.wp_json_encode( $schema_opt, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ).'</script>';
+						}
+						
 					}
 				}							
 			}			
