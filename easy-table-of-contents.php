@@ -1229,12 +1229,14 @@ INLINESTICKYTOGGLEJS;
                                         return Debug::log()->appendTo( $content );
                                 }
                                 			
+							$options =  array();
 							if (isset($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
-								$options = array('visibility_hide_by_default' => true);
-								$html = $post->getTOC($options);
-							}else{
-								$html = $post->getTOC();			
-							}							
+								$options['visibility_hide_by_default'] = true;
+							}
+							if (isset($atts["more"]) && $atts["more"] == 1) {
+								$options['view_more'] = true;
+							}
+							$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();			
                         
 			return $html;
 		}
@@ -1340,7 +1342,11 @@ INLINESTICKYTOGGLEJS;
 			// Bail if post not eligible and widget is not active.
 			$isEligible = self::is_eligible( get_post() );
 			
-			$toc_origin = "insert";
+			//More button
+			$options =  array();
+			if (ezTOC_Option::get( 'ctrl_headings' ) == true) {
+				$options['view_more'] = true;
+			}
 
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
@@ -1371,7 +1377,7 @@ INLINESTICKYTOGGLEJS;
                         
                         $find    = $post->getHeadings();
                         $replace = $post->getHeadingsWithAnchors();
-                        $toc     = $post->getTOC(array(),$toc_origin);
+                        $toc 	 = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();
                             
 			$headings = implode( PHP_EOL, $find );
 			$anchors  = implode( PHP_EOL, $replace );
@@ -1555,7 +1561,11 @@ INLINESTICKYTOGGLEJS;
 			// Bail if post not eligible and widget is not active.
 			$isEligible = self::is_eligible( get_post() );
 			
-			$toc_origin = "insert";
+			//More button
+			$options =  array();
+			if (ezTOC_Option::get( 'ctrl_headings' ) == true) {
+				$options['view_more'] = true;
+			}
 
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
@@ -1586,7 +1596,7 @@ INLINESTICKYTOGGLEJS;
                         
                         $find    = $post->getHeadings();
                         $replace = $post->getHeadingsWithAnchors();
-                        $toc     = $post->getTOC(array(),$toc_origin);
+                        $toc 	 = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();
                             
 			$headings = implode( PHP_EOL, $find );
 			$anchors  = implode( PHP_EOL, $replace );
