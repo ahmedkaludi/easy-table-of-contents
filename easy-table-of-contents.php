@@ -1233,8 +1233,8 @@ INLINESTICKYTOGGLEJS;
 							if (isset($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
 								$options['visibility_hide_by_default'] = true;
 							}
-							if (isset($atts["more"]) && $atts["more"] == 1) {
-								$options['view_more'] = true;
+							if (isset($atts["view_more"]) && $atts["view_more"] > 0) {
+								$options['view_more'] = $atts["view_more"];
 							}
 							$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();			
                         
@@ -1345,7 +1345,7 @@ INLINESTICKYTOGGLEJS;
 			//More button
 			$options =  array();
 			if (ezTOC_Option::get( 'ctrl_headings' ) == true) {
-				$options['view_more'] = true;
+				$options['view_more'] = ezTOC_Option::get( 'limit_headings_num' );
 			}
 
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);

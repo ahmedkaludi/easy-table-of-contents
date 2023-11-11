@@ -1255,7 +1255,7 @@ class ezTOC_Post {
 	 * @param string $prefix
 	 * @return void|mixed|string|null
 	 */
-	private function createTOCParent( $prefix = "ez-toc",$toc_more = '' )
+	private function createTOCParent( $prefix = "ez-toc", $toc_more = array() )
 	{
 		$html = ''; 
 		$first_page = 1;
@@ -1285,7 +1285,7 @@ class ezTOC_Post {
 
 		$html = '';
 
-		$toc_more = (isset($options['view_more']) && $options['view_more'] == 1) ? 'active' : '';
+		$toc_more = isset($options['view_more']) ? array( 'view_more' => $options['view_more'] )  : array();
 
 		if ( $this->hasTOCItems ) {
 			
@@ -1642,7 +1642,7 @@ class ezTOC_Post {
 	 *
 	 * @return string The HTML list of TOC items.
 	 */
-	private function createTOC( $page, $matches, $prefix = "ez-toc", $toc_more = '' ) {
+	private function createTOC( $page, $matches, $prefix = "ez-toc", $toc_more = array() ) {
 
 		// Whether or not the TOC should be built flat or hierarchical.
 		$hierarchical = ezTOC_Option::get( 'show_hierarchy' );
@@ -1725,9 +1725,9 @@ class ezTOC_Post {
 			}
 
 		} else {
-			if($toc_more == 'active' && ezTOC_Option::get( 'ctrl_headings' ) == true){
+			if(isset($toc_more['view_more']) && $toc_more['view_more']>0){
 				//No. of Headings
-				$no_of_headings = ezTOC_Option::get( 'limit_headings_num' ) != '' ? ezTOC_Option::get( 'limit_headings_num' ) : count($matches);
+				$no_of_headings = $toc_more['view_more'];
 				if(is_array($matches)){
 					foreach ( $matches as $i => $match ) {
 						$count = $i + 1;
