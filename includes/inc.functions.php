@@ -329,3 +329,23 @@ function ez_toc_sticky_visible_func( $visible ) {
     }
     return $visible;
 }
+
+if(!function_exists('ez_toc_content_replace_fun')){
+function ez_toc_content_replace_fun($blockquotes, $content, $step){
+    $bId = 0;
+    if($step == 1){    
+        foreach($blockquotes[0] as $blockquote){
+            $replace = '#eztocbq' . $bId . '#';
+            $content = str_replace( trim($blockquote), $replace, $content );
+            $bId++;
+        }
+    }elseif($step == 2){    
+        foreach($blockquotes[0] as $blockquote){
+            $search = '#eztocbq' . $bId . '#'; 
+            $content = str_replace( $search, trim($blockquote), $content );
+            $bId++;
+        }
+    }
+    return $content;
+}
+}
