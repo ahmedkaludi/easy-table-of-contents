@@ -314,3 +314,18 @@ add_action('shutdown', function() {
         }
         return apply_filters( 'ez_toc_url_anchor_target', $return, $heading );
     }
+
+add_filter( 'ez_toc_sticky_visible', 'ez_toc_sticky_visible_func' ,20);
+function ez_toc_sticky_visible_func( $visible ) {
+    $sticky_include_homepage = ezTOC_Option::get('sticky_include_homepage');
+    $sticky_include_category = ezTOC_Option::get('sticky_include_category');
+    $sticky_include_product_category = ezTOC_Option::get('sticky_include_product_category');
+    if ( is_front_page() ) {
+      $visible = ($sticky_include_homepage=='1')?true:false;
+    } elseif ( is_category() ) {
+      $visible = ($sticky_include_category=='1')?true:false;
+    } elseif ( is_tax( 'product_cat' ) ) {
+      $visible = ($sticky_include_product_category=='1')?true:false;
+    }
+    return $visible;
+}
