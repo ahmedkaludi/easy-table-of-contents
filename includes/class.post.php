@@ -1732,6 +1732,7 @@ class ezTOC_Post {
 				//No. of Headings
 				$no_of_headings = $toc_more['view_more'];
 				if(is_array($matches)){
+					$toc_type = ezTOC_Option::get( 'toc_loading' );
 					foreach ( $matches as $i => $match ) {
 						$count = $i + 1;
 						$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
@@ -1743,8 +1744,8 @@ class ezTOC_Post {
 						}else{
 							$detect = '';
 							$is_more_last = false;
-							if('css' == ezTOC_Option::get( 'toc_loading' ) && $i == $no_of_headings && function_exists('ez_toc_non_amp') && ez_toc_non_amp()){
-								$html .= '<input type="checkbox" id="ez-toc-more-toggle-css"/><span class="toc-more-wrp">';
+							if('css' == $toc_type && $i == $no_of_headings && function_exists('ez_toc_non_amp') && ez_toc_non_amp()){
+								$html .= '</ul><input type="checkbox" id="ez-toc-more-toggle-css"/><ul class="toc-more-wrp" style="--start: '.$i.'">';
 							}
 							if($i == count($matches)-1){
 								$detect = 'm-last';
@@ -1753,8 +1754,8 @@ class ezTOC_Post {
 							$html .= "<li class='{$prefix}-page-" . $page . " toc-more-link " . $detect . "'>";
 							$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
 							$html .= '</li>';
-							if($is_more_last && 'css' == ezTOC_Option::get( 'toc_loading' ) && function_exists('ez_toc_non_amp') && ez_toc_non_amp()){
-								$html .= '</span>';
+							if($is_more_last && 'css' == $toc_type && function_exists('ez_toc_non_amp') && ez_toc_non_amp()){
+								$html .= '</ul>';
 							}
 						}
 					}
@@ -1773,7 +1774,7 @@ class ezTOC_Post {
 			}
 		}
 
-		$html = apply_filters('ez_toc_pro_html_modifier', $html, $toc_more, $count_matches);
+		$html = apply_filters('ez_toc_pro_html_modifier', $html, $toc_more, $count_matches, $toc_type);
 
 		return do_shortcode($html);
 	}
