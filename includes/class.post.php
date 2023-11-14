@@ -1653,6 +1653,9 @@ class ezTOC_Post {
 
 		if ( $hierarchical ) {
 
+			//To not show view more in Hierarchy
+			unset($toc_more['view_more']);
+
 			$current_depth      = 100;    // headings can't be larger than h6 but 100 as a default to be sure
 			$numbered_items     = array();
 			$numbered_items_min = null;
