@@ -697,7 +697,13 @@ add_filter('ez_toc_modify_process_page_content', 'ez_toc_parse_gutenberg_reusabl
 function ez_toc_parse_gutenberg_reusable_block($content){
 	
 	if(function_exists('do_blocks')){
-		$content = do_blocks($content);
+		if(has_block('easytoc/toc')){
+			$content =  str_replace( '<!-- wp:easytoc/toc /-->', 'eztoctempblock', $content );		
+			$content = do_blocks($content);
+			$content =  str_replace( 'eztoctempblock', '<!-- wp:easytoc/toc /-->', $content );				
+		}else{
+			$content = do_blocks($content);
+		}			
 	}
 	return $content;
 }
@@ -1004,3 +1010,42 @@ function eztoc_mediavine_trellis_content_improver($content){
 	}
 	return $content;
 }
+
+//Perfmatters Compatibility
+add_filter('ez_toc_pro_inline_css','ez_toc_perfmatters_touch_css');
+function ez_toc_perfmatters_touch_css($css){
+	if('css' == ezTOC_Option::get( 'toc_loading' ) && class_exists('Perfmatters\Config') && !empty(Perfmatters\Config::$options['assets']['delay_js']) && !empty(Perfmatters\Config::$options['assets']['fastclick'])) {
+	 	$css .= 'label > * { pointer-events:none; }';
+	}
+  	return $css;
+}
+/**
+ * Woodmart + WPbakery Gallery compatibility
+ * @since 2.0.58
+ */
+function ez_toc_woodmart_gallery_fix(){
+	if(function_exists('woodmart_load_classes') && class_exists('Vc_Manager')){
+		
+		if(!wp_style_is('el-section-title')){
+			wp_register_style( 'el-section-title', WOODMART_THEME_DIR.'/css/parts/el-section-title.min.css');
+			wp_enqueue_style( 'el-section-title' );
+		}
+		
+		if(!wp_style_is('wd-section-title-style-simple-and-brd')){
+		wp_register_style( 'wd-section-title-style-simple-and-brd', WOODMART_THEME_DIR.'/css/parts/el-section-title-style-simple-and-brd.min.css');
+		wp_enqueue_style( 'wd-section-title-style-simple-and-brd' );
+		}
+		
+		if(!wp_style_is('wd-owl-carousel')){
+			wp_register_style( 'wd-owl-carousel', WOODMART_THEME_DIR.'/css/parts/lib-owl-carousel.min.css');
+			wp_enqueue_style( 'wd-owl-carousel' );
+		}
+		
+		if(!wp_style_is('wd-image-gallery')){
+			wp_register_style( 'wd-image-gallery', WOODMART_THEME_DIR.'/css/parts/el-gallery.min.css');
+			wp_enqueue_style( 'wd-image-gallery' );
+		}
+			
+	}	
+}
+add_action('wp_enqueue_scripts', 'ez_toc_woodmart_gallery_fix');

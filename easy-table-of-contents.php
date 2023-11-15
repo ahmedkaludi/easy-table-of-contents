@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.57
+ * Version: 2.0.57.1
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.57
+ * @version  2.0.57.1
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -49,7 +49,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.57';
+		const VERSION = '2.0.57.1';
 
 		/**
 		 * Stores the instance of this class.
@@ -155,6 +155,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
 			add_action( 'wp_head', array( __CLASS__, 'ez_toc_inline_styles' ) );
+			add_action( 'wp_head', array( __CLASS__, 'ez_toc_schema_sitenav_creator' ) );			
 
 			if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
 				add_option( 'ez-toc-post-content-core-level', false );
@@ -166,6 +167,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				
 			if( !self::checkBeaverBuilderPluginActive() ) {
 				add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
+				if( defined('EASY_TOC_AMP_VERSION') ){
+					add_filter( 'ampforwp_modify_the_content', array( __CLASS__, 'the_content' ) );
+				}
 				add_filter( 'category_description',  array( __CLASS__, 'toc_category_content_filter' ), 99,2);
 				add_filter( 'woocommerce_taxonomy_archive_description_raw',  array( __CLASS__, 'toc_category_content_filter_woocommerce' ), 99,2);
 				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );                                    
@@ -308,6 +312,36 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				echo '<style id="ez-toc-inline-css">'.$screen_css.'</style>';
 			}
 		}
+
+		public static function ez_toc_schema_sitenav_creator(){
+
+			if(ezTOC_Option::get( 'schema_sitenav_checkbox' ) == true){
+			
+				$post = ezTOC::get( get_the_ID() );
+				if($post){
+					$items = $post->getTocTitleId();
+					if(!empty($items)){
+						$output_array = array();
+						foreach($items as $item){
+							$output_array[] = array(
+								"@context" => "https://schema.org",
+								"@type"    => "SiteNavigationElement",
+								'@id'      => '#ez-toc',
+								"name"     => wp_strip_all_tags($item['title']),
+								"url"      => get_permalink() ."#". $item['id'],
+							);
+						}
+						if(!empty($output_array)){
+							$schema_opt = array();	
+							$schema_opt['@context'] = "https://schema.org"; 
+							$schema_opt['@graph']   = $output_array; 
+							echo '<script type="application/ld+json" class="ez-toc-schema-markup-output">'.wp_json_encode( $schema_opt, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ).'</script>';
+						}
+						
+					}
+				}							
+			}			
+		}
 		
 		/**
 		 * Call back for the `wp_enqueue_scripts` action.
@@ -340,7 +374,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', TRUE );
 				wp_register_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', TRUE );                        			
 				wp_register_script( 'ez-toc-js', EZ_TOC_URL . "assets/js/front{$min}.js", array( 'jquery', 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ), ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/front{$min}.js" ), true );
-				wp_register_script( 'ez-toc-scroll-scriptjs', EZ_TOC_URL . "assets/js/smooth_scroll{$min}.js", array( 'jquery' ), ezTOC::VERSION, true );
+				wp_register_script( 'ez-toc-scroll-scriptjs', apply_filters('ez_toc_smscroll_jsfile_filter',EZ_TOC_URL . "assets/js/smooth_scroll{$min}.js"), array( 'jquery' ), ezTOC::VERSION, true );
 				self::localize_scripts();
 																													
 				if ( self::is_enqueue_scripts_eligible() ) {
@@ -420,7 +454,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				if ( 0 < count( $js_vars ) ) {
 					wp_localize_script( 'ez-toc-js', 'ezTOC', $js_vars );
-				}						
+					// smooth scroll js localization
+					$js_scroll = array();
+					$js_scroll['scroll_offset'] = esc_js( $offset );	
+					wp_localize_script( 'ez-toc-scroll-scriptjs', 'eztoc_smooth_local', $js_scroll );						
+				}		
+												
 		}
 
 		/**
@@ -457,10 +496,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		public static function enqueue_registered_script(){
 
 			if (ezTOC_Option::get( 'toc_loading' ) == 'js') {
-					wp_enqueue_script( 'ez-toc-js' );
 					if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
 						wp_enqueue_script( 'ez-toc-scroll-scriptjs' );
 					}					
+					wp_enqueue_script( 'ez-toc-js' );
 			}
 
 		}
@@ -1190,12 +1229,14 @@ INLINESTICKYTOGGLEJS;
                                         return Debug::log()->appendTo( $content );
                                 }
                                 			
+							$options =  array();
 							if (isset($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
-								$options = array('visibility_hide_by_default' => true);
-								$html = $post->getTOC($options);
-							}else{
-								$html = $post->getTOC();			
-							}							
+								$options['visibility_hide_by_default'] = true;
+							}
+							if (isset($atts["view_more"]) && $atts["view_more"] > 0) {
+								$options['view_more'] = $atts["view_more"];
+							}
+							$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();			
                         
 			return $html;
 		}
@@ -1301,7 +1342,11 @@ INLINESTICKYTOGGLEJS;
 			// Bail if post not eligible and widget is not active.
 			$isEligible = self::is_eligible( get_post() );
 			
-			$toc_origin = "insert";
+			//More button
+			$options =  array();
+			if (ezTOC_Option::get( 'ctrl_headings' ) == true) {
+				$options['view_more'] = ezTOC_Option::get( 'limit_headings_num' );
+			}
 
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
@@ -1332,7 +1377,7 @@ INLINESTICKYTOGGLEJS;
                         
                         $find    = $post->getHeadings();
                         $replace = $post->getHeadingsWithAnchors();
-                        $toc     = $post->getTOC(array(),$toc_origin);
+                        $toc 	 = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();
                             
 			$headings = implode( PHP_EOL, $find );
 			$anchors  = implode( PHP_EOL, $replace );
@@ -1386,9 +1431,31 @@ INLINESTICKYTOGGLEJS;
 					$content    = mb_find_replace( $find, $replace, $content );
 					break;
 				case 'afterpara':
+					$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
+					//blockqoute
+					$blockquotes = array();
+					if($exc_blkqt == true){
+						preg_match_all("/<blockquote(.*?)>(.*?)<\/blockquote>/s", $content, $blockquotes);
+						if(!empty($blockquotes)){
+					    	$content = ez_toc_para_blockquote_replace($blockquotes, $content, 1);
+					   	}
+					}
 					$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );
+					//add blockqoute back
+					if($exc_blkqt == true && !empty($blockquotes)){
+					    $content = ez_toc_para_blockquote_replace($blockquotes, $content, 2);
+				    }
 					break;
 				case 'aftercustompara':
+					$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
+					//blockqoute
+					$blockquotes = array();
+					if($exc_blkqt == true){
+						preg_match_all("/<blockquote(.*?)>(.*?)<\/blockquote>/s", $content, $blockquotes);
+						if(!empty($blockquotes)){
+					    	$content = ez_toc_para_blockquote_replace($blockquotes, $content, 1);
+					   	}
+					}
 					$paragraph_index = ezTOC_Option::get( 'custom_para_number' );
 					if($paragraph_index == 1){
 						$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );
@@ -1414,6 +1481,10 @@ INLINESTICKYTOGGLEJS;
 					}else{
 						$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );	
 					}
+					//add blockqoute back
+					if($exc_blkqt == true && !empty($blockquotes)){
+					    $content = ez_toc_para_blockquote_replace($blockquotes, $content, 2);
+				    }
 					break;	
 				case 'before':
 				default:
@@ -1461,11 +1532,17 @@ INLINESTICKYTOGGLEJS;
 
 			if(ezTOC_Option::get('sticky-toggle')){
 				$stickyPostTypes = apply_filters('ez_toc_sticky_post_types', ezTOC_Option::get('sticky-post-types'));
-				$isEligible = true;
+				$isEligible = false;
 				if(!empty($stickyPostTypes)){
 					$postType = get_post_type();
-					if(!in_array($postType,$stickyPostTypes)){
+					if(in_array($postType,$stickyPostTypes)){
+						$isEligible = true;
+					}
+					if(is_home() && $postType == 'post'){
 						$isEligible = false;
+						if(in_array('page',$stickyPostTypes)){
+							$isEligible = true;
+						}
 					}
 				}
 				$isEligible = apply_filters('ez_toc_sticky_visible', $isEligible);
@@ -1583,7 +1660,7 @@ STICKYTOGGLEHTML;
 			{
 				$spanClass = 'ez-toc-cssicon';
 			}
-			return '<span class="' . $spanClass . '"><span style="display:none;">Toggle</span><span class="ez-toc-icon-toggle-span"><svg style="fill: ' . esc_attr($iconColor) . ';color:' . esc_attr($iconColor) . '" xmlns="http://www.w3.org/2000/svg" class="list-377408" width="20px" height="20px" viewBox="0 0 24 24" fill="none"><path d="M6 6H4v2h2V6zm14 0H8v2h12V6zM4 11h2v2H4v-2zm16 0H8v2h12v-2zM4 16h2v2H4v-2zm16 0H8v2h12v-2z" fill="currentColor"></path></svg><svg style="fill: ' . esc_attr($iconColor) . ';color:' . esc_attr($iconColor) . '" class="arrow-unsorted-368013" xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" viewBox="0 0 24 24" version="1.2" baseProfile="tiny"><path d="M18.2 9.3l-6.2-6.3-6.2 6.3c-.2.2-.3.4-.3.7s.1.5.3.7c.2.2.4.3.7.3h11c.3 0 .5-.1.7-.3.2-.2.3-.5.3-.7s-.1-.5-.3-.7zM5.8 14.7l6.2 6.3 6.2-6.3c.2-.2.3-.5.3-.7s-.1-.5-.3-.7c-.2-.2-.4-.3-.7-.3h-11c-.3 0-.5.1-.7.3-.2.2-.3.5-.3.7s.1.5.3.7z"/></svg></span></span>';
+			return '<span class="' . $spanClass . '"><span class="eztoc-hide" style="display:none;">Toggle</span><span class="ez-toc-icon-toggle-span"><svg style="fill: ' . esc_attr($iconColor) . ';color:' . esc_attr($iconColor) . '" xmlns="http://www.w3.org/2000/svg" class="list-377408" width="20px" height="20px" viewBox="0 0 24 24" fill="none"><path d="M6 6H4v2h2V6zm14 0H8v2h12V6zM4 11h2v2H4v-2zm16 0H8v2h12v-2zM4 16h2v2H4v-2zm16 0H8v2h12v-2z" fill="currentColor"></path></svg><svg style="fill: ' . esc_attr($iconColor) . ';color:' . esc_attr($iconColor) . '" class="arrow-unsorted-368013" xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" viewBox="0 0 24 24" version="1.2" baseProfile="tiny"><path d="M18.2 9.3l-6.2-6.3-6.2 6.3c-.2.2-.3.4-.3.7s.1.5.3.7c.2.2.4.3.7.3h11c.3 0 .5-.1.7-.3.2-.2.3-.5.3-.7s-.1-.5-.3-.7zM5.8 14.7l6.2 6.3 6.2-6.3c.2-.2.3-.5.3-.7s-.1-.5-.3-.7c-.2-.2-.4-.3-.7-.3h-11c-.3 0-.5.1-.7.3-.2.2-.3.5-.3.7s.1.5.3.7z"/></svg></span></span>';
 		}
 
 		 /**

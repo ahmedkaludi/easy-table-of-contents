@@ -314,3 +314,42 @@ add_action('shutdown', function() {
         }
         return apply_filters( 'ez_toc_url_anchor_target', $return, $heading );
     }
+
+add_filter( 'ez_toc_sticky_visible', 'ez_toc_sticky_visible_func' ,20);
+function ez_toc_sticky_visible_func( $visible ) {
+    $sticky_include_homepage = ezTOC_Option::get('sticky_include_homepage');
+    $sticky_include_category = ezTOC_Option::get('sticky_include_category');
+    $sticky_include_product_category = ezTOC_Option::get('sticky_include_product_category');
+    if ( is_front_page() ) {
+      $visible = ($sticky_include_homepage=='1')?true:false;
+    } elseif ( is_category() ) {
+      $visible = ($sticky_include_category=='1')?true:false;
+    } elseif ( is_tax( 'product_cat' ) ) {
+      $visible = ($sticky_include_product_category=='1')?true:false;
+    }
+    return $visible;
+}
+
+/**
+ * Helps exclude blockquote
+ * @since 2.0.58
+ */
+if(!function_exists('ez_toc_para_blockquote_replace')){
+function ez_toc_para_blockquote_replace($blockquotes, $content, $step){
+    $bId = 0;
+    if($step == 1){    
+        foreach($blockquotes[0] as $blockquote){
+            $replace = '#eztocbq' . $bId . '#';
+            $content = str_replace( trim($blockquote), $replace, $content );
+            $bId++;
+        }
+    }elseif($step == 2){    
+        foreach($blockquotes[0] as $blockquote){
+            $search = '#eztocbq' . $bId . '#'; 
+            $content = str_replace( $search, trim($blockquote), $content );
+            $bId++;
+        }
+    }
+    return $content;
+}
+}

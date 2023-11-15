@@ -240,6 +240,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'size' => 'small',
 							'default' => 1,
 						),
+						'blockqoute_checkbox' => array(
+							'id' => 'blockqoute_checkbox',
+							'name' => __( 'Exclude Blockqoute', 'easy-table-of-contents' ),
+							'desc' => __( 'Do not consider Paragraphs which are inside Blockqoute', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'start' => array(
 							'id' => 'start',
 							'name' => __( 'Show when', 'easy-table-of-contents' ),
@@ -661,6 +668,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							          '</ul>' .
 							          '<p>' . __( '<strong>Note:</strong> This is not case sensitive.', 'easy-table-of-contents' ) . '</p>',
 							'type' => 'descriptive_text',
+						),
+						'schema_sitenav_checkbox' => array(
+							'id' => 'schema_sitenav_checkbox',
+							'name' => __( 'SiteNavigation Schema', 'easy-table-of-contents' ),
+							'desc' => __( 'Add SiteNavigation Schema for displayed table of contents' ),
+							'type' => 'checkbox',
+							'default' => false,
 						),
 						'smooth_scroll_offset' => array(
 							'id' => 'smooth_scroll_offset',
@@ -1134,6 +1148,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'add_request_uri'                     => false,
 				'mediavine-create'                    => 0,
 				'custom_para_number'                  => 1,
+				'blockqoute_checkbox'                  => false,
 				'disable_in_restapi'                  => false,
 				'show_title_in_toc'				      => false,	
 				'sticky-post-types'					  => array('post','page'),

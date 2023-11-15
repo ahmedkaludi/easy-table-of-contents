@@ -54,10 +54,16 @@ jQuery(document).ready(function ($) {
 
     let position = $('#eztoc-general').find("select[name='ez-toc-settings[position]']");
     let customParaNumber = $('#eztoc-general').find("input[name='ez-toc-settings[custom_para_number]']");
+    let blockQCheckB = $('#eztoc-general').find("input[name='ez-toc-settings[blockqoute_checkbox]']");
     if($(position).val() == 'aftercustompara'){
         $(customParaNumber).parents('tr').show();
     }else{
         $(customParaNumber).parents('tr').hide();
+    }
+    if($(position).val() == 'afterpara' || $(position).val() == 'aftercustompara'){
+        $(blockQCheckB).parents('tr').show();
+    }else{
+        $(blockQCheckB).parents('tr').hide();
     }
     $(document).on("change", "select[name='ez-toc-settings[position]']", function() {
         if($(this).val() == 'aftercustompara'){
@@ -65,6 +71,11 @@ jQuery(document).ready(function ($) {
         }else{
             $(customParaNumber).parents('tr').hide(500);
         }    
+        if($(this).val() == 'afterpara' || $(this).val() == 'aftercustompara'){
+            $(blockQCheckB).parents('tr').show(500);
+        }else{
+            $(blockQCheckB).parents('tr').hide(500);
+        }
     });
     
 

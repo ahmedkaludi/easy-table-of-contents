@@ -163,8 +163,11 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 					'ez-toc-v' . str_replace( '.', '_', ezTOC::VERSION ),
 					'ez-toc-widget',
 				);
-
-				$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
+				$instance_title = '';
+				if(isset($instance['title'])){
+					$instance_title = $instance['title'];
+				}
+				$title = apply_filters( 'widget_title', $instance_title, $instance, $this->id_base );
 
 				if ( false !== strpos( $title, '%PAGE_TITLE%' ) || false !== strpos( $title, '%PAGE_NAME%' ) ) {
 
@@ -187,7 +190,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
                     $class[] = 'ez-toc-widget-container-rtl';
                 }
 
-				if ( $instance['affix'] ) {
+				if ( isset($instance['affix']) ) {
 
 					$class[] = 'ez-toc-affix';
 				}
