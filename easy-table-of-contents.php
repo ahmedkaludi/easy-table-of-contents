@@ -168,7 +168,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if( !self::checkBeaverBuilderPluginActive() ) {
 				add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
 				if( defined('EASY_TOC_AMP_VERSION') ){
-					add_filter( 'ampforwp_modify_the_content', array( __CLASS__, 'amp_ez_toc_page_builder_output' ) );
+					add_filter( 'ampforwp_modify_the_content', array( __CLASS__, 'the_content' ) );
 				}
 				add_filter( 'category_description',  array( __CLASS__, 'toc_category_content_filter' ), 99,2);
 				add_filter( 'woocommerce_taxonomy_archive_description_raw',  array( __CLASS__, 'toc_category_content_filter_woocommerce' ), 99,2);
@@ -1433,25 +1433,27 @@ INLINESTICKYTOGGLEJS;
 				case 'afterpara':
 					$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
 					//blockqoute
+					$blockquotes = array();
 					if($exc_blkqt == true){
 						preg_match_all("/<blockquote(.*?)>(.*?)<\/blockquote>/s", $content, $blockquotes);
 						if(!empty($blockquotes)){
-					    	$content = ez_toc_content_replace_fun($blockquotes, $content, 1);
+					    	$content = ez_toc_para_blockquote_replace($blockquotes, $content, 1);
 					   	}
 					}
 					$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );
 					//add blockqoute back
 					if($exc_blkqt == true && !empty($blockquotes)){
-					    $content = ez_toc_content_replace_fun($blockquotes, $content, 2);
+					    $content = ez_toc_para_blockquote_replace($blockquotes, $content, 2);
 				    }
 					break;
 				case 'aftercustompara':
 					$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
 					//blockqoute
+					$blockquotes = array();
 					if($exc_blkqt == true){
 						preg_match_all("/<blockquote(.*?)>(.*?)<\/blockquote>/s", $content, $blockquotes);
 						if(!empty($blockquotes)){
-					    	$content = ez_toc_content_replace_fun($blockquotes, $content, 1);
+					    	$content = ez_toc_para_blockquote_replace($blockquotes, $content, 1);
 					   	}
 					}
 					$paragraph_index = ezTOC_Option::get( 'custom_para_number' );
@@ -1481,7 +1483,7 @@ INLINESTICKYTOGGLEJS;
 					}
 					//add blockqoute back
 					if($exc_blkqt == true && !empty($blockquotes)){
-					    $content = ez_toc_content_replace_fun($blockquotes, $content, 2);
+					    $content = ez_toc_para_blockquote_replace($blockquotes, $content, 2);
 				    }
 					break;	
 				case 'before':
@@ -1517,207 +1519,6 @@ INLINESTICKYTOGGLEJS;
 			}
             
 			return Debug::log()->appendTo( $content );
-		}
-
-		/**
-		 * AMPForWP Page Builder
-		 * @since 2.0.58
-		 */
-		public static function amp_ez_toc_page_builder_output( $content ) {
-                
-			if( function_exists( 'post_password_required' ) ) {
-				if( post_password_required() ) return Debug::log()->appendTo( $content );
-			}
-		
-			$maybeApplyFilter = self::maybeApplyTheContentFilter();
-
-			Debug::log( 'the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter );
-
-			if ( ! $maybeApplyFilter ) {
-
-				return Debug::log()->appendTo( $content );
-			}
-
-			// Bail if post not eligible and widget is not active.
-			$isEligible = self::is_eligible( get_post() );
-			
-			//More button
-			$options =  array();
-			if (ezTOC_Option::get( 'ctrl_headings' ) == true) {
-				$options['view_more'] = true;
-			}
-
-			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
-			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
-			$return_only_an = false; 
-			if(!$isEligible && (self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || ezTOC_Option::get('sticky-toggle') )){
-				$isEligible = true;
-				$return_only_an = true;
-			}
-			if ( ! $isEligible ) {
-
-				return Debug::log()->appendTo( $content );
-			}
-			
-			$post = self::get( get_the_ID() );
-
-			if ( ! $post instanceof ezTOC_Post ) {
-
-				Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
-
-				return Debug::log()->appendTo( $content );
-			}
-
-			// Bail if no headings found.
-			if ( ! $post->hasTOCItems() ) {
-
-				return Debug::log()->appendTo( $content );
-			}
-                        
-                        $find    = $post->getHeadings();
-                        $replace = $post->getHeadingsWithAnchors();
-                        $toc 	 = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();
-                            
-			$headings = implode( PHP_EOL, $find );
-			$anchors  = implode( PHP_EOL, $replace );
-
-			$headingRows = count( $find ) + 1;
-			$anchorRows  = count( $replace ) + 1;
-
-			$style = "background-image: linear-gradient(#F1F1F1 50%, #F9F9F9 50%); background-size: 100% 4em; border: 1px solid #CCC; font-family: monospace; font-size: 1em; line-height: 2em; margin: 0 auto; overflow: auto; padding: 0 8px 4px; white-space: nowrap; width: 100%;";
-
-			Debug::log(
-				'found_post_headings',
-				'Found headings:',
-				"<textarea rows='{$headingRows}' style='{$style}' wrap='soft'>{$headings}</textarea>"
-			);
-
-			Debug::log(
-				'replace_post_headings',
-				'Replace found headings with:',
-				"<textarea rows='{$anchorRows}' style='{$style}' wrap='soft'>{$anchors}</textarea>"
-			);
-			
-
-			if ( $return_only_an ) {
-				Debug::log( 'side_bar_has shortcode', 'Shortcode found, add links to content.', true );
-				return mb_find_replace( $find, $replace, $content );
-			}
-			// If shortcode used or post not eligible, return content with anchored headings.
-			if ( strpos( $content, 'ez-toc-container' ) || ! $isEligible ) {
-
-				Debug::log( 'shortcode_found', 'Shortcode found, add links to content.', true );
-
-				return mb_find_replace( $find, $replace, $content );
-			}
-
-			$position = ezTOC_Option::get( 'position' );
-
-			Debug::log( 'toc_insert_position', 'Insert TOC at position', $position );
-
-			switch ( $position ) {
-
-				case 'top':
-					$content = $toc . mb_find_replace( $find, $replace, $content );
-					break;
-
-				case 'bottom':
-					$content = mb_find_replace( $find, $replace, $content ) . $toc;
-					break;
-
-				case 'after':
-					$replace[0] = $replace[0] . $toc;
-					$content    = mb_find_replace( $find, $replace, $content );
-					break;
-				case 'afterpara':
-					$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
-					//blockqoute
-					if($exc_blkqt == true){
-						preg_match_all("/<blockquote(.*?)>(.*?)<\/blockquote>/s", $content, $blockquotes);
-						if(!empty($blockquotes)){
-					    	$content = ez_toc_content_replace_fun($blockquotes, $content, 1);
-					   	}
-					}
-					$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );
-					//add blockqoute back
-					if($exc_blkqt == true && !empty($blockquotes)){
-					    $content = ez_toc_content_replace_fun($blockquotes, $content, 2);
-				    }
-					break;
-				case 'aftercustompara':
-					$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
-					//blockqoute
-					if($exc_blkqt == true){
-						preg_match_all("/<blockquote(.*?)>(.*?)<\/blockquote>/s", $content, $blockquotes);
-						if(!empty($blockquotes)){
-					    	$content = ez_toc_content_replace_fun($blockquotes, $content, 1);
-					   	}
-					}
-					$paragraph_index = ezTOC_Option::get( 'custom_para_number' );
-					if($paragraph_index == 1){
-						$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );
-					}else if($paragraph_index > 1){
-						$closing_p = '</p>';
-						$paragraphs = explode( $closing_p, $content );
-						if(!empty($paragraphs) && is_array($paragraphs) && $paragraph_index <= count($paragraphs)){
-							$paragraph_id = $paragraph_index;
-							foreach ($paragraphs as $index => $paragraph) {
-								if ( trim( $paragraph ) ) {
-									$paragraphs[$index] .= $closing_p;
-								}
-								$pos = strpos($paragraph, '<p');
-								if ( $paragraph_id == $index + 1 && $pos !== false ) {
-									$paragraphs[$index] .= $toc;
-								}
-							}
-							$content = implode( '', $paragraphs );
-							$content = mb_find_replace( $find, $replace, $content );
-						}else{
-							$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );	
-						}
-					}else{
-						$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );	
-					}
-					//add blockqoute back
-					if($exc_blkqt == true && !empty($blockquotes)){
-					    $content = ez_toc_content_replace_fun($blockquotes, $content, 2);
-				    }
-					break;	
-				case 'before':
-				default:
-					$content    = mb_find_replace( $find, $replace, $content );
-
-					/**
-					 * @link https://wordpress.org/support/topic/php-notice-undefined-offset-8/
-					 */
-					if ( ! array_key_exists( 0, $replace ) ) {
-						break;
-					}
-
-					$pattern = '`<h[1-6]{1}[^>]*' . preg_quote( $replace[0], '`' ) . '`msuU';
-					$result  = preg_match( $pattern, $content, $matches );
-
-					/*
-					 * Try to place TOC before the first heading found in eligible heading, failing that,
-					 * insert TOC at top of content.
-					 */
-					if ( 1 === $result ) {
-
-						Debug::log( 'toc_insert_position_found', 'Insert TOC before first eligible heading.', $result );
-
-						$start   = strpos( $content, $matches[0] );
-						$content = substr_replace( $content, $toc, $start, 0 );
-
-					} else {
-
-						Debug::log( 'toc_insert_position_not_found', 'Insert TOC before first eligible heading not found.', $result );
-
-					}
-			}
-
-			$content = apply_filters('ampforwp_eztoc_modify_content', Debug::log()->appendTo( $content ));
-            
-			return $content;
 		}
 
 		/**

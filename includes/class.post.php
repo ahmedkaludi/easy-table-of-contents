@@ -1647,7 +1647,7 @@ class ezTOC_Post {
 		// Whether or not the TOC should be built flat or hierarchical.
 		$hierarchical = ezTOC_Option::get( 'show_hierarchy' );
 
-		$html         = '';
+		$html = $toc_type = '';
 
 		$count_matches = is_array($matches) ? count($matches) : '';
 
@@ -1745,13 +1745,13 @@ class ezTOC_Post {
 							$detect = '';
 							$is_more_last = false;
 							if('css' == $toc_type && $i == $no_of_headings && function_exists('ez_toc_non_amp') && ez_toc_non_amp()){
-								$html .= '</ul><input type="checkbox" id="ez-toc-more-toggle-css"/><ul class="toc-more-wrp" style="--start: '.$i.'">';
+								$html .= '</ul><input type="checkbox" id="ez-toc-more-toggle-css"/><ul class="ez-toc-more-wrp" style="--start: '.$i.'">';
 							}
 							if($i == count($matches)-1){
 								$detect = 'm-last';
 								$is_more_last = true;
 							}
-							$html .= "<li class='{$prefix}-page-" . $page . " toc-more-link " . $detect . "'>";
+							$html .= "<li class='{$prefix}-page-" . $page . " ez-toc-more-link " . $detect . "'>";
 							$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
 							$html .= '</li>';
 							if($is_more_last && 'css' == $toc_type && function_exists('ez_toc_non_amp') && ez_toc_non_amp()){

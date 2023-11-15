@@ -330,8 +330,12 @@ function ez_toc_sticky_visible_func( $visible ) {
     return $visible;
 }
 
-if(!function_exists('ez_toc_content_replace_fun')){
-function ez_toc_content_replace_fun($blockquotes, $content, $step){
+/**
+ * Helps exclude blockquote
+ * @since 2.0.58
+ */
+if(!function_exists('ez_toc_para_blockquote_replace')){
+function ez_toc_para_blockquote_replace($blockquotes, $content, $step){
     $bId = 0;
     if($step == 1){    
         foreach($blockquotes[0] as $blockquote){
