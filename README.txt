@@ -104,7 +104,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
-= 2.0.58 27/10/2023 =
+= 2.0.58 15/11/2023 =
 * New: Generate schema/SiteNavigationElement for Table of contents #592
 * New: An option to show estimated time to read the full article #594
 * New: An option of TOC not crawl the paragraphs in blockquotes #601
