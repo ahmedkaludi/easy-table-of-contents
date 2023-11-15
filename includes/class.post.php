@@ -1545,8 +1545,8 @@ class ezTOC_Post {
 		 
 	}
 			$html .= '</span>';
-			$html .= $label_below_html;
 			$html .= '</div>' . PHP_EOL;
+			$html .= $label_below_html;
 	
 	
 		
