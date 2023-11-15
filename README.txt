@@ -3,9 +3,9 @@ Contributors: magazine3
 Donate link: https://tocwp.com/
 Tags: table of contents, toc
 Requires at least: 5.0
-Tested up to: 6.3.2
+Tested up to: 6.4.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.57.1
+Stable tag: 2.0.58
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,21 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.58 27/10/2023 =
+* New: Generate schema/SiteNavigationElement for Table of contents #592
+* New: An option to show estimated time to read the full article #594
+* New: An option of TOC not crawl the paragraphs in blockquotes #601
+* New: Add the View More feature compatibility with the Shortcode #628
+* Bug: Widget Auto-Highlight Issue After Update 2.0.56.1 #610
+* Bug: Conflict with the plugin Perfmatters's option "Enable FastClick" #612
+* Bug: Add compatibility with the theme Oliver Lohse #615
+* Bug: Sticky TOC is showing on Blog pages #617
+* Bug: Toc not showing if AMP Page Builder is used #619
+* Bug: Smooth Scroll offset issue after latest update #620
+* Bug: JSON error when we try to added the ETOC in page/post section #621
+* Bug: The WP Bakery image gallery is getting braked on first reload #627
+* Bug: Issue showing on the page speed tool as Lists do not contain only <li> elements and script-supporting elements #630
 
 = 2.0.57.1 27/10/2023 =
 * Bug: Incomplete CSS Classes in Version 2.0.57 Causing Style Issues #614
