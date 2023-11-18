@@ -345,6 +345,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'js',
 						),
+						'avoid_anch_jump' => array(
+							'id' => 'avoid_anch_jump',
+							'name' => __( 'Jump Through Js', 'easy-table-of-contents' ),
+							'desc' => __( 'This option helps Jump links to work without adding ids in the URL', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
                                             
                                                 'toc-run-on-amp-pages' => array(
 							'id' => 'toc-run-on-amp-pages',
@@ -1112,6 +1119,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'mobile_smooth_scroll_offset'        => 0,
 				'visibility'                         => true,
 				'toc_loading'                        => 'js',
+				'avoid_anch_jump'                    => false,
 				'remove_special_chars_from_title'    => false,
 				'visibility_hide_by_default'         => false,
 				'width'                              => 'auto',

@@ -452,6 +452,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$js_vars['fallbackIcon'] = $icon;
 				}
 
+				if(ezTOC_Option::get( 'avoid_anch_jump' )){
+					$js_vars['JumpJsLinks'] = true;
+				}
+
 				if ( 0 < count( $js_vars ) ) {
 					wp_localize_script( 'ez-toc-js', 'ezTOC', $js_vars );
 					// smooth scroll js localization
