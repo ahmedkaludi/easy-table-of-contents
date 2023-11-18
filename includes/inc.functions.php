@@ -353,3 +353,15 @@ function ez_toc_para_blockquote_replace($blockquotes, $content, $step){
     return $content;
 }
 }
+
+/**
+ * Helps allow line breaks
+ * @since 2.0.59
+ */
+add_filter('ez_toc_title_allowable_tags', 'ez_toc_link_allow_br_tag');
+function ez_toc_link_allow_br_tag($tags){
+    if(ezTOC_Option::get( 'prsrv_line_brk' )){
+        $tags = '<br>';
+    }
+    return $tags;
+}

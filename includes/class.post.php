@@ -1600,7 +1600,10 @@ class ezTOC_Post {
 				}
 
 				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
-				$title = br2( $title, ' ' );
+				//check for line break
+				if(!ezTOC_Option::get( 'prsrv_line_brk' )){
+					$title = br2( $title, ' ' );
+				}
 				$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
 				$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
