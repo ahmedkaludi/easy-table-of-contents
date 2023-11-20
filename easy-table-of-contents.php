@@ -1221,7 +1221,26 @@ INLINESTICKYTOGGLEJS;
 							
 						$html = '';
 
-                        if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() )
+						//Check for Support
+                        $qualified_to_return = false;
+                        if(isset($atts['enable_support'])){
+                        	$get_support = explode(',', $atts['enable_support']);
+	                        if(!empty($get_support)){
+	                        	$qualified_to_return = true;
+	                        	$postType = get_post_type();
+		                        if(in_array($postType,$get_support)){
+		                        	$qualified_to_return = false;
+		                        }
+		                        if(is_home() || is_front_page()){
+			                        $qualified_to_return = true;
+			                        if(in_array('home',$get_support)){
+			                        	$qualified_to_return = false;
+			                        }
+		                        }
+	                        }
+                        }
+
+                        if( ( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ) || $qualified_to_return )
                             return $html;
                             			                            
                                 $post = self::get( $post_id );
