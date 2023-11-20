@@ -1436,6 +1436,7 @@ class ezTOC_Post {
 	} 
 	$html .= '<span class="ez-toc-title-toggle">';
 
+	$label_below_html = '';
 	if ( ezTOC_Option::get( 'visibility' ) ) {
 		$cssIconID = uniqid();
 		
@@ -1445,7 +1446,6 @@ class ezTOC_Post {
 		}
 		
 		$icon = ezTOC::getTOCToggleIcon();
-		$label_below_html = '';
 		if( function_exists( 'ez_toc_pro_activation_link' ) ) {
 				$icon = apply_filters('ez_toc_modify_icon',$icon);
 				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html);
