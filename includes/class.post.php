@@ -321,6 +321,14 @@ class ezTOC_Post {
 			}
 		}
 
+		if(is_tax()){
+			global $wp_query;
+			$tax = $wp_query->get_queried_object();
+			if(is_object($tax)){
+				$content = $tax->description;
+			}
+		}
+
 		if(function_exists('is_product_category') && is_product_category()){
 			$term_object = get_queried_object();			
 			if(!empty($term_object->description)){
@@ -1735,7 +1743,7 @@ class ezTOC_Post {
 
 		} elseif ( 1 === $page ) {
 			// Fix for wrong links on TOC on Wordpress category page
-			if(is_category() || (function_exists('is_product_category') && is_product_category())){
+			if(is_category() || is_tax() || (function_exists('is_product_category') && is_product_category())){
 				return  '#' . $id;
 			}
 			return trailingslashit( $this->permalink ) . '#' . $id;

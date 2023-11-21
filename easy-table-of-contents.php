@@ -170,7 +170,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if( defined('EASY_TOC_AMP_VERSION') ){
 					add_filter( 'ampforwp_modify_the_content', array( __CLASS__, 'the_content' ) );
 				}
-				add_filter( 'category_description',  array( __CLASS__, 'toc_category_content_filter' ), 99,2);
+				add_filter( 'term_description',  array( __CLASS__, 'toc_category_content_filter' ), 99,2);
 				add_filter( 'woocommerce_taxonomy_archive_description_raw',  array( __CLASS__, 'toc_category_content_filter_woocommerce' ), 99,2);
 				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );                                    
 				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
@@ -1286,7 +1286,7 @@ INLINESTICKYTOGGLEJS;
 			// bail if feed, search or archive
 			if ( is_feed() || is_search() || is_archive() ) {
 				
-				if( (true == ezTOC_Option::get( 'include_category', false) && is_category()) || (true == ezTOC_Option::get( 'include_product_category', false) &&  (function_exists('is_product_category') && is_product_category()) )) {
+				if( (true == ezTOC_Option::get( 'include_category', false) && is_category()) || (true == ezTOC_Option::get( 'include_product_category', false) &&  (function_exists('is_product_category') && is_product_category()) ) || (true == ezTOC_Option::get( 'include_custom_tax', false) && is_tax())) {
 					
 					$apply = true;
 				} else {
@@ -1694,7 +1694,7 @@ STICKYTOGGLEHTML;
 		 * @return string
 		 */
 		public static function toc_category_content_filter( $description , $cat_id ) {
-                    if( true == ezTOC_Option::get( 'include_category', false) ) {
+                    if( is_category() && true == ezTOC_Option::get( 'include_category', false) || is_tax() && true == ezTOC_Option::get( 'include_custom_tax', false) ) {
 						if(!is_admin() && !empty($description)){
 							return self::the_content($description);
 						}

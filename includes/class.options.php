@@ -627,6 +627,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'include_custom_tax' => array(
+							'id' => 'include_custom_tax',
+							'name' => __( 'Custom Taxonomy', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the table of contents for description on the custom taxonomy pages.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'exclude_css' => array(
 							'id' => 'exclude_css',
 							'name' => __( 'CSS', 'easy-table-of-contents' ),
@@ -847,6 +854,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'desc' => __( 'Show the Sticky TOC for description on the product category pages.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => true,
+						  ),
+						  'sticky_include_custom_tax' => array(
+							'id' => 'sticky_include_custom_tax',
+							'name' => __( 'Custom Taxonomy', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the Sticky TOC for description on the custom taxonomy pages.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
 						  ),
 						'sticky-toggle-position'                   => array(
 							'id'      => 'sticky-toggle-position',
@@ -1149,6 +1163,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'hyphenate'                          => false,
 				'include_homepage'                   => false,
 				'include_category'                   => false,
+				'include_custom_tax'                 => false,
 				'exclude_css'                        => false,
 				'inline_css'                        => false,
 				'exclude'                            => '',
@@ -1170,6 +1185,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'sticky_include_homepage' 			  => false,
 				'sticky_include_category' 			  => true,
 				'sticky_include_product_category'     => true,
+				'sticky_include_custom_tax'           => false,
 				'generate_toc_link_ids'               => false,
 			);
 

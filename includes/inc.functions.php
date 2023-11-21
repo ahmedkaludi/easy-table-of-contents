@@ -320,12 +320,15 @@ function ez_toc_sticky_visible_func( $visible ) {
     $sticky_include_homepage = ezTOC_Option::get('sticky_include_homepage');
     $sticky_include_category = ezTOC_Option::get('sticky_include_category');
     $sticky_include_product_category = ezTOC_Option::get('sticky_include_product_category');
+    $sticky_include_custom_tax = ezTOC_Option::get('sticky_include_custom_tax');
     if ( is_front_page() ) {
       $visible = ($sticky_include_homepage=='1')?true:false;
     } elseif ( is_category() ) {
       $visible = ($sticky_include_category=='1')?true:false;
     } elseif ( is_tax( 'product_cat' ) ) {
       $visible = ($sticky_include_product_category=='1')?true:false;
+    } elseif ( is_tax() ) {
+      $visible = ($sticky_include_custom_tax=='1')?true:false;
     }
     return $visible;
 }
