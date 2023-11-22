@@ -623,7 +623,7 @@ INLINEWPBAKERYJS;
 					
 				}
 
-				if(method_exists('ezTOC', 'inlineHeadingsPaddingCSS')){
+				if(method_exists('ezTOC', 'inlineHeadingsPaddingCSS') && ezTOC_Option::get( 'headings-padding' )){
 					$css .= self::inlineHeadingsPaddingCSS();	
 				}
                                 
