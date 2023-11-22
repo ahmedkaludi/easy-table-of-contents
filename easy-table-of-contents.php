@@ -622,6 +622,10 @@ INLINEWPBAKERYJS;
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:visited {color: ' . ezTOC_Option::get( 'custom_link_visited_colour' ) . ';}';
 					
 				}
+
+				if(method_exists('ezTOC', 'inlineHeadingsPaddingCSS')){
+					$css .= self::inlineHeadingsPaddingCSS();	
+				}
                                 
 			}
 
@@ -875,7 +879,7 @@ COUNTERINCREMENTCSS;
 ul.ez-toc-list a.ez-toc-link { padding: $headingsPaddingTop $headingsPaddingRight $headingsPaddingBottom $headingsPaddingLeft; }
 inlineHeadingsPaddingCSS;
 
-			wp_add_inline_style( 'ez-toc-headings-padding', $inlineHeadingsPaddingCSS );
+			return $inlineHeadingsPaddingCSS;
 		}
 
         /**
@@ -1298,16 +1302,17 @@ INLINESTICKYTOGGLEJS;
 				}
 			}
 
-			if ( ezTOC_Option::get( 'headings-padding' ) ) {
-				wp_register_style(
-					'ez-toc-headings-padding',
-					'',
-					array( ),
-					self::VERSION
-				);
-				wp_enqueue_style( 'ez-toc-headings-padding' );
-				self::inlineHeadingsPaddingCSS();
-			}
+			/*Commented code since @2.0.59 as it is causing issue in #639*/
+			// if ( ezTOC_Option::get( 'headings-padding' ) ) {
+			// 	wp_register_style(
+			// 		'ez-toc-headings-padding',
+			// 		'',
+			// 		array( ),
+			// 		self::VERSION
+			// 	);
+			// 	wp_enqueue_style( 'ez-toc-headings-padding' );
+			// 	self::inlineHeadingsPaddingCSS();
+			// }
                         
 			if( function_exists('get_current_screen') ) {
 				$my_current_screen = get_current_screen();
