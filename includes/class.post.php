@@ -1568,6 +1568,8 @@ class ezTOC_Post {
 
 		$count_matches = is_array($matches) ? count($matches) : '';
 
+		$toc_type = ezTOC_Option::get( 'toc_loading' );
+
 		if ( $hierarchical ) {
 
 			//To not show view more in Hierarchy
@@ -1603,7 +1605,12 @@ class ezTOC_Post {
 					for ( $current_depth; $current_depth < (int) $matches[ $i ][2]; $current_depth++ ) {
 
 						$numbered_items[ $current_depth + 1 ] = 0;
-						$html .= "<ul class='{$prefix}-list-level-" . $level . "'><li class='{$prefix}-heading-level-" . $level . "'>";
+						//Hide Level 4 Headings
+						$sub_active = '';
+						if($level > 3){
+							$sub_active = apply_filters('ez_toc_hierarchy_js_add_attr',$sub_active);
+						}
+						$html .= "<ul class='{$prefix}-list-level-" . $level . "' ".$sub_active."><li class='{$prefix}-heading-level-" . $level . "'>";
 					}
 				}
 
@@ -1652,7 +1659,6 @@ class ezTOC_Post {
 				//No. of Headings
 				$no_of_headings = $toc_more['view_more'];
 				if(is_array($matches)){
-					$toc_type = ezTOC_Option::get( 'toc_loading' );
 					foreach ( $matches as $i => $match ) {
 						$count = $i + 1;
 						$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];

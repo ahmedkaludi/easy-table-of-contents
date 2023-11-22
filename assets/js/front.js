@@ -297,4 +297,16 @@ jQuery( function( $ ) {
             $('body, html').animate({scrollTop: pos});
         });
     }
+
+    if ( typeof ezTOC.collapseSubHd != 'undefined' && parseInt( ezTOC.collapseSubHd ) === 1 ) {
+        $(document).on('click', '#ez-toc-open-sub-hd', function(e) {
+            $(this).attr("id","ez-toc-open-sub-hd-active");
+            e.preventDefault();
+        });
+        $(document).on('click', '#ez-toc-open-sub-hd-active', function(e) {
+            $(this).attr("id","ez-toc-open-sub-hd");
+            e.preventDefault();
+        });
+    }
+
 } );
