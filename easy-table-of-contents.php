@@ -1042,6 +1042,7 @@ INLINESTICKYTOGGLEJS;
 
 			if ( $insert || $enabled ) {
 
+				$is_path_restricted = false;
 				if ( ezTOC_Option::get( 'restrict_path' ) ) {
 
 					/**
@@ -1050,16 +1051,13 @@ INLINESTICKYTOGGLEJS;
 					if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( ezTOC_Option::get( 'restrict_path' ), $_SERVER['REQUEST_URI'] ) ) {
 
 						Debug::log( 'is_restricted_path', 'In restricted path, post not eligible.', ezTOC_Option::get( 'restrict_path' ) );
-						return false;
+						$is_path_restricted = true;
 
-					} else {
-
-						Debug::log( 'is_not_restricted_path', 'Not in restricted path, post is eligible.', ezTOC_Option::get( 'restrict_path' ) );
-						return true;
 					}
 
-				} else {
+				}
 
+				if(!$is_path_restricted){
 					if ( $insert && 1 === (int) get_post_meta( $post->ID, '_ez-toc-disabled', true ) ) {
 
 						Debug::log( 'is_auto_insert_disable_post_meta', 'Auto insert enabled and disable TOC is enabled in post meta.', false );
