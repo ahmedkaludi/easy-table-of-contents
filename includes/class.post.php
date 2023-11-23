@@ -962,8 +962,8 @@ class ezTOC_Post {
 
 			// if blank, then prepend with the fragment prefix
 			// blank anchors normally appear on sites that don't use the latin charset
-			if ( ! $return ) {
-
+			//@since  2.0.59
+			if ( !$return || true == ezTOC_Option::get( 'all_fragment_prefix' ) ) {
 				$return = ( ezTOC_Option::get( 'fragment_prefix' ) ) ? ezTOC_Option::get( 'fragment_prefix' ) : '_';
 			}
 

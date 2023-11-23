@@ -722,6 +722,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'text',
 							'default' => 'i',
 						),
+						'all_fragment_prefix' => array(
+							'id' => 'all_fragment_prefix',
+							'name' => __( 'Anchor Prefix For All', 'easy-table-of-contents' ),
+							'desc' => __( 'This option helps apply prefix to the content written in character sets including ASCII.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'widget_affix_selector' => array(
 							'id' => 'widget_affix_selector',
 							'name' => __( 'Widget Affix Selector', 'easy-table-of-contents' ),
