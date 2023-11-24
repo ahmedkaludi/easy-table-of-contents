@@ -1218,56 +1218,44 @@ INLINESTICKYTOGGLEJS;
 		 * @return string
 		 */
 		public static function shortcode( $atts, $content, $tag ) {
-						//Enqueue css and styles if that has not been added by wp_enqueue_scripts			
-						self::enqueue_registered_script();	
-						self::enqueue_registered_style();	
-						self::inlineMainCountingCSS();
 
-						$post_id = isset( $atts['post_id'] ) ? (int) $atts['post_id'] : get_the_ID();
-							
-						$html = '';
+				//Enqueue css and styles if that has not been added by wp_enqueue_scripts			
 
-						//Check for Support
-                        $qualified_to_return = false;
-                        if(isset($atts['enable_support'])){
-                        	$get_support = explode(',', $atts['enable_support']);
-	                        if(!empty($get_support)){
-	                        	$qualified_to_return = true;
-	                        	$postType = get_post_type();
-		                        if(in_array($postType,$get_support)){
-		                        	$qualified_to_return = false;
-		                        }
-		                        if(is_home() || is_front_page()){
-			                        $qualified_to_return = true;
-			                        if(in_array('home',$get_support)){
-			                        	$qualified_to_return = false;
-			                        }
-		                        }
-	                        }
-                        }
+				$html = '';
+				
+				if(!ez_toc_shortcode_enable_support_status($atts)){
+					return $html;
+				}				
 
-                        if( ( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ) || $qualified_to_return )
-                            return $html;
-                            			                            
-                                $post = self::get( $post_id );
+				if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ){
+					return $html;
+				}
+				
+				self::enqueue_registered_script();	
+				self::enqueue_registered_style();	
+				self::inlineMainCountingCSS();				
 
-                                if ( ! $post instanceof ezTOC_Post ) {
+				$post_id = isset( $atts['post_id'] ) ? (int) $atts['post_id'] : get_the_ID();																					
+																				
+				$post = self::get( $post_id );
 
-                                        Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
+				if ( ! $post instanceof ezTOC_Post ) {
 
-                                        return Debug::log()->appendTo( $content );
-                                }
-                                			
-							$options =  array();
-							if (isset($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
-								$options['visibility_hide_by_default'] = true;
-							}
-							if (isset($atts["view_more"]) && $atts["view_more"] > 0) {
-								$options['view_more'] = $atts["view_more"];
-							}
-							$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();			
-                        
-			return $html;
+						Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
+
+						return Debug::log()->appendTo( $content );
+				}
+									
+				$options =  array();
+				if (isset($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
+					$options['visibility_hide_by_default'] = true;
+				}
+				if (isset($atts["view_more"]) && $atts["view_more"] > 0) {
+					$options['view_more'] = $atts["view_more"];
+				}
+				$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();			
+				
+				return $html;
 		}
 
 		/**

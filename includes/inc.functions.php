@@ -368,3 +368,48 @@ function ez_toc_link_allow_br_tag($tags){
     }
     return $tags;
 }
+
+/**
+ * Check the status of shortcode enable support which is defined in shortcode attributes
+ * @since 2.0.59
+ */
+function ez_toc_shortcode_enable_support_status($atts){
+    
+    $status = true;
+
+    if(isset($atts['post_types'])){
+        $exp_post_types = explode(',', $atts['post_types']);
+        if(!empty($exp_post_types)){
+            $exp_post_types = array_map("trim",$exp_post_types);
+            if(is_singular()){
+                $curr_post_type = get_post_type();
+                if(in_array($curr_post_type, $exp_post_types )){
+                    $status = true;
+                }else{
+                    $status = false;
+                }
+            }else{
+                $status = false;
+            }       
+        }
+    }
+
+    if(isset($atts['post_in'])){
+        $exp_post_ids = explode(',', $atts['post_in']);
+        if(!empty($exp_post_ids)){
+            $exp_post_ids = array_map("trim",$exp_post_ids);
+            if(is_singular()){
+                $ID = get_the_ID();
+                if(in_array($ID, $exp_post_ids )){
+                    $status = true;
+                }else{
+                    $status = false;
+                }
+            }else{
+                $status = false;
+            }       
+        }
+    }
+    
+    return $status;    
+}
