@@ -302,7 +302,7 @@ add_action('shutdown', function() {
     
                 $return = strtolower( $return );
             }
-            if ( ! $return ) {
+            if ( !$return || true == ezTOC_Option::get( 'all_fragment_prefix' ) ) {
     
                 $return = ( ezTOC_Option::get( 'fragment_prefix' ) ) ? ezTOC_Option::get( 'fragment_prefix' ) : '_';
             }

@@ -724,8 +724,8 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						),
 						'all_fragment_prefix' => array(
 							'id' => 'all_fragment_prefix',
-							'name' => __( 'Anchor Prefix For All', 'easy-table-of-contents' ),
-							'desc' => __( 'This option helps apply prefix to the content written in character sets including ASCII.', 'easy-table-of-contents' ),
+							'name' => __( 'Default Anchor Prefix For All', 'easy-table-of-contents' ),
+							'desc' => __( 'Apply default anchor prefix option to all anchors whether characters qualify or not.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
 						),
