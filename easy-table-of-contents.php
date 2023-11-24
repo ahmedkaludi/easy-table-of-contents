@@ -623,7 +623,7 @@ INLINEWPBAKERYJS;
 					
 				}
 
-				if(method_exists('ezTOC', 'inlineHeadingsPaddingCSS') && ezTOC_Option::get( 'headings-padding' )){
+				if(ezTOC_Option::get( 'headings-padding' )){
 					$css .= self::inlineHeadingsPaddingCSS();	
 				}
                                 
@@ -1299,19 +1299,7 @@ INLINESTICKYTOGGLEJS;
 					$apply = false;
 				}
 			}
-
-			/*Commented code since @2.0.59 as it is causing issue in #639*/
-			// if ( ezTOC_Option::get( 'headings-padding' ) ) {
-			// 	wp_register_style(
-			// 		'ez-toc-headings-padding',
-			// 		'',
-			// 		array( ),
-			// 		self::VERSION
-			// 	);
-			// 	wp_enqueue_style( 'ez-toc-headings-padding' );
-			// 	self::inlineHeadingsPaddingCSS();
-			// }
-                        
+			                        
 			if( function_exists('get_current_screen') ) {
 				$my_current_screen = get_current_screen();
 				if ( isset( $my_current_screen->id )  ) {
