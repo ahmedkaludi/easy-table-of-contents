@@ -321,7 +321,7 @@ class ezTOC_Post {
 			}
 		}
 
-		if(is_tax()){
+		if(is_tax() || is_tag()){
 			global $wp_query;
 			$tax = $wp_query->get_queried_object();
 			if(is_object($tax)){
@@ -1749,7 +1749,7 @@ class ezTOC_Post {
 
 		} elseif ( 1 === $page ) {
 			// Fix for wrong links on TOC on Wordpress category page
-			if(is_category() || is_tax() || (function_exists('is_product_category') && is_product_category())){
+			if(is_category() || is_tax() || is_tag() || (function_exists('is_product_category') && is_product_category())){
 				return  '#' . $id;
 			}
 			return trailingslashit( $this->permalink ) . '#' . $id;

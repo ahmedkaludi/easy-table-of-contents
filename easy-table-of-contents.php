@@ -1280,7 +1280,7 @@ INLINESTICKYTOGGLEJS;
 			// bail if feed, search or archive
 			if ( is_feed() || is_search() || is_archive() ) {
 				
-				if( (true == ezTOC_Option::get( 'include_category', false) && is_category()) || (true == ezTOC_Option::get( 'include_product_category', false) &&  (function_exists('is_product_category') && is_product_category()) ) || (true == ezTOC_Option::get( 'include_custom_tax', false) && is_tax())) {
+				if( (true == ezTOC_Option::get( 'include_category', false) && is_category()) || (true == ezTOC_Option::get( 'include_tag', false) && is_tag()) || (true == ezTOC_Option::get( 'include_product_category', false) &&  (function_exists('is_product_category') && is_product_category()) ) || (true == ezTOC_Option::get( 'include_custom_tax', false) && is_tax())) {
 					
 					$apply = true;
 				} else {
@@ -1677,8 +1677,8 @@ STICKYTOGGLEHTML;
 		 * @return string
 		 */
 		public static function toc_category_content_filter( $description , $cat_id ) {
-                    if( is_category() && true == ezTOC_Option::get( 'include_category', false) || is_tax() && true == ezTOC_Option::get( 'include_custom_tax', false) ) {
-						if(!is_admin() && !empty($description)){
+                    if( (is_category() && true == ezTOC_Option::get( 'include_category', false)) || (is_tax() && true == ezTOC_Option::get( 'include_custom_tax', false)) || (is_tag() && true == ezTOC_Option::get( 'include_tag', false)) ) {
+						if(!is_admin() && !empty($description)){							
 							return self::the_content($description);
 						}
                     }

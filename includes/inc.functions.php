@@ -319,6 +319,7 @@ add_filter( 'ez_toc_sticky_visible', 'ez_toc_sticky_visible_func' ,20);
 function ez_toc_sticky_visible_func( $visible ) {
     $sticky_include_homepage = ezTOC_Option::get('sticky_include_homepage');
     $sticky_include_category = ezTOC_Option::get('sticky_include_category');
+    $sticky_include_tag      = ezTOC_Option::get('sticky_include_tag');
     $sticky_include_product_category = ezTOC_Option::get('sticky_include_product_category');
     $sticky_include_custom_tax = ezTOC_Option::get('sticky_include_custom_tax');
     if ( is_front_page() ) {
@@ -329,6 +330,8 @@ function ez_toc_sticky_visible_func( $visible ) {
       $visible = ($sticky_include_product_category=='1')?true:false;
     } elseif ( is_tax() ) {
       $visible = ($sticky_include_custom_tax=='1')?true:false;
+    }elseif ( is_tag() ) {
+        $visible = ($sticky_include_tag=='1')?true:false;
     }
     return $visible;
 }
