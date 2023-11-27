@@ -1396,13 +1396,13 @@ INLINESTICKYTOGGLEJS;
 			Debug::log(
 				'found_post_headings',
 				'Found headings:',
-				"<textarea rows='{$headingRows}' style='{$style}' wrap='soft'>{$headings}</textarea>"
+				"<textarea id='ez-toc-debug-headings-found' rows='{$headingRows}' style='{$style}' wrap='soft'>{$headings}</textarea>"
 			);
 
 			Debug::log(
 				'replace_post_headings',
 				'Replace found headings with:',
-				"<textarea rows='{$anchorRows}' style='{$style}' wrap='soft'>{$anchors}</textarea>"
+				"<textarea id='ez-toc-debug-headings-replace' rows='{$anchorRows}' style='{$style}' wrap='soft'>{$anchors}</textarea>"
 			);
 			
 
