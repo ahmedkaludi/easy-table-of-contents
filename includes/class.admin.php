@@ -374,7 +374,7 @@ INLINEOCCASIONALADSPOPUSJS;
 		 * @static
 		 */
 		public function registerMetaboxes() {
-
+			if(apply_filters('ez_toc_register_metaboxes_flag', true)){
 			foreach ( get_post_types() as $type ) {
 
 				if ( in_array( $type, ezTOC_Option::get( 'enabled_post_types', array() ) ) ) {
@@ -383,6 +383,7 @@ INLINEOCCASIONALADSPOPUSJS;
 					add_action( "save_post_$type", array( $this, 'save' ), 10, 3 );
 				}
 			}
+		  }
 		}
 
 		/**
