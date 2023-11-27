@@ -783,7 +783,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'prsrv_line_brk' => array(
 							'id' => 'prsrv_line_brk',
 							'name' => __( 'Preserve Line Breaks', 'easy-table-of-contents' ),
-							'desc' => __( 'This option allows line breaks in the Table of contents Title.', 'easy-table-of-contents' ),
+							'desc' => __( 'Keeps line break of headings while generating toc.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
 						)
