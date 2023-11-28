@@ -286,8 +286,8 @@ jQuery( function( $ ) {
     });
 
     if ( typeof ezTOC.JumpJsLinks != 'undefined' && parseInt( ezTOC.JumpJsLinks ) === 1 ) {
-        $(document).on('click', 'a[href^="#"]', function(e) {
-            var id = $(this).attr('href');
+        $(document).on('click', 'a[data-href^="#"]', function(e) {
+            var id = $(this).attr('data-href');
             var $id = $(id);
             if ($id.length === 0) {
                 return;

@@ -1721,8 +1721,13 @@ class ezTOC_Post {
 			$title = str_replace(':', '', $title);
 		}
 		
+		$anch_name = 'href';
+		if(ezTOC_Option::get( 'avoid_anch_jump' )){
+			$anch_name = 'href="#" data-href';
+		}
+
 		return sprintf(
-			'<a class="ez-toc-link ez-toc-heading-' . $count . '" href="%1$s" title="%2$s">%3$s</a>',
+			'<a class="ez-toc-link ez-toc-heading-' . $count . '" '.$anch_name.'="%1$s" title="%2$s">%3$s</a>',
 			esc_attr( $this->createTOCItemURL( $id, $page ) ),
 			esc_attr( strip_tags( $title ) ),
 			$title
