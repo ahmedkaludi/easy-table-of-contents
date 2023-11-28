@@ -720,6 +720,19 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							          '<br/><span class="description">' . __( 'Eg: /wiki/, /corporate/annual-reports/', 'easy-table-of-contents' ) . '</span>',
 							'type' => 'text',
 						),
+						'restrict_url_switch' => array(
+							'id' => 'restrict_url_switch',
+							'name' => __( 'Exclude By Matching Url/String', 'easy-table-of-contents' ),
+							'desc' => __( 'Restrict generation of the table of contents to pages that match the required url or string within url.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+						),
+						'restrict_url_text' => array(
+							'id' => 'restrict_url_text',
+							'name' => __( 'Limit Url/String', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . __( 'Add the url of the pages that you do not want to show table of contents on. Any part or match of the url, will restrict table of contents from loading on those pages', 'easy-table-of-contents' ) .
+							          '<br/><span class="description">' . __( 'Eg: wp, wp/post1/', 'easy-table-of-contents' ) . '</span>',
+							'type' => 'text',
+						),
 						'fragment_prefix' => array(
 							'id' => 'fragment_prefix',
 							'name' => __( 'Default Anchor Prefix', 'easy-table-of-contents' ),

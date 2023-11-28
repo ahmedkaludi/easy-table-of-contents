@@ -1020,6 +1020,21 @@ INLINESTICKYTOGGLEJS;
 				return false;                            
 			}
 
+			/**
+			 * New Restriction
+			 * @since 2.0.59
+			 */
+			if( ezTOC_Option::get( 'restrict_url_switch' ) ){
+				$all_urls = ezTOC_Option::get( 'restrict_url_text' );
+				$urls_arr = explode(',', $all_urls);
+				foreach ($urls_arr as $url_arr) {
+					if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( $_SERVER['REQUEST_URI'], $url_arr ) ) {
+						Debug::log( 'is_restricted_path', 'In restricted path, post not eligible.', ezTOC_Option::get( 'restrict_path' ) );
+						return false;
+					}
+				}
+			}
+
 			if ( has_shortcode( $post->post_content, apply_filters( 'ez_toc_shortcode', 'toc' ) ) || has_shortcode( $post->post_content, 'ez-toc' ) ) {
 				Debug::log( 'has_ez_toc_shortcode', 'Has instance of shortcode.', true );
 				return true;
