@@ -481,17 +481,17 @@ add_filter(
  */
 add_filter(
 	'fl_builder_layout_data',
-	'flBuilderLayoutDataEZTOC',
+	'ez_toc_flbuilder_layout_data',
 	12,
 	1
 );
-function flBuilderLayoutDataEZTOC( $data ) {
+function ez_toc_flbuilder_layout_data( $data ) {
 	if( has_action( 'the_content' ) ) {
-		$post = get_post( get_the_ID() );
-		foreach( $data as $nodeKey => $node )
-		{
-			$data[$nodeKey] = $node;
-		}
+		if(!empty($data)){
+			foreach( $data as $nodeKey => $node ){		
+				$data[$nodeKey] = $node;
+			}
+		}				
 	}
 	return $data;
 }
