@@ -452,7 +452,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$js_vars['fallbackIcon'] = $icon;
 				}
 
-				if(ezTOC_Option::get( 'avoid_anch_jump' )){
+				if(ezTOC_Option::get( 'toc_loading' ) == 'js' && ezTOC_Option::get( 'avoid_anch_jump' )){
 					$js_vars['JumpJsLinks'] = true;
 				}
 
