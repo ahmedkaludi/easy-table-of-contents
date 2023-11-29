@@ -326,13 +326,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'options' => self::getCounterPositionList(),
 							'default' => 'inside',
 						),
-						'smooth_scroll' => array(
-							'id' => 'smooth_scroll',
-							'name' => __( 'Smooth Scroll', 'easy-table-of-contents' ),
-							'desc' => '',
-							'type' => 'checkbox',
-							'default' => true,
-						),
 						'toc_loading' => array(
 							'id' => 'toc_loading',
 							'name' => __( 'TOC Loading Method', 'easy-table-of-contents' ),
@@ -345,10 +338,17 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'js',
 						),
+						'smooth_scroll' => array(
+							'id' => 'smooth_scroll',
+							'name' => __( 'Smooth Scroll', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'checkbox',
+							'default' => true,
+						),
 						'avoid_anch_jump' => array(
 							'id' => 'avoid_anch_jump',
 							'name' => __( 'Jump Through Js', 'easy-table-of-contents' ),
-							'desc' => __( 'This option helps Jump links to work without adding ids in the URL', 'easy-table-of-contents' ),
+							'desc' => __( 'Jump links to work without adding ids in the URL', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
 						),
