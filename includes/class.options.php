@@ -326,13 +326,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'options' => self::getCounterPositionList(),
 							'default' => 'inside',
 						),
-						'smooth_scroll' => array(
-							'id' => 'smooth_scroll',
-							'name' => __( 'Smooth Scroll', 'easy-table-of-contents' ),
-							'desc' => '',
-							'type' => 'checkbox',
-							'default' => true,
-						),
 						'toc_loading' => array(
 							'id' => 'toc_loading',
 							'name' => __( 'TOC Loading Method', 'easy-table-of-contents' ),
@@ -344,6 +337,21 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 								 
 							),
 							'default' => 'js',
+						),
+						'smooth_scroll' => array(
+							'id' => 'smooth_scroll',
+							'name' => __( 'Smooth Scroll', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'checkbox',
+							'default' => true,
+						),
+						'avoid_anch_jump' => array(
+							'id' => 'avoid_anch_jump',
+							'name' => __( 'Exclude href from url', 'easy-table-of-contents' ),
+							'desc' => __( 'Jump link works without adding ids in the URL', 'easy-table-of-contents' ) .
+							          '<br><span class="description">' . __( 'NOTE: Please keep Smooth Scroll "ON" to make this option work properly.', 'easy-table-of-contents' ) . '<span>',
+							'type' => 'checkbox',
+							'default' => false,
 						),
                                             
                                                 'toc-run-on-amp-pages' => array(
@@ -613,10 +621,24 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'include_tag' => array(
+							'id' => 'include_tag',
+							'name' => __( 'Tag', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the table of contents for description on the tag pages.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'include_product_category' => array(
 							'id' => 'include_product_category',
 							'name' => __( 'Product Category', 'easy-table-of-contents' ),
 							'desc' => __( 'Show the table of contents for description on the product category pages.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
+						'include_custom_tax' => array(
+							'id' => 'include_custom_tax',
+							'name' => __( 'Custom Taxonomy', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the table of contents for description on the custom taxonomy pages.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
 						),
@@ -699,6 +721,16 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							          '<br/><span class="description">' . __( 'Eg: /wiki/, /corporate/annual-reports/', 'easy-table-of-contents' ) . '</span>',
 							'type' => 'text',
 						),
+						'restrict_url_text' => array(
+							'id' => 'restrict_url_text',
+							'name' => __( 'Exclude By Matching Url/String', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . __( 'Add the url of the pages that you do not want to show table of contents on. Any part or match of the url, will restrict table of contents from loading on those pages. Please add the urls in the new lines by clicking on "enter".', 'easy-table-of-contents' ) .
+							          '<br/><span class="description">' . __( 'Note: This setting will override above Limit Path option, if the limit path has been set.', 'easy-table-of-contents' ) . '</span>',
+							'type' => 'textarea',
+							'placeholder' => 'wp
+text
+/featured/',
+						),
 						'fragment_prefix' => array(
 							'id' => 'fragment_prefix',
 							'name' => __( 'Default Anchor Prefix', 'easy-table-of-contents' ),
@@ -707,6 +739,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							          '<br/><span class="description">' . __( 'Eg: i, toc_index, index, _', 'easy-table-of-contents' ) . '</span>',
 							'type' => 'text',
 							'default' => 'i',
+						),
+						'all_fragment_prefix' => array(
+							'id' => 'all_fragment_prefix',
+							'name' => __( 'Default Anchor Prefix For All', 'easy-table-of-contents' ),
+							'desc' => __( 'Apply default anchor prefix option to all anchors whether characters qualify or not.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
 						),
 						'widget_affix_selector' => array(
 							'id' => 'widget_affix_selector',
@@ -749,6 +788,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'id' => 'generate_toc_link_ids',
 							'name' => __( 'Generate TOC link ids', 'easy-table-of-contents' ),
 							'desc' => __( 'Enable This option when the TOC shortcode is used inside custom template, sidebar or when manually added do_shortcode("[ez-toc]") function in php files', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
+						'prsrv_line_brk' => array(
+							'id' => 'prsrv_line_brk',
+							'name' => __( 'Preserve Line Breaks', 'easy-table-of-contents' ),
+							'desc' => __( 'Keeps line break of headings while generating toc.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
 						)
@@ -827,12 +873,26 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => true,
 						  ),
+						  'sticky_include_tag' => array(
+							'id' => 'sticky_include_tag',
+							'name' => __( 'Tag', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the Sticky TOC for description on the tag pages.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => true,
+						  ),
 						  'sticky_include_product_category' => array(
 							'id' => 'sticky_include_product_category',
 							'name' => __( 'Product Category', 'easy-table-of-contents' ),
 							'desc' => __( 'Show the Sticky TOC for description on the product category pages.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => true,
+						  ),
+						  'sticky_include_custom_tax' => array(
+							'id' => 'sticky_include_custom_tax',
+							'name' => __( 'Custom Taxonomy', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the Sticky TOC for description on the custom taxonomy pages.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
 						  ),
 						'sticky-toggle-position'                   => array(
 							'id'      => 'sticky-toggle-position',
@@ -1105,6 +1165,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'mobile_smooth_scroll_offset'        => 0,
 				'visibility'                         => true,
 				'toc_loading'                        => 'js',
+				'avoid_anch_jump'                    => false,
 				'remove_special_chars_from_title'    => false,
 				'visibility_hide_by_default'         => false,
 				'width'                              => 'auto',
@@ -1134,8 +1195,10 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'hyphenate'                          => false,
 				'include_homepage'                   => false,
 				'include_category'                   => false,
+				'include_tag'                        => false,
+				'include_custom_tax'                 => false,
 				'exclude_css'                        => false,
-				'inline_css'                        => false,
+				'inline_css'                         => false,
 				'exclude'                            => '',
 				'heading_levels'                     => array( '1', '2', '3', '4', '5', '6' ),
 				'restrict_path'                      => '',
@@ -1154,7 +1217,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 				'sticky-post-types'					  => array('post','page'),
 				'sticky_include_homepage' 			  => false,
 				'sticky_include_category' 			  => true,
+				'sticky_include_tag' 		     	  => false,
 				'sticky_include_product_category'     => true,
+				'sticky_include_custom_tax'           => false,
 				'generate_toc_link_ids'               => false,
 			);
 
@@ -1453,12 +1518,14 @@ HR_TAG;
 			$readonly = isset( $args['readonly'] ) && $args['readonly'] === true ? ' readonly="readonly"' : '';
 			$size     = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 
+			$placeholder = isset( $args['placeholder'] ) && $args['placeholder'] != '' ? 'placeholder="'.$args['placeholder'].'"' : '';
+
+			$html .= '<textarea rows="10" cols="50" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name .  $readonly . $placeholder. '/>' . esc_textarea( $value ) . '</textarea>';
+
 			if ( 0 < strlen( $args['desc'] ) ) {
 
 				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 			}
-
-			$html .= '<textarea rows="10" cols="50" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name .  $readonly . '/>' . esc_textarea( $value ) . '</textarea>';
 
 			echo $html;
 		}
@@ -1492,7 +1559,9 @@ HR_TAG;
 			$readonly = isset( $args['readonly'] ) && $args['readonly'] === true ? ' readonly="readonly"' : '';
 			$size     = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 
-			$html = '<input type="number" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( stripslashes( $value ) ) . '"' . $readonly . '/>';
+			$min = isset( $args['min'] ) && $args['min'] != '' ? 'min="'.$args['min'].'"' : '';
+
+			$html = '<input type="number" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( stripslashes( $value ) ) . '"' . $readonly . $min . ' />';
 
 			if ( 0 < strlen( $args['desc'] ) ) {
 

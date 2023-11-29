@@ -302,7 +302,7 @@ add_action('shutdown', function() {
     
                 $return = strtolower( $return );
             }
-            if ( ! $return ) {
+            if ( !$return || true == ezTOC_Option::get( 'all_fragment_prefix' ) ) {
     
                 $return = ( ezTOC_Option::get( 'fragment_prefix' ) ) ? ezTOC_Option::get( 'fragment_prefix' ) : '_';
             }
@@ -319,13 +319,19 @@ add_filter( 'ez_toc_sticky_visible', 'ez_toc_sticky_visible_func' ,20);
 function ez_toc_sticky_visible_func( $visible ) {
     $sticky_include_homepage = ezTOC_Option::get('sticky_include_homepage');
     $sticky_include_category = ezTOC_Option::get('sticky_include_category');
+    $sticky_include_tag      = ezTOC_Option::get('sticky_include_tag');
     $sticky_include_product_category = ezTOC_Option::get('sticky_include_product_category');
+    $sticky_include_custom_tax = ezTOC_Option::get('sticky_include_custom_tax');
     if ( is_front_page() ) {
       $visible = ($sticky_include_homepage=='1')?true:false;
     } elseif ( is_category() ) {
       $visible = ($sticky_include_category=='1')?true:false;
     } elseif ( is_tax( 'product_cat' ) ) {
       $visible = ($sticky_include_product_category=='1')?true:false;
+    } elseif ( is_tax() ) {
+      $visible = ($sticky_include_custom_tax=='1')?true:false;
+    }elseif ( is_tag() ) {
+        $visible = ($sticky_include_tag=='1')?true:false;
     }
     return $visible;
 }
@@ -352,4 +358,61 @@ function ez_toc_para_blockquote_replace($blockquotes, $content, $step){
     }
     return $content;
 }
+}
+
+/**
+ * Helps allow line breaks
+ * @since 2.0.59
+ */
+add_filter('ez_toc_title_allowable_tags', 'ez_toc_link_allow_br_tag');
+function ez_toc_link_allow_br_tag($tags){
+    if(ezTOC_Option::get( 'prsrv_line_brk' )){
+        $tags = '<br>';
+    }
+    return $tags;
+}
+
+/**
+ * Check the status of shortcode enable support which is defined in shortcode attributes
+ * @since 2.0.59
+ */
+function ez_toc_shortcode_enable_support_status($atts){
+    
+    $status = true;
+
+    if(isset($atts['post_types'])){
+        $exp_post_types = explode(',', $atts['post_types']);
+        if(!empty($exp_post_types)){
+            $exp_post_types = array_map("trim",$exp_post_types);
+            if(is_singular()){
+                $curr_post_type = get_post_type();
+                if(in_array($curr_post_type, $exp_post_types )){
+                    $status = true;
+                }else{
+                    $status = false;
+                }
+            }else{
+                $status = false;
+            }       
+        }
+    }
+
+    if(isset($atts['post_in'])){
+        $exp_post_ids = explode(',', $atts['post_in']);
+        if(!empty($exp_post_ids)){
+            $exp_post_ids = array_map("trim",$exp_post_ids);
+            if(is_singular()){
+                $ID = get_the_ID();
+                if(in_array($ID, $exp_post_ids )){
+                    $status = true;
+                }else{
+                    $status = false;
+                }
+            }else{
+                $status = false;
+            }       
+        }
+    }
+    
+    return $status;    
 }

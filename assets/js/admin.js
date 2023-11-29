@@ -77,6 +77,25 @@ jQuery(document).ready(function ($) {
             $(blockQCheckB).parents('tr').hide(500);
         }
     });
+    let check_method = $('#eztoc-general').find("select[name='ez-toc-settings[toc_loading]']");
+    let smoothCheck = $('#eztoc-general').find("input[name='ez-toc-settings[smooth_scroll]']");
+    let anchsJump = $('#eztoc-general').find("input[name='ez-toc-settings[avoid_anch_jump]']");
+    if($(check_method).val() == 'js'){
+        $(smoothCheck).parents('tr').show();
+        $(anchsJump).parents('tr').show();
+    }else{
+        $(smoothCheck).parents('tr').hide();
+        $(anchsJump).parents('tr').hide();
+    }
+    $(document).on("change", "select[name='ez-toc-settings[toc_loading]']", function() {
+        if($(this).val() == 'js'){
+            $(smoothCheck).parents('tr').show(500);    
+            $(anchsJump).parents('tr').show(500);    
+        }else{
+            $(smoothCheck).parents('tr').hide(500);
+            $(anchsJump).parents('tr').hide(500);
+        }
+    });
     
 
 });

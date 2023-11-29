@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.58
+ * Version: 2.0.59
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.58
+ * @version  2.0.59
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -49,7 +49,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.58';
+		const VERSION = '2.0.59';
 
 		/**
 		 * Stores the instance of this class.
@@ -170,7 +170,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if( defined('EASY_TOC_AMP_VERSION') ){
 					add_filter( 'ampforwp_modify_the_content', array( __CLASS__, 'the_content' ) );
 				}
-				add_filter( 'category_description',  array( __CLASS__, 'toc_category_content_filter' ), 99,2);
+				add_filter( 'term_description',  array( __CLASS__, 'toc_term_content_filter' ), 99,2);
 				add_filter( 'woocommerce_taxonomy_archive_description_raw',  array( __CLASS__, 'toc_category_content_filter_woocommerce' ), 99,2);
 				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );                                    
 				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
@@ -452,11 +452,18 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$js_vars['fallbackIcon'] = $icon;
 				}
 
+				if(ezTOC_Option::get( 'collapsable_sub_hd' )){
+					$js_vars['collapseSubHd'] = true;
+				}
+
 				if ( 0 < count( $js_vars ) ) {
 					wp_localize_script( 'ez-toc-js', 'ezTOC', $js_vars );
 					// smooth scroll js localization
 					$js_scroll = array();
 					$js_scroll['scroll_offset'] = esc_js( $offset );	
+					if(ezTOC_Option::get( 'smooth_scroll' ) && ezTOC_Option::get( 'avoid_anch_jump' )){
+						$js_scroll['JumpJsLinks'] = true;
+					}
 					wp_localize_script( 'ez-toc-scroll-scriptjs', 'eztoc_smooth_local', $js_scroll );						
 				}		
 												
@@ -613,6 +620,10 @@ INLINEWPBAKERYJS;
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:hover {color: ' . ezTOC_Option::get( 'custom_link_hover_colour' ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:visited {color: ' . ezTOC_Option::get( 'custom_link_visited_colour' ) . ';}';
 					
+				}
+
+				if(ezTOC_Option::get( 'headings-padding' )){
+					$css .= self::inlineHeadingsPaddingCSS();	
 				}
                                 
 			}
@@ -867,7 +878,7 @@ COUNTERINCREMENTCSS;
 ul.ez-toc-list a.ez-toc-link { padding: $headingsPaddingTop $headingsPaddingRight $headingsPaddingBottom $headingsPaddingLeft; }
 inlineHeadingsPaddingCSS;
 
-			wp_add_inline_style( 'ez-toc-headings-padding', $inlineHeadingsPaddingCSS );
+			return $inlineHeadingsPaddingCSS;
 		}
 
         /**
@@ -1006,6 +1017,24 @@ INLINESTICKYTOGGLEJS;
 			if ( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ) {
 				Debug::log( 'non_amp', 'Is frontpage, TOC is not enabled.', false );
 				return false;                            
+			}
+
+			/**
+			 * New Restriction
+			 * @since 2.0.59
+			 */
+			if( ezTOC_Option::get( 'restrict_url_text' ) && ezTOC_Option::get( 'restrict_url_text' ) != '' ){
+				$all_urls = nl2br(ezTOC_Option::get( 'restrict_url_text' ));
+				$all_urls = str_replace('<br />', '', $all_urls);
+				$urls_arr = explode(PHP_EOL, $all_urls);
+				if(is_array($urls_arr)){
+					foreach ($urls_arr as $url_arr) {
+						if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( $_SERVER['REQUEST_URI'], $url_arr ) ) {
+							Debug::log( 'is_restricted_path', 'In restricted path, post not eligible.', ezTOC_Option::get( 'restrict_path' ) );
+							return false;
+						}
+					}
+				}
 			}
 
 			if ( has_shortcode( $post->post_content, apply_filters( 'ez_toc_shortcode', 'toc' ) ) || has_shortcode( $post->post_content, 'ez-toc' ) ) {
@@ -1208,37 +1237,44 @@ INLINESTICKYTOGGLEJS;
 		 * @return string
 		 */
 		public static function shortcode( $atts, $content, $tag ) {
-						//Enqueue css and styles if that has not been added by wp_enqueue_scripts			
-						self::enqueue_registered_script();	
-						self::enqueue_registered_style();	
-						self::inlineMainCountingCSS();
 
-						$post_id = isset( $atts['post_id'] ) ? (int) $atts['post_id'] : get_the_ID();
-							
-						$html = '';
+				//Enqueue css and styles if that has not been added by wp_enqueue_scripts			
 
-                        if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() )
-                            return $html;
-                            			                            
-                                $post = self::get( $post_id );
+				$html = '';
+				
+				if(!ez_toc_shortcode_enable_support_status($atts)){
+					return $html;
+				}				
 
-                                if ( ! $post instanceof ezTOC_Post ) {
+				if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ){
+					return $html;
+				}
+				
+				self::enqueue_registered_script();	
+				self::enqueue_registered_style();	
+				self::inlineMainCountingCSS();				
 
-                                        Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
+				$post_id = isset( $atts['post_id'] ) ? (int) $atts['post_id'] : get_the_ID();																					
+																				
+				$post = self::get( $post_id );
 
-                                        return Debug::log()->appendTo( $content );
-                                }
-                                			
-							$options =  array();
-							if (isset($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
-								$options['visibility_hide_by_default'] = true;
-							}
-							if (isset($atts["view_more"]) && $atts["view_more"] > 0) {
-								$options['view_more'] = $atts["view_more"];
-							}
-							$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();			
-                        
-			return $html;
+				if ( ! $post instanceof ezTOC_Post ) {
+
+						Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
+
+						return Debug::log()->appendTo( $content );
+				}
+									
+				$options =  array();
+				if (isset($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
+					$options['visibility_hide_by_default'] = true;
+				}
+				if (isset($atts["view_more"]) && $atts["view_more"] > 0) {
+					$options['view_more'] = $atts["view_more"];
+				}
+				$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();			
+				
+				return $html;
 		}
 
 		/**
@@ -1263,25 +1299,14 @@ INLINESTICKYTOGGLEJS;
 			// bail if feed, search or archive
 			if ( is_feed() || is_search() || is_archive() ) {
 				
-				if( (true == ezTOC_Option::get( 'include_category', false) && is_category()) || (true == ezTOC_Option::get( 'include_product_category', false) &&  (function_exists('is_product_category') && is_product_category()) )) {
+				if( (true == ezTOC_Option::get( 'include_category', false) && is_category()) || (true == ezTOC_Option::get( 'include_tag', false) && is_tag()) || (true == ezTOC_Option::get( 'include_product_category', false) &&  (function_exists('is_product_category') && is_product_category()) ) || (true == ezTOC_Option::get( 'include_custom_tax', false) && is_tax())) {
 					
 					$apply = true;
 				} else {
 					$apply = false;
 				}
 			}
-
-			if ( ezTOC_Option::get( 'headings-padding' ) ) {
-				wp_register_style(
-					'ez-toc-headings-padding',
-					'',
-					array( ),
-					self::VERSION
-				);
-				wp_enqueue_style( 'ez-toc-headings-padding' );
-				self::inlineHeadingsPaddingCSS();
-			}
-                        
+			                        
 			if( function_exists('get_current_screen') ) {
 				$my_current_screen = get_current_screen();
 				if ( isset( $my_current_screen->id )  ) {
@@ -1390,13 +1415,13 @@ INLINESTICKYTOGGLEJS;
 			Debug::log(
 				'found_post_headings',
 				'Found headings:',
-				"<textarea rows='{$headingRows}' style='{$style}' wrap='soft'>{$headings}</textarea>"
+				"<textarea id='ez-toc-debug-headings-found' rows='{$headingRows}' style='{$style}' wrap='soft'>{$headings}</textarea>"
 			);
 
 			Debug::log(
 				'replace_post_headings',
 				'Replace found headings with:',
-				"<textarea rows='{$anchorRows}' style='{$style}' wrap='soft'>{$anchors}</textarea>"
+				"<textarea id='ez-toc-debug-headings-replace' rows='{$anchorRows}' style='{$style}' wrap='soft'>{$anchors}</textarea>"
 			);
 			
 
@@ -1670,9 +1695,9 @@ STICKYTOGGLEHTML;
    		 * @static
 		 * @return string
 		 */
-		public static function toc_category_content_filter( $description , $cat_id ) {
-                    if( true == ezTOC_Option::get( 'include_category', false) ) {
-						if(!is_admin() && !empty($description)){
+		public static function toc_term_content_filter( $description , $term_id ) {
+                    if( (is_category() && true == ezTOC_Option::get( 'include_category', false)) || (is_tax() && true == ezTOC_Option::get( 'include_custom_tax', false)) || (is_tag() && true == ezTOC_Option::get( 'include_tag', false)) ) {
+						if(!is_admin() && !empty($description)){							
 							return self::the_content($description);
 						}
                     }

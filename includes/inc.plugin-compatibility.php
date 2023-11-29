@@ -1045,6 +1045,16 @@ function ez_toc_woodmart_gallery_fix(){
 			wp_register_style( 'wd-image-gallery', WOODMART_THEME_DIR.'/css/parts/el-gallery.min.css');
 			wp_enqueue_style( 'wd-image-gallery' );
 		}
+
+		if(!wp_style_is('wd-accordion')){
+			wp_register_style( 'wd-accordion', WOODMART_THEME_DIR.'/css/parts/el-accordion.min.css');
+			wp_enqueue_style( 'wd-accordion' );
+		}
+		
+		if(!wp_style_is('wd-tabs')){
+			wp_register_style( 'wd-tabs', WOODMART_THEME_DIR.'/css/parts/el-tabs.min.css');
+			wp_enqueue_style( 'wd-tabs' );
+		}
 			
 	}	
 }
