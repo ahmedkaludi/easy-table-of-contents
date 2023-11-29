@@ -720,18 +720,15 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							          '<br/><span class="description">' . __( 'Eg: /wiki/, /corporate/annual-reports/', 'easy-table-of-contents' ) . '</span>',
 							'type' => 'text',
 						),
-						'restrict_url_switch' => array(
-							'id' => 'restrict_url_switch',
-							'name' => __( 'Exclude By Matching Url/String', 'easy-table-of-contents' ),
-							'desc' => __( 'Restrict generation of the table of contents to pages that match the required url or string within url.', 'easy-table-of-contents' ),
-							'type' => 'checkbox',
-						),
 						'restrict_url_text' => array(
 							'id' => 'restrict_url_text',
-							'name' => __( 'Limit Url/String', 'easy-table-of-contents' ),
-							'desc' => '<br/>' . __( 'Add the url of the pages that you do not want to show table of contents on. Any part or match of the url, will restrict table of contents from loading on those pages', 'easy-table-of-contents' ) .
-							          '<br/><span class="description">' . __( 'Eg: wp, wp/post1/', 'easy-table-of-contents' ) . '</span>',
-							'type' => 'text',
+							'name' => __( 'Exclude By Matching Url/String', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . __( 'Add the url of the pages that you do not want to show table of contents on. Any part or match of the url, will restrict table of contents from loading on those pages. Please add the urls in the new lines by clicking on "enter".', 'easy-table-of-contents' ) .
+							          '<br/><span class="description">' . __( 'Note: This setting will override above Limit Path option, if the limit path has been set.', 'easy-table-of-contents' ) . '</span>',
+							'type' => 'textarea',
+							'placeholder' => 'wp
+text
+/featured/',
 						),
 						'fragment_prefix' => array(
 							'id' => 'fragment_prefix',
@@ -1520,12 +1517,14 @@ HR_TAG;
 			$readonly = isset( $args['readonly'] ) && $args['readonly'] === true ? ' readonly="readonly"' : '';
 			$size     = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 
+			$placeholder = isset( $args['placeholder'] ) && $args['placeholder'] != '' ? 'placeholder="'.$args['placeholder'].'"' : '';
+
+			$html .= '<textarea rows="10" cols="50" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name .  $readonly . $placeholder. '/>' . esc_textarea( $value ) . '</textarea>';
+
 			if ( 0 < strlen( $args['desc'] ) ) {
 
 				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 			}
-
-			$html .= '<textarea rows="10" cols="50" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name .  $readonly . '/>' . esc_textarea( $value ) . '</textarea>';
 
 			echo $html;
 		}
@@ -1559,7 +1558,9 @@ HR_TAG;
 			$readonly = isset( $args['readonly'] ) && $args['readonly'] === true ? ' readonly="readonly"' : '';
 			$size     = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 
-			$html = '<input type="number" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( stripslashes( $value ) ) . '"' . $readonly . '/>';
+			$min = isset( $args['min'] ) && $args['min'] != '' ? 'min="'.$args['min'].'"' : '';
+
+			$html = '<input type="number" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( stripslashes( $value ) ) . '"' . $readonly . $min . ' />';
 
 			if ( 0 < strlen( $args['desc'] ) ) {
 

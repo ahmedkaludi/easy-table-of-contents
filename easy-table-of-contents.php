@@ -1024,13 +1024,16 @@ INLINESTICKYTOGGLEJS;
 			 * New Restriction
 			 * @since 2.0.59
 			 */
-			if( ezTOC_Option::get( 'restrict_url_switch' ) ){
-				$all_urls = ezTOC_Option::get( 'restrict_url_text' );
-				$urls_arr = explode(',', $all_urls);
-				foreach ($urls_arr as $url_arr) {
-					if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( $_SERVER['REQUEST_URI'], $url_arr ) ) {
-						Debug::log( 'is_restricted_path', 'In restricted path, post not eligible.', ezTOC_Option::get( 'restrict_path' ) );
-						return false;
+			if( ezTOC_Option::get( 'restrict_url_text' ) && ezTOC_Option::get( 'restrict_url_text' ) != '' ){
+				$all_urls = nl2br(ezTOC_Option::get( 'restrict_url_text' ));
+				$all_urls = str_replace('<br />', '', $all_urls);
+				$urls_arr = explode(PHP_EOL, $all_urls);
+				if(is_array($urls_arr)){
+					foreach ($urls_arr as $url_arr) {
+						if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( $_SERVER['REQUEST_URI'], $url_arr ) ) {
+							Debug::log( 'is_restricted_path', 'In restricted path, post not eligible.', ezTOC_Option::get( 'restrict_path' ) );
+							return false;
+						}
 					}
 				}
 			}

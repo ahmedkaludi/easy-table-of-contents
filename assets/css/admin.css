@@ -1446,3 +1446,6 @@ div#eztoc-tabs a:first-child.active, div#eztoc-tabs a.active {
 #eztoc-sticky tr:nth-child(16) hr {
     display: none;
 }
+textarea#ez-toc-settings\[restrict_url_text\] {
+    height: 70px;
+}

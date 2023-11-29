@@ -96,20 +96,6 @@ jQuery(document).ready(function ($) {
             $(anchsJump).parents('tr').hide(500);
         }
     });
-    let new_restrict = $('#eztoc-advanced').find("input[name='ez-toc-settings[restrict_url_switch]']");
-    let new_restrict_url = $('#eztoc-advanced').find("input[name='ez-toc-settings[restrict_url_text]']");
-    if($(new_restrict).prop('checked') == true) {
-        $(new_restrict_url).parents('tr').show();
-    }else{
-        $(new_restrict_url).parents('tr').hide();
-    }
-    $(document).on("change", "input[name='ez-toc-settings[restrict_url_switch]']", function() {
-        if($(this).prop('checked') == true) {
-            $(new_restrict_url).parents('tr').show(500);    
-        }else{
-            $(new_restrict_url).parents('tr').hide(500);
-        }
-    });
     
 
 });
