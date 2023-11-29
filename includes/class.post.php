@@ -1722,7 +1722,7 @@ class ezTOC_Post {
 		}
 		
 		$anch_name = 'href';
-		if(ezTOC_Option::get( 'toc_loading' ) == 'js' && ezTOC_Option::get( 'avoid_anch_jump' )){
+		if(ezTOC_Option::get( 'toc_loading' ) == 'js' && ezTOC_Option::get( 'smooth_scroll' ) && ezTOC_Option::get( 'avoid_anch_jump' )){
 			$anch_name = 'href="#" data-href';
 		}
 

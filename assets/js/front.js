@@ -285,19 +285,6 @@ jQuery( function( $ ) {
         $("#ez-toc-more-links-disabler").hide();
     });
 
-    if ( typeof ezTOC.JumpJsLinks != 'undefined' && parseInt( ezTOC.JumpJsLinks ) === 1 ) {
-        $(document).on('click', 'a[data-href^="#"]', function(e) {
-            var id = $(this).attr('data-href');
-            var $id = $(id);
-            if ($id.length === 0) {
-                return;
-            }
-            e.preventDefault();
-            var pos = $id.offset().top;
-            $('body, html').animate({scrollTop: pos});
-        });
-    }
-
     if ( typeof ezTOC.collapseSubHd != 'undefined' && parseInt( ezTOC.collapseSubHd ) === 1 ) {
         $(document).on('click', '#ez-toc-open-sub-hd', function(e) {
             $(this).attr("id","ez-toc-open-sub-hd-active");

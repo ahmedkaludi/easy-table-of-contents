@@ -452,10 +452,6 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$js_vars['fallbackIcon'] = $icon;
 				}
 
-				if(ezTOC_Option::get( 'toc_loading' ) == 'js' && ezTOC_Option::get( 'avoid_anch_jump' )){
-					$js_vars['JumpJsLinks'] = true;
-				}
-
 				if(ezTOC_Option::get( 'collapsable_sub_hd' )){
 					$js_vars['collapseSubHd'] = true;
 				}
@@ -465,6 +461,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					// smooth scroll js localization
 					$js_scroll = array();
 					$js_scroll['scroll_offset'] = esc_js( $offset );	
+					if(ezTOC_Option::get( 'smooth_scroll' ) && ezTOC_Option::get( 'avoid_anch_jump' )){
+						$js_scroll['JumpJsLinks'] = true;
+					}
 					wp_localize_script( 'ez-toc-scroll-scriptjs', 'eztoc_smooth_local', $js_scroll );						
 				}		
 												

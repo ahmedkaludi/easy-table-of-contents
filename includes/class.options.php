@@ -347,8 +347,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						),
 						'avoid_anch_jump' => array(
 							'id' => 'avoid_anch_jump',
-							'name' => __( 'Jump Through Js', 'easy-table-of-contents' ),
-							'desc' => __( 'Jump links to work without adding ids in the URL', 'easy-table-of-contents' ),
+							'name' => __( 'Exclude href from url', 'easy-table-of-contents' ),
+							'desc' => __( 'Jump link works without adding ids in the URL', 'easy-table-of-contents' ) .
+							          '<br><span class="description">' . __( 'NOTE: Please keep Smooth Scroll "ON" to make this option work properly.', 'easy-table-of-contents' ) . '<span>',
 							'type' => 'checkbox',
 							'default' => false,
 						),
