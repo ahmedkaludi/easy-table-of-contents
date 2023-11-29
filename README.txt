@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.4.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.58
+Stable tag: 2.0.59
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,10 @@ A user friendly, featured focused [Easy Table of Contents](https://tocwp.com/) p
 * The widget auto highlights the sections currently visible on the page. The highlight color is configurable.
 * Developer friendly with many action hooks and filters available. More can be added by request on [Github](https://github.com/shazahm1/Easy-Table-of-Contents). Pull requests are welcomed.
 * An option to show toc based on dynamic paragraph count.
+* An option which Preserve Line Breaks in TOC.
+* An option to use the TOC without anchor links in the URL.
+* Support for custom taxonomy description.
+* Adds SiteNavigation Schema.
 
 = TAKE IT A STEP FURTHER WITH EASY TABLE OF CONTENTS PRO =
 With [EASY TABLE OF CONTENTS PRO](https://tocwp.com/pricing/) You will get access to more professional Settings, options and positions to really push your TOC to the next level.
@@ -47,6 +51,9 @@ With [EASY TABLE OF CONTENTS PRO](https://tocwp.com/pricing/) You will get acces
 * <strong>New - Fixed/Sticky TOC Customization </strong>: Customize the appearance of Sticky TOC with Theme Design options.
 * <strong>New - Full AMP Support </strong>: Generates a TOC with your existing setup and make it AMP compatible automatically.
 * <strong>NEW – ACF Support </strong>: Easily create TOC with your custom ACF fields.
+* <strong>NEW – View More </strong>: Show selected number of TOC heading before user clicks to show remaining headings.
+* <strong>NEW – Read Time </strong>: Show time of read for your posts/pages.
+* <strong>NEW – Collapsable Sub Headings </strong>: Show/Hide sub headings of the Table of contents.
 
 ### Support
 
@@ -103,6 +110,24 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.59 29/11/2023 =
+* New: An option to show TOC on Tag #489
+* New: Toc support for custom taxonomy description #512
+* New: Apply default anchor prefix in the Japanese language #528
+* New: An option to restrict the toc if any part of url match with saved limit path #560
+* New: An option to use the TOC without anchor links in the URL. #587
+* New: An option which Preserve Line Breaks in TOC. #591
+* New: Collapsable sub heading #622
+* New: Enable support attributes inside shortcode #624
+* New: Filter to hide and show metabox #645
+* Bug: The WP Bakery image gallery is getting braked on first reload #627
+* Bug: Warning in debug log #636
+* Bug: When we set the counter as a disc while using the viewMore option, then TOC CSS is not working fine. #638
+* Bug: Fix CSS Style Placement for Easy-Table-of-Contents WordPress Plugin #639
+* Bug: Fatal error while activating pro version #644
+* Bug: Conflict issue with the Smooth Scroll Offset option #646
+* Bug: Critical Error with READ TIME Option when Set to "0"(Zero) #648
 
 = 2.0.58 15/11/2023 =
 * New: Generate schema/SiteNavigationElement for Table of contents #592
