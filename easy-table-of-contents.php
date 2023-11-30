@@ -370,11 +370,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				wp_register_style( 'ez-toc-sticky', EZ_TOC_URL . "assets/css/ez-toc-sticky{$min}.css", array(), self::VERSION );
 
 				// Register scripts which can be called later using wp_enqueue_script() 																																
-				wp_register_script( 'ez-toc-sticky', '', array(), '', true );
-				wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', TRUE );
-				wp_register_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', TRUE );                        			
-				wp_register_script( 'ez-toc-js', EZ_TOC_URL . "assets/js/front{$min}.js", array( 'jquery', 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ), ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/front{$min}.js" ), true );
-				wp_register_script( 'ez-toc-scroll-scriptjs', apply_filters('ez_toc_smscroll_jsfile_filter',EZ_TOC_URL . "assets/js/smooth_scroll{$min}.js"), array( 'jquery' ), ezTOC::VERSION, true );
+				$load_js_where = true;
+				if ( ezTOC_Option::get( 'toc_js_where' ) == 'header' ) {
+					$load_js_where = false;
+				}
+				wp_register_script( 'ez-toc-sticky', '', array(), '', $load_js_where );
+				wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', $load_js_where );
+				wp_register_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', $load_js_where );                        			
+				wp_register_script( 'ez-toc-js', EZ_TOC_URL . "assets/js/front{$min}.js", array( 'jquery', 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ), ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/front{$min}.js" ), $load_js_where );
+				wp_register_script( 'ez-toc-scroll-scriptjs', apply_filters('ez_toc_smscroll_jsfile_filter',EZ_TOC_URL . "assets/js/smooth_scroll{$min}.js"), array( 'jquery' ), ezTOC::VERSION, $load_js_where );
 				self::localize_scripts();
 																													
 				if ( self::is_enqueue_scripts_eligible() ) {
@@ -387,7 +391,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}											
 				
 				if ( ezTOC_Option::get( 'sticky-toggle' ) ) {
-					wp_enqueue_script( 'ez-toc-sticky', '', '', '', true );
+					wp_enqueue_script( 'ez-toc-sticky', '', '', '', $load_js_where );
 					self::inlineStickyToggleJS();
 				}
 				if ( ezTOC_Option::get( 'sticky-toggle' ) ) {

@@ -655,6 +655,18 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'Select',
 						),
+						'toc_js_where' => array(
+							'id' => 'toc_js_where',
+							'name' => __( 'TOC Js Loading', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'select',
+							'options' => array(
+								'footer' => __( 'Footer (default)', 'easy-table-of-contents' ),
+								'header' => __( 'Header', 'easy-table-of-contents' ),
+								 
+							),
+							'default' => 'footer',
+						),
 						'exclude_css' => array(
 							'id' => 'exclude_css',
 							'name' => __( 'CSS', 'easy-table-of-contents' ),
