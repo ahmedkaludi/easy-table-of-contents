@@ -1323,21 +1323,22 @@ class ezTOC_Post {
 					// do nothing
 			}
 
-			if ( ezTOC_Option::get( 'show_hierarchy' ) ) {
+	        $show_counter = (isset($options['no_counter']) && $options['no_counter'] == true ) ? false : true;
 
-				$class[] = 'counter-hierarchy';
+	        if( $show_counter ){
+	            if ( ezTOC_Option::get( 'show_hierarchy' ) ) {
+	            	$class[] = 'counter-hierarchy';
+	            } else {
+	            	$class[] = 'counter-flat';
+	            }
+	            if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'ltr' ) {
+	                $class[] = 'ez-toc-counter';
+	            }
+	            if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'rtl' ) {
+	                $class[] = 'ez-toc-counter-rtl';
+	            }
+	        }
 
-			} else {
-
-				$class[] = 'counter-flat';
-			}
-
-            if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'ltr' ) {
-                $class[] = 'ez-toc-counter';
-            }
-            if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'rtl' ) {
-                $class[] = 'ez-toc-counter-rtl';
-            }
 			// colour themes
 			switch ( ezTOC_Option::get( 'theme' ) ) {
 
