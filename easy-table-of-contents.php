@@ -1037,6 +1037,27 @@ INLINESTICKYTOGGLEJS;
 				}
 			}
 
+			//Device Eligibility
+			//@since 2.0.60
+			$device_eligible = true;
+			if(ezTOC_Option::get( 'device_support' ) && ezTOC_Option::get( 'device_support' ) != 'mobwithdesk'){
+				$device_eligible = false;
+				$my_device = ezTOC_Option::get( 'device_support' );
+				if(function_exists('wp_is_mobile') && wp_is_mobile()){
+					if($my_device == 'mobile'){
+						$device_eligible = true;
+					}
+				}else{
+					if($my_device == 'desktop'){
+						$device_eligible = true;
+					}
+				}
+			}
+			if(!$device_eligible){
+				Debug::log( 'device_not_supported', 'Device not Supported.', ezTOC_Option::get( 'restrict_path' ) );
+				return false;
+			}
+
 			if ( has_shortcode( $post->post_content, apply_filters( 'ez_toc_shortcode', 'toc' ) ) || has_shortcode( $post->post_content, 'ez-toc' ) ) {
 				Debug::log( 'has_ez_toc_shortcode', 'Has instance of shortcode.', true );
 				return true;
@@ -1245,6 +1266,27 @@ INLINESTICKYTOGGLEJS;
 				if(!ez_toc_shortcode_enable_support_status($atts)){
 					return $html;
 				}				
+
+				//Device Eligibility
+				//@since 2.0.60
+				$device_eligible = true;
+				if(isset($atts['device']) && $atts['device'] != ''){
+					$device_eligible = false;
+					$my_device = $atts['device'];
+					if(function_exists('wp_is_mobile') && wp_is_mobile()){
+						if($my_device == 'mobile'){
+							$device_eligible = true;
+						}
+					}else{
+						if($my_device == 'desktop'){
+							$device_eligible = true;
+						}
+					}
+				}
+
+				if(!$device_eligible){
+					return $html;
+				}
 
 				if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ){
 					return $html;
@@ -1570,6 +1612,23 @@ INLINESTICKYTOGGLEJS;
 						}
 					}
 				}
+
+				//Device Eligibility
+				//@since 2.0.60
+				if(ezTOC_Option::get( 'sticky_device_support' ) && ezTOC_Option::get( 'sticky_device_support' ) != 'mobwithdesk'){
+					$isEligible = false;
+					$my_device = ezTOC_Option::get( 'sticky_device_support' );
+					if(function_exists('wp_is_mobile') && wp_is_mobile()){
+						if($my_device == 'mobile'){
+							$isEligible = true;
+						}
+					}else{
+						if($my_device == 'desktop'){
+							$isEligible = true;
+						}
+					}
+				}
+
 				$isEligible = apply_filters('ez_toc_sticky_visible', $isEligible);
 				$toggleClass="hide";
 				$linkZindex="";
