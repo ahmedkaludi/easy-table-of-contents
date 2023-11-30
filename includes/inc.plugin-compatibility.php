@@ -1055,6 +1055,11 @@ function ez_toc_woodmart_gallery_fix(){
 			wp_register_style( 'wd-tabs', WOODMART_THEME_DIR.'/css/parts/el-tabs.min.css');
 			wp_enqueue_style( 'wd-tabs' );
 		}
+
+		if(!wp_style_is('wd-team-member')){
+			wp_register_style( 'wd-team-member', WOODMART_THEME_DIR.'/css/parts/el-team-member.min.css');
+			wp_enqueue_style( 'wd-team-member' );
+		}
 			
 	}	
 }
