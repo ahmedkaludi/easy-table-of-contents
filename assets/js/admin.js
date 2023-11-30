@@ -54,6 +54,7 @@ jQuery(document).ready(function ($) {
 
     let position = $('#eztoc-general').find("select[name='ez-toc-settings[position]']");
     let customParaNumber = $('#eztoc-general').find("input[name='ez-toc-settings[custom_para_number]']");
+    let customImgNumber = $('#eztoc-general').find("input[name='ez-toc-settings[custom_img_number]']");
     let blockQCheckB = $('#eztoc-general').find("input[name='ez-toc-settings[blockqoute_checkbox]']");
     if($(position).val() == 'aftercustompara'){
         $(customParaNumber).parents('tr').show();
@@ -65,6 +66,11 @@ jQuery(document).ready(function ($) {
     }else{
         $(blockQCheckB).parents('tr').hide();
     }
+    if($(position).val() == 'aftercustomimg'){
+        $(customImgNumber).parents('tr').show();
+    }else{
+        $(customImgNumber).parents('tr').hide();
+    }
     $(document).on("change", "select[name='ez-toc-settings[position]']", function() {
         if($(this).val() == 'aftercustompara'){
             $(customParaNumber).parents('tr').show(500);    
@@ -75,6 +81,11 @@ jQuery(document).ready(function ($) {
             $(blockQCheckB).parents('tr').show(500);
         }else{
             $(blockQCheckB).parents('tr').hide(500);
+        }
+        if($(this).val() == 'aftercustomimg'){
+            $(customImgNumber).parents('tr').show(500);    
+        }else{
+            $(customImgNumber).parents('tr').hide(500);
         }
     });
     let check_method = $('#eztoc-general').find("select[name='ez-toc-settings[toc_loading]']");

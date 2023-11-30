@@ -31,6 +31,7 @@
 
 use Easy_Plugins\Table_Of_Contents\Debug;
 use function Easy_Plugins\Table_Of_Contents\Cord\insertElementByPTag;
+use function Easy_Plugins\Table_Of_Contents\Cord\insertElementByImgTag;
 use function Easy_Plugins\Table_Of_Contents\Cord\mb_find_replace;
 
 // Exit if accessed directly
@@ -1562,6 +1563,33 @@ INLINESTICKYTOGGLEJS;
 					if($exc_blkqt == true && !empty($blockquotes)){
 					    $content = ez_toc_para_blockquote_replace($blockquotes, $content, 2);
 				    }
+					break;	
+				case 'aftercustomimg':
+					$img_index = ezTOC_Option::get( 'custom_img_number' );
+					if($img_index == 1){
+						$content = insertElementByImgTag( mb_find_replace( $find, $replace, $content ), $toc );
+					}else if($img_index > 1){
+						$closing_p = '</figure>';
+						$imgs = explode( $closing_p, $content );
+						if(!empty($imgs) && is_array($imgs) && $img_index <= count($imgs)){
+							$img_id = $img_index;
+							foreach ($imgs as $index => $img) {
+								if ( trim( $img ) ) {
+									$imgs[$index] .= $closing_p;
+								}
+								$pos = strpos($img, '<figure');
+								if ( $img_id == $index + 1 && $pos !== false ) {
+									$imgs[$index] .= $toc;
+								}
+							}
+							$content = implode( '', $imgs );
+							$content = mb_find_replace( $find, $replace, $content );
+						}else{
+							$content = insertElementByImgTag( mb_find_replace( $find, $replace, $content ), $toc );	
+						}
+					}else{
+						$content = insertElementByImgTag( mb_find_replace( $find, $replace, $content ), $toc );	
+					}
 					break;	
 				case 'before':
 				default:
