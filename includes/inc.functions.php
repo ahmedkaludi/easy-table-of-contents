@@ -332,6 +332,8 @@ function ez_toc_sticky_visible_func( $visible ) {
       $visible = ($sticky_include_custom_tax=='1')?true:false;
     }elseif ( is_tag() ) {
         $visible = ($sticky_include_tag=='1')?true:false;
+    } elseif( is_author() ){
+        $visible = false;
     }
     return $visible;
 }
