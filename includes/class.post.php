@@ -1415,7 +1415,11 @@ class ezTOC_Post {
 		$html = '';						
 		$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
 		$header_label = '';
-	if ( ezTOC_Option::get( 'show_heading_text' ) ) {
+		$show_header_text = true;
+		if(isset($options['no_label']) && $options['no_label'] == true){
+			$show_header_text = false;
+		}
+	if ( $show_header_text && ezTOC_Option::get( 'show_heading_text' ) ) {
 
 		$toc_title = ezTOC_Option::get( 'heading_text' );
 		$toc_title_tag = ezTOC_Option::get( 'heading_text_tag' );

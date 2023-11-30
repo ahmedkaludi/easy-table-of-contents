@@ -1312,6 +1312,9 @@ INLINESTICKYTOGGLEJS;
 				}
 									
 				$options =  array();
+				if (isset($atts["label"]) && $atts["label"] == "no") {
+					$options['no_label'] = true;
+				}
 				if (isset($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
 					$options['visibility_hide_by_default'] = true;
 				}
