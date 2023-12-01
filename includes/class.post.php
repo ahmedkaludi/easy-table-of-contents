@@ -1440,7 +1440,9 @@ class ezTOC_Post {
 
 			$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 		}
-		
+		if(isset($options['header_label'])){
+			$toc_title = $options['header_label'];
+		}
 		$headerTextToggleClass = '';
 		$headerTextToggleStyle = '';
 		
@@ -1508,7 +1510,11 @@ class ezTOC_Post {
 
 			$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 		}
-								
+					
+		if(isset($options['header_label'])){
+			$toc_title = $options['header_label'];
+		}
+
 		$header_label = '<'.esc_attr($toc_title_tag).' class="ez-toc-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</'.esc_attr($toc_title_tag).'>' . PHP_EOL;
 		if (!ezTOC_Option::get( 'visibility' ) ) {
 			$html .='<div class="ez-toc-title-container">'.$header_label.'</div>';

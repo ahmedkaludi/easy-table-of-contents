@@ -1313,6 +1313,9 @@ INLINESTICKYTOGGLEJS;
 				}
 									
 				$options =  array();
+				if (isset($atts["header_label"])) {
+					$options['header_label'] = $atts["header_label"];
+				}
 				if (isset($atts["display_header_label"]) && $atts["display_header_label"] == "no") {
 					$options['no_label'] = true;
 				}
