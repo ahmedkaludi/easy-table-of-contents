@@ -664,9 +664,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'Select',
 						),
-						'toc_js_where' => array(
-							'id' => 'toc_js_where',
-							'name' => __( 'TOC Js Loading', 'easy-table-of-contents' ),
+						'load_js_in' => array(
+							'id' => 'load_js_in',
+							'name' => __( 'Load Js In', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'select',
 							'options' => array(

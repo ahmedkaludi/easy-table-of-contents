@@ -91,7 +91,7 @@ jQuery(document).ready(function ($) {
     let check_method = $('#eztoc-general').find("select[name='ez-toc-settings[toc_loading]']");
     let smoothCheck = $('#eztoc-general').find("input[name='ez-toc-settings[smooth_scroll]']");
     let anchsJump = $('#eztoc-general').find("input[name='ez-toc-settings[avoid_anch_jump]']");
-    let js_where = $('#eztoc-advanced').find("select[name='ez-toc-settings[toc_js_where]']");
+    let js_where = $('#eztoc-advanced').find("select[name='ez-toc-settings[load_js_in]']");
     if($(check_method).val() == 'js'){
         $(smoothCheck).parents('tr').show();
         $(anchsJump).parents('tr').show();
