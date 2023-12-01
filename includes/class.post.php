@@ -1422,9 +1422,9 @@ class ezTOC_Post {
 		}
 	if ( $show_header_text && ezTOC_Option::get( 'show_heading_text' ) ) {
 
-		$toc_title = get_post_meta( get_the_ID(), '_ez-toc-label', true );
+		$toc_title = get_post_meta( get_the_ID(), '_ez-toc-header-label', true );
 
-		if ( empty( $toc_title ) ) {
+		if ( !$toc_title || empty( $toc_title ) ) {
 			$toc_title = ezTOC_Option::get( 'heading_text' );
 		}
 

@@ -413,12 +413,12 @@ INLINEOCCASIONALADSPOPUSJS;
 			// Add an nonce field so we can check for it on save.
 			wp_nonce_field( 'ez_toc_save', '_ez_toc_nonce' );
 
-			$suppress = get_post_meta( $post->ID, '_ez-toc-disabled', true ) == 1 ? true : false;
-			$insert   = get_post_meta( $post->ID, '_ez-toc-insert', true ) == 1 ? true : false;
-			$label    = get_post_meta( $post->ID, '_ez-toc-label', true );
-			$headings = get_post_meta( $post->ID, '_ez-toc-heading-levels', true );
-			$exclude  = get_post_meta( $post->ID, '_ez-toc-exclude', true );
-			$altText  = get_post_meta( $post->ID, '_ez-toc-alttext', true );
+			$suppress     = get_post_meta( $post->ID, '_ez-toc-disabled', true ) == 1 ? true : false;
+			$insert       = get_post_meta( $post->ID, '_ez-toc-insert', true ) == 1 ? true : false;
+			$header_label = get_post_meta( $post->ID, '_ez-toc-header-label', true );
+			$headings     = get_post_meta( $post->ID, '_ez-toc-heading-levels', true );
+			$exclude      = get_post_meta( $post->ID, '_ez-toc-exclude', true );
+			$altText      = get_post_meta( $post->ID, '_ez-toc-alttext', true );
 			$visibility_hide_by_default  = get_post_meta( $post->ID, '_ez-toc-visibility_hide_by_default', true );
 
 			if ( ! is_array( $headings ) ) {
@@ -468,11 +468,11 @@ INLINEOCCASIONALADSPOPUSJS;
 						<?php
 						ezTOC_Option::text(
 							array(
-								'id' => 'label-toc',
-								'desc' => __( 'Eg: Contents, Table of Contents, Page Contents', 'easy-table-of-contents' ),
-								'default' => $label,
+								'id' => 'header-label',
+								'desc' => '<br>'.__( 'Eg: Contents, Table of Contents, Page Contents', 'easy-table-of-contents' ),
+								'default' => $header_label,
 							),
-							$label
+							$header_label
 						);
 						?>
 					</td>
@@ -649,13 +649,10 @@ INLINEOCCASIONALADSPOPUSJS;
 					update_post_meta( $post_id, '_ez-toc-insert', false );
 				}
 
-				if ( isset( $_REQUEST['ez-toc-settings']['label-toc'] ) && ! empty( $_REQUEST['ez-toc-settings']['label-toc'] ) ) {
-					$label = trim( $_REQUEST['ez-toc-settings']['label-toc'] );
-					$label = _wp_specialchars( $label, ENT_NOQUOTES );
-					update_post_meta( $post_id, '_ez-toc-label', wp_kses_post( $label ) );
-				} else {
-					update_post_meta( $post_id, '_ez-toc-label', '' );
-				}
+				if ( isset( $_REQUEST['ez-toc-settings']['header-label'] )) {
+					$header_label = sanitize_text_field( $_REQUEST['ez-toc-settings']['header-label'] );					
+					update_post_meta( $post_id, '_ez-toc-header-label', $header_label );
+				} 
 
 				if ( isset( $_REQUEST['ez-toc-settings']['heading-levels'] ) && ! empty( $_REQUEST['ez-toc-settings']['heading-levels'] ) ) {
 
