@@ -1325,7 +1325,7 @@ INLINESTICKYTOGGLEJS;
 				if (isset($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
 					$options['visibility_hide_by_default'] = true;
 				}
-				if (isset($atts["counter"]) && $atts["counter"] == "no") {
+				if (isset($atts["display_counter"]) && $atts["display_counter"] == "no") {
 					$options['no_counter'] = true;
 				}
 				if (isset($atts["view_more"]) && $atts["view_more"] > 0) {
