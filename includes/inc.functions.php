@@ -415,6 +415,21 @@ function ez_toc_shortcode_enable_support_status($atts){
             }       
         }
     }
+            
+        
+    if(isset($atts['device_target']) && $atts['device_target'] != ''){
+        $status = false;
+        $my_device = $atts['device_target'];
+        if(function_exists('wp_is_mobile') && wp_is_mobile()){
+            if($my_device == 'mobile'){
+                $status = true;
+            }
+        }else{
+            if($my_device == 'desktop'){
+                $status = true;
+            }
+        }
+    }
     
     return $status;    
 }

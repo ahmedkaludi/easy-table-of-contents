@@ -651,13 +651,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
-						'device_support' => array(
-							'id' => 'device_support',
-							'name' => __( 'Device', 'easy-table-of-contents' ),
+						'device_target' => array(
+							'id' => 'device_target',
+							'name' => __( 'Device Target', 'easy-table-of-contents' ),
 							'desc' => '',
 							'type' => 'select',
 							'options' => array(
-								'mobwithdesk' => __( 'Select', 'easy-table-of-contents' ),
+								'' => __( 'Select', 'easy-table-of-contents' ),
 								'mobile' => __( 'Mobile', 'easy-table-of-contents' ),
 								'desktop' => __( 'Desktop', 'easy-table-of-contents' ),
 								 
@@ -928,13 +928,13 @@ text
 							'type' => 'checkbox',
 							'default' => false,
 						  ),
-						  'sticky_device_support' => array(
-  							'id' => 'sticky_device_support',
-  							'name' => __( 'Device', 'easy-table-of-contents' ),
+						  'sticky_device_target' => array(
+  							'id' => 'sticky_device_target',
+  							'name' => __( 'Device Target', 'easy-table-of-contents' ),
   							'desc' => '',
   							'type' => 'select',
   							'options' => array(
-  								'mobwithdesk' => __( 'Select', 'easy-table-of-contents' ),
+  								'' => __( 'Select', 'easy-table-of-contents' ),
   								'mobile' => __( 'Mobile', 'easy-table-of-contents' ),
   								'desktop' => __( 'Desktop', 'easy-table-of-contents' ),
   								 
