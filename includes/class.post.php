@@ -1487,10 +1487,14 @@ class ezTOC_Post {
 
 	//css based heaing function
 	private function get_css_based_toc_heading($options){
-		$html = '';
-	
+
+		$html = '';	
 		$header_label = '';
-	if ( ezTOC_Option::get( 'show_heading_text' ) ) {
+		$show_header_text = true;
+		if(isset($options['no_label']) && $options['no_label'] == true){
+			$show_header_text = false;
+		}
+	if ( $show_header_text && ezTOC_Option::get( 'show_heading_text' ) ) {
 
 		$toc_title = ezTOC_Option::get( 'heading_text' );
 		$toc_title_tag = ezTOC_Option::get( 'heading_text_tag' );
@@ -1512,7 +1516,12 @@ class ezTOC_Post {
 	} 
 	
 
-	if ( ezTOC_Option::get( 'visibility' ) ) {
+	$show_toggle_view = true;
+	if(isset($options['no_toggle']) && $options['no_toggle'] == true){
+		$show_toggle_view = false;
+	}
+
+	if ( $show_toggle_view && ezTOC_Option::get( 'visibility' ) ) {
 			$cssIconID = uniqid();
 			
 			$inputCheckboxExludeStyle = "";
