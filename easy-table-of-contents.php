@@ -1313,8 +1313,11 @@ INLINESTICKYTOGGLEJS;
 				}
 									
 				$options =  array();
-				if (isset($atts["label"]) && $atts["label"] == "no") {
+				if (isset($atts["display_header_label"]) && $atts["display_header_label"] == "no") {
 					$options['no_label'] = true;
+				}
+				if (isset($atts["toggle_view"]) && $atts["toggle_view"] == "no") {
+					$options['no_toggle'] = true;
 				}
 				if (isset($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
 					$options['visibility_hide_by_default'] = true;

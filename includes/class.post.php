@@ -1455,7 +1455,11 @@ class ezTOC_Post {
 	$html .= '<span class="ez-toc-title-toggle">';
 
 	$label_below_html = '';
-	if ( ezTOC_Option::get( 'visibility' ) ) {
+	$show_toggle_view = true;
+	if(isset($options['no_toggle']) && $options['no_toggle'] == true){
+		$show_toggle_view = false;
+	}
+	if ($show_toggle_view && ezTOC_Option::get( 'visibility' ) ) {
 		$cssIconID = uniqid();
 		
 		$inputCheckboxExludeStyle = "";
