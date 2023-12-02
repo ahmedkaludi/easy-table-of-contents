@@ -364,7 +364,7 @@ function ez_toc_stikcy_enable_support_status(){
         }
     }
     
-    return apply_filters('ez_toc_sticky_visible', $status);
+    return apply_filters('ez_toc_sticky_enable_support', $status);
 
 }
 
