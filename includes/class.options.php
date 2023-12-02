@@ -694,7 +694,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'schema_sitenav_checkbox' => array(
 							'id' => 'schema_sitenav_checkbox',
 							'name' => __( 'SiteNavigation Schema', 'easy-table-of-contents' ),
-							'desc' => __( 'Add SiteNavigation Schema for displayed table of contents' ),
+							'desc' => __( 'Add SiteNavigation Schema for displayed table of contents', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
 						),
