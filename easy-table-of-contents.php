@@ -1622,45 +1622,18 @@ INLINESTICKYTOGGLEJS;
 		public static function stickyToggleContent() {
 
 			if(ezTOC_Option::get('sticky-toggle')){
-				$stickyPostTypes = apply_filters('ez_toc_sticky_post_types', ezTOC_Option::get('sticky-post-types'));
-				$isEligible = false;
-				if(!empty($stickyPostTypes)){
-					$postType = get_post_type();
-					if(in_array($postType,$stickyPostTypes)){
-						$isEligible = true;
-					}
-					if(is_home() && $postType == 'post'){
-						$isEligible = false;
-						if(in_array('page',$stickyPostTypes)){
-							$isEligible = true;
-						}
-					}
-				}
 
-				//Device Eligibility
-				//@since 2.0.60
-				if(ezTOC_Option::get( 'sticky_device_target' ) == 'mobile'){
-					if(function_exists('wp_is_mobile') && wp_is_mobile()){
-						$isEligible = true;
-					}else{
-						$isEligible = false;
-					}
-				}
-	
-				if(ezTOC_Option::get( 'sticky_device_target' ) == 'desktop'){
-					if(function_exists('wp_is_mobile') && wp_is_mobile()){						
-						$isEligible = false;
-					}else{
-						$isEligible = true;
-					}
-				}
+			  if(ez_toc_stikcy_enable_support_status()){
 
-				$isEligible = apply_filters('ez_toc_sticky_visible', $isEligible);
-				$toggleClass="hide";
-				$linkZindex="";
+				$toggleClass = "hide";
+				$linkZindex  = "";
+
 				$post = self::get( get_the_ID() );
-				if ( null !== $post && $isEligible) {
+
+				if ( null !== $post) {
+
 					$stickyToggleTOC = $post->getStickyToggleTOC();
+
 					if(!empty($stickyToggleTOC)){
 						$openButtonText = __( 'Index', 'easy-table-of-contents' );
 						if( !empty( ezTOC_Option::get( 'sticky-toggle-open-button-text' ) ) ) {
@@ -1692,9 +1665,8 @@ INLINESTICKYTOGGLEJS;
 STICKYTOGGLEHTML;
 					}
 				}
-
-			}
-			
+			  }
+			}			
 		}
 
 		/**
