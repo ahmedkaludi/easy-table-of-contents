@@ -1264,6 +1264,7 @@ text
 				'sticky-toggle-alignment'             => 'top',
 				'add_request_uri'                     => false,
 				'mediavine-create'                    => 0,
+				'molongui-authorship'                 => false,
 				'custom_para_number'                  => 1,
 				'blockqoute_checkbox'                  => false,
 				'disable_in_restapi'                  => false,
