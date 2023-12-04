@@ -1305,8 +1305,15 @@ class ezTOC_Post {
 			if(ezTOC_Option::get( 'toc_wrapping' )){
 				$wrapping_class_add='-text';
 			}
+
+			$toc_align = get_post_meta( get_the_ID(), '_ez-toc-alignment', true );
+
+			if ( !$toc_align || empty( $toc_align ) || $toc_align == 'none' ) {
+				$toc_align = ezTOC_Option::get( 'wrapping' );
+			}
+
 			// wrapping css classes
-			switch ( ezTOC_Option::get( 'wrapping' ) ) {
+			switch ( $toc_align ) {
 
 				case 'left':
 					$class[] = 'ez-toc-wrap-left'.esc_attr($wrapping_class_add);
