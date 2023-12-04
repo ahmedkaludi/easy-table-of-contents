@@ -1064,15 +1064,3 @@ function ez_toc_woodmart_gallery_fix(){
 	}	
 }
 add_action('wp_enqueue_scripts', 'ez_toc_woodmart_gallery_fix');
-
-/**
- * Molongui Authorship Compatibility
- * @since 2.0.60
- */
-add_filter('eztoc_modify_the_content','eztoc_molongui_authorship_content_improver');
-function eztoc_molongui_authorship_content_improver($content){
-	if(class_exists('Molongui\Authorship\Includes\Plugin')){
-		$content = mb_convert_encoding( html_entity_decode($content), 'HTML-ENTITIES', 'UTF-8' );
-	}
-	return $content;
-}
