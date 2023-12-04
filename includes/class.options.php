@@ -1053,6 +1053,13 @@ text
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'molongui-authorship' => array(
+							'id' => 'molongui-authorship',
+							'name' => __( 'Molongui Authorship', 'easy-table-of-contents' ),
+							'desc' => __( '', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
                     )
                 ),
 				'prosettings' => apply_filters(

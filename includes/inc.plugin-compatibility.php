@@ -938,10 +938,9 @@ if(function_exists('rest_get_url_prefix') && ezTOC_Option::get('disable_in_resta
 /**
  * Molongui Authorship plugin compatibility
  * @link https://wordpress.org/plugins/molongui-authorship/
- * @since 2.0.55
+ * @since 2.0.56
  */
-if(function_exists( 'molongui_authorship_load_plugin_textdomain' ))
-{
+if( function_exists( 'molongui_authorship_load_plugin_textdomain' ) && ezTOC_Option::get('molongui-authorship') == 1 ){
 add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_content_molongui_authorship');
 	function ez_toc_content_molongui_authorship($content){
 		if(!empty($content))
