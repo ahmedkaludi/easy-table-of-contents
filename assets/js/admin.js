@@ -54,6 +54,7 @@ jQuery(document).ready(function ($) {
 
     let position = $('#eztoc-general').find("select[name='ez-toc-settings[position]']");
     let customParaNumber = $('#eztoc-general').find("input[name='ez-toc-settings[custom_para_number]']");
+    let customImgNumber = $('#eztoc-general').find("input[name='ez-toc-settings[custom_img_number]']");
     let blockQCheckB = $('#eztoc-general').find("input[name='ez-toc-settings[blockqoute_checkbox]']");
     if($(position).val() == 'aftercustompara'){
         $(customParaNumber).parents('tr').show();
@@ -64,6 +65,11 @@ jQuery(document).ready(function ($) {
         $(blockQCheckB).parents('tr').show();
     }else{
         $(blockQCheckB).parents('tr').hide();
+    }
+    if($(position).val() == 'aftercustomimg'){
+        $(customImgNumber).parents('tr').show();
+    }else{
+        $(customImgNumber).parents('tr').hide();
     }
     $(document).on("change", "select[name='ez-toc-settings[position]']", function() {
         if($(this).val() == 'aftercustompara'){
@@ -76,24 +82,34 @@ jQuery(document).ready(function ($) {
         }else{
             $(blockQCheckB).parents('tr').hide(500);
         }
+        if($(this).val() == 'aftercustomimg'){
+            $(customImgNumber).parents('tr').show(500);    
+        }else{
+            $(customImgNumber).parents('tr').hide(500);
+        }
     });
     let check_method = $('#eztoc-general').find("select[name='ez-toc-settings[toc_loading]']");
     let smoothCheck = $('#eztoc-general').find("input[name='ez-toc-settings[smooth_scroll]']");
     let anchsJump = $('#eztoc-general').find("input[name='ez-toc-settings[avoid_anch_jump]']");
+    let js_where = $('#eztoc-advanced').find("select[name='ez-toc-settings[load_js_in]']");
     if($(check_method).val() == 'js'){
         $(smoothCheck).parents('tr').show();
         $(anchsJump).parents('tr').show();
+        $(js_where).parents('tr').show();
     }else{
         $(smoothCheck).parents('tr').hide();
         $(anchsJump).parents('tr').hide();
+        $(js_where).parents('tr').hide();
     }
     $(document).on("change", "select[name='ez-toc-settings[toc_loading]']", function() {
         if($(this).val() == 'js'){
             $(smoothCheck).parents('tr').show(500);    
             $(anchsJump).parents('tr').show(500);    
+            $(js_where).parents('tr').show(500);    
         }else{
             $(smoothCheck).parents('tr').hide(500);
             $(anchsJump).parents('tr').hide(500);
+            $(js_where).parents('tr').hide(500);
         }
     });
     

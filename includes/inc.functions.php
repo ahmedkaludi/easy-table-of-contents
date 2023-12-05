@@ -314,26 +314,58 @@ add_action('shutdown', function() {
         }
         return apply_filters( 'ez_toc_url_anchor_target', $return, $heading );
     }
+    
+/**
+ * Check for the enable support of sticky toc/toggle
+ * @since 2.0.60
+ */
+function ez_toc_stikcy_enable_support_status(){
 
-add_filter( 'ez_toc_sticky_visible', 'ez_toc_sticky_visible_func' ,20);
-function ez_toc_sticky_visible_func( $visible ) {
-    $sticky_include_homepage = ezTOC_Option::get('sticky_include_homepage');
-    $sticky_include_category = ezTOC_Option::get('sticky_include_category');
-    $sticky_include_tag      = ezTOC_Option::get('sticky_include_tag');
-    $sticky_include_product_category = ezTOC_Option::get('sticky_include_product_category');
-    $sticky_include_custom_tax = ezTOC_Option::get('sticky_include_custom_tax');
-    if ( is_front_page() ) {
-      $visible = ($sticky_include_homepage=='1')?true:false;
-    } elseif ( is_category() ) {
-      $visible = ($sticky_include_category=='1')?true:false;
-    } elseif ( is_tax( 'product_cat' ) ) {
-      $visible = ($sticky_include_product_category=='1')?true:false;
-    } elseif ( is_tax() ) {
-      $visible = ($sticky_include_custom_tax=='1')?true:false;
-    }elseif ( is_tag() ) {
-        $visible = ($sticky_include_tag=='1')?true:false;
+    $status = false;
+
+    $stickyPostTypes = apply_filters('ez_toc_sticky_post_types', ezTOC_Option::get('sticky-post-types'));
+
+    if(!empty($stickyPostTypes)){
+        if(is_singular()){
+            $postType = get_post_type();
+            if(in_array($postType,$stickyPostTypes)){
+                $status = true;
+            }
+        }										
     }
-    return $visible;
+
+    if(ezTOC_Option::get('sticky_include_homepage')){
+        if ( is_front_page() ) {
+            $status = true;
+        }
+    }
+
+    if(ezTOC_Option::get('sticky_include_category')){
+        if ( is_category() ) {
+            $status = true;
+        }
+    }
+
+    if(ezTOC_Option::get('sticky_include_tag')){
+        if ( is_tag() ) {
+            $status = true;
+        }
+    }
+    
+    if(ezTOC_Option::get('sticky_include_product_category')){
+        if ( is_tax( 'product_cat' ) ) {
+            $status = true;
+        }
+    }
+
+    if(ezTOC_Option::get('sticky_include_custom_tax')){
+        if ( is_tax() ) {
+            $status = true;
+        }
+    }
+    
+    return apply_filters('ez_toc_sticky_enable_support', $status);
+
 }
 
 /**
@@ -411,6 +443,21 @@ function ez_toc_shortcode_enable_support_status($atts){
             }else{
                 $status = false;
             }       
+        }
+    }
+            
+        
+    if(isset($atts['device_target']) && $atts['device_target'] != ''){
+        $status = false;
+        $my_device = $atts['device_target'];
+        if(function_exists('wp_is_mobile') && wp_is_mobile()){
+            if($my_device == 'mobile'){
+                $status = true;
+            }
+        }else{
+            if($my_device == 'desktop'){
+                $status = true;
+            }
         }
     }
     

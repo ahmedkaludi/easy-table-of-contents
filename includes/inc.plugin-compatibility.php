@@ -481,17 +481,17 @@ add_filter(
  */
 add_filter(
 	'fl_builder_layout_data',
-	'flBuilderLayoutDataEZTOC',
+	'ez_toc_flbuilder_layout_data',
 	12,
 	1
 );
-function flBuilderLayoutDataEZTOC( $data ) {
+function ez_toc_flbuilder_layout_data( $data ) {
 	if( has_action( 'the_content' ) ) {
-		$post = get_post( get_the_ID() );
-		foreach( $data as $nodeKey => $node )
-		{
-			$data[$nodeKey] = $node;
-		}
+		if(!empty($data)){
+			foreach( $data as $nodeKey => $node ){		
+				$data[$nodeKey] = $node;
+			}
+		}				
 	}
 	return $data;
 }
@@ -938,10 +938,9 @@ if(function_exists('rest_get_url_prefix') && ezTOC_Option::get('disable_in_resta
 /**
  * Molongui Authorship plugin compatibility
  * @link https://wordpress.org/plugins/molongui-authorship/
- * @since 2.0.55
+ * @since 2.0.56
  */
-if(function_exists( 'molongui_authorship_load_plugin_textdomain' ))
-{
+if( function_exists( 'molongui_authorship_load_plugin_textdomain' ) && ezTOC_Option::get('molongui-authorship') == 1 ){
 add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_content_molongui_authorship');
 	function ez_toc_content_molongui_authorship($content){
 		if(!empty($content))
@@ -1054,6 +1053,11 @@ function ez_toc_woodmart_gallery_fix(){
 		if(!wp_style_is('wd-tabs')){
 			wp_register_style( 'wd-tabs', WOODMART_THEME_DIR.'/css/parts/el-tabs.min.css');
 			wp_enqueue_style( 'wd-tabs' );
+		}
+
+		if(!wp_style_is('wd-team-member')){
+			wp_register_style( 'wd-team-member', WOODMART_THEME_DIR.'/css/parts/el-team-member.min.css');
+			wp_enqueue_style( 'wd-team-member' );
 		}
 			
 	}	

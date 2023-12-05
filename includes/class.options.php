@@ -227,6 +227,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 								'after' => __( 'After first heading', 'easy-table-of-contents' ),
 								'afterpara' => __( 'After first paragraph', 'easy-table-of-contents' ),
 								'aftercustompara' => __( 'After paragraph number', 'easy-table-of-contents' ),
+								'aftercustomimg' => __( 'After Image number', 'easy-table-of-contents' ),
 								'top' => __( 'Top', 'easy-table-of-contents' ),
 								'bottom' => __( 'Bottom', 'easy-table-of-contents' ),
 							),
@@ -236,6 +237,14 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'id' => 'custom_para_number',
 							'name' => __( 'Select Paragraph', 'easy-table-of-contents' ),
 							'desc' => __( 'Select paragraph after which ETOC should get display', 'easy-table-of-contents' ),
+							'type' => 'number',
+							'size' => 'small',
+							'default' => 1,
+						),
+						'custom_img_number' => array(
+							'id' => 'custom_img_number',
+							'name' => __( 'Select Image', 'easy-table-of-contents' ),
+							'desc' => __( 'Select Image after which ETOC should get display', 'easy-table-of-contents' ),
 							'type' => 'number',
 							'size' => 'small',
 							'default' => 1,
@@ -642,6 +651,31 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'device_target' => array(
+							'id' => 'device_target',
+							'name' => __( 'Device Target', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'select',
+							'options' => array(
+								'' => __( 'Select', 'easy-table-of-contents' ),
+								'mobile' => __( 'Mobile', 'easy-table-of-contents' ),
+								'desktop' => __( 'Desktop', 'easy-table-of-contents' ),
+								 
+							),
+							'default' => 'Select',
+						),
+						'load_js_in' => array(
+							'id' => 'load_js_in',
+							'name' => __( 'Load Js In', 'easy-table-of-contents' ),
+							'desc' => '',
+							'type' => 'select',
+							'options' => array(
+								'footer' => __( 'Footer (default)', 'easy-table-of-contents' ),
+								'header' => __( 'Header', 'easy-table-of-contents' ),
+								 
+							),
+							'default' => 'footer',
+						),
 						'exclude_css' => array(
 							'id' => 'exclude_css',
 							'name' => __( 'CSS', 'easy-table-of-contents' ),
@@ -894,6 +928,19 @@ text
 							'type' => 'checkbox',
 							'default' => false,
 						  ),
+						  'sticky_device_target' => array(
+  							'id' => 'sticky_device_target',
+  							'name' => __( 'Device Target', 'easy-table-of-contents' ),
+  							'desc' => '',
+  							'type' => 'select',
+  							'options' => array(
+  								'' => __( 'Select', 'easy-table-of-contents' ),
+  								'mobile' => __( 'Mobile', 'easy-table-of-contents' ),
+  								'desktop' => __( 'Desktop', 'easy-table-of-contents' ),
+  								 
+  							),
+  							'default' => 'Select',
+  						),
 						'sticky-toggle-position'                   => array(
 							'id'      => 'sticky-toggle-position',
 							'name'    => __( 'Position', 'easy-table-of-contents' ),
@@ -1003,6 +1050,13 @@ text
 							'id' => 'goodlayers-core',
 							'name' => __( 'Goodlayers Core Builder', 'easy-table-of-contents' ),
 							'desc' => __( 'It includes Goodlayers Builder content to TOC.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
+						'molongui-authorship' => array(
+							'id' => 'molongui-authorship',
+							'name' => __( 'Molongui Authorship', 'easy-table-of-contents' ),
+							'desc' => __( '', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
 						),
@@ -1210,6 +1264,7 @@ text
 				'sticky-toggle-alignment'             => 'top',
 				'add_request_uri'                     => false,
 				'mediavine-create'                    => 0,
+				'molongui-authorship'                 => false,
 				'custom_para_number'                  => 1,
 				'blockqoute_checkbox'                  => false,
 				'disable_in_restapi'                  => false,

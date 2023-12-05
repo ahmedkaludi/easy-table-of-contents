@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.4.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.59
+Stable tag: 2.0.60
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,24 @@ With [EASY TABLE OF CONTENTS PRO](https://tocwp.com/pricing/) You will get acces
 * <strong>NEW – Read Time </strong>: Show time of read for your posts/pages.
 * <strong>NEW – Collapsable Sub Headings </strong>: Show/Hide sub headings of the Table of contents.
 
+### Shortcode
+
+With Our shortcode feature you are in command of the table of contents with very little effort and even if you have little to no programming skills.
+
+[ez-toc] Would generate the table of contents. 
+
+Below are the attibutes we support and could be useful in configuring the table of contents:
+
+[header_label="Title"] – title for the table of contents
+[display_header_label="no"] - no title for the table of contents
+[toggle_view="no"] – no toggle for the table of contents 
+[initial_view="no"] –  initially hide the table of contents 
+[display_counter="no"] – no counter for the table of contents
+[post_types="post,page"] – post types seperated by ,(comma)
+[post_in="1,2"] – ID's of the posts|pages seperated by ,(comma)
+[device_target="desktop"] – mobile or desktop device support for the table of contents
+[view_more="5"] – 5, is the number of headings loads on first view, before user interaction (PRO)
+
 ### Support
 
 We try our best to provide support on WordPress.org forums. However, We have a special [team support](https://magazine3.company/contact/) where you can ask us questions and get help. Delivering a good user experience means a lot to us and so we try our best to reply each and every question that gets asked.
@@ -67,7 +85,6 @@ Bug reports for Easy Table of Contents are [welcomed on GitHub](https://github.c
 
 ### Roadmap 
 * Fragment caching for improved performance.
-* Improve SEO by adding options to add nofollow to TOC link and wrap TOC nav in noindex tag.
 * Improve accessibility.
 * Add Bullet and Arrow options for list counter style.
 * [View Full Road Map](https://github.com/ahmedkaludi/Easy-Table-of-Contents/milestones)
@@ -110,6 +127,17 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.60 05/12/2023 =
+* New: Alignment of TOC to the center on selected posts/pages #314
+* New: An option to show the TOC content after the first image #336
+* New: An option where users can show or hide the TOC on mobile devices and desktops. #362
+* New: A feature to change a header label for specific post or page. #472
+* New: An option to exclude/include heading via shortcode #566
+* New: An option to load js in footer or header #586
+* New: Add shortcode attribute to Hide/show counters in toc #649
+* Bug: A sticky toggle appears on the Author pages and it contains the headings of the latest post published by them. #640
+* Bug: Heading are not working if the plugin Molongui Authorship is activated ad if the heading contains "..." in it #642
 
 = 2.0.59 29/11/2023 =
 * New: An option to show TOC on Tag #489

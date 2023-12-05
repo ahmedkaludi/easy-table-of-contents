@@ -1305,8 +1305,15 @@ class ezTOC_Post {
 			if(ezTOC_Option::get( 'toc_wrapping' )){
 				$wrapping_class_add='-text';
 			}
+
+			$toc_align = get_post_meta( get_the_ID(), '_ez-toc-alignment', true );
+
+			if ( !$toc_align || empty( $toc_align ) || $toc_align == 'none' ) {
+				$toc_align = ezTOC_Option::get( 'wrapping' );
+			}
+
 			// wrapping css classes
-			switch ( ezTOC_Option::get( 'wrapping' ) ) {
+			switch ( $toc_align ) {
 
 				case 'left':
 					$class[] = 'ez-toc-wrap-left'.esc_attr($wrapping_class_add);
@@ -1323,21 +1330,22 @@ class ezTOC_Post {
 					// do nothing
 			}
 
-			if ( ezTOC_Option::get( 'show_hierarchy' ) ) {
+	        $show_counter = (isset($options['no_counter']) && $options['no_counter'] == true ) ? false : true;
 
-				$class[] = 'counter-hierarchy';
+	        if( $show_counter ){
+	            if ( ezTOC_Option::get( 'show_hierarchy' ) ) {
+	            	$class[] = 'counter-hierarchy';
+	            } else {
+	            	$class[] = 'counter-flat';
+	            }
+	            if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'ltr' ) {
+	                $class[] = 'ez-toc-counter';
+	            }
+	            if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'rtl' ) {
+	                $class[] = 'ez-toc-counter-rtl';
+	            }
+	        }
 
-			} else {
-
-				$class[] = 'counter-flat';
-			}
-
-            if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'ltr' ) {
-                $class[] = 'ez-toc-counter';
-            }
-            if( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) == 'rtl' ) {
-                $class[] = 'ez-toc-counter-rtl';
-            }
 			// colour themes
 			switch ( ezTOC_Option::get( 'theme' ) ) {
 
@@ -1415,9 +1423,18 @@ class ezTOC_Post {
 		$html = '';						
 		$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
 		$header_label = '';
-	if ( ezTOC_Option::get( 'show_heading_text' ) ) {
+		$show_header_text = true;
+		if(isset($options['no_label']) && $options['no_label'] == true){
+			$show_header_text = false;
+		}
+	if ( $show_header_text && ezTOC_Option::get( 'show_heading_text' ) ) {
 
-		$toc_title = ezTOC_Option::get( 'heading_text' );
+		$toc_title = get_post_meta( get_the_ID(), '_ez-toc-header-label', true );
+
+		if ( !$toc_title || empty( $toc_title ) ) {
+			$toc_title = ezTOC_Option::get( 'heading_text' );
+		}
+
 		$toc_title_tag = ezTOC_Option::get( 'heading_text_tag' );
 		$toc_title_tag = $toc_title_tag?$toc_title_tag:'p';
 
@@ -1430,7 +1447,9 @@ class ezTOC_Post {
 
 			$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 		}
-		
+		if(isset($options['header_label'])){
+			$toc_title = $options['header_label'];
+		}
 		$headerTextToggleClass = '';
 		$headerTextToggleStyle = '';
 		
@@ -1445,7 +1464,11 @@ class ezTOC_Post {
 	$html .= '<span class="ez-toc-title-toggle">';
 
 	$label_below_html = '';
-	if ( ezTOC_Option::get( 'visibility' ) ) {
+	$show_toggle_view = true;
+	if(isset($options['no_toggle']) && $options['no_toggle'] == true){
+		$show_toggle_view = false;
+	}
+	if ($show_toggle_view && ezTOC_Option::get( 'visibility' ) ) {
 		$cssIconID = uniqid();
 		
 		$inputCheckboxExludeStyle = "";
@@ -1473,10 +1496,14 @@ class ezTOC_Post {
 
 	//css based heaing function
 	private function get_css_based_toc_heading($options){
-		$html = '';
-	
+
+		$html = '';	
 		$header_label = '';
-	if ( ezTOC_Option::get( 'show_heading_text' ) ) {
+		$show_header_text = true;
+		if(isset($options['no_label']) && $options['no_label'] == true){
+			$show_header_text = false;
+		}
+	if ( $show_header_text && ezTOC_Option::get( 'show_heading_text' ) ) {
 
 		$toc_title = ezTOC_Option::get( 'heading_text' );
 		$toc_title_tag = ezTOC_Option::get( 'heading_text_tag' );
@@ -1490,7 +1517,11 @@ class ezTOC_Post {
 
 			$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 		}
-								
+					
+		if(isset($options['header_label'])){
+			$toc_title = $options['header_label'];
+		}
+
 		$header_label = '<'.esc_attr($toc_title_tag).' class="ez-toc-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</'.esc_attr($toc_title_tag).'>' . PHP_EOL;
 		if (!ezTOC_Option::get( 'visibility' ) ) {
 			$html .='<div class="ez-toc-title-container">'.$header_label.'</div>';
@@ -1498,7 +1529,12 @@ class ezTOC_Post {
 	} 
 	
 
-	if ( ezTOC_Option::get( 'visibility' ) ) {
+	$show_toggle_view = true;
+	if(isset($options['no_toggle']) && $options['no_toggle'] == true){
+		$show_toggle_view = false;
+	}
+
+	if ( $show_toggle_view && ezTOC_Option::get( 'visibility' ) ) {
 			$cssIconID = uniqid();
 			
 			$inputCheckboxExludeStyle = "";

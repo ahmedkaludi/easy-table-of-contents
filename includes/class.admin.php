@@ -413,11 +413,13 @@ INLINEOCCASIONALADSPOPUSJS;
 			// Add an nonce field so we can check for it on save.
 			wp_nonce_field( 'ez_toc_save', '_ez_toc_nonce' );
 
-			$suppress = get_post_meta( $post->ID, '_ez-toc-disabled', true ) == 1 ? true : false;
-			$insert   = get_post_meta( $post->ID, '_ez-toc-insert', true ) == 1 ? true : false;
-			$headings = get_post_meta( $post->ID, '_ez-toc-heading-levels', true );
-			$exclude  = get_post_meta( $post->ID, '_ez-toc-exclude', true );
-			$altText  = get_post_meta( $post->ID, '_ez-toc-alttext', true );
+			$suppress     = get_post_meta( $post->ID, '_ez-toc-disabled', true ) == 1 ? true : false;
+			$insert       = get_post_meta( $post->ID, '_ez-toc-insert', true ) == 1 ? true : false;
+			$header_label = get_post_meta( $post->ID, '_ez-toc-header-label', true );
+			$alignment    = get_post_meta( $post->ID, '_ez-toc-alignment', true );
+			$headings     = get_post_meta( $post->ID, '_ez-toc-heading-levels', true );
+			$exclude      = get_post_meta( $post->ID, '_ez-toc-exclude', true );
+			$altText      = get_post_meta( $post->ID, '_ez-toc-alttext', true );
 			$visibility_hide_by_default  = get_post_meta( $post->ID, '_ez-toc-visibility_hide_by_default', true );
 
 			if ( ! is_array( $headings ) ) {
@@ -458,6 +460,60 @@ INLINEOCCASIONALADSPOPUSJS;
 
 						endif; ?>
 
+					</td>
+				</tr>
+
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Header Label', 'easy-table-of-contents' ); ?></th>
+					<td>
+						<?php
+						ezTOC_Option::text(
+							array(
+								'id' => 'header-label',
+								'desc' => '<br>'.__( 'Eg: Contents, Table of Contents, Page Contents', 'easy-table-of-contents' ),
+								'default' => $header_label,
+							),
+							$header_label
+						);
+						?>
+					</td>
+				</tr>
+
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Appearance:', 'easy-table-of-contents' ); ?></th>
+					<td>
+						<?php
+						ezTOC_Option::descriptive_text(
+							array(
+								'id' => 'appearance-desc',
+								'desc' => '<p><strong>' . esc_html__( 'NOTE:', 'easy-table-of-contents' ) . '</strong></p>' .
+								          '<ul>' .
+								          '<li>' . esc_html__( 'Using the appearance options below will override the global Appearance settings.', 'easy-table-of-contents' ) . '</li>' .
+								          '</ul>',
+							)
+						);
+						?>
+					</td>
+				</tr>
+
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Alignment', 'easy-table-of-contents' ); ?></th>
+					<td>
+						<?php
+						ezTOC_Option::select(
+							array(
+								'id' => 'toc-alignment',
+								'options' => array(
+									'none' => __( 'None (Default)', 'easy-table-of-contents' ),
+									'left' => __( 'Left', 'easy-table-of-contents' ),
+									'right' => __( 'Right', 'easy-table-of-contents' ),
+									'center' => __( 'Center', 'easy-table-of-contents' ),
+								),
+								'default' => $alignment,
+							),
+							$alignment
+						);
+						?>
 					</td>
 				</tr>
 
@@ -630,6 +686,24 @@ INLINEOCCASIONALADSPOPUSJS;
 				} else {
 
 					update_post_meta( $post_id, '_ez-toc-insert', false );
+				}
+
+				if ( isset( $_REQUEST['ez-toc-settings']['header-label'] )) {
+					$header_label = sanitize_text_field( $_REQUEST['ez-toc-settings']['header-label'] );					
+					update_post_meta( $post_id, '_ez-toc-header-label', $header_label );
+				} 
+
+				if ( isset( $_REQUEST['ez-toc-settings']['toc-alignment'] ) ) {
+				    $align_values = array(
+				                        'none',
+				                        'left',
+				                        'right',
+				                        'center'
+				                    );
+				    $alignment = sanitize_text_field( $_REQUEST['ez-toc-settings']['toc-alignment'] );					
+				    if( in_array( $alignment, $align_values ) ) {
+				        update_post_meta( $post_id, '_ez-toc-alignment', $alignment );
+				    }
 				}
 
 				if ( isset( $_REQUEST['ez-toc-settings']['heading-levels'] ) && ! empty( $_REQUEST['ez-toc-settings']['heading-levels'] ) ) {

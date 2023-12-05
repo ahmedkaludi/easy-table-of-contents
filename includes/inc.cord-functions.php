@@ -359,3 +359,21 @@ function insertElementByPTag($content, $toc)
 	return mb_find_replace( $find, $replace, $content );
 }
 endif;
+
+if( ! function_exists( __NAMESPACE__ . '\insertElementByImgTag' ) ):
+/**
+ * insertElementByImgTag Method
+ *
+ * @since 2.0.60
+ * @param $content
+ * @param $toc
+ * @return false|string
+ * @throws \DOMException
+*/
+function insertElementByImgTag($content, $toc)
+{
+	$find = array('</figure>');
+	$replace = array('</figure>' . $toc);
+	return mb_find_replace( $find, $replace, $content );
+}
+endif;
