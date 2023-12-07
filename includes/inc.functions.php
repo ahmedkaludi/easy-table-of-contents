@@ -369,11 +369,15 @@ function ez_toc_stikcy_enable_support_status(){
     if(ezTOC_Option::get( 'sticky_device_target' ) == 'mobile'){
         if(function_exists('wp_is_mobile') && wp_is_mobile()){
             $status = true;
+        }else{
+            $status = false;
         }
     }
 
     if(ezTOC_Option::get( 'sticky_device_target' ) == 'desktop'){
-        if(function_exists('wp_is_mobile') && !wp_is_mobile()){
+        if(function_exists('wp_is_mobile') && wp_is_mobile()){
+            $status = false;
+        }else{
             $status = true;
         }
     }
