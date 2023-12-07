@@ -896,13 +896,13 @@ inlineHeadingsPaddingCSS;
         private static function inlineStickyToggleCSS()
         {
             $custom_width = 'max-width: auto;';
-            if (null !== ezTOC_Option::get('sticky-toggle-width-custom') && !empty(ezTOC_Option::get(
+            if (ezTOC_Option::get('sticky-toggle-width') == 'custom' && !empty(ezTOC_Option::get(
                     'sticky-toggle-width-custom'
                 ))) {
                 $custom_width = 'max-width: ' . ezTOC_Option::get('sticky-toggle-width-custom') . ';' . PHP_EOL;
             }
             $custom_height = 'max-height: 100vh;';
-            if (null !== ezTOC_Option::get('sticky-toggle-height-custom') && !empty(ezTOC_Option::get(
+            if (ezTOC_Option::get('sticky-toggle-height') == 'custom' && !empty(ezTOC_Option::get(
                     'sticky-toggle-height-custom'
                 ))) {
                 $custom_height = 'max-height: ' . ezTOC_Option::get('sticky-toggle-height-custom') . ';' . PHP_EOL;

@@ -989,8 +989,9 @@ text
 							'name'        => __( 'Custom Width', 'easy-table-of-contents' ),
 							'desc'        => '',
 							'type'        => 'text',
-							'default'     => false,
-							'placeholder' => __( 'Enter sticky toggle custom width here..', 'easy-table-of-contents' )
+							'default'     => '350px',
+							'placeholder' => __( '350px', 'easy-table-of-contents' ),
+							'size' => 'medium',
 						),
 						'sticky-toggle-height'            => array(
 							'id'      => 'sticky-toggle-height',
@@ -1008,8 +1009,9 @@ text
 							'name'        => __( 'Custom Height', 'easy-table-of-contents' ),
 							'desc'        => '',
 							'type'        => 'text',
-							'default'     => false,
-							'placeholder' => __( 'Enter sticky toggle custom height here..', 'easy-table-of-contents' )
+							'default'     => '800px',
+							'placeholder' => __( '800px', 'easy-table-of-contents' ),
+							'size' => 'medium',
 						),
 						'sticky-toggle-open-button-text'     => array(
 							'id'          => 'sticky-toggle-open-button-text',
