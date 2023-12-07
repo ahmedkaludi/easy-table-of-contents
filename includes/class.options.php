@@ -48,6 +48,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						array(
 							'section'     => $section,
 							'id'          => isset( $option['id'] ) ? $option['id'] : null,
+							'label_for'   => isset( $option['id'] ) ? 'ez-toc-settings[' . $option['id'] . ']' : null,
 							'desc'        => ! empty( $option['desc'] ) ? $option['desc'] : '',
 							'name'        => isset( $option['name'] ) ? $option['name'] : null,
 							'size'        => isset( $option['size'] ) ? $option['size'] : null,
