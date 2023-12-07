@@ -1255,7 +1255,7 @@ class ezTOC_Post {
             $ezTocStickyToggleDirection = 'ez-toc-sticky-toggle-direction';
 
 			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
-				$toc_title = ezTOC_Option::get( 'heading_text' );
+				$toc_title = apply_filters('ez_toc_sticky_title', ezTOC_Option::get( 'heading_text' ));
 				$toc_title_tag = ezTOC_Option::get( 'heading_text_tag' );
 				$toc_title_tag = $toc_title_tag?$toc_title_tag:'p';
 				if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
