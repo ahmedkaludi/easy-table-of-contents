@@ -283,7 +283,7 @@
                                 <div class="ez-toc-support-input">
 
                                     <input type="text" id="eztoc_query_email" name="eztoc_query_email"
-                                           placeholder="<?= esc_html_e( 'Enter your Email', 'easy-table-of-contents' ) ?>" required/>
+                                           placeholder="<?= esc_html_e( 'Enter your Email', 'easy-table-of-contents' ) ?>" required style="width: 350px;"/>
                                 </div>
                             </li>
 
@@ -305,7 +305,7 @@
                                 <div class="eztoc-customer-type">
                                     <label class="ez-toc-support-label"><?= esc_html_e( 'Type', 'easy-table-of-contents' ) ?></label>
                                     <div class="ez-toc-support-input">
-                                        <select name="eztoc_customer_type" id="eztoc_customer_type">
+                                        <select name="eztoc_customer_type" id="eztoc_customer_type" style="width: 350px;">
                                             <option value="select"><?= esc_html_e( 'Select Customer Type', 'easy-table-of-contents' ) ?></option>
                                             <option value="paid"><?= esc_html_e( 'Paid', 'easy-table-of-contents' ) ?><span> <?= esc_html_e( '(Response within 24 hrs)', 'easy-table-of-contents' ) ?></span>
                                             </option>
@@ -364,8 +364,54 @@
                         <li><?= esc_html_e('You can also choose Custom Theme colors of `Easy Table of Contents`. according to your requirements', 'easy-table-of-contents');
                             ?></li>
                     </ol>
-                    <h3><?= esc_html_e('4. MORE DOCUMENTATION:', 'easy-table-of-contents'); ?></h3>
-                    <p><?= esc_html_e('You can visit this link ', 'easy-table-of-contents') . '<a href="https://tocwp.com/docs/" target="_blank">' . esc_html_e('More Documentation', 'easy-table-of-contents') . '</a>' . esc_html_e(' for more documentation of `Easy Table of Contents`', 'easy-table-of-contents'); ?></p>
+                    <h3><?= esc_html_e('4. STICKY TABLE', 'easy-table-of-contents');
+                        ?></h3>
+                    <ol>
+                        <li><?= esc_html_e('Go to Sticky TOC tab to show Table of contents as sticky on your site.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('Select the post types on which sticky table of contents has been to be enabled.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also decide whether to have sticky table of contents enabled on Homepage.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also decide whether to have sticky table of contents enabled on Category|Tag.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also decide whether to have sticky table of contents enabled on Product Category.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also decide whether to have sticky table of contents enabled on Custom Taxonomy.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also decide on which device you want to show sticky table of contents Mobile or Laptop.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also decide the position of sticky table of contents on left or right.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also choose Alignment of Sticky `Easy Table of Contents`.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also decide whether the sticky toc should be opened by default on load.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can change width of Sticky `Easy Table of Contents` from select Fixed or Relative sizes or you select custom width then it will be showing custom width option for enter manually width.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can change height of Sticky `Easy Table of Contents` from select Fixed or Relative sizes or you select custom height then it will be showing custom height option for enter manually height.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can change Button Text of Sticky `Easy Table of Contents`.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also choose Click TOC Close on Mobile of Sticky `Easy Table of Contents`.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also choose Click TOC Close on desktop of Sticky `Easy Table of Contents`.', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also change title of Sticky `Easy Table of Contents`. (PRO)', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also highlight headings while scrolling of Sticky `Easy Table of Contents`. (PRO)', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also change background of highlight headings of Sticky `Easy Table of Contents`. (PRO)', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also change title of highlight headings of Sticky `Easy Table of Contents`. (PRO)', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also choose Theme color of Sticky `Easy Table of Contents` on Theme Options section according to your choice. (PRO)', 'easy-table-of-contents');
+                            ?></li>
+                        <li><?= esc_html_e('You can also choose Custom Theme colors of Sticky `Easy Table of Contents` according to your requirements. (PRO)', 'easy-table-of-contents');
+                            ?></li>
+                    </ol>
+                    <h3><?= esc_html_e('5. MORE DOCUMENTATION:', 'easy-table-of-contents'); ?></h3>
+                    <p><?= esc_html__('You can visit this link ', 'easy-table-of-contents') . '<a href="https://tocwp.com/docs/" target="_blank">' . esc_html__('More Documentation', 'easy-table-of-contents') . '</a>' . esc_html__(' for more documentation of `Easy Table of Contents`', 'easy-table-of-contents'); ?></p>
                 </div>
                 <div class="eztoc-tabcontent-technical" id="eztoc-technical-shortcode" style="display: none;">
                     <h1><?= esc_html_e('Shortcode', 'easy-table-of-contents'); ?></h1>
@@ -404,6 +450,36 @@
                         </li>
                         <li><code><?php echo esc_html_e('ez_toc_after_widget', 'easy-table-of-contents')
                                 ?></code></li>
+                        <li>
+                            <code><?php echo esc_html_e('ez_toc_title', 'easy-table-of-contents') ?></code>
+                        </li>
+                        <li>
+                            <code><?php echo esc_html_e('ez_toc_sticky_title', 'easy-table-of-contents') ?></code>
+                        </li>
+                        <li>
+                            <code><?php echo esc_html_e('ez_toc_container_class', 'easy-table-of-contents') ?></code>
+                        </li>
+                        <li>
+                            <code><?php echo esc_html_e('ez_toc_widget_sticky_container_class', 'easy-table-of-contents') ?></code>
+                        </li>
+                        <li>
+                            <code><?php echo esc_html_e('ez_toc_url_anchor_target', 'easy-table-of-contents') ?></code>
+                        </li>
+                        <li>
+                            <code><?php echo esc_html_e('ez_toc_sticky_enable_support', 'easy-table-of-contents') ?></code>
+                        </li>
+                        <li>
+                            <code><?php echo esc_html_e('ez_toc_sticky_post_types', 'easy-table-of-contents') ?></code>
+                        </li>
+                        <li>
+                            <code><?php echo esc_html_e('ez_toc_modify_icon', 'easy-table-of-contents') ?></code>
+                        </li>
+                        <li>
+                            <code><?php echo esc_html_e('ez_toc_label_below_html', 'easy-table-of-contents') ?></code>
+                        </li>
+                        <li>
+                            <code><?php echo esc_html_e('eztoc_wordpress_final_output', 'easy-table-of-contents') ?></code>
+                        </li>
                     </ul>
 
 

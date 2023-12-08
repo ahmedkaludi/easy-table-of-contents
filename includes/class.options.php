@@ -869,6 +869,12 @@ text
                         ),
                         'shortcode-second-paragraph'      => array(
                             'id'   => 'shortcode-second-paragraph',
+                            'name' => __( 'Supported Attributes', 'easy-table-of-contents' ),
+                            'desc' => __( '<p><code>[header_label=”Title”]</code> – title for the table of contents</p><p><code>[display_header_label=”no”]</code> – no title for the table of contents</p><p><code>[toggle_view=”no”]</code> – no toggle for the table of contents</p><p><code>[initial_view=”no”]</code> – initially hide the table of contents</p><p><code>[display_counter=”no”]</code> – no counter for the table of contents</p><p><code>[post_types=”post,page”]</code> – post types seperated by ,(comma)</p><p><code>[post_in=”1,2″]</code> – ID’s of the posts|pages seperated by ,(comma)</p><p><code>[device_target=”desktop”]</code> – mobile or desktop device support for the table of contents</p><p><code>[view_more=”5″]</code> – 5, is the number of headings loads on first view, before user interaction (PRO)</p>', 'easy-table-of-contents' ),
+                            'type' => 'descriptive_text',
+                        ),
+                        'shortcode-third-paragraph'      => array(
+                            'id'   => 'shortcode-third-paragraph',
                             'name' => __( 'Auto Insert', 'easy-table-of-contents' ),
                             'desc' => __( 'You can add `Easy Table of Contents` without using shortcode from `Auto Insert` option in General Setting so then there is no need to add shortcode while post, page or any post type editing.', 'easy-table-of-contents' ),
                             'type' => 'paragraph',
