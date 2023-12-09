@@ -1251,6 +1251,7 @@ text
 				'font_size'                          => 95,
 				'child_font_size'					 => 90,
 				'font_size_units'                    => '%',
+				'child_font_size_units'              => '%',
 				'theme'                              => 'grey',
 				'custom_background_colour'           => '#fff',
 				'custom_border_colour'               => '#ddd',
