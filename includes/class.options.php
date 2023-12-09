@@ -620,7 +620,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'include_homepage' => array(
 							'id' => 'include_homepage',
 							'name' => __( 'Homepage', 'easy-table-of-contents' ),
-							'desc' => __( 'Show the table of contents for qualifying items on the homepage.', 'easy-table-of-contents' ),
+							'desc' => __( 'Show the table of contents for qualifying items on the homepage. <a target="_blank" href="https://tocwp.com/docs/knowledge-base/how-to-add-a-table-of-content-on-the-homepage/">Learn More</a>', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
 						),
@@ -841,10 +841,14 @@ text
                         'shortcode-first-paragraph'      => array(
                             'id'   => 'shortcode-first-paragraph',
                             'name' => __( 'Manual Adding the shortcode', 'easy-table-of-contents' ),
-                            'desc' => __( 'You can use the following shortcode to `Easy Table of Contents` display in your particular post or page:<br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc]" disabled />&nbsp;<span class="ez-toc-tooltip"><button type="button"  onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode  </button></span>', 'easy-table-of-contents' ),
+                            'desc' => __( 'You can use the following shortcode to `Easy Table of Contents` display in your particular post or page. <a target="_blank" href="https://tocwp.com/docs/knowledge-base/how-to-add-toc-with-shortcode/">Learn More</a><br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc]" disabled />&nbsp;<span class="ez-toc-tooltip"><button type="button"  onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode  </button></span>', 'easy-table-of-contents' ),
                             'type' => 'paragraph',
                             'allowedHtml' => array(
 								'br' => array(),
+								'a' => array(
+								    'target' => array(),
+								    'href' => array()
+								),
 								'input' => array(
 					               'type' => true,
 					               'id' => true,
@@ -887,7 +891,7 @@ text
 						'sticky-toggle'                   => array(
 							'id'      => 'sticky-toggle',
 							'name'    => __( 'Sticky TOC', 'easy-table-of-contents' ),
-							'desc'    => '',
+							'desc'    => 'Turn <code>on|off</code> Sticky Table of contents. <a target="_blank" href="https://tocwp.com/docs/knowledge-base/how-to-use-fixed-sticky-toc/">Learn More</a>',
 							'type'    => 'checkbox',
 							'default' => false,
 						),
