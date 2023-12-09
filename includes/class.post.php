@@ -1469,27 +1469,19 @@ class ezTOC_Post {
 		$show_toggle_view = false;
 	}
 	if ($show_toggle_view && ezTOC_Option::get( 'visibility' ) ) {
-		$cssIconID = uniqid();
-		
-		$inputCheckboxExludeStyle = "";
-		if ( ezTOC_Option::get( 'exclude_css' ) ) {
-			$inputCheckboxExludeStyle = "style='display:none'";
-		}
-		
+								
 		$icon = ezTOC::getTOCToggleIcon();
 		if( function_exists( 'ez_toc_pro_activation_link' ) ) {
 				$icon = apply_filters('ez_toc_modify_icon',$icon);
 				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html);
 		}							   
-		$html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Toggle Table of Content" role="button"><label for="item-' . $cssIconID . '" >'.$icon.'</label><input aria-label="Toggle" ' . $inputCheckboxExludeStyle . ' type="checkbox" id="item-' . $cssIconID . '"></a>';
+		$html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Toggle Table of Content"><span class="ez-toc-js-icon-con">'.$icon.'</span></a>';
 		 
 	}
 			$html .= '</span>';
 			$html .= '</div>' . PHP_EOL;
 			$html .= $label_below_html;
-	
-	
-		
+				
 		return $html;
 	}
 
