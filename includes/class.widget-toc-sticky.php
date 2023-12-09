@@ -305,7 +305,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                     <?php echo $before_title; ?>
                     <span class="ez-toc-widget-sticky-title-container">
 
-                        <style type="text/css">
+                        <style>
                             #<?php echo $this -> id ?> .ez-toc-widget-sticky-container ul.ez-toc-widget-sticky-list li.active{
                                 background-color: <?php echo esc_attr ( $instance[ 'highlight_color' ] ); ?>;
                             }

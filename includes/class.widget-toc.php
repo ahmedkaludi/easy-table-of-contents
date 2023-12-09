@@ -237,7 +237,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 					<?php echo $before_title; ?>
                                         <span class="ez-toc-title-container">
 
-                                        <style type="text/css">
+                                        <style>
                                                 #<?php echo $this->id ?> .ez-toc-widget-container ul.ez-toc-list li.active{
                                                         background-color: <?php echo esc_attr( $instance['highlight_color'] ); ?>;
                                                 }
