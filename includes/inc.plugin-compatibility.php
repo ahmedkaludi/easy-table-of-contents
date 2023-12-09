@@ -798,7 +798,7 @@ if('Chamomile' == apply_filters( 'current_theme', get_option( 'current_theme' ) 
 	function ez_toc_add_custom_script()
 	{
 		?>
-		<script type="text/javascript">
+		<script>
 			jQuery(document).ready(function($){
 				$('#ez-toc-container').find('.hamburger').remove();
 			});

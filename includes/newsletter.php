@@ -87,7 +87,7 @@ class eztoc_pointers {
 	}
 	function eztoc_pointer_script ($id, $options, $button1, $button2=false, $function='') {
 		?>
-		<script type="text/javascript">
+		<script>
 			(function ($) {
 				var wp_pointers_tour_opts = <?php echo json_encode ($options); ?>, setup;
 				wp_pointers_tour_opts = $.extend (wp_pointers_tour_opts, {
