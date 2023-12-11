@@ -812,7 +812,7 @@ text
 						'ajax_load_more' => array(
 							'id' => 'ajax_load_more',
 							'name' => __( 'Ajax Load More', 'easy-table-of-contents' ),
-							'desc' => __( 'This option makes toggle (js method) work for ajax loaded contents.', 'easy-table-of-contents' ),
+							'desc' => __( 'Makes toggle (js method) work for Infinite Scroll – Ajax Loaded contents/posts.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
 						)
