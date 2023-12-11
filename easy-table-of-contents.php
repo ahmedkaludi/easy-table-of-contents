@@ -461,6 +461,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$js_vars['collapseSubHd'] = true;
 				}
 
+				if(ezTOC_Option::get( 'ajax_load_more' )){
+					$js_vars['ajax_toggle'] = true;
+				}
+
 				if ( 0 < count( $js_vars ) ) {
 					wp_localize_script( 'ez-toc-js', 'ezTOC', $js_vars );
 					// smooth scroll js localization

@@ -272,6 +272,11 @@ jQuery( function( $ ) {
 		// Start EZ TOC on page load.
 		ezTOCInit();
 
+        if ( typeof ezTOC.ajax_toggle != 'undefined' && parseInt( ezTOC.ajax_toggle ) === 1 ) {
+            $( document ).ajaxComplete(function() {
+                ezTOCInit();
+            });
+        }
         
 	}
     $("#ez-toc-more-links-enabler").click(function () { 

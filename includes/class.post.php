@@ -1776,6 +1776,14 @@ class ezTOC_Post {
 		$current_post = $this->post->ID === $this->queriedObjectID;
 		$current_page = $this->getCurrentPage();
 
+		$anch_url = $this->permalink;
+
+		//Ajax Load more 
+		//@since 2.0.61
+		if(ezTOC_Option::get( 'ajax_load_more' ) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'){
+			$anch_url = $_SERVER['HTTP_REFERER'];
+		}
+
 		if ( $page === $current_page && $current_post ) {
 
 			return (ezTOC_Option::get( 'add_request_uri' ) ? $_SERVER['REQUEST_URI'] : '') . '#' . $id;
@@ -1785,10 +1793,10 @@ class ezTOC_Post {
 			if(is_category() || is_tax() || is_tag() || (function_exists('is_product_category') && is_product_category())){
 				return  '#' . $id;
 			}
-			return trailingslashit( $this->permalink ) . '#' . $id;
+			return trailingslashit( esc_url($anch_url) ) . '#' . $id;
 
 		}
 
-		return trailingslashit( $this->permalink ) . $page . '/#' . $id;
+		return trailingslashit( esc_url($anch_url) ) . $page . '/#' . $id;
 	}
 }
