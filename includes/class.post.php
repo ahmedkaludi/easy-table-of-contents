@@ -1756,7 +1756,7 @@ class ezTOC_Post {
 
 		return sprintf(
 			'<a class="ez-toc-link ez-toc-heading-' . $count . '" '.$anch_name.'="%1$s" title="%2$s">%3$s</a>',
-			esc_attr( $this->createTOCItemURL( $id, $page ) ),
+			esc_url( $this->createTOCItemURL( $id, $page ) ),
 			esc_attr( strip_tags( $title ) ),
 			$title
 		);
@@ -1793,10 +1793,10 @@ class ezTOC_Post {
 			if(is_category() || is_tax() || is_tag() || (function_exists('is_product_category') && is_product_category())){
 				return  '#' . $id;
 			}
-			return trailingslashit( esc_url($anch_url) ) . '#' . $id;
+			return trailingslashit( $anch_url ) . '#' . $id;
 
 		}
 
-		return trailingslashit( esc_url($anch_url) ) . $page . '/#' . $id;
+		return trailingslashit( $anch_url ) . $page . '/#' . $id;
 	}
 }
