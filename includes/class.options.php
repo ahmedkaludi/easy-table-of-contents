@@ -289,7 +289,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'heading_text_tag' => array(
 							'id' => 'heading_text_tag',
 							'name' => __( 'Header Label Tag', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'select',
 							'options' => array(
 								'p' => __( 'p (default)', 'easy-table-of-contents' ),
@@ -316,14 +315,12 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'show_hierarchy' => array(
 							'id' => 'show_hierarchy',
 							'name' => __( 'Show as Hierarchy', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'checkbox',
 							'default' => true,
 						),
 						'counter' => array(
 							'id' => 'counter',
 							'name' => __( 'Counter', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'select',
 							'options' => self::getCounterList(),
 							'default' => 'decimal',
@@ -331,7 +328,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'counter-position' => array(
 							'id' => 'counter-position',
 							'name' => __( 'Counter Position', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'select',
 							'options' => self::getCounterPositionList(),
 							'default' => 'inside',
@@ -339,7 +335,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'toc_loading' => array(
 							'id' => 'toc_loading',
 							'name' => __( 'TOC Loading Method', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'select',
 							'options' => array(
 								'js' => __( 'JavaScript (default)', 'easy-table-of-contents' ),
@@ -351,7 +346,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'smooth_scroll' => array(
 							'id' => 'smooth_scroll',
 							'name' => __( 'Smooth Scroll', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'checkbox',
 							'default' => true,
 						),
@@ -379,7 +373,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'width' => array(
 							'id' => 'width',
 							'name' => __( 'Width', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'selectgroup',
 							'options' => array(
 								'fixed' => array(
@@ -427,7 +420,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'wrapping' => array(
 							'id' => 'wrapping',
 							'name' => __( 'Alignment', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'select',
 							'options' => array(
 								'none' => __( 'None (Default)', 'easy-table-of-contents' ),
@@ -440,14 +432,12 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'toc_wrapping'  => array(
 							'id'      => 'toc_wrapping',
 							'name'    => __( 'Enable Wrapping', 'easy-table-of-contents' ),
-							'desc'    => '',
 							'type'    => 'checkbox',
 							'default' => false,
 						),
 						'headings-padding'                   => array(
 							'id'      => 'headings-padding',
 							'name'    => __( 'Headings Padding', 'easy-table-of-contents' ),
-							'desc'    => '',
 							'type'    => 'checkbox',
 							'default' => false,
 						),
@@ -483,14 +473,12 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'title_font_size' => array(
 							'id' => 'title_font_size',
 							'name' => __( 'Title Font Size', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'font_size',
 							'default' => 120,
 						),
 						'title_font_weight' => array(
 							'id' => 'title_font_weight',
 							'name' => __( 'Title Font Weight', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'select',
 							'options' => array(
 								'100' => __( 'Thin', 'easy-table-of-contents' ),
@@ -508,14 +496,12 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'font_size' => array(
 							'id' => 'font_size',
 							'name' => __( 'Font Size', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'font_size',
 							'default' => 95,
 						),
 						'child_font_size' => array(
 							'id' => 'child_font_size',
 							'name' => __( 'Child Font Size', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'child_font_size',
 							'default' => 90,
 						),
@@ -548,49 +534,42 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'custom_background_colour' => array(
 							'id' => 'custom_background_colour',
 							'name' => __( 'Background Color', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'color',
 							'default' => '#fff',
 						),
 						'custom_border_colour' => array(
 							'id' => 'custom_border_colour',
 							'name' => __( 'Border Color', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'color',
 							'default' => '#ddd',
 						),
 						'custom_title_colour' => array(
 							'id' => 'custom_title_colour',
 							'name' => __( 'Title Color', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'color',
 							'default' => '#999',
 						),
 						'custom_link_colour' => array(
 							'id' => 'custom_link_colour',
 							'name' => __( 'Link Color', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'color',
 							'default' => '#428bca',
 						),
 						'custom_link_hover_colour' => array(
 							'id' => 'custom_link_hover_colour',
 							'name' => __( 'Link Hover Color', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'color',
 							'default' => '#2a6496',
 						),
 						'custom_link_visited_colour' => array(
 							'id' => 'custom_link_visited_colour',
 							'name' => __( 'Link Visited Color', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'color',
 							'default' => '#428bca',
 						),
 						'heading-text-direction' => array(
                             'id' => 'heading-text-direction',
                             'name' => __( 'Heading Text Direction', 'easy-table-of-contents' ),
-                            'desc' => '',
                             'type' => 'radio',
                             'options' => array(
                                 'ltr' => __( 'Left to Right (LTR)', 'easy-table-of-contents' ),
@@ -655,7 +634,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'device_target' => array(
 							'id' => 'device_target',
 							'name' => __( 'Device Target', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'select',
 							'options' => array(
 								'' => __( 'Select', 'easy-table-of-contents' ),
@@ -668,7 +646,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'load_js_in' => array(
 							'id' => 'load_js_in',
 							'name' => __( 'Load Js In', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'select',
 							'options' => array(
 								'footer' => __( 'Footer (default)', 'easy-table-of-contents' ),
@@ -801,7 +778,6 @@ text
 						'remove_special_chars_from_title' => array(
 							'id' => 'remove_special_chars_from_title',
 							'name' => __( 'Remove \':\' from TOC Title', 'easy-table-of-contents' ),
-							'desc' => '',
 							'type' => 'checkbox',
 							'default' => false,
 						),
@@ -942,7 +918,6 @@ text
 						  'sticky_device_target' => array(
   							'id' => 'sticky_device_target',
   							'name' => __( 'Device Target', 'easy-table-of-contents' ),
-  							'desc' => '',
   							'type' => 'select',
   							'options' => array(
   								'' => __( 'Select', 'easy-table-of-contents' ),
