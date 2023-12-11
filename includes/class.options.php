@@ -874,7 +874,7 @@ text
 						'sticky-toggle'                   => array(
 							'id'      => 'sticky-toggle',
 							'name'    => __( 'Sticky TOC', 'easy-table-of-contents' ),
-							'desc'    => 'Turn <code>on|off</code> Sticky Table of contents. <a target="_blank" href="https://tocwp.com/docs/knowledge-base/how-to-use-fixed-sticky-toc/">Learn More</a>',
+							'desc'    => 'Table of contents as Sticky on your site. <a target="_blank" href="https://tocwp.com/docs/knowledge-base/how-to-use-fixed-sticky-toc/">Learn More</a>',
 							'type'    => 'checkbox',
 							'default' => false,
 						),
