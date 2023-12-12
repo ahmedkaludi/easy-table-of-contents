@@ -1920,7 +1920,7 @@ HR_TAG;
 		 */
 		public static function custom_width( $args ) {
 
-			self::text(
+			self::number(
 				array(
 					'id'      => $args['id'],
 					'desc'    => '',
