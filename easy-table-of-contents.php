@@ -1625,9 +1625,15 @@ INLINESTICKYTOGGLEJS;
 		 */
 		public static function stickyToggleContent() {
 
-			if(ezTOC_Option::get('sticky-toggle') && function_exists( 'post_password_required' ) && !post_password_required() ){
-
+			if(ezTOC_Option::get('sticky-toggle')){
+			  
 			  if(ez_toc_stikcy_enable_support_status()){
+
+				if( function_exists( 'post_password_required' ) ) {
+					if(post_password_required() ) {
+						return false;
+					}
+			    }
 
 				$toggleClass = "hide";
 				$linkZindex  = "";
