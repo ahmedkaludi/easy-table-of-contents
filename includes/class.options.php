@@ -599,7 +599,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'include_homepage' => array(
 							'id' => 'include_homepage',
 							'name' => __( 'Homepage', 'easy-table-of-contents' ),
-							'desc' => __( 'Show the table of contents for qualifying items on the homepage. <a target="_blank" href="https://tocwp.com/docs/knowledge-base/how-to-add-a-table-of-content-on-the-homepage/">Learn More</a>', 'easy-table-of-contents' ),
+							'desc' => sprintf(
+								      __( 'Show the table of contents for qualifying items on the homepage. <a target="_blank" href="%s">Learn More</a>', 'easy-table-of-contents' ), 'https://tocwp.com/docs/knowledge-base/how-to-add-a-table-of-content-on-the-homepage/'
+								      ),
 							'type' => 'checkbox',
 							'default' => false,
 						),
@@ -686,7 +688,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'exclude' => array(
 							'id' => 'exclude',
 							'name' => __( 'Exclude Headings', 'easy-table-of-contents' ),
-							'desc' => __( 'Specify headings to be excluded from appearing in the table of contents. Separate multiple headings with a pipe <code>|</code>. Use an asterisk <code>*</code> as a wildcard to match other text.', 'easy-table-of-contents' ),
+							'desc' => sprintf(
+							      		__( 'Specify headings to be excluded from appearing in the table of contents. Separate multiple headings with a pipe <code>|</code>. Use an asterisk <code>*</code> as a wildcard to match other text.', 'easy-table-of-contents' )
+							      		),
 							'type' => 'text',
 							'size' => 'large',
 							'default' => '',
@@ -694,13 +698,9 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'exclude_desc' => array(
 							'id' => 'exclude_desc',
 							'name' => '',
-							'desc' => '<p><strong>' . __( 'Examples:', 'easy-table-of-contents' ) . '</strong></p>' .
-							          '<ul>' .
-							          '<li>' . __( '<code>Fruit*</code> Ignore headings starting with "Fruit".', 'easy-table-of-contents' ) . '</li>' .
-							          '<li>' . __( '<code>*Fruit Diet*</code> Ignore headings with "Fruit Diet" somewhere in the heading.', 'easy-table-of-contents' ) . '</li>' .
-							          '<li>' . __( '<code>Apple Tree|Oranges|Yellow Bananas</code> Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".', 'easy-table-of-contents' ) . '</li>' .
-							          '</ul>' .
-							          '<p>' . __( '<strong>Note:</strong> This is not case sensitive.', 'easy-table-of-contents' ) . '</p>',
+							'desc' => sprintf(
+							      		__( '<p><strong>Examples:</strong></p><ul><li><code>Fruit*</code> Ignore headings starting with "Fruit".</li><li><code>*Fruit Diet*</code> Ignore headings with "Fruit Diet" somewhere in the heading.</li><li><code>Apple Tree|Oranges|Yellow Bananas</code> Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".</li></ul><p><strong>Note:</strong> This is not case sensitive</p>', 'easy-table-of-contents' )
+							      		),
 							'type' => 'descriptive_text',
 						),
 						'schema_sitenav_checkbox' => array(
@@ -824,7 +824,9 @@ text
                         'shortcode-first-paragraph'      => array(
                             'id'   => 'shortcode-first-paragraph',
                             'name' => __( 'Manual Adding the shortcode', 'easy-table-of-contents' ),
-                            'desc' => __( 'You can use the following shortcode to `Easy Table of Contents` display in your particular post or page. <a target="_blank" href="https://tocwp.com/docs/knowledge-base/how-to-add-toc-with-shortcode/">Learn More</a><br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc]" disabled />&nbsp;<span class="ez-toc-tooltip"><button type="button"  onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode  </button></span>', 'easy-table-of-contents' ),
+                            'desc' => sprintf(
+                            		__( 'You can use the following shortcode to `Easy Table of Contents` display in your particular post or page. <a target="_blank" href="">Learn More</a><br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc]" disabled />&nbsp;<span class="ez-toc-tooltip"><button type="button"  onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode  </button></span>', 'easy-table-of-contents' ), 'https://tocwp.com/docs/knowledge-base/how-to-add-toc-with-shortcode/'
+                            		),
                             'type' => 'paragraph',
                             'allowedHtml' => array(
 								'br' => array(),
@@ -857,7 +859,9 @@ text
                         'shortcode-second-paragraph'      => array(
                             'id'   => 'shortcode-second-paragraph',
                             'name' => __( 'Supported Attributes', 'easy-table-of-contents' ),
-                            'desc' => __( '<p><code>[header_label=”Title”]</code> – title for the table of contents</p><p><code>[display_header_label=”no”]</code> – no title for the table of contents</p><p><code>[toggle_view=”no”]</code> – no toggle for the table of contents</p><p><code>[initial_view=”no”]</code> – initially hide the table of contents</p><p><code>[display_counter=”no”]</code> – no counter for the table of contents</p><p><code>[post_types=”post,page”]</code> – post types seperated by ,(comma)</p><p><code>[post_in=”1,2″]</code> – ID’s of the posts|pages seperated by ,(comma)</p><p><code>[device_target=”desktop”]</code> – mobile or desktop device support for the table of contents</p><p><code>[view_more=”5″]</code> – 5, is the number of headings loads on first view, before user interaction (PRO)</p>', 'easy-table-of-contents' ),
+                            'desc' => sprintf(
+                            		__( '<p><code>[header_label=”Title”]</code> – title for the table of contents</p><p><code>[display_header_label=”no”]</code> – no title for the table of contents</p><p><code>[toggle_view=”no”]</code> – no toggle for the table of contents</p><p><code>[initial_view=”no”]</code> – initially hide the table of contents</p><p><code>[display_counter=”no”]</code> – no counter for the table of contents</p><p><code>[post_types=”post,page”]</code> – post types seperated by ,(comma)</p><p><code>[post_in=”1,2″]</code> – ID’s of the posts|pages seperated by ,(comma)</p><p><code>[device_target=”desktop”]</code> – mobile or desktop device support for the table of contents</p><p><code>[view_more=”5″]</code> – 5, is the number of headings loads on first view, before user interaction (PRO)</p>', 'easy-table-of-contents' )
+                            		),
                             'type' => 'descriptive_text',
                         ),
                         'shortcode-third-paragraph'      => array(
@@ -874,7 +878,9 @@ text
 						'sticky-toggle'                   => array(
 							'id'      => 'sticky-toggle',
 							'name'    => __( 'Sticky TOC', 'easy-table-of-contents' ),
-							'desc'    => 'Table of contents as Sticky on your site. <a target="_blank" href="https://tocwp.com/docs/knowledge-base/how-to-use-fixed-sticky-toc/">Learn More</a>',
+							'desc' => sprintf(
+							      		__( 'Table of contents as Sticky on your site. <a target="_blank" href="%s">Learn More</a>', 'easy-table-of-contents' ), 'https://tocwp.com/docs/knowledge-base/how-to-use-fixed-sticky-toc/'
+							      		),
 							'type'    => 'checkbox',
 							'default' => false,
 						),
@@ -937,7 +943,6 @@ text
 						'sticky-toggle-position'                   => array(
 							'id'      => 'sticky-toggle-position',
 							'name'    => __( 'Position', 'easy-table-of-contents' ),
-							'desc'    => '',
 							'type' => 'radio',
 							'options' => array(
 								'left' => __( 'Left', 'easy-table-of-contents' ),
@@ -949,7 +954,6 @@ text
 						'sticky-toggle-alignment'                   => array(
 							'id'      => 'sticky-toggle-alignment',
 							'name'    => __( 'Alignment', 'easy-table-of-contents' ),
-							'desc'    => '',
 							'type' => 'radio',
 							'options' => array(
 								'top' => __( 'Top', 'easy-table-of-contents' ),
@@ -961,14 +965,12 @@ text
 						'sticky-toggle-open' => array(
 							'id'      => 'sticky-toggle-open',
 							'name'    => __( 'TOC open on load', 'easy-table-of-contents' ),
-							'desc'    => '',
 							'type'    => 'checkbox',
 							'default' => false,
 						),
 						'sticky-toggle-width'             => array(
 							'id'      => 'sticky-toggle-width',
 							'name'    => __( 'Width', 'easy-table-of-contents' ),
-							'desc'    => '',
 							'type'    => 'select',
 							'options' => array(
 								'auto'   => __( 'Auto', 'easy-table-of-contents' ),
@@ -979,7 +981,6 @@ text
 						'sticky-toggle-width-custom'      => array(
 							'id'          => 'sticky-toggle-width-custom',
 							'name'        => __( 'Custom Width', 'easy-table-of-contents' ),
-							'desc'        => '',
 							'type'        => 'text',
 							'default'     => '350px',
 							'placeholder' => __( '350px', 'easy-table-of-contents' ),
@@ -988,7 +989,6 @@ text
 						'sticky-toggle-height'            => array(
 							'id'      => 'sticky-toggle-height',
 							'name'    => __( 'Height', 'easy-table-of-contents' ),
-							'desc'    => '',
 							'type'    => 'select',
 							'options' => array(
 								'auto'   => __( 'Auto', 'easy-table-of-contents' ),
@@ -999,7 +999,6 @@ text
 						'sticky-toggle-height-custom'     => array(
 							'id'          => 'sticky-toggle-height-custom',
 							'name'        => __( 'Custom Height', 'easy-table-of-contents' ),
-							'desc'        => '',
 							'type'        => 'text',
 							'default'     => '800px',
 							'placeholder' => __( '800px', 'easy-table-of-contents' ),
@@ -1008,7 +1007,6 @@ text
 						'sticky-toggle-open-button-text'     => array(
 							'id'          => 'sticky-toggle-open-button-text',
 							'name'        => __( 'Open Button Text', 'easy-table-of-contents' ),
-							'desc'        => '',
 							'type'        => 'text',
 							'default'     => false,
 							'placeholder' => __( 'Enter sticky toggle open button text here..', 'easy-table-of-contents' )
@@ -1016,7 +1014,6 @@ text
 						'sticky-toggle-close-on-mobile'     => array(
 							'id'          => 'sticky-toggle-close-on-mobile',
 							'name'        => __( 'Click TOC Close on Mobile', 'easy-table-of-contents' ),
-							'desc'        => '',
 							'type'        => 'checkbox',
 							'default'     => false,
 							'placeholder' => __( 'Close Sticky Toggle on click over headings in mobile devices', 'easy-table-of-contents' )
@@ -1024,7 +1021,6 @@ text
 						'sticky-toggle-close-on-desktop'     => array(
 							'id'          => 'sticky-toggle-close-on-desktop',
 							'name'        => __( 'Click TOC Close on desktop', 'easy-table-of-contents' ),
-							'desc'        => '',
 							'type'        => 'checkbox',
 							'default'     => false,
 							'placeholder' => __( 'Close Sticky Toggle on click over headings in desktop', 'easy-table-of-contents' )
@@ -1051,7 +1047,6 @@ text
 						'molongui-authorship' => array(
 							'id' => 'molongui-authorship',
 							'name' => __( 'Molongui Authorship', 'easy-table-of-contents' ),
-							'desc' => __( '', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
 						),
