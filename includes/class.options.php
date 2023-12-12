@@ -981,10 +981,8 @@ text
 						'sticky-toggle-width-custom'      => array(
 							'id'          => 'sticky-toggle-width-custom',
 							'name'        => __( 'Custom Width', 'easy-table-of-contents' ),
-							'type'        => 'text',
-							'default'     => '350px',
-							'placeholder' => __( '350px', 'easy-table-of-contents' ),
-							'size' => 'medium',
+							'type'        => 'custom_width',
+							'default'     => 350,
 						),
 						'sticky-toggle-height'            => array(
 							'id'      => 'sticky-toggle-height',
@@ -999,10 +997,8 @@ text
 						'sticky-toggle-height-custom'     => array(
 							'id'          => 'sticky-toggle-height-custom',
 							'name'        => __( 'Custom Height', 'easy-table-of-contents' ),
-							'type'        => 'text',
-							'default'     => '800px',
-							'placeholder' => __( '800px', 'easy-table-of-contents' ),
-							'size' => 'medium',
+							'type'        => 'custom_width',
+							'default'     => 800,
 						),
 						'sticky-toggle-open-button-text'     => array(
 							'id'          => 'sticky-toggle-open-button-text',
@@ -1521,7 +1517,7 @@ HR_TAG;
 			        $placeholder . '" />';
 
 
-			if ( 0 < strlen( $args['desc'] ) ) {
+			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
 				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 			}
@@ -1568,7 +1564,7 @@ HR_TAG;
 
 			$html .= '<textarea rows="10" cols="50" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name .  $readonly . $placeholder. '/>' . esc_textarea( $value ) . '</textarea>';
 
-			if ( 0 < strlen( $args['desc'] ) ) {
+			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
 				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 			}
@@ -1609,7 +1605,7 @@ HR_TAG;
 
 			$html = '<input type="number" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( stripslashes( $value ) ) . '"' . $readonly . $min . ' />';
 
-			if ( 0 < strlen( $args['desc'] ) ) {
+			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
 				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 			}
@@ -1649,7 +1645,7 @@ HR_TAG;
 
 			$html = '<input type="checkbox" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="1" ' . $checked . '/>';
 
-			if ( 0 < strlen( $args['desc'] ) ) {
+			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
 				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 			}
@@ -1694,7 +1690,7 @@ HR_TAG;
 
 				endforeach;
 
-				if ( 0 < strlen( $args['desc'] ) ) {
+				if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
 					echo '<p class="description">' . $args['desc'] . '</p>';
 				}
@@ -1722,7 +1718,7 @@ HR_TAG;
 				echo '<label for="ez-toc-settings[' . $args['id'] . '][' . $key . ']">' . $option . '</label><br/>';
 			}
 
-			if ( 0 < strlen( $args['desc'] ) ) {
+			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
 				echo '<p class="description">' . $args['desc'] . '</p>';
 			}
@@ -1764,7 +1760,7 @@ HR_TAG;
 
 			$html .= '</select>';
 
-			if ( 0 < strlen( $args['desc'] ) ) {
+			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
 				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 			}
@@ -1816,7 +1812,7 @@ HR_TAG;
 
 			$html .= '</select>';
 
-			if ( 0 < strlen( $args['desc'] ) ) {
+			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
 				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 			}
@@ -1840,7 +1836,7 @@ HR_TAG;
             if( !isset( $args['without_hr'] ) || ( isset( $args['without_hr'] ) && $args['without_hr']) )
 			    echo '<hr/>';
 
-			if ( 0 < strlen( $args['desc'] ) ) {
+			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
 				echo '<p>' . wp_kses_post( $args['desc'] ) . '</p>';
 			}
@@ -1860,7 +1856,7 @@ HR_TAG;
 		 */
 		public static function paragraph( $args ) {
 
-			if ( 0 < strlen( $args['desc'] ) ) {
+			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
 				$allowed_html = [];
 				if( is_array( $args['allowedHtml'] ) && count( $args['allowedHtml'] ) > 0 ) {
@@ -1905,7 +1901,7 @@ HR_TAG;
 
 			$html  = '<input type="text" class="ez-toc-color-picker" id="ez-toc-settings[' . $args['id'] . ']" name="ez-toc-settings[' . $args['id'] . ']" value="' . esc_attr( $value ) . '" data-default-color="' . esc_attr( $default ) . '" />';
 
-			if ( 0 < strlen( $args['desc'] ) ) {
+			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
 				echo '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 			}
@@ -1941,12 +1937,13 @@ HR_TAG;
 						'px' => 'px',
 						'%'  => '%',
 						'em' => 'em',
+						'vh' => 'vh',
 					),
 					'default' => 'px',
 				)
 			);
 
-			if ( 0 < strlen( $args['desc'] ) ) {
+			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
 				echo '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 			}
@@ -1986,7 +1983,7 @@ HR_TAG;
 				)
 			);
 
-			if ( 0 < strlen( $args['desc'] ) ) {
+			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
 				echo '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 			}
@@ -2025,7 +2022,7 @@ public static function child_font_size( $args ) {
 				)
 			);
 
-			if ( 0 < strlen( $args['desc'] ) ) {
+			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
 				echo '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 			}

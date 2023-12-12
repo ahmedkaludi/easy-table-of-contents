@@ -241,7 +241,7 @@
             <?php settings_fields('ez-toc-settings'); ?>
             <p class="submit">
                 <?php submit_button(esc_html__( 'Save Changes', 'easy-table-of-contents'  ), 'primary large', 'submit', false) ; ?>
-                <button type="button" id="reset-options-to-default-button" class="button button-primary button-large" style="background-color: #cd3241"><?php __( 'Reset', 'easy-table-of-contents' ) ?></button>
+                <button type="button" id="reset-options-to-default-button" class="button button-primary button-large" style="background-color: #cd3241"><?php esc_html_e( 'Reset', 'easy-table-of-contents' ) ?></button>
             </p>
         </form>
     </div><!-- /.General Settings ended -->

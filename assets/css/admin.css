@@ -170,6 +170,11 @@ div#farbtastic_colour_wheel {
     font-style: italic;
 }
 
+#toc .form-table tr > th > label > strong {
+    font-size: 18px;
+    font-style: italic;
+}
+
 /* Tab panel styles */
 .postbox {
     padding: 10px;
