@@ -1255,7 +1255,7 @@ class ezTOC_Post {
             $ezTocStickyToggleDirection = 'ez-toc-sticky-toggle-direction';
 
 			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
-				$toc_title = ezTOC_Option::get( 'heading_text' );
+				$toc_title = apply_filters('ez_toc_sticky_title', ezTOC_Option::get( 'heading_text' ));
 				$toc_title_tag = ezTOC_Option::get( 'heading_text_tag' );
 				$toc_title_tag = $toc_title_tag?$toc_title_tag:'p';
 				if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
@@ -1274,7 +1274,7 @@ class ezTOC_Post {
 				$htmlSticky .= '<a class="ez-toc-close-icon" href="#" onclick="ezTOC_hideBar(event)" aria-label="Close"><span aria-hidden="true">×</span></a>' . PHP_EOL;
 				$htmlSticky .= '</div>' . PHP_EOL;
 			}
-			$htmlSticky  .= '<div id="ez-toc-sticky-container" class="' . implode( ' ', $classSticky ) . '">' . PHP_EOL;
+			$htmlSticky  .= '<div id="ez-toc-sticky-container" class="ez-toc-sticky-container ' . implode( ' ', $classSticky ) . '">' . PHP_EOL;
 			ob_start();
 			do_action( 'ez_toc_sticky_toggle_before' );
 			$htmlSticky .= ob_get_clean();
@@ -1469,27 +1469,19 @@ class ezTOC_Post {
 		$show_toggle_view = false;
 	}
 	if ($show_toggle_view && ezTOC_Option::get( 'visibility' ) ) {
-		$cssIconID = uniqid();
-		
-		$inputCheckboxExludeStyle = "";
-		if ( ezTOC_Option::get( 'exclude_css' ) ) {
-			$inputCheckboxExludeStyle = "style='display:none'";
-		}
-		
+								
 		$icon = ezTOC::getTOCToggleIcon();
 		if( function_exists( 'ez_toc_pro_activation_link' ) ) {
 				$icon = apply_filters('ez_toc_modify_icon',$icon);
 				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html);
 		}							   
-		$html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Toggle Table of Content" role="button"><label for="item-' . $cssIconID . '" >'.$icon.'</label><input aria-label="Toggle" aria-label="item-' . $cssIconID . '" ' . $inputCheckboxExludeStyle . ' type="checkbox" id="item-' . $cssIconID . '"></a>';
+		$html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Toggle Table of Content"><span class="ez-toc-js-icon-con">'.$icon.'</span></a>';
 		 
 	}
 			$html .= '</span>';
 			$html .= '</div>' . PHP_EOL;
 			$html .= $label_below_html;
-	
-	
-		
+				
 		return $html;
 	}
 
@@ -1764,7 +1756,7 @@ class ezTOC_Post {
 
 		return sprintf(
 			'<a class="ez-toc-link ez-toc-heading-' . $count . '" '.$anch_name.'="%1$s" title="%2$s">%3$s</a>',
-			esc_attr( $this->createTOCItemURL( $id, $page ) ),
+			esc_url( $this->createTOCItemURL( $id, $page ) ),
 			esc_attr( strip_tags( $title ) ),
 			$title
 		);
@@ -1784,6 +1776,14 @@ class ezTOC_Post {
 		$current_post = $this->post->ID === $this->queriedObjectID;
 		$current_page = $this->getCurrentPage();
 
+		$anch_url = $this->permalink;
+
+		//Ajax Load more 
+		//@since 2.0.61
+		if(ezTOC_Option::get( 'ajax_load_more' ) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'){
+			$anch_url = $_SERVER['HTTP_REFERER'];
+		}
+
 		if ( $page === $current_page && $current_post ) {
 
 			return (ezTOC_Option::get( 'add_request_uri' ) ? $_SERVER['REQUEST_URI'] : '') . '#' . $id;
@@ -1793,10 +1793,10 @@ class ezTOC_Post {
 			if(is_category() || is_tax() || is_tag() || (function_exists('is_product_category') && is_product_category())){
 				return  '#' . $id;
 			}
-			return trailingslashit( $this->permalink ) . '#' . $id;
+			return trailingslashit( $anch_url ) . '#' . $id;
 
 		}
 
-		return trailingslashit( $this->permalink ) . $page . '/#' . $id;
+		return trailingslashit( $anch_url ) . $page . '/#' . $id;
 	}
 }

@@ -112,6 +112,26 @@ jQuery(document).ready(function ($) {
             $(js_where).parents('tr').hide(500);
         }
     });
+
+    let stickyHighlight = $('#eztoc-sticky').find("input[name='ez-toc-settings[sticky_highlight_heading]']");
+    let stickyHighlightBg = $('#eztoc-sticky').find("input[name='ez-toc-settings[sticky_highlight_bg_colour]']");
+    let stickyHighlightTitle = $('#eztoc-sticky').find("input[name='ez-toc-settings[sticky_highlight_title_colour]']");
+    if($(stickyHighlight).prop('checked') == true){
+        $(stickyHighlightBg).parents('tr').show();
+        $(stickyHighlightTitle).parents('tr').show();
+    }else{
+        $(stickyHighlightBg).parents('tr').hide();
+        $(stickyHighlightTitle).parents('tr').hide();
+    }
+    $(document).on("change", "input[name='ez-toc-settings[sticky_highlight_heading]']", function() {
+        if($(this).prop('checked') == true){
+            $(stickyHighlightBg).parents('tr').show(500);    
+            $(stickyHighlightTitle).parents('tr').show(500);    
+        }else{
+            $(stickyHighlightBg).parents('tr').hide(500);
+            $(stickyHighlightTitle).parents('tr').hide(500);
+        }
+    });
     
 
 });

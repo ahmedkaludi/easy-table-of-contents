@@ -318,8 +318,24 @@ div.ez-toc-widget-container li {
     cursor: pointer;    
     display: initial;
 }
+#ez-toc-container .ez-toc-js-icon-con{
+    position: relative;            
+    cursor: pointer;    
+    display: initial;
+}
 
 #ez-toc-container .ez-toc-toggle label  {
+    float: right;
+    position: relative;
+    font-size: 16px;
+    padding: 0;
+    border: 1px solid #999191;
+    border-radius: 5px;
+    cursor: pointer;
+    left: 10px;
+    width: 35px;
+}
+#ez-toc-container .ez-toc-js-icon-con  {
     float: right;
     position: relative;
     font-size: 16px;

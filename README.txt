@@ -3,9 +3,9 @@ Contributors: magazine3
 Donate link: https://tocwp.com/
 Tags: table of contents, toc
 Requires at least: 5.0
-Tested up to: 6.4.1
+Tested up to: 6.4.2
 Requires PHP: 5.6.20
-Stable tag: 2.0.60
+Stable tag: 2.0.61
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,7 @@ With [EASY TABLE OF CONTENTS PRO](https://tocwp.com/pricing/) You will get acces
 * <strong>NEW – View More </strong>: Show selected number of TOC heading before user clicks to show remaining headings.
 * <strong>NEW – Read Time </strong>: Show time of read for your posts/pages.
 * <strong>NEW – Collapsable Sub Headings </strong>: Show/Hide sub headings of the Table of contents.
+* <strong>NEW – Highlight Headings </strong>: Sticky heading highlight while scrolling through the content.
 
 ### Shortcode
 
@@ -127,6 +128,25 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.61 13/12/2023 =
+* New: checkbox selection should work on label clicks #473
+* New: Should be able to change the sticky toggle header label for each post individually #625
+* New: TOC plugin is not working with AJAX #634
+* New: Need to add a feature to customize the View More/Less label #637
+* New: To make the Sticky Toggle heading highlight while scrolling through the content #647
+* New: The option font size is only working for the Sticky Toggle title Label but not for the headings #661
+* New: Meta field to turn off sticky individually on post/pages. #666
+* Bug: Put documents links #510
+* Bug: Recent TOC Update 2.0.56.1 Causing W3C Validation Error #611
+* Bug: The size of headings not increasing individually as per setting. #623
+* Bug: Checklist #658
+* Bug: The option "Width" is not getting saved for the option Sticky Toggle. #660
+* Bug: The feature "Fixed TOC" is not working #662
+* Bug: The H4, H5, and H6 headings are not changing the font size if customized in the Settings #663
+* Bug: Target device functionality is not working in sticky toc #664
+* Bug: PHP Warning in TOC Plugin: Undefined Array Key 'desc' in class.options.php (Line 1776) #665
+* Bug: Sticky TOC on Password-Protected Pages Before Entry #667
 
 = 2.0.60 05/12/2023 =
 * New: Alignment of TOC to the center on selected posts/pages #314

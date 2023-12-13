@@ -237,7 +237,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 					<?php echo $before_title; ?>
                                         <span class="ez-toc-title-container">
 
-                                        <style type="text/css">
+                                        <style>
                                                 #<?php echo $this->id ?> .ez-toc-widget-container ul.ez-toc-list li.active{
                                                         background-color: <?php echo esc_attr( $instance['highlight_color'] ); ?>;
                                                 }
@@ -292,7 +292,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
 					<?php echo $after_title; ?>
                                         <?php if ( 'css' == ezTOC_Option::get( 'toc_loading' ) ): ?>
-                                            <label for="ez-toc-cssicon-toggle-item-count-<?= $cssIconID ?>" class="cssiconcheckbox">1</label><input type="checkbox" id="ez-toc-cssicon-toggle-item-<?= $cssIconID ?>" <?= $toggle_view?> style="display:none" />
+                                            <label for="ez-toc-cssicon-toggle-item-count-<?php $cssIconID ?>" class="cssiconcheckbox">1</label><input type="checkbox" id="ez-toc-cssicon-toggle-item-<?php $cssIconID ?>" <?php $toggle_view?> style="display:none" />
                                         <?php endif; ?>
 					<?php
                                         

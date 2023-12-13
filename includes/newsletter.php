@@ -22,7 +22,7 @@ class eztoc_pointers {
 	}
 	function admin_head () {
 		?>
-		<style type="text/css" media="screen"> #pointer-primary { margin: 0 5px 0 0; } </style>
+		<style media="screen"> #pointer-primary { margin: 0 5px 0 0; } </style>
 		<?php }
 	function admin_print_footer_scripts () {
 		global $pagenow;
@@ -45,7 +45,7 @@ class eztoc_pointers {
 			$content .= '<p>' . esc_html__('Do you want the latest update on', 'easy-table-of-contents') . '<b>' . esc_html__(' Easy TOC ', 'easy-table-of-contents') . '</b>' . esc_html__('before others and some best resources on Easy TOC in a single email? - Free just for users of Easy TOC!', 'easy-table-of-contents').'</p>';
             $content .= '
            
-            <style type="text/css">
+            <style>
             .wp-pointer-buttons{ padding:0; overflow: hidden; }
             .wp-pointer-content .button-secondary{  left: -25px;background: transparent;top: 5px; border: 0;position: relative; padding: 0; box-shadow: none;margin: 0;color: #0085ba;} .wp-pointer-content .button-primary{ display:none}	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
             </style>
@@ -87,7 +87,7 @@ class eztoc_pointers {
 	}
 	function eztoc_pointer_script ($id, $options, $button1, $button2=false, $function='') {
 		?>
-		<script type="text/javascript">
+		<script>
 			(function ($) {
 				var wp_pointers_tour_opts = <?php echo json_encode ($options); ?>, setup;
 				wp_pointers_tour_opts = $.extend (wp_pointers_tour_opts, {
