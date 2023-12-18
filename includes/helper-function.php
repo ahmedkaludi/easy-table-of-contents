@@ -27,15 +27,27 @@ if( !defined( 'ABSPATH' ) )
  * 
  * @since 1.4.0
  */
+function eztoc_is_plugins_page() {
+
+    if(function_exists('get_current_screen')){
+        $screen = get_current_screen();
+            if(is_object($screen)){
+                if($screen->id == 'plugins' || $screen->id == 'plugins-network'){
+                    return true;
+                }
+            }
+    }
+    return false;
+}
 
 add_filter('admin_footer', 'eztoc_add_deactivation_feedback_modal');
 function eztoc_add_deactivation_feedback_modal() {
-    global $pagenow;
 
-    if(  is_admin() && 'plugins.php' == $pagenow ) 
-    {
-        require_once EZ_TOC_PATH ."/includes/deactivate-feedback.php";
+    if( !is_admin() && !eztoc_is_plugins_page()) {
+        return;
     }
+    
+    require_once EZ_TOC_PATH ."/includes/deactivate-feedback.php";
 
 }
 
@@ -97,7 +109,7 @@ add_action( 'wp_ajax_eztoc_send_feedback', 'eztoc_send_feedback' );
 
 function eztoc_enqueue_makebetter_email_js(){
 
-    if( !is_admin() ) {
+    if( !is_admin() && !eztoc_is_plugins_page()) {
         return;
     }
 
