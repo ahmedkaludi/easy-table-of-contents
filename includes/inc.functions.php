@@ -185,7 +185,7 @@ function ez_toc_export_all_settings()
     if(!isset($_GET['_wpnonce'])){
         die('-1');
     }
-    if( !wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), '_wpnonce' ) ){
+    if( !wp_verify_nonce(  $_GET['_wpnonce'] , '_wpnonce' ) ){
         die('-1');
     }
 
