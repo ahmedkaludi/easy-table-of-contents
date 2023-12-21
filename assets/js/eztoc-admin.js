@@ -98,20 +98,6 @@ jQuery(document).ready(function ($) {
         );
     });
 
-
-    $('.eztoc-set-pos-btn').hide(); 
-    $("[name='ez-toc-settings[fixedtoc]']").on('click', function (e) {
-        if($(this).is(':checked'))
-        {
-            $('.eztoc-set-pos-btn').show();
-            console.log('checkbox checked');
-        }
-        else{
-            $('.eztoc-set-pos-btn').hide(); 
-            console.log('checkbox unchecked');
-        }
-    });
-
     let stickyToggleCheckbox = $('#eztoc-sticky').find("input[name='ez-toc-settings[sticky-toggle]']");
 let stickyToggleWidth = $('#eztoc-sticky').find("select[name='ez-toc-settings[sticky-toggle-width]']");
 let stickyToggleWidthCustom = $('#eztoc-sticky').find("input[name='ez-toc-settings[sticky-toggle-width-custom]']");

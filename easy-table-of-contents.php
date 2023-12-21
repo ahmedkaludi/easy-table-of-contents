@@ -589,10 +589,10 @@ INLINEWPBAKERYJS;
 
 			if ( ! ezTOC_Option::get( 'exclude_css' ) ) {
 
-				$css .= 'div#ez-toc-container .ez-toc-title {font-size: ' . ezTOC_Option::get( 'title_font_size', 120 ) . ezTOC_Option::get( 'title_font_size_units', '%' ) . ';}';
-				$css .= 'div#ez-toc-container .ez-toc-title {font-weight: ' . ezTOC_Option::get( 'title_font_weight', 500 ) . ';}';
-				$css .= 'div#ez-toc-container ul li {font-size: ' . ezTOC_Option::get( 'font_size' ) . ezTOC_Option::get( 'font_size_units' ) . ';}';
-				$css .= 'div#ez-toc-container nav ul ul li {font-size: ' . ezTOC_Option::get( 'child_font_size' ) . ezTOC_Option::get( 'child_font_size_units' ) . ';}';
+				$css .= 'div#ez-toc-container .ez-toc-title {font-size: ' . esc_attr( ezTOC_Option::get( 'title_font_size', 120 ) ) . esc_attr( ezTOC_Option::get( 'title_font_size_units', '%' ) ) . ';}';
+				$css .= 'div#ez-toc-container .ez-toc-title {font-weight: ' . esc_attr( ezTOC_Option::get( 'title_font_weight', 500 ) ) . ';}';
+				$css .= 'div#ez-toc-container ul li {font-size: ' . esc_attr( ezTOC_Option::get( 'font_size' ) . ezTOC_Option::get( 'font_size_units' ) ) . ';font-weight: ' . esc_attr( ezTOC_Option::get( 'heading_font_weight', 500 ) ) . ';}';
+				$css .= 'div#ez-toc-container nav ul ul li {font-size: ' . esc_attr( ezTOC_Option::get( 'child_font_size' ) . ezTOC_Option::get( 'child_font_size_units' ) ) . ';}';
 
 				if ( ezTOC_Option::get( 'theme' ) === 'custom' || ezTOC_Option::get( 'width' ) != 'auto' ) {
 
@@ -600,7 +600,7 @@ INLINEWPBAKERYJS;
 
 					if ( ezTOC_Option::get( 'theme' ) === 'custom' ) {
 
-						$css .= 'background: ' . ezTOC_Option::get( 'custom_background_colour','#f9f9f9' ) . ';border: '.ezTOC_Option::get( 'custom_border_size' ,1).'px solid ' . ezTOC_Option::get( 'custom_border_colour' ,'#aaa') . ';';
+						$css .= 'background: ' . esc_attr( ezTOC_Option::get( 'custom_background_colour','#f9f9f9' ) ) . ';border: '.esc_attr( ezTOC_Option::get( 'custom_border_size' ,1) ).'px solid ' . esc_attr( ezTOC_Option::get( 'custom_border_colour' ,'#aaa') ) . ';';
 					}
 
 					if ( 'auto' !== ezTOC_Option::get( 'width' ) ) {
@@ -624,10 +624,10 @@ INLINEWPBAKERYJS;
 
 				if ( 'custom' === ezTOC_Option::get( 'theme' ) ) {
 
-					$css .= 'div#ez-toc-container p.ez-toc-title , #ez-toc-container .ez_toc_custom_title_icon , #ez-toc-container .ez_toc_custom_toc_icon {color: ' . ezTOC_Option::get( 'custom_title_colour' ) . ';}';
-					$css .= 'div#ez-toc-container ul.ez-toc-list a {color: ' . ezTOC_Option::get( 'custom_link_colour' ) . ';}';
-					$css .= 'div#ez-toc-container ul.ez-toc-list a:hover {color: ' . ezTOC_Option::get( 'custom_link_hover_colour' ) . ';}';
-					$css .= 'div#ez-toc-container ul.ez-toc-list a:visited {color: ' . ezTOC_Option::get( 'custom_link_visited_colour' ) . ';}';
+					$css .= 'div#ez-toc-container p.ez-toc-title , #ez-toc-container .ez_toc_custom_title_icon , #ez-toc-container .ez_toc_custom_toc_icon {color: ' . esc_attr( ezTOC_Option::get( 'custom_title_colour' ) ) . ';}';
+					$css .= 'div#ez-toc-container ul.ez-toc-list a {color: ' . esc_attr( ezTOC_Option::get( 'custom_link_colour' ) ) . ';}';
+					$css .= 'div#ez-toc-container ul.ez-toc-list a:hover {color: ' . esc_attr( ezTOC_Option::get( 'custom_link_hover_colour' ) ) . ';}';
+					$css .= 'div#ez-toc-container ul.ez-toc-list a:visited {color: ' . esc_attr( ezTOC_Option::get( 'custom_link_visited_colour' ) ) . ';}';
 					
 				}
 
