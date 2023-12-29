@@ -1204,6 +1204,16 @@ class ezTOC_Post {
 
 		$toc_more = isset($options['view_more']) ? array( 'view_more' => $options['view_more'] )  : array();
 
+		if(isset($options['show_hierarchy']) && $options['show_hierarchy'] == true){
+			$toc_more['show_hierarchy'] = true;
+		}elseif(isset($options['hide_hierarchy']) && $options['hide_hierarchy'] == true){
+			$toc_more['hide_hierarchy'] = true;
+		}
+
+		if(isset($options['collapse_hd']) && $options['collapse_hd'] == true){
+			$toc_more['collapse_hd'] = true;
+		}
+
 		if ( $this->hasTOCItems ) {
 			
 			$html = $this->createTOCParent($prefix, $toc_more);
@@ -1218,6 +1228,8 @@ class ezTOC_Post {
 			}
 			if(is_array($options) && key_exists( 'visibility_hide_by_default', $options ) && $options['visibility_hide_by_default'] == true && 'js' == ezTOC_Option::get( 'toc_loading' ) && ezTOC_Option::get( 'visibility' )){
 				$visiblityClass = "eztoc-toggle-hide-by-default";
+			}elseif(is_array($options) && key_exists( 'visibility_show_by_default', $options ) && $options['visibility_show_by_default'] == true && 'js' == ezTOC_Option::get( 'toc_loading' ) && ezTOC_Option::get( 'visibility' )){
+				$visiblityClass = "";
 			}			
 			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1 $visiblityClass' >" . $html . "</ul>";
 		}
@@ -1333,7 +1345,14 @@ class ezTOC_Post {
 	        $show_counter = (isset($options['no_counter']) && $options['no_counter'] == true ) ? false : true;
 
 	        if( $show_counter ){
-	            if ( ezTOC_Option::get( 'show_hierarchy' ) ) {
+	        	$hierarchical = ezTOC_Option::get( 'show_hierarchy' );
+	        	if(isset($options['show_hierarchy'])){
+	        		$hierarchical = true;
+	        	}elseif(isset($options['hide_hierarchy'])){
+	        		$hierarchical = false;
+	        	}
+
+	            if ( $hierarchical ) {
 	            	$class[] = 'counter-hierarchy';
 	            } else {
 	            	$class[] = 'counter-flat';
@@ -1424,8 +1443,12 @@ class ezTOC_Post {
 		$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
 		$header_label = '';
 		$show_header_text = true;
+		$read_time = array();
 		if(isset($options['no_label']) && $options['no_label'] == true){
 			$show_header_text = false;
+		}
+		if(isset($options['read_time']) && $options['read_time'] != ''){
+			$read_time['read_time'] = $options['read_time'];
 		}
 	if ( $show_header_text && ezTOC_Option::get( 'show_heading_text' ) ) {
 
@@ -1473,7 +1496,7 @@ class ezTOC_Post {
 		$icon = ezTOC::getTOCToggleIcon();
 		if( function_exists( 'ez_toc_pro_activation_link' ) ) {
 				$icon = apply_filters('ez_toc_modify_icon',$icon);
-				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html);
+				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html, $read_time);
 		}							   
 		$html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Toggle Table of Content"><span class="ez-toc-js-icon-con">'.$icon.'</span></a>';
 		 
@@ -1545,9 +1568,13 @@ class ezTOC_Post {
 			}
 			$toc_icon = ezTOC::getTOCToggleIcon();
 		    $label_below_html = '';
+		    $read_time = array();
+		    if(isset($options['read_time']) && $options['read_time'] != ''){
+		    	$read_time['read_time'] = $options['read_time'];
+		    }
 			if( function_exists( 'ez_toc_pro_activation_link' ) ) {
 				$toc_icon = apply_filters('ez_toc_modify_icon',$toc_icon);
-				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html);
+				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html, $read_time);
 		     }				
 			if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {		
 				$html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-cssicon-toggle-label">' .$header_label. $toc_icon . '</label>'.$label_below_html.'<input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' />';
@@ -1591,6 +1618,14 @@ class ezTOC_Post {
 
 		// Whether or not the TOC should be built flat or hierarchical.
 		$hierarchical = ezTOC_Option::get( 'show_hierarchy' );
+
+		if(isset($toc_more['show_hierarchy'])){
+			$hierarchical = true;
+		}elseif(isset($toc_more['hide_hierarchy'])){
+			$hierarchical = false;
+		}
+
+		$collapse_status = isset($toc_more['collapse_hd']) ? true : false;
 
 		$html = $toc_type = '';
 
@@ -1636,7 +1671,7 @@ class ezTOC_Post {
 						//Hide Level 4 Headings
 						$sub_active = '';
 						if($level > 3){
-							$sub_active = apply_filters('ez_toc_hierarchy_js_add_attr',$sub_active);
+							$sub_active = apply_filters('ez_toc_hierarchy_js_add_attr', $sub_active, $collapse_status);
 						}
 						$html .= "<ul class='{$prefix}-list-level-" . $level . "' ".$sub_active."><li class='{$prefix}-heading-level-" . $level . "'>";
 					}
