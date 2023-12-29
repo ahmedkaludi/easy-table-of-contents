@@ -1344,6 +1344,12 @@ class ezTOC_Post {
 
 	        $show_counter = (isset($options['no_counter']) && $options['no_counter'] == true ) ? false : true;
 
+	        $post_show_counter = get_post_meta( get_the_ID(), '_ez-toc-hide_counter', true );
+
+	        if($post_show_counter){
+	        	$show_counter = false;
+	        }
+
 	        if( $show_counter ){
 	        	$hierarchical = ezTOC_Option::get( 'show_hierarchy' );
 	        	if(isset($options['show_hierarchy'])){

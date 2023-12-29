@@ -398,6 +398,7 @@ inlineAdminInitialView;
 			$exclude      = get_post_meta( $post->ID, '_ez-toc-exclude', true );
 			$altText      = get_post_meta( $post->ID, '_ez-toc-alttext', true );
 			$visibility_hide_by_default  = get_post_meta( $post->ID, '_ez-toc-visibility_hide_by_default', true );
+			$hide_counter  = get_post_meta( $post->ID, '_ez-toc-hide_counter', true );
 
 			if ( ! is_array( $headings ) ) {
 
@@ -551,6 +552,22 @@ inlineAdminInitialView;
                                         ?>
                                     </td>
                                 </tr>
+                <tr>
+                    <th scope="row"><?php esc_html_e( 'Counter', 'easy-table-of-contents' ); ?></th>
+                    <td>
+                        <?php
+                            ezTOC_Option::checkbox(
+                                array(
+                            		'id' => 'hide_counter',
+                            		'name' => __( 'Hide Counter', 'easy-table-of-contents' ),
+                            		'desc' => __( 'Do not show counters for the table of contents.', 'easy-table-of-contents' ),
+                            		'default' => false,
+                                ),
+                                $hide_counter
+                            );
+                        ?>
+                    </td>
+                </tr>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Alternate Headings', 'easy-table-of-contents' ); ?></th>
 					<td>
@@ -732,6 +749,15 @@ inlineAdminInitialView;
 				} else {
 
 					update_post_meta( $post_id, '_ez-toc-visibility_hide_by_default', false );
+				}
+
+				if ( isset( $_REQUEST['ez-toc-settings']['hide_counter'] ) && ! empty( $_REQUEST['ez-toc-settings']['hide_counter'] ) ) {
+
+					update_post_meta( $post_id, '_ez-toc-hide_counter', true );
+
+				} else {
+
+					update_post_meta( $post_id, '_ez-toc-hide_counter', false );
 				}
 
 				if ( isset( $_REQUEST['ez-toc-settings']['exclude'] ) && ! empty( $_REQUEST['ez-toc-settings']['exclude'] ) ) {
