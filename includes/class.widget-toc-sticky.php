@@ -181,6 +181,10 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 $js_vars = array();
                 $js_vars[ 'advanced_options' ] = '';
                 $js_vars[ 'scroll_fixed_position' ] = '30';
+                $js_vars[ 'sidebar_sticky_title' ] = 120;
+                $js_vars[ 'sidebar_sticky_title_size_unit' ] = '%';
+                $js_vars[ 'sidebar_sticky_title_weight' ] = '500';
+                $js_vars[ 'sidebar_sticky_title_color' ] = '#000';
                 $js_vars[ 'sidebar_width' ] = 'auto';
                 $js_vars[ 'sidebar_width_size_unit' ] = 'none';
                 $js_vars[ 'fixed_top_position' ] = '30';
@@ -192,6 +196,10 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 if ( 'on' == $instance[ 'advanced_options' ] ||
                         $js_vars[ 'scroll_fixed_position' ] != $instance[ 'scroll_fixed_position' ] ||
                         $js_vars[ 'scroll_fixed_position' ] != $instance[ 'scroll_fixed_position' ] ||
+                        $js_vars[ 'sidebar_sticky_title' ] != $instance[ 'sidebar_sticky_title' ] ||
+                        $js_vars[ 'sidebar_sticky_title_size_unit' ] != $instance[ 'sidebar_sticky_title_size_unit' ] ||
+                        $js_vars[ 'sidebar_sticky_title_weight' ] != $instance[ 'sidebar_sticky_title_weight' ] ||
+                        $js_vars[ 'sidebar_sticky_title_color' ] != $instance[ 'sidebar_sticky_title_color' ] ||
                         $js_vars[ 'sidebar_width' ] != $instance[ 'sidebar_width' ] ||
                         $js_vars[ 'sidebar_width_size_unit' ] != $instance[ 'sidebar_width_size_unit' ] ||
                         $js_vars[ 'fixed_top_position' ] != $instance[ 'fixed_top_position' ] ||
@@ -207,6 +215,26 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                         $js_vars[ 'scroll_fixed_position' ] = '30';
                     else
                         $js_vars[ 'scroll_fixed_position' ] = $instance[ 'scroll_fixed_position' ];
+
+                    if ( empty ( $instance[ 'sidebar_sticky_title' ] ) || ( ! empty ( $instance[ 'sidebar_sticky_title' ] ) && ! is_int ( $instance[ 'sidebar_sticky_title' ] ) ) )
+                        $js_vars[ 'sidebar_sticky_title' ] = 120;
+                    else
+                        $js_vars[ 'sidebar_sticky_title' ] = $instance[ 'sidebar_sticky_title' ];
+
+                    if ( empty ( $instance[ 'sidebar_sticky_title_size_unit' ] ) || ( ! empty ( $instance[ 'sidebar_sticky_title_size_unit' ] ) ) )
+                        $js_vars[ 'sidebar_sticky_title_size_unit' ] = '%';
+                    else
+                        $js_vars[ 'sidebar_sticky_title_size_unit' ] = $instance[ 'sidebar_sticky_title_size_unit' ];
+
+                    if ( empty ( $instance[ 'sidebar_sticky_title_weight' ] ) || ( ! empty ( $instance[ 'sidebar_sticky_title_weight' ] ) ) )
+                        $js_vars[ 'sidebar_sticky_title_weight' ] = '500';
+                    else
+                        $js_vars[ 'sidebar_sticky_title_weight' ] = $instance[ 'sidebar_sticky_title_weight' ];
+
+                    if ( empty ( $instance[ 'sidebar_sticky_title_color' ] ) || ( ! empty ( $instance[ 'sidebar_sticky_title_color' ] ) ) )
+                        $js_vars[ 'sidebar_sticky_title_color' ] = '#000';
+                    else
+                        $js_vars[ 'sidebar_sticky_title_color' ] = $instance[ 'sidebar_sticky_title_color' ];
 
                     if ( empty ( $instance[ 'sidebar_width' ] ) || ( ! empty ( $instance[ 'sidebar_width' ] ) && ! is_int ( $instance[ 'sidebar_width' ] ) && 'auto' != $instance[ 'sidebar_width' ] ) )
                         $js_vars[ 'sidebar_width' ] = 'auto';
@@ -303,9 +331,16 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                     ?>
 
                     <?php echo $before_title; ?>
-                    <span class="ez-toc-widget-sticky-title-container">
 
+                    <?php $title_font_size = $instance[ 'sidebar_sticky_title' ].$instance[ 'sidebar_sticky_title_size_unit' ] ?>
+
+                    <span class="ez-toc-widget-sticky-title-container">
                         <style>
+                            #<?php echo $this -> id ?> .ez-toc-widget-sticky-title {
+                                font-size: <?php echo esc_attr ( $title_font_size ); ?>;
+                                font-weight: <?php echo esc_attr ( $instance[ 'sidebar_sticky_title_weight' ] ); ?>;
+                                color: <?php echo esc_attr ( $instance[ 'sidebar_sticky_title_color' ] ); ?>;
+                            }
                             #<?php echo $this -> id ?> .ez-toc-widget-sticky-container ul.ez-toc-widget-sticky-list li.active{
                                 background-color: <?php echo esc_attr ( $instance[ 'highlight_color' ] ); ?>;
                             }
@@ -421,6 +456,10 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
             {
                 $instance[ 'advanced_options' ] = 'on';
                 $instance[ 'scroll_fixed_position' ] = ( int ) strip_tags ( $new_instance[ 'scroll_fixed_position' ] );
+                $instance[ 'sidebar_sticky_title' ] = ( int ) strip_tags ( $new_instance[ 'sidebar_sticky_title' ] );
+                $instance[ 'sidebar_sticky_title_size_unit' ] = strip_tags ( $new_instance[ 'sidebar_sticky_title_size_unit' ] );
+                $instance[ 'sidebar_sticky_title_weight' ] = strip_tags ( $new_instance[ 'sidebar_sticky_title_weight' ] );
+                $instance[ 'sidebar_sticky_title_color' ] = strip_tags ( $new_instance[ 'sidebar_sticky_title_color' ] );
                 $instance[ 'sidebar_width' ] = ( 'auto' == $new_instance[ 'sidebar_width' ] ) ? $new_instance[ 'sidebar_width' ] : ( int ) strip_tags ( $new_instance[ 'sidebar_width' ] );
                 $instance[ 'sidebar_width_size_unit' ] = strip_tags ( $new_instance[ 'sidebar_width_size_unit' ] );
                 $instance[ 'fixed_top_position' ] = ( 'auto' == $new_instance[ 'fixed_top_position' ] ) ? $new_instance[ 'fixed_top_position' ] : ( int ) strip_tags ( $new_instance[ 'fixed_top_position' ] );
@@ -434,6 +473,10 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
             {
                 $instance[ 'advanced_options' ] = '';
                 $instance[ 'scroll_fixed_position' ] = 30;
+                $instance[ 'sidebar_sticky_title' ] = 120;
+                $instance[ 'sidebar_sticky_title_size_unit' ] = '%';
+                $instance[ 'sidebar_sticky_title_weight' ] = '500';
+                $instance[ 'sidebar_sticky_title_color' ] = '#000';
                 $instance[ 'sidebar_width' ] = 'auto';
                 $instance[ 'sidebar_width_size_unit' ] = 'none';
                 $instance[ 'fixed_top_position' ] = 30;
@@ -465,6 +508,10 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 'title' => 'Table of Contents',
                 'advanced_options' => '',
                 'scroll_fixed_position' => 30,
+                'sidebar_sticky_title' => 120,
+                'sidebar_sticky_title_size_unit' => '%',
+                'sidebar_sticky_title_weight' => '500',
+                'sidebar_sticky_title_color' => '#000',
                 'sidebar_width' => 'auto',
                 'sidebar_width_size_unit' => 'none',
                 'fixed_top_position' => 30,
@@ -477,6 +524,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
             $instance = wp_parse_args ( ( array ) $instance, $defaults );
 
             $highlight_color = esc_attr ( $instance[ 'highlight_color' ] );
+            $title_color = esc_attr ( $instance[ 'sidebar_sticky_title_color' ] );
             ?>
             <p>
                 <label for="<?php echo $this -> get_field_id ( 'title' ); ?>"><?php _e ( 'Title', 'easy-table-of-contents' ); ?>:</label>
@@ -495,6 +543,38 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
 
 
                 <div id="ez-toc-widget-sticky-advanced-options-container" class="ez-toc-widget-sticky-advanced-options-container">
+                    <div class="ez-toc-widget-sticky-form-group">
+                        <label for="<?php echo $this -> get_field_id ( 'sidebar_sticky_title' ); ?>"><?php _e ( 'Title Font Size', 'easy-table-of-contents' ); ?>:</label>
+                        <input type="text" id="<?php echo $this -> get_field_id ( 'sidebar_sticky_title' ); ?>" name="<?php echo $this -> get_field_name ( 'sidebar_sticky_title' ); ?>" value="<?php echo $instance[ 'sidebar_sticky_title' ]; ?>" />
+
+                        <select id="<?php echo $this -> get_field_id ( 'sidebar_sticky_title_size_unit' ); ?>" name="<?php echo $this -> get_field_name ( 'sidebar_sticky_title_size_unit' ); ?>" data-placeholder="" >
+                            <option value="%" <?php echo ( '%' == $instance[ 'sidebar_sticky_title_size_unit' ] ) ? 'selected' : ''; ?>><?php _e ( '%', 'easy-table-of-contents' ); ?></option>
+                            <option value="pt" <?php echo ( 'pt' == $instance[ 'sidebar_sticky_title_size_unit' ] ) ? 'selected=' : ''; ?> ><?php _e ( 'pt', 'easy-table-of-contents' ); ?></option>
+                            <option value="px" <?php echo ( 'px' == $instance[ 'sidebar_sticky_title_size_unit' ] ) ? 'selected=' : ''; ?>><?php _e ( 'px', 'easy-table-of-contents' ); ?></option>
+                            <option value="em" <?php echo ( 'em' == $instance[ 'sidebar_sticky_title_size_unit' ] ) ? 'selected=' : ''; ?>><?php _e ( 'em', 'easy-table-of-contents' ); ?></option>
+                        </select>
+                    </div>
+
+                    <div class="ez-toc-widget-sticky-form-group">
+                        <label for="<?php echo $this -> get_field_id ( 'sidebar_sticky_title_wgt' ); ?>"><?php _e ( 'Title Font Weight', 'easy-table-of-contents' ); ?>:</label>
+
+                        <select id="<?php echo $this -> get_field_id ( 'sidebar_sticky_title_weight' ); ?>" name="<?php echo $this -> get_field_name ( 'sidebar_sticky_title_weight' ); ?>" data-placeholder="" style=" width: 60px; ">
+                            <option value="100" <?php echo ( '100' == $instance[ 'sidebar_sticky_title_weight' ] ) ? 'selected' : ''; ?>><?php _e ( '100', 'easy-table-of-contents' ); ?></option>
+                            <option value="200" <?php echo ( '200' == $instance[ 'sidebar_sticky_title_weight' ] ) ? 'selected=' : ''; ?> ><?php _e ( '200', 'easy-table-of-contents' ); ?></option>
+                            <option value="300" <?php echo ( '300' == $instance[ 'sidebar_sticky_title_weight' ] ) ? 'selected=' : ''; ?>><?php _e ( '300', 'easy-table-of-contents' ); ?></option>
+                            <option value="400" <?php echo ( '400' == $instance[ 'sidebar_sticky_title_weight' ] ) ? 'selected=' : ''; ?>><?php _e ( '400', 'easy-table-of-contents' ); ?></option>
+                            <option value="500" <?php echo ( '500' == $instance[ 'sidebar_sticky_title_weight' ] ) ? 'selected=' : ''; ?>><?php _e ( '500', 'easy-table-of-contents' ); ?></option>
+                            <option value="600" <?php echo ( '600' == $instance[ 'sidebar_sticky_title_weight' ] ) ? 'selected=' : ''; ?>><?php _e ( '600', 'easy-table-of-contents' ); ?></option>
+                            <option value="700" <?php echo ( '700' == $instance[ 'sidebar_sticky_title_weight' ] ) ? 'selected=' : ''; ?>><?php _e ( '700', 'easy-table-of-contents' ); ?></option>
+                            <option value="800" <?php echo ( '800' == $instance[ 'sidebar_sticky_title_weight' ] ) ? 'selected=' : ''; ?>><?php _e ( '800', 'easy-table-of-contents' ); ?></option>
+                            <option value="900" <?php echo ( '900' == $instance[ 'sidebar_sticky_title_weight' ] ) ? 'selected=' : ''; ?>><?php _e ( '900', 'easy-table-of-contents' ); ?></option>
+                        </select>
+                    </div>
+
+                    <p class="ez-toc-widget-sticky-form-group">
+                        <label for="<?php echo $this -> get_field_id ( 'sidebar_sticky_title_color' ); ?>" style="margin-right: 12px;"><?php _e ( 'Font Title Color:', 'easy-table-of-contents' ); ?></label><br>
+                        <input type="text" name="<?php echo $this -> get_field_name ( 'sidebar_sticky_title_color' ); ?>" class="color-picker" id="<?php echo $this -> get_field_id ( 'sidebar_sticky_title_color' ); ?>" value="<?php echo $title_color; ?>" data-default-color="<?php echo $defaults[ 'sidebar_sticky_title_color' ]; ?>" />
+                    </p>
                     <div class="ez-toc-widget-sticky-form-group">
                         <label for="<?php echo $this -> get_field_id ( 'scroll_fixed_position' ); ?>"><?php _e ( 'Scroll Fixed Position', 'easy-table-of-contents' ); ?>:</label>
                         <input type="number" id="<?php echo $this -> get_field_id ( 'scroll_fixed_position' ); ?>" name="<?php echo $this -> get_field_name ( 'scroll_fixed_position' ); ?>" value="<?php echo $instance[ 'scroll_fixed_position' ]; ?>" />
