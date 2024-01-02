@@ -595,8 +595,9 @@ INLINEWPBAKERYJS;
 
 				$css .= 'div#ez-toc-container .ez-toc-title {font-size: ' . esc_attr( ezTOC_Option::get( 'title_font_size', 120 ) ) . esc_attr( ezTOC_Option::get( 'title_font_size_units', '%' ) ) . ';}';
 				$css .= 'div#ez-toc-container .ez-toc-title {font-weight: ' . esc_attr( ezTOC_Option::get( 'title_font_weight', 500 ) ) . ';}';
-				$css .= 'div#ez-toc-container ul li {font-size: ' . esc_attr( ezTOC_Option::get( 'font_size' ) . ezTOC_Option::get( 'font_size_units' ) ) . ';font-weight: ' . esc_attr( ezTOC_Option::get( 'heading_font_weight', 500 ) ) . ';}';
-				$css .= 'div#ez-toc-container nav ul ul li {font-size: ' . esc_attr( ezTOC_Option::get( 'child_font_size' ) . ezTOC_Option::get( 'child_font_size_units' ) ) . ';}';
+				$css .= 'div#ez-toc-container ul li {font-size: ' . esc_attr(ezTOC_Option::get( 'font_size' )) . esc_attr(ezTOC_Option::get( 'font_size_units' )) . ';}';
+				$css .= 'div#ez-toc-container ul li {font-weight: ' . esc_attr( ezTOC_Option::get( 'font_weight', 500 ) ) . ';}';
+				$css .= 'div#ez-toc-container nav ul ul li {font-size: ' . esc_attr( ezTOC_Option::get( 'child_font_size' ) . esc_attr(ezTOC_Option::get( 'child_font_size_units' ) )) . ';}';
 
 				if ( ezTOC_Option::get( 'theme' ) === 'custom' || ezTOC_Option::get( 'width' ) != 'auto' ) {
 

@@ -505,8 +505,8 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'child_font_size',
 							'default' => 90,
 						),
-						'heading_font_weight' => array(
-							'id' => 'heading_font_weight',
+						'font_weight' => array(
+							'id' => 'font_weight',
 							'name' => __( 'Font Weight', 'easy-table-of-contents' ),
 							'type' => 'select',
 							'options' => array(
