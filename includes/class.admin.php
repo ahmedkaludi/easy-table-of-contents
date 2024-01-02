@@ -390,14 +390,14 @@ inlineAdminInitialView;
 			// Add an nonce field so we can check for it on save.
 			wp_nonce_field( 'ez_toc_save', '_ez_toc_nonce' );
 
-			$suppress     = get_post_meta( $post->ID, '_ez-toc-disabled', true ) == 1 ? true : false;
-			$insert       = get_post_meta( $post->ID, '_ez-toc-insert', true ) == 1 ? true : false;
-			$header_label = get_post_meta( $post->ID, '_ez-toc-header-label', true );
-			$alignment    = get_post_meta( $post->ID, '_ez-toc-alignment', true );
-			$headings     = get_post_meta( $post->ID, '_ez-toc-heading-levels', true );
-			$exclude      = get_post_meta( $post->ID, '_ez-toc-exclude', true );
-			$altText      = get_post_meta( $post->ID, '_ez-toc-alttext', true );
-			$visibility_hide_by_default  = get_post_meta( $post->ID, '_ez-toc-visibility_hide_by_default', true );
+			$suppress      = get_post_meta( $post->ID, '_ez-toc-disabled', true ) == 1 ? true : false;
+			$insert        = get_post_meta( $post->ID, '_ez-toc-insert', true ) == 1 ? true : false;
+			$header_label  = get_post_meta( $post->ID, '_ez-toc-header-label', true );
+			$alignment     = get_post_meta( $post->ID, '_ez-toc-alignment', true );
+			$headings      = get_post_meta( $post->ID, '_ez-toc-heading-levels', true );
+			$exclude       = get_post_meta( $post->ID, '_ez-toc-exclude', true );
+			$altText       = get_post_meta( $post->ID, '_ez-toc-alttext', true );
+			$initial_view  = get_post_meta( $post->ID, '_ez-toc-visibility_hide_by_default', true );
 			$hide_counter  = get_post_meta( $post->ID, '_ez-toc-hide_counter', true );
 
 			if ( ! is_array( $headings ) ) {
@@ -547,13 +547,13 @@ inlineAdminInitialView;
 							'desc' => __( 'Initially hide the table of contents.', 'easy-table-of-contents' ),
 							'default' => false,
 						),
-                                                $visibility_hide_by_default
+                                                $initial_view
                                             );
                                         ?>
                                     </td>
                                 </tr>
                 <tr>
-                    <th scope="row"><?php esc_html_e( 'Counter', 'easy-table-of-contents' ); ?></th>
+                    <th scope="row"><?php esc_html_e( 'Hide Counter', 'easy-table-of-contents' ); ?></th>
                     <td>
                         <?php
                             ezTOC_Option::checkbox(
@@ -751,7 +751,7 @@ inlineAdminInitialView;
 					update_post_meta( $post_id, '_ez-toc-visibility_hide_by_default', false );
 				}
 
-				if ( isset( $_REQUEST['ez-toc-settings']['hide_counter'] ) && ! empty( $_REQUEST['ez-toc-settings']['hide_counter'] ) ) {
+				if ( isset( $_REQUEST['ez-toc-settings']['hide_counter'] ) ) {
 
 					update_post_meta( $post_id, '_ez-toc-hide_counter', true );
 

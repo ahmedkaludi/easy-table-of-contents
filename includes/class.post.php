@@ -1344,9 +1344,9 @@ class ezTOC_Post {
 
 	        $show_counter = (isset($options['no_counter']) && $options['no_counter'] == true ) ? false : true;
 
-	        $post_show_counter = get_post_meta( get_the_ID(), '_ez-toc-hide_counter', true );
+	        $post_hide_counter = get_post_meta( get_the_ID(), '_ez-toc-hide_counter', true );
 
-	        if($post_show_counter){
+	        if($post_hide_counter){
 	        	$show_counter = false;
 	        }
 
