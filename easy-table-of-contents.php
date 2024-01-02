@@ -465,6 +465,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$js_vars['ajax_toggle'] = true;
 				}
 
+				if(ezTOC_Option::get( 'add_request_uri' )){
+					$js_vars['addRequestUri'] = true;
+				}
+
 				if ( 0 < count( $js_vars ) ) {
 					wp_localize_script( 'ez-toc-js', 'ezTOC', $js_vars );
 					// smooth scroll js localization
