@@ -1204,14 +1204,16 @@ class ezTOC_Post {
 
 		$toc_more = isset($options['view_more']) ? array( 'view_more' => $options['view_more'] )  : array();
 
-		if(isset($options['show_hierarchy']) && $options['show_hierarchy'] == true){
-			$toc_more['show_hierarchy'] = true;
-		}elseif(isset($options['hide_hierarchy']) && $options['hide_hierarchy'] == true){
-			$toc_more['hide_hierarchy'] = true;
+		if(isset($options['hierarchy'])){
+			$toc_more['hierarchy'] = true;
+		}elseif(isset($options['no_hierarchy'])){
+			$toc_more['no_hierarchy'] = true;
 		}
 
-		if(isset($options['collapse_hd']) && $options['collapse_hd'] == true){
+		if(isset($options['collapse_hd'])){
 			$toc_more['collapse_hd'] = true;
+		}elseif(isset($options['no_collapse_hd'])){
+			$toc_more['no_collapse_hd'] = true;
 		}
 
 		if ( $this->hasTOCItems ) {
@@ -1352,9 +1354,9 @@ class ezTOC_Post {
 
 	        if( $show_counter ){
 	        	$hierarchical = ezTOC_Option::get( 'show_hierarchy' );
-	        	if(isset($options['show_hierarchy'])){
+	        	if(isset($options['hierarchy'])){
 	        		$hierarchical = true;
-	        	}elseif(isset($options['hide_hierarchy'])){
+	        	}elseif(isset($options['no_hierarchy'])){
 	        		$hierarchical = false;
 	        	}
 
@@ -1448,15 +1450,17 @@ class ezTOC_Post {
 		$html = '';						
 		$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
 		$header_label = '';
-		$show_header_text = true;
-		$read_time = array();
-		if(isset($options['no_label']) && $options['no_label'] == true){
+		$show_header_text = ezTOC_Option::get( 'show_heading_text' );
+		if(isset($options['label'])){
+			$show_header_text = true;
+		}elseif(isset($options['no_label'])){
 			$show_header_text = false;
 		}
+		$read_time = array();
 		if(isset($options['read_time']) && $options['read_time'] != ''){
 			$read_time['read_time'] = $options['read_time'];
 		}
-	if ( $show_header_text && ezTOC_Option::get( 'show_heading_text' ) ) {
+	if ( $show_header_text ) {
 
 		$toc_title = get_post_meta( get_the_ID(), '_ez-toc-header-label', true );
 
@@ -1493,11 +1497,13 @@ class ezTOC_Post {
 	$html .= '<span class="ez-toc-title-toggle">';
 
 	$label_below_html = '';
-	$show_toggle_view = true;
-	if(isset($options['no_toggle']) && $options['no_toggle'] == true){
+	$show_toggle_view = ezTOC_Option::get( 'visibility' );
+	if(isset($options['toggle']) && $options['toggle'] == true){
+		$show_toggle_view = true;
+	}elseif(isset($options['no_toggle']) && $options['no_toggle'] == true){
 		$show_toggle_view = false;
 	}
-	if ($show_toggle_view && ezTOC_Option::get( 'visibility' ) ) {
+	if ( $show_toggle_view ) {
 								
 		$icon = ezTOC::getTOCToggleIcon();
 		if( function_exists( 'ez_toc_pro_activation_link' ) ) {
@@ -1625,15 +1631,19 @@ class ezTOC_Post {
 		// Whether or not the TOC should be built flat or hierarchical.
 		$hierarchical = ezTOC_Option::get( 'show_hierarchy' );
 
-		if(isset($toc_more['show_hierarchy'])){
+		if(isset($toc_more['hierarchy'])){
 			$hierarchical = true;
-		}elseif(isset($toc_more['hide_hierarchy'])){
+		}elseif(isset($toc_more['no_hierarchy'])){
 			$hierarchical = false;
 		}
 
-		$collapse_status = isset($toc_more['collapse_hd']) ? true : false;
+		$html = $toc_type = $collapse_status = '';
 
-		$html = $toc_type = '';
+		if(isset($toc_more['collapse_hd'])){
+			$collapse_status = true;
+		}elseif(isset($toc_more['no_collapse_hd'])){
+			$collapse_status = false;
+		}
 
 		$count_matches = is_array($matches) ? count($matches) : '';
 
