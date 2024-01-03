@@ -785,8 +785,8 @@ function addCustomSpan()
                         <div class="tru-us">
                             <img src="<?php echo plugins_url('assets/toc-rating.png', dirname(__FILE__))
                             ?>" alt="toc-rating"/>
-                            <h2><?php esc_html_e("Used by more than 3,00,000+ Users!", 'easy-table-of-contents'); ?></h2>
-                            <p><?php esc_html_e("More than 300k Websites, Blogs &amp; E-Commerce shops are powered by our easy table of contents plugin making it the #1 Independent TOC plugin in WordPress.", 'easy-table-of-contents'); ?></p>
+                            <h2><?php esc_html_e("Used by more than 5,00,000+ Users!", 'easy-table-of-contents'); ?></h2>
+                            <p><?php esc_html_e("More than 500k Websites, Blogs &amp; E-Commerce shops are powered by our easy table of contents plugin making it the #1 Independent TOC plugin in WordPress.", 'easy-table-of-contents'); ?></p>
                             <a href="https://wordpress.org/support/plugin/easy-table-of-contents/reviews/?filter=5"
                                target="_blank"><?php esc_html_e("Read The Reviews", 'easy-table-of-contents'); ?></a>
                         </div>
