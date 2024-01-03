@@ -604,9 +604,53 @@ function addCustomSpan()
                                                     dirname(__FILE__)) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Fixed/Sticky TOC', 'easy-table-of-contents'); ?></h4>
                                             </div>
-                                            <p><?php esc_html_e('Users can faster find the content they want with sticky. Also customize the appearance of Sticky TOC with different options.', 'easy-table-of-contents'); ?></p>
+                                            <p><?php esc_html_e('Users can faster find the content they want with sticky. Also can change the position of Sticky table of contents with different options.', 'easy-table-of-contents'); ?></p>
                                         </div>
 
+                                        <div class="fe-2">
+                                            <div class="fe-t">
+                                                <img src="<?php echo plugins_url('assets/right-tick.png',
+                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <h4><?php esc_html_e('Customize Sticky TOC', 'easy-table-of-contents'); ?></h4>
+                                            </div>
+                                            <p><?php esc_html_e('Users can alos customize the appearance of Sticky of the table of contents.', 'easy-table-of-contents'); ?></p>
+                                        </div>
+
+                                        <div class="fe-2">
+                                            <div class="fe-t">
+                                                <img src="<?php echo plugins_url('assets/right-tick.png',
+                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <h4><?php esc_html_e('View More', 'easy-table-of-contents'); ?></h4>
+                                            </div>
+                                            <p><?php esc_html_e('Users can show limited number of headings on initial view and show remaining headings on clicking a button.', 'easy-table-of-contents'); ?></p>
+                                        </div>
+
+                                        <div class="fe-2">
+                                            <div class="fe-t">
+                                                <img src="<?php echo plugins_url('assets/right-tick.png',
+                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <h4><?php esc_html_e('Read Time', 'easy-table-of-contents'); ?></h4>
+                                            </div>
+                                            <p><?php esc_html_e('Users can show estimated read time for your posts/pages inside the table of contents.', 'easy-table-of-contents'); ?></p>
+                                        </div>
+
+                                        <div class="fe-2">
+                                            <div class="fe-t">
+                                                <img src="<?php echo plugins_url('assets/right-tick.png',
+                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <h4><?php esc_html_e('Collapsable Sub Headings', 'easy-table-of-contents'); ?></h4>
+                                            </div>
+                                            <p><?php esc_html_e('Users can show/hide sub headings of the table of contents.', 'easy-table-of-contents'); ?></p>
+                                        </div>
+
+                                        <div class="fe-2">
+                                            <div class="fe-t">
+                                                <img src="<?php echo plugins_url('assets/right-tick.png',
+                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <h4><?php esc_html_e("ACF Support", 'easy-table-of-contents'); ?></h4>
+                                            </div>
+                                            <p><?php esc_html_e("Easily create TOC with your custom ACF fields.", 'easy-table-of-contents'); ?></p>
+                                        </div>
 
                                         <div class="fe-2">
                                             <div class="fe-t">
@@ -631,14 +675,6 @@ function addCustomSpan()
                                                 <h4><?php esc_html_e("Documentation", 'easy-table-of-contents'); ?></h4>
                                             </div>
                                             <p><?php esc_html_e("We create tutorials for every possible feature and keep it updated for you.", 'easy-table-of-contents'); ?></p>
-                                        </div>
-                                        <div class="fe-2">
-                                            <div class="fe-t">
-                                                <img src="<?php echo plugins_url('assets/right-tick.png',
-                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
-                                                <h4><?php esc_html_e("ACF Support", 'easy-table-of-contents'); ?></h4>
-                                            </div>
-                                            <p><?php esc_html_e("Easily create TOC with your custom ACF fields.", 'easy-table-of-contents'); ?></p>
                                         </div>
                                     </div><!-- /. fet -->
                                     <div class="pr-btn">
