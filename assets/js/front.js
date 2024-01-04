@@ -297,20 +297,6 @@ jQuery( function( $ ) {
     $(document).on('click', '#ez-toc-open-sub-hd-active', function(e) {
         $(this).attr("id","ez-toc-open-sub-hd");
         e.preventDefault();
-    });
-
-    if ( typeof ezTOC.addRequestUri != 'undefined' && parseInt( ezTOC.addRequestUri ) === 1 ) {
-       $(document).on('click', 'a[href^="/"]', function(e) {
-           var oldId = $(this).attr('href');
-           var id = '#'+oldId.substring(oldId.indexOf("#") + 1);
-           var $id = $(id);
-           if ($id.length === 0) {
-               return;
-           }
-           e.preventDefault();
-           var pos = $id.offset().top;
-           $('body, html').animate({scrollTop: pos});
-       });
-   }
+    });    
 
 } );
