@@ -653,7 +653,7 @@ if ( in_array( 'lasso/affiliate-plugin.php', apply_filters( 'active_plugins', ge
  * in footer sections
  * @since 2.0.49
  */
-if ( 'Avada' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) && in_array( 'fusion-builder/fusion-builder.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+if ( ('Avada Child' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) || 'Avada' == apply_filters( 'current_theme', get_option( 'current_theme' ) )) && in_array( 'fusion-builder/fusion-builder.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 
     add_action( 'awb_remove_third_party_the_content_changes', 'ez_toc_remove_the_footer_content', 1 );
     function ez_toc_remove_the_footer_content() {
