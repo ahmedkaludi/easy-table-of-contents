@@ -314,7 +314,26 @@ add_action('shutdown', function() {
         }
         return apply_filters( 'ez_toc_url_anchor_target', $return, $heading );
     }
-    
+   //Device Eligibility
+  //@since 2.0.60
+function ez_toc_auto_device_target_status(){
+        $status = true;      
+        if(ezTOC_Option::get( 'device_target' ) == 'mobile'){
+            if(function_exists('wp_is_mobile') && wp_is_mobile()){                
+                $status = true;      
+            }else{                
+                $status = false;      
+            }
+        }
+        if(ezTOC_Option::get( 'device_target' ) == 'desktop'){
+            if(function_exists('wp_is_mobile') && wp_is_mobile()){                
+                $status = false;      			
+            }else{                
+                $status = true;      
+            }
+        }
+        return $status;
+}
 /**
  * Check for the enable support of sticky toc/toggle
  * @since 2.0.60

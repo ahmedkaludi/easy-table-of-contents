@@ -499,12 +499,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'font_size',
 							'default' => 95,
 						),
-						'child_font_size' => array(
-							'id' => 'child_font_size',
-							'name' => __( 'Child Font Size', 'easy-table-of-contents' ),
-							'type' => 'child_font_size',
-							'default' => 90,
-						),
 						'font_weight' => array(
 							'id' => 'font_weight',
 							'name' => __( 'Font Weight', 'easy-table-of-contents' ),
@@ -522,6 +516,12 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => '500',
 						),
+						'child_font_size' => array(
+							'id' => 'child_font_size',
+							'name' => __( 'Child Font Size', 'easy-table-of-contents' ),
+							'type' => 'child_font_size',
+							'default' => 90,
+						),						
 						'theme_option_header' => array(
 							'id' => 'theme_option_header',
 							'name' => '<strong>' . __( 'Theme Options', 'easy-table-of-contents' ) . '</strong>',

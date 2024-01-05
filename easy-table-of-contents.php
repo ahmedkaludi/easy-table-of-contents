@@ -1048,29 +1048,7 @@ INLINESTICKYTOGGLEJS;
 					}
 				}
 			}
-
-			//Device Eligibility
-			//@since 2.0.60
-			if(ezTOC_Option::get( 'device_target' ) == 'mobile'){
-				if(function_exists('wp_is_mobile') && wp_is_mobile()){
-					Debug::log( 'requested_from_mobile', 'Requested from mobile', true );
-					return true;
-				}else{
-					Debug::log( 'desktop_device_not_supported', 'Requested from mobile', true );
-					return false;
-				}
-			}
-
-			if(ezTOC_Option::get( 'device_target' ) == 'desktop'){
-				if(function_exists('wp_is_mobile') && wp_is_mobile()){
-					Debug::log( 'mobile_device_not_supported', 'Requested from desktop', true );
-					return false;					
-				}else{
-					Debug::log( 'requested_from_desktop', 'Requested from desktop', true );
-					return true;
-				}
-			}			
-
+						
 			if ( has_shortcode( $post->post_content, apply_filters( 'ez_toc_shortcode', 'toc' ) ) || has_shortcode( $post->post_content, 'ez-toc' ) ) {
 				Debug::log( 'has_ez_toc_shortcode', 'Has instance of shortcode.', true );
 				return true;
@@ -1420,6 +1398,13 @@ INLINESTICKYTOGGLEJS;
 			}
 
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
+
+			if($isEligible){
+				if(!ez_toc_auto_device_target_status()){
+					$isEligible = false;
+				}
+			}
+
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
 			$return_only_an = false; 
 			if(!$isEligible && (self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || ezTOC_Option::get('sticky-toggle') )){
