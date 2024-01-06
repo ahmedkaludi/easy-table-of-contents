@@ -993,6 +993,13 @@ INLINESTICKYTOGGLEJS;
 		public static function is_enqueue_scripts_eligible( ) {
 
 			$isEligible = self::is_eligible( get_post() );
+
+			if($isEligible){
+				if(!ez_toc_auto_device_target_status()){
+					$isEligible = false;
+				}
+			}
+
 			if(!$isEligible){
 				if( self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || get_post_meta( get_the_ID(), '_nectar_portfolio_extra_content',true )){
 					$isEligible = true;
