@@ -108,6 +108,7 @@ class ezTOC_Post {
                 'social-pug/index.php',
 				'fusion-builder/fusion-builder.php',
 				'modern-footnotes/modern-footnotes.php',
+				'yet-another-stars-rating-premium/yet-another-stars-rating.php'
             )
         );
 
