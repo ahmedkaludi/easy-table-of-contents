@@ -1457,7 +1457,7 @@ class ezTOC_Post {
 			$show_header_text = false;
 		}
 		$read_time = array();
-		if(isset($options['read_time']) && $options['read_time'] != ''){
+		if(isset($options['read_time'])){
 			$read_time['read_time'] = $options['read_time'];
 		}
 	if ( $show_header_text ) {
