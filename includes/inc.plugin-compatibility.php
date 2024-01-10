@@ -1094,3 +1094,18 @@ function ez_toc_adinserter_block_has_toc_shortcode($status){
 	
 	return $status;
 }
+
+/**
+ * Current Year, Symbols and IP Shortcode compatibility
+ * shortcode were not being parse for heading title in elementor
+ * @since 2.0.62
+ */
+add_filter('ez_toc_modify_process_page_content', 'ez_toc_parse_curreny_year_shortcode',10,1);
+
+function ez_toc_parse_curreny_year_shortcode($content){
+	
+	if ( in_array( 'current-year-shortcode/year-kgm.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )) {
+			$content = do_shortcode($content);			
+	}			
+	return $content;
+}

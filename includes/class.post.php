@@ -881,8 +881,6 @@ class ezTOC_Post {
 			// remove non alphanumeric chars
 			$return = preg_replace( '/[\x00-\x1F\x7F]*/u', '', $return );
 
-			// fix for shortcodes in title for generating ids 
-			$return =  do_shortcode($return);
 			// Reserved Characters.
 			// * ' ( ) ; : @ & = + $ , / ? # [ ]
 			$return = str_replace(
@@ -1067,7 +1065,7 @@ class ezTOC_Post {
                         '>',
                         '</h' . $matches[ $i ][2] . '>'
                     ),
-                    do_shortcode($matches[ $i ][0])		// add shortcodes support in heading title
+                   $matches[ $i ][0]
                 );
 
 			}
@@ -1135,7 +1133,7 @@ class ezTOC_Post {
 						'><span class="ez-toc-section" id="' . $anchor . '"></span>',
 						'<span class="ez-toc-section-end"></span></h' . $matches[ $i ][2] . '>'
 					),
-					do_shortcode( $matches[ $i ][0])	// add shortcodes support in heading title
+					$matches[ $i ][0]
 				);
 			}
 		}
