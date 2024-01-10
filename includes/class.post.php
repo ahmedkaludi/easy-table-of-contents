@@ -881,6 +881,8 @@ class ezTOC_Post {
 			// remove non alphanumeric chars
 			$return = preg_replace( '/[\x00-\x1F\x7F]*/u', '', $return );
 
+			//for procesing shortcode in headings
+			$return = apply_filters('ez_toc_table_heading_title_anchor',$return);
 			// Reserved Characters.
 			// * ' ( ) ; : @ & = + $ , / ? # [ ]
 			$return = str_replace(
@@ -1065,7 +1067,7 @@ class ezTOC_Post {
                         '>',
                         '</h' . $matches[ $i ][2] . '>'
                     ),
-                   $matches[ $i ][0]
+                   apply_filters('ez_toc_content_heading_title',$matches[ $i ][0])
                 );
 
 			}
@@ -1133,7 +1135,7 @@ class ezTOC_Post {
 						'><span class="ez-toc-section" id="' . $anchor . '"></span>',
 						'<span class="ez-toc-section-end"></span></h' . $matches[ $i ][2] . '>'
 					),
-					$matches[ $i ][0]
+					apply_filters('ez_toc_content_heading_title_anchor',$matches[ $i ][0])
 				);
 			}
 		}

@@ -1101,7 +1101,9 @@ function ez_toc_adinserter_block_has_toc_shortcode($status){
  * plugin url : https://wordpress.org/plugins/current-year-shortcode/
  * @since 2.0.62
  */
-add_filter('ez_toc_modify_process_page_content', 'ez_toc_parse_curreny_year_shortcode',10,1);
+add_filter('ez_toc_table_heading_title_anchor', 'ez_toc_parse_curreny_year_shortcode',10,1);
+add_filter('ez_toc_content_heading_title', 'ez_toc_parse_curreny_year_shortcode',10,1);
+add_filter('ez_toc_content_heading_title_anchor', 'ez_toc_parse_curreny_year_shortcode',10,1);
 
 function ez_toc_parse_curreny_year_shortcode($content){
 	
