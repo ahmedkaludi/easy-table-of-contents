@@ -1098,6 +1098,7 @@ function ez_toc_adinserter_block_has_toc_shortcode($status){
 /**
  * Current Year, Symbols and IP Shortcode compatibility
  * shortcode were not being parse for heading title in elementor
+ * plugin url : https://wordpress.org/plugins/current-year-shortcode/
  * @since 2.0.62
  */
 add_filter('ez_toc_modify_process_page_content', 'ez_toc_parse_curreny_year_shortcode',10,1);
