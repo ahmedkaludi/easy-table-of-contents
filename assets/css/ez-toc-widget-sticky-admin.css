@@ -26,18 +26,26 @@ input.ez_toc_widget_appearance_options:checked ~ #ez-toc-widget-options-containe
     display: flex;
     align-items: baseline;
     flex-wrap: nowrap;
+    flex-basis: 100%;
     justify-content: flex-start;
     margin-top: 15px;
+}
+.ez-toc-widget-form-group label {
+    flex-basis: 55%;
+}
+#ez-toc-widget-options-container .ez-toc-widget-form-data {
+    display: flex;
+    justify-content: center;
 }
 .ez-toc-widget-appearance-options-container .ez-toc-widget-form-group {
     margin-bottom: 0;
 }
 #ez-toc-widget-options-container .ez-toc-widget-form-group input[type=text], #ez-toc-widget-options-container .ez-toc-widget-form-group input[type=number] {
-    width: 23%;
+    width: 53px;
     margin-left: 8px;
 }
 #ez-toc-widget-options-container .ez-toc-widget-form-group select {
-    width: 23%;
+    width: 53px;
     margin-left: 8px;
 }
 #ez-toc-widget-options-container .ez-toc-widget-form-group input[type=checkbox] {
