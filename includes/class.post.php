@@ -326,7 +326,7 @@ class ezTOC_Post {
 			global $wp_query;
 			$tax = $wp_query->get_queried_object();
 			if(is_object($tax)){
-				$content = $tax->description;
+				$content = apply_filters('ez_toc_modify_taxonomy_content',$tax->description,$tax->term_id);
 			}
 		}
 
