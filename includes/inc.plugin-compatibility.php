@@ -653,7 +653,7 @@ if ( in_array( 'lasso/affiliate-plugin.php', apply_filters( 'active_plugins', ge
  * in footer sections
  * @since 2.0.49
  */
-if ( 'Avada' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) && in_array( 'fusion-builder/fusion-builder.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+if ( ('Avada Child' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) || 'Avada' == apply_filters( 'current_theme', get_option( 'current_theme' ) )) && in_array( 'fusion-builder/fusion-builder.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 
     add_action( 'awb_remove_third_party_the_content_changes', 'ez_toc_remove_the_footer_content', 1 );
     function ez_toc_remove_the_footer_content() {
@@ -1063,3 +1063,52 @@ function ez_toc_woodmart_gallery_fix(){
 	}	
 }
 add_action('wp_enqueue_scripts', 'ez_toc_woodmart_gallery_fix');
+
+/**
+ * Ad inserter plugin compatibility
+ * url : https://wordpress.org/plugins/ad-inserter/
+ * When toc shortcode being added inside ad inserter block, it runs infinite loop. Below code is the solution for it.
+ * @since 2.0.62
+ * return boolean
+ */
+add_filter('ez_toc_apply_filter_status_manually', 'ez_toc_adinserter_block_has_toc_shortcode',10,1);
+
+function ez_toc_adinserter_block_has_toc_shortcode($status){
+	
+	if ( in_array( 'ad-inserter/ad-inserter.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		global $block_object;		
+		for ($block = 0; $block <= 96; $block ++) {
+			if(isset($block_object [$block])){
+				$obj = $block_object [$block];				
+				if(is_object($obj) && is_array($obj->wp_options)){
+					if(has_shortcode( $obj->wp_options['code'] , 'ez-toc' ) || has_shortcode( $obj->wp_options['code'] , 'toc' )){
+						$status = false;
+						break;			
+					}
+				}
+			}
+			
+		}
+
+	}
+	
+	return $status;
+}
+
+/**
+ * Current Year, Symbols and IP Shortcode compatibility
+ * shortcode were not being parse for heading title in elementor
+ * plugin url : https://wordpress.org/plugins/current-year-shortcode/
+ * @since 2.0.62
+ */
+add_filter('ez_toc_table_heading_title_anchor', 'ez_toc_parse_curreny_year_shortcode',10,1);
+add_filter('ez_toc_content_heading_title', 'ez_toc_parse_curreny_year_shortcode',10,1);
+add_filter('ez_toc_content_heading_title_anchor', 'ez_toc_parse_curreny_year_shortcode',10,1);
+
+function ez_toc_parse_curreny_year_shortcode($content){
+	
+	if ( in_array( 'current-year-shortcode/year-kgm.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )) {
+			$content = do_shortcode($content);			
+	}			
+	return $content;
+}

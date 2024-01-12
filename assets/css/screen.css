@@ -5,8 +5,11 @@
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     display: table;
-    margin-bottom: 1em;
-    padding: 10px;
+    margin-bottom: 1em;    
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 10px;
     position: relative;
     width: auto;
 }
@@ -349,10 +352,6 @@ div.ez-toc-widget-container li {
 
 div#ez-toc-container .ez-toc-title {
     display: initial;
-}
-
-div#ez-toc-container {
-    padding-right: 20px;
 }
 .ez-toc-wrap-center {
     margin: 0 auto 1em auto !important;

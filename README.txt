@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.4.2
 Requires PHP: 5.6.20
-Stable tag: 2.0.61
+Stable tag: 2.0.62
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -128,6 +128,21 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.62 12/01/2024 =
+* New: Shortcode for sidebar sticky toc widget in documentation shortcode block #399
+* New: A feature to remove numbers from individual post #404
+* New: An option to customize the Highlighting of the headings #455 (Pro)
+* New: An option to customize the Font Weight #496
+* New: An option for TOC in Widgets to change the colour and font size of the TOC title #508
+* New: Elementor Code Improvement #675
+* New: Compatibility for Genesis Theme Custom Taxonomy Archive page (Pro)
+* Bug: Ad Inserter #97
+* Bug: Add Request URL option conflicting with twenty-twenty two theme #676
+* Bug: Conflict with Avada child theme #677
+* Bug: Conflict issue with device target feature #678
+* Bug: YASR schema markup got disappeared when enabling plugin #679
+* Bug: Add compatibility with Current Year, Symbols and IP Shortcode plugin #681
 
 = 2.0.61 13/12/2023 =
 * New: checkbox selection should work on label clicks #473

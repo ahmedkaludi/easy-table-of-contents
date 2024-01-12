@@ -315,7 +315,8 @@ function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 				if ( is_int( $start ) ) {
 
 					$length = mb_strlen( $needle );
-					$string = mb_substr_replace( $string, $replace[ $i ], $start, $length );
+					$apply_new_function = apply_filters('eztoc_mb_subtr_replace',false,$string, $replace[ $i ], $start, $length);
+					$string = $apply_new_function?$apply_new_function:mb_substr_replace( $string, $replace[ $i ], $start, $length );
 				}
 
 			}

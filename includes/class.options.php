@@ -499,12 +499,29 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'font_size',
 							'default' => 95,
 						),
+						'font_weight' => array(
+							'id' => 'font_weight',
+							'name' => __( 'Font Weight', 'easy-table-of-contents' ),
+							'type' => 'select',
+							'options' => array(
+								'100' => __( 'Thin', 'easy-table-of-contents' ),
+								'200' => __( 'Extra Light', 'easy-table-of-contents' ),
+								'300' => __( 'Light', 'easy-table-of-contents' ),
+								'400' => __( 'Normal', 'easy-table-of-contents' ),
+								'500' => __( 'Medium', 'easy-table-of-contents' ),
+								'600' => __( 'Semi Bold', 'easy-table-of-contents' ),
+								'700' => __( 'Bold', 'easy-table-of-contents' ),
+								'800' => __( 'Extra Bold', 'easy-table-of-contents' ),
+								'900' => __( 'Heavy', 'easy-table-of-contents' ),
+							),
+							'default' => '500',
+						),
 						'child_font_size' => array(
 							'id' => 'child_font_size',
 							'name' => __( 'Child Font Size', 'easy-table-of-contents' ),
 							'type' => 'child_font_size',
 							'default' => 90,
-						),
+						),						
 						'theme_option_header' => array(
 							'id' => 'theme_option_header',
 							'name' => '<strong>' . __( 'Theme Options', 'easy-table-of-contents' ) . '</strong>',
@@ -866,6 +883,41 @@ text
                         ),
                         'shortcode-third-paragraph'      => array(
                             'id'   => 'shortcode-third-paragraph',
+                            'name' => __( 'Manual Adding widget shortcode', 'easy-table-of-contents' ),
+                            'desc' => sprintf(
+                            		__( 'You can use the following widget shortcode to display `Easy Table of Contents` in your sidebar. <a target="_blank" href="%s">Learn More</a><br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc-widget-sticky]" disabled />&nbsp;<span class="ez-toc-tooltip"><button type="button" onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode</button></span>', 'easy-table-of-contents' ), 'https://tocwp.com/docs/knowledge-base/how-to-add-toc-with-shortcode/'
+                            		),
+                            'type' => 'paragraph',
+                            'allowedHtml' => array(
+								'br' => array(),
+								'a' => array(
+								    'target' => array(),
+								    'href' => array()
+								),
+								'input' => array(
+					               'type' => true,
+					               'id' => true,
+					               'value' => true,
+					               'readonly' => true,
+					               'disabled' => true,
+					               'class' => true,
+					           ),
+					           '&nbsp;' => array(),
+					           'span' => array(
+					               'class' => true,
+					               'id' => true,
+					           ),
+					           'button' => array(
+					               'type' => true,
+					               'onclick' => true,
+					               'onmouseout' => true,
+					               'id' => true,
+					               'class' => true,
+					           ),
+				           ),
+                        ),
+                        'shortcode-fourth-paragraph'      => array(
+                            'id'   => 'shortcode-fourth-paragraph',
                             'name' => __( 'Auto Insert', 'easy-table-of-contents' ),
                             'desc' => __( 'You can add `Easy Table of Contents` without using shortcode from `Auto Insert` option in General Setting so then there is no need to add shortcode while post, page or any post type editing.', 'easy-table-of-contents' ),
                             'type' => 'paragraph',
