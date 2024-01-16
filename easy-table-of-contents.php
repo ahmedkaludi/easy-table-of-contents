@@ -1048,7 +1048,7 @@ INLINESTICKYTOGGLEJS;
 				$urls_arr = explode(PHP_EOL, $all_urls);
 				if(is_array($urls_arr)){
 					foreach ($urls_arr as $url_arr) {
-						if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( $_SERVER['REQUEST_URI'], $url_arr ) ) {
+						if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( $_SERVER['REQUEST_URI'], trim($url_arr) ) ) {
 							Debug::log( 'is_restricted_path', 'In restricted path, post not eligible.', ezTOC_Option::get( 'restrict_path' ) );
 							return false;
 						}
