@@ -230,7 +230,11 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				 * @link https://wordpress.org/support/topic/inline-styling-triggers-html-validation-error/
 				 */
 
-				$title_font_size = $instance[ 'sidebar_title_size' ].$instance[ 'sidebar_title_size_unit' ];
+				if(isset($instance[ 'sidebar_title_size' ]) && isset($instance[ 'sidebar_title_size_unit' ])){
+					$title_font_size = $instance[ 'sidebar_title_size' ].$instance[ 'sidebar_title_size_unit' ];
+				}else{
+					$title_font_size = '120%';
+				}
 
 				if ( 0 < strlen( $title ) ) {
 
