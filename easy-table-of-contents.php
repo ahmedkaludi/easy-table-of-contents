@@ -1394,9 +1394,16 @@ INLINESTICKYTOGGLEJS;
 
 				return Debug::log()->appendTo( $content );
 			}
+			// Fix for getting current page id when sub-queries are used on the page
+			$ez_toc_current_post_id = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();
 
 			// Bail if post not eligible and widget is not active.
-			$isEligible = self::is_eligible( get_post() );
+			if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child'){
+				$isEligible = self::is_eligible( get_post($ez_toc_current_post_id) );
+			}else{
+				$isEligible = self::is_eligible( get_post() );
+			}
+			
 			
 			//More button
 			$options =  array();
@@ -1423,7 +1430,12 @@ INLINESTICKYTOGGLEJS;
 				return Debug::log()->appendTo( $content );
 			}
 			
-			$post = self::get( get_the_ID() );
+			if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child'){
+				$post = self::get( $ez_toc_current_post_id );
+			}else{
+				$post = self::get( get_the_ID());
+			}
+			
 
 			if ( ! $post instanceof ezTOC_Post ) {
 
