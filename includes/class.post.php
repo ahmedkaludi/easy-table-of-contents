@@ -1406,6 +1406,10 @@ class ezTOC_Post {
 
 			$custom_classes = ezTOC_Option::get( 'css_container_class', '' );			
 
+			if(ezTOC_Option::get('ez_toc_new_layout1')){
+				$class[] = 'ez-toc-hrzn';
+			}
+
             $class[] = 'ez-toc-container-direction';
 			
 			if ( 0 < strlen( $custom_classes ) ) {
@@ -1765,6 +1769,38 @@ class ezTOC_Post {
 							if($is_more_last && 'css' == $toc_type && function_exists('ez_toc_non_amp') && ez_toc_non_amp()){
 								$html .= '</ul>';
 							}
+						}
+					}
+				}
+			}elseif(ezTOC_Option::get('ez_toc_new_layout1')){
+				if(is_array($matches)){
+					foreach ( $matches as $i => $match ) {
+						$count = $i + 1;
+						$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
+						$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
+						if($count <= 4){
+							$check = '';
+							if($count == 1){
+								$check = ' l-first';
+							}else{
+								$check = ' mob-dpd';
+							}
+							$html .= "<li class='{$prefix}-page-" . $page . $check ."'>";
+							$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
+							$html .= '</li>';
+						}else{
+							$detect = '';
+							$is_more_last = false;
+							if($i == 4){
+								$detect = 'm-first';
+								$is_more_last = true;
+							}elseif($i == count($matches)-1){
+								$detect = 'm-last';
+								$is_more_last = true;
+							}
+							$html .= "<li class='{$prefix}-page-" . $page . " tgl-dpd " . $detect . "'>";
+							$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
+							$html .= '</li>';
 						}
 					}
 				}
