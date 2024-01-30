@@ -375,7 +375,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if ( ezTOC_Option::get( 'load_js_in' ) == 'header' ) {
 					$in_footer = false;
 				}
-				wp_register_script( 'ez-toc-sticky', '', array(), '', $in_footer );
+				wp_register_script( 'ez-toc-sticky', EZ_TOC_URL . "assets/js/ez-toc-sticky{$min}.js", array( 'jquery'), ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/ez-toc-sticky{$min}.js" ), $in_footer );				
 				wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', $in_footer );
 				wp_register_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', $in_footer );                        			
 				wp_register_script( 'ez-toc-js', EZ_TOC_URL . "assets/js/front{$min}.js", array( 'jquery', 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ), ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/front{$min}.js" ), $in_footer );
@@ -392,8 +392,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}											
 				
 				if ( ezTOC_Option::get( 'sticky-toggle' ) ) {
-					wp_enqueue_script( 'ez-toc-sticky', '', '', '', $in_footer );
-					self::inlineStickyToggleJS();
+					wp_enqueue_script( 'ez-toc-sticky');					
 				}
 				if ( ezTOC_Option::get( 'sticky-toggle' ) ) {
 					wp_enqueue_style( 'ez-toc-sticky' );
@@ -476,8 +475,18 @@ if ( ! class_exists( 'ezTOC' ) ) {
 						$js_scroll['JumpJsLinks'] = true;
 					}
 					wp_localize_script( 'ez-toc-scroll-scriptjs', 'eztoc_smooth_local', $js_scroll );						
-				}		
-												
+				}
+				//localize sticky js
+
+				if ( ezTOC_Option::get( 'sticky-toggle' ) ) {
+					$js_sticky = array();
+					$js_sticky['close_on_link_click'] = false;
+					if( (( 1 == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) || '1' == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) || true == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) ) && wp_is_mobile()) ||  ( 1 == ezTOC_Option::get('sticky-toggle-close-on-desktop', 0) || '1' == ezTOC_Option::get('sticky-toggle-close-on-desktop', 0) || true == ezTOC_Option::get('sticky-toggle-close-on-desktop', 0) ) ) {
+						$js_sticky['close_on_link_click'] = true;
+					}
+					wp_localize_script( 'ez-toc-sticky', 'eztoc_sticky_local', $js_sticky );
+				}
+
 		}
 
 		/**
@@ -961,35 +970,7 @@ INLINESTICKYTOGGLECSS;
                         }
 			wp_add_inline_style( 'ez-toc-sticky', $inlineStickyToggleCSS );
 		}
-
-		/**
-		 * inlineStickyToggleJS Method
-		 * Prints out inline Sticky Toggle JS after the core CSS file to allow overriding core styles via options.
-		 *
-		 * @since  2.0.32
-		 * @static
-		 */
-		private static function inlineStickyToggleJS() {
-                    $mobileJS = '';
-                    if( (( 1 == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) || '1' == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) || true == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) ) && wp_is_mobile()) ||  ( 1 == ezTOC_Option::get('sticky-toggle-close-on-desktop', 0) || '1' == ezTOC_Option::get('sticky-toggle-close-on-desktop', 0) || true == ezTOC_Option::get('sticky-toggle-close-on-desktop', 0) ) ) {
-                        $mobileJS = <<<INLINESTICKYTOGGLEMOBILEJS
-jQuery(document).ready(function() {
-    jQuery("#ez-toc-sticky-container a.ez-toc-link").click(function(e) {
-        ezTOC_hideBar(e);
-    });
-});
-INLINESTICKYTOGGLEMOBILEJS;
-
-                    } 
-                    $inlineStickyToggleJS = <<<INLINESTICKYTOGGLEJS
-function ezTOC_hideBar(e) { var sidebar = document.querySelector(".ez-toc-sticky-fixed"); if ( typeof(sidebar) !== "undefined" && sidebar !== null ) { sidebar.classList.remove("show"); sidebar.classList.add("hide"); setTimeout(function() { document.querySelector(".ez-toc-open-icon").style = "z-index: 9999999"; }, 200); if(e.target.classList.contains('ez-toc-close-icon') || e.target.parentElement.classList.contains( 'ez-toc-close-icon' )){e.preventDefault();}} } function ezTOC_showBar(e) { e.preventDefault();document.querySelector(".ez-toc-open-icon").style = "z-index: -1;";setTimeout(function() { var sidebar = document.querySelector(".ez-toc-sticky-fixed"); sidebar.classList.remove("hide"); sidebar.classList.add("show"); }, 200); } (function() { let ez_toc_sticky_fixed_container = document.querySelector('div.ez-toc-sticky-fixed');if(ez_toc_sticky_fixed_container) { document.body.addEventListener("click", function (evt) { ezTOC_hideBar(evt); }); ez_toc_sticky_fixed_container.addEventListener('click', function(event) { event.stopPropagation(); }); document.querySelector('.ez-toc-open-icon').addEventListener('click', function(event) { event.stopPropagation(); }); } })();
-                
-                $mobileJS
-INLINESTICKYTOGGLEJS;
-			wp_add_inline_script( 'ez-toc-sticky', $inlineStickyToggleJS );
-		}
-
-
+				
 		public static function is_enqueue_scripts_eligible( ) {
 
 			$isEligible = self::is_eligible( get_post() );
