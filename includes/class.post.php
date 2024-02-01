@@ -684,7 +684,7 @@ class ezTOC_Post {
 							ENT_NOQUOTES,
 							get_option( 'blog_charset' )
 						);
-
+						$against = trim($against); 
 						if ( @preg_match( '/^' . $pattern . '$/imU', $against ) ) {
 
 							$found = true;
