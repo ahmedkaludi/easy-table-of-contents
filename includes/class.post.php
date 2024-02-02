@@ -1144,6 +1144,43 @@ class ezTOC_Post {
 	}
 
 	/**
+	 * Parse the post content and headings.
+	 * only use when filter "ez_toc_modify_process_page_content" is not fetching correct content
+	 * mostly in case of custom post types.
+	 *
+	 * @access public
+	 * @since  2.0
+	 */
+	public function setContent($content){
+		
+		$pages = array();
+		$content = $this->post->post_content . $content;
+		$split = preg_split( '/<!--nextpage-->/msuU', $content );
+
+		$page = $first_page = 1;
+		$totalHeadings = [];
+		if ( is_array( $split ) ) {
+
+
+			foreach ( $split as $content ) {
+
+				$this->extractExcludedNodes( $page, $content );
+
+				$totalHeadings[] = array(
+					'headings' => $this->extractHeadings( $content, $page ),
+					'content'  => $content,
+				);
+
+				$page++;
+			}
+
+		}
+		$pages[$first_page] = $totalHeadings;
+
+		$this->pages = $pages;
+	}
+
+	/**
 	 * getHeadingsfromPageContents function
 	 *
 	 * @access private
