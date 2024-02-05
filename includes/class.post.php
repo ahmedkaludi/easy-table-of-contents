@@ -1154,7 +1154,6 @@ class ezTOC_Post {
 	public function setContent($content){
 		
 		$pages = array();
-		$content = $this->post->post_content . $content;
 		$split = preg_split( '/<!--nextpage-->/msuU', $content );
 
 		$page = $first_page = 1;
