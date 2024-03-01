@@ -1178,10 +1178,11 @@ INLINESTICKYTOGGLECSS;
                     'ez_toc_widget_sticky_after_widget_container' => '',
                 ), $atts ) );
 
-                $widget_name = wp_specialchars( 'ezTOC_WidgetSticky' );
+                $widget_name = esc_html( 'ezTOC_WidgetSticky' );
                 
                 $instance = array(
                     'title' => ( ! empty ( $title ) ) ? $title : '',
+					'sidebar_sticky_title' => ( ! empty ( $title ) ) ? $title : '',
                     'highlight_color' => ( ! empty ( $highlight_color ) ) ? $highlight_color : '#ededed',
                     'advanced_options' => ( ! empty ( $advanced_options ) ) ? $advanced_options : '',
                     'scroll_fixed_position' => ( ! empty ( $scroll_fixed_position ) ) ? ( int ) $scroll_fixed_position : 30,
