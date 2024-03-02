@@ -3,9 +3,9 @@ Contributors: magazine3
 Donate link: https://tocwp.com/
 Tags: table of contents, toc
 Requires at least: 5.0
-Tested up to: 6.4.2
+Tested up to: 6.4
 Requires PHP: 5.6.20
-Stable tag: 2.0.62
+Stable tag: 2.0.63
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -128,6 +128,17 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.63 02/03/2024 =
+* TWEAK: Remove extra spaces added by the users to the option Exclude feature #687
+* TWEAK: HTML Validator Parse Error: Font-Size Issue #691
+* TWEAK: Proper enqueue method for sticky toc js. #696
+* Bug: Easy TOC conflicts with the Popular Post plugin. #680
+* Bug: A warning is appearing after the recent update #686
+* Bug: TOC not showing on MicrojobEngine theme #694
+* Bug: Warning appears in product widget sidebar #705
+* Bug: Function wp_specialchars is deprecated since version 2.8.0! #709
+* Bug: Add compatibility with pressbook theme #710
 
 = 2.0.62 12/01/2024 =
 * New: Shortcode for sidebar sticky toc widget in documentation shortcode block #399
