@@ -194,7 +194,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 $js_vars[ 'scroll_max_height' ] = 'auto';
                 $js_vars[ 'scroll_max_height_size_unit' ] = 'none';
 
-                if ( 'on' == $instance[ 'appearance_options' ] || 'on' == $instance[ 'advanced_options' ] || $js_vars[ 'scroll_fixed_position' ] != $instance[ 'scroll_fixed_position' ] ||
+                if ( (isset($instance[ 'appearance_options' ]) && 'on' == $instance[ 'appearance_options' ] ) || 'on' == $instance[ 'advanced_options' ] || $js_vars[ 'scroll_fixed_position' ] != $instance[ 'scroll_fixed_position' ] ||
                         $js_vars[ 'scroll_fixed_position' ] != $instance[ 'scroll_fixed_position' ] ||
                         $js_vars[ 'sidebar_sticky_title' ] != $instance[ 'sidebar_sticky_title' ] ||
                         $js_vars[ 'sidebar_sticky_title_size_unit' ] != $instance[ 'sidebar_sticky_title_size_unit' ] ||
@@ -209,7 +209,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                         $js_vars[ 'scroll_max_height_size_unit' ] != $instance[ 'scroll_max_height_size_unit' ]
                 )
                 {
-                    $js_vars[ 'appearance_options' ] = $instance[ 'appearance_options' ];
+                    $js_vars[ 'appearance_options' ] = isset($instance[ 'appearance_options' ]) ? $instance[ 'appearance_options' ] : '';
 
                     $js_vars[ 'advanced_options' ] = $instance[ 'advanced_options' ];
 
@@ -334,7 +334,11 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
 
                     <?php echo $before_title; ?>
 
-                    <?php $title_font_size = $instance[ 'sidebar_sticky_title' ].$instance[ 'sidebar_sticky_title_size_unit' ] ?>
+                    <?php if(isset($instance[ 'sidebar_sticky_title' ]) && isset($instance[ 'sidebar_sticky_title_size_unit' ])){
+                            $title_font_size = $instance[ 'sidebar_sticky_title' ].$instance[ 'sidebar_sticky_title_size_unit' ];
+                        }else{
+                            $title_font_size = '120%';
+                        } ?>
 
                     <span class="ez-toc-widget-sticky-title-container">
                         <style>

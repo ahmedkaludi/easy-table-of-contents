@@ -1004,7 +1004,7 @@ if(function_exists('wp_get_theme')){
  */
 add_filter('eztoc_modify_the_content','eztoc_mediavine_trellis_content_improver');
 function eztoc_mediavine_trellis_content_improver($content){
-	if(class_exists('Mediavine\Trellis\Custom_Content')){
+	if(class_exists('Mediavine\Trellis\Custom_Content') && ezTOC_Option::get('mediavine-create') == 1 ){
 		$content = mb_convert_encoding( html_entity_decode($content), 'HTML-ENTITIES', 'UTF-8' );
 	}
 	return $content;
@@ -1111,4 +1111,20 @@ function ez_toc_parse_curreny_year_shortcode($content){
 			$content = do_shortcode($content);			
 	}			
 	return $content;
+}
+
+/** Pressbook theme Compatiblity
+ * @since 2.0.63
+ * @param bool $status The current status of applying the TOC filter.
+ * @return bool The updated status of applying the TOC filter.
+ */
+add_filter('ez_toc_apply_filter_status_manually', 'ez_toc_press_books_theme_compatibility',10,1);
+function ez_toc_press_books_theme_compatibility($status){
+  if(function_exists('wp_get_theme')){
+    $active_theme = wp_get_theme();
+    if(!empty($active_theme) && $active_theme->get( 'Name' ) == 'McLuhan'){
+      $status = false;
+    }
+  }
+  return $status;
 }
