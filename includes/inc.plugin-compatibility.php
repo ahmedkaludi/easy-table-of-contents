@@ -1112,16 +1112,3 @@ function ez_toc_parse_curreny_year_shortcode($content){
 	}			
 	return $content;
 }
-
-/** WordPress Popular Posts Compatiblity
- * @Thanks to Hector Cabrera
- * @since 2.0.63
- * @param  string The post/page content
-   @return string The (modified) post/page content
- */
-add_filter( 'ez_toc_extract_headings_content', function($content) {
-	if(class_exists('WordPressPopularPosts')){
-		$content = preg_replace('/<script[\s\S]*?>[\s\S]*?<\/script>/gi', '', $content);
-	}
-	return $content;
-} );

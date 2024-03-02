@@ -221,22 +221,30 @@ add_action('shutdown', function() {
  
 }, 10);
 
-    add_filter('eztoc_wordpress_final_output', function($content){
-        if(!is_singular('post') && !is_page()) { return $content;}
-        if(ezTOC_Option::get('show_title_in_toc') == 1 && !is_admin()){ 
+add_filter('eztoc_wordpress_final_output', function($content){
+    if(!is_singular('post') && !is_page()) { return $content;}
+    if(ezTOC_Option::get('show_title_in_toc') == 1 && !is_admin()){ 
         return preg_replace_callback(
-            '/<h1(.*?)>(.*?)<\/h1>/i',
+            '/<body.*?>(.*?)<\/body>/is',
             function ($matches) {
-                $title = $matches[2];
-                $added_link ='<h1'.$matches[1].'><span class="ez-toc-section" id="'.esc_attr(ezTOCGenerateHeadingIDFromTitle($title)).'" ez-toc-data-id="#'.esc_attr(ezTOCGenerateHeadingIDFromTitle($title)).'"></span>';
-                $added_link .= esc_attr($title);
-                $added_link .= '<span class="ez-toc-section-end"></span></h1>';
-                return $added_link;
+                $body_content = $matches[1];
+                return preg_replace_callback(
+                    '/<h1(.*?)>(.*?)<\/h1>/i',
+                    function ($h1_matches) {
+                        $title = $h1_matches[2];
+                        $added_link = '<h1'.$h1_matches[1].'><span class="ez-toc-section" id="'.esc_attr(ezTOCGenerateHeadingIDFromTitle($title)).'" ez-toc-data-id="#'.esc_attr(ezTOCGenerateHeadingIDFromTitle($title)).'"></span>';
+                        $added_link .= esc_attr($title);
+                        $added_link .= '<span class="ez-toc-section-end"></span></h1>';
+                        return $added_link;
+                    },
+                    $body_content
+                );
             },
             $content
         );
     }
-    }, 10, 1);
+}, 10, 1);
+
     
     add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_page_content_include_page_title', 10, 1 );
     function ez_toc_page_content_include_page_title( $content ) {
