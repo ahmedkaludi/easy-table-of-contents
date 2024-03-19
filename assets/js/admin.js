@@ -182,7 +182,8 @@ function ez_toc_clipboard(id, tooltipId, $this, event) {
     var copyText = $this.parentNode.parentNode.querySelectorAll("#" + id)[0];
     copyText.select();
     copyText.setSelectionRange(0, 99999);
-    unsecuredCopyToClipboard(copyText.value);
+    // unsecuredCopyToClipboard(copyText.value);
+    navigator.clipboard.writeText(copyText.value);
 
     var tooltip = $this.querySelectorAll('span.' + tooltipId)[0];
     tooltip.innerHTML = "Copied: " + copyText.value;
