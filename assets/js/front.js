@@ -67,15 +67,17 @@ jQuery( function( $ ) {
                             if($(toc).hasClass('eztoc-toggle-hide-by-default')){
                                 invert = 1;
                             }                                
-                            if ( Cookies ) {
+                            if (typeof Cookies !== "undefined") {
+                                if ( Cookies ) {
 
-                                    Cookies.get( 'ezTOC_hidetoc-' + i ) == 1 ? $(toggle).data( 'visible', false ) : $(toggle).data( 'visible', true );
-                                    Cookies.remove('ezTOC_hidetoc-' + i)
+                                        Cookies.get( 'ezTOC_hidetoc-' + i ) == 1 ? $(toggle).data( 'visible', false ) : $(toggle).data( 'visible', true );
+                                        Cookies.remove('ezTOC_hidetoc-' + i)
 
-                            } else {
+                                } else {
 
-                                    $(toggle).data( 'visible', true );
-                                    // Cookies.remove('ezTOC_hidetoc-' + i);
+                                        $(toggle).data( 'visible', true );
+                                        Cookies.remove('ezTOC_hidetoc-' + i);
+                                }
                             }
 
                             if ( invert ) {
@@ -105,13 +107,14 @@ jQuery( function( $ ) {
                                     if ( $( this ).data( 'visible' ) ) {
 
                                             $( this ).data( 'visible', false );
+                                            if (typeof Cookies !== "undefined") {
+                                                if ( Cookies ) {
 
-                                            if ( Cookies ) {
-
-                                                    if ( invert )
-                                                            Cookies.set( 'ezTOC_hidetoc-' + i, null, { path: '/' } );
-                                                    else
-                                                            Cookies.set( 'ezTOC_hidetoc-' + i, '1', { expires: 30, path: '/' } );
+                                                        if ( invert )
+                                                                Cookies.set( 'ezTOC_hidetoc-' + i, null, { path: '/' } );
+                                                        else
+                                                                Cookies.set( 'ezTOC_hidetoc-' + i, '1', { expires: 30, path: '/' } );
+                                                }
                                             }
 
                                             toc.hide( 'fast' );
@@ -119,13 +122,14 @@ jQuery( function( $ ) {
                                     } else {
 
                                             $( this ).data( 'visible', true );
+                                            if (typeof Cookies !== "undefined") {
+                                                if ( Cookies ) {
 
-                                            if ( Cookies ) {
-
-                                                    if ( invert )
-                                                            Cookies.set( 'ezTOC_hidetoc-' + i, '1', { expires: 30, path: '/' } );
-                                                    else
-                                                            Cookies.set( 'ezTOC_hidetoc-' + i, null, { path: '/' } );
+                                                        if ( invert )
+                                                                Cookies.set( 'ezTOC_hidetoc-' + i, '1', { expires: 30, path: '/' } );
+                                                        else
+                                                                Cookies.set( 'ezTOC_hidetoc-' + i, null, { path: '/' } );
+                                                }
                                             }
 
                                             toc.show( 'fast' );
