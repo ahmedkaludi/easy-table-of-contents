@@ -75,7 +75,7 @@ jQuery( function( $ ) {
                             } else {
 
                                     $(toggle).data( 'visible', true );
-                                    Cookies.remove('ezTOC_hidetoc-' + i);
+                                    // Cookies.remove('ezTOC_hidetoc-' + i);
                             }
 
                             if ( invert ) {
