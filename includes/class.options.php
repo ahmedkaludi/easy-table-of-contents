@@ -1072,7 +1072,15 @@ text
 							'type'        => 'checkbox',
 							'default'     => false,
 							'placeholder' => __( 'Close Sticky Toggle on click over headings in desktop', 'easy-table-of-contents' )
-						)
+						),
+						'sticky_restrict_url_text' => array(
+							'id' => 'sticky_restrict_url_text',
+							'name' => __( 'Exclude By Matching Url/String', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . __( 'Add the url of the pages that you do not want to show table of contents on. Any part or match of the url, will restrict table of contents from loading on those pages. Please add the urls in the new lines by clicking on "enter".', 'easy-table-of-contents' ),
+							'type' => 'textarea',
+							'placeholder' => 'wp
+text
+/featured/'),
                     )
                 ),
                 'compatibility' => apply_filters(

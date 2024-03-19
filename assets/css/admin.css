@@ -1454,3 +1454,6 @@ div#eztoc-tabs a:first-child.active, div#eztoc-tabs a.active {
 textarea#ez-toc-settings\[restrict_url_text\] {
     height: 70px;
 }
+textarea#ez-toc-settings\[sticky_restrict_url_text\] {
+    height: 70px;
+}
