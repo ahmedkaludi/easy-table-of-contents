@@ -399,6 +399,8 @@ inlineAdminInitialView;
 			$altText       = get_post_meta( $post->ID, '_ez-toc-alttext', true );
 			$initial_view  = get_post_meta( $post->ID, '_ez-toc-visibility_hide_by_default', true );
 			$hide_counter  = get_post_meta( $post->ID, '_ez-toc-hide_counter', true );
+			$position  = get_post_meta( $post->ID, '_ez-toc-position-specific', true );
+			
 
 			if ( ! is_array( $headings ) ) {
 
@@ -494,7 +496,6 @@ inlineAdminInitialView;
 						?>
 					</td>
 				</tr>
-
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Advanced:', 'easy-table-of-contents' ); ?></th>
 					<td>
@@ -634,6 +635,31 @@ inlineAdminInitialView;
 								          '</ul>' .
 								          '<p>' . __( '<strong>Note:</strong> This is not case sensitive.', 'easy-table-of-contents' ) . '</p>',
 							)
+						);
+						?>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Position', 'easy-table-of-contents' ); ?></th>
+					<td>
+						<?php
+						ezTOC_Option::select(
+							array(
+								'id' => 'position-specific',
+								'desc' => __( 'Choose where where you want to display the table of contents.', 'easy-table-of-contents' ), 
+								'options' => array(
+									'' => __( 'None (Default)', 'easy-table-of-contents' ),
+									'before' => __( 'Before first heading (default)', 'easy-table-of-contents' ),
+									'after' => __( 'After first heading', 'easy-table-of-contents' ),
+									'afterpara' => __( 'After first paragraph', 'easy-table-of-contents' ),
+									'aftercustompara' => __( 'After paragraph number', 'easy-table-of-contents' ),
+									'aftercustomimg' => __( 'After Image number', 'easy-table-of-contents' ),
+									'top' => __( 'Top', 'easy-table-of-contents' ),
+									'bottom' => __( 'Bottom', 'easy-table-of-contents' ),
+								),
+								'default' => $position,
+							),
+							$position
 						);
 						?>
 					</td>
@@ -781,6 +807,22 @@ inlineAdminInitialView;
 				} else {
 
 					update_post_meta( $post_id, '_ez-toc-exclude', '' );
+				}
+
+				if ( isset( $_REQUEST['ez-toc-settings']['position-specific'] ) ) {
+				    $align_values = array(
+						'before',
+						'after',
+						'afterpara',
+						'aftercustompara',
+						'aftercustomimg',
+						'top',
+						'bottom',
+					);
+				    $position = sanitize_text_field( $_REQUEST['ez-toc-settings']['position-specific'] );					
+				    if( in_array( $position, $align_values ) ) {
+				        update_post_meta( $post_id, '_ez-toc-position-specific', $position );
+				    }
 				}
 
 			}

@@ -1468,8 +1468,10 @@ INLINESTICKYTOGGLECSS;
 
 				return mb_find_replace( $find, $replace, $content );
 			}
-
-			$position = ezTOC_Option::get( 'position' );
+			$position  = get_post_meta( get_the_ID(), '_ez-toc-position-specific', true );
+			if (empty($position)) {
+				$position = ezTOC_Option::get( 'position' );
+			}
 
 			Debug::log( 'toc_insert_position', 'Insert TOC at position', $position );
 
