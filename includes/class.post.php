@@ -119,7 +119,11 @@ class ezTOC_Post {
         }
 
 		$apply_content_filter = apply_filters('ez_toc_apply_filter_status_manually', $apply_content_filter);
-
+		global $eztoc_disable_the_content;
+	    if($eztoc_disable_the_content){
+			$apply_content_filter = false;
+			$eztoc_disable_the_content = false;
+	    }
         return $apply_content_filter;
     }
 

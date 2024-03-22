@@ -315,9 +315,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		public static function ez_toc_schema_sitenav_creator(){
-
+			global $eztoc_disable_the_content;
 			if(ezTOC_Option::get( 'schema_sitenav_checkbox' ) == true){
-			
+				$eztoc_disable_the_content = true;
 				$post = ezTOC::get( get_the_ID() );
 				if($post){
 					$items = $post->getTocTitleId();
