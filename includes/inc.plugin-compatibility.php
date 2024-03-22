@@ -1128,3 +1128,16 @@ function ez_toc_press_books_theme_compatibility($status){
   }
   return $status;
 }
+
+/** Do not call applyContentFilter inside sitenavigation schema generation
+ * @since 2.0.64
+ * @param bool $status The current status of applying the TOC filter.
+ * @return bool The updated status of applying the TOC filter.
+ */
+add_filter('ez_toc_apply_filter_status_manually', 'ez_schema_sitenav_ignore_the_content',10,1);
+function ez_schema_sitenav_ignore_the_content($status){
+  if(ezTOC_Option::get( 'schema_sitenav_checkbox' ) == true){
+    $status = false;  
+  }
+  return $status;
+}
