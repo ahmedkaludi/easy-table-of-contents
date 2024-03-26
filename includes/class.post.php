@@ -228,6 +228,7 @@ class ezTOC_Post {
 			'ez_toc_strip_shortcodes_tagnames',
 			array(
 				'ez-toc',
+				'ez-toc-widget-sticky',
 				apply_filters( 'ez_toc_shortcode', 'toc' ),
 			),
 			$content
