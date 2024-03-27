@@ -1277,7 +1277,7 @@ class ezTOC_Post {
 			}elseif(is_array($options) && key_exists( 'visibility_show_by_default', $options ) && $options['visibility_show_by_default'] == true && 'js' == ezTOC_Option::get( 'toc_loading' ) && ezTOC_Option::get( 'visibility' )){
 				$visiblityClass = "";
 			}
-			$html = apply_filters('eztoc_add_custom_links',$html);		
+			$html  = apply_filters('ez_toc_add_custom_links',$html);
 			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1 $visiblityClass' >" . $html . "</ul>";
 		}
 
