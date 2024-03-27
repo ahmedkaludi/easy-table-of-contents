@@ -344,11 +344,11 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                         <style>
                             #<?php echo $this -> id ?> .ez-toc-widget-sticky-title {
                                 font-size: <?php echo esc_attr ( $title_font_size ); ?>;
-                                font-weight: <?php echo esc_attr ( $instance[ 'sidebar_sticky_title_weight' ] ); ?>;
-                                color: <?php echo esc_attr ( $instance[ 'sidebar_sticky_title_color' ] ); ?>;
+                                font-weight: <?php echo esc_attr ( isset($instance[ 'sidebar_sticky_title_weight' ]) ? $instance[ 'sidebar_sticky_title_weight' ] : '' ); ?>;
+                                color: <?php echo esc_attr (isset($instance[ 'sidebar_sticky_title_color' ]) ? $instance[ 'sidebar_sticky_title_color' ] : '' ); ?>;
                             }
                             #<?php echo $this -> id ?> .ez-toc-widget-sticky-container ul.ez-toc-widget-sticky-list li.active{
-                                background-color: <?php echo esc_attr ( $instance[ 'highlight_color' ] ); ?>;
+                                background-color: <?php echo esc_attr ( isset($instance[ 'highlight_color' ]) ? $instance[ 'highlight_color' ] : '' ); ?>;
                             }
                         </style>
 
