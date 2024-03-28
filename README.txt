@@ -139,6 +139,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * Bug: Fatal Error: [ez-toc-widget-sticky] Shortcode and also Conflict with 'Internal Link Juicer (Pro)'. #704
 * Bug: Sidebar’s PHP Error Notices in TOC version 2.0.63 #716
 * Bug: Double invoice showing when sitenavigation schema option enabled #720
+* Compatibility: Tested with Wordpress 6.5 #723
 
 = 2.0.63 02/03/2024 =
 * TWEAK: Remove extra spaces added by the users to the option Exclude feature #687
