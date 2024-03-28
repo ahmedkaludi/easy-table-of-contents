@@ -400,6 +400,10 @@ inlineAdminInitialView;
 			$initial_view  = get_post_meta( $post->ID, '_ez-toc-visibility_hide_by_default', true );
 			$hide_counter  = get_post_meta( $post->ID, '_ez-toc-hide_counter', true );
 			$position  = get_post_meta( $post->ID, '_ez-toc-position-specific', true );
+			if (empty($position)) {
+				$position = ezTOC_Option::get( 'position' );
+			}
+
 			
 
 			if ( ! is_array( $headings ) ) {
@@ -454,6 +458,31 @@ inlineAdminInitialView;
 								'default' => $header_label,
 							),
 							$header_label
+						);
+						?>
+					</td>
+				</tr>
+
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Position', 'easy-table-of-contents' ); ?></th>
+					<td>
+						<?php
+						ezTOC_Option::select(
+							array(
+								'id' => 'position-specific',
+								'desc' => __( 'Choose where where you want to display the table of contents.', 'easy-table-of-contents' ), 
+								'options' => array(
+									'before' => __( 'Before first heading (default)', 'easy-table-of-contents' ),
+									'after' => __( 'After first heading', 'easy-table-of-contents' ),
+									'afterpara' => __( 'After first paragraph', 'easy-table-of-contents' ),
+									'aftercustompara' => __( 'After paragraph number', 'easy-table-of-contents' ),
+									'aftercustomimg' => __( 'After Image number', 'easy-table-of-contents' ),
+									'top' => __( 'Top', 'easy-table-of-contents' ),
+									'bottom' => __( 'Bottom', 'easy-table-of-contents' ),
+								),
+								'default' => $position,
+							),
+							$position
 						);
 						?>
 					</td>
@@ -639,31 +668,7 @@ inlineAdminInitialView;
 						?>
 					</td>
 				</tr>
-				<tr>
-					<th scope="row"><?php esc_html_e( 'Position', 'easy-table-of-contents' ); ?></th>
-					<td>
-						<?php
-						ezTOC_Option::select(
-							array(
-								'id' => 'position-specific',
-								'desc' => __( 'Choose where where you want to display the table of contents.', 'easy-table-of-contents' ), 
-								'options' => array(
-									'' => __( 'None (Default)', 'easy-table-of-contents' ),
-									'before' => __( 'Before first heading (default)', 'easy-table-of-contents' ),
-									'after' => __( 'After first heading', 'easy-table-of-contents' ),
-									'afterpara' => __( 'After first paragraph', 'easy-table-of-contents' ),
-									'aftercustompara' => __( 'After paragraph number', 'easy-table-of-contents' ),
-									'aftercustomimg' => __( 'After Image number', 'easy-table-of-contents' ),
-									'top' => __( 'Top', 'easy-table-of-contents' ),
-									'bottom' => __( 'Bottom', 'easy-table-of-contents' ),
-								),
-								'default' => $position,
-							),
-							$position
-						);
-						?>
-					</td>
-				</tr>
+				
 				</tbody>
 			</table>
 
