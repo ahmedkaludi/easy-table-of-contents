@@ -1491,7 +1491,7 @@ INLINESTICKYTOGGLECSS;
 					break;
 				case 'afterpara':
 					$exc_blkqt  = get_post_meta( get_the_ID(), '_ez-toc-s_blockqoute_checkbox', true );
-					if (empty($exc_blkqt)) {
+					if ($exc_blkqt) {
 						$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
 					}
 					//blockqoute
@@ -1510,7 +1510,7 @@ INLINESTICKYTOGGLECSS;
 					break;
 				case 'aftercustompara':
 					$exc_blkqt  = get_post_meta( get_the_ID(), '_ez-toc-s_blockqoute_checkbox', true );
-					if (empty($exc_blkqt)) {
+					if ($exc_blkqt) {
 						$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
 					}
 					//blockqoute

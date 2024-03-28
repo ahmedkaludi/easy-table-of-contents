@@ -399,7 +399,7 @@ inlineAdminInitialView;
 			$altText       = get_post_meta( $post->ID, '_ez-toc-alttext', true );
 			$initial_view  = get_post_meta( $post->ID, '_ez-toc-visibility_hide_by_default', true );
 			$hide_counter  = get_post_meta( $post->ID, '_ez-toc-hide_counter', true );
-			
+
 			$position  = get_post_meta( $post->ID, '_ez-toc-position-specific', true );
 			if (empty($position)) {
 				$position = ezTOC_Option::get( 'position' );
@@ -411,7 +411,7 @@ inlineAdminInitialView;
 			}
 
 			$blockqoute_checkbox  = get_post_meta( $post->ID, '_ez-toc-s_blockqoute_checkbox', true );
-			if (empty($blockqoute_checkbox)) {
+			if ($blockqoute_checkbox) {
 				$blockqoute_checkbox = ezTOC_Option::get( 'blockqoute_checkbox' );
 			}
 
@@ -419,11 +419,6 @@ inlineAdminInitialView;
 			if (empty($custom_img_number)) {
 				$custom_img_number = ezTOC_Option::get( 'custom_img_number' );
 			}
-			
-
-			// print_r(11111111111111111);
-			// print_r($custom_para_number);die;
-
 			
 
 			if ( ! is_array( $headings ) ) {
