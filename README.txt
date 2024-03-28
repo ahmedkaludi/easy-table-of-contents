@@ -3,9 +3,9 @@ Contributors: magazine3
 Donate link: https://tocwp.com/
 Tags: table of contents, toc
 Requires at least: 5.0
-Tested up to: 6.4
+Tested up to: 6.5
 Requires PHP: 5.6.20
-Stable tag: 2.0.63
+Stable tag: 2.0.64
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -128,6 +128,17 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.64 28/03/2024 =
+* TWEAK: When clicked on copy shortcode, Page is shaking #695
+* TWEAK: Uncaught ReferenceError #693
+* TWEAK: Need to correct [initial_view='no'] shortcode in TOC #715
+* New: Exclude By Matching Url/String Option is not working for Sticky TOC #688
+* New: Added a new feature to set different positions on specific posts/pages #697
+* New: Added a new feature to Filter/Hook for Adding Custom Links Before and After Toc plugin-generated Links #718
+* Bug: Fatal Error: [ez-toc-widget-sticky] Shortcode and also Conflict with 'Internal Link Juicer (Pro)'. #704
+* Bug: Sidebar’s PHP Error Notices in TOC version 2.0.63 #716
+* Bug: Double invoice showing when sitenavigation schema option enabled #720
 
 = 2.0.63 02/03/2024 =
 * TWEAK: Remove extra spaces added by the users to the option Exclude feature #687
