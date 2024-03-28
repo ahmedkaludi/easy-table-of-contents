@@ -246,22 +246,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * Bug: Border colour is not changing in TOC #603
 * Bug: jQuery issue showing in console #605
 
-= 2.0.56 05/10/2023 =
-* New: Option to exclude toc from wp-json rest api #580
-* New: Feature to customize the CSS of the TOC container #553
-* New: Compatibility with the plugin CM Tooltip Glossary Ecommerce #556
-* New: Compatibility with the plugin Molongui Authorship #563
-* New: Option to include Page title in Table Of Content #568
-* New: Feature to customize the Background color of the Header Label #569
-* New: Added shortcode [no_ez_toc] so that users can disable the auto insertion of the TOC on a specific post/page #581
-* New: Compatibility with the ACF Flexible Content Module #589
-* New: Compatibility with salesdorado-tailpress theme #590
-* New: Compatibility of javascript scroll with Walker News Template theme #593
-* New: Options to customise the sticky TOC toggle. #583 #286
-* Bug: Unwanted spacing added in post while using TOC with uncode theme #588
-* Bug: Links are not working if the placement option "After Paragraph Number" is selected #598
-* Bug: TOC shortcode is added to the single.php file, it does not work. #599
-
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)
 
 == Frequently Asked Questions ==
