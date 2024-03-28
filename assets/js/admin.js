@@ -132,6 +132,45 @@ jQuery(document).ready(function ($) {
             $(stickyHighlightTitle).parents('tr').hide(500);
         }
     });
+
+    let s_position = jQuery('#ez-toc').find("select[name='ez-toc-settings[position-specific]']");
+    let s_customParaNumber = jQuery('#ez-toc').find("input[name='ez-toc-settings[s_custom_para_number]']");
+    let s_customImgNumber = jQuery('#ez-toc').find("input[name='ez-toc-settings[s_custom_img_number]']");
+    let s_blockQCheckB = jQuery('#ez-toc').find("input[name='ez-toc-settings[s_blockqoute_checkbox]']");
+
+    if(jQuery(s_position).val() == 'aftercustompara'){
+        jQuery(s_customParaNumber).parents('tr').show();
+    }else{
+        jQuery(s_customParaNumber).parents('tr').hide();
+    }
+    if(jQuery(s_position).val() == 'afterpara' || jQuery(s_position).val() == 'aftercustompara'){
+        jQuery(s_blockQCheckB).parents('tr').show();
+    }else{
+        jQuery(s_blockQCheckB).parents('tr').hide();
+    }
+    if(jQuery(s_position).val() == 'aftercustomimg'){
+        jQuery(s_customImgNumber).parents('tr').show();
+    }else{
+        jQuery(s_customImgNumber).parents('tr').hide();
+    }
+    jQuery('#ez-toc').on("change", "select[name='ez-toc-settings[position-specific]']", function() {
+        if(jQuery(this).val() == 'aftercustompara'){
+            jQuery(s_customParaNumber).parents('tr').show(500);    
+        }else{
+            jQuery(s_customParaNumber).parents('tr').hide(500);
+        }    
+        if(jQuery(this).val() == 'afterpara' || jQuery(this).val() == 'aftercustompara'){
+            jQuery(s_blockQCheckB).parents('tr').show(500);
+        }else{
+            jQuery(s_blockQCheckB).parents('tr').hide(500);
+        }
+        if(jQuery(this).val() == 'aftercustomimg'){
+            jQuery(s_customImgNumber).parents('tr').show(500);    
+        }else{
+            jQuery(s_customImgNumber).parents('tr').hide(500);
+        }
+    });
+
     
 
 });

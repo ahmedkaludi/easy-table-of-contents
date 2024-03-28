@@ -1490,7 +1490,10 @@ INLINESTICKYTOGGLECSS;
 					$content    = mb_find_replace( $find, $replace, $content );
 					break;
 				case 'afterpara':
-					$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
+					$exc_blkqt  = get_post_meta( get_the_ID(), '_ez-toc-s_blockqoute_checkbox', true );
+					if (empty($exc_blkqt)) {
+						$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
+					}
 					//blockqoute
 					$blockquotes = array();
 					if($exc_blkqt == true){
@@ -1506,7 +1509,10 @@ INLINESTICKYTOGGLECSS;
 				    }
 					break;
 				case 'aftercustompara':
-					$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
+					$exc_blkqt  = get_post_meta( get_the_ID(), '_ez-toc-s_blockqoute_checkbox', true );
+					if (empty($exc_blkqt)) {
+						$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
+					}
 					//blockqoute
 					$blockquotes = array();
 					if($exc_blkqt == true){
@@ -1515,7 +1521,10 @@ INLINESTICKYTOGGLECSS;
 					    	$content = ez_toc_para_blockquote_replace($blockquotes, $content, 1);
 					   	}
 					}
-					$paragraph_index = ezTOC_Option::get( 'custom_para_number' );
+					$paragraph_index  = get_post_meta( get_the_ID(), '_ez-toc-s_custom_para_number', true );
+					if (empty($paragraph_index)) {
+						$paragraph_index = ezTOC_Option::get( 'custom_para_number' );
+					}
 					if($paragraph_index == 1){
 						$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );
 					}else if($paragraph_index > 1){
@@ -1546,7 +1555,10 @@ INLINESTICKYTOGGLECSS;
 				    }
 					break;	
 				case 'aftercustomimg':
-					$img_index = ezTOC_Option::get( 'custom_img_number' );
+					$img_index  = get_post_meta( get_the_ID(), '_ez-toc-s_custom_img_number', true );
+					if (empty($img_index)) {
+						$img_index = ezTOC_Option::get( 'custom_img_number' );
+					}
 					if($img_index == 1){
 						$content = insertElementByImgTag( mb_find_replace( $find, $replace, $content ), $toc );
 					}else if($img_index > 1){
