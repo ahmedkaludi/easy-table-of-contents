@@ -416,7 +416,8 @@ function ez_toc_stikcy_enable_support_status(){
         if(is_array($urls_arr)){
             foreach ($urls_arr as $url_arr) {
                 if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( $_SERVER['REQUEST_URI'], trim($url_arr) ) ) {
-                    return false;
+                    $status = false;
+                    break;
                 }
             }
         }
