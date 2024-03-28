@@ -292,4 +292,15 @@ jQuery( function( $ ) {
         e.preventDefault();
     });    
 
+    $("#ez-toc-more-links-enabler").click(function () { 
+        $(".ez-toc-more-link").show();
+        $("#ez-toc-more-links-enabler").hide();
+        $("#ez-toc-more-links-disabler").attr("style","display:inline-block");
+    });
+    $("#ez-toc-more-links-disabler").click(function () { 
+        $(".ez-toc-more-link").hide();
+        $("#ez-toc-more-links-enabler").show();
+        $("#ez-toc-more-links-disabler").hide();
+    });
+
 } );
