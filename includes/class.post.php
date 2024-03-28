@@ -119,7 +119,11 @@ class ezTOC_Post {
         }
 
 		$apply_content_filter = apply_filters('ez_toc_apply_filter_status_manually', $apply_content_filter);
-
+		global $eztoc_disable_the_content;
+	    if($eztoc_disable_the_content){
+			$apply_content_filter = false;
+			$eztoc_disable_the_content = false;
+	    }
         return $apply_content_filter;
     }
 
@@ -224,6 +228,7 @@ class ezTOC_Post {
 			'ez_toc_strip_shortcodes_tagnames',
 			array(
 				'ez-toc',
+				'ez-toc-widget-sticky',
 				apply_filters( 'ez_toc_shortcode', 'toc' ),
 			),
 			$content
@@ -1271,7 +1276,8 @@ class ezTOC_Post {
 				$visiblityClass = "eztoc-toggle-hide-by-default";
 			}elseif(is_array($options) && key_exists( 'visibility_show_by_default', $options ) && $options['visibility_show_by_default'] == true && 'js' == ezTOC_Option::get( 'toc_loading' ) && ezTOC_Option::get( 'visibility' )){
 				$visiblityClass = "";
-			}			
+			}
+			$html  = apply_filters('ez_toc_add_custom_links',$html);
 			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1 $visiblityClass' >" . $html . "</ul>";
 		}
 

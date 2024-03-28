@@ -3,9 +3,9 @@ Contributors: magazine3
 Donate link: https://tocwp.com/
 Tags: table of contents, toc
 Requires at least: 5.0
-Tested up to: 6.4
+Tested up to: 6.5
 Requires PHP: 5.6.20
-Stable tag: 2.0.63
+Stable tag: 2.0.64
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,7 +67,7 @@ Below are the attibutes we support and could be useful in configuring the table 
 [header_label="Title"] – title for the table of contents
 [display_header_label="no"] - no title for the table of contents
 [toggle_view="no"] – no toggle for the table of contents 
-[initial_view="no"] –  initially hide the table of contents 
+[initial_view="hide"] –  initially hide the table of contents 
 [display_counter="no"] – no counter for the table of contents
 [post_types="post,page"] – post types seperated by ,(comma)
 [post_in="1,2"] – ID's of the posts|pages seperated by ,(comma)
@@ -128,6 +128,18 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.64 28/03/2024 =
+* TWEAK: When clicked on copy shortcode, Page is shaking #695
+* TWEAK: Uncaught ReferenceError #693
+* TWEAK: Need to correct [initial_view='no'] shortcode in TOC #715
+* New: Exclude By Matching Url/String Option is not working for Sticky TOC #688
+* New: Added a new feature to set different positions on specific posts/pages #697
+* New: Added a new feature to Filter/Hook for Adding Custom Links Before and After Toc plugin-generated Links #718
+* Bug: Fatal Error: [ez-toc-widget-sticky] Shortcode and also Conflict with 'Internal Link Juicer (Pro)'. #704
+* Bug: Sidebar’s PHP Error Notices in TOC version 2.0.63 #716
+* Bug: Double invoice showing when sitenavigation schema option enabled #720
+* Compatibility: Tested with Wordpress 6.5 #723
 
 = 2.0.63 02/03/2024 =
 * TWEAK: Remove extra spaces added by the users to the option Exclude feature #687
@@ -233,22 +245,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * Bug: Toggle is not working with the pure CSS loading method. #604
 * Bug: Border colour is not changing in TOC #603
 * Bug: jQuery issue showing in console #605
-
-= 2.0.56 05/10/2023 =
-* New: Option to exclude toc from wp-json rest api #580
-* New: Feature to customize the CSS of the TOC container #553
-* New: Compatibility with the plugin CM Tooltip Glossary Ecommerce #556
-* New: Compatibility with the plugin Molongui Authorship #563
-* New: Option to include Page title in Table Of Content #568
-* New: Feature to customize the Background color of the Header Label #569
-* New: Added shortcode [no_ez_toc] so that users can disable the auto insertion of the TOC on a specific post/page #581
-* New: Compatibility with the ACF Flexible Content Module #589
-* New: Compatibility with salesdorado-tailpress theme #590
-* New: Compatibility of javascript scroll with Walker News Template theme #593
-* New: Options to customise the sticky TOC toggle. #583 #286
-* Bug: Unwanted spacing added in post while using TOC with uncode theme #588
-* Bug: Links are not working if the placement option "After Paragraph Number" is selected #598
-* Bug: TOC shortcode is added to the single.php file, it does not work. #599
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)
 

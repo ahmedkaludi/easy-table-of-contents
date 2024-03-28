@@ -408,6 +408,20 @@ function ez_toc_stikcy_enable_support_status(){
             $status = true;
         }
     }
+
+    if( ezTOC_Option::get( 'sticky_restrict_url_text' ) && ezTOC_Option::get( 'sticky_restrict_url_text' ) != '' ){
+        $all_urls = nl2br(ezTOC_Option::get( 'sticky_restrict_url_text' ));
+        $all_urls = str_replace('<br />', '', $all_urls);
+        $urls_arr = explode(PHP_EOL, $all_urls);
+        if(is_array($urls_arr)){
+            foreach ($urls_arr as $url_arr) {
+                if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( $_SERVER['REQUEST_URI'], trim($url_arr) ) ) {
+                    $status = false;
+                    break;
+                }
+            }
+        }
+    }
     
     return apply_filters('ez_toc_sticky_enable_support', $status);
 

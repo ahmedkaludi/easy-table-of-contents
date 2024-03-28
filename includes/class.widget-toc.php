@@ -246,8 +246,10 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
                                         <style>
                                     		#<?php echo $this->id ?> .ez-toc-title{
                                     		    font-size: <?php echo esc_attr ( $title_font_size ); ?>;
-    		                                    font-weight: <?php echo esc_attr ( $instance[ 'sidebar_title_weight' ] ); ?>;
-    		                                    color: <?php echo esc_attr ( $instance[ 'sidebar_title_color' ] ); ?>;
+												<?php if( isset($instance[ 'sidebar_title_weight' ]) ){ ?>
+    		                                    font-weight: <?php echo esc_attr ( $instance[ 'sidebar_title_weight' ] ); } ?>;
+												<?php if( isset($instance[ 'sidebar_title_color' ]) ){ ?>
+    		                                    color: <?php echo esc_attr ( $instance[ 'sidebar_title_color' ] ); }?>;
                                     		}
                                             #<?php echo $this->id ?> .ez-toc-widget-container ul.ez-toc-list li.active{
                                                     background-color: <?php echo esc_attr( $instance['highlight_color'] ); ?>;

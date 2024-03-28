@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.63
+ * Version: 2.0.64
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.63
+ * @version  2.0.64
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -50,7 +50,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.63';
+		const VERSION = '2.0.64';
 
 		/**
 		 * Stores the instance of this class.
@@ -315,9 +315,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		public static function ez_toc_schema_sitenav_creator(){
-
+			global $eztoc_disable_the_content;
 			if(ezTOC_Option::get( 'schema_sitenav_checkbox' ) == true){
-			
+				$eztoc_disable_the_content = true;
 				$post = ezTOC::get( get_the_ID() );
 				if($post){
 					$items = $post->getTocTitleId();
@@ -1468,8 +1468,10 @@ INLINESTICKYTOGGLECSS;
 
 				return mb_find_replace( $find, $replace, $content );
 			}
-
-			$position = ezTOC_Option::get( 'position' );
+			$position  = get_post_meta( get_the_ID(), '_ez-toc-position-specific', true );
+			if (empty($position)) {
+				$position = ezTOC_Option::get( 'position' );
+			}
 
 			Debug::log( 'toc_insert_position', 'Insert TOC at position', $position );
 
@@ -1488,7 +1490,10 @@ INLINESTICKYTOGGLECSS;
 					$content    = mb_find_replace( $find, $replace, $content );
 					break;
 				case 'afterpara':
-					$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
+					$exc_blkqt  = get_post_meta( get_the_ID(), '_ez-toc-s_blockqoute_checkbox', true );
+					if ($exc_blkqt) {
+						$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
+					}
 					//blockqoute
 					$blockquotes = array();
 					if($exc_blkqt == true){
@@ -1504,7 +1509,10 @@ INLINESTICKYTOGGLECSS;
 				    }
 					break;
 				case 'aftercustompara':
-					$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
+					$exc_blkqt  = get_post_meta( get_the_ID(), '_ez-toc-s_blockqoute_checkbox', true );
+					if ($exc_blkqt) {
+						$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
+					}
 					//blockqoute
 					$blockquotes = array();
 					if($exc_blkqt == true){
@@ -1513,7 +1521,10 @@ INLINESTICKYTOGGLECSS;
 					    	$content = ez_toc_para_blockquote_replace($blockquotes, $content, 1);
 					   	}
 					}
-					$paragraph_index = ezTOC_Option::get( 'custom_para_number' );
+					$paragraph_index  = get_post_meta( get_the_ID(), '_ez-toc-s_custom_para_number', true );
+					if (empty($paragraph_index)) {
+						$paragraph_index = ezTOC_Option::get( 'custom_para_number' );
+					}
 					if($paragraph_index == 1){
 						$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );
 					}else if($paragraph_index > 1){
@@ -1544,7 +1555,10 @@ INLINESTICKYTOGGLECSS;
 				    }
 					break;	
 				case 'aftercustomimg':
-					$img_index = ezTOC_Option::get( 'custom_img_number' );
+					$img_index  = get_post_meta( get_the_ID(), '_ez-toc-s_custom_img_number', true );
+					if (empty($img_index)) {
+						$img_index = ezTOC_Option::get( 'custom_img_number' );
+					}
 					if($img_index == 1){
 						$content = insertElementByImgTag( mb_find_replace( $find, $replace, $content ), $toc );
 					}else if($img_index > 1){
