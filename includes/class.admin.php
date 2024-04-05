@@ -411,7 +411,7 @@ inlineAdminInitialView;
 			}
 
 			$blockqoute_checkbox  = get_post_meta( $post->ID, '_ez-toc-s_blockqoute_checkbox', true );
-			if ($blockqoute_checkbox) {
+			if (empty($blockqoute_checkbox)) {
 				$blockqoute_checkbox = ezTOC_Option::get( 'blockqoute_checkbox' );
 			}
 
@@ -897,10 +897,11 @@ inlineAdminInitialView;
 
 					
 					if($position == 'aftercustompara' ||  $position == 'afterpara') {
+						$s_blockqoute_checkbox = null;
 						if (isset($_REQUEST['ez-toc-settings']['s_blockqoute_checkbox'])) {
 							$s_blockqoute_checkbox = sanitize_text_field( $_REQUEST['ez-toc-settings']['s_blockqoute_checkbox'] );					
-							update_post_meta( $post_id, '_ez-toc-s_blockqoute_checkbox', $s_blockqoute_checkbox );
 						}
+						update_post_meta( $post_id, '_ez-toc-s_blockqoute_checkbox', $s_blockqoute_checkbox );
 					}
 
 				    if($position == 'aftercustompara' ) {		
