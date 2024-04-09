@@ -556,6 +556,8 @@ class ezTOC_Post {
 	private function removeHeadingsFromExcludedNodes( &$matches ) {
 
 		foreach ( $matches as $i => $match ) {
+			
+			$match[3] = apply_filters( 'ez_toc_remove_unwanted_space', $match[3]);
 
 			if ( $this->inExcludedNode( "{$match[3]}</h$match[2]>" ) ) {
 
