@@ -411,7 +411,7 @@ inlineAdminInitialView;
 			}
 
 			$blockqoute_checkbox  = get_post_meta( $post->ID, '_ez-toc-s_blockqoute_checkbox', true );
-			if ($blockqoute_checkbox) {
+			if ($blockqoute_checkbox == "") {
 				$blockqoute_checkbox = ezTOC_Option::get( 'blockqoute_checkbox' );
 			}
 
@@ -899,18 +899,24 @@ inlineAdminInitialView;
 					if($position == 'aftercustompara' ||  $position == 'afterpara') {
 						if (isset($_REQUEST['ez-toc-settings']['s_blockqoute_checkbox'])) {
 							$s_blockqoute_checkbox = sanitize_text_field( $_REQUEST['ez-toc-settings']['s_blockqoute_checkbox'] );					
-							update_post_meta( $post_id, '_ez-toc-s_blockqoute_checkbox', $s_blockqoute_checkbox );
+							update_post_meta( $post_id, '_ez-toc-s_blockqoute_checkbox', 1 );
+						}else{
+							update_post_meta( $post_id, '_ez-toc-s_blockqoute_checkbox', 0 );
 						}
 					}
 
-				    if($position == 'aftercustompara' ) {		
+				    if($position == 'aftercustompara' ) {	
+						if (isset($_REQUEST['ez-toc-settings']['s_custom_para_number'])) {	
 						$s_custom_para_number = sanitize_text_field( $_REQUEST['ez-toc-settings']['s_custom_para_number'] );			
 				        update_post_meta( $post_id, '_ez-toc-s_custom_para_number', $s_custom_para_number );
+						}
 				    }
 
 				    if($position == 'aftercustomimg' ) {
+						if (isset($_REQUEST['ez-toc-settings']['s_custom_img_number'])) {	
 						$s_custom_img_number = sanitize_text_field( $_REQUEST['ez-toc-settings']['s_custom_img_number'] );					
 				        update_post_meta( $post_id, '_ez-toc-s_custom_img_number', $s_custom_img_number );
+						}
 				    }
 				}
 
