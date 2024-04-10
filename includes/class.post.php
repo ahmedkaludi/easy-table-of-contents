@@ -556,6 +556,8 @@ class ezTOC_Post {
 	private function removeHeadingsFromExcludedNodes( &$matches ) {
 
 		foreach ( $matches as $i => $match ) {
+			
+			$match[3] = apply_filters( 'ez_toc_filter_headings_from_exclude_nodes', $match[3]);
 
 			if ( $this->inExcludedNode( "{$match[3]}</h$match[2]>" ) ) {
 

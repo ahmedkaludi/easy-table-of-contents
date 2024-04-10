@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.5
 Requires PHP: 5.6.20
-Stable tag: 2.0.64
+Stable tag: 2.0.65
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -129,6 +129,11 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.65 10/04/2024 =
+* TWEAK: Warning: Undefined array key "s_blockqoute_checkbox" #728
+* TWEAK: Write plugin name in subject of feedback form #731
+* New: Added to exclude heading from query loop feature #730
+
 = 2.0.64 28/03/2024 =
 * TWEAK: When clicked on copy shortcode, Page is shaking #695
 * TWEAK: Uncaught ReferenceError #693
@@ -240,11 +245,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * Bug: Jump anchors with apostrophe headings not working if theme Bamboo by Mediavine is active #607
 * Bug: Conflict issue with Molongui Authorship plugin in 2.0.56 version #608
 * Bug: Widget Auto-Highlight Issue After Update 2.0.56.1 #610
-
-= 2.0.56.1 09/10/2023 =
-* Bug: Toggle is not working with the pure CSS loading method. #604
-* Bug: Border colour is not changing in TOC #603
-* Bug: jQuery issue showing in console #605
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)
 

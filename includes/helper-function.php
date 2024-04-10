@@ -87,6 +87,7 @@ function eztoc_send_feedback() {
 
     if($subject == 'technical issue'){
 
+          $subject  = 'Easy Table of Contents '.$subject;
           $text = trim($text);
 
           if(!empty($text)){
