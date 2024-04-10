@@ -132,7 +132,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 = 2.0.65 10/04/2024 =
 * TWEAK: Warning: Undefined array key "s_blockqoute_checkbox" #728
 * TWEAK: Write plugin name in subject of feedback form #731
-* New: Need to exclude heading from query loop feature #730
+* New: Added to exclude heading from query loop feature #730
 
 = 2.0.64 28/03/2024 =
 * TWEAK: When clicked on copy shortcode, Page is shaking #695
