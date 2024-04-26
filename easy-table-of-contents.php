@@ -1328,6 +1328,10 @@ INLINESTICKYTOGGLECSS;
 						$apply = false;
 					}
 				}
+
+				if(method_exists( $my_current_screen, 'is_block_editor' ) && $my_current_screen->is_block_editor()){
+					$apply = false;
+				}
 			}
 
 			if ( ! empty( array_intersect( $wp_current_filter, array( 'get_the_excerpt', 'init', 'wp_head' ) ) ) ) {
@@ -1358,14 +1362,13 @@ INLINESTICKYTOGGLECSS;
 		 * @return string
 		 */
 		public static function the_content( $content ) {
-
-				$content = apply_filters('eztoc_modify_the_content',$content);
-                    
+				                    
 				if( function_exists( 'post_password_required' ) ) {
 					if( post_password_required() ) return Debug::log()->appendTo( $content );
 				}
 			
 				$maybeApplyFilter = self::maybeApplyTheContentFilter();													
+				$content = apply_filters('eztoc_modify_the_content',$content);
 				
 				if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
 					update_option( 'ez-toc-post-content-core-level', $content );
