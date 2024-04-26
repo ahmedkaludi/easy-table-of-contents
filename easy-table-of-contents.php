@@ -429,7 +429,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					if( true == get_post_meta( $eztoc_post_id, '_ez-toc-visibility_hide_by_default', true ) ){
 						$js_vars['visibility_hide_by_default'] = true;
 						$js_vars['width'] = esc_js( $width );
-					}                
+					}
+					$content = get_the_content();
+					if(has_shortcode($content,'toc') || has_shortcode($content,'ez-toc')){
+						$js_vars['visibility_hide_by_default'] = false;
+					}
+
 				}else{
 
 					if(ezTOC_Option::get( 'visibility' )){
@@ -437,7 +442,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 						if( true == get_post_meta( $eztoc_post_id, '_ez-toc-visibility_hide_by_default', true ) ){
 							$js_vars['visibility_hide_by_default'] = true;
 						}
-												
+						
+						$content = get_the_content();
+						if(has_shortcode($content,'toc') || has_shortcode($content,'ez-toc')){
+							$js_vars['visibility_hide_by_default'] = false;
+						}
 					}
 				}
 
@@ -1278,6 +1287,9 @@ INLINESTICKYTOGGLECSS;
 				}
 				if (isset($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
 					$options['visibility_hide_by_default'] = true;
+				}
+				if (isset($atts["initial_view"]) && $atts["initial_view"] == 'show') {
+					$options['visibility_hide_by_default'] = false;
 				}
 				if (isset($atts["display_counter"]) && $atts["display_counter"] == "no") {
 					$options['no_counter'] = true;
