@@ -1498,6 +1498,27 @@ class ezTOC_Post {
 		return $html;
 	}
 
+	public function getEmptyTOC($options = []) {
+		$html  = '';
+		$html .= '<div id="ez-toc-container">' . PHP_EOL;
+
+		ob_start();
+		do_action( 'ez_toc_before' );
+		$html .= ob_get_clean();
+
+		if( ezTOC_Option::get( 'no_heading_text' ) == 1 && ezTOC_Option::get( 'no_heading_text_value' )){
+			$no_heading_text_value = esc_html__(ezTOC_Option::get( 'no_heading_text_value' ),'easy-table-of-contents');
+			$html .= '<nav>' . $no_heading_text_value . '</nav>';
+		}
+
+		ob_start();
+		do_action( 'ez_toc_after' );
+		$html .= ob_get_clean();
+
+		$html .= '</div>' . PHP_EOL;
+		return $html;
+	}
+
 	private function get_js_based_toc_heading($options){
 
 		$html = '';						

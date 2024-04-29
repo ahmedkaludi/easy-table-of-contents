@@ -1391,6 +1391,7 @@ INLINESTICKYTOGGLECSS;
 
 				return Debug::log()->appendTo( $content );
 			}
+			
 			// Fix for getting current page id when sub-queries are used on the page
 			$ez_toc_current_post_id = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();
 
@@ -1422,8 +1423,8 @@ INLINESTICKYTOGGLECSS;
 				$isEligible = true;
 				$return_only_an = true;
 			}
+			
 			if ( ! $isEligible ) {
-
 				return Debug::log()->appendTo( $content );
 			}
 			
@@ -1433,23 +1434,38 @@ INLINESTICKYTOGGLECSS;
 				$post = self::get( get_the_ID());
 			}
 			
-
+			
 			if ( ! $post instanceof ezTOC_Post ) {
 
 				Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
 
 				return Debug::log()->appendTo( $content );
 			}
-
+			$no_heading_text = false;
+			if( ezTOC_Option::get( 'no_heading_text' ) == 1 && !empty(ezTOC_Option::get( 'no_heading_text_value' ))){
+				$no_heading_text = true;
+			}
 			// Bail if no headings found.
-			if ( ! $post->hasTOCItems() ) {
+			if ( ! $post->hasTOCItems() && !$no_heading_text) {
 
 				return Debug::log()->appendTo( $content );
 			}
+
+			$position  = get_post_meta( get_the_ID(), '_ez-toc-position-specific', true );
+			if (empty($position)) {
+				$position = ezTOC_Option::get( 'position' );
+			}
                         
-                        $find    = $post->getHeadings();
-                        $replace = $post->getHeadingsWithAnchors();
-                        $toc 	 = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();
+			$find    = $post->getHeadings();
+			$replace = $post->getHeadingsWithAnchors();
+			if (count($find) == 0 && $no_heading_text) {
+				$toc 	 = $post->getEmptyTOC($options);
+				if (empty($position) || $position == 'after' || $position == 'before') {
+					$position = 'top';
+				}
+			}else{
+				$toc 	 = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();
+			}
                             
 			$headings = implode( PHP_EOL, $find );
 			$anchors  = implode( PHP_EOL, $replace );
@@ -1483,10 +1499,7 @@ INLINESTICKYTOGGLECSS;
 
 				return mb_find_replace( $find, $replace, $content );
 			}
-			$position  = get_post_meta( get_the_ID(), '_ez-toc-position-specific', true );
-			if (empty($position)) {
-				$position = ezTOC_Option::get( 'position' );
-			}
+			
 
 			Debug::log( 'toc_insert_position', 'Insert TOC at position', $position );
 

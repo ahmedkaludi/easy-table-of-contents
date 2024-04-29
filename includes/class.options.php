@@ -832,7 +832,22 @@ text
 							'desc' => __( 'Makes toggle (js method) work for Infinite Scroll – Ajax Loaded contents/posts.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
-						)
+						),
+						'no_heading_text' => array(
+							'id' => 'no_heading_text',
+							'name' => __( 'Display no heading text', 'easy-table-of-contents' ),
+							'desc' => __( 'Display text when heading not available.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
+						'no_heading_text_value' => array(
+							'id' => 'no_heading_text_value',
+							'name' => __( 'No heading text value', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . __( 'This text will display when no heading found on page/post', 'easy-table-of-contents' ),
+							'type' => 'text',
+							'default' => 'No heading found',
+							'class'=>'js_v'
+						),
 					)
 				),
                 'shortcode' => apply_filters(
