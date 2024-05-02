@@ -870,6 +870,7 @@ inlineAdminInitialView;
 
 				if ( isset( $_REQUEST['ez-toc-settings']['position-specific'] ) ) {
 				    $align_values = array(
+						'',
 						'before',
 						'after',
 						'afterpara',
