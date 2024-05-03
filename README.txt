@@ -68,6 +68,7 @@ Below are the attibutes we support and could be useful in configuring the table 
 [display_header_label="no"] - no title for the table of contents
 [toggle_view="no"] – no toggle for the table of contents 
 [initial_view="hide"] –  initially hide the table of contents 
+[initial_view="show"] –  initially show the table of contents 
 [display_counter="no"] – no counter for the table of contents
 [post_types="post,page"] – post types seperated by ,(comma)
 [post_in="1,2"] – ID's of the posts|pages seperated by ,(comma)

@@ -412,6 +412,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
          *
          */
 		public static function localize_scripts(){
+				global $ez_toc_shortcode_attr;				
 			    $eztoc_post_id = get_the_ID();
 				$js_vars = array();
 
@@ -462,6 +463,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				if(ezTOC_Option::get( 'ajax_load_more' )){
 					$js_vars['ajax_toggle'] = true;
+				}
+
+				if(isset($ez_toc_shortcode_attr['initial_view']) && $ez_toc_shortcode_attr['initial_view'] == 'show'){
+					$js_vars['visibility_hide_by_default'] = false;
 				}
 				
 				if ( 0 < count( $js_vars ) ) {
@@ -1238,19 +1243,17 @@ INLINESTICKYTOGGLECSS;
 		 * @return string
 		 */
 		public static function shortcode( $atts, $content, $tag ) {
-
-				//Enqueue css and styles if that has not been added by wp_enqueue_scripts			
-
+				global $ez_toc_shortcode_attr;
+				$ez_toc_shortcode_attr = $atts;
 				$html = '';
 				
 				if(!ez_toc_shortcode_enable_support_status($atts)){
 					return $html;
-				}												
-
+				}
 				if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ){
 					return $html;
 				}
-				
+				//Enqueue css and styles if that has not been added by wp_enqueue_scripts			
 				self::enqueue_registered_script();	
 				self::enqueue_registered_style();	
 				self::inlineMainCountingCSS();				
@@ -1278,6 +1281,9 @@ INLINESTICKYTOGGLECSS;
 				}
 				if (isset($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
 					$options['visibility_hide_by_default'] = true;
+				}
+				if (isset($atts["initial_view"]) && $atts["initial_view"] == 'show') {
+					$options['visibility_hide_by_default'] = false;
 				}
 				if (isset($atts["display_counter"]) && $atts["display_counter"] == "no") {
 					$options['no_counter'] = true;
