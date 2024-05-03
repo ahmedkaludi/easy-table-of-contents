@@ -1245,6 +1245,7 @@ class ezTOC_Post {
 	 * @return string
 	 */
 	public function getTOCList($prefix = "ez-toc", $options = []) {
+
 		$html = '';
 
 		$toc_more = isset($options['view_more']) ? array( 'view_more' => $options['view_more'] )  : array();
@@ -1277,12 +1278,6 @@ class ezTOC_Post {
 				$visiblityClass = "eztoc-toggle-hide-by-default";
 			}elseif(is_array($options) && key_exists( 'visibility_show_by_default', $options ) && $options['visibility_show_by_default'] == true && 'js' == ezTOC_Option::get( 'toc_loading' ) && ezTOC_Option::get( 'visibility' )){
 				$visiblityClass = "";
-			}
-			$content = get_the_content();
-			if(has_shortcode($content,'toc') || has_shortcode($content,'ez-toc')){
-				if (isset($options['visibility_hide_by_default']) && $options['visibility_hide_by_default'] == false) {
-					$visiblityClass = "";
-				}
 			}
 			$html  = apply_filters('ez_toc_add_custom_links',$html);
 			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1 $visiblityClass' >" . $html . "</ul>";
