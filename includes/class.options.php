@@ -2146,7 +2146,7 @@ function ez_toc_settings_sticky_func_nonpro($settings)
 	
 }
 
-//fix for Stored XSS to backdoor creation  https://magazine3.in/conversation/274174?folder_id=4
+//fix for Stored XSS to backdoor creation
 	add_filter("ez_toc_settings_sanitize_select", "ez_toc_settings_sanitize_heading_text_tag_cb", 10 , 2 );
 	function ez_toc_settings_sanitize_heading_text_tag_cb( $value , $key ){
 		if($key == 'heading_text_tag'){
