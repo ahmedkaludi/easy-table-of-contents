@@ -2130,3 +2130,16 @@ function ez_toc_settings_sticky_func_nonpro($settings)
 	return $settings;
 	
 }
+//fix for Stored XSS to backdoor creation  https://magazine3.in/conversation/274174?folder_id=4
+add_filter("ez_toc_settings_sanitize_select", "ez_toc_settings_sanitize_heading_text_tag_cb", 10 , 2 );
+function ez_toc_settings_sanitize_heading_text_tag_cb( $value , $key ){
+	if($key == 'heading_text_tag'){
+		$value = preg_replace("/[^a-zA-Z]/", "", $value);
+	}
+	return $value;
+}
+
+add_filter("ez_toc_get_option_heading_text_tag", "ez_toc_get_option_heading_text_tag_cb", 10 , 3 );
+function ez_toc_get_option_heading_text_tag_cb( $value, $key ,$default ){
+	return  preg_replace("/[^a-zA-Z]/", "", $value);
+}
