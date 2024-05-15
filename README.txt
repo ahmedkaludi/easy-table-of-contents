@@ -130,6 +130,9 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.66.1 15/05/2024 =
+* Bug: ETOC version 2.0.66 giving **Fatal error**: Uncaught TypeError: method_exists() #752
+
 = 2.0.66 15/05/2024 =
 * Bug: Multiple warnings showing when ACF support is enabled in TOC #738
 * Bug: Conflict issue with Avada child theme. #740
