@@ -1335,7 +1335,7 @@ INLINESTICKYTOGGLECSS;
 					}
 				}
 
-				if(method_exists( $my_current_screen, 'is_block_editor' ) && $my_current_screen->is_block_editor()){
+				if((is_object($my_current_screen) || (is_string($my_current_screen) && class_exists($my_current_screen))) && method_exists( $my_current_screen, 'is_block_editor' ) && $my_current_screen->is_block_editor()){
 					$apply = false;
 				}
 			}
