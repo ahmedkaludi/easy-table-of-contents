@@ -832,7 +832,22 @@ text
 							'desc' => __( 'Makes toggle (js method) work for Infinite Scroll – Ajax Loaded contents/posts.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
-						)
+						),
+						'no_heading_text' => array(
+							'id' => 'no_heading_text',
+							'name' => __( 'Display no heading text', 'easy-table-of-contents' ),
+							'desc' => __( 'Display text when heading not available.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
+						'no_heading_text_value' => array(
+							'id' => 'no_heading_text_value',
+							'name' => __( 'No heading text value', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . __( 'This text will display when no heading found on page/post', 'easy-table-of-contents' ),
+							'type' => 'text',
+							'default' => 'No heading found',
+							'class'=>'js_v'
+						),
 					)
 				),
                 'shortcode' => apply_filters(
@@ -877,7 +892,7 @@ text
                             'id'   => 'shortcode-second-paragraph',
                             'name' => __( 'Supported Attributes', 'easy-table-of-contents' ),
                             'desc' => sprintf(
-                            		__( '<p><code>[header_label="Title"]</code> – title for the table of contents</p><p><code>[display_header_label="no"]</code> – no title for the table of contents</p><p><code>[toggle_view="no"]</code> – no toggle for the table of contents</p><p><code>[initial_view="hide"]</code> – initially hide the table of contents</p><p><code>[display_counter="no"]</code> – no counter for the table of contents</p><p><code>[post_types="post,page"]</code> – post types seperated by ,(comma)</p><p><code>[post_in="1,2"]</code> – ID’s of the posts|pages seperated by ,(comma)</p><p><code>[device_target="desktop"]</code> – mobile or desktop device support for the table of contents</p><p><code>[view_more="5"]</code> – 5, is the number of headings loads on first view, before user interaction (PRO)</p>', 'easy-table-of-contents' )
+                            		__( '<p><code>[header_label="Title"]</code> – title for the table of contents</p><p><code>[display_header_label="no"]</code> – no title for the table of contents</p><p><code>[toggle_view="no"]</code> – no toggle for the table of contents</p><p><code>[initial_view="hide"]</code> – initially hide the table of contents</p><p><code>[initial_view="show"]</code> – initially show the table of contents</p><p><code>[display_counter="no"]</code> – no counter for the table of contents</p><p><code>[post_types="post,page"]</code> – post types seperated by ,(comma)</p><p><code>[post_in="1,2"]</code> – ID’s of the posts|pages seperated by ,(comma)</p><p><code>[device_target="desktop"]</code> – mobile or desktop device support for the table of contents</p><p><code>[view_more="5"]</code> – 5, is the number of headings loads on first view, before user interaction (PRO)</p>', 'easy-table-of-contents' )
                             		),
                             'type' => 'descriptive_text',
                         ),
@@ -2130,3 +2145,17 @@ function ez_toc_settings_sticky_func_nonpro($settings)
 	return $settings;
 	
 }
+
+//fix for Stored XSS to backdoor creation
+	add_filter("ez_toc_settings_sanitize_select", "ez_toc_settings_sanitize_heading_text_tag_cb", 10 , 2 );
+	function ez_toc_settings_sanitize_heading_text_tag_cb( $value , $key ){
+		if($key == 'heading_text_tag'){
+			$value = preg_replace("/[^a-zA-Z]/", "", $value);
+		}
+		return $value;
+	}
+	
+	add_filter("ez_toc_get_option_heading_text_tag", "ez_toc_get_option_heading_text_tag_cb", 10 , 3 );
+	function ez_toc_get_option_heading_text_tag_cb( $value, $key ,$default ){
+		return  preg_replace("/[^a-zA-Z]/", "", $value);
+	}

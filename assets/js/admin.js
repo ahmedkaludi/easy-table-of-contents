@@ -172,6 +172,9 @@ jQuery(document).ready(function ($) {
     });
 
     
+    
+
+    
 
 });
 
@@ -401,4 +404,18 @@ function ezTocSettingsTabsFixed() {
     }
 }
 ezTocSettingsTabsFixed();
+
+function no_heading_text(params) {
+    if(jQuery("input[name='ez-toc-settings[no_heading_text]']").prop('checked') == true) {
+        jQuery("input[name='ez-toc-settings[no_heading_text_value]']").parents('tr').show(200);
+    } else {
+        jQuery("input[name='ez-toc-settings[no_heading_text_value]']").parents('tr').hide(200);
+    }
+}
+jQuery(document).on("change", "input[name='ez-toc-settings[no_heading_text]']", function() {
+    no_heading_text();
+});
+no_heading_text();
+
+
 

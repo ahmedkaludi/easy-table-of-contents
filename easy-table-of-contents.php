@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.65
+ * Version: 2.0.66
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -26,7 +26,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.64
+ * @version  2.0.66
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -50,7 +50,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.65';
+		const VERSION = '2.0.66';
 
 		/**
 		 * Stores the instance of this class.
@@ -412,6 +412,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
          *
          */
 		public static function localize_scripts(){
+				global $ez_toc_shortcode_attr;				
 			    $eztoc_post_id = get_the_ID();
 				$js_vars = array();
 
@@ -462,6 +463,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				if(ezTOC_Option::get( 'ajax_load_more' )){
 					$js_vars['ajax_toggle'] = true;
+				}
+
+				if(isset($ez_toc_shortcode_attr['initial_view']) && $ez_toc_shortcode_attr['initial_view'] == 'show'){
+					$js_vars['visibility_hide_by_default'] = false;
 				}
 				
 				if ( 0 < count( $js_vars ) ) {
@@ -1238,19 +1243,17 @@ INLINESTICKYTOGGLECSS;
 		 * @return string
 		 */
 		public static function shortcode( $atts, $content, $tag ) {
-
-				//Enqueue css and styles if that has not been added by wp_enqueue_scripts			
-
+				global $ez_toc_shortcode_attr;
+				$ez_toc_shortcode_attr = $atts;
 				$html = '';
 				
 				if(!ez_toc_shortcode_enable_support_status($atts)){
 					return $html;
-				}												
-
+				}
 				if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ){
 					return $html;
 				}
-				
+				//Enqueue css and styles if that has not been added by wp_enqueue_scripts			
 				self::enqueue_registered_script();	
 				self::enqueue_registered_style();	
 				self::inlineMainCountingCSS();				
@@ -1279,6 +1282,9 @@ INLINESTICKYTOGGLECSS;
 				if (isset($atts["initial_view"]) && $atts["initial_view"] == 'hide') {
 					$options['visibility_hide_by_default'] = true;
 				}
+				if (isset($atts["initial_view"]) && $atts["initial_view"] == 'show') {
+					$options['visibility_hide_by_default'] = false;
+				}
 				if (isset($atts["display_counter"]) && $atts["display_counter"] == "no") {
 					$options['no_counter'] = true;
 				}
@@ -1287,7 +1293,7 @@ INLINESTICKYTOGGLECSS;
 				}
 				$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();			
 				
-				return $html;
+				return apply_filters( 'eztoc_shortcode_final_toc_html', $html );
 		}
 
 		/**
@@ -1328,6 +1334,10 @@ INLINESTICKYTOGGLECSS;
 						$apply = false;
 					}
 				}
+
+				if(method_exists( $my_current_screen, 'is_block_editor' ) && $my_current_screen->is_block_editor()){
+					$apply = false;
+				}
 			}
 
 			if ( ! empty( array_intersect( $wp_current_filter, array( 'get_the_excerpt', 'init', 'wp_head' ) ) ) ) {
@@ -1358,14 +1368,13 @@ INLINESTICKYTOGGLECSS;
 		 * @return string
 		 */
 		public static function the_content( $content ) {
-
-				$content = apply_filters('eztoc_modify_the_content',$content);
-                    
+				                    
 				if( function_exists( 'post_password_required' ) ) {
 					if( post_password_required() ) return Debug::log()->appendTo( $content );
 				}
 			
 				$maybeApplyFilter = self::maybeApplyTheContentFilter();													
+				$content = apply_filters('eztoc_modify_the_content',$content);
 				
 				if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
 					update_option( 'ez-toc-post-content-core-level', $content );
@@ -1407,8 +1416,8 @@ INLINESTICKYTOGGLECSS;
 				$isEligible = true;
 				$return_only_an = true;
 			}
+			
 			if ( ! $isEligible ) {
-
 				return Debug::log()->appendTo( $content );
 			}
 			
@@ -1418,24 +1427,22 @@ INLINESTICKYTOGGLECSS;
 				$post = self::get( get_the_ID());
 			}
 			
-
+			
 			if ( ! $post instanceof ezTOC_Post ) {
 
 				Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
 
 				return Debug::log()->appendTo( $content );
 			}
+			 //Bail if no headings found.
+			 if ( ! $post->hasTOCItems() && ezTOC_Option::get( 'no_heading_text' ) != 1) {
 
-			// Bail if no headings found.
-			if ( ! $post->hasTOCItems() ) {
-
-				return Debug::log()->appendTo( $content );
-			}
-                        
-                        $find    = $post->getHeadings();
-                        $replace = $post->getHeadingsWithAnchors();
-                        $toc 	 = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();
-                            
+			 	return Debug::log()->appendTo( $content );
+			 }
+			         
+			$find    = $post->getHeadings();
+			$replace = $post->getHeadingsWithAnchors();
+			$toc 	 = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();
 			$headings = implode( PHP_EOL, $find );
 			$anchors  = implode( PHP_EOL, $replace );
 
@@ -1468,6 +1475,7 @@ INLINESTICKYTOGGLECSS;
 
 				return mb_find_replace( $find, $replace, $content );
 			}
+			
 			$position  = get_post_meta( get_the_ID(), '_ez-toc-position-specific', true );
 			if (empty($position)) {
 				$position = ezTOC_Option::get( 'position' );

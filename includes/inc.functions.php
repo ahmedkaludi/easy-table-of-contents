@@ -522,3 +522,21 @@ function ez_toc_shortcode_enable_support_status($atts){
     
     return $status;    
 }
+
+/**
+ * Display No heading found text when there are no heading present in the content 
+ * @since 2.0.66
+ */
+add_filter('eztoc_shortcode_final_toc_html','eztoc_shortcode_html_no_heading_text');
+add_filter('eztoc_autoinsert_final_toc_html','eztoc_shortcode_html_no_heading_text');
+
+function eztoc_shortcode_html_no_heading_text($html){
+
+    if(empty($html)){
+        if( ezTOC_Option::get( 'no_heading_text' ) == 1 && ezTOC_Option::get( 'no_heading_text_value' )){
+			$no_heading_text_value = !empty(ezTOC_Option::get( 'no_heading_text_value' ))?esc_html(ezTOC_Option::get( 'no_heading_text_value' )):'No heading found';
+			$html = '<div class="eztoc_no_heading_found">' . $no_heading_text_value . '</div>';
+		}
+    }
+    return $html;
+}

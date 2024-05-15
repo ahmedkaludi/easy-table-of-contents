@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.5
 Requires PHP: 5.6.20
-Stable tag: 2.0.65
+Stable tag: 2.0.66
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,7 @@ Below are the attibutes we support and could be useful in configuring the table 
 [display_header_label="no"] - no title for the table of contents
 [toggle_view="no"] – no toggle for the table of contents 
 [initial_view="hide"] –  initially hide the table of contents 
+[initial_view="show"] –  initially show the table of contents 
 [display_counter="no"] – no counter for the table of contents
 [post_types="post,page"] – post types seperated by ,(comma)
 [post_in="1,2"] – ID's of the posts|pages seperated by ,(comma)
@@ -128,6 +129,15 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.66 15/05/2024 =
+* Bug: Multiple warnings showing when ACF support is enabled in TOC #738
+* Bug: Conflict issue with Avada child theme. #740
+* Bug: The editing/updating of the post/page is slowing down if the plugin is activated with Block based themes #741
+* Bug: Positions & Alignment is not being changed globally #743
+* New: Option for showing promt if no headings available #654
+* New: Option or shortcode like [initial_view="Show"] for specific pages/post. #732
+* Fix: Patched Stored XSS Vulnerability disclosed by Dmitrii Ignatyev from cleantalk.org
 
 = 2.0.65 10/04/2024 =
 * TWEAK: Warning: Undefined array key "s_blockqoute_checkbox" #728
@@ -237,14 +247,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 = 2.0.57.1 27/10/2023 =
 * Bug: Incomplete CSS Classes in Version 2.0.57 Causing Style Issues #614
-
-= 2.0.57 25/10/2023 =
-* New: A feature to show only limited number of headings and rest should be as "View More" #474
-* Bug: The Footnotes are being repeated if the plugin is activated #597
-* Bug: A warning is showing while using the TOC #606
-* Bug: Jump anchors with apostrophe headings not working if theme Bamboo by Mediavine is active #607
-* Bug: Conflict issue with Molongui Authorship plugin in 2.0.56 version #608
-* Bug: Widget Auto-Highlight Issue After Update 2.0.56.1 #610
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)
 

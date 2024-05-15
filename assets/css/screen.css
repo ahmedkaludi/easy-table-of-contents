@@ -409,3 +409,7 @@ label.cssiconcheckbox {
 #ez-toc-container .eztoc-toggle-hide-by-default{
     display:none;
 }
+.eztoc_no_heading_found{
+    background-color: yellow;
+    padding-left: 10px;
+}
