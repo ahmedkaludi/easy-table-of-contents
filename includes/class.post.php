@@ -461,7 +461,7 @@ class ezTOC_Post {
 
 		$matches = array();
 
-		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) || function_exists( 'koyfin_setup' )) {
                     $content = apply_filters( 'ez_toc_extract_headings_content', $content );           
                 } else {
                     $content = apply_filters( 'ez_toc_extract_headings_content', wptexturize( $content ) );

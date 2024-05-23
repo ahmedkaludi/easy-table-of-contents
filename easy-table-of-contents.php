@@ -1130,7 +1130,6 @@ INLINESTICKYTOGGLECSS;
 			if ( isset( self::$store[ $id ] ) && self::$store[ $id ] instanceof ezTOC_Post && !in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 
 				$post = self::$store[ $id ];
-
 			} else {
 				
 				$post_id = ! empty( $id ) ? $id : get_the_ID();
@@ -1343,6 +1342,11 @@ INLINESTICKYTOGGLECSS;
 			if ( ! empty( array_intersect( $wp_current_filter, array( 'get_the_excerpt', 'init', 'wp_head' ) ) ) ) {
 				$apply = false;
 			}
+
+			if ((function_exists('et_core_is_model_view') && et_core_is_model_view()) || (function_exists('et_builder_is_enabled') && et_builder_is_enabled())) {
+				// Divi frontend & backend builder
+				$apply = false;
+			} 
 			/**
 			 * Whether or not to apply `the_content` filter callback.
 			 *
@@ -1468,17 +1472,19 @@ INLINESTICKYTOGGLECSS;
 				Debug::log( 'side_bar_has shortcode', 'Shortcode found, add links to content.', true );
 				return mb_find_replace( $find, $replace, $content );
 			}
+			
+			
+			$position  = get_post_meta( get_the_ID(), '_ez-toc-position-specific', true );
+			if (empty($position)) {
+				$position = ezTOC_Option::get( 'position' );
+			}
+
 			// If shortcode used or post not eligible, return content with anchored headings.
 			if ( strpos( $content, 'ez-toc-container' ) || ! $isEligible ) {
 
 				Debug::log( 'shortcode_found', 'Shortcode found, add links to content.', true );
 
 				return mb_find_replace( $find, $replace, $content );
-			}
-			
-			$position  = get_post_meta( get_the_ID(), '_ez-toc-position-specific', true );
-			if (empty($position)) {
-				$position = ezTOC_Option::get( 'position' );
 			}
 
 			Debug::log( 'toc_insert_position', 'Insert TOC at position', $position );
