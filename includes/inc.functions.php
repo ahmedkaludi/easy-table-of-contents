@@ -504,6 +504,23 @@ function ez_toc_shortcode_enable_support_status($atts){
             }       
         }
     }
+
+    if(isset($atts['post_not_in'])){
+        $exp_post_ids = explode(',', $atts['post_not_in']);
+        if(!empty($exp_post_ids)){
+            $exp_post_ids = array_map("trim",$exp_post_ids);
+            if(is_singular()){
+                $ID = get_the_ID();
+                if(!in_array($ID, $exp_post_ids )){
+                    $status = true;
+                }else{
+                    $status = false;
+                }
+            }else{
+                $status = false;
+            }       
+        }
+    }
             
         
     if(isset($atts['device_target']) && $atts['device_target'] != ''){
