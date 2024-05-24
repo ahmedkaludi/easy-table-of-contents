@@ -360,35 +360,45 @@ function ez_toc_stikcy_enable_support_status(){
             }
         }										
     }
-
+    
     if(ezTOC_Option::get('sticky_include_homepage')){
         if ( is_front_page() ) {
             $status = true;
+        }else{
+           $status = false;
         }
     }
 
     if(ezTOC_Option::get('sticky_include_category')){
         if ( is_category() ) {
             $status = true;
-        }
+        }else{
+            $status = false;
+         }
     }
 
     if(ezTOC_Option::get('sticky_include_tag')){
         if ( is_tag() ) {
             $status = true;
-        }
+        }else{
+            $status = false;
+         }
     }
     
     if(ezTOC_Option::get('sticky_include_product_category')){
         if ( is_tax( 'product_cat' ) ) {
             $status = true;
-        }
+        }else{
+            $status = false;
+         }
     }
 
     if(ezTOC_Option::get('sticky_include_custom_tax')){
         if ( is_tax() ) {
             $status = true;
-        }
+        }else{
+            $status = false;
+         }
     }
 
     //Device Eligibility
