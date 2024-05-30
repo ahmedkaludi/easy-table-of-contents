@@ -819,6 +819,13 @@ text
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'enable_memory_fix' => array(
+							'id' => 'enable_memory_fix',
+							'name' => __( 'Fix Out of Memory / 500 Error', 'easy-table-of-contents' ),
+							'desc' => __( 'Enable this option when you are getting memory / 500 error on the page where toc shortcode is added', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'prsrv_line_brk' => array(
 							'id' => 'prsrv_line_brk',
 							'name' => __( 'Preserve Line Breaks', 'easy-table-of-contents' ),
@@ -1338,6 +1345,7 @@ text
 				'sticky_include_product_category'     => true,
 				'sticky_include_custom_tax'           => false,
 				'generate_toc_link_ids'               => false,
+				'enable_memory_fix'					  => false,
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );

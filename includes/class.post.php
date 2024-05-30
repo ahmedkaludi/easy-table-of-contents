@@ -195,6 +195,8 @@ class ezTOC_Post {
 		 */
 		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
+		$enable_memory_fix = ezTOC_Option::get('enable_memory_fix');
+		if ( $enable_memory_fix ) {
 		/*
 		 * Strip the shortcodes but retain their inner content for processing TOC.
 		 * This issues happens with builder themes which adds shortcodes for sections , rows and columns etc
@@ -205,6 +207,11 @@ class ezTOC_Post {
 		$this->post->post_content = $this->stripShortcodesButKeepContent($this->post->post_content);
 		
 		$this->post->post_content = apply_filters( 'the_content', $this->post->post_content );
+
+		}else{
+
+			$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
+		}
 
 		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
 
