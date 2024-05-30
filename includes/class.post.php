@@ -195,7 +195,16 @@ class ezTOC_Post {
 		 */
 		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
-		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
+		/*
+		 * Strip the shortcodes but retain their inner content for processing TOC.
+		 * This issues happens with builder themes which adds shortcodes for sections , rows and columns etc
+		 * This is required to prevent an Infinite loop when the `the_content` filter is applied and the post content contains the ezTOC shortcode.
+		 * 
+		 * @see https://github.com/ahmedkaludi/Easy-Table-of-Contents/issues/749
+		*/
+		$this->post->post_content = $this->stripShortcodesButKeepContent($this->post->post_content);
+		
+		$this->post->post_content = apply_filters( 'the_content', $this->post->post_content );
 
 		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
 
@@ -1902,5 +1911,33 @@ class ezTOC_Post {
 		}
 
 		return trailingslashit( $anch_url ) . $page . '/#' . $id;
+	}
+
+	/**
+	 * Strip Shortcodes but keeping its content.
+	 *
+	 * @access private
+	 * @since  2.0.67
+	 *
+	 * @param string $content The post content.
+	 *
+	 * @return string The post content without shortcodes.
+	 */
+	private function stripShortcodesButKeepContent($content) {
+		// Regex pattern to match all forms of shortcodes with possible underscores, hyphens, and alphanumeric characters
+		$pattern = '/\[([a-zA-Z0-9_\-]+)(?:\s[^\]]*)?\](.*?)\[\/\1\]|\[([a-zA-Z0-9_\-]+)(?:\s[^\]]*)?\/?\]/s';
+	
+		// Function to recursively strip shortcodes
+		while (preg_match($pattern, $content)) {
+			$content = preg_replace_callback($pattern, function($matches) {
+				if (isset($matches[2])) {
+					return $matches[2];
+				}
+	   
+				return '';
+			}, $content);
+		}
+		
+		return $content;
 	}
 }
