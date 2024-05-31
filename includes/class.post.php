@@ -206,12 +206,9 @@ class ezTOC_Post {
 		*/
 		$this->post->post_content = $this->stripShortcodesButKeepContent($this->post->post_content);
 		
-		$this->post->post_content = apply_filters( 'the_content', $this->post->post_content );
-
-		}else{
-
-			$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
 		}
+
+		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
 
 		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
 
@@ -1931,20 +1928,24 @@ class ezTOC_Post {
 	 * @return string The post content without shortcodes.
 	 */
 	private function stripShortcodesButKeepContent($content) {
-		// Regex pattern to match all forms of shortcodes with possible underscores, hyphens, and alphanumeric characters
-		$pattern = '/\[([a-zA-Z0-9_\-]+)(?:\s[^\]]*)?\](.*?)\[\/\1\]|\[([a-zA-Z0-9_\-]+)(?:\s[^\]]*)?\/?\]/s';
+		// Regex pattern to match the specific shortcodes
+		$shortcodes = apply_filters('ez_toc_strip_shortcodes_with_inner_content',[]);
+		if(!empty($shortcodes)){
+			
+		$pattern = '/\[('.implode('|',$shortcodes).')(?:\s[^\]]*)?\](.*?)\[\/\1\]|\[('.implode('|',$shortcodes).')(?:\s[^\]]*)?\/?\]/s';
 	
 		// Function to recursively strip shortcodes
 		while (preg_match($pattern, $content)) {
 			$content = preg_replace_callback($pattern, function($matches) {
 				if (isset($matches[2])) {
-					return $matches[2];
+					return $matches[2]; // Keep content inside shortcode
 				}
 	   
-				return '';
+				return ''; // Remove self-closing shortcode
 			}, $content);
 		}
 		
+		}
 		return $content;
 	}
 }

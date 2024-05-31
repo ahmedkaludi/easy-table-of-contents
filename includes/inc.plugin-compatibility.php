@@ -1108,3 +1108,20 @@ function ez_toc_press_books_theme_compatibility($status){
   }
   return $status;
 }
+
+
+/**
+ * Divi Builder Compatibility
+ * @since 2.0.64
+ */
+add_filter(
+	'ez_toc_strip_shortcodes_with_inner_content',
+	function( $tags_to_remove ) {
+		$shortcodes = array (
+			'et_pb_text'
+		);
+		$tags_to_remove = array_merge( $tags_to_remove, $shortcodes );
+		return $tags_to_remove;
+	}
+
+);
