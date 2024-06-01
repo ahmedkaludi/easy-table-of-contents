@@ -168,6 +168,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				
 			if( !self::checkBeaverBuilderPluginActive() ) {
 				add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
+				/*
+				* Fix for toc not showing / links not working for StoreHub theme custom post types
+				* https://github.com/ahmedkaludi/Easy-Table-of-Contents/issues/760
+				*/
+				add_filter('ilj_get_the_content',array( __CLASS__, 'the_content' ), 100 ); 
+				
 				if( defined('EASY_TOC_AMP_VERSION') ){
 					add_filter( 'ampforwp_modify_the_content', array( __CLASS__, 'the_content' ) );
 				}
