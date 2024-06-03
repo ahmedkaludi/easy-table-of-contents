@@ -172,7 +172,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				* Fix for toc not showing / links not working for StoreHub theme custom post types
 				* https://github.com/ahmedkaludi/Easy-Table-of-Contents/issues/760
 				*/
-				add_filter('ilj_get_the_content',array( __CLASS__, 'the_content' ), 100 ); 
+				add_filter('ilj_get_the_content',array( __CLASS__, 'the_content_storehub' ), 100 ); 
 				
 				if( defined('EASY_TOC_AMP_VERSION') ){
 					add_filter( 'ampforwp_modify_the_content', array( __CLASS__, 'the_content' ) );
@@ -1261,15 +1261,16 @@ INLINESTICKYTOGGLECSS;
 				//Enqueue css and styles if that has not been added by wp_enqueue_scripts			
 				self::enqueue_registered_script();	
 				self::enqueue_registered_style();	
-				self::inlineMainCountingCSS();				
+				self::inlineMainCountingCSS();		
+				$pid = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();		
 
-				$post_id = isset( $atts['post_id'] ) ? (int) $atts['post_id'] : get_the_ID();																					
+				$post_id = isset( $atts['post_id'] ) ? (int) $atts['post_id'] : $pid;																					
 																				
 				$post = self::get( $post_id );
 
 				if ( ! $post instanceof ezTOC_Post ) {
 
-						Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
+						Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', $pid );
 
 						return Debug::log()->appendTo( $content );
 				}
@@ -1478,19 +1479,17 @@ INLINESTICKYTOGGLECSS;
 				Debug::log( 'side_bar_has shortcode', 'Shortcode found, add links to content.', true );
 				return mb_find_replace( $find, $replace, $content );
 			}
-			
-			
-			$position  = get_post_meta( get_the_ID(), '_ez-toc-position-specific', true );
-			if (empty($position)) {
-				$position = ezTOC_Option::get( 'position' );
-			}
-
 			// If shortcode used or post not eligible, return content with anchored headings.
 			if ( strpos( $content, 'ez-toc-container' ) || ! $isEligible ) {
 
 				Debug::log( 'shortcode_found', 'Shortcode found, add links to content.', true );
 
 				return mb_find_replace( $find, $replace, $content );
+			}
+			
+			$position  = get_post_meta( get_the_ID(), '_ez-toc-position-specific', true );
+			if (empty($position)) {
+				$position = ezTOC_Option::get( 'position' );
 			}
 
 			Debug::log( 'toc_insert_position', 'Insert TOC at position', $position );
@@ -1801,6 +1800,99 @@ STICKYTOGGLEHTML;
 						}
 					}
 					return $description;
+		}
+
+		/**
+		 * the_content_storehub Method
+		 * Call back for the `the_content` filter.
+		 *
+		 * This will add the inline table of contents page anchors to the post content. It will also insert the
+		 * table of contents inline with the post content as defined by the user defined preference.
+		 *
+		 * @access public
+		 * @since  1.0
+		 * @static
+		 * @param string $content
+		 * @return string
+		 */
+		public static function the_content_storehub ( $content ) {
+				                    
+			if( function_exists( 'post_password_required' ) ) {
+				if( post_password_required() ) return Debug::log()->appendTo( $content );
+			}
+		
+			$maybeApplyFilter = self::maybeApplyTheContentFilter();													
+			$content = apply_filters('eztoc_modify_the_content',$content);
+			
+		Debug::log( 'the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter );
+		
+		if ( ! $maybeApplyFilter ) {
+		
+			return Debug::log()->appendTo( $content );
+		}
+		// Fix for getting current page id when sub-queries are used on the page
+		$ez_toc_current_post_id = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();
+		
+		// Bail if post not eligible and widget is not active.
+		if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child'){
+			$isEligible = self::is_eligible( get_post($ez_toc_current_post_id) );
+		}else{
+			$isEligible = self::is_eligible( get_post() );
+		}
+		
+		
+		//More button
+		$options =  array();
+		if (ezTOC_Option::get( 'ctrl_headings' ) == true) {
+			$options['view_more'] = ezTOC_Option::get( 'limit_headings_num' );
+		}
+		
+		$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
+		
+		if($isEligible){
+			if(!ez_toc_auto_device_target_status()){
+				$isEligible = false;
+			}
+		}
+		
+		Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
+		$return_only_an = false; 
+		if(!$isEligible && (self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || ezTOC_Option::get('sticky-toggle') )){
+			$isEligible = true;
+			$return_only_an = true;
+		}
+		
+		if ( ! $isEligible ) {
+			return Debug::log()->appendTo( $content );
+		}
+		
+		if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child'){
+			$post = self::get( $ez_toc_current_post_id );
+		}else{
+			$post = self::get( get_the_ID());
+		}
+		
+		
+		if ( ! $post instanceof ezTOC_Post ) {
+		
+			Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
+		
+			return Debug::log()->appendTo( $content );
+		}
+		 //Bail if no headings found.
+		 if ( ! $post->hasTOCItems() && ezTOC_Option::get( 'no_heading_text' ) != 1) {
+		
+			 return Debug::log()->appendTo( $content );
+		 }
+				 
+		$find    = $post->getHeadings();
+		$replace = $post->getHeadingsWithAnchors();
+		$toc 	 = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();
+		$headings = implode( PHP_EOL, $find );
+		$anchors  = implode( PHP_EOL, $replace );
+		
+		return mb_find_replace( $find, $replace, $content );
+		
 		}
 
 
