@@ -1125,3 +1125,42 @@ add_filter(
 	}
 
 );
+
+
+add_filter('ez_toc_modify_process_page_content', 'ez_toc_fix_avada_post_card_loop_issue',10,1);
+
+/**
+ * Fix for Avada Post Card Loop Issue
+ * @since 2.0.67
+ * @param string $content The current post content.
+ * @return string The updated post content.
+ * @url https://github.com/ahmedkaludi/Easy-Table-of-Contents/issues/757
+ */
+function ez_toc_fix_avada_post_card_loop_issue($content){
+	
+	if (class_exists('FusionBuilder')){
+		$main_post_id = get_transient('eztoc_original_post_id');
+		$current_post_id = get_the_ID();
+		   if($main_post_id && ($main_post_id != $current_post_id)){
+			   return ''; 
+		   }
+	}
+
+  return $content;
+}
+
+add_action('the_post', 'ez_toc_store_original_post_id', 10 ,1);
+
+/**
+ * Store the original post ID for Avada Post Card Loop Issue
+ * @since 2.0.67
+ * @param WP_Post $post The current post object.
+ * @return void
+ * @url https://github.com/ahmedkaludi/Easy-Table-of-Contents/issues/757
+ */
+function ez_toc_store_original_post_id($post) {
+    // Check if the original post ID is already stored
+    if (class_exists('FusionBuilder') && false === get_transient('eztoc_original_post_id')) {
+        set_transient('eztoc_original_post_id', $post->ID);
+    }
+}
