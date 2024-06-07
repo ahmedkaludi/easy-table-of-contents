@@ -1412,6 +1412,12 @@ INLINESTICKYTOGGLECSS;
 			if (ezTOC_Option::get( 'ctrl_headings' ) == true) {
 				$options['view_more'] = ezTOC_Option::get( 'limit_headings_num' );
 			}
+			$post_ctrl_headings = get_post_meta( $ez_toc_current_post_id, '_ez-toc-p_ctrl_heading', true );
+			$post_ctrl_headings_limit = get_post_meta( $ez_toc_current_post_id, '_ez-toc-p_limit_headings_num', true );
+
+			if($post_ctrl_headings == true && $post_ctrl_headings_limit > 0){
+				$options['view_more'] = get_post_meta( $ez_toc_current_post_id, '_ez-toc-p_limit_headings_num', true );
+			}
 
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 
