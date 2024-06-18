@@ -360,7 +360,7 @@ function ez_toc_stikcy_enable_support_status() {
     }
 
     // Homepage condition
-    if (is_front_page() && !ezTOC_Option::get('sticky_include_homepage')) {
+    if ((is_front_page() || is_home() ) && !ezTOC_Option::get('sticky_include_homepage')) {
         $status = false;
     }
 
