@@ -819,6 +819,13 @@ text
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'enable_memory_fix' => array(
+							'id' => 'enable_memory_fix',
+							'name' => __( 'Fix Out of Memory / 500 Error', 'easy-table-of-contents' ),
+							'desc' => __( 'To solve memory / 500 error on the page where toc shortcode is added through pagebuilder such as DIVI.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'prsrv_line_brk' => array(
 							'id' => 'prsrv_line_brk',
 							'name' => __( 'Preserve Line Breaks', 'easy-table-of-contents' ),
@@ -1338,6 +1345,7 @@ text
 				'sticky_include_product_category'     => true,
 				'sticky_include_custom_tax'           => false,
 				'generate_toc_link_ids'               => false,
+				'enable_memory_fix'					  => false,
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );
@@ -1587,8 +1595,8 @@ HR_TAG;
 
 			$readonly = isset( $args['readonly'] ) && $args['readonly'] === true ? ' readonly="readonly"' : '';
 			$size     = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
-
-			$html = '<input type="text" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( stripslashes( $value ) ) . '"' . $readonly . ' placeholder="' .
+			$value = $value ? stripslashes($value) : '';
+			$html = '<input type="text" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( $value ) . '"' . $readonly . ' placeholder="' .
 			        $placeholder . '" />';
 
 
@@ -2149,13 +2157,18 @@ function ez_toc_settings_sticky_func_nonpro($settings)
 //fix for Stored XSS to backdoor creation
 	add_filter("ez_toc_settings_sanitize_select", "ez_toc_settings_sanitize_heading_text_tag_cb", 10 , 2 );
 	function ez_toc_settings_sanitize_heading_text_tag_cb( $value , $key ){
-		if($key == 'heading_text_tag'){
-			$value = preg_replace("/[^a-zA-Z]/", "", $value);
+		$valid_tags = array('p','span','div','label');
+		if(!in_array($key,$valid_tags)){
+			$value = 'p';
 		}
 		return $value;
 	}
 	
 	add_filter("ez_toc_get_option_heading_text_tag", "ez_toc_get_option_heading_text_tag_cb", 10 , 3 );
 	function ez_toc_get_option_heading_text_tag_cb( $value, $key ,$default ){
-		return  preg_replace("/[^a-zA-Z]/", "", $value);
+		$valid_tags = array('p','span','div','label');
+		if(!in_array($key,$valid_tags)){
+			$value = 'p';
+		}
+		return $value;
 	}

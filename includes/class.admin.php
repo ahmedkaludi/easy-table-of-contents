@@ -652,6 +652,9 @@ inlineAdminInitialView;
                         ?>
                     </td>
                 </tr>
+
+				<?php   do_action('eztoc_pro_single_post_settings' , $post->ID); ?>
+
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Alternate Headings', 'easy-table-of-contents' ); ?></th>
 					<td>
@@ -908,6 +911,8 @@ inlineAdminInitialView;
 						}
 				    }
 				}
+
+				do_action('eztoc_pro_single_post_save_settings' , $post_id , $_REQUEST);
 
 			}
 

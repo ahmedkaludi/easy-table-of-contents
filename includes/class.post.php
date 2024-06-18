@@ -195,6 +195,19 @@ class ezTOC_Post {
 		 */
 		remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
 
+		$enable_memory_fix = ezTOC_Option::get('enable_memory_fix');
+		if ( $enable_memory_fix ) {
+		/*
+		 * Strip the shortcodes but retain their inner content for processing TOC.
+		 * This issues happens with builder themes which adds shortcodes for sections , rows and columns etc
+		 * This is required to prevent an Infinite loop when the `the_content` filter is applied and the post content contains the ezTOC shortcode.
+		 * 
+		 * @see https://github.com/ahmedkaludi/Easy-Table-of-Contents/issues/749
+		*/
+		$this->post->post_content = $this->stripShortcodesButKeepContent($this->post->post_content);
+		
+		}
+
 		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
 
 		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
@@ -461,7 +474,7 @@ class ezTOC_Post {
 
 		$matches = array();
 
-		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) || function_exists( 'koyfin_setup' )) {
                     $content = apply_filters( 'ez_toc_extract_headings_content', $content );           
                 } else {
                     $content = apply_filters( 'ez_toc_extract_headings_content', wptexturize( $content ) );
@@ -1902,5 +1915,37 @@ class ezTOC_Post {
 		}
 
 		return trailingslashit( $anch_url ) . $page . '/#' . $id;
+	}
+
+	/**
+	 * Strip Shortcodes but keeping its content.
+	 *
+	 * @access private
+	 * @since  2.0.67
+	 *
+	 * @param string $content The post content.
+	 *
+	 * @return string The post content without shortcodes.
+	 */
+	private function stripShortcodesButKeepContent($content) {
+		// Regex pattern to match the specific shortcodes
+		$shortcodes = apply_filters('ez_toc_strip_shortcodes_with_inner_content',[]);
+		if(!empty($shortcodes)){
+			
+		$pattern = '/\[('.implode('|',$shortcodes).')(?:\s[^\]]*)?\](.*?)\[\/\1\]|\[('.implode('|',$shortcodes).')(?:\s[^\]]*)?\/?\]/s';
+	
+		// Function to recursively strip shortcodes
+		while (preg_match($pattern, $content)) {
+			$content = preg_replace_callback($pattern, function($matches) {
+				if (isset($matches[2])) {
+					return $matches[2]; // Keep content inside shortcode
+				}
+	   
+				return ''; // Remove self-closing shortcode
+			}, $content);
+		}
+		
+		}
+		return $content;
 	}
 }
