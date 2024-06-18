@@ -140,6 +140,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * Compatibility: Conflict issue with DIVI theme #749
 * Bug: Highlight Heading colors are not getting customized #755
 * Bug: Sticky TOC appears on homepage without enabling option when front page is set #754
+* Bug: TOC is showing on homepage's post's excerpt Avada theme conflict #757
 * Fix: Passing null to parameter #1 ($string) of type string is deprecated #769
 * Fix: Patched Security Vulnerability disclosed by Dmitrii Ignatyev from cleantalk.org
 
