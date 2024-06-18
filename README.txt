@@ -131,6 +131,17 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.67 18/06/2024 =
+* New: Read Time in Minutes option for individual posts and set the translation for reading time. #763
+* New: Exclude heading by id option #768
+* New: Exclude TOC added using shortcode on specific pages/posts [post_not_in="1,2"] #758
+* Compatibility: Added compatibility with the theme StoreHub #760
+* Compatibility: Conflict issue with custom theme(user specific issue) #750
+* Compatibility: Conflict issue with DIVI theme #749
+* Bug: Highlight Heading colors are not getting customized #755
+* Bug: Sticky TOC appears on homepage without enabling option when front page is set #754
+* Fix: Patched Security Vulnerability disclosed by Dmitrii Ignatyev from cleantalk.org
+
 = 2.0.66.1 15/05/2024 =
 * Bug: ETOC version 2.0.66 giving **Fatal error**: Uncaught TypeError: method_exists() #752
 
@@ -233,24 +244,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * Bug: Fatal error while activating pro version #644
 * Bug: Conflict issue with the Smooth Scroll Offset option #646
 * Bug: Critical Error with READ TIME Option when Set to "0"(Zero) #648
-
-= 2.0.58 15/11/2023 =
-* New: Generate schema/SiteNavigationElement for Table of contents #592
-* New: An option to show estimated time to read the full article #594
-* New: An option of TOC not crawl the paragraphs in blockquotes #601
-* New: Add the View More feature compatibility with the Shortcode #628
-* Bug: Widget Auto-Highlight Issue After Update 2.0.56.1 #610
-* Bug: Conflict with the plugin Perfmatters's option "Enable FastClick" #612
-* Bug: Add compatibility with the theme Oliver Lohse #615
-* Bug: Sticky TOC is showing on Blog pages #617
-* Bug: Toc not showing if AMP Page Builder is used #619
-* Bug: Smooth Scroll offset issue after latest update #620
-* Bug: JSON error when we try to added the ETOC in page/post section #621
-* Bug: The WP Bakery image gallery is getting braked on first reload #627
-* Bug: Issue showing on the page speed tool as Lists do not contain only <li> elements and script-supporting elements #630
-
-= 2.0.57.1 27/10/2023 =
-* Bug: Incomplete CSS Classes in Version 2.0.57 Causing Style Issues #614
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)
 

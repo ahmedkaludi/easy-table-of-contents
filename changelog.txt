@@ -1,5 +1,16 @@
 == Changelog ==
 
+= 2.0.67 18/06/2024 =
+* New: Read Time in Minutes option for individual posts and set the translation for reading time. #763
+* New: Exclude heading by id option #768
+* New: Exclude TOC added using shortcode on specific pages/posts [post_not_in="1,2"] #758
+* Compatibility: Added compatibility with the theme StoreHub #760
+* Compatibility: Conflict issue with custom theme(user specific issue) #750
+* Compatibility: Conflict issue with DIVI theme #749
+* Bug: Highlight Heading colors are not getting customized #755
+* Bug: Sticky TOC appears on homepage without enabling option when front page is set #754
+* Fix: Patched Security Vulnerability disclosed by Dmitrii Ignatyev from cleantalk.org
+
 = 2.0.66.1 15/05/2024 =
 * Bug: ETOC version 2.0.66 giving **Fatal error**: Uncaught TypeError: method_exists() #752
 
