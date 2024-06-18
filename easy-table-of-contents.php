@@ -1262,7 +1262,7 @@ INLINESTICKYTOGGLECSS;
 				self::enqueue_registered_script();	
 				self::enqueue_registered_style();	
 				self::inlineMainCountingCSS();		
-				$pid = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();		
+				$pid = (function_exists('get_queried_object_id') && class_exists('Storyhub'))?get_queried_object_id():get_the_ID();		
 
 				$post_id = isset( $atts['post_id'] ) ? (int) $atts['post_id'] : $pid;																					
 																				
