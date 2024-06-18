@@ -822,7 +822,7 @@ text
 						'enable_memory_fix' => array(
 							'id' => 'enable_memory_fix',
 							'name' => __( 'Fix Out of Memory / 500 Error', 'easy-table-of-contents' ),
-							'desc' => __( 'Enable this option when you are getting memory / 500 error on the page where toc shortcode is added', 'easy-table-of-contents' ),
+							'desc' => __( 'To solve memory / 500 error on the page where toc shortcode is added through pagebuilder such as DIVI.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
 						),
