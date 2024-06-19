@@ -346,66 +346,85 @@ function ez_toc_auto_device_target_status(){
  * Check for the enable support of sticky toc/toggle
  * @since 2.0.60
  */
-function ez_toc_stikcy_enable_support_status() {
+function ez_toc_stikcy_enable_support_status(){
 
     $status = false;
 
-    // Check sticky post types condition
     $stickyPostTypes = apply_filters('ez_toc_sticky_post_types', ezTOC_Option::get('sticky-post-types'));
-    if (!empty($stickyPostTypes) && is_singular()) {
-        $postType = get_post_type();
-        if (in_array($postType, $stickyPostTypes)) {
+
+    if(!empty($stickyPostTypes)){
+        if(is_singular() && !is_front_page()){
+            $postType = get_post_type();
+            if(in_array($postType,$stickyPostTypes)){
+                $status = true;
+            }
+        }										
+    }
+
+    if(ezTOC_Option::get('sticky_include_homepage')){
+        if ( is_front_page() || is_home() ) {
             $status = true;
         }
     }
 
-    // Homepage condition
-    if ((is_front_page() || is_home() ) && !ezTOC_Option::get('sticky_include_homepage')) {
-        $status = false;
-    }
-
-    // Category condition
-    if (is_category() && ezTOC_Option::get('sticky_include_category')) {
-        $status = true;
-    }
-
-    // Tag condition
-    if (is_tag() && ezTOC_Option::get('sticky_include_tag')) {
-        $status = true;
-    }
-
-    // Product category condition
-    if (is_tax('product_cat') && ezTOC_Option::get('sticky_include_product_category')) {
-        $status = true;
-    }
-
-    // Custom taxonomy condition
-    if (is_tax() && ezTOC_Option::get('sticky_include_custom_tax')) {
-        $status = true;
-    }
-
-    // Device eligibility
-    if (function_exists('wp_is_mobile')) {
-        if (ezTOC_Option::get('sticky_device_target') == 'mobile') {
-            $status = wp_is_mobile();
-        } elseif (ezTOC_Option::get('sticky_device_target') == 'desktop') {
-            $status = !wp_is_mobile();
+    if(ezTOC_Option::get('sticky_include_category')){
+        if ( is_category() ) {
+            $status = true;
         }
     }
 
-    // URL restriction condition
-    $restrictedUrls = ezTOC_Option::get('sticky_restrict_url_text');
-    if ($restrictedUrls) {
-        $urlsArr = array_map('trim', explode(PHP_EOL, nl2br($restrictedUrls, false)));
-        foreach ($urlsArr as $url) {
-            if (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], $url) !== false) {
-                $status = false;
-                break;
+    if(ezTOC_Option::get('sticky_include_tag')){
+        if ( is_tag() ) {
+            $status = true;
+        }
+    }
+    
+    if(ezTOC_Option::get('sticky_include_product_category')){
+        if ( is_tax( 'product_cat' ) ) {
+            $status = true;
+        }
+    }
+
+    if(ezTOC_Option::get('sticky_include_custom_tax')){
+        if ( is_tax() ) {
+            $status = true;
+        }
+    }
+
+    //Device Eligibility
+    //@since 2.0.60
+    if(ezTOC_Option::get( 'sticky_device_target' ) == 'mobile'){
+        if(function_exists('wp_is_mobile') && wp_is_mobile()){
+            $status = true;
+        }else{
+            $status = false;
+        }
+    }
+
+    if(ezTOC_Option::get( 'sticky_device_target' ) == 'desktop'){
+        if(function_exists('wp_is_mobile') && wp_is_mobile()){
+            $status = false;
+        }else{
+            $status = true;
+        }
+    }
+
+    if( ezTOC_Option::get( 'sticky_restrict_url_text' ) && ezTOC_Option::get( 'sticky_restrict_url_text' ) != '' ){
+        $all_urls = nl2br(ezTOC_Option::get( 'sticky_restrict_url_text' ));
+        $all_urls = str_replace('<br />', '', $all_urls);
+        $urls_arr = explode(PHP_EOL, $all_urls);
+        if(is_array($urls_arr)){
+            foreach ($urls_arr as $url_arr) {
+                if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( $_SERVER['REQUEST_URI'], trim($url_arr) ) ) {
+                    $status = false;
+                    break;
+                }
             }
         }
     }
-
+    
     return apply_filters('ez_toc_sticky_enable_support', $status);
+
 }
 
 
