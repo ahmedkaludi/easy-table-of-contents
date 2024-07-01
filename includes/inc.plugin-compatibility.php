@@ -1164,3 +1164,27 @@ function ez_toc_store_original_post_id($post) {
         set_transient('eztoc_original_post_id', $post->ID);
     }
 }
+
+/*
+* Divi theme compatibility for removing soft hyphen and other hypens in the TOC heading title
+* @since 2.0.69
+*/
+add_filter('ez_toc_content_heading_title', 'ez_toc_divi_heading_title_anchor',10,1);
+
+function ez_toc_divi_heading_title_anchor($title){
+	if (function_exists('et_setup_theme')){
+			$title = preg_replace('/\x{00AD}/u', '', html_entity_decode($title , ENT_QUOTES, 'UTF-8')); // remove soft hyphen
+			$title = str_replace('—','-',$title);	// remove  dash
+	}
+	return $title;
+}
+
+add_filter('ez_toc_url_anchor_target_before', 'ez_toc_divi_remove_soft_hypen_url',10,1);
+
+
+function ez_toc_divi_remove_soft_hypen_url($anchor){
+	if (function_exists('et_setup_theme')){
+			 $anchor = str_replace('—','-',$anchor); // remove  dash
+	}
+	return $anchor;
+}
