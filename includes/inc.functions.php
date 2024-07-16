@@ -43,7 +43,7 @@ function get_ez_toc_list( $post = null, $apply_content_filter = true ) {
  * @param bool         $apply_content_filter Whether or not to apply `the_content` filter when processing post for headings.
  */
 function ez_toc_list( $post = null, $apply_content_filter = true ) {
-
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 	echo get_ez_toc_list( $post, $apply_content_filter );
 }
 
@@ -87,7 +87,7 @@ function get_ez_toc_block( $post = null, $apply_content_filter = true ) {
  * @param bool         $apply_content_filter Whether or not to apply `the_content` filter when processing post for headings.
  */
 function ez_toc_block( $post = null, $apply_content_filter = true ) {
-
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 	echo get_ez_toc_block( $post, $apply_content_filter );
 }
 // Non amp checker
@@ -216,6 +216,7 @@ add_action('shutdown', function() {
         for ($i = 0; $i < $levels; $i++) {
             $final .= ob_get_clean();
         }
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : This if final output buffer
         echo apply_filters('eztoc_wordpress_final_output', $final);
     }
  

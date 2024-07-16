@@ -616,7 +616,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						'include_homepage' => array(
 							'id' => 'include_homepage',
 							'name' => __( 'Homepage', 'easy-table-of-contents' ),
-							'desc' => sprintf(
+							'desc' => sprintf(/* translators: %s: URL to the documentation */
 								      __( 'Show the table of contents for qualifying items on the homepage. <a target="_blank" href="%s">Learn More</a>', 'easy-table-of-contents' ), 'https://tocwp.com/docs/knowledge-base/how-to-add-a-table-of-content-on-the-homepage/'
 								      ),
 							'type' => 'checkbox',
@@ -863,7 +863,7 @@ text
                         'shortcode-first-paragraph'      => array(
                             'id'   => 'shortcode-first-paragraph',
                             'name' => __( 'Manual Adding the shortcode', 'easy-table-of-contents' ),
-                            'desc' => sprintf(
+                            'desc' => sprintf(/* translators: %s: URL to the documentation */
                             		__( 'You can use the following shortcode to `Easy Table of Contents` display in your particular post or page. <a target="_blank" href="%s">Learn More</a><br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc]" disabled />&nbsp;<span class="ez-toc-tooltip"><button type="button" class="button" onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode</button></span>', 'easy-table-of-contents' ), 'https://tocwp.com/docs/knowledge-base/how-to-add-toc-with-shortcode/'
                             		),
                             'type' => 'paragraph',
@@ -906,7 +906,7 @@ text
                         'shortcode-third-paragraph'      => array(
                             'id'   => 'shortcode-third-paragraph',
                             'name' => __( 'Manual Adding widget shortcode', 'easy-table-of-contents' ),
-                            'desc' => sprintf(
+                            'desc' => sprintf(/* translators: %s: URL to the documentation */
                             		__( 'You can use the following widget shortcode to display `Easy Table of Contents` in your sidebar. <a target="_blank" href="%s">Learn More</a><br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc-widget-sticky]" disabled />&nbsp;<span class="ez-toc-tooltip"><button type="button" class="button" onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode</button></span>', 'easy-table-of-contents' ), 'https://tocwp.com/docs/knowledge-base/how-to-add-toc-with-shortcode/'
                             		),
                             'type' => 'paragraph',
@@ -952,7 +952,7 @@ text
 						'sticky-toggle'                   => array(
 							'id'      => 'sticky-toggle',
 							'name'    => __( 'Sticky TOC', 'easy-table-of-contents' ),
-							'desc' => sprintf(
+							'desc' => sprintf(/* translators: %s: URL to the documentation */
 							      		__( 'Table of contents as Sticky on your site. <a target="_blank" href="%s">Learn More</a>', 'easy-table-of-contents' ), 'https://tocwp.com/docs/knowledge-base/how-to-use-fixed-sticky-toc/'
 							      		),
 							'type'    => 'checkbox',
@@ -1529,9 +1529,9 @@ text
 		 */
 		public static function missingCallback( $args ) {
 
-			printf(
-				__( 'The callback function used for the <strong>%s</strong> setting is missing.', 'easy-table-of-contents' ),
-				$args['id']
+			printf(/* translators: %s: Setting ID */
+				esc_html__( 'The callback function used for the <strong>%s</strong> setting is missing.', 'easy-table-of-contents' ),
+				esc_attr($args['id'])
 			);
 		}
 
@@ -1552,10 +1552,9 @@ text
 			$class = '';
 			if ( isset( $args['class'] ) && true === $args['class'] ) {
 				$class = self::get( $args['class'], $args['default'] );
-			}
-			echo <<<HR_TAG
-                        <hr class='$class' />
-HR_TAG;
+			} ?>
+            <hr class='<?php echo esc_attr($class);?>' />
+		<?php	
 		}
 
 		/**
@@ -1596,15 +1595,15 @@ HR_TAG;
 			$readonly = isset( $args['readonly'] ) && $args['readonly'] === true ? ' readonly="readonly"' : '';
 			$size     = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 			$value = $value ? stripslashes($value) : '';
-			$html = '<input type="text" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( $value ) . '"' . $readonly . ' placeholder="' .
-			        $placeholder . '" />';
+			$html = '<input type="text" class="' . esc_attr($size) . '-text" id="ez-toc-settings[' . esc_attr($args['id']) . ']"' . esc_attr($name) . ' value="' . esc_attr( $value ) . '"' . esc_attr($readonly) . ' placeholder="' .
+			esc_attr($placeholder) . '" />';
 
 
 			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
-				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+				$html .= '<label for="ez-toc-settings[' . esc_attr($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 			}
-
+			//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 			echo $html;
 		}
 
@@ -1645,13 +1644,13 @@ HR_TAG;
 
 			$placeholder = isset( $args['placeholder'] ) && $args['placeholder'] != '' ? 'placeholder="'.$args['placeholder'].'"' : '';
 
-			$html .= '<textarea rows="10" cols="50" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name .  $readonly . $placeholder. '/>' . esc_textarea( $value ) . '</textarea>';
+			$html .= '<textarea rows="10" cols="50" class="' . esc_attr($size) . '-text" id="ez-toc-settings[' . esc_attr($args['id']) . ']"' . esc_attr($name) .  esc_attr($readonly) . esc_attr($placeholder). '/>' . esc_textarea( $value ) . '</textarea>';
 
 			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
-				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+				$html .= '<label for="ez-toc-settings[' . esc_attr($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 			}
-
+			//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 			echo $html;
 		}
 
@@ -1686,13 +1685,13 @@ HR_TAG;
 
 			$min = isset( $args['min'] ) && $args['min'] != '' ? 'min="'.$args['min'].'"' : '';
 
-			$html = '<input type="number" class="' . $size . '-text" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="' . esc_attr( stripslashes( $value ) ) . '"' . $readonly . $min . ' />';
+			$html = '<input type="number" class="' . esc_attr($size) . '-text" id="ez-toc-settings[' . esc_attr($args['id']) . ']"' . esc_attr($name) . ' value="' . esc_attr( stripslashes( $value ) ) . '"' . esc_attr($readonly) . esc_attr($min) . ' />';
 
 			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
-				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+				$html .= '<label for="ez-toc-settings[' . esc_attr($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 			}
-
+			//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 			echo $html;
 		}
 
@@ -1726,13 +1725,13 @@ HR_TAG;
 
 			$checked = $value ? checked( 1, $value, false ) : '';
 
-			$html = '<input type="checkbox" id="ez-toc-settings[' . $args['id'] . ']"' . $name . ' value="1" ' . $checked . '/>';
+			$html = '<input type="checkbox" id="ez-toc-settings[' . esc_attr($args['id']) . ']"' . esc_attr($name) . ' value="1" ' . esc_attr($checked) . '/>';
 
 			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
-				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+				$html .= '<label for="ez-toc-settings[' . esc_attr($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 			}
-
+			//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped	
 			echo $html;
 		}
 
@@ -1768,14 +1767,14 @@ HR_TAG;
 						$enabled = null;
 					}
 
-					echo '<input name="ez-toc-settings[' . $args['id'] . '][' . $key . ']" id="ez-toc-settings[' . $args['id'] . '][' . $key . ']" type="checkbox" value="' . $key . '" ' . checked( $option, $enabled, false ) . '/>&nbsp;';
-					echo '<label for="ez-toc-settings[' . $args['id'] . '][' . $key . ']">' . $option . '</label><br/>';
+					echo '<input name="ez-toc-settings[' . esc_attr($args['id']) . '][' . esc_attr($key) . ']" id="ez-toc-settings[' . esc_attr($args['id']) . '][' . esc_attr($key) . ']" type="checkbox" value="' . esc_attr($key) . '" ' . checked( $option, $enabled, false ) . '/>&nbsp;';
+					echo '<label for="ez-toc-settings[' . esc_attr($args['id']) . '][' . esc_attr($key) . ']">' . esc_html($option) . '</label><br/>';
 
 				endforeach;
 
 				if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
-					echo '<p class="description">' . $args['desc'] . '</p>';
+					echo '<p class="description">' . wp_kses_post($args['desc']) . '</p>';
 				}
 			}
 		}
@@ -1797,13 +1796,13 @@ HR_TAG;
 
 			foreach ( $args['options'] as $key => $option ) {
 
-				echo '<input name="ez-toc-settings[' . $args['id'] . ']"" id="ez-toc-settings[' . $args['id'] . '][' . $key . ']" type="radio" value="' . $key . '" ' . checked( $key, $value, false ) . '/>&nbsp;';
-				echo '<label for="ez-toc-settings[' . $args['id'] . '][' . $key . ']">' . $option . '</label><br/>';
+				echo '<input name="ez-toc-settings[' . esc_attr($args['id']) . ']"" id="ez-toc-settings[' . esc_attr($args['id']) . '][' . esc_attr($key) . ']" type="radio" value="' . esc_attr($key) . '" ' . checked( $key, $value, false ) . '/>&nbsp;';
+				echo '<label for="ez-toc-settings[' . esc_attr($args['id']) . '][' . esc_attr($key) . ']">' . esc_html($option) . '</label><br/>';
 			}
 
 			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
-				echo '<p class="description">' . $args['desc'] . '</p>';
+				echo '<p class="description">' . wp_kses_post($args['desc']) . '</p>';
 			}
 		}
 
@@ -1834,20 +1833,20 @@ HR_TAG;
 				$chosen = '';
 			}
 
-			$html = '<select id="ez-toc-settings[' . $args['id'] . ']" name="ez-toc-settings[' . $args['id'] . ']" ' . $chosen . 'data-placeholder="' . $placeholder . '" />';
+			$html = '<select id="ez-toc-settings[' . esc_attr($args['id']) . ']" name="ez-toc-settings[' . esc_attr($args['id']) . ']" ' . esc_attr($chosen) . 'data-placeholder="' . esc_attr($placeholder) . '" />';
 
 			foreach ( $args['options'] as $option => $name ) {
 				$selected = selected( $option, $value, false );
-				$html .= '<option value="' . $option . '" ' . $selected . '>' . $name . '</option>';
+				$html .= '<option value="' . esc_attr($option) . '" ' . esc_attr($selected) . '>' . esc_html($name) . '</option>';
 			}
 
 			$html .= '</select>';
 
 			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
-				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+				$html .= '<label for="ez-toc-settings[' . esc_attr($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 			}
-
+			//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 			echo $html;
 		}
 
@@ -1878,7 +1877,7 @@ HR_TAG;
 				$chosen = '';
 			}
 
-			$html = '<select id="ez-toc-settings[' . $args['id'] . ']" name="ez-toc-settings[' . $args['id'] . ']" ' . $chosen . 'data-placeholder="' . $placeholder . '" />';
+			$html = '<select id="ez-toc-settings[' . esc_attr($args['id']) . ']" name="ez-toc-settings[' . esc_attr($args['id']) . ']" ' . esc_attr($chosen) . 'data-placeholder="' . esc_attr($placeholder) . '" />';
 
 			foreach ( $args['options'] as $group ) {
 
@@ -1887,7 +1886,7 @@ HR_TAG;
 				foreach ( $group['options'] as $option => $name ) {
 
 					$selected = selected( $option, $value, false );
-					$html .= '<option value="' . $option . '" ' . $selected . '>' . $name . '</option>';
+					$html .= '<option value="' . esc_attr($option) . '" ' . esc_attr($selected) . '>' . esc_html($name) . '</option>';
 				}
 
 				$html .= '</optgroup>';
@@ -1897,9 +1896,9 @@ HR_TAG;
 
 			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
-				$html .= '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+				$html .= '<label for="ez-toc-settings[' . esc_attr($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 			}
-
+			//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 			echo $html;
 		}
 
@@ -1982,13 +1981,13 @@ HR_TAG;
 
 			$default = isset( $args['default'] ) ? $args['default'] : '';
 
-			$html  = '<input type="text" class="ez-toc-color-picker" id="ez-toc-settings[' . $args['id'] . ']" name="ez-toc-settings[' . $args['id'] . ']" value="' . esc_attr( $value ) . '" data-default-color="' . esc_attr( $default ) . '" />';
+			$html  = '<input type="text" class="ez-toc-color-picker" id="ez-toc-settings[' . esc_attr($args['id']) . ']" name="ez-toc-settings[' . esc_attr($args['id']) . ']" value="' . esc_attr( $value ) . '" data-default-color="' . esc_attr( $default ) . '" />';
 
 			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
-				echo '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+				echo '<label for="ez-toc-settings[' . esc_attr($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 			}
-
+			//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 			echo $html;
 		}
 
@@ -2028,7 +2027,7 @@ HR_TAG;
 
 			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
-				echo '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+				echo '<label for="ez-toc-settings[' . esc_attr($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 			}
 		}
 
@@ -2068,7 +2067,7 @@ HR_TAG;
 
 			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
-				echo '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+				echo '<label for="ez-toc-settings[' . esc_attr($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 			}
 		}
 /**
@@ -2107,7 +2106,7 @@ public static function child_font_size( $args ) {
 
 			if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) {
 
-				echo '<label for="ez-toc-settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+				echo '<label for="ez-toc-settings[' . esc_attr($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 			}
 		}
 

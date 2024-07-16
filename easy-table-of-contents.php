@@ -316,7 +316,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
             	$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
 				$screen_css .= self::inlineCSS();
-				echo '<style id="ez-toc-inline-css">'.$screen_css.'</style>';
+				echo '<style id="ez-toc-inline-css">'.wp_kses_post($screen_css).'</style>';
 			}
 		}
 
@@ -1209,7 +1209,8 @@ INLINESTICKYTOGGLECSS;
                     $wp_class = 'WP_Widget_' . ucwords(strtolower($class));
 
                     if (!is_a($wp_widget_factory->widgets[$wp_class], 'WP_Widget')):
-                        return '<p>'.sprintf(__("%s: Widget class not found. Make sure this widget exists and the class name is correct"),'<strong>'.$class.'</strong>').'</p>';
+						/* translators: %s: Widget class name */
+                        return '<p>'.sprintf(__("%s: Widget class not found. Make sure this widget exists and the class name is correct","easy-table-of-contents"),'<strong>'.$class.'</strong>').'</p>';
                     else:
                         $class = $wp_class;
                     endif;
@@ -1690,17 +1691,17 @@ INLINESTICKYTOGGLECSS;
 					
 					$themeClass = 'ez-toc-sticky-'.ezTOC_Option::get( 'sticky_theme', 'grey' );
 										
-					echo <<<STICKYTOGGLEHTML
-						<div class="ez-toc-sticky">
-							<div class="ez-toc-sticky-fixed {$toggleClass} {$themeClass}">
-								<div class='ez-toc-sidebar'>{$stickyToggleTOC}</div>
-							</div>
-							<a class='ez-toc-open-icon' href='#' onclick='ezTOC_showBar(event)' {$linkZindex}>
-								<span class="arrow">{$arrowSide}</span>
-								<span class="text">{$openButtonText}</span>
-							</a>
+					?>
+					<div class="ez-toc-sticky">
+						<div class="ez-toc-sticky-fixed <?php echo esc_attr($toggleClass); ?> <?php echo esc_attr($themeClass); ?>">
+							<div class='ez-toc-sidebar'><?php echo esc_html($stickyToggleTOC); ?></div>
 						</div>
-STICKYTOGGLEHTML;
+						<a class='ez-toc-open-icon' href='#' onclick='ezTOC_showBar(event)' <?php echo esc_attr($linkZindex); ?>>
+							<span class="arrow"><?php echo esc_html($arrowSide); ?></span>
+							<span class="text"><?php echo esc_html($openButtonText); ?></span>
+						</a>
+					</div>
+					<?php
 					}
 				}
 			  }

@@ -1341,18 +1341,19 @@ class ezTOC_Post {
 					$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 				}
 					$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
+					
 				switch($toc_title_tag){
 					case 'div':
-						$htmlSticky .= '<div class="ez-toc-sticky-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ) . '</div>' . PHP_EOL;
+						$htmlSticky .= '<div class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</div>' . PHP_EOL;
 					break;
 					case 'label':
-						$htmlSticky .= '<label class="ez-toc-sticky-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ) . '</label>' . PHP_EOL;
+						$htmlSticky .= '<label class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</label>' . PHP_EOL;
 					break;
 					case 'span':
-						$htmlSticky .= '<span class="ez-toc-sticky-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ) . '</span>' . PHP_EOL;
+						$htmlSticky .= '<span class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</span>' . PHP_EOL;
 					break;
 					default:
-						$htmlSticky .= '<p class="ez-toc-sticky-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ) . '</p>' . PHP_EOL;
+						$htmlSticky .= '<p class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</p>' . PHP_EOL;
 					break;
 				}	
 					$htmlSticky .= '<a class="ez-toc-close-icon" href="#" onclick="ezTOC_hideBar(event)" aria-label="×"><span aria-hidden="true">×</span></a>' . PHP_EOL;
@@ -1568,16 +1569,16 @@ class ezTOC_Post {
 		switch($toc_title_tag){
 		
 			case 'div':
-				$header_label = '<div class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</div>' . PHP_EOL;
+				$header_label = '<div class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</div>' . PHP_EOL;
 			break;
 			case 'label':
-				$header_label = '<label class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</label>' . PHP_EOL;
+				$header_label = '<label class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</label>' . PHP_EOL;
 			break;
 			case 'span':
-				$header_label = '<span class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</span>' . PHP_EOL;
+				$header_label = '<span class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</span>' . PHP_EOL;
 			break;
 			default:
-				$header_label = '<p class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</p>' . PHP_EOL;
+				$header_label = '<p class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</p>' . PHP_EOL;
 			break;}
 	
 		$html .= $header_label;
@@ -1639,16 +1640,16 @@ class ezTOC_Post {
 		}
 		switch($toc_title_tag){
 			case 'div':
-				$header_label = '<div class="ez-toc-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</div>' . PHP_EOL;
+				$header_label = '<div class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</div>' . PHP_EOL;
 			break;
 			case 'label':
-				$header_label = '<label class="ez-toc-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</label>' . PHP_EOL;
+				$header_label = '<label class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</label>' . PHP_EOL;
 			break;
 			case 'span':
-				$header_label = '<span class="ez-toc-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</span>' . PHP_EOL;
+				$header_label = '<span class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</span>' . PHP_EOL;
 			break;
 			default:
-				$header_label = '<p class="ez-toc-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</p>' . PHP_EOL;
+				$header_label = '<p class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</p>' . PHP_EOL;
 			break;
 		}
 		if (!ezTOC_Option::get( 'visibility' ) ) {
@@ -1715,7 +1716,7 @@ class ezTOC_Post {
 	 * @since  2.0
 	 */
 	public function toc() {
-
+		//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in getTOC()
 		echo $this->getTOC();
 	}
 

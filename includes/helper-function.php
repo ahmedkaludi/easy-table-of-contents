@@ -125,10 +125,10 @@ add_action('wp_ajax_eztoc_subscribe_newsletter','eztoc_subscribe_for_newsletter'
 function eztoc_subscribe_for_newsletter(){
     if( !wp_verify_nonce( sanitize_text_field( $_POST['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) ) {
         echo 'security_nonce_not_verified';
-        die();
+        wp_die();
     }
     if ( !current_user_can( 'manage_options' ) ) {
-        die();
+        wp_die();
     }
     $api_url = 'http://magazine3.company/wp-json/api/central/email/subscribe';
     $api_params = array(
@@ -139,6 +139,7 @@ function eztoc_subscribe_for_newsletter(){
     );
     $response = wp_remote_post( $api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
     $response = wp_remote_retrieve_body( $response );
+    //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     echo $response;
-    die;
+    wp_die();
 }

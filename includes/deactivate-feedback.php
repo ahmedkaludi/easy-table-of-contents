@@ -29,20 +29,21 @@ shuffle($reasons);
 <div id="eztoc-reloaded-feedback-overlay" style="display: none;">
     <div id="eztoc-reloaded-feedback-content">
 	<form action="" method="post">
-	    <h3><strong><?php _e('If you have a moment, please let us know why you are deactivating:', 'easy-table-of-contents'); ?></strong></h3>
+	    <h3><strong><?php esc_html_e('If you have a moment, please let us know why you are deactivating:', 'easy-table-of-contents'); ?></strong></h3>
 	    <ul>
                 <?php 
                 foreach ($reasons as $reason){
+					//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
                     echo $reason;
                 }
                 ?>
 	    </ul>
 	    <?php if( null !== $email && !empty( $email ) ) : ?>
-    	    <input type="hidden" name="eztoc_disable_from" value="<?php echo $email; ?>" />
+    	    <input type="hidden" name="eztoc_disable_from" value="<?php echo esc_attr($email); ?>" />
 	    <?php endif; ?>
-	    <input id="eztoc-reloaded-feedback-submit" class="button button-primary" type="submit" name="eztoc_disable_submit" value="<?php _e('Submit & Deactivate', 'easy-table-of-contents'); ?>"/>
-	    <a class="button eztoc-feedback-only-deactivate"><?php _e('Only Deactivate', 'easy-table-of-contents'); ?></a>
-	    <a class="eztoc-feedback-not-deactivate" href="#"><?php _e('Don\'t deactivate', 'easy-table-of-contents'); ?></a>
+	    <input id="eztoc-reloaded-feedback-submit" class="button button-primary" type="submit" name="eztoc_disable_submit" value="<?php esc_html_e('Submit & Deactivate', 'easy-table-of-contents'); ?>"/>
+	    <a class="button eztoc-feedback-only-deactivate"><?php esc_html_e('Only Deactivate', 'easy-table-of-contents'); ?></a>
+	    <a class="eztoc-feedback-not-deactivate" href="#"><?php esc_html_e('Don\'t deactivate', 'easy-table-of-contents'); ?></a>
 	</form>
     </div>
 </div>
