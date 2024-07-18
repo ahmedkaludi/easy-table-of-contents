@@ -139,7 +139,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			require_once( EZ_TOC_PATH . '/includes/class-eztoc-post.php' );
                         require_once( EZ_TOC_PATH . '/includes/class-eztoc-widget.php' );
 			require_once( EZ_TOC_PATH . '/includes/class-eztoc-widgetsticky.php' );
-			require_once( EZ_TOC_PATH . '/includes/Debug.php' );
+			require_once( EZ_TOC_PATH . '/includes/class-debug.php' );
 			require_once( EZ_TOC_PATH . '/includes/inc.functions.php' );
 			require_once( EZ_TOC_PATH . '/includes/inc.cord-functions.php' );
 
