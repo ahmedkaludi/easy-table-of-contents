@@ -1,3 +1,7 @@
+<?php 
+    // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+?>
 <div id='toc' class='wrap'>
     <a href="https://tocwp.com/" target="_blank">
         <img src="<?php echo esc_url( plugins_url('assets/eztoc-logo.png', dirname(__FILE__))) ?>" alt="tocwp"

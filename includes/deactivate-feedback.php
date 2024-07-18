@@ -1,8 +1,12 @@
 <?php
+
 /**
  * Deactivate Feedback Template
  * @since 2.0.27
  */
+
+ // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 $current_user = wp_get_current_user();
 $email = '';

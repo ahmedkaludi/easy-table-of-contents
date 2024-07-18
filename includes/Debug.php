@@ -4,6 +4,9 @@ namespace Easy_Plugins\Table_Of_Contents;
 
 use WP_Error;
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Class Debug
  *
