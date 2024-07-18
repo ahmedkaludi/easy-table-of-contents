@@ -8,6 +8,8 @@
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
  * Domain Path: /languages
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
  * Copyright 2022  Magazine3  ( email : team@magazine3.in )
  *
@@ -255,6 +257,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @return bool
 		 */
 		private static function checkBeaverBuilderPluginActive() {
+			//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason : Nonce verification is not required here.
 			if( has_action( 'the_content' ) && isset($_REQUEST['fl_builder'])) {
 				return true;
 			}
@@ -312,11 +315,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		public static function ez_toc_inline_styles(){
 
 			if (ezTOC_Option::get( 'inline_css' )) {
-				$screen_css = file_get_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );				
+				$screen_css = eztoc_read_file_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );				
 				$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
             	$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
 				$screen_css .= self::inlineCSS();
-				echo '<style id="ez-toc-inline-css">'.wp_kses_post($screen_css).'</style>';
+				echo '<style id="ez-toc-inline-css">'.esc_html($screen_css).'</style>';
 			}
 		}
 
@@ -556,38 +559,39 @@ if ( ! class_exists( 'ezTOC' ) ) {
          */
         private static function inlineWPBakeryJS()
         {
-            $stickyJS = '';
-
-            if( wp_is_mobile() )
-			{
-                $stickyJS = <<<INLINESTICKJSFORMOBILE
-let ezTocStickyContainer = document.querySelector('#ez-toc-sticky-container');
-if(document.querySelectorAll('#ez-toc-sticky-container').length > 0) {
-    let ezTocStickyContainerUL = ezTocStickyContainer.querySelectorAll('.ez-toc-link');
-    for(let i = 0; i < ezTocStickyContainerUL.length; i++) {
-        let anchorHREF = ezTocStickyContainerUL[i].getAttribute('href');
-        ezTocStickyContainerUL[i].setAttribute('href', anchorHREF + '-' + uniqID);
-    }
-}       
-INLINESTICKJSFORMOBILE;
-            }
-            $inlineWPBakeryJS = <<<INLINEWPBAKERYJS
-let mobileContainer = document.querySelector("#mobile.vc_row-fluid");
-if(document.querySelectorAll("#mobile.vc_row-fluid").length > 0) {
-    let ezTocContainerUL = mobileContainer.querySelectorAll('.ez-toc-link');
-    let uniqID = 'xs-sm-' + Math.random().toString(16).slice(2);
-    for(let i = 0; i < ezTocContainerUL.length; i++) {
-        let anchorHREF = ezTocContainerUL[i].getAttribute('href');
-        mobileContainer.querySelector("span.ez-toc-section"+ anchorHREF).setAttribute('id', anchorHREF.replace
-            ('#','') + '-' +
-            uniqID);
-        ezTocContainerUL[i].setAttribute('href', anchorHREF + '-' + uniqID);
-    }
-    $stickyJS
-    
-}    
-INLINEWPBAKERYJS;
-            wp_add_inline_script( 'ez-toc-js', $inlineWPBakeryJS );
+			$sticky_js = '';
+        
+			if (wp_is_mobile()) {
+				$sticky_js = "
+					let ezTocStickyContainer = document.querySelector('#ez-toc-sticky-container');
+					if (document.querySelectorAll('#ez-toc-sticky-container').length > 0) {
+						let ezTocStickyContainerUL = ezTocStickyContainer.querySelectorAll('.ez-toc-link');
+						for (let i = 0; i < ezTocStickyContainerUL.length; i++) {
+							let anchorHREF = ezTocStickyContainerUL[i].getAttribute('href');
+							ezTocStickyContainerUL[i].setAttribute('href', anchorHREF + '-' + uniqID);
+						}
+					}
+				";
+			}
+	
+			$inline_wp_bakery_js = "
+				let mobileContainer = document.querySelector('#mobile.vc_row-fluid');
+				if (document.querySelectorAll('#mobile.vc_row-fluid').length > 0) {
+					let ezTocContainerUL = mobileContainer.querySelectorAll('.ez-toc-link');
+					let uniqID = 'xs-sm-' + Math.random().toString(16).slice(2);
+					for (let i = 0; i < ezTocContainerUL.length; i++) {
+						let anchorHREF = ezTocContainerUL[i].getAttribute('href');
+						let section = mobileContainer.querySelector('span.ez-toc-section' + anchorHREF);
+						if (section) {
+							section.setAttribute('id', anchorHREF.replace('#', '') + '-' + uniqID);
+						}
+						ezTocContainerUL[i].setAttribute('href', anchorHREF + '-' + uniqID);
+					}
+					{$sticky_js}
+				}
+			";
+	
+			wp_add_inline_script('ez-toc-js', $inline_wp_bakery_js);
         }
 
 		/**
@@ -703,80 +707,67 @@ INLINEWPBAKERYJS;
          * @param string $containerId
          * @return string
         */
-        public static function InlineCountingCSS( $direction = 'ltr', $directionClass = 'ez-toc-container-direction', $class = 'ez-toc-counter',  $counter = 'counter', $containerId = 'ez-toc-container' )
-        {
-            $list_type = ezTOC_Option::get( $counter, 'decimal' );
+		public static function InlineCountingCSS( $direction = 'ltr', $directionClass = 'ez-toc-container-direction', $class = 'ez-toc-counter',  $counter = 'counter', $containerId = 'ez-toc-container' ) {
+			$list_type = ezTOC_Option::get( $counter, 'decimal' );
 			if( $list_type != 'none' ) {
-	            $inlineCSS = '';
-	            $counterListAll = array_merge( ezTOC_Option::getCounterListDecimal(), ezTOC_Option::getCounterList_i18n() );
-	            $listTypesForCounting = array_keys( $counterListAll );
-	            $inlineCSS .= <<<INLINECSS
-.$directionClass {direction: $direction;}
-INLINECSS;
+				$inlineCSS = '';
+				$counterListAll = array_merge( ezTOC_Option::getCounterListDecimal(), ezTOC_Option::getCounterList_i18n() );
+				$listTypesForCounting = array_keys( $counterListAll );
+				$inlineCSS .= ".$directionClass {direction: $direction;}";
+		
 				$listAnchorPosition = 'before';
-	            $marginCSS = 'margin-right: .2em;';
-	            $floatPosition = 'float: left;';
-	            if( $direction == 'rtl' )
-	            {
-	                $class .= '-rtl';
-
-	                $marginCSS = 'margin-left: .2em;';
+				$marginCSS = 'margin-right: .2em;';
+				$floatPosition = 'float: left;';
+				if( $direction == 'rtl' ) {
+					$class .= '-rtl';
+					$marginCSS = 'margin-left: .2em;';
 					$floatPosition = 'float: right;';
-	            }
-
+				}
+		
 				$importantItem = '';
-				if ( 'Edition Child' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) )
-				{
+				if ( 'Edition Child' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
 					$importantItem = ' !important';
 				}
+		
 				if( in_array( $list_type, $listTypesForCounting ) ) {
-	                if( $direction == 'rtl' )
-					{
-	                    $length = 6;
-	                    $counterRTLCSS = self::rtlCounterResetCSS( $length, $class );
-	                    $counterRTLCSS .= self::rtlCounterIncrementCSS( $length, $class );
-	                    $counterRTLCSS .= self::rtlCounterContentCSS( $length, $list_type, $class );
-	                    $inlineCSS .= <<<INLINECSS
-	$counterRTLCSS
-INLINECSS;
-	                }
-	                if( $direction == 'ltr' )
-					{
+					if( $direction == 'rtl' ) {
+						$length = 6;
+						$counterRTLCSS = self::rtlCounterResetCSS( $length, $class );
+						$counterRTLCSS .= self::rtlCounterIncrementCSS( $length, $class );
+						$counterRTLCSS .= self::rtlCounterContentCSS( $length, $list_type, $class );
+						$inlineCSS .= $counterRTLCSS;
+					}
+					if( $direction == 'ltr' ) {
 						$counterPositionCSS = "";
 						if( 'outside' == ezTOC_Option::get( 'counter-position' ) )
 							$counterPositionCSS = "min-width: 22px;width: auto;";
-
-	                     $inlineCSS .= <<<INLINECSS
-.$class ul{counter-reset: item $importantItem;}.$class nav ul li a::$listAnchorPosition {content: counters(item, ".", $list_type) ". ";display: inline-block;counter-increment: item;flex-grow: 0;flex-shrink: 0;$marginCSS $floatPosition $counterPositionCSS}
-INLINECSS;
-	                }
-	            } else {
-
+		
+						$inlineCSS .= ".$class ul{counter-reset: item $importantItem;}";
+						$inlineCSS .= ".$class nav ul li a::$listAnchorPosition {content: counters(item, '.', $list_type) '. ';display: inline-block;counter-increment: item;flex-grow: 0;flex-shrink: 0;$marginCSS $floatPosition $counterPositionCSS}";
+					}
+				} else {
 					$content = "  ";
 					if( $list_type == 'numeric' || $list_type == 'cjk-earthly-branch' )
 						$content = ". ";
-
+		
 					$counterPositionCSS = "";
-					if( 'outside' == ezTOC_Option::get( 'counter-position' ) )
-					{
+					if( 'outside' == ezTOC_Option::get( 'counter-position' ) ) {
 						$counterPositionCSS = "min-width: 15px;width: auto;";
 						if( 'square' == $list_type )
 							$counterPositionCSS = "min-width: 20px;width: auto;";
 						if( 'cjk-earthly-branch' == $list_type  )
 							$counterPositionCSS = "min-width: 25px;width: auto;";
-					}	
+					}   
 					$counterContent = "counter(item, $list_type) '$content'";
 					if( $list_type == '- ' )
 						$counterContent = 'counter(item, none) "- "';
-
-	                $inlineCSS .= <<<INLINECSS
-.$class ul {direction: $direction;counter-reset: item $importantItem;}.$class nav ul li a::$listAnchorPosition {content: $counterContent;$marginCSS counter-increment: item;flex-grow: 0;flex-shrink: 0;$floatPosition	$counterPositionCSS }
-INLINECSS;
-
-	            }
-                  return $inlineCSS;
-            }
-        }
+		
+					$inlineCSS .= ".$class ul {direction: $direction;counter-reset: item $importantItem;}";
+					$inlineCSS .= ".$class nav ul li a::$listAnchorPosition {content: $counterContent;$marginCSS counter-increment: item;flex-grow: 0;flex-shrink: 0;$floatPosition $counterPositionCSS}";
+				}
+				return $inlineCSS;
+			}
+		}		
 
         /**
          * rtlCounterResetCSS Method
@@ -804,9 +795,7 @@ INLINECSS;
                     $items[$j] = "item-level$j";
                 }
                 $items = implode(", ", $items);
-                $counterResetCSS .= <<<COUNTERRESETCSS
-.$class $ul {direction: rtl;counter-reset: $items;}
-COUNTERRESETCSS;
+                $counterResetCSS .= ".$class $ul {direction: rtl;counter-reset: $items;}";
             }
             return $counterResetCSS;
         }
@@ -833,9 +822,7 @@ COUNTERRESETCSS;
                 }
                 $ul = implode(" ", $ul);
                 $item = "item-level$i";
-                $counterIncrementCSS .= <<<COUNTERINCREMENTCSS
-.$class $ul li {counter-increment: $item;}
-COUNTERINCREMENTCSS;
+                $counterIncrementCSS .= ".$class $ul li {counter-increment: $item;}";
             }
             return $counterIncrementCSS;
         }
@@ -873,9 +860,7 @@ COUNTERINCREMENTCSS;
                     $cnt--;
                 }
                 $items = implode(' "." ', $items);
-                $counterContentCSS .= <<<COUNTERINCREMENTCSS
-.$class nav $ul li a::before {content: $items ". ";float: right;margin-left: 0.2rem;flex-grow: 0;flex-shrink: 0; $counterPositionCSS }
-COUNTERINCREMENTCSS;
+                $counterContentCSS .= ".$class nav $ul li a::before {content: $items '. ';float: right;margin-left: 0.2rem;flex-grow: 0;flex-shrink: 0; $counterPositionCSS }";
             }
             return $counterContentCSS;
         }
@@ -906,9 +891,7 @@ COUNTERINCREMENTCSS;
             }
             
             
-            $inlineHeadingsPaddingCSS = <<<inlineHeadingsPaddingCSS
-ul.ez-toc-list a.ez-toc-link { padding: $headingsPaddingTop $headingsPaddingRight $headingsPaddingBottom $headingsPaddingLeft; }
-inlineHeadingsPaddingCSS;
+            $inlineHeadingsPaddingCSS = "ul.ez-toc-list a.ez-toc-link { padding: $headingsPaddingTop $headingsPaddingRight $headingsPaddingBottom $headingsPaddingLeft; }";
 
 			return $inlineHeadingsPaddingCSS;
 		}
@@ -970,15 +953,11 @@ inlineHeadingsPaddingCSS;
 		
 			$stickyAddlCss = apply_filters('ez_toc_sticky_pro_css', $stickyAddlCss );
 		
-            $inlineStickyToggleCSS = <<<INLINESTICKYTOGGLECSS
-.ez-toc-sticky-fixed{position: fixed;top: 0;left: 0;z-index: 999999;width: auto;max-width: 100%;} .ez-toc-sticky-fixed .ez-toc-sidebar {position: relative;top: auto;{$custom_width};box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);box-sizing: border-box;padding: 20px 30px;background: {$stickyBgColor};margin-left: 0 !important; {$custom_height} overflow-y: auto;overflow-x: hidden;} .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { padding: 0px;border: none;margin-bottom: 0;margin-top: {$topMarginStickyContainer};} #ez-toc-sticky-container a { color: #000;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {border-bottom-color: #EEEEEE;background-color: {$stickyHeadBgColor};padding:15px;border-bottom: 1px solid #e5e5e5;width: 100%;position: absolute;height: auto;top: 0;left: 0;z-index: 99999999;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title {font-weight: {$stickyHeadTxtWeight};font-size: {$stickyHeadTxtSize}px;color: {$stickyHeadTxtColor};} .ez-toc-sticky-fixed .ez-toc-close-icon {-webkit-appearance: none;padding: 0;cursor: pointer;background: 0 0;border: 0;float: right;font-size: 30px;font-weight: 600;line-height: 1;position: relative;color: {$stickyHeadTxtColor};top: -2px;text-decoration: none;} .ez-toc-open-icon {position: fixed;left: 0px;top:{$stickyToggleAlignTop};text-decoration: none;font-weight: bold;padding: 5px 10px 15px 10px;box-shadow: 1px -5px 10px 5px rgb(0 0 0 / 10%);background-color: {$stickyHeadBgColor};color:{$stickyHeadTxtColor};display: inline-grid;line-height: 1.4;border-radius: 0px 10px 10px 0px;z-index: 999999;} .ez-toc-sticky-fixed.hide {-webkit-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-ms-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-o-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);left: -100%;} .ez-toc-sticky-fixed.show {-webkit-transition: left 0.3s linear, left 0.3s easy-out;-moz-transition: left 0.3s linear;-o-transition: left 0.3s linear;transition: left 0.3s linear;left: 0;} .ez-toc-open-icon span.arrow { font-size: 18px; } .ez-toc-open-icon span.text {font-size: 13px;writing-mode: vertical-rl;text-orientation: mixed;} @media screen  and (max-device-width: 640px) {.ez-toc-sticky-fixed .ez-toc-sidebar {min-width: auto;} .ez-toc-sticky-fixed .ez-toc-sidebar.show { padding-top: 35px; } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { min-width: 100%; } }{$stickyAddlCss}
-INLINESTICKYTOGGLECSS;
+            $inlineStickyToggleCSS = ".ez-toc-sticky-fixed{position: fixed;top: 0;left: 0;z-index: 999999;width: auto;max-width: 100%;} .ez-toc-sticky-fixed .ez-toc-sidebar {position: relative;top: auto;{$custom_width};box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);box-sizing: border-box;padding: 20px 30px;background: {$stickyBgColor};margin-left: 0 !important; {$custom_height} overflow-y: auto;overflow-x: hidden;} .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { padding: 0px;border: none;margin-bottom: 0;margin-top: {$topMarginStickyContainer};} #ez-toc-sticky-container a { color: #000;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {border-bottom-color: #EEEEEE;background-color: {$stickyHeadBgColor};padding:15px;border-bottom: 1px solid #e5e5e5;width: 100%;position: absolute;height: auto;top: 0;left: 0;z-index: 99999999;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title {font-weight: {$stickyHeadTxtWeight};font-size: {$stickyHeadTxtSize}px;color: {$stickyHeadTxtColor};} .ez-toc-sticky-fixed .ez-toc-close-icon {-webkit-appearance: none;padding: 0;cursor: pointer;background: 0 0;border: 0;float: right;font-size: 30px;font-weight: 600;line-height: 1;position: relative;color: {$stickyHeadTxtColor};top: -2px;text-decoration: none;} .ez-toc-open-icon {position: fixed;left: 0px;top:{$stickyToggleAlignTop};text-decoration: none;font-weight: bold;padding: 5px 10px 15px 10px;box-shadow: 1px -5px 10px 5px rgb(0 0 0 / 10%);background-color: {$stickyHeadBgColor};color:{$stickyHeadTxtColor};display: inline-grid;line-height: 1.4;border-radius: 0px 10px 10px 0px;z-index: 999999;} .ez-toc-sticky-fixed.hide {-webkit-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-ms-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-o-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);left: -100%;} .ez-toc-sticky-fixed.show {-webkit-transition: left 0.3s linear, left 0.3s easy-out;-moz-transition: left 0.3s linear;-o-transition: left 0.3s linear;transition: left 0.3s linear;left: 0;} .ez-toc-open-icon span.arrow { font-size: 18px; } .ez-toc-open-icon span.text {font-size: 13px;writing-mode: vertical-rl;text-orientation: mixed;} @media screen  and (max-device-width: 640px) {.ez-toc-sticky-fixed .ez-toc-sidebar {min-width: auto;} .ez-toc-sticky-fixed .ez-toc-sidebar.show { padding-top: 35px; } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { min-width: 100%; } }{$stickyAddlCss}";
 
-                        if( 'right' == ezTOC_Option::get( 'sticky-toggle-position', 'left') ) {
-                            $inlineStickyToggleCSS = <<<INLINESTICKYTOGGLECSS
-.ez-toc-sticky-fixed { position: fixed;top: 0;right: 0;z-index: 999999;width: auto;max-width: 100%;} .ez-toc-sticky-fixed .ez-toc-sidebar { position: relative;top: auto;width: auto !important;height: 100%;box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);box-sizing: border-box;padding: 20px 30px;background: {$stickyBgColor};margin-left: 0 !important;height: auto;overflow-y: auto;overflow-x: hidden; {$custom_height} } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { {$custom_width};padding: 0px;border: none;margin-bottom: 0;margin-top: {$topMarginStickyContainer};} #ez-toc-sticky-container a { color: #000; } .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {border-bottom-color: #EEEEEE;background-color: {$stickyHeadBgColor};padding:15px;border-bottom: 1px solid #e5e5e5;width: 100%;position: absolute;height: auto;top: 0;left: 0;z-index: 99999999;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title { font-weight: {$stickyHeadTxtWeight}; font-size: {$stickyHeadTxtSize}px; color: {$stickyHeadTxtColor}; } .ez-toc-sticky-fixed .ez-toc-close-icon{-webkit-appearance:none;padding:0;cursor:pointer;background:0 0;border:0;float:right;font-size:30px;font-weight:600;line-height:1;position:relative;color:{$stickyHeadTxtColor};top:-2px;text-decoration:none}.ez-toc-open-icon{position:fixed;right:0;top:{$stickyToggleAlignTop};text-decoration:none;font-weight:700;padding:5px 10px 15px;box-shadow:1px -5px 10px 5px rgb(0 0 0 / 10%);background-color:{$stickyHeadBgColor};color:{$stickyHeadTxtColor};display:inline-grid;line-height:1.4;border-radius:10px 0 0 10px;z-index:999999}.ez-toc-sticky-fixed.hide{-webkit-transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);-ms-transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);-o-transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);right:-100%}.ez-toc-sticky-fixed.show{-moz-transition:right .3s linear;-o-transition:right .3s linear;transition:right .3s linear;right:0}.ez-toc-open-icon span.arrow{font-size:18px}.ez-toc-open-icon span.text{font-size:13px;writing-mode:vertical-lr;text-orientation:mixed;-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);-ms-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}@media screen and (max-device-width:640px){.ez-toc-sticky-fixed .ez-toc-sidebar{min-width:auto}.ez-toc-sticky-fixed .ez-toc-sidebar.show{padding-top:35px}.ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container{min-width:100%}}{$stickyAddlCss}
-INLINESTICKYTOGGLECSS;
-                        }
+			if( 'right' == ezTOC_Option::get( 'sticky-toggle-position', 'left') ) {
+				$inlineStickyToggleCSS = ".ez-toc-sticky-fixed { position: fixed;top: 0;right: 0;z-index: 999999;width: auto;max-width: 100%;} .ez-toc-sticky-fixed .ez-toc-sidebar { position: relative;top: auto;width: auto !important;height: 100%;box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);box-sizing: border-box;padding: 20px 30px;background: {$stickyBgColor};margin-left: 0 !important;height: auto;overflow-y: auto;overflow-x: hidden; {$custom_height} } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { {$custom_width};padding: 0px;border: none;margin-bottom: 0;margin-top: {$topMarginStickyContainer};} #ez-toc-sticky-container a { color: #000; } .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {border-bottom-color: #EEEEEE;background-color: {$stickyHeadBgColor};padding:15px;border-bottom: 1px solid #e5e5e5;width: 100%;position: absolute;height: auto;top: 0;left: 0;z-index: 99999999;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title { font-weight: {$stickyHeadTxtWeight}; font-size: {$stickyHeadTxtSize}px; color: {$stickyHeadTxtColor}; } .ez-toc-sticky-fixed .ez-toc-close-icon{-webkit-appearance:none;padding:0;cursor:pointer;background:0 0;border:0;float:right;font-size:30px;font-weight:600;line-height:1;position:relative;color:{$stickyHeadTxtColor};top:-2px;text-decoration:none}.ez-toc-open-icon{position:fixed;right:0;top:{$stickyToggleAlignTop};text-decoration:none;font-weight:700;padding:5px 10px 15px;box-shadow:1px -5px 10px 5px rgb(0 0 0 / 10%);background-color:{$stickyHeadBgColor};color:{$stickyHeadTxtColor};display:inline-grid;line-height:1.4;border-radius:10px 0 0 10px;z-index:999999}.ez-toc-sticky-fixed.hide{-webkit-transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);-ms-transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);-o-transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);right:-100%}.ez-toc-sticky-fixed.show{-moz-transition:right .3s linear;-o-transition:right .3s linear;transition:right .3s linear;right:0}.ez-toc-open-icon span.arrow{font-size:18px}.ez-toc-open-icon span.text{font-size:13px;writing-mode:vertical-lr;text-orientation:mixed;-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);-ms-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}@media screen and (max-device-width:640px){.ez-toc-sticky-fixed .ez-toc-sidebar{min-width:auto}.ez-toc-sticky-fixed .ez-toc-sidebar.show{padding-top:35px}.ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container{min-width:100%}}{$stickyAddlCss}";
+			}
 			wp_add_inline_style( 'ez-toc-sticky', $inlineStickyToggleCSS );
 		}
 				
@@ -1196,12 +1175,12 @@ INLINESTICKYTOGGLECSS;
                     'highlight_color' => ( ! empty ( $highlight_color ) ) ? $highlight_color : '#ededed',
                     'advanced_options' => ( ! empty ( $advanced_options ) ) ? $advanced_options : '',
                     'scroll_fixed_position' => ( ! empty ( $scroll_fixed_position ) ) ? ( int ) $scroll_fixed_position : 30,
-                    'sidebar_width' => ( ! empty ( $sidebar_width ) ) ? ( 'auto' == $sidebar_width ) ? $sidebar_width : ( int ) strip_tags ( $sidebar_width ) : 'auto',
+                    'sidebar_width' => ( ! empty ( $sidebar_width ) ) ? ( 'auto' == $sidebar_width ) ? $sidebar_width : ( int ) wp_strip_all_tags ( $sidebar_width ) : 'auto',
                     'sidebar_width_size_unit' => ( ! empty ( $sidebar_width_size_unit ) ) ? $sidebar_width_size_unit : 'none',
-                    'fixed_top_position' => ( ! empty ( $fixed_top_position ) ) ? ( 'auto' == $fixed_top_position ) ? $fixed_top_position : ( int ) strip_tags ( $fixed_top_position ) : 30,
+                    'fixed_top_position' => ( ! empty ( $fixed_top_position ) ) ? ( 'auto' == $fixed_top_position ) ? $fixed_top_position : ( int ) wp_strip_all_tags ( $fixed_top_position ) : 30,
                     'fixed_top_position_size_unit' => ( ! empty ( $fixed_top_position_size_unit ) ) ? $fixed_top_position_size_unit : 'px',
                     'navigation_scroll_bar' => ( ! empty ( $navigation_scroll_bar ) ) ? $navigation_scroll_bar : 'on',
-                    'scroll_max_height' => ( ! empty ( $scroll_max_height ) ) ? ( 'auto' == $scroll_max_height ) ? $scroll_max_height : ( int ) strip_tags ( $scroll_max_height ) : 'auto',
+                    'scroll_max_height' => ( ! empty ( $scroll_max_height ) ) ? ( 'auto' == $scroll_max_height ) ? $scroll_max_height : ( int ) wp_strip_all_tags ( $scroll_max_height ) : 'auto',
                     'scroll_max_height_size_unit' => ( ! empty ( $scroll_max_height_size_unit ) ) ? $scroll_max_height_size_unit : 'none',
                 );
                 
@@ -1935,9 +1914,10 @@ function ez_toc_activate() {
 function ez_toc_redirect() {
     if (get_option('ez_toc_do_activation_redirect', false)) {
         delete_option('ez_toc_do_activation_redirect');
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: Nonce not required here
         if(!isset($_GET['activate-multi']))
         {
-            wp_redirect("options-general.php?page=table-of-contents#welcome");
+            wp_safe_redirect("options-general.php?page=table-of-contents#welcome");
         }
     }
 }

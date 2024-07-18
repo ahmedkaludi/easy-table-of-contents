@@ -88,7 +88,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		public static function sanitize( $input = array() ) {
 
 			$options = self::getOptions();
-
+			//phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Nonce is already verified in the settings page
 			if ( empty( $_POST['_wp_http_referer'] ) ) {
 
 				return $input;
@@ -96,11 +96,15 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 
 			// Code to settings backup file
 			$uploaded_file_settings = array();
+			//phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Nonce is already verified in the settings page
 			if(isset($_FILES['eztoc_import_backup'])){
+				//phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Nonce is already verified in the settings page
 		    	$fileInfo = wp_check_filetype(basename($_FILES['eztoc_import_backup']['name']));
 		        if (!empty($fileInfo['ext']) && $fileInfo['ext'] == 'json') {
+					//phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Nonce is already verified in the settings page
 		            if(!empty($_FILES["eztoc_import_backup"]["tmp_name"])){
-		            	$uploaded_file_settings = json_decode(file_get_contents($_FILES["eztoc_import_backup"]["tmp_name"]), true);	
+						//phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Nonce is already verified in the settings page
+		            	$uploaded_file_settings = json_decode(eztoc_read_file_contents($_FILES["eztoc_import_backup"]["tmp_name"]), true);	
 		           }
 		        }
 		    }
@@ -702,6 +706,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => array( '1', '2', '3', '4', '5', '6' ),
 						),
+						//phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude -- Reason : This is not a query
 						'exclude' => array(
 							'id' => 'exclude',
 							'name' => __( 'Exclude Headings', 'easy-table-of-contents' ),
@@ -1322,6 +1327,7 @@ text
 				'include_custom_tax'                 => false,
 				'exclude_css'                        => false,
 				'inline_css'                         => false,
+				//phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude -- Reason : This is not a query
 				'exclude'                            => '',
 				'heading_levels'                     => array( '1', '2', '3', '4', '5', '6' ),
 				'restrict_path'                      => '',

@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  
 class eztoc_pointers {
 	const DISPLAY_VERSION = 'v1.0';
-	function __construct () {
+	public function __construct () {
 		add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
 	}
 	function admin_enqueue_scripts () {
@@ -20,14 +20,15 @@ class eztoc_pointers {
 			add_action('admin_head', array($this, 'admin_head'));  // Hook to admin head
 		}
 	}
-	function admin_head () {
+	public function admin_head () {
 		?>
 		<style media="screen"> #pointer-primary { margin: 0 5px 0 0; } </style>
 		<?php }
-	function admin_print_footer_scripts () {
+	public function admin_print_footer_scripts () {
 		global $pagenow;
 		global $current_user;
 		$tour = array ();
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not required here.
         $tab = isset($_GET['tab']) ? sanitize_text_field( wp_unslash($_GET['tab'])) : '';
 		$function = '';
 		$button2 = '';
@@ -80,16 +81,16 @@ class eztoc_pointers {
 			$this->eztoc_pointer_script ($id, $options, esc_html__('No Thanks', 'easy-table-of-contents'), $button2, $function);
 		}
 	}
-	function get_admin_url($page, $tab) {
+	public function get_admin_url($page, $tab) {
 		$url = admin_url();
 		$url .= $page.'?tab='.$tab;
 		return $url;
 	}
-	function eztoc_pointer_script ($id, $options, $button1, $button2=false, $function='') {
+	public function eztoc_pointer_script ($id, $options, $button1, $button2=false, $function='') {
 		?>
 		<script>
 			(function ($) {
-				var wp_pointers_tour_opts = <?php echo json_encode ($options); ?>, setup;
+				var wp_pointers_tour_opts = <?php echo wp_json_encode ($options); ?>, setup;
 				wp_pointers_tour_opts = $.extend (wp_pointers_tour_opts, {
 					buttons: function (event, t) {
 						button= jQuery ('<a id="pointer-close" class="button-secondary">' + '<?php echo wp_kses_post($button1); ?>' + '</a>');
@@ -114,7 +115,7 @@ class eztoc_pointers {
 					<?php if ($button2) { ?>
 						jQuery ('#pointer-close').after ('<a id="pointer-primary" class="button-primary">' + '<?php echo wp_kses_post($button2); ?>' + '</a>');
 						jQuery ('#pointer-primary').click (function () {
-							<?php echo $function; ?>
+							<?php echo esc_js($function); ?>
 						});
 						jQuery ('#pointer-close').click (function () {
 							$.post (ajaxurl, {

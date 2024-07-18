@@ -114,16 +114,16 @@ if ( ! function_exists('ez_toc_non_amp') ) {
 
         $non_amp = true;
 
-        if( function_exists('ampforwp_is_amp_endpoint') && @ampforwp_is_amp_endpoint() ) {                
+        if( function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint() ) {                
             $non_amp = false;                       
         }     
-        if( function_exists('is_amp_endpoint') && @is_amp_endpoint() ){
+        if( function_exists('is_amp_endpoint') && is_amp_endpoint() ){
             $non_amp = false;           
         }
-        if( function_exists('is_better_amp') && @is_better_amp() ){       
+        if( function_exists('is_better_amp') && is_better_amp() ){       
             $non_amp = false;           
         }
-        if( function_exists('is_amp_wp') && @is_amp_wp() ){       
+        if( function_exists('is_amp_wp') && is_amp_wp() ){       
             $non_amp = false;           
         }
 
@@ -193,7 +193,7 @@ function ez_toc_export_all_settings()
     if(!empty($export_settings_data)){
         header('Content-type: application/json');
         header('Content-disposition: attachment; filename=ez_toc_settings_backup.json');
-        echo json_encode($export_settings_data);   
+        echo wp_json_encode($export_settings_data);   
     }                             
     wp_die();
 }
@@ -261,7 +261,7 @@ add_filter('eztoc_wordpress_final_output', function($content){
         if ( $heading ) {
             $heading = apply_filters( 'ez_toc_url_anchor_target_before', $heading );
             $return = html_entity_decode( $heading, ENT_QUOTES, get_option( 'blog_charset' ) );
-            $return = trim( strip_tags( $return ) );
+            $return = trim( wp_strip_all_tags( $return ) );
             $return = remove_accents( $return );
             $return = str_replace( array( "\r", "\n", "\n\r", "\r\n" ), ' ', $return );
             $return = htmlentities2( $return );

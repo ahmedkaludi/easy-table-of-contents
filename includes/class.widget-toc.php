@@ -344,21 +344,21 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
 			$instance = $old_instance;
 
-			$instance['title'] = strip_tags( $new_instance['title'] );
+			$instance['title'] = wp_strip_all_tags( $new_instance['title'] );
 
 			$instance['affix'] = array_key_exists( 'affix', $new_instance ) ? $new_instance['affix'] : '0';
 
-			$instance['highlight_color'] = strip_tags( $new_instance['highlight_color'] );
+			$instance['highlight_color'] = wp_strip_all_tags( $new_instance['highlight_color'] );
 
 			if ( isset ( $new_instance[ 'eztoc_appearance' ] ) && $new_instance[ 'eztoc_appearance' ] == 'on' ){
 
-			$instance[ 'sidebar_title_size' ] = ( int ) strip_tags ( $new_instance[ 'sidebar_title_size' ] );
+			$instance[ 'sidebar_title_size' ] = ( int ) wp_strip_all_tags ( $new_instance[ 'sidebar_title_size' ] );
 
-			$instance[ 'sidebar_title_size_unit' ] = strip_tags ( $new_instance[ 'sidebar_title_size_unit' ] );
+			$instance[ 'sidebar_title_size_unit' ] = wp_strip_all_tags ( $new_instance[ 'sidebar_title_size_unit' ] );
 
-			$instance[ 'sidebar_title_weight' ] = strip_tags ( $new_instance[ 'sidebar_title_weight' ] );
+			$instance[ 'sidebar_title_weight' ] = wp_strip_all_tags ( $new_instance[ 'sidebar_title_weight' ] );
 
-			$instance[ 'sidebar_title_color' ] = strip_tags ( $new_instance[ 'sidebar_title_color' ] );
+			$instance[ 'sidebar_title_color' ] = wp_strip_all_tags ( $new_instance[ 'sidebar_title_color' ] );
 			
 			}else{
 

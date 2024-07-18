@@ -508,9 +508,7 @@ if ( 'Thrive Theme Builder' == apply_filters( 'current_theme', get_option( 'curr
 
     if( ! function_exists( 'ezTocEnqueueScriptsforThriveThemeBuilder' ) ) {
     	function ezTocEnqueueScriptsforThriveThemeBuilder() {
-            echo <<<INLINECSSAVADA
-<style>#ez-toc-container a:hover{text-decoration: none;}</style>
-INLINECSSAVADA;
+            echo "<style>#ez-toc-container a:hover{text-decoration: none;}</style>";
         }
     }
 }
@@ -592,9 +590,7 @@ if ( 'Foodie Pro' == apply_filters( 'current_theme', get_option( 'current_theme'
 
     if( ! function_exists( 'ezTocEnqueueScriptsforFoodieProTheme' ) ) {
     	function ezTocEnqueueScriptsforFoodieProTheme() {
-            echo <<<INLINECSSFOODPRO
-<style>@media only screen and (max-width: 940px){ .ez-toc-sticky #ez-toc-sticky-container .menu-toggle,#ez-toc-container .menu-toggle, #ez-toc-widget-container .menu-toggle{display:none} .ez-toc-sticky #ez-toc-sticky-container nav,#ez-toc-container nav, #ez-toc-widget-container nav {display:block}  }</style>
-INLINECSSFOODPRO;
+            echo "<style>@media only screen and (max-width: 940px){ .ez-toc-sticky #ez-toc-sticky-container .menu-toggle,#ez-toc-container .menu-toggle, #ez-toc-widget-container .menu-toggle{display:none} .ez-toc-sticky #ez-toc-sticky-container nav,#ez-toc-container nav, #ez-toc-widget-container nav {display:block}  }</style>";
         }
     }
 
@@ -1006,37 +1002,37 @@ function ez_toc_woodmart_gallery_fix(){
 	if(function_exists('woodmart_load_classes') && class_exists('Vc_Manager')){
 		
 		if(!wp_style_is('el-section-title')){
-			wp_register_style( 'el-section-title', WOODMART_THEME_DIR.'/css/parts/el-section-title.min.css');
+			wp_register_style( 'el-section-title', WOODMART_THEME_DIR.'/css/parts/el-section-title.min.css', array() ,ezTOC::VERSION );
 			wp_enqueue_style( 'el-section-title' );
 		}
 		
 		if(!wp_style_is('wd-section-title-style-simple-and-brd')){
-		wp_register_style( 'wd-section-title-style-simple-and-brd', WOODMART_THEME_DIR.'/css/parts/el-section-title-style-simple-and-brd.min.css');
+		wp_register_style( 'wd-section-title-style-simple-and-brd', WOODMART_THEME_DIR.'/css/parts/el-section-title-style-simple-and-brd.min.css', array() ,ezTOC::VERSION);
 		wp_enqueue_style( 'wd-section-title-style-simple-and-brd' );
 		}
 		
 		if(!wp_style_is('wd-owl-carousel')){
-			wp_register_style( 'wd-owl-carousel', WOODMART_THEME_DIR.'/css/parts/lib-owl-carousel.min.css');
+			wp_register_style( 'wd-owl-carousel', WOODMART_THEME_DIR.'/css/parts/lib-owl-carousel.min.css', array() ,ezTOC::VERSION);
 			wp_enqueue_style( 'wd-owl-carousel' );
 		}
 		
 		if(!wp_style_is('wd-image-gallery')){
-			wp_register_style( 'wd-image-gallery', WOODMART_THEME_DIR.'/css/parts/el-gallery.min.css');
+			wp_register_style( 'wd-image-gallery', WOODMART_THEME_DIR.'/css/parts/el-gallery.min.css', array() ,ezTOC::VERSION);
 			wp_enqueue_style( 'wd-image-gallery' );
 		}
 
 		if(!wp_style_is('wd-accordion')){
-			wp_register_style( 'wd-accordion', WOODMART_THEME_DIR.'/css/parts/el-accordion.min.css');
+			wp_register_style( 'wd-accordion', WOODMART_THEME_DIR.'/css/parts/el-accordion.min.css', array() ,ezTOC::VERSION);
 			wp_enqueue_style( 'wd-accordion' );
 		}
 		
 		if(!wp_style_is('wd-tabs')){
-			wp_register_style( 'wd-tabs', WOODMART_THEME_DIR.'/css/parts/el-tabs.min.css');
+			wp_register_style( 'wd-tabs', WOODMART_THEME_DIR.'/css/parts/el-tabs.min.css', array() ,ezTOC::VERSION);
 			wp_enqueue_style( 'wd-tabs' );
 		}
 
 		if(!wp_style_is('wd-team-member')){
-			wp_register_style( 'wd-team-member', WOODMART_THEME_DIR.'/css/parts/el-team-member.min.css');
+			wp_register_style( 'wd-team-member', WOODMART_THEME_DIR.'/css/parts/el-team-member.min.css', array() ,ezTOC::VERSION);
 			wp_enqueue_style( 'wd-team-member' );
 		}
 			

@@ -433,8 +433,8 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 wp_add_inline_style ( 'ez-toc-widget-sticky', ezTOC::InlineCountingCSS ( ezTOC_Option::get ( 'heading-text-direction', 'ltr' ), 'ez-toc-widget-sticky-direction', 'ez-toc-widget-sticky-container', 'counter', 'ez-toc-widget-sticky-container' ) );
 
                 $widgetJSVersion = ezTOC::VERSION . '-' . filemtime ( EZ_TOC_PATH . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "js" . DIRECTORY_SEPARATOR . "ez-toc-widget-sticky$min.js" );
-                wp_register_script ( 'ez-toc-widget-stickyjs', EZ_TOC_URL . "assets/js/ez-toc-widget-sticky$min.js", array( 'jquery' ), $widgetJSVersion );
-                wp_enqueue_script ( 'ez-toc-widget-stickyjs', EZ_TOC_URL . "assets/js/ez-toc-widget-sticky$min.js", array( 'jquery' ), $widgetJSVersion );
+                wp_register_script ( 'ez-toc-widget-stickyjs', EZ_TOC_URL . "assets/js/ez-toc-widget-sticky$min.js", array( 'jquery' ), $widgetJSVersion , true);
+                wp_enqueue_script ( 'ez-toc-widget-stickyjs', EZ_TOC_URL . "assets/js/ez-toc-widget-sticky$min.js", array( 'jquery' ), $widgetJSVersion , true);
                 if ( 0 < count ( $js_vars ) )
                 {
                     wp_localize_script ( 'ez-toc-widget-stickyjs', 'ezTocWidgetSticky', $js_vars );
@@ -458,18 +458,18 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
 
             $instance = $old_instance;
 
-            $instance[ 'title' ] = strip_tags ( $new_instance[ 'title' ] );
+            $instance[ 'title' ] = wp_strip_all_tags ( $new_instance[ 'title' ] );
 
-            $instance[ 'highlight_color' ] = strip_tags ( $new_instance[ 'highlight_color' ] );
+            $instance[ 'highlight_color' ] = wp_strip_all_tags ( $new_instance[ 'highlight_color' ] );
 
             $instance[ 'hide_inline' ] = array_key_exists ( 'hide_inline', $new_instance ) ? $new_instance[ 'hide_inline' ] : '0';
 
             if ( isset ( $new_instance[ 'appearance_options' ] ) && $new_instance[ 'appearance_options' ] == 'on' )
             {
-                $instance[ 'sidebar_sticky_title' ] = ( int ) strip_tags ( $new_instance[ 'sidebar_sticky_title' ] );
-                $instance[ 'sidebar_sticky_title_size_unit' ] = strip_tags ( $new_instance[ 'sidebar_sticky_title_size_unit' ] );
-                $instance[ 'sidebar_sticky_title_weight' ] = strip_tags ( $new_instance[ 'sidebar_sticky_title_weight' ] );
-                $instance[ 'sidebar_sticky_title_color' ] = strip_tags ( $new_instance[ 'sidebar_sticky_title_color' ] );
+                $instance[ 'sidebar_sticky_title' ] = ( int ) wp_strip_all_tags ( $new_instance[ 'sidebar_sticky_title' ] );
+                $instance[ 'sidebar_sticky_title_size_unit' ] = wp_strip_all_tags ( $new_instance[ 'sidebar_sticky_title_size_unit' ] );
+                $instance[ 'sidebar_sticky_title_weight' ] = wp_strip_all_tags ( $new_instance[ 'sidebar_sticky_title_weight' ] );
+                $instance[ 'sidebar_sticky_title_color' ] = wp_strip_all_tags ( $new_instance[ 'sidebar_sticky_title_color' ] );
             } else
             {
                 $instance[ 'sidebar_sticky_title' ] = 120;
@@ -481,16 +481,16 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
             if ( isset ( $new_instance[ 'advanced_options' ] ) && $new_instance[ 'advanced_options' ] == 'on' )
             {
                 $instance[ 'advanced_options' ] = 'on';
-                $instance[ 'scroll_fixed_position' ] = ( int ) strip_tags ( $new_instance[ 'scroll_fixed_position' ] );
-                $instance[ 'sidebar_width' ] = ( 'auto' == $new_instance[ 'sidebar_width' ] ) ? $new_instance[ 'sidebar_width' ] : ( int ) strip_tags ( $new_instance[ 'sidebar_width' ] );
-                $instance[ 'sidebar_width_size_unit' ] = strip_tags ( $new_instance[ 'sidebar_width_size_unit' ] );
-                $instance[ 'fixed_top_position' ] = ( 'auto' == $new_instance[ 'fixed_top_position' ] ) ? $new_instance[ 'fixed_top_position' ] : ( int ) strip_tags ( $new_instance[ 'fixed_top_position' ] );
-                $instance[ 'fixed_top_position_size_unit' ] = strip_tags ( $new_instance[ 'fixed_top_position_size_unit' ] );
+                $instance[ 'scroll_fixed_position' ] = ( int ) wp_strip_all_tags ( $new_instance[ 'scroll_fixed_position' ] );
+                $instance[ 'sidebar_width' ] = ( 'auto' == $new_instance[ 'sidebar_width' ] ) ? $new_instance[ 'sidebar_width' ] : ( int ) wp_strip_all_tags ( $new_instance[ 'sidebar_width' ] );
+                $instance[ 'sidebar_width_size_unit' ] = wp_strip_all_tags ( $new_instance[ 'sidebar_width_size_unit' ] );
+                $instance[ 'fixed_top_position' ] = ( 'auto' == $new_instance[ 'fixed_top_position' ] ) ? $new_instance[ 'fixed_top_position' ] : ( int ) wp_strip_all_tags ( $new_instance[ 'fixed_top_position' ] );
+                $instance[ 'fixed_top_position_size_unit' ] = wp_strip_all_tags ( $new_instance[ 'fixed_top_position_size_unit' ] );
 
-                $instance[ 'navigation_scroll_bar' ] = strip_tags ( $new_instance[ 'navigation_scroll_bar' ] );
+                $instance[ 'navigation_scroll_bar' ] = wp_strip_all_tags ( $new_instance[ 'navigation_scroll_bar' ] );
 
-                $instance[ 'scroll_max_height' ] = ( 'auto' == $new_instance[ 'scroll_max_height' ] ) ? $new_instance[ 'scroll_max_height' ] : ( int ) strip_tags ( $new_instance[ 'scroll_max_height' ] );
-                $instance[ 'scroll_max_height_size_unit' ] = strip_tags ( $new_instance[ 'scroll_max_height_size_unit' ] );
+                $instance[ 'scroll_max_height' ] = ( 'auto' == $new_instance[ 'scroll_max_height' ] ) ? $new_instance[ 'scroll_max_height' ] : ( int ) wp_strip_all_tags ( $new_instance[ 'scroll_max_height' ] );
+                $instance[ 'scroll_max_height_size_unit' ] = wp_strip_all_tags ( $new_instance[ 'scroll_max_height_size_unit' ] );
             } else
             {
                 $instance[ 'advanced_options' ] = '';

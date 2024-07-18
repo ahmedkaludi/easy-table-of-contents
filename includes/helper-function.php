@@ -57,17 +57,18 @@ function eztoc_add_deactivation_feedback_modal() {
  * @since 1.4.0
  */
 function eztoc_send_feedback() {
-
+//phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Since form is serialised nonce is verified after parsing the recieved data.
     if( isset( $_POST['data'] ) ) {
+        //phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Since form is serialised nonce is verified after parsing the recieved data.
         parse_str( $_POST['data'], $form );
     }
     
     if( !isset( $form['eztoc_security_nonce'] ) || isset( $form['eztoc_security_nonce'] ) && !wp_verify_nonce( sanitize_text_field( $form['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) ) {
         echo 'security_nonce_not_verified';
-        die();
+        wp_die();
     }
     if ( !current_user_can( 'manage_options' ) ) {
-        die();
+        wp_die();
     }
     
     $text = '';
@@ -104,7 +105,7 @@ function eztoc_send_feedback() {
     $success = wp_mail( 'team@magazine3.in', $subject, $text, $headers );
     
     echo 'sent';
-    die();
+    wp_die();
 }
 add_action( 'wp_ajax_eztoc_send_feedback', 'eztoc_send_feedback' );
 
@@ -114,9 +115,9 @@ function eztoc_enqueue_makebetter_email_js(){
         return;
     }
 
-    wp_enqueue_script( 'eztoc-make-better-js', EZ_TOC_URL . 'includes/feedback.js', array( 'jquery' ));
+    wp_enqueue_script( 'eztoc-make-better-js', EZ_TOC_URL . 'includes/feedback.js', array( 'jquery' ),  ezTOC::VERSION, true );
 
-    wp_enqueue_style( 'eztoc-make-better-css', EZ_TOC_URL . 'includes/feedback.css', false  );
+    wp_enqueue_style( 'eztoc-make-better-css', EZ_TOC_URL . 'includes/feedback.css', false,  ezTOC::VERSION );
 }
 add_action( 'admin_enqueue_scripts', 'eztoc_enqueue_makebetter_email_js' );
 
@@ -142,4 +143,27 @@ function eztoc_subscribe_for_newsletter(){
     //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     echo $response;
     wp_die();
+}
+
+/*
+ * Read the contents of a file using the WordPress filesystem API.
+ *
+ * @param string $file_path The path to the file.
+ * @return string|false The file contents or false on failure.
+ */
+function eztoc_read_file_contents($file_path) {
+    global $wp_filesystem;
+
+    // Initialize the WordPress filesystem, no more using file_get_contents function
+    if (empty($wp_filesystem)) {
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+        WP_Filesystem();
+    }
+
+    // Check if the file exists and is readable
+    if ($wp_filesystem->exists($file_path) && $wp_filesystem->is_readable($file_path)) {
+        return $wp_filesystem->get_contents($file_path);
+    }
+
+    return false;
 }
