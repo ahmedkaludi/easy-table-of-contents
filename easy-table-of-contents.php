@@ -345,7 +345,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 							$schema_opt = array();	
 							$schema_opt['@context'] = "https://schema.org"; 
 							$schema_opt['@graph']   = $output_array; 
-							echo '<script type="application/ld+json" class="ez-toc-schema-markup-output">'.wp_json_encode( $schema_opt, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ).'</script>';
+							echo '<script type="application/ld+json" class="ez-toc-schema-markup-output">'.wp_json_encode( $schema_opt ).'</script>';
 						}
 						
 					}
@@ -871,30 +871,27 @@ if ( ! class_exists( 'ezTOC' ) ) {
          * @since  2.0.48
          * @static
          */
-        private static function inlineHeadingsPaddingCSS()
-        {
-            $headingsPaddingTop = 0;
-            if ( null !== ezTOC_Option::get( 'headings-padding-top' ) && !empty( ezTOC_Option::get( 'headings-padding-top' ) ) && 0 != ezTOC_Option::get( 'headings-padding-top' ) && '0' != ezTOC_Option::get( 'headings-padding-top' ) ) {
-                $headingsPaddingTop =  ezTOC_Option::get( 'headings-padding-top' ) . '' . ezTOC_Option::get( 'headings-padding-top_units' );
-            }
-            $headingsPaddingBottom = 0;
-            if ( null !== ezTOC_Option::get( 'headings-padding-bottom' ) && !empty( ezTOC_Option::get( 'headings-padding-bottom' ) ) && 0 != ezTOC_Option::get( 'headings-padding-bottom' ) && '0' != ezTOC_Option::get( 'headings-padding-bottom' ) ) {
-                $headingsPaddingBottom =  ezTOC_Option::get( 'headings-padding-bottom' ) . '' . ezTOC_Option::get( 'headings-padding-bottom_units' );
-            }
-            $headingsPaddingLeft = 0;
-            if ( null !== ezTOC_Option::get( 'headings-padding-left' ) && !empty( ezTOC_Option::get( 'headings-padding-left' ) ) && 0 != ezTOC_Option::get( 'headings-padding-left' ) && '0' != ezTOC_Option::get( 'headings-padding-left' ) ) {
-                $headingsPaddingLeft =  ezTOC_Option::get( 'headings-padding-left' ) . '' . ezTOC_Option::get( 'headings-padding-left_units' );
-            }
-            $headingsPaddingRight = 0;
-            if ( null !== ezTOC_Option::get( 'headings-padding-right' ) && !empty( ezTOC_Option::get( 'headings-padding-right' ) ) && 0 != ezTOC_Option::get( 'headings-padding-right' ) && '0' != ezTOC_Option::get( 'headings-padding-right' ) ) {
-                $headingsPaddingRight =  ezTOC_Option::get( 'headings-padding-right' ) . '' . ezTOC_Option::get( 'headings-padding-right_units' );
-            }
-            
-            
-            $inlineHeadingsPaddingCSS = "ul.ez-toc-list a.ez-toc-link { padding: $headingsPaddingTop $headingsPaddingRight $headingsPaddingBottom $headingsPaddingLeft; }";
-
-			return $inlineHeadingsPaddingCSS;
+		private static function inlineHeadingsPaddingCSS() 
+		{
+			$padding_top = ezTOC_Option::get( 'headings-padding-top' );
+			$padding_bottom = ezTOC_Option::get( 'headings-padding-bottom' );
+			$padding_left = ezTOC_Option::get( 'headings-padding-left' );
+			$padding_right = ezTOC_Option::get( 'headings-padding-right' );
+		
+			$padding_top = ! empty( $padding_top ) && $padding_top !== '0' ? $padding_top . ezTOC_Option::get( 'headings-padding-top_units' ) : '0';
+			$padding_bottom = ! empty( $padding_bottom ) && $padding_bottom !== '0' ? $padding_bottom . ezTOC_Option::get( 'headings-padding-bottom_units' ) : '0';
+			$padding_left = ! empty( $padding_left ) && $padding_left !== '0' ? $padding_left . ezTOC_Option::get( 'headings-padding-left_units' ) : '0';
+			$padding_right = ! empty( $padding_right ) && $padding_right !== '0' ? $padding_right . ezTOC_Option::get( 'headings-padding-right_units' ) : '0';
+		
+			return sprintf(
+				'ul.ez-toc-list a.ez-toc-link { padding: %s %s %s %s; }',
+				esc_attr( $padding_top ),
+				esc_attr( $padding_right ),
+				esc_attr( $padding_bottom ),
+				esc_attr( $padding_left )
+			);
 		}
+		
 
         /**
          * inlineStickyToggleCSS Method
@@ -1296,7 +1293,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			global $wp_current_filter;
 
 			// Do not execute if root current filter is one of those in the array.
-			if ( in_array( $wp_current_filter[0], array( 'get_the_excerpt', 'init', 'wp_head' ), true ) ) {
+			if (isset($wp_current_filter[0]) && in_array( $wp_current_filter[0], array( 'get_the_excerpt', 'init', 'wp_head' ), true ) ) {
 
 				$apply = false;
 			}
