@@ -40,15 +40,16 @@ function eztoc_is_plugins_page() {
     return false;
 }
 
-add_filter('admin_footer', 'eztoc_add_deactivation_feedback_modal');
+add_filter( 'admin_footer', 'eztoc_add_deactivation_feedback_modal' );
+
 function eztoc_add_deactivation_feedback_modal() {
 
-    if( !is_admin() || !eztoc_is_plugins_page()) {
-        return;
+    if ( is_admin() && eztoc_is_plugins_page() ) {
+
+        require_once EZ_TOC_PATH ."/includes/deactivate-feedback.php";    
+
     }
     
-    require_once EZ_TOC_PATH ."/includes/deactivate-feedback.php";
-
 }
 
 /**
@@ -102,28 +103,29 @@ function eztoc_send_feedback() {
       
     }
 
-    $success = wp_mail( 'team@magazine3.in', $subject, $text, $headers );
+    wp_mail( 'team@magazine3.in', $subject, $text, $headers );
     
     echo 'sent';
     wp_die();
+
 }
+
 add_action( 'wp_ajax_eztoc_send_feedback', 'eztoc_send_feedback' );
 
-function eztoc_enqueue_makebetter_email_js(){
+function eztoc_enqueue_makebetter_email_js() {
 
-    if( !is_admin() || !eztoc_is_plugins_page()) {
-        return;
+    if ( is_admin() && eztoc_is_plugins_page() ) {
+        wp_enqueue_script( 'eztoc-make-better-js', EZ_TOC_URL . 'includes/feedback.js', array( 'jquery' ),  ezTOC::VERSION, true );
+        wp_enqueue_style( 'eztoc-make-better-css', EZ_TOC_URL . 'includes/feedback.css', false,  ezTOC::VERSION );
     }
-
-    wp_enqueue_script( 'eztoc-make-better-js', EZ_TOC_URL . 'includes/feedback.js', array( 'jquery' ),  ezTOC::VERSION, true );
-
-    wp_enqueue_style( 'eztoc-make-better-css', EZ_TOC_URL . 'includes/feedback.css', false,  ezTOC::VERSION );
+    
 }
+
 add_action( 'admin_enqueue_scripts', 'eztoc_enqueue_makebetter_email_js' );
 
 /*
  * Read the contents of a file using the WordPress filesystem API.
- *
+ * Since: 2.0.68
  * @param string $file_path The path to the file.
  * @return string|false The file contents or false on failure.
  */
