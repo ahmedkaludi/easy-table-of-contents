@@ -414,9 +414,24 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				 * in right way
 				 * @since 2.0.39
 				 */
-				if( 'Foodie Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+				if ( 'Foodie Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+
 					wp_register_style( 'ez-toc-foodie-pro', EZ_TOC_URL . "assets/css/foodie-pro$min.css",array(), ezTOC::VERSION );
 					wp_enqueue_style( 'ez-toc-foodie-pro' );
+
+				}
+
+				/**
+				 * Thrive Theme Builder Compatibility
+				 * add inline custom CSS to remove double line
+				 * on links of our Easy TOC container
+				 * @since 2.0.38
+				 */
+				if ( 'Thrive Theme Builder' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+
+					wp_register_style( 'ez-toc-thrive-theme-builder', EZ_TOC_URL . "assets/css/thrive-theme-builder$min.css",array(), ezTOC::VERSION );
+					wp_enqueue_style( 'ez-toc-thrive-theme-builder' );
+
 				}
 				
 		}
