@@ -25,8 +25,7 @@ class eztoc_pointers {
 			'website'=> sanitize_text_field($_POST['website']),
 			'type'=> 'etoc'
 		);
-		$response = wp_remote_post( $api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
-		$response = wp_remote_retrieve_body( $response );
+		wp_remote_post( $api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
 		wp_die();
 	}
 	public function eztoc_add_localize_footer_data( $object, $object_name ) {
