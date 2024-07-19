@@ -72,7 +72,7 @@ function eztoc_send_feedback() {
     }
     
     $text = '';
-    if( isset( $form['eztoc_disable_text'] ) ) {
+    if( isset( $form['eztoc_disable_text'] ) && !is_array($form['eztoc_disable_text']) ) {
         $text = implode( "\n\r", $form['eztoc_disable_text'] );
     }
 

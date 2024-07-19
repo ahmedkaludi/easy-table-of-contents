@@ -74,10 +74,10 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		public  function pluginActionLinks( $links, $file ) {
 
 		    $url = add_query_arg( 'page', 'table-of-contents', self_admin_url( 'options-general.php' ) );
-		    $setting_link = '<a href="' . esc_url( $url ) . '">' . __( 'Settings', 'easy-table-of-contents' ) . '</a> |';
-		 	$setting_link .= '<a href="https://tocwp.com/contact/" target="_blank">' . __( ' Support', 'easy-table-of-contents' ) . '</a> |';
-		 	$setting_link .= '<a href="https://tocwp.com/pricing/" target="_blank">' . __( ' Upgrade', 'easy-table-of-contents' ) . '</a> |';
-		 	$setting_link .= '<a href="https://tocwp.com/" target="_blank">' . __( ' Website', 'easy-table-of-contents' ) . '</a>';
+		    $setting_link = '<a href="' . esc_url( $url ) . '">' .esc_html__( 'Settings', 'easy-table-of-contents' ) . '</a> |';
+		 	$setting_link .= '<a href="https://tocwp.com/contact/" target="_blank">' .esc_html__( ' Support', 'easy-table-of-contents' ) . '</a> |';
+		 	$setting_link .= '<a href="https://tocwp.com/pricing/" target="_blank">' .esc_html__( ' Upgrade', 'easy-table-of-contents' ) . '</a> |';
+		 	$setting_link .= '<a href="https://tocwp.com/" target="_blank">' .esc_html__( ' Website', 'easy-table-of-contents' ) . '</a>';
 		    array_push( $links, $setting_link );
 		    return $links;
 		}
@@ -466,16 +466,16 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 						ezTOC_Option::select(
 							array(
 								'id' => 'position-specific',
-								'desc' => __( 'Choose where where you want to display the table of contents.', 'easy-table-of-contents' ), 
+								'desc' =>esc_html__( 'Choose where where you want to display the table of contents.', 'easy-table-of-contents' ), 
 								'options' => array(
-									'' => __( 'Select Position', 'easy-table-of-contents' ),
-									'before' => __( 'Before first heading (default)', 'easy-table-of-contents' ),
-									'after' => __( 'After first heading', 'easy-table-of-contents' ),
-									'afterpara' => __( 'After first paragraph', 'easy-table-of-contents' ),
-									'aftercustompara' => __( 'After paragraph number', 'easy-table-of-contents' ),
-									'aftercustomimg' => __( 'After Image number', 'easy-table-of-contents' ),
-									'top' => __( 'Top', 'easy-table-of-contents' ),
-									'bottom' => __( 'Bottom', 'easy-table-of-contents' ),
+									'' =>esc_html__( 'Select Position', 'easy-table-of-contents' ),
+									'before' =>esc_html__( 'Before first heading (default)', 'easy-table-of-contents' ),
+									'after' =>esc_html__( 'After first heading', 'easy-table-of-contents' ),
+									'afterpara' =>esc_html__( 'After first paragraph', 'easy-table-of-contents' ),
+									'aftercustompara' =>esc_html__( 'After paragraph number', 'easy-table-of-contents' ),
+									'aftercustomimg' =>esc_html__( 'After Image number', 'easy-table-of-contents' ),
+									'top' =>esc_html__( 'Top', 'easy-table-of-contents' ),
+									'bottom' =>esc_html__( 'Bottom', 'easy-table-of-contents' ),
 								),
 								'default' => $position,
 							),
@@ -491,8 +491,8 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 							ezTOC_Option::number(
 								array(
 									'id' => 's_custom_img_number',
-									'name' => __( 'Select Paragraph', 'easy-table-of-contents' ),
-									'desc' => __( 'Select Image after which ETOC should get display', 'easy-table-of-contents' ),
+									'name' =>esc_html__( 'Select Paragraph', 'easy-table-of-contents' ),
+									'desc' =>esc_html__( 'Select Image after which ETOC should get display', 'easy-table-of-contents' ),
 									'type' => 'number',
 									'size' => 'small',
 									'default' => $custom_img_number,
@@ -509,7 +509,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 							ezTOC_Option::number(
 								array(
 									'id' => 's_custom_para_number',
-									'desc' => __( 'Select paragraph after which ETOC should get display', 'easy-table-of-contents' ),
+									'desc' =>esc_html__( 'Select paragraph after which ETOC should get display', 'easy-table-of-contents' ),
 									'type' => 'number',
 									'size' => 'small',
 									'default' => $custom_para_number,
@@ -526,8 +526,8 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 							ezTOC_Option::checkbox(
 								array(
 								'id' => 's_blockqoute_checkbox',
-								'name' => __( 'Exclude Blockqoute', 'easy-table-of-contents' ),
-								'desc' => __( 'Do not consider Paragraphs which are inside Blockqoute.', 'easy-table-of-contents' ),
+								'name' =>esc_html__( 'Exclude Blockqoute', 'easy-table-of-contents' ),
+								'desc' =>esc_html__( 'Do not consider Paragraphs which are inside Blockqoute.', 'easy-table-of-contents' ),
 								'default' => false,
 							),
 								$blockqoute_checkbox
@@ -561,10 +561,10 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 							array(
 								'id' => 'toc-alignment',
 								'options' => array(
-									'none' => __( 'None (Default)', 'easy-table-of-contents' ),
-									'left' => __( 'Left', 'easy-table-of-contents' ),
-									'right' => __( 'Right', 'easy-table-of-contents' ),
-									'center' => __( 'Center', 'easy-table-of-contents' ),
+									'none' =>esc_html__( 'None (Default)', 'easy-table-of-contents' ),
+									'left' =>esc_html__( 'Left', 'easy-table-of-contents' ),
+									'right' =>esc_html__( 'Right', 'easy-table-of-contents' ),
+									'center' =>esc_html__( 'Center', 'easy-table-of-contents' ),
 								),
 								'default' => $alignment,
 							),
@@ -600,12 +600,12 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 								'id' => 'heading-levels',
 								'desc' => esc_html__( 'Select the heading to consider when generating the table of contents. Deselecting a heading will exclude it.', 'easy-table-of-contents' ),
 								'options' => array(
-									'1' => __( 'Heading 1 (h1)', 'easy-table-of-contents' ),
-									'2' => __( 'Heading 2 (h2)', 'easy-table-of-contents' ),
-									'3' => __( 'Heading 3 (h3)', 'easy-table-of-contents' ),
-									'4' => __( 'Heading 4 (h4)', 'easy-table-of-contents' ),
-									'5' => __( 'Heading 5 (h5)', 'easy-table-of-contents' ),
-									'6' => __( 'Heading 6 (h6)', 'easy-table-of-contents' ),
+									'1' =>esc_html__( 'Heading 1 (h1)', 'easy-table-of-contents' ),
+									'2' =>esc_html__( 'Heading 2 (h2)', 'easy-table-of-contents' ),
+									'3' =>esc_html__( 'Heading 3 (h3)', 'easy-table-of-contents' ),
+									'4' =>esc_html__( 'Heading 4 (h4)', 'easy-table-of-contents' ),
+									'5' =>esc_html__( 'Heading 5 (h5)', 'easy-table-of-contents' ),
+									'6' =>esc_html__( 'Heading 6 (h6)', 'easy-table-of-contents' ),
 								),
 								'default' => array(),
 							),
@@ -621,8 +621,8 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
                                             ezTOC_Option::checkbox(
                                                 array(
 							'id' => 'visibility_hide_by_default',
-							'name' => __( 'Initial View', 'easy-table-of-contents' ),
-							'desc' => __( 'Initially hide the table of contents.', 'easy-table-of-contents' ),
+							'name' =>esc_html__( 'Initial View', 'easy-table-of-contents' ),
+							'desc' =>esc_html__( 'Initially hide the table of contents.', 'easy-table-of-contents' ),
 							'default' => false,
 						),
                                                 $initial_view
@@ -637,8 +637,8 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
                             ezTOC_Option::checkbox(
                                 array(
                             		'id' => 'hide_counter',
-                            		'name' => __( 'Hide Counter', 'easy-table-of-contents' ),
-                            		'desc' => __( 'Do not show counters for the table of contents.', 'easy-table-of-contents' ),
+                            		'name' =>esc_html__( 'Hide Counter', 'easy-table-of-contents' ),
+                            		'desc' =>esc_html__( 'Do not show counters for the table of contents.', 'easy-table-of-contents' ),
                             		'default' => false,
                                 ),
                                 $hide_counter
@@ -656,7 +656,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 						ezTOC_Option::textarea(
 							array(
 								'id' => 'alttext',
-								'desc' => __( 'Specify alternate table of contents header string. Add the header to be replaced and the alternate header on a single line separated with a pipe <code>|</code>. Put each additional original and alternate header on its own line.', 'easy-table-of-contents' ),
+								'desc' =>esc_html__( 'Specify alternate table of contents header string. Add the header to be replaced and the alternate header on a single line separated with a pipe <code>|</code>. Put each additional original and alternate header on its own line.', 'easy-table-of-contents' ),
 								'size' => 'large',
 								'default' => '',
 							),
@@ -675,9 +675,9 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 								'name' => '',
 								'desc' => '<p><strong>' . esc_html__( 'Examples:', 'easy-table-of-contents' ) . '</strong></p>' .
 								          '<ul>' .
-								          '<li>' . __( '<code>Level [1.1]|Alternate TOC Header</code> Replaces Level [1.1] in the table of contents with Alternate TOC Header.', 'easy-table-of-contents' ) . '</li>' .
+								          '<li><code>' . esc_html__( 'Level [1.1]|Alternate TOC Header' , 'easy-table-of-contents' ).'</code> '.esc_html__( 'Replaces Level [1.1] in the table of contents with Alternate TOC Header.', 'easy-table-of-contents' ) . '</li>' .
 								          '</ul>' .
-								          '<p>' . __( '<strong>Note:</strong> This is case sensitive.', 'easy-table-of-contents' ) . '</p>',
+								          '<p><strong>' . esc_html__( 'Note:', 'easy-table-of-contents' ) . '</strong>' . esc_html__( 'This is case sensitive.', 'easy-table-of-contents' ) . '</p>',
 							)
 						);
 						?>
@@ -690,7 +690,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 						ezTOC_Option::text(
 							array(
 								'id' => 'exclude',
-								'desc' => __( 'Specify headings to be excluded from appearing in the table of contents. Separate multiple headings with a pipe <code>|</code>. Use an asterisk <code>*</code> as a wildcard to match other text.', 'easy-table-of-contents' ),
+								'desc' =>esc_html__( 'Specify headings to be excluded from appearing in the table of contents. Separate multiple headings with a pipe <code>|</code>. Use an asterisk <code>*</code> as a wildcard to match other text.', 'easy-table-of-contents' ),
 								'size' => 'large',
 								'default' => '',
 							),
@@ -709,11 +709,11 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 								'name' => '',
 								'desc' => '<p><strong>' . esc_html__( 'Examples:', 'easy-table-of-contents' ) . '</strong></p>' .
 								          '<ul>' .
-								          '<li>' . __( '<code>Fruit*</code> Ignore headings starting with "Fruit".', 'easy-table-of-contents' ) . '</li>' .
-								          '<li>' . __( '<code>*Fruit Diet*</code> Ignore headings with "Fruit Diet" somewhere in the heading.', 'easy-table-of-contents' ) . '</li>' .
-								          '<li>' . __( '<code>Apple Tree|Oranges|Yellow Bananas</code> Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".', 'easy-table-of-contents' ) . '</li>' .
+								          '<li><code>' . esc_html__( 'Fruit*', 'easy-table-of-contents' ) . '</code>' . esc_html__( 'Ignore headings starting with "Fruit".', 'easy-table-of-contents' ) . '</li>' .
+								          '<li><code>' . esc_html__( '*Fruit Diet*', 'easy-table-of-contents' ) . '</code>' . esc_html__( 'Ignore headings with "Fruit Diet" somewhere in the heading.', 'easy-table-of-contents' ) . '</li>' .
+								          '<li><code>' . esc_html__( 'Apple Tree|Oranges|Yellow Bananas', 'easy-table-of-contents' ) . '</code>' . esc_html__( 'Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".', 'easy-table-of-contents' ) . '</li>' .
 								          '</ul>' .
-								          '<p>' . __( '<strong>Note:</strong> This is not case sensitive.', 'easy-table-of-contents' ) . '</p>',
+								          '<p><code>' .esc_html__( 'Note:', 'easy-table-of-contents' ) . '</strong>' . esc_html__( ' This is not case sensitive.', 'easy-table-of-contents' ) . '</p>',
 							)
 						);
 						?>
@@ -884,7 +884,6 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 					
 					if($position == 'aftercustompara' ||  $position == 'afterpara') {
 						if (isset($_REQUEST['ez-toc-settings']['s_blockqoute_checkbox'])) {
-							$s_blockqoute_checkbox = sanitize_text_field( $_REQUEST['ez-toc-settings']['s_blockqoute_checkbox'] );					
 							update_post_meta( $post_id, '_ez-toc-s_blockqoute_checkbox', 1 );
 						}else{
 							update_post_meta( $post_id, '_ez-toc-s_blockqoute_checkbox', 0 );

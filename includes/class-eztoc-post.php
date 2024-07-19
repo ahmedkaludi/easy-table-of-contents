@@ -447,7 +447,7 @@ class ezTOC_Post {
 		 * @param $content   string Post content.
 		 */
 		$selectors = apply_filters( 'ez_toc_exclude_by_selector', array( '.ez-toc-exclude-headings' ), $content );
-
+		$selectors = ! is_array( $selectors ) ? [] : $selectors; // In case we get string instead of array
 		$nodes = $html->Find( implode( ',', $selectors ) );
 		if(isset($nodes['ids'])){
 			foreach ( $nodes['ids'] as $id ) {
@@ -1973,7 +1973,7 @@ class ezTOC_Post {
 	private function stripShortcodesButKeepContent($content) {
 		// Regex pattern to match the specific shortcodes
 		$shortcodes = apply_filters('ez_toc_strip_shortcodes_with_inner_content',[]);
-		if(!empty($shortcodes)){
+		if(!empty($shortcodes) && is_array($shortcodes)){
 			
 		$pattern = '/\[('.implode('|',$shortcodes).')(?:\s[^\]]*)?\](.*?)\[\/\1\]|\[('.implode('|',$shortcodes).')(?:\s[^\]]*)?\/?\]/s';
 	

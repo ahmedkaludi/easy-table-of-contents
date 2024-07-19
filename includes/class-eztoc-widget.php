@@ -19,12 +19,12 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
 			$options = array(
 				'classname'   => 'ez-toc',
-				'description' => __( 'Display the table of contents.', 'easy-table-of-contents' )
+				'description' => esc_html__( 'Display the table of contents.', 'easy-table-of-contents' )
 			);
 
 			parent::__construct(
 				'ezw_tco',
-				__( 'Table of Contents', 'easy-table-of-contents' ),
+				esc_html__( 'Table of Contents', 'easy-table-of-contents' ),
 				$options
 			);
 
@@ -393,7 +393,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				'affix' => '0',
 				'eztoc_appearance' => '',
 				'highlight_color' => '#ededed',
-				'title' => __('Table of Contents', 'easy-table-of-contents' ),
+				'title' => esc_html__('Table of Contents', 'easy-table-of-contents' ),
 				'sidebar_title_size' => 120,
 				'sidebar_title_size_unit' => '%',
 				'sidebar_title_weight' => '500',
