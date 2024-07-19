@@ -5,9 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
  
 class eztoc_pointers {
-	const DISPLAY_VERSION = 'v1.0';
 	public function __construct () {
-		//add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
 		add_filter( 'eztoc_localize_filter',array($this,'eztoc_add_localize_footer_data'),10,2);
 		add_action('wp_ajax_eztoc_subscribe_newsletter',array($this, 'eztoc_subscribe_for_newsletter'));
 	}
@@ -67,7 +65,3 @@ class eztoc_pointers {
     }
 }
 $eztoc_pointers = new eztoc_pointers();
-
-
-
-?>
