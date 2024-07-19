@@ -1598,7 +1598,7 @@ text
 			$size     = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 			$value = $value ? stripslashes($value) : '';
 			?>
-			<input type="text" class="<?php echo esc_attr($size) ?>-text" id="ez-toc-settings['<?php echo ($args['id'])?>']" <?php echo esc_attr($name) ?> value="<?php echo esc_attr( $value ) ?>" <?php echo esc_attr($readonly) ?> placeholder="<?php echo esc_attr($placeholder) ?>" />
+			<input type="text" class="<?php echo esc_attr($size) ?>-text" id="ez-toc-settings['<?php echo esc_attr($args['id'])?>']" <?php echo esc_attr($name) ?> value="<?php echo esc_attr( $value ) ?>" <?php echo esc_attr($readonly) ?> placeholder="<?php echo esc_attr($placeholder) ?>" />
 
 			<?php if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) { ?>
 				<label for="ez-toc-settings['<?php echo esc_attr( $args['id'] ) ?>']"> 

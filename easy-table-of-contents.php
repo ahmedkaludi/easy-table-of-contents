@@ -312,14 +312,20 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 		}
 
-		public static function ez_toc_inline_styles(){
+		public static function ez_toc_inline_styles() {
 
-			if (ezTOC_Option::get( 'inline_css' )) {
-				$screen_css = eztoc_read_file_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );				
-				$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
-            	$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
-				$screen_css .= self::inlineCSS();
-				echo '<style id="ez-toc-inline-css">'.esc_html($screen_css).'</style>';
+			if ( ezTOC_Option::get( 'inline_css' ) ) {
+
+				if ( self::is_enqueue_scripts_eligible() ) {
+					
+					$screen_css = eztoc_read_file_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );				
+					$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
+					$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
+					$screen_css .= self::inlineCSS();
+					echo '<style id="ez-toc-inline-css">'.esc_html($screen_css).'</style>';
+
+				}
+				
 			}
 		}
 
