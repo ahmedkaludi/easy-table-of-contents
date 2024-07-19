@@ -1186,7 +1186,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
                     if (!is_a($wp_widget_factory->widgets[$wp_class], 'WP_Widget')):
 						/* translators: %s: Widget class name */
-                        return '<p>'.sprintf(__("%s: Widget class not found. Make sure this widget exists and the class name is correct","easy-table-of-contents"),'<strong>'.$class.'</strong>').'</p>';
+                        return '<p>'.sprintf(esc_html__("%s: Widget class not found. Make sure this widget exists and the class name is correct","easy-table-of-contents"),'<strong>'.$class.'</strong>').'</p>';
                     else:
                         $class = $wp_class;
                     endif;
@@ -1650,7 +1650,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$stickyToggleTOC = $post->getStickyToggleTOC();
 
 					if(!empty($stickyToggleTOC)){
-						$openButtonText = __( 'Index', 'easy-table-of-contents' );
+						$openButtonText = esc_html__( 'Index', 'easy-table-of-contents' );
 						if( !empty( ezTOC_Option::get( 'sticky-toggle-open-button-text' ) ) ) {
 							$openButtonText = ezTOC_Option::get( 'sticky-toggle-open-button-text' );
 						}
