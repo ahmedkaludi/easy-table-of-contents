@@ -4,8 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 ?>
 <div id='toc' class='wrap'>
     <a href="https://tocwp.com/" target="_blank">
-        <img src="<?php echo esc_url( plugins_url('assets/eztoc-logo.png', dirname(__FILE__))) ?>" alt="tocwp"
-             srcset="<?php echo esc_url(plugins_url('assets/eztoc-logo.png', dirname(__FILE__))) ?> 1x, <?php echo esc_url(plugins_url('assets/eztoc-logo.png', dirname(__FILE__))) ?> 2x">
+        <img src="<?php echo esc_url( plugins_url('assets/img/eztoc-logo.png', dirname(__FILE__))) ?>" alt="tocwp"
+             srcset="<?php echo esc_url(plugins_url('assets/img/eztoc-logo.png', dirname(__FILE__))) ?> 1x, <?php echo esc_url(plugins_url('assets/img/eztoc-logo.png', dirname(__FILE__))) ?> 2x">
     </a>
     <h1 style="display:none;">&nbsp;</h1>
     <div class="toc-tab-panel">
@@ -502,19 +502,19 @@ function addCustomSpan()
                     <section class="eztoc_dev-bio">
                         <div class="ezoc-bio-wrap">
                             <img width="50px" height="50px"
-                                 src="<?php echo esc_url(plugins_url('assets/ahmed-kaludi.jpg', dirname(__FILE__)))
+                                 src="<?php echo esc_url(plugins_url('assets/img/ahmed-kaludi.jpg', dirname(__FILE__)))
                                  ?>" alt="ahmed-kaludi"/>
                             <p><?php esc_html_e('Lead Dev', 'easy-table-of-contents'); ?></p>
                         </div>
                         <div class="ezoc-bio-wrap">
                             <img width="50px" height="50px"
-                                 src="<?php echo esc_url(plugins_url('assets/Mohammed-kaludi.jpeg', dirname(__FILE__))) 
+                                 src="<?php echo esc_url(plugins_url('assets/img/Mohammed-kaludi.jpeg', dirname(__FILE__))) 
                                  ?>" alt="Mohammed-kaludi"/>
                             <p><?php esc_html_e('Developer', 'easy-table-of-contents'); ?></p>
                         </div>
                         <div class="ezoc-bio-wrap">
                             <img width="50px" height="50px"
-                                 src="<?php echo esc_url(plugins_url('assets/sanjeev.jpg', dirname(__FILE__))) ?>"
+                                 src="<?php echo esc_url(plugins_url('assets/img/sanjeev.jpg', dirname(__FILE__))) ?>"
                                  alt="Sanjeev"/>
                             <p><?php esc_html_e('Developer', 'easy-table-of-contents'); ?></p>
                         </div>
@@ -578,7 +578,7 @@ function addCustomSpan()
                                     <div class="fet">
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo esc_url(plugins_url('assets/right-tick.png',
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
                                                     dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Gutenberg Block', 'easy-table-of-contents'); ?></h4>
                                             </div>
@@ -586,7 +586,7 @@ function addCustomSpan()
                                         </div>
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo esc_url(plugins_url('assets/right-tick.png',
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
                                                     dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Elementor Widget', 'easy-table-of-contents'); ?></h4>
                                             </div>
@@ -595,7 +595,7 @@ function addCustomSpan()
 
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo esc_url(plugins_url('assets/right-tick.png',
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
                                                     dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Fixed/Sticky TOC', 'easy-table-of-contents'); ?></h4>
                                             </div>
@@ -604,7 +604,7 @@ function addCustomSpan()
 
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo esc_url(plugins_url('assets/right-tick.png',
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
                                                     dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Customize Sticky TOC', 'easy-table-of-contents'); ?></h4>
                                             </div>
@@ -613,7 +613,7 @@ function addCustomSpan()
 
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo esc_url(plugins_url('assets/right-tick.png',
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
                                                     dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('View More', 'easy-table-of-contents'); ?></h4>
                                             </div>
@@ -622,7 +622,7 @@ function addCustomSpan()
 
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo esc_url(plugins_url('assets/right-tick.png',
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
                                                     dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Read Time', 'easy-table-of-contents'); ?></h4>
                                             </div>
@@ -631,7 +631,7 @@ function addCustomSpan()
 
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo esc_url(plugins_url('assets/right-tick.png',
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
                                                     dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Collapsable Sub Headings', 'easy-table-of-contents'); ?></h4>
                                             </div>
@@ -640,7 +640,7 @@ function addCustomSpan()
 
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo esc_url(plugins_url('assets/right-tick.png',
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
                                                     dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e("ACF Support", 'easy-table-of-contents'); ?></h4>
                                             </div>
@@ -649,7 +649,7 @@ function addCustomSpan()
 
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo esc_url(plugins_url('assets/right-tick.png',
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
                                                     dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Full AMP Support', 'easy-table-of-contents'); ?></h4>
                                             </div>
@@ -657,7 +657,7 @@ function addCustomSpan()
                                         </div>
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo esc_url(plugins_url('assets/right-tick.png',
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
                                                     dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Continuous Updates', 'easy-table-of-contents'); ?></h4>
                                             </div>
@@ -665,7 +665,7 @@ function addCustomSpan()
                                         </div>
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo esc_url(plugins_url('assets/right-tick.png',
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
                                                     dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e("Documentation", 'easy-table-of-contents'); ?></h4>
                                             </div>
@@ -778,7 +778,7 @@ function addCustomSpan()
                             </div>
                         </div><!-- /.pri-lst -->
                         <div class="tru-us">
-                            <img src="<?php echo esc_url(plugins_url('assets/toc-rating.png', dirname(__FILE__)))
+                            <img src="<?php echo esc_url(plugins_url('assets/img/toc-rating.png', dirname(__FILE__)))
                             ?>" alt="toc-rating"/>
                             <h2><?php esc_html_e("Used by more than 5,00,000+ Users!", 'easy-table-of-contents'); ?></h2>
                             <p><?php esc_html_e("More than 500k Websites, Blogs &amp; E-Commerce shops are powered by our easy table of contents plugin making it the #1 Independent TOC plugin in WordPress.", 'easy-table-of-contents'); ?></p>
@@ -856,7 +856,7 @@ function addCustomSpan()
         <span class="eztoc-promotion-close-btn">  &times;  </span>
         <div class="eztoc-ocassional-pop-up-contents">
 
-            <img src="<?php plugins_url('assets/offer-gift-icon.png', dirname(__FILE__)) ?>" class="eztoc-promotion-surprise-icon" />
+            <img src="<?php plugins_url('assets/img/offer-gift-icon.png', dirname(__FILE__)) ?>" class="eztoc-promotion-surprise-icon" />
             <p class="eztoc-ocassional-pop-up-headline"><?php esc_html_e('40% OFF on', 'easy-table-of-contents'); ?> <span><?php esc_html_e('Easy TOC PRO', 'easy-table-of-contents');?></span></p>
             <p class="eztoc-ocassional-pop-up-second-headline"><?php esc_html_e('Upgrade the PRO version during this festive season and get our biggest discount of all time on New Purchases, Renewals &amp; Upgrades', 'easy-table-of-contents'); ?></p>
             <a class="eztoc-ocassional-pop-up-offer-btn" href="<?php esc_url('https://tocwp.com/november-deal/') ?>" target="_blank"><?php esc_html_e('Get This Offer Now', 'easy-table-of-contents'); ?></a>
