@@ -18,13 +18,13 @@ $reasons = array(
     		1 => '<li><label><input type="radio" name="eztoc_disable_reason" required value="temporary"/>' . esc_html__('It is only temporary', 'easy-table-of-contents') . '</label></li>',
 		2 => '<li><label><input type="radio" name="eztoc_disable_reason" required value="stopped showing toc"/>' . esc_html__('I stopped showing TOC on my site', 'easy-table-of-contents') . '</label></li>',
 		3 => '<li><label><input type="radio" name="eztoc_disable_reason" required value="missing feature"/>' . esc_html__('I miss a feature', 'easy-table-of-contents') . '</label></li>
-		<li><input type="text" name="eztoc_disable_text[]" value="" placeholder="Please describe the feature"/></li>',
+		<li><input type="text" name="eztoc_disable_text[]" value="" placeholder="'. esc_attr__( 'Please describe the feature', 'easy-table-of-contents' ) .'"/></li>',
 		4 => '<li><label><input type="radio" name="eztoc_disable_reason" required value="technical issue"/>' . esc_html__('Technical Issue', 'easy-table-of-contents') . '</label></li>
 		<li><textarea name="eztoc_disable_text[]" placeholder="' . esc_html__('Can we help? Please describe your problem', 'easy-table-of-contents') . '"></textarea></li>',
 		5 => '<li><label><input type="radio" name="eztoc_disable_reason" required value="other plugin"/>' . esc_html__('I switched to another plugin', 'easy-table-of-contents') .  '</label></li>
-		<li><input type="text" name="eztoc_disable_text[]" value="" placeholder="Name of the plugin"/></li>',
+		<li><input type="text" name="eztoc_disable_text[]" value="" placeholder="'. esc_attr__( 'Name of the plugin', 'easy-table-of-contents' ). '"/></li>',
 		6 => '<li><label><input type="radio" name="eztoc_disable_reason" required value="other"/>' . esc_html__('Other reason', 'easy-table-of-contents') . '</label></li>
-		<li><textarea name="eztoc_disable_text[]" placeholder="' . esc_html__('Please specify, if possible', 'easy-table-of-contents') . '"></textarea></li>',
+		<li><textarea name="eztoc_disable_text[]" placeholder="' . esc_attr__('Please specify, if possible', 'easy-table-of-contents') . '"></textarea></li>',
     );
 shuffle($reasons);
 ?>
@@ -36,9 +36,9 @@ shuffle($reasons);
 	    <h3><strong><?php esc_html_e('If you have a moment, please let us know why you are deactivating:', 'easy-table-of-contents'); ?></strong></h3>
 	    <ul>
                 <?php 
-                foreach ($reasons as $reason){
+                foreach ($reasons as $reason_escaped){
 					//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
-                    echo $reason;
+                    echo $reason_escaped;
                 }
                 ?>
 	    </ul>

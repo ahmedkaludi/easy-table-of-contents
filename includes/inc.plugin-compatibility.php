@@ -583,23 +583,6 @@ if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', g
 }
 
 /**
- * Foodie Pro Theme Compatibility
- * for working sticky toggle
- * in right way
- * @since 2.0.39
- */
-if ( 'Foodie Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
-    add_action( 'wp_head', 'ezTocEnqueueScriptsforFoodieProTheme' );
-
-    if( ! function_exists( 'ezTocEnqueueScriptsforFoodieProTheme' ) ) {
-    	function ezTocEnqueueScriptsforFoodieProTheme() {
-            echo "<style>@media only screen and (max-width: 940px){ .ez-toc-sticky #ez-toc-sticky-container .menu-toggle,#ez-toc-container .menu-toggle, #ez-toc-widget-container .menu-toggle{display:none} .ez-toc-sticky #ez-toc-sticky-container nav,#ez-toc-container nav, #ez-toc-widget-container nav {display:block}  }</style>";
-        }
-    }
-
-}
-
-/**
  * Poka Theme Compatibility
  * remove duplicate eztoc containers
  * in header & footer sections

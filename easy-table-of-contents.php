@@ -407,6 +407,17 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					wp_enqueue_style( 'ez-toc-sticky' );
 					self::inlineStickyToggleCSS();				                				
 				}
+
+				/**
+				 * Foodie Pro Theme Compatibility
+				 * for working sticky toggle
+				 * in right way
+				 * @since 2.0.39
+				 */
+				if( 'Foodie Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+					wp_register_style( 'ez-toc-foodie-pro', EZ_TOC_URL . "assets/css/foodie-pro$min.css",array(), ezTOC::VERSION );
+					wp_enqueue_style( 'ez-toc-foodie-pro' );
+				}
 				
 		}
 		
