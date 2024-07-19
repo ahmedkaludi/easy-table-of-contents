@@ -90,6 +90,13 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 * @static
 		 */
 		public function registerScripts() {
+			
+			$dismissed = explode ( ',', get_user_meta ( wp_get_current_user()->ID, 'dismissed_wp_pointers', true ) );
+			$do_tour   = !in_array ( 'eztoc_subscribe_pointer', $dismissed );
+			if ( $do_tour ) {
+					wp_enqueue_style ( 'wp-pointer' );
+					wp_enqueue_script ( 'wp-pointer' );						
+			}	
 			$min = defined ( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 			wp_register_script( 'cn_toc_admin_script', EZ_TOC_URL . "assets/js/admin$min.js", array( 'jquery', 'wp-color-picker' ), ezTOC::VERSION, true );
 			wp_register_style( 'cn_toc_admin_style', EZ_TOC_URL . "assets/css/admin$min.css", array( 'wp-color-picker' ), ezTOC::VERSION );
