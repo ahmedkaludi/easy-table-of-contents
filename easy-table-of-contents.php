@@ -503,6 +503,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if(isset($ez_toc_shortcode_attr['initial_view']) && $ez_toc_shortcode_attr['initial_view'] == 'show'){
 					$js_vars['visibility_hide_by_default'] = false;
 				}
+
+				/** 
+				 * If Chamomile theme is active then remove hamburger div from content
+				 * @since 2.0.53
+				 * */
+				if ( 'Chamomile' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+					$js_vars['chamomile_theme_is_on'] = true;
+				}else{
+					$js_vars['chamomile_theme_is_on'] = false;
+				}
 				
 				if ( 0 < count( $js_vars ) ) {
 					wp_localize_script( 'ez-toc-js', 'ezTOC', $js_vars );

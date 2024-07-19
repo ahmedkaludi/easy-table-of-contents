@@ -303,4 +303,10 @@ jQuery( function( $ ) {
         $("#ez-toc-more-links-disabler").hide();
     });
 
+    if ( parseInt( ezTOC.chamomile_theme_is_on ) === 1 ) {
+
+        $('#ez-toc-container').find('.hamburger').remove();
+        
+    }
+
 } );
