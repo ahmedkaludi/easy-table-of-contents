@@ -1820,23 +1820,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		
 			return Debug::log()->appendTo( $content );
 		}
-		// Fix for getting current page id when sub-queries are used on the page
-		$ez_toc_current_post_id = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();
 		
-		// Bail if post not eligible and widget is not active.
-		if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child'){
-			$isEligible = self::is_eligible( get_post($ez_toc_current_post_id) );
-		}else{
-			$isEligible = self::is_eligible( get_post() );
-		}
-		
-		
-		//More button
-		$options =  array();
-		if (ezTOC_Option::get( 'ctrl_headings' ) == true) {
-			$options['view_more'] = ezTOC_Option::get( 'limit_headings_num' );
-		}
-		
+		$isEligible = self::is_eligible( get_post() );
+	
 		$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 		
 		if($isEligible){
@@ -1846,22 +1832,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 		
 		Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
-		$return_only_an = false; 
 		if(!$isEligible && (self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || ezTOC_Option::get('sticky-toggle') )){
 			$isEligible = true;
-			$return_only_an = true;
 		}
 		
 		if ( ! $isEligible ) {
 			return Debug::log()->appendTo( $content );
 		}
 		
-		if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child'){
-			$post = self::get( $ez_toc_current_post_id );
-		}else{
-			$post = self::get( get_the_ID());
-		}
-		
+		$post = self::get( get_the_ID());
 		
 		if ( ! $post instanceof ezTOC_Post ) {
 		
@@ -1877,10 +1856,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				 
 		$find    = $post->getHeadings();
 		$replace = $post->getHeadingsWithAnchors();
-		$toc 	 = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();
-		$headings = implode( PHP_EOL, $find );
-		$anchors  = implode( PHP_EOL, $replace );
-		
+
 		return mb_find_replace( $find, $replace, $content );
 		
 		}
