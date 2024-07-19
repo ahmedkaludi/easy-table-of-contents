@@ -559,3 +559,37 @@ function eztoc_shortcode_html_no_heading_text($html){
     }
     return $html;
 }
+
+/**
+ * Added [no-ez-toc] to disbale TOC on specific page/post
+ * @since 2.0.56
+ */
+add_shortcode( 'no-ez-toc', 'ez_toc_noeztoc_callback' );
+function ez_toc_noeztoc_callback( $atts, $content = "" ) {
+	add_filter(
+		'ez_toc_maybe_apply_the_content_filter',	function( $apply ) {
+			return false;
+		}
+		,999
+	);
+	//  condition when  `the_content` filter is not used by the theme
+	add_filter(
+		'ez_toc_modify_process_page_content',	function( $apply ) {
+			return '';
+		}
+		,999
+	);
+	return $content;
+}
+
+add_action( 'admin_init' , 'ez_toc_redirect' );
+function ez_toc_redirect( ) {
+    if ( get_option( 'ez_toc_do_activation_redirect' , false ) ) {
+        delete_option( 'ez_toc_do_activation_redirect' );
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: Nonce not required here
+        if( !isset( $_GET['activate-multi'] ) )
+        {
+            wp_safe_redirect( "options-general.php?page=table-of-contents#welcome" );
+        }
+    }
+}
