@@ -27,8 +27,6 @@ class eztoc_pointers {
 		);
 		$response = wp_remote_post( $api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
 		$response = wp_remote_retrieve_body( $response );
-		//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo $response;
 		wp_die();
 	}
 	public function eztoc_add_localize_footer_data( $object, $object_name ) {
