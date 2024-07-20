@@ -432,9 +432,9 @@ no_heading_text();
          content += '<form method="POST" accept-charset="utf-8" id="eztoc-news-letter-form">';
          content += '<div id="saswp_mc_embed_signup_scroll">';
          content += '<div class="eztoc-mc-field-group" style="    margin-left: 15px;    width: 195px;    float: left;">';
-         content += '<input type="text" name="saswp_subscriber_name" class="form-control" placeholder="Name" hidden value="'+cn_toc_admin_data.current_user_name+'" style="display:none">';
-         content += '<input type="text" value="'+cn_toc_admin_data.current_user_email+'" name="saswp_subscriber_email" class="form-control" placeholder="Email*"  style="      width: 180px;    padding: 6px 5px;">';                        
-         content += '<input type="text" name="saswp_subscriber_website" class="form-control" placeholder="Website" hidden style=" display:none; width: 168px; padding: 6px 5px;" value="'+cn_toc_admin_data.get_home_url+'">';
+         content += '<input type="text" name="eztoc_subscriber_name" class="form-control" placeholder="Name" hidden value="'+cn_toc_admin_data.current_user_name+'" style="display:none">';
+         content += '<input type="text" value="'+cn_toc_admin_data.current_user_email+'" name="eztoc_subscriber_email" class="form-control" placeholder="Email*"  style="      width: 180px;    padding: 6px 5px;">';                        
+         content += '<input type="text" name="eztoc_subscriber_website" class="form-control" placeholder="Website" hidden style=" display:none; width: 168px; padding: 6px 5px;" value="'+cn_toc_admin_data.get_home_url+'">';
          content += '<input type="hidden" name="ml-submit" value="1" />';
          content += '</div>';
          content += '<div id="mce-responses">';                                                
@@ -450,9 +450,9 @@ no_heading_text();
            e.preventDefault(); 
            
            var $form = jQuery(this),
-           name = $form.find('input[name="saswp_subscriber_name"]').val(),
-           email = $form.find('input[name="saswp_subscriber_email"]').val();
-           website = $form.find('input[name="saswp_subscriber_website"]').val();                          
+           name = $form.find('input[name="eztoc_subscriber_name"]').val(),
+           email = $form.find('input[name="eztoc_subscriber_email"]').val();
+           website = $form.find('input[name="eztoc_subscriber_website"]').val();                          
            
            jQuery.post(cn_toc_admin_data.ajax_url,
                       {action:'eztoc_subscribe_newsletter',
@@ -558,4 +558,118 @@ no_heading_text();
  
 /* Newletters js ends here */ 
 
+jQuery(function($) {
 
+    /* AMP Support Option js starts here */
+    if( cn_toc_admin_data.is_amp_activated == 0 ){
+    let tocAMPSupportOption = $('input[name="ez-toc-settings[toc-run-on-amp-pages]"]');
+        if (tocAMPSupportOption.length > 0) {
+            tocAMPSupportOption.attr('disabled', true);
+        }
+    }
+    /* AMP Support Option js ends here */
+
+});
+
+    /* Headings Padding js starts here */
+    jQuery(function($) {
+        let $appearance = $('#eztoc-appearance');
+        let headingsPaddingCheckbox = $appearance.find("input[name='ez-toc-settings[headings-padding]']");
+        let paddingDirections = ['top', 'bottom', 'left', 'right'];
+    
+        paddingDirections.forEach(direction => {
+            let input = $appearance.find(`input[name='ez-toc-settings[headings-padding-${direction}]']`);
+            let inputHTML = input.parent();
+            input.attr('type', 'number');
+            input.parents('tr').remove();
+            headingsPaddingCheckbox.parent().append(`&nbsp;&nbsp;&nbsp;<span id='headings-padding-${direction}-container'><label for='ez-toc-settings[headings-padding-${direction}]'><strong>${capitalize(direction)}</strong></label>&nbsp;&nbsp;&nbsp;${inputHTML.html()}</span>`);
+            $appearance.find(`select[name='ez-toc-settings[headings-padding-${direction}_units]']`).html('<option value="px" selected="selected">px</option>');
+        });
+    
+        let paddingContainers = {};
+        paddingDirections.forEach(direction => {
+            paddingContainers[direction] = $appearance.find(`span#headings-padding-${direction}-container`);
+        });
+    
+        if (!headingsPaddingCheckbox.prop('checked')) {
+            hidePaddingContainers();
+        }
+    
+        $(document).on('change click', "input[name='ez-toc-settings[headings-padding]']", function() {
+            if (headingsPaddingCheckbox.prop('checked')) {
+                showPaddingContainers();
+            } else {
+                hidePaddingContainers();
+            }
+        });
+    
+        function hidePaddingContainers() {
+            paddingDirections.forEach(direction => {
+                paddingContainers[direction].hide(500);
+                $appearance.find(`input[name='ez-toc-settings[headings-padding-${direction}]']`).val(0);
+            });
+        }
+    
+        function showPaddingContainers() {
+            paddingDirections.forEach(direction => {
+                paddingContainers[direction].show(500);
+            });
+        }
+    
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+    });
+      /* Headings Padding js ends here */
+
+      /* Display Header Label js starts here */
+
+      jQuery(function($) {
+        let $generalSettings = $('#eztoc-general');
+        let showHeadingText = $generalSettings.find("input[name='ez-toc-settings[show_heading_text]']");
+        let visibilityOnHeaderText = $generalSettings.find("input[name='ez-toc-settings[visibility_on_header_text]']");
+        let headerText = $generalSettings.find("input[name='ez-toc-settings[heading_text]']");
+    
+        function toggleHeaderTextVisibility() {
+            if (showHeadingText.prop('checked')) {
+                visibilityOnHeaderText.parents('tr').show(500);
+                headerText.parents('tr').show(500);
+            } else {
+                visibilityOnHeaderText.parents('tr').hide(500);
+                headerText.parents('tr').hide(500);
+            }
+        }
+    
+        // Initial check on page load
+        toggleHeaderTextVisibility();
+    
+        // Event listener for changes
+        $(document).on('change click', "input[name='ez-toc-settings[show_heading_text]']", toggleHeaderTextVisibility);
+    });
+    
+    /* Display Header Label js ends here */
+
+    /* Admin Initial View js starts here */
+    jQuery(function($) {
+        let $generalSettings = $('#eztoc-general');
+        let visibility = $generalSettings.find("input[name='ez-toc-settings[visibility]']");
+        let visibilityHideByDefault = $generalSettings.find("input[name='ez-toc-settings[visibility_hide_by_default]']");
+    
+        function toggleVisibility() {
+            if (visibility.prop('checked')) {
+                visibilityHideByDefault.parents('tr').show(500);
+            } else {
+                visibilityHideByDefault.parents('tr').hide(500);
+            }
+        }
+    
+        // Initial check on page load
+        toggleVisibility();
+    
+        // Event listener for changes
+        $(document).on('change click', "input[name='ez-toc-settings[visibility]']", toggleVisibility);
+    });
+
+    /* Admin Initial View js ends here */
+    
+    

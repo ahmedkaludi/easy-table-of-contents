@@ -198,17 +198,17 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                             <tbody>
                                 <tr>
                                     <?php $url = wp_nonce_url(admin_url('admin-ajax.php?action=ez_toc_export_all_settings'), '_wpnonce'); ?>
-                                    <th scope="row"><?php echo esc_html_e( 'Export Settings', 'easy-table-of-contents' ) ?></th>
+                                    <th scope="row"><?php esc_html_e( 'Export Settings', 'easy-table-of-contents' ) ?></th>
                                     <td>
-                                        <button type="button"><a href="<?php echo esc_url($url); ?>" style="text-decoration:none; color: black;"><?php echo esc_html_e('Export', 'easy-table-of-contents'); ?></a></button>
-                                        <label> <br><?php echo esc_html_e('Export all ETOC settings to json file', 'easy-table-of-contents'); ?></label>
+                                        <button type="button"><a href="<?php echo esc_url($url); ?>" style="text-decoration:none; color: black;"><?php esc_html_e('Export', 'easy-table-of-contents'); ?></a></button>
+                                        <label> <br><?php esc_html_e('Export all ETOC settings to json file', 'easy-table-of-contents'); ?></label>
                                     </td>
                                 </tr> 
                                 <tr>
-                                    <th scope="row"><?php echo esc_html_e( 'Import Settings', 'easy-table-of-contents' ) ?></th>
+                                    <th scope="row"><?php esc_html_e( 'Import Settings', 'easy-table-of-contents' ) ?></th>
                                     <td>
                                         <input type="file" name="eztoc_import_backup" id="eztoc-import-backup">
-                                        <label> <br><?php echo esc_html_e('Upload json settings file to import', 'easy-table-of-contents'); ?></label>
+                                        <label> <br><?php esc_html_e('Upload json settings file to import', 'easy-table-of-contents'); ?></label>
                                     </td>
                                 </tr>                       
                             </tbody>
@@ -250,29 +250,29 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <div id="eztoc-tabs-technical">
             <a href="#" onclick="ezTocTabToggle(event, 'eztoc-technical-support',
             'eztoc-tabcontent-technical', 'eztoc-tablinks-technical')"
-               class="eztoc-tablinks-technical active"><?php echo esc_html_e('Technical Support', 'easy-table-of-contents') ?></a>
+               class="eztoc-tablinks-technical active"><?php esc_html_e('Technical Support', 'easy-table-of-contents') ?></a>
             |
             <a href="#" onclick="ezTocTabToggle(event, 'eztoc-technical-how-to-use',
             'eztoc-tabcontent-technical', 'eztoc-tablinks-technical')"
-               class="eztoc-tablinks-technical"><?php echo esc_html_e('How to Use', 'easy-table-of-contents') ?></a>
+               class="eztoc-tablinks-technical"><?php esc_html_e('How to Use', 'easy-table-of-contents') ?></a>
             |
             <a href="#" onclick="ezTocTabToggle(event, 'eztoc-technical-shortcode',
             'eztoc-tabcontent-technical', 'eztoc-tablinks-technical')"
-               class="eztoc-tablinks-technical"><?php echo esc_html_e('Shortcode', 'easy-table-of-contents') ?></a>
+               class="eztoc-tablinks-technical"><?php esc_html_e('Shortcode', 'easy-table-of-contents') ?></a>
             |
             <a href="https://tocwp.com/docs/" target="_blank" class="eztoc-tablinks-technical"><?php echo
                 esc_html_e('Documentation', 'easy-table-of-contents') ?></a>
             |
             <a href="#" onclick="ezTocTabToggle(event, 'eztoc-technical-hooks-for-developers',
             'eztoc-tabcontent-technical', 'eztoc-tablinks-technical')"
-               class="eztoc-tablinks-technical"><?php echo esc_html_e('Hooks (for Developers)', 'easy-table-of-contents') ?></a>
+               class="eztoc-tablinks-technical"><?php esc_html_e('Hooks (for Developers)', 'easy-table-of-contents') ?></a>
         </div>
         <div class="eztoc-form-page-ui">
             <div class="eztoc-left-side">
                 <div class="eztoc-tabcontent-technical" id="eztoc-technical-support">
                     <h1><?php esc_html_e('Technical Support', 'easy-table-of-contents'); ?></h1>
-                    <p class="ez-toc-tabcontent-technical-title-content"><?php echo esc_html_e('We are dedicated to provide Technical support & Help to our users. Use the below form for sending your questions.', 'easy-table-of-contents') ?> </p>
-                    <p><?php echo esc_html_e('You can also contact us from ', 'easy-table-of-contents') ?><a
+                    <p class="ez-toc-tabcontent-technical-title-content"><?php esc_html_e('We are dedicated to provide Technical support & Help to our users. Use the below form for sending your questions.', 'easy-table-of-contents') ?> </p>
+                    <p><?php esc_html_e('You can also contact us from ', 'easy-table-of-contents') ?><a
                                 href="https://tocwp.com/contact/">https://tocwp.com/contact/</a>.</p>
 
                     <div class="eztoc_support_div_form" id="technical-form">
@@ -316,12 +316,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                 </div>
                             </li>
                             <li>
-                                <button class="button button-primary eztoc-send-query"><?php echo esc_html_e('Send Support Request', 'easy-table-of-contents'); ?></button>
+                                <button class="button button-primary eztoc-send-query"><?php esc_html_e('Send Support Request', 'easy-table-of-contents'); ?></button>
                             </li>
                         </ul>
                         <div class="clear"></div>
-                        <span class="eztoc-query-success eztoc-result eztoc_hide"><?php echo esc_html_e('Message sent successfully, Please wait we will get back to you shortly', 'easy-table-of-contents'); ?></span>
-                        <span class="eztoc-query-error eztoc-result eztoc_hide"><?php echo esc_html_e('Message not sent. please check your network connection', 'easy-table-of-contents'); ?></span>
+                        <span class="eztoc-query-success eztoc-result eztoc_hide"><?php esc_html_e('Message sent successfully, Please wait we will get back to you shortly', 'easy-table-of-contents'); ?></span>
+                        <span class="eztoc-query-error eztoc-result eztoc_hide"><?php esc_html_e('Message not sent. please check your network connection', 'easy-table-of-contents'); ?></span>
                     </div>
                 </div>
                 <div class="eztoc-tabcontent-technical" id="eztoc-technical-how-to-use" style="display:
@@ -422,69 +422,69 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                 <div class="eztoc-tabcontent-technical" id="eztoc-technical-hooks-for-developers" style="display:
                 none;">
                     <h1><?php esc_html_e('Hooks (for Developers)', 'easy-table-of-contents'); ?></h1>
-                    <p class="ez-toc-tabcontent-technical-title-content"><?php echo esc_html_e('This plugin has been designed for easiest way & best features for the users & also as well as for the developers, any developer follow the below advanced instructions:', 'easy-table-of-contents') ?> </p>
+                    <p class="ez-toc-tabcontent-technical-title-content"><?php esc_html_e('This plugin has been designed for easiest way & best features for the users & also as well as for the developers, any developer follow the below advanced instructions:', 'easy-table-of-contents') ?> </p>
 
-                    <h2><?php echo esc_html_e('Hooks', 'easy-table-of-contents') ?></h2>
-                    <p><?php echo esc_html_e('Developer can use these below hooks for customization of this plugin:', 'easy-table-of-contents')
+                    <h2><?php esc_html_e('Hooks', 'easy-table-of-contents') ?></h2>
+                    <p><?php esc_html_e('Developer can use these below hooks for customization of this plugin:', 'easy-table-of-contents')
                         ?></p>
-                    <h4><?php echo esc_html_e('Actions:', 'easy-table-of-contents') ?></h4>
+                    <h4><?php esc_html_e('Actions:', 'easy-table-of-contents') ?></h4>
                     <ul>
-                        <li><code><?php echo esc_html_e('ez_toc_before', 'easy-table-of-contents') ?></code>
+                        <li><code><?php esc_html_e('ez_toc_before', 'easy-table-of-contents') ?></code>
                         </li>
-                        <li><code><?php echo esc_html_e('ez_toc_after', 'easy-table-of-contents')
+                        <li><code><?php esc_html_e('ez_toc_after', 'easy-table-of-contents')
                                 ?></code></li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_sticky_toggle_before', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_sticky_toggle_before', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_sticky_toggle_after', 'easy-table-of-contents')
+                            <code><?php esc_html_e('ez_toc_sticky_toggle_after', 'easy-table-of-contents')
                                 ?></code></li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_before_widget_container', 'easy-table-of-contents')
+                            <code><?php esc_html_e('ez_toc_before_widget_container', 'easy-table-of-contents')
                                 ?></code></li>
-                        <li><code><?php echo esc_html_e('ez_toc_before_widget', 'easy-table-of-contents')
-                                ?></code></li>
-                        <li>
-                            <code><?php echo esc_html_e('ez_toc_after_widget_container', 'easy-table-of-contents') ?></code>
-                        </li>
-                        <li><code><?php echo esc_html_e('ez_toc_after_widget', 'easy-table-of-contents')
+                        <li><code><?php esc_html_e('ez_toc_before_widget', 'easy-table-of-contents')
                                 ?></code></li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_title', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_after_widget_container', 'easy-table-of-contents') ?></code>
+                        </li>
+                        <li><code><?php esc_html_e('ez_toc_after_widget', 'easy-table-of-contents')
+                                ?></code></li>
+                        <li>
+                            <code><?php esc_html_e('ez_toc_title', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_sticky_title', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_sticky_title', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_container_class', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_container_class', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_widget_sticky_container_class', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_widget_sticky_container_class', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_url_anchor_target', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_url_anchor_target', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_sticky_enable_support', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_sticky_enable_support', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_sticky_post_types', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_sticky_post_types', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_modify_icon', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_modify_icon', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_label_below_html', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_label_below_html', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('eztoc_wordpress_final_output', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('eztoc_wordpress_final_output', 'easy-table-of-contents') ?></code>
                         </li>
                     </ul>
 
 
-                    <h4><?php echo esc_html_e('Example: adding a span tag before the `Easy Table of Contents`',
+                    <h4><?php esc_html_e('Example: adding a span tag before the `Easy Table of Contents`',
                             'easy-table-of-contents') ?></h4>
-                    <p><?php echo esc_html_e("Get this following code and paste into your theme\'s function.php file:", 'easy-table-of-contents') ?></p>
+                    <p><?php esc_html_e("Get this following code and paste into your theme\'s function.php file:", 'easy-table-of-contents') ?></p>
                     <pre>
 add_action( 'ez_toc_before', 'addCustomSpan' );
 function addCustomSpan()
@@ -497,8 +497,8 @@ function addCustomSpan()
             </div>
             <div class="eztoc-right-side">
                 <div class="eztoc-bio-box" id="ez_Bio">
-                    <h1><?php echo esc_html_e("Vision & Mission", 'easy-table-of-contents') ?></h1>
-                    <p class="eztoc-p"><?php echo esc_html_e("We strive to provide the best TOC in the world.", 'easy-table-of-contents') ?></p>
+                    <h1><?php esc_html_e("Vision & Mission", 'easy-table-of-contents') ?></h1>
+                    <p class="eztoc-p"><?php esc_html_e("We strive to provide the best TOC in the world.", 'easy-table-of-contents') ?></p>
                     <section class="eztoc_dev-bio">
                         <div class="ezoc-bio-wrap">
                             <img width="50px" height="50px"
@@ -800,45 +800,45 @@ function addCustomSpan()
                                         <p><?php esc_html_e("All the plans are year-to-year which are subscribed annually except for lifetime plan.", 'easy-table-of-contents'); ?></p>
                                     </li>
                                     <li>
-                                        <span><?php echo esc_html_e("What payment methods are accepted?", 'easy-table-of-contents') ?></span>
-                                        <p><?php echo esc_html_e("We accepts PayPal and Credit Card payments.", 'easy-table-of-contents') ?></p>
+                                        <span><?php esc_html_e("What payment methods are accepted?", 'easy-table-of-contents') ?></span>
+                                        <p><?php esc_html_e("We accepts PayPal and Credit Card payments.", 'easy-table-of-contents') ?></p>
                                     </li>
                                     <li>
-                                        <span><?php echo esc_html_e("Do you offer support if I need help?", 'easy-table-of-contents') ?></span>
-                                        <p><?php echo esc_html_e("Yes! Top-notch customer support for our paid customers is key for a quality product, so we’ll do our very best to resolve any issues you encounter via our support page.", 'easy-table-of-contents') ?></p>
+                                        <span><?php esc_html_e("Do you offer support if I need help?", 'easy-table-of-contents') ?></span>
+                                        <p><?php esc_html_e("Yes! Top-notch customer support for our paid customers is key for a quality product, so we’ll do our very best to resolve any issues you encounter via our support page.", 'easy-table-of-contents') ?></p>
                                     </li>
                                     <li>
-                                        <span><?php echo esc_html_e("Can I use the plugins after my subscription is expired?", 'easy-table-of-contents') ?></span>
-                                        <p><?php echo esc_html_e("Yes, you can use the plugins, but you will not get future updates for those plugins.", 'easy-table-of-contents') ?></p>
+                                        <span><?php esc_html_e("Can I use the plugins after my subscription is expired?", 'easy-table-of-contents') ?></span>
+                                        <p><?php esc_html_e("Yes, you can use the plugins, but you will not get future updates for those plugins.", 'easy-table-of-contents') ?></p>
                                     </li>
                                 </ul>
                             </div>
                             <div class="rt">
                                 <ul>
                                     <li>
-                                        <span><?php echo esc_html_e("Can I cancel my membership at any time?", 'easy-table-of-contents') ?></span>
-                                        <p><?php echo esc_html_e("Yes. You can cancel your membership by contacting us.", 'easy-table-of-contents') ?></p>
+                                        <span><?php esc_html_e("Can I cancel my membership at any time?", 'easy-table-of-contents') ?></span>
+                                        <p><?php esc_html_e("Yes. You can cancel your membership by contacting us.", 'easy-table-of-contents') ?></p>
                                     </li>
                                     <li>
-                                        <span><?php echo esc_html_e("Can I change my plan later on?", 'easy-table-of-contents') ?></span>
-                                        <p><?php echo esc_html_e("Yes. You can upgrade your plan by contacting us.", 'easy-table-of-contents') ?></p>
+                                        <span><?php esc_html_e("Can I change my plan later on?", 'easy-table-of-contents') ?></span>
+                                        <p><?php esc_html_e("Yes. You can upgrade your plan by contacting us.", 'easy-table-of-contents') ?></p>
                                     </li>
                                     <li>
-                                        <span><?php echo esc_html_e("Do you offer refunds?", 'easy-table-of-contents') ?></span>
-                                        <p><?php echo esc_html_e("You are fully protected by our 100% Money-Back Guarantee Unconditional. If during the next 14 days you experience an issue that makes the plugin unusable, and we are unable to resolve it, we’ll happily offer a full refund.", 'easy-table-of-contents') ?></p>
+                                        <span><?php esc_html_e("Do you offer refunds?", 'easy-table-of-contents') ?></span>
+                                        <p><?php esc_html_e("You are fully protected by our 100% Money-Back Guarantee Unconditional. If during the next 14 days you experience an issue that makes the plugin unusable, and we are unable to resolve it, we’ll happily offer a full refund.", 'easy-table-of-contents') ?></p>
                                     </li>
                                     <li>
-                                        <span><?php echo esc_html_e("Do I get updates for the premium plugin?", 'easy-table-of-contents') ?></span>
-                                        <p><?php echo esc_html_e("Yes, you will get updates for all the premium plugins until your subscription is active.", 'easy-table-of-contents') ?></p>
+                                        <span><?php esc_html_e("Do I get updates for the premium plugin?", 'easy-table-of-contents') ?></span>
+                                        <p><?php esc_html_e("Yes, you will get updates for all the premium plugins until your subscription is active.", 'easy-table-of-contents') ?></p>
                                     </li>
                                 </ul>
                             </div>
                         </div><!-- /.faq-lst -->
                         <div class="f-cnt">
-                            <span><?php echo esc_html_e("I have other pre-sale questions, can you help?", 'easy-table-of-contents') ?></span>
-                            <p><?php echo esc_html_e("All the plans are year-to-year which are subscribed annually.", 'easy-table-of-contents') ?></p>
+                            <span><?php esc_html_e("I have other pre-sale questions, can you help?", 'easy-table-of-contents') ?></span>
+                            <p><?php esc_html_e("All the plans are year-to-year which are subscribed annually.", 'easy-table-of-contents') ?></p>
                             <a href="https://tocwp.com/contact/'?utm_source=tocwp-plugin&utm_medium=addon-card'"
-                               target="_blank"><?php echo esc_html_e("Contact a Human", 'easy-table-of-contents') ?></a>
+                               target="_blank"><?php esc_html_e("Contact a Human", 'easy-table-of-contents') ?></a>
                         </div><!-- /.f-cnt -->
                     </div><!-- /.faq -->
                 </div><!-- /. pvf -->

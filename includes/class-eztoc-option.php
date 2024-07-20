@@ -361,7 +361,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'default' => false,
 						),
                                             
-                                                'toc-run-on-amp-pages' => array(
+                        	'toc-run-on-amp-pages' => array(
 							'id' => 'toc-run-on-amp-pages',
 							'name' => esc_html__( 'TOC AMP Page Support', 'easy-table-of-contents' ),
 							'desc' => esc_html__( 'You can on or off Easy TOC for the AMP Pages.', 'easy-table-of-contents' ),
@@ -1572,7 +1572,7 @@ text
 		 * @param null  $value
 		 */
 		public static function text( $args, $value = null ) {
-
+			$name_flag = true;
 			if ( is_null( $value ) ) {
 
 				$value = self::get( $args['id'], $args['default'] );
@@ -1582,13 +1582,9 @@ text
 
 				$args['readonly'] = true;
 				$value            = isset( $args['default'] ) ? $args['default'] : '';
-				$name             = '';
+				$name_flag        = false;
 
-			} else {
-
-				$name = ' name="ez-toc-settings[' . $args['id'] . ']"';
 			}
-
 			$placeholder = '';
 			if ( isset( $args['placeholder'] ) && ! empty( $args['placeholder'] ) ) {
 				$placeholder = $args['placeholder'];
@@ -1598,7 +1594,7 @@ text
 			$size     = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 			$value = $value ? stripslashes($value) : '';
 			?>
-			<input type="text" class="<?php echo esc_attr($size) ?>-text" id="ez-toc-settings['<?php echo esc_attr($args['id'])?>']" <?php echo esc_attr($name) ?> value="<?php echo esc_attr( $value ) ?>" <?php echo esc_attr($readonly) ?> placeholder="<?php echo esc_attr($placeholder) ?>" />
+			<input type="text" class="<?php echo esc_attr($size) ?>-text" id="ez-toc-settings['<?php echo esc_attr($args['id'])?>']" <?php echo $name_flag ?' name="ez-toc-settings[' . esc_attr( $args['id'] ) . ']"':''; ?> value="<?php echo esc_attr( $value ) ?>" <?php echo esc_attr($readonly) ?> placeholder="<?php echo esc_attr($placeholder) ?>" />
 
 			<?php if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) { ?>
 				<label for="ez-toc-settings['<?php echo esc_attr( $args['id'] ) ?>']"> 
@@ -1622,8 +1618,7 @@ text
 		 */
 		public static function textarea( $args, $value = null ) {
 
-			$html = '';
-
+			$name_flag = true;
 			if ( is_null( $value ) ) {
 
 				$value = self::get( $args['id'], $args['default'] );
@@ -1633,20 +1628,15 @@ text
 
 				$args['readonly'] = true;
 				$value            = isset( $args['default'] ) ? $args['default'] : '';
-				$name             = '';
+				$name_flag        = false;
 
-			} else {
-
-				$name = ' name="ez-toc-settings[' . $args['id'] . ']"';
 			}
 
 			$readonly = isset( $args['readonly'] ) && $args['readonly'] === true ? ' readonly="readonly"' : '';
 			$size     = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
-
-			$placeholder = isset( $args['placeholder'] ) && $args['placeholder'] != '' ? 'placeholder="'.$args['placeholder'].'"' : '';
 			?>
 
-			<textarea rows="10" cols="50" class="<?php echo esc_attr( $size ); ?>-text" id="ez-toc-settings[<?php echo esc_attr( $args['id'] ); ?>]" <?php echo esc_attr( $name ); ?><?php echo esc_attr( $readonly ); ?><?php echo esc_attr( $placeholder ); ?>><?php echo esc_textarea( $value ); ?></textarea>
+			<textarea rows="10" cols="50" class="<?php echo esc_attr( $size ); ?>-text" id="ez-toc-settings[<?php echo esc_attr( $args['id'] ); ?>]" <?php echo $name_flag ?' name="ez-toc-settings[' . esc_attr( $args['id'] ) . ']"':''; ?> <?php echo esc_attr( $readonly ); ?><?php echo isset( $args['placeholder'] ) && $args['placeholder'] != '' ? 'placeholder="'.esc_attr($args['placeholder']).'"' : ''; ?>><?php echo esc_textarea( $value ); ?></textarea>
 
 			<?php if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) { ?>
 				<label for="ez-toc-settings[<?php echo esc_attr( $args['id'] ); ?>]">
@@ -1669,24 +1659,21 @@ text
 		public static function number( $args ) {
 
 			$value = self::get( $args['id'], $args['default'] );
-
+			$name_flag = true;
 			if ( isset( $args['faux'] ) && true === $args['faux'] ) {
 
 				$args['readonly'] = true;
 				$value            = isset( $args['default'] ) ? $args['default'] : '';
-				$name             = '';
+				$name_flag		  = false;
 
-			} else {
-
-				$name = ' name="ez-toc-settings[' . $args['id'] . ']"';
-			}
+			} 
 
 			$readonly = isset( $args['readonly'] ) && $args['readonly'] === true ? ' readonly="readonly"' : '';
 			$size     = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
 
 			$min = isset( $args['min'] ) && $args['min'] != '' ? 'min="'.$args['min'].'"' : '';
 			?>
-			<input type="number" class="<?php echo esc_attr( $size ); ?>-text" id="ez-toc-settings[<?php echo esc_attr( $args['id'] ); ?>]" <?php echo esc_attr( $name ); ?> value="<?php echo esc_attr( stripslashes( $value ) ); ?>"<?php echo esc_attr( $readonly ); ?><?php echo esc_attr( $min ); ?> />
+			<input type="number" class="<?php echo esc_attr( $size ); ?>-text" id="ez-toc-settings[<?php echo esc_attr( $args['id'] ); ?>]" <?php echo $name_flag ?' name="ez-toc-settings[' . esc_attr( $args['id'] ) . ']"':''; ?>  value="<?php echo esc_attr( stripslashes( $value ) ); ?>" <?php echo esc_attr( $readonly ); ?><?php echo esc_attr( $min ); ?> />
 			<?php if ( isset( $args['desc'] ) && 0 < strlen( $args['desc'] ) ) { ?>
 				<label for="ez-toc-settings[<?php echo esc_attr( $args['id'] ); ?>]">
 					<?php echo wp_kses_post( $args['desc'] ); ?>
@@ -1707,32 +1694,24 @@ text
 		 * @param null  $value
 		 */
 		public static function checkbox( $args, $value = null ) {
-
+			$is_faux = false;
 			if ( is_null( $value ) ) {
-
 				$value = self::get( $args['id'], $args['default'] );
 			}
-
+		
 			if ( isset( $args['faux'] ) && true === $args['faux'] ) {
-
-				$name = '';
-
-			} else {
-
-				$name = ' name="ez-toc-settings[' . $args['id'] . ']"';
+				$is_faux = true;
 			}
-
-			$checked = $value ? checked( 1, $value, false ) : '';
 			?>
-	
-			<input type="checkbox" id="ez-toc-settings[<?php echo esc_attr( $args['id'] ); ?>]" <?php echo esc_attr( $name ); ?> value="1" <?php echo esc_attr( $checked ); ?> />
-
+			<input type="checkbox" id="ez-toc-settings[<?php echo esc_attr( $args['id'] ); ?>]" <?php echo (!$is_faux)?'name="ez-toc-settings[' . esc_attr($args['id']) . ']"':''?> value="1" <?php echo $value ? checked( 1, $value, false ) : ''; ?> />
+		
 			<?php if ( isset( $args['desc'] ) && strlen( $args['desc'] ) > 0 ) { ?>
 				<label for="ez-toc-settings[<?php echo esc_attr( $args['id'] ); ?>]">
 					<?php echo wp_kses_post( $args['desc'] ); ?>
 				</label>
 			<?php }
 		}
+		
 
 		/**
 		 * Multicheck Callback
