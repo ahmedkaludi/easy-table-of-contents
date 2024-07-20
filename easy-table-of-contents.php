@@ -382,7 +382,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}
 									
 				// Register stylesheet which can be called later using wp_enqueue_style() 
-				wp_register_style( 'ez-toc', EZ_TOC_URL . "assets/css/screen$min.css",array( ), ezTOC::VERSION );
+				wp_register_style( 'ez-toc', EZ_TOC_URL . "assets/css/screen{$min}.css",array( ), ezTOC::VERSION );
 				wp_register_style( 'ez-toc-sticky', EZ_TOC_URL . "assets/css/ez-toc-sticky{$min}.css", array(), self::VERSION );
 
 				// Register scripts which can be called later using wp_enqueue_script() 																																
@@ -391,8 +391,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$in_footer = false;
 				}
 				wp_register_script( 'ez-toc-sticky', EZ_TOC_URL . "assets/js/ez-toc-sticky{$min}.js", array( 'jquery'), ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/ez-toc-sticky{$min}.js" ), $in_footer );				
-				wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie$min.js", array(), '2.2.1', $in_footer );
-				wp_register_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit$min.js", array( 'jquery' ), '1.9.2', $in_footer );                        			
+				wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie{$min}.js", array(), '2.2.1', $in_footer );
+				wp_register_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit{$min}.js", array( 'jquery' ), '1.9.2', $in_footer );                        			
 				wp_register_script( 'ez-toc-js', EZ_TOC_URL . "assets/js/front{$min}.js", array( 'jquery', 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ), ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/front{$min}.js" ), $in_footer );
 				wp_register_script( 'ez-toc-scroll-scriptjs', apply_filters('ez_toc_smscroll_jsfile_filter',EZ_TOC_URL . "assets/js/smooth_scroll{$min}.js"), array( 'jquery' ), ezTOC::VERSION, $in_footer );
 				self::localize_scripts();
@@ -422,7 +422,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				 */
 				if ( 'Foodie Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
 
-					wp_register_style( 'ez-toc-foodie-pro', EZ_TOC_URL . "assets/css/foodie-pro$min.css",array(), ezTOC::VERSION );
+					wp_register_style( 'ez-toc-foodie-pro', EZ_TOC_URL . "assets/css/foodie-pro{$min}.css",array(), ezTOC::VERSION );
 					wp_enqueue_style( 'ez-toc-foodie-pro' );
 
 				}
@@ -435,7 +435,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				 */
 				if ( 'Thrive Theme Builder' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
 
-					wp_register_style( 'ez-toc-thrive-theme-builder', EZ_TOC_URL . "assets/css/thrive-theme-builder$min.css",array(), ezTOC::VERSION );
+					wp_register_style( 'ez-toc-thrive-theme-builder', EZ_TOC_URL . "assets/css/thrive-theme-builder{$min}.css",array(), ezTOC::VERSION );
 					wp_enqueue_style( 'ez-toc-thrive-theme-builder' );
 
 				}
@@ -1712,7 +1712,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					?>
 					<div class="ez-toc-sticky">
 						<div class="ez-toc-sticky-fixed <?php echo esc_attr($toggleClass); ?> <?php echo esc_attr($themeClass); ?>">
-							<div class='ez-toc-sidebar'><?php echo esc_html($stickyToggleTOC); ?></div>
+							<div class='ez-toc-sidebar'><?php echo wp_kses_post($stickyToggleTOC); ?></div>
 						</div>
 						<a class='ez-toc-open-icon' href='#' onclick='ezTOC_showBar(event)' <?php echo esc_attr($linkZindex); ?>>
 							<span class="arrow"><?php echo esc_html($arrowSide); ?></span>

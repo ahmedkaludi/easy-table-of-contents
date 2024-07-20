@@ -1835,7 +1835,7 @@ text
 					<?php echo esc_attr( $chosen ); ?> 
 					data-placeholder="<?php echo esc_attr( $placeholder ); ?>">
 				<?php foreach ( $args['options'] as $option => $name ) : ?>
-					<option value="<?php echo esc_attr( $option ); ?>" <?php selected( $option, $value, false ); ?>>
+					<option value="<?php echo esc_attr( $option ); ?>" <?php echo selected( $option, $value, false ); ?>>
 						<?php echo esc_html( $name ); ?>
 					</option>
 				<?php endforeach; ?>
@@ -1885,7 +1885,7 @@ text
 					<?php foreach ( $args['options'] as $group ) : ?>
 						<optgroup label="<?php echo esc_attr( $group['name'] ); ?>">
 							<?php foreach ( $group['options'] as $option => $name ) : ?>
-								<option value="<?php echo esc_attr( $option ); ?>" <?php selected( $option, $value, false ); ?>>
+								<option value="<?php echo esc_attr( $option ); ?>" <?php echo selected( $option, $value, false ); ?>>
 									<?php echo esc_html( $name ); ?>
 								</option>
 							<?php endforeach; ?>
