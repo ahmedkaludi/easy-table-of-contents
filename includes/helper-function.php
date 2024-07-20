@@ -40,15 +40,16 @@ function eztoc_is_plugins_page() {
     return false;
 }
 
-add_filter('admin_footer', 'eztoc_add_deactivation_feedback_modal');
+add_filter( 'admin_footer', 'eztoc_add_deactivation_feedback_modal' );
+
 function eztoc_add_deactivation_feedback_modal() {
 
-    if( !is_admin() && !eztoc_is_plugins_page()) {
-        return;
+    if ( is_admin() && eztoc_is_plugins_page() ) {
+
+        require_once EZ_TOC_PATH ."/includes/deactivate-feedback.php";    
+
     }
     
-    require_once EZ_TOC_PATH ."/includes/deactivate-feedback.php";
-
 }
 
 /**
@@ -57,21 +58,22 @@ function eztoc_add_deactivation_feedback_modal() {
  * @since 1.4.0
  */
 function eztoc_send_feedback() {
-
+//phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Since form is serialised nonce is verified after parsing the recieved data.
     if( isset( $_POST['data'] ) ) {
+        //phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Since form is serialised nonce is verified after parsing the recieved data.
         parse_str( $_POST['data'], $form );
     }
     
     if( !isset( $form['eztoc_security_nonce'] ) || isset( $form['eztoc_security_nonce'] ) && !wp_verify_nonce( sanitize_text_field( $form['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) ) {
         echo 'security_nonce_not_verified';
-        die();
+        wp_die();
     }
     if ( !current_user_can( 'manage_options' ) ) {
-        die();
+        wp_die();
     }
     
     $text = '';
-    if( isset( $form['eztoc_disable_text'] ) ) {
+    if( isset( $form['eztoc_disable_text'] ) && !is_array($form['eztoc_disable_text']) ) {
         $text = implode( "\n\r", $form['eztoc_disable_text'] );
     }
 
@@ -101,44 +103,45 @@ function eztoc_send_feedback() {
       
     }
 
-    $success = wp_mail( 'team@magazine3.in', $subject, $text, $headers );
+    wp_mail( 'team@magazine3.in', $subject, $text, $headers );
     
     echo 'sent';
-    die();
+    wp_die();
+
 }
+
 add_action( 'wp_ajax_eztoc_send_feedback', 'eztoc_send_feedback' );
 
-function eztoc_enqueue_makebetter_email_js(){
+function eztoc_enqueue_makebetter_email_js() {
 
-    if( !is_admin() && !eztoc_is_plugins_page()) {
-        return;
+    if ( is_admin() && eztoc_is_plugins_page() ) {
+        wp_enqueue_script( 'eztoc-make-better-js', EZ_TOC_URL . 'includes/feedback.js', array( 'jquery' ),  ezTOC::VERSION, true );
+        wp_enqueue_style( 'eztoc-make-better-css', EZ_TOC_URL . 'includes/feedback.css', false,  ezTOC::VERSION );
     }
-
-    wp_enqueue_script( 'eztoc-make-better-js', EZ_TOC_URL . 'includes/feedback.js', array( 'jquery' ));
-
-    wp_enqueue_style( 'eztoc-make-better-css', EZ_TOC_URL . 'includes/feedback.css', false  );
+    
 }
+
 add_action( 'admin_enqueue_scripts', 'eztoc_enqueue_makebetter_email_js' );
 
+/*
+ * Read the contents of a file using the WordPress filesystem API.
+ * Since: 2.0.68
+ * @param string $file_path The path to the file.
+ * @return string|false The file contents or false on failure.
+ */
+function eztoc_read_file_contents($file_path) {
+    global $wp_filesystem;
 
-add_action('wp_ajax_eztoc_subscribe_newsletter','eztoc_subscribe_for_newsletter');
-function eztoc_subscribe_for_newsletter(){
-    if( !wp_verify_nonce( sanitize_text_field( $_POST['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) ) {
-        echo 'security_nonce_not_verified';
-        die();
+    // Initialize the WordPress filesystem, no more using file_get_contents function
+    if (empty($wp_filesystem)) {
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+        WP_Filesystem();
     }
-    if ( !current_user_can( 'manage_options' ) ) {
-        die();
+
+    // Check if the file exists and is readable
+    if ($wp_filesystem->exists($file_path) && $wp_filesystem->is_readable($file_path)) {
+        return $wp_filesystem->get_contents($file_path);
     }
-    $api_url = 'http://magazine3.company/wp-json/api/central/email/subscribe';
-    $api_params = array(
-        'name' => sanitize_text_field($_POST['name']),
-        'email'=> sanitize_email($_POST['email']),
-        'website'=> sanitize_text_field($_POST['website']),
-        'type'=> 'etoc'
-    );
-    $response = wp_remote_post( $api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
-    $response = wp_remote_retrieve_body( $response );
-    echo $response;
-    die;
+
+    return false;
 }

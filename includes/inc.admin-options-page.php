@@ -1,7 +1,11 @@
+<?php 
+    // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+?>
 <div id='toc' class='wrap'>
     <a href="https://tocwp.com/" target="_blank">
-        <img src="<?php echo plugins_url('assets/eztoc-logo.png', dirname(__FILE__)) ?>" alt="tocwp"
-             srcset="<?php echo plugins_url('assets/eztoc-logo.png', dirname(__FILE__)) ?> 1x, <?php echo plugins_url('assets/eztoc-logo.png', dirname(__FILE__)) ?> 2x">
+        <img src="<?php echo esc_url( plugins_url('assets/img/eztoc-logo.png', dirname(__FILE__))) ?>" alt="tocwp"
+             srcset="<?php echo esc_url(plugins_url('assets/img/eztoc-logo.png', dirname(__FILE__))) ?> 1x, <?php echo esc_url(plugins_url('assets/img/eztoc-logo.png', dirname(__FILE__))) ?> 2x">
     </a>
     <h1 style="display:none;">&nbsp;</h1>
     <div class="toc-tab-panel">
@@ -10,15 +14,10 @@
         <a id="eztoc-default" class="eztoc-tablinks" data-href="no" href="#general-settings"
            onclick="ezTocTabToggle(event, 'general')"><?php esc_html_e( 'Settings', 'easy-table-of-contents' ) ?></a>
         <?php
-        $pro = '';
-
-        if (function_exists('ez_toc_pro_activation_link')) {
-            $pro = '<a id="eztoc-default" class="eztoc-tablinks ez-toc-pro-settings-link-paid" data-href="no" href="#eztoc-prosettings" onclick="ezTocTabToggle(event, \'general\')">' . esc_html__( 'PRO Settings', 'easy-table-of-contents' ) . '</a>';
-        }
-        ?>
-        <?php echo $pro; ?>
-
-        <?php
+        if (function_exists('ez_toc_pro_activation_link')) { ?>
+         <a id="eztoc-default" class="eztoc-tablinks ez-toc-pro-settings-link-paid" data-href="no" href="#eztoc-prosettings" onclick="ezTocTabToggle(event, 'general')"><?php echo esc_html__( 'PRO Settings', 'easy-table-of-contents' ) ?></a>
+        <?php }
+       
         if (!function_exists('ez_toc_pro_activation_link')) { ?>
             <a class="eztoc-tablinks" id="eztoc-freevspro" href="#freevspro-support"
                onclick="ezTocTabToggle(event, 'freevspro')" data-href="no"><?php esc_html_e( 'Free vs PRO', 'easy-table-of-contents' ) ?></a>
@@ -35,7 +34,7 @@
             $license_info = get_option("easytoc_pro_upgrade_license");
             $license_exp = null;
             if( !empty( $license_info['pro']['license_key_expires'] ) ) {
-                $license_exp = date( 'Y-m-d', strtotime($license_info['pro']['license_key_expires'] ) );
+                $license_exp = gmdate( 'Y-m-d', strtotime($license_info['pro']['license_key_expires'] ) );
             }
 
             ?>
@@ -45,7 +44,7 @@
             </a>
             <?php
 
-            $today = date('Y-m-d');
+            $today = gmdate('Y-m-d');
             $exp_date = $license_exp;
             $date1 = date_create($today);
             if($exp_date){
@@ -70,7 +69,7 @@
             <button class="button-toc" style="display: inline-block;font-size: 20px;">
                 <span><?php esc_html_e( 'YES! I want to Support by UPGRADING.', 'easy-table-of-contents' ) ?></span></button>
         </a>
-        <a href="<?php echo add_query_arg('page', 'table-of-contents', admin_url('options-general.php')); ?>"
+        <a href="<?php echo esc_url(add_query_arg('page', 'table-of-contents', admin_url('options-general.php'))); ?>"
            style="text-decoration: none;">
             <button class="button-toc1"
                     style="display: block;text-align: center;border: 0;margin: 0 auto;background: none;">
@@ -199,17 +198,17 @@
                             <tbody>
                                 <tr>
                                     <?php $url = wp_nonce_url(admin_url('admin-ajax.php?action=ez_toc_export_all_settings'), '_wpnonce'); ?>
-                                    <th scope="row"><?php echo __( 'Export Settings', 'easy-table-of-contents' ) ?></th>
+                                    <th scope="row"><?php esc_html_e( 'Export Settings', 'easy-table-of-contents' ) ?></th>
                                     <td>
-                                        <button type="button"><a href="<?php echo esc_url($url); ?>" style="text-decoration:none; color: black;"><?php echo __('Export', 'easy-table-of-contents'); ?></a></button>
-                                        <label> <br><?php echo __('Export all ETOC settings to json file', 'easy-table-of-contents'); ?></label>
+                                        <button type="button"><a href="<?php echo esc_url($url); ?>" style="text-decoration:none; color: black;"><?php esc_html_e('Export', 'easy-table-of-contents'); ?></a></button>
+                                        <label> <br><?php esc_html_e('Export all ETOC settings to json file', 'easy-table-of-contents'); ?></label>
                                     </td>
                                 </tr> 
                                 <tr>
-                                    <th scope="row"><?php echo __( 'Import Settings', 'easy-table-of-contents' ) ?></th>
+                                    <th scope="row"><?php esc_html_e( 'Import Settings', 'easy-table-of-contents' ) ?></th>
                                     <td>
                                         <input type="file" name="eztoc_import_backup" id="eztoc-import-backup">
-                                        <label> <br><?php echo __('Upload json settings file to import', 'easy-table-of-contents'); ?></label>
+                                        <label> <br><?php esc_html_e('Upload json settings file to import', 'easy-table-of-contents'); ?></label>
                                     </td>
                                 </tr>                       
                             </tbody>
@@ -251,29 +250,29 @@
         <div id="eztoc-tabs-technical">
             <a href="#" onclick="ezTocTabToggle(event, 'eztoc-technical-support',
             'eztoc-tabcontent-technical', 'eztoc-tablinks-technical')"
-               class="eztoc-tablinks-technical active"><?php echo esc_html_e('Technical Support', 'easy-table-of-contents') ?></a>
+               class="eztoc-tablinks-technical active"><?php esc_html_e('Technical Support', 'easy-table-of-contents') ?></a>
             |
             <a href="#" onclick="ezTocTabToggle(event, 'eztoc-technical-how-to-use',
             'eztoc-tabcontent-technical', 'eztoc-tablinks-technical')"
-               class="eztoc-tablinks-technical"><?php echo esc_html_e('How to Use', 'easy-table-of-contents') ?></a>
+               class="eztoc-tablinks-technical"><?php esc_html_e('How to Use', 'easy-table-of-contents') ?></a>
             |
             <a href="#" onclick="ezTocTabToggle(event, 'eztoc-technical-shortcode',
             'eztoc-tabcontent-technical', 'eztoc-tablinks-technical')"
-               class="eztoc-tablinks-technical"><?php echo esc_html_e('Shortcode', 'easy-table-of-contents') ?></a>
+               class="eztoc-tablinks-technical"><?php esc_html_e('Shortcode', 'easy-table-of-contents') ?></a>
             |
             <a href="https://tocwp.com/docs/" target="_blank" class="eztoc-tablinks-technical"><?php echo
                 esc_html_e('Documentation', 'easy-table-of-contents') ?></a>
             |
             <a href="#" onclick="ezTocTabToggle(event, 'eztoc-technical-hooks-for-developers',
             'eztoc-tabcontent-technical', 'eztoc-tablinks-technical')"
-               class="eztoc-tablinks-technical"><?php echo esc_html_e('Hooks (for Developers)', 'easy-table-of-contents') ?></a>
+               class="eztoc-tablinks-technical"><?php esc_html_e('Hooks (for Developers)', 'easy-table-of-contents') ?></a>
         </div>
         <div class="eztoc-form-page-ui">
             <div class="eztoc-left-side">
                 <div class="eztoc-tabcontent-technical" id="eztoc-technical-support">
                     <h1><?php esc_html_e('Technical Support', 'easy-table-of-contents'); ?></h1>
-                    <p class="ez-toc-tabcontent-technical-title-content"><?php echo esc_html_e('We are dedicated to provide Technical support & Help to our users. Use the below form for sending your questions.', 'easy-table-of-contents') ?> </p>
-                    <p><?php echo esc_html_e('You can also contact us from ', 'easy-table-of-contents') ?><a
+                    <p class="ez-toc-tabcontent-technical-title-content"><?php esc_html_e('We are dedicated to provide Technical support & Help to our users. Use the below form for sending your questions.', 'easy-table-of-contents') ?> </p>
+                    <p><?php esc_html_e('You can also contact us from ', 'easy-table-of-contents') ?><a
                                 href="https://tocwp.com/contact/">https://tocwp.com/contact/</a>.</p>
 
                     <div class="eztoc_support_div_form" id="technical-form">
@@ -317,12 +316,12 @@
                                 </div>
                             </li>
                             <li>
-                                <button class="button button-primary eztoc-send-query"><?php echo esc_html_e('Send Support Request', 'easy-table-of-contents'); ?></button>
+                                <button class="button button-primary eztoc-send-query"><?php esc_html_e('Send Support Request', 'easy-table-of-contents'); ?></button>
                             </li>
                         </ul>
                         <div class="clear"></div>
-                        <span class="eztoc-query-success eztoc-result eztoc_hide"><?php echo esc_html_e('Message sent successfully, Please wait we will get back to you shortly', 'easy-table-of-contents'); ?></span>
-                        <span class="eztoc-query-error eztoc-result eztoc_hide"><?php echo esc_html_e('Message not sent. please check your network connection', 'easy-table-of-contents'); ?></span>
+                        <span class="eztoc-query-success eztoc-result eztoc_hide"><?php esc_html_e('Message sent successfully, Please wait we will get back to you shortly', 'easy-table-of-contents'); ?></span>
+                        <span class="eztoc-query-error eztoc-result eztoc_hide"><?php esc_html_e('Message not sent. please check your network connection', 'easy-table-of-contents'); ?></span>
                     </div>
                 </div>
                 <div class="eztoc-tabcontent-technical" id="eztoc-technical-how-to-use" style="display:
@@ -423,103 +422,99 @@
                 <div class="eztoc-tabcontent-technical" id="eztoc-technical-hooks-for-developers" style="display:
                 none;">
                     <h1><?php esc_html_e('Hooks (for Developers)', 'easy-table-of-contents'); ?></h1>
-                    <p class="ez-toc-tabcontent-technical-title-content"><?php echo esc_html_e('This plugin has been designed for easiest way & best features for the users & also as well as for the developers, any developer follow the below advanced instructions:', 'easy-table-of-contents') ?> </p>
+                    <p class="ez-toc-tabcontent-technical-title-content"><?php esc_html_e('This plugin has been designed for easiest way & best features for the users & also as well as for the developers, any developer follow the below advanced instructions:', 'easy-table-of-contents') ?> </p>
 
-                    <h2><?php echo esc_html_e('Hooks', 'easy-table-of-contents') ?></h2>
-                    <p><?php echo esc_html_e('Developer can use these below hooks for customization of this plugin:', 'easy-table-of-contents')
+                    <h2><?php esc_html_e('Hooks', 'easy-table-of-contents') ?></h2>
+                    <p><?php esc_html_e('Developer can use these below hooks for customization of this plugin:', 'easy-table-of-contents')
                         ?></p>
-                    <h4><?php echo esc_html_e('Actions:', 'easy-table-of-contents') ?></h4>
+                    <h4><?php esc_html_e('Actions:', 'easy-table-of-contents') ?></h4>
                     <ul>
-                        <li><code><?php echo esc_html_e('ez_toc_before', 'easy-table-of-contents') ?></code>
+                        <li><code><?php esc_html_e('ez_toc_before', 'easy-table-of-contents') ?></code>
                         </li>
-                        <li><code><?php echo esc_html_e('ez_toc_after', 'easy-table-of-contents')
+                        <li><code><?php esc_html_e('ez_toc_after', 'easy-table-of-contents')
                                 ?></code></li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_sticky_toggle_before', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_sticky_toggle_before', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_sticky_toggle_after', 'easy-table-of-contents')
+                            <code><?php esc_html_e('ez_toc_sticky_toggle_after', 'easy-table-of-contents')
                                 ?></code></li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_before_widget_container', 'easy-table-of-contents')
+                            <code><?php esc_html_e('ez_toc_before_widget_container', 'easy-table-of-contents')
                                 ?></code></li>
-                        <li><code><?php echo esc_html_e('ez_toc_before_widget', 'easy-table-of-contents')
-                                ?></code></li>
-                        <li>
-                            <code><?php echo esc_html_e('ez_toc_after_widget_container', 'easy-table-of-contents') ?></code>
-                        </li>
-                        <li><code><?php echo esc_html_e('ez_toc_after_widget', 'easy-table-of-contents')
+                        <li><code><?php esc_html_e('ez_toc_before_widget', 'easy-table-of-contents')
                                 ?></code></li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_title', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_after_widget_container', 'easy-table-of-contents') ?></code>
+                        </li>
+                        <li><code><?php esc_html_e('ez_toc_after_widget', 'easy-table-of-contents')
+                                ?></code></li>
+                        <li>
+                            <code><?php esc_html_e('ez_toc_title', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_sticky_title', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_sticky_title', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_container_class', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_container_class', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_widget_sticky_container_class', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_widget_sticky_container_class', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_url_anchor_target', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_url_anchor_target', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_sticky_enable_support', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_sticky_enable_support', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_sticky_post_types', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_sticky_post_types', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_modify_icon', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_modify_icon', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('ez_toc_label_below_html', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('ez_toc_label_below_html', 'easy-table-of-contents') ?></code>
                         </li>
                         <li>
-                            <code><?php echo esc_html_e('eztoc_wordpress_final_output', 'easy-table-of-contents') ?></code>
+                            <code><?php esc_html_e('eztoc_wordpress_final_output', 'easy-table-of-contents') ?></code>
                         </li>
                     </ul>
 
 
-                    <h4><?php echo esc_html_e('Example: adding a span tag before the `Easy Table of Contents`',
+                    <h4><?php esc_html_e('Example: adding a span tag before the `Easy Table of Contents`',
                             'easy-table-of-contents') ?></h4>
-                    <p><?php echo esc_html_e("Get this following code and paste into your theme\'s function.php file:", 'easy-table-of-contents') ?></p>
+                    <p><?php esc_html_e("Get this following code and paste into your theme\'s function.php file:", 'easy-table-of-contents') ?></p>
                     <pre>
-                       <?php
-                       $addCustomSpanText = esc_html_e("Some Text or Element here ", 'easy-table-of-contents');
-                       echo "
 add_action( 'ez_toc_before', 'addCustomSpan' );
 function addCustomSpan()
 {
-    echo '&lt;span&gt;$addCustomSpanText&lt;/span&gt;';
+    echo <span>Some Text or Element here</span>;
 }
-                        "; ?>
-                    </pre>
+                       </pre>
 
                 </div>
             </div>
             <div class="eztoc-right-side">
                 <div class="eztoc-bio-box" id="ez_Bio">
-                    <h1><?php echo esc_html_e("Vision & Mission", 'easy-table-of-contents') ?></h1>
-                    <p class="eztoc-p"><?php echo esc_html_e("We strive to provide the best TOC in the world.", 'easy-table-of-contents') ?></p>
+                    <h1><?php esc_html_e("Vision & Mission", 'easy-table-of-contents') ?></h1>
+                    <p class="eztoc-p"><?php esc_html_e("We strive to provide the best TOC in the world.", 'easy-table-of-contents') ?></p>
                     <section class="eztoc_dev-bio">
                         <div class="ezoc-bio-wrap">
                             <img width="50px" height="50px"
-                                 src="<?php echo plugins_url('assets/ahmed-kaludi.jpg', dirname(__FILE__))
+                                 src="<?php echo esc_url(plugins_url('assets/img/ahmed-kaludi.jpg', dirname(__FILE__)))
                                  ?>" alt="ahmed-kaludi"/>
                             <p><?php esc_html_e('Lead Dev', 'easy-table-of-contents'); ?></p>
                         </div>
                         <div class="ezoc-bio-wrap">
                             <img width="50px" height="50px"
-                                 src="<?php echo plugins_url('assets/Mohammed-kaludi.jpeg', dirname
-                                 (__FILE__)) ?>" alt="Mohammed-kaludi"/>
+                                 src="<?php echo esc_url(plugins_url('assets/img/Mohammed-kaludi.jpeg', dirname(__FILE__))) 
+                                 ?>" alt="Mohammed-kaludi"/>
                             <p><?php esc_html_e('Developer', 'easy-table-of-contents'); ?></p>
                         </div>
                         <div class="ezoc-bio-wrap">
                             <img width="50px" height="50px"
-                                 src="<?php echo plugins_url('assets/sanjeev.jpg', dirname(__FILE__)) ?>"
+                                 src="<?php echo esc_url(plugins_url('assets/img/sanjeev.jpg', dirname(__FILE__))) ?>"
                                  alt="Sanjeev"/>
                             <p><?php esc_html_e('Developer', 'easy-table-of-contents'); ?></p>
                         </div>
@@ -583,16 +578,16 @@ function addCustomSpan()
                                     <div class="fet">
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo plugins_url('assets/right-tick.png',
-                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
+                                                    dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Gutenberg Block', 'easy-table-of-contents'); ?></h4>
                                             </div>
                                             <p><?php esc_html_e('Easily create TOC in Gutenberg block without the need any coding or shortcode.', 'easy-table-of-contents'); ?></p>
                                         </div>
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo plugins_url('assets/right-tick.png',
-                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
+                                                    dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Elementor Widget', 'easy-table-of-contents'); ?></h4>
                                             </div>
                                             <p><?php esc_html_e('Easily create TOC in Elementor with the widget without the need any coding or shortcode.', 'easy-table-of-contents'); ?></p>
@@ -600,8 +595,8 @@ function addCustomSpan()
 
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo plugins_url('assets/right-tick.png',
-                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
+                                                    dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Fixed/Sticky TOC', 'easy-table-of-contents'); ?></h4>
                                             </div>
                                             <p><?php esc_html_e('Users can faster find the content they want with sticky. Also can change the position of Sticky table of contents with different options.', 'easy-table-of-contents'); ?></p>
@@ -609,8 +604,8 @@ function addCustomSpan()
 
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo plugins_url('assets/right-tick.png',
-                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
+                                                    dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Customize Sticky TOC', 'easy-table-of-contents'); ?></h4>
                                             </div>
                                             <p><?php esc_html_e('Users can alos customize the appearance of Sticky of the table of contents.', 'easy-table-of-contents'); ?></p>
@@ -618,8 +613,8 @@ function addCustomSpan()
 
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo plugins_url('assets/right-tick.png',
-                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
+                                                    dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('View More', 'easy-table-of-contents'); ?></h4>
                                             </div>
                                             <p><?php esc_html_e('Users can show limited number of headings on initial view and show remaining headings on clicking a button.', 'easy-table-of-contents'); ?></p>
@@ -627,8 +622,8 @@ function addCustomSpan()
 
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo plugins_url('assets/right-tick.png',
-                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
+                                                    dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Read Time', 'easy-table-of-contents'); ?></h4>
                                             </div>
                                             <p><?php esc_html_e('Users can show estimated read time for your posts/pages inside the table of contents.', 'easy-table-of-contents'); ?></p>
@@ -636,8 +631,8 @@ function addCustomSpan()
 
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo plugins_url('assets/right-tick.png',
-                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
+                                                    dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Collapsable Sub Headings', 'easy-table-of-contents'); ?></h4>
                                             </div>
                                             <p><?php esc_html_e('Users can show/hide sub headings of the table of contents.', 'easy-table-of-contents'); ?></p>
@@ -645,8 +640,8 @@ function addCustomSpan()
 
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo plugins_url('assets/right-tick.png',
-                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
+                                                    dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e("ACF Support", 'easy-table-of-contents'); ?></h4>
                                             </div>
                                             <p><?php esc_html_e("Easily create TOC with your custom ACF fields.", 'easy-table-of-contents'); ?></p>
@@ -654,24 +649,24 @@ function addCustomSpan()
 
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo plugins_url('assets/right-tick.png',
-                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
+                                                    dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Full AMP Support', 'easy-table-of-contents'); ?></h4>
                                             </div>
                                             <p><?php esc_html_e('Generates a table of contents with your existing setup and makes them AMP automatically.', 'easy-table-of-contents'); ?></p>
                                         </div>
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo plugins_url('assets/right-tick.png',
-                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
+                                                    dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e('Continuous Updates', 'easy-table-of-contents'); ?></h4>
                                             </div>
                                             <p><?php esc_html_e("We're continuously updating our premium features and releasing them.", 'easy-table-of-contents'); ?></p>
                                         </div>
                                         <div class="fe-2">
                                             <div class="fe-t">
-                                                <img src="<?php echo plugins_url('assets/right-tick.png',
-                                                    dirname(__FILE__)) ?>" alt="right-tick"/>
+                                                <img src="<?php echo esc_url(plugins_url('assets/img/right-tick.png',
+                                                    dirname(__FILE__))) ?>" alt="right-tick"/>
                                                 <h4><?php esc_html_e("Documentation", 'easy-table-of-contents'); ?></h4>
                                             </div>
                                             <p><?php esc_html_e("We create tutorials for every possible feature and keep it updated for you.", 'easy-table-of-contents'); ?></p>
@@ -783,7 +778,7 @@ function addCustomSpan()
                             </div>
                         </div><!-- /.pri-lst -->
                         <div class="tru-us">
-                            <img src="<?php echo plugins_url('assets/toc-rating.png', dirname(__FILE__))
+                            <img src="<?php echo esc_url(plugins_url('assets/img/toc-rating.png', dirname(__FILE__)))
                             ?>" alt="toc-rating"/>
                             <h2><?php esc_html_e("Used by more than 5,00,000+ Users!", 'easy-table-of-contents'); ?></h2>
                             <p><?php esc_html_e("More than 500k Websites, Blogs &amp; E-Commerce shops are powered by our easy table of contents plugin making it the #1 Independent TOC plugin in WordPress.", 'easy-table-of-contents'); ?></p>
@@ -805,45 +800,45 @@ function addCustomSpan()
                                         <p><?php esc_html_e("All the plans are year-to-year which are subscribed annually except for lifetime plan.", 'easy-table-of-contents'); ?></p>
                                     </li>
                                     <li>
-                                        <span><?php echo esc_html_e("What payment methods are accepted?", 'easy-table-of-contents') ?></span>
-                                        <p><?php echo esc_html_e("We accepts PayPal and Credit Card payments.", 'easy-table-of-contents') ?></p>
+                                        <span><?php esc_html_e("What payment methods are accepted?", 'easy-table-of-contents') ?></span>
+                                        <p><?php esc_html_e("We accepts PayPal and Credit Card payments.", 'easy-table-of-contents') ?></p>
                                     </li>
                                     <li>
-                                        <span><?php echo esc_html_e("Do you offer support if I need help?", 'easy-table-of-contents') ?></span>
-                                        <p><?php echo esc_html_e("Yes! Top-notch customer support for our paid customers is key for a quality product, so we’ll do our very best to resolve any issues you encounter via our support page.", 'easy-table-of-contents') ?></p>
+                                        <span><?php esc_html_e("Do you offer support if I need help?", 'easy-table-of-contents') ?></span>
+                                        <p><?php esc_html_e("Yes! Top-notch customer support for our paid customers is key for a quality product, so we’ll do our very best to resolve any issues you encounter via our support page.", 'easy-table-of-contents') ?></p>
                                     </li>
                                     <li>
-                                        <span><?php echo esc_html_e("Can I use the plugins after my subscription is expired?", 'easy-table-of-contents') ?></span>
-                                        <p><?php echo esc_html_e("Yes, you can use the plugins, but you will not get future updates for those plugins.", 'easy-table-of-contents') ?></p>
+                                        <span><?php esc_html_e("Can I use the plugins after my subscription is expired?", 'easy-table-of-contents') ?></span>
+                                        <p><?php esc_html_e("Yes, you can use the plugins, but you will not get future updates for those plugins.", 'easy-table-of-contents') ?></p>
                                     </li>
                                 </ul>
                             </div>
                             <div class="rt">
                                 <ul>
                                     <li>
-                                        <span><?php echo esc_html_e("Can I cancel my membership at any time?", 'easy-table-of-contents') ?></span>
-                                        <p><?php echo esc_html_e("Yes. You can cancel your membership by contacting us.", 'easy-table-of-contents') ?></p>
+                                        <span><?php esc_html_e("Can I cancel my membership at any time?", 'easy-table-of-contents') ?></span>
+                                        <p><?php esc_html_e("Yes. You can cancel your membership by contacting us.", 'easy-table-of-contents') ?></p>
                                     </li>
                                     <li>
-                                        <span><?php echo esc_html_e("Can I change my plan later on?", 'easy-table-of-contents') ?></span>
-                                        <p><?php echo esc_html_e("Yes. You can upgrade your plan by contacting us.", 'easy-table-of-contents') ?></p>
+                                        <span><?php esc_html_e("Can I change my plan later on?", 'easy-table-of-contents') ?></span>
+                                        <p><?php esc_html_e("Yes. You can upgrade your plan by contacting us.", 'easy-table-of-contents') ?></p>
                                     </li>
                                     <li>
-                                        <span><?php echo esc_html_e("Do you offer refunds?", 'easy-table-of-contents') ?></span>
-                                        <p><?php echo esc_html_e("You are fully protected by our 100% Money-Back Guarantee Unconditional. If during the next 14 days you experience an issue that makes the plugin unusable, and we are unable to resolve it, we’ll happily offer a full refund.", 'easy-table-of-contents') ?></p>
+                                        <span><?php esc_html_e("Do you offer refunds?", 'easy-table-of-contents') ?></span>
+                                        <p><?php esc_html_e("You are fully protected by our 100% Money-Back Guarantee Unconditional. If during the next 14 days you experience an issue that makes the plugin unusable, and we are unable to resolve it, we’ll happily offer a full refund.", 'easy-table-of-contents') ?></p>
                                     </li>
                                     <li>
-                                        <span><?php echo esc_html_e("Do I get updates for the premium plugin?", 'easy-table-of-contents') ?></span>
-                                        <p><?php echo esc_html_e("Yes, you will get updates for all the premium plugins until your subscription is active.", 'easy-table-of-contents') ?></p>
+                                        <span><?php esc_html_e("Do I get updates for the premium plugin?", 'easy-table-of-contents') ?></span>
+                                        <p><?php esc_html_e("Yes, you will get updates for all the premium plugins until your subscription is active.", 'easy-table-of-contents') ?></p>
                                     </li>
                                 </ul>
                             </div>
                         </div><!-- /.faq-lst -->
                         <div class="f-cnt">
-                            <span><?php echo esc_html_e("I have other pre-sale questions, can you help?", 'easy-table-of-contents') ?></span>
-                            <p><?php echo esc_html_e("All the plans are year-to-year which are subscribed annually.", 'easy-table-of-contents') ?></p>
+                            <span><?php esc_html_e("I have other pre-sale questions, can you help?", 'easy-table-of-contents') ?></span>
+                            <p><?php esc_html_e("All the plans are year-to-year which are subscribed annually.", 'easy-table-of-contents') ?></p>
                             <a href="https://tocwp.com/contact/'?utm_source=tocwp-plugin&utm_medium=addon-card'"
-                               target="_blank"><?php echo esc_html_e("Contact a Human", 'easy-table-of-contents') ?></a>
+                               target="_blank"><?php esc_html_e("Contact a Human", 'easy-table-of-contents') ?></a>
                         </div><!-- /.f-cnt -->
                     </div><!-- /.faq -->
                 </div><!-- /. pvf -->
@@ -861,7 +856,7 @@ function addCustomSpan()
         <span class="eztoc-promotion-close-btn">  &times;  </span>
         <div class="eztoc-ocassional-pop-up-contents">
 
-            <img src="<?php plugins_url('assets/offer-gift-icon.png', dirname(__FILE__)) ?>" class="eztoc-promotion-surprise-icon" />
+            <img src="<?php plugins_url('assets/img/offer-gift-icon.png', dirname(__FILE__)) ?>" class="eztoc-promotion-surprise-icon" />
             <p class="eztoc-ocassional-pop-up-headline"><?php esc_html_e('40% OFF on', 'easy-table-of-contents'); ?> <span><?php esc_html_e('Easy TOC PRO', 'easy-table-of-contents');?></span></p>
             <p class="eztoc-ocassional-pop-up-second-headline"><?php esc_html_e('Upgrade the PRO version during this festive season and get our biggest discount of all time on New Purchases, Renewals &amp; Upgrades', 'easy-table-of-contents'); ?></p>
             <a class="eztoc-ocassional-pop-up-offer-btn" href="<?php esc_url('https://tocwp.com/november-deal/') ?>" target="_blank"><?php esc_html_e('Get This Offer Now', 'easy-table-of-contents'); ?></a>

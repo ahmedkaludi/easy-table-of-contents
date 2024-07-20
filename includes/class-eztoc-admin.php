@@ -31,9 +31,8 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 */
 		private function hooks() {
             global $pagenow;
-
-            if($pagenow == 'options-general.php' && isset($_REQUEST['page']) && !empty($_REQUEST['page']) &&
-            $_REQUEST['page'] == 'table-of-contents') {
+			//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification not required here.
+            if($pagenow == 'options-general.php' && isset($_REQUEST['page']) && !empty($_REQUEST['page']) && $_REQUEST['page'] == 'table-of-contents') {
                 add_action( 'admin_head', array( $this,'_clean_other_plugins_stuff' ) );
             }
 			add_action( 'admin_init', array( $this, 'registerScripts' ) );
@@ -75,10 +74,10 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		public  function pluginActionLinks( $links, $file ) {
 
 		    $url = add_query_arg( 'page', 'table-of-contents', self_admin_url( 'options-general.php' ) );
-		    $setting_link = '<a href="' . esc_url( $url ) . '">' . __( 'Settings', 'easy-table-of-contents' ) . '</a> |';
-		 	$setting_link .= '<a href="https://tocwp.com/contact/" target="_blank">' . __( ' Support', 'easy-table-of-contents' ) . '</a> |';
-		 	$setting_link .= '<a href="https://tocwp.com/pricing/" target="_blank">' . __( ' Upgrade', 'easy-table-of-contents' ) . '</a> |';
-		 	$setting_link .= '<a href="https://tocwp.com/" target="_blank">' . __( ' Website', 'easy-table-of-contents' ) . '</a>';
+		    $setting_link = '<a href="' . esc_url( $url ) . '">' .esc_html__( 'Settings', 'easy-table-of-contents' ) . '</a> |';
+		 	$setting_link .= '<a href="https://tocwp.com/contact/" target="_blank">' .esc_html__( ' Support', 'easy-table-of-contents' ) . '</a> |';
+		 	$setting_link .= '<a href="https://tocwp.com/pricing/" target="_blank">' .esc_html__( ' Upgrade', 'easy-table-of-contents' ) . '</a> |';
+		 	$setting_link .= '<a href="https://tocwp.com/" target="_blank">' .esc_html__( ' Website', 'easy-table-of-contents' ) . '</a>';
 		    array_push( $links, $setting_link );
 		    return $links;
 		}
@@ -91,218 +90,27 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 * @static
 		 */
 		public function registerScripts() {
+			
+			$dismissed = explode ( ',', get_user_meta ( wp_get_current_user()->ID, 'dismissed_wp_pointers', true ) );
+			$do_tour   = !in_array ( 'eztoc_subscribe_pointer', $dismissed );
+			if ( $do_tour ) {
+					wp_enqueue_style ( 'wp-pointer' );
+					wp_enqueue_script ( 'wp-pointer' );						
+			}	
 			$min = defined ( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-			wp_register_script( 'cn_toc_admin_script', EZ_TOC_URL . "assets/js/admin$min.js", array( 'jquery', 'wp-color-picker' ), ezTOC::VERSION, true );
-			wp_register_style( 'cn_toc_admin_style', EZ_TOC_URL . "assets/css/admin$min.css", array( 'wp-color-picker' ), ezTOC::VERSION );
+			wp_register_script( 'cn_toc_admin_script', EZ_TOC_URL . "assets/js/admin{$min}.js", array( 'jquery', 'wp-color-picker' ), ezTOC::VERSION, true );
+			wp_register_style( 'cn_toc_admin_style', EZ_TOC_URL . "assets/css/admin{$min}.css", array( 'wp-color-picker' ), ezTOC::VERSION );
 
 			wp_enqueue_script( 'cn_toc_admin_script' );
             $data = array(
                 'ajax_url'      		       => admin_url( 'admin-ajax.php' ),
                 'eztoc_security_nonce'         => wp_create_nonce('eztoc_ajax_check_nonce'),
+				'is_amp_activated'			   => (function_exists('ez_toc_is_amp_activated') && ez_toc_is_amp_activated())?1:0
             );
 
             $data = apply_filters( 'eztoc_localize_filter', $data, 'eztoc_admin_data' );
 
             wp_localize_script( 'cn_toc_admin_script', 'cn_toc_admin_data', $data );
-                        
-                        self::inlineAdminAMPNonJS();
-						self::inlineAdminHeadingsPaddingJS();
-						self::inlineAdminDisplayHeaderLabel();
-						self::inlineAdminInitialView();
-		}
-                
-                /**
-                 * inlineAdminAMPNonJS Method
-		 * Prints out inline AMP Non JS.
-		 *
-		 * @access private
-		 * @return void
-		 * @since  2.0.46
-		 * @static
-		*/
-                private static function inlineAdminAMPNonJS() {
-                    
-                    $isAmpActivated = false;
-                    if ( function_exists('ez_toc_is_amp_activated') ) {
-                        $isAmpActivated = ez_toc_is_amp_activated();
-                    }
-                    
-                    if( false == $isAmpActivated ) {
-                        $inlineAdminAMPNonJS = <<<inlineAdminAMPNonJS
-jQuery(function($) {
-    let tocAMPSupportOption = $(document).find("input[name='ez-toc-settings[toc-run-on-amp-pages]']");
-    if( tocAMPSupportOption.length > 0 ) {
-        $(tocAMPSupportOption).attr('disabled', true);
-    }
-});
-inlineAdminAMPNonJS;
-
-                        wp_add_inline_script( 'cn_toc_admin_script', $inlineAdminAMPNonJS );
-                    }
-                }
-                
-				/**
-                 * inlineAdminHeadingsPaddingJS Method
-				 * Prints out inline AMP Non JS.
-				 *
-				 * @access private
-				 * @return void
-				 * @since  2.0.48
-				 * @static
-				*/
-				private static function inlineAdminHeadingsPaddingJS() {
-					
-					$inlineAdminHeadingsPaddingJS = <<<inlineAdminHeadingsPaddingJS
-jQuery(function($) {
-	
-	let headingsPaddingCheckbox = $('#eztoc-appearance').find("input[name='ez-toc-settings[headings-padding]']");
-    let headingsPaddingTop = $('#eztoc-appearance').find("input[name='ez-toc-settings[headings-padding-top]']");
-    let headingsPaddingBottom = $('#eztoc-appearance').find("input[name='ez-toc-settings[headings-padding-bottom]']");
-    let headingsPaddingLeft = $('#eztoc-appearance').find("input[name='ez-toc-settings[headings-padding-left]']");
-    let headingsPaddingRight = $('#eztoc-appearance').find("input[name='ez-toc-settings[headings-padding-right]']");
-
-	let headingsPaddingTopHTML = $(headingsPaddingTop).parent();
-	$(headingsPaddingTopHTML).find("input[name='ez-toc-settings[headings-padding-top]']").attr("type", "number");
-	$(headingsPaddingTop).parents('tr').remove();
-	$(headingsPaddingCheckbox).parent().append("<br/><br/><span id='headings-padding-top-container'><label for='ez-toc-settings[headings-padding-top]'><strong>Top</strong></label>&nbsp;&nbsp;&nbsp;" + $(headingsPaddingTopHTML).html() + "</span>");
-	$('#eztoc-appearance').find("select[name='ez-toc-settings[headings-padding-top_units]']").html('<option value="px" selected="selected">px</option>');
-	
-
-	let headingsPaddingBottomHTML = $(headingsPaddingBottom).parent();
-	$(headingsPaddingBottomHTML).find("input[name='ez-toc-settings[headings-padding-bottom]']").attr("type", "number");
-	$(headingsPaddingBottom).parents('tr').remove();
-	$(headingsPaddingCheckbox).parent().append("&nbsp;&nbsp;&nbsp;&nbsp;<span id='headings-padding-bottom-container'><label for='ez-toc-settings[headings-padding-bottom]'><strong>Bottom</strong></label>&nbsp;&nbsp;&nbsp;" + $(headingsPaddingBottomHTML).html() + "</span>");
-	$('#eztoc-appearance').find("select[name='ez-toc-settings[headings-padding-bottom_units]']").html('<option value="px" selected="selected">px</option>');
-
-	let headingsPaddingLeftHTML = $(headingsPaddingLeft).parent();
-	$(headingsPaddingLeftHTML).find("input[name='ez-toc-settings[headings-padding-left]']").attr("type", "number");
-	$(headingsPaddingLeft).parents('tr').remove();
-	$(headingsPaddingCheckbox).parent().append("&nbsp;&nbsp;&nbsp;&nbsp;<span id='headings-padding-left-container'><label for='ez-toc-settings[headings-padding-left]'><strong>Left</strong></label>&nbsp;&nbsp;&nbsp;" + $(headingsPaddingLeftHTML).html() + "</span>");
-	$('#eztoc-appearance').find("select[name='ez-toc-settings[headings-padding-left_units]']").html('<option value="px" selected="selected">px</option>');
-
-	let headingsPaddingRightHTML = $(headingsPaddingRight).parent();
-	$(headingsPaddingRightHTML).find("input[name='ez-toc-settings[headings-padding-right]']").attr("type", "number");
-	$(headingsPaddingRight).parents('tr').remove();
-	$(headingsPaddingCheckbox).parent().append("&nbsp;&nbsp;&nbsp;&nbsp;<span id='headings-padding-right-container'><label for='ez-toc-settings[headings-padding-right]'><strong>Right</strong></label>&nbsp;&nbsp;&nbsp;" + $(headingsPaddingRightHTML).html() + "</span>");
-	$('#eztoc-appearance').find("select[name='ez-toc-settings[headings-padding-right_units]']").html('<option value="px" selected="selected">px</option>');
-
-	let headingsPaddingContainerTop = $('#eztoc-appearance').find("span#headings-padding-top-container");
-	let headingsPaddingContainerBottom = $('#eztoc-appearance').find("span#headings-padding-bottom-container");
-	let headingsPaddingContainerLeft = $('#eztoc-appearance').find("span#headings-padding-left-container");
-	let headingsPaddingContainerRight = $('#eztoc-appearance').find("span#headings-padding-right-container");
-
-    if($(headingsPaddingCheckbox).prop('checked') == false) {
-        $(headingsPaddingContainerTop).hide(500);
-        $(headingsPaddingContainerBottom).hide(500);
-        $(headingsPaddingContainerLeft).hide(500);
-        $(headingsPaddingContainerRight).hide(500);
-		$(headingsPaddingTop).val(0);
-		$(headingsPaddingBottom).val(0);
-		$(headingsPaddingLeft).val(0);
-		$(headingsPaddingRight).val(0);
-    }
-
-    $(document).on("change, click", "input[name='ez-toc-settings[headings-padding]']", function() {
-        if($(headingsPaddingCheckbox).prop('checked') == true) {
-            $(headingsPaddingContainerTop).show(500);
-			$(headingsPaddingContainerBottom).show(500);
-			$(headingsPaddingContainerLeft).show(500);
-			$(headingsPaddingContainerRight).show(500);
-        } else {
-            $(headingsPaddingContainerTop).hide(500);
-			$(headingsPaddingContainerBottom).hide(500);
-			$(headingsPaddingContainerLeft).hide(500);
-			$(headingsPaddingContainerRight).hide(500);
-			$(headingsPaddingTop).val(0);
-			$(headingsPaddingBottom).val(0);
-			$(headingsPaddingLeft).val(0);
-			$(headingsPaddingRight).val(0);
-        }
-        
-    });
-});
-inlineAdminHeadingsPaddingJS;
-
-					wp_add_inline_script( 'cn_toc_admin_script', $inlineAdminHeadingsPaddingJS );
-					 
-				}
-
-		/**
-		 * inlineAdminDisplayHeaderLabel Method
-		 * Prints out inline AMP Non JS.
-		 *
-		 * @access private
-		 * @return void
-		 * @since  2.0.51
-		 * @static
-		*/
-		private static function inlineAdminDisplayHeaderLabel() {
-			
-		$inlineAdminDisplayHeaderLabel = <<<inlineAdminDisplayHeaderLabel
-jQuery(function($) {
-
-	let showHeadingText = $('#eztoc-general').find("input[name='ez-toc-settings[show_heading_text]']");
-	let visiblityOnHeaderText = $('#eztoc-general').find("input[name='ez-toc-settings[visibility_on_header_text]']");
-	let headerText = $('#eztoc-general').find("input[name='ez-toc-settings[heading_text]']");
-
-	if($(showHeadingText).prop('checked') == false) {
-		$(visiblityOnHeaderText).parents('tr').hide(500);
-		$(headerText).parents('tr').hide(500);
-	}
-
-	$(document).on("change, click", "input[name='ez-toc-settings[show_heading_text]']", function() {
-	
-		if($(this).prop('checked') == true) {
-			$(visiblityOnHeaderText).parents('tr').show(500);
-			$(headerText).parents('tr').show(500);
-		} else {
-			$(visiblityOnHeaderText).parents('tr').hide(500);
-			$(headerText).parents('tr').hide(500);
-		}
-
-	});
-});
-inlineAdminDisplayHeaderLabel;
-
-			wp_add_inline_script( 'cn_toc_admin_script', $inlineAdminDisplayHeaderLabel );
-				
-		}
-
-		/**
-		 * inlineAdminInitialView Method
-		 * Prints out inline AMP Non JS.
-		 *
-		 * @access private
-		 * @return void
-		 * @since  2.0.51
-		 * @static
-		*/
-		private static function inlineAdminInitialView() {
-			
-		$inlineAdminInitialView = <<<inlineAdminInitialView
-jQuery(function($) {
-
-	let visibility = $('#eztoc-general').find("input[name='ez-toc-settings[visibility]']");
-	let visiblityHideByDefault = $('#eztoc-general').find("input[name='ez-toc-settings[visibility_hide_by_default]']");
-	
-	if($(visibility).prop('checked') == false) {
-		$(visiblityHideByDefault).parents('tr').hide(500);
-	}
-
-	$(document).on("change, click", "input[name='ez-toc-settings[visibility]']", function() {
-	
-		if($(this).prop('checked') == true) {
-			$(visiblityHideByDefault).parents('tr').show(500);
-		} else {
-			$(visiblityHideByDefault).parents('tr').hide(500);
-		}
-
-	});
-});
-inlineAdminInitialView;
-
-			wp_add_inline_script( 'cn_toc_admin_script', $inlineAdminInitialView );
-				
 		}
 				                
 		/**
@@ -472,16 +280,16 @@ inlineAdminInitialView;
 						ezTOC_Option::select(
 							array(
 								'id' => 'position-specific',
-								'desc' => __( 'Choose where where you want to display the table of contents.', 'easy-table-of-contents' ), 
+								'desc' =>esc_html__( 'Choose where where you want to display the table of contents.', 'easy-table-of-contents' ), 
 								'options' => array(
-									'' => __( 'Select Position', 'easy-table-of-contents' ),
-									'before' => __( 'Before first heading (default)', 'easy-table-of-contents' ),
-									'after' => __( 'After first heading', 'easy-table-of-contents' ),
-									'afterpara' => __( 'After first paragraph', 'easy-table-of-contents' ),
-									'aftercustompara' => __( 'After paragraph number', 'easy-table-of-contents' ),
-									'aftercustomimg' => __( 'After Image number', 'easy-table-of-contents' ),
-									'top' => __( 'Top', 'easy-table-of-contents' ),
-									'bottom' => __( 'Bottom', 'easy-table-of-contents' ),
+									'' =>esc_html__( 'Select Position', 'easy-table-of-contents' ),
+									'before' =>esc_html__( 'Before first heading (default)', 'easy-table-of-contents' ),
+									'after' =>esc_html__( 'After first heading', 'easy-table-of-contents' ),
+									'afterpara' =>esc_html__( 'After first paragraph', 'easy-table-of-contents' ),
+									'aftercustompara' =>esc_html__( 'After paragraph number', 'easy-table-of-contents' ),
+									'aftercustomimg' =>esc_html__( 'After Image number', 'easy-table-of-contents' ),
+									'top' =>esc_html__( 'Top', 'easy-table-of-contents' ),
+									'bottom' =>esc_html__( 'Bottom', 'easy-table-of-contents' ),
 								),
 								'default' => $position,
 							),
@@ -497,8 +305,8 @@ inlineAdminInitialView;
 							ezTOC_Option::number(
 								array(
 									'id' => 's_custom_img_number',
-									'name' => __( 'Select Paragraph', 'easy-table-of-contents' ),
-									'desc' => __( 'Select Image after which ETOC should get display', 'easy-table-of-contents' ),
+									'name' =>esc_html__( 'Select Paragraph', 'easy-table-of-contents' ),
+									'desc' =>esc_html__( 'Select Image after which ETOC should get display', 'easy-table-of-contents' ),
 									'type' => 'number',
 									'size' => 'small',
 									'default' => $custom_img_number,
@@ -515,7 +323,7 @@ inlineAdminInitialView;
 							ezTOC_Option::number(
 								array(
 									'id' => 's_custom_para_number',
-									'desc' => __( 'Select paragraph after which ETOC should get display', 'easy-table-of-contents' ),
+									'desc' =>esc_html__( 'Select paragraph after which ETOC should get display', 'easy-table-of-contents' ),
 									'type' => 'number',
 									'size' => 'small',
 									'default' => $custom_para_number,
@@ -532,8 +340,8 @@ inlineAdminInitialView;
 							ezTOC_Option::checkbox(
 								array(
 								'id' => 's_blockqoute_checkbox',
-								'name' => __( 'Exclude Blockqoute', 'easy-table-of-contents' ),
-								'desc' => __( 'Do not consider Paragraphs which are inside Blockqoute.', 'easy-table-of-contents' ),
+								'name' =>esc_html__( 'Exclude Blockqoute', 'easy-table-of-contents' ),
+								'desc' =>esc_html__( 'Do not consider Paragraphs which are inside Blockqoute.', 'easy-table-of-contents' ),
 								'default' => false,
 							),
 								$blockqoute_checkbox
@@ -567,10 +375,10 @@ inlineAdminInitialView;
 							array(
 								'id' => 'toc-alignment',
 								'options' => array(
-									'none' => __( 'None (Default)', 'easy-table-of-contents' ),
-									'left' => __( 'Left', 'easy-table-of-contents' ),
-									'right' => __( 'Right', 'easy-table-of-contents' ),
-									'center' => __( 'Center', 'easy-table-of-contents' ),
+									'none' =>esc_html__( 'None (Default)', 'easy-table-of-contents' ),
+									'left' =>esc_html__( 'Left', 'easy-table-of-contents' ),
+									'right' =>esc_html__( 'Right', 'easy-table-of-contents' ),
+									'center' =>esc_html__( 'Center', 'easy-table-of-contents' ),
 								),
 								'default' => $alignment,
 							),
@@ -606,12 +414,12 @@ inlineAdminInitialView;
 								'id' => 'heading-levels',
 								'desc' => esc_html__( 'Select the heading to consider when generating the table of contents. Deselecting a heading will exclude it.', 'easy-table-of-contents' ),
 								'options' => array(
-									'1' => __( 'Heading 1 (h1)', 'easy-table-of-contents' ),
-									'2' => __( 'Heading 2 (h2)', 'easy-table-of-contents' ),
-									'3' => __( 'Heading 3 (h3)', 'easy-table-of-contents' ),
-									'4' => __( 'Heading 4 (h4)', 'easy-table-of-contents' ),
-									'5' => __( 'Heading 5 (h5)', 'easy-table-of-contents' ),
-									'6' => __( 'Heading 6 (h6)', 'easy-table-of-contents' ),
+									'1' =>esc_html__( 'Heading 1 (h1)', 'easy-table-of-contents' ),
+									'2' =>esc_html__( 'Heading 2 (h2)', 'easy-table-of-contents' ),
+									'3' =>esc_html__( 'Heading 3 (h3)', 'easy-table-of-contents' ),
+									'4' =>esc_html__( 'Heading 4 (h4)', 'easy-table-of-contents' ),
+									'5' =>esc_html__( 'Heading 5 (h5)', 'easy-table-of-contents' ),
+									'6' =>esc_html__( 'Heading 6 (h6)', 'easy-table-of-contents' ),
 								),
 								'default' => array(),
 							),
@@ -627,8 +435,8 @@ inlineAdminInitialView;
                                             ezTOC_Option::checkbox(
                                                 array(
 							'id' => 'visibility_hide_by_default',
-							'name' => __( 'Initial View', 'easy-table-of-contents' ),
-							'desc' => __( 'Initially hide the table of contents.', 'easy-table-of-contents' ),
+							'name' =>esc_html__( 'Initial View', 'easy-table-of-contents' ),
+							'desc' =>esc_html__( 'Initially hide the table of contents.', 'easy-table-of-contents' ),
 							'default' => false,
 						),
                                                 $initial_view
@@ -643,8 +451,8 @@ inlineAdminInitialView;
                             ezTOC_Option::checkbox(
                                 array(
                             		'id' => 'hide_counter',
-                            		'name' => __( 'Hide Counter', 'easy-table-of-contents' ),
-                            		'desc' => __( 'Do not show counters for the table of contents.', 'easy-table-of-contents' ),
+                            		'name' =>esc_html__( 'Hide Counter', 'easy-table-of-contents' ),
+                            		'desc' =>esc_html__( 'Do not show counters for the table of contents.', 'easy-table-of-contents' ),
                             		'default' => false,
                                 ),
                                 $hide_counter
@@ -662,7 +470,7 @@ inlineAdminInitialView;
 						ezTOC_Option::textarea(
 							array(
 								'id' => 'alttext',
-								'desc' => __( 'Specify alternate table of contents header string. Add the header to be replaced and the alternate header on a single line separated with a pipe <code>|</code>. Put each additional original and alternate header on its own line.', 'easy-table-of-contents' ),
+								'desc' =>esc_html__( 'Specify alternate table of contents header string. Add the header to be replaced and the alternate header on a single line separated with a pipe <code>|</code>. Put each additional original and alternate header on its own line.', 'easy-table-of-contents' ),
 								'size' => 'large',
 								'default' => '',
 							),
@@ -681,9 +489,9 @@ inlineAdminInitialView;
 								'name' => '',
 								'desc' => '<p><strong>' . esc_html__( 'Examples:', 'easy-table-of-contents' ) . '</strong></p>' .
 								          '<ul>' .
-								          '<li>' . __( '<code>Level [1.1]|Alternate TOC Header</code> Replaces Level [1.1] in the table of contents with Alternate TOC Header.', 'easy-table-of-contents' ) . '</li>' .
+								          '<li><code>' . esc_html__( 'Level [1.1]|Alternate TOC Header' , 'easy-table-of-contents' ).'</code> '.esc_html__( 'Replaces Level [1.1] in the table of contents with Alternate TOC Header.', 'easy-table-of-contents' ) . '</li>' .
 								          '</ul>' .
-								          '<p>' . __( '<strong>Note:</strong> This is case sensitive.', 'easy-table-of-contents' ) . '</p>',
+								          '<p><strong>' . esc_html__( 'Note:', 'easy-table-of-contents' ) . '</strong>' . esc_html__( 'This is case sensitive.', 'easy-table-of-contents' ) . '</p>',
 							)
 						);
 						?>
@@ -696,7 +504,7 @@ inlineAdminInitialView;
 						ezTOC_Option::text(
 							array(
 								'id' => 'exclude',
-								'desc' => __( 'Specify headings to be excluded from appearing in the table of contents. Separate multiple headings with a pipe <code>|</code>. Use an asterisk <code>*</code> as a wildcard to match other text.', 'easy-table-of-contents' ),
+								'desc' =>esc_html__( 'Specify headings to be excluded from appearing in the table of contents. Separate multiple headings with a pipe <code>|</code>. Use an asterisk <code>*</code> as a wildcard to match other text.', 'easy-table-of-contents' ),
 								'size' => 'large',
 								'default' => '',
 							),
@@ -715,11 +523,11 @@ inlineAdminInitialView;
 								'name' => '',
 								'desc' => '<p><strong>' . esc_html__( 'Examples:', 'easy-table-of-contents' ) . '</strong></p>' .
 								          '<ul>' .
-								          '<li>' . __( '<code>Fruit*</code> Ignore headings starting with "Fruit".', 'easy-table-of-contents' ) . '</li>' .
-								          '<li>' . __( '<code>*Fruit Diet*</code> Ignore headings with "Fruit Diet" somewhere in the heading.', 'easy-table-of-contents' ) . '</li>' .
-								          '<li>' . __( '<code>Apple Tree|Oranges|Yellow Bananas</code> Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".', 'easy-table-of-contents' ) . '</li>' .
+								          '<li><code>' . esc_html__( 'Fruit*', 'easy-table-of-contents' ) . '</code>' . esc_html__( 'Ignore headings starting with "Fruit".', 'easy-table-of-contents' ) . '</li>' .
+								          '<li><code>' . esc_html__( '*Fruit Diet*', 'easy-table-of-contents' ) . '</code>' . esc_html__( 'Ignore headings with "Fruit Diet" somewhere in the heading.', 'easy-table-of-contents' ) . '</li>' .
+								          '<li><code>' . esc_html__( 'Apple Tree|Oranges|Yellow Bananas', 'easy-table-of-contents' ) . '</code>' . esc_html__( 'Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".', 'easy-table-of-contents' ) . '</li>' .
 								          '</ul>' .
-								          '<p>' . __( '<strong>Note:</strong> This is not case sensitive.', 'easy-table-of-contents' ) . '</p>',
+								          '<p><code>' .esc_html__( 'Note:', 'easy-table-of-contents' ) . '</strong>' . esc_html__( ' This is not case sensitive.', 'easy-table-of-contents' ) . '</p>',
 							)
 						);
 						?>
@@ -890,7 +698,6 @@ inlineAdminInitialView;
 					
 					if($position == 'aftercustompara' ||  $position == 'afterpara') {
 						if (isset($_REQUEST['ez-toc-settings']['s_blockqoute_checkbox'])) {
-							$s_blockqoute_checkbox = sanitize_text_field( $_REQUEST['ez-toc-settings']['s_blockqoute_checkbox'] );					
 							update_post_meta( $post_id, '_ez-toc-s_blockqoute_checkbox', 1 );
 						}else{
 							update_post_meta( $post_id, '_ez-toc-s_blockqoute_checkbox', 0 );
@@ -927,7 +734,7 @@ inlineAdminInitialView;
 			
 			 if($pagenow == 'settings_page_table-of-contents'){
 			 	$min = defined ( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-				wp_enqueue_script( 'eztoc-admin-js', EZ_TOC_URL . "assets/js/eztoc-admin$min.js",array('jquery'), ezTOC::VERSION,true );
+				wp_enqueue_script( 'eztoc-admin-js', EZ_TOC_URL . "assets/js/eztoc-admin{$min}.js",array('jquery'), ezTOC::VERSION,true );
 
 				 $data = array(     
 					'ajax_url'      		       => admin_url( 'admin-ajax.php' ),
@@ -989,11 +796,11 @@ inlineAdminInitialView;
 
 		            if($sent){
 
-		                 echo json_encode(array('status'=>'t'));  
+		                 echo wp_json_encode(array('status'=>'t'));  
 
 		            }else{
 
-		                echo json_encode(array('status'=>'f'));            
+		                echo wp_json_encode(array('status'=>'f'));            
 
 		            }
 		            

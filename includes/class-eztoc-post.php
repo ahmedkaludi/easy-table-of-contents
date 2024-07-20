@@ -2,6 +2,9 @@
 
 use function Easy_Plugins\Table_Of_Contents\Cord\br2;
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class ezTOC_Post {
 
 	/**
@@ -284,8 +287,9 @@ class ezTOC_Post {
 			return $GLOBALS['wp_the_query']->query_vars[ 'page' ];
 
 			// Ok, if all else fails, check the $_REQUEST super global.
+			//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason : Nonce verification is not required here.
 		} elseif ( isset( $_REQUEST[ 'page' ] ) ) {
-
+			//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason : Nonce verification is not required here.
 			return $_REQUEST[ 'page' ];
 		}
 
@@ -443,7 +447,7 @@ class ezTOC_Post {
 		 * @param $content   string Post content.
 		 */
 		$selectors = apply_filters( 'ez_toc_exclude_by_selector', array( '.ez-toc-exclude-headings' ), $content );
-
+		$selectors = ! is_array( $selectors ) ? [] : $selectors; // In case we get string instead of array
 		$nodes = $html->Find( implode( ',', $selectors ) );
 		if(isset($nodes['ids'])){
 			foreach ( $nodes['ids'] as $id ) {
@@ -690,7 +694,7 @@ class ezTOC_Post {
 					$found = false;
 
 					$against = html_entity_decode(
-                                                ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) ? strip_tags( str_replace( array( "\r", "\n" ), ' ', $matches[ $i ][0] ) ) : wptexturize(strip_tags( str_replace( array( "\r", "\n" ), ' ', $matches[ $i ][0] ) ) ),
+                                                ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) ? wp_strip_all_tags( str_replace( array( "\r", "\n" ), ' ', $matches[ $i ][0] ) ) : wptexturize(wp_strip_all_tags( str_replace( array( "\r", "\n" ), ' ', $matches[ $i ][0] ) ) ),
 						ENT_NOQUOTES,
 						get_option( 'blog_charset' )
 					);
@@ -705,7 +709,7 @@ class ezTOC_Post {
 							get_option( 'blog_charset' )
 						);
 						$against = trim($against); 
-						if ( @preg_match( '/^' . $pattern . '$/imU', $against ) ) {
+						if ( preg_match( '/^' . $pattern . '$/imU', $against ) ) {
 
 							$found = true;
 							break;
@@ -821,7 +825,7 @@ class ezTOC_Post {
 					);
 
 					// Cleanup subject so alt heading can match heading in post content.
-					$subject = strip_tags( $matches[ $i ][0] );
+					$subject = wp_strip_all_tags( $matches[ $i ][0] );
 
 					// Deal with special characters such as non-breakable space.
 					$subject = str_replace(
@@ -830,7 +834,7 @@ class ezTOC_Post {
 						$subject
 					);
 
-					if ( @preg_match( '/^' . $original_heading . '$/imU', $subject ) ) {
+					if ( preg_match( '/^' . $original_heading . '$/imU', $subject ) ) {
 
 						$matches[ $i ]['alternate'] = $alt_heading;
 					}
@@ -882,7 +886,7 @@ class ezTOC_Post {
 			// WP entity encodes the post content.
 			$return = html_entity_decode( $heading, ENT_QUOTES, get_option( 'blog_charset' ) );
 			$return = br2( $return, ' ' );
-			$return = trim( strip_tags( $return ) );
+			$return = trim( wp_strip_all_tags( $return ) );
 
 			// Convert accented characters to ASCII.
 			$return = remove_accents( $return );
@@ -1026,7 +1030,7 @@ class ezTOC_Post {
 		$new_matches = array();
 		foreach ( $matches as $i => $match ) {
 
-			if ( trim( strip_tags( $matches[ $i ][0] ) ) != false ) {
+			if ( trim( wp_strip_all_tags( $matches[ $i ][0] ) ) != false ) {
 
 				$new_matches[ $i ] = $matches[ $i ];
 			}
@@ -1113,7 +1117,7 @@ class ezTOC_Post {
 		if ( !empty( $this->pages ) || isset( $this->pages[ $page ] ) ) {
 			$matches = $this->getHeadingsfromPageContents( $page );
 			foreach ( $matches as $i => $match ) {
-				$nav_data[$i]['title'] = strip_tags( $matches[ $i ][0] );
+				$nav_data[$i]['title'] = wp_strip_all_tags( $matches[ $i ][0] );
 				$nav_data[ $i ]['id'] = strtolower(str_replace( '_', '-', $matches[ $i ]['id'] ));
 			}
 		}
@@ -1341,8 +1345,21 @@ class ezTOC_Post {
 					$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 				}
 					$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
-
-				$htmlSticky .= '<'.esc_attr($toc_title_tag).' class="ez-toc-sticky-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ) . '</'.esc_attr($toc_title_tag).'>' . PHP_EOL;
+					
+				switch($toc_title_tag){
+					case 'div':
+						$htmlSticky .= '<div class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</div>' . PHP_EOL;
+					break;
+					case 'label':
+						$htmlSticky .= '<label class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</label>' . PHP_EOL;
+					break;
+					case 'span':
+						$htmlSticky .= '<span class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</span>' . PHP_EOL;
+					break;
+					default:
+						$htmlSticky .= '<p class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</p>' . PHP_EOL;
+					break;
+				}	
 					$htmlSticky .= '<a class="ez-toc-close-icon" href="#" onclick="ezTOC_hideBar(event)" aria-label="×"><span aria-hidden="true">×</span></a>' . PHP_EOL;
 					$htmlSticky .= '</div>' . PHP_EOL;
 			} else {
@@ -1553,7 +1570,21 @@ class ezTOC_Post {
 			$headerTextToggleClass = 'ez-toc-toggle';
 			$headerTextToggleStyle = 'style="cursor: pointer"';
 		}
-		$header_label = '<'.esc_attr($toc_title_tag).' class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</'.esc_attr($toc_title_tag).'>' . PHP_EOL;
+		switch($toc_title_tag){
+		
+			case 'div':
+				$header_label = '<div class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</div>' . PHP_EOL;
+			break;
+			case 'label':
+				$header_label = '<label class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</label>' . PHP_EOL;
+			break;
+			case 'span':
+				$header_label = '<span class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</span>' . PHP_EOL;
+			break;
+			default:
+				$header_label = '<p class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</p>' . PHP_EOL;
+			break;}
+	
 		$html .= $header_label;
 													
 	} 
@@ -1611,8 +1642,20 @@ class ezTOC_Post {
 		if(isset($options['header_label'])){
 			$toc_title = $options['header_label'];
 		}
-
-		$header_label = '<'.esc_attr($toc_title_tag).' class="ez-toc-title">' . esc_html__( htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' ), 'easy-table-of-contents' ). '</'.esc_attr($toc_title_tag).'>' . PHP_EOL;
+		switch($toc_title_tag){
+			case 'div':
+				$header_label = '<div class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</div>' . PHP_EOL;
+			break;
+			case 'label':
+				$header_label = '<label class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</label>' . PHP_EOL;
+			break;
+			case 'span':
+				$header_label = '<span class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</span>' . PHP_EOL;
+			break;
+			default:
+				$header_label = '<p class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</p>' . PHP_EOL;
+			break;
+		}
 		if (!ezTOC_Option::get( 'visibility' ) ) {
 			$html .='<div class="ez-toc-title-container">'.$header_label.'</div>';
 		}															
@@ -1677,7 +1720,7 @@ class ezTOC_Post {
 	 * @since  2.0
 	 */
 	public function toc() {
-
+		//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped in getTOC()
 		echo $this->getTOC();
 	}
 
@@ -1764,7 +1807,7 @@ class ezTOC_Post {
 				if(!ezTOC_Option::get( 'prsrv_line_brk' )){
 					$title = br2( $title, ' ' );
 				}
-				$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
+				$title = wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 
 				$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
 
@@ -1780,7 +1823,7 @@ class ezTOC_Post {
 						}
 					}
 
-					if ( $current_depth == (int) @$matches[ $i + 1 ][2] ) {
+					if ( $current_depth == (int) $matches[ $i + 1 ][2] ) {
 
 						$html .= '</li>';
 					}
@@ -1807,7 +1850,7 @@ class ezTOC_Post {
 					foreach ( $matches as $i => $match ) {
 						$count = $i + 1;
 						$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
-						$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
+						$title = wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 						if($count <= $no_of_headings){
 							$html .= "<li class='{$prefix}-page-" . $page . "'>";
 							$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
@@ -1836,7 +1879,7 @@ class ezTOC_Post {
 					foreach ( $matches as $i => $match ) {
 						$count = $i + 1;
 						$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
-						$title = strip_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
+						$title = wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
 						$html .= "<li class='{$prefix}-page-" . $page . "'>";
 						$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
 						$html .= '</li>';
@@ -1874,7 +1917,7 @@ class ezTOC_Post {
 		return sprintf(
 			'<a class="ez-toc-link ez-toc-heading-' . $count . '" '.$anch_name.'="%1$s" title="%2$s">%3$s</a>',
 			esc_url( $this->createTOCItemURL( $id, $page ) ),
-			esc_attr( strip_tags( $title ) ),
+			esc_attr( wp_strip_all_tags( $title ) ),
 			$title
 		);
 	}
@@ -1930,7 +1973,7 @@ class ezTOC_Post {
 	private function stripShortcodesButKeepContent($content) {
 		// Regex pattern to match the specific shortcodes
 		$shortcodes = apply_filters('ez_toc_strip_shortcodes_with_inner_content',[]);
-		if(!empty($shortcodes)){
+		if(!empty($shortcodes) && is_array($shortcodes)){
 			
 		$pattern = '/\[('.implode('|',$shortcodes).')(?:\s[^\]]*)?\](.*?)\[\/\1\]|\[('.implode('|',$shortcodes).')(?:\s[^\]]*)?\/?\]/s';
 	

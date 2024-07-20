@@ -4,6 +4,9 @@ namespace Easy_Plugins\Table_Of_Contents;
 
 use WP_Error;
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Class Debug
  *
@@ -168,7 +171,7 @@ final class Debug extends WP_Error {
 		}
 
 		$intro = sprintf(
-			'You see the following because <a href="%1$s"><code>WP_DEBUG</code></a> and <a href="%1$s"><code>WP_DEBUG_DISPLAY</code></a> are enabled on this site. Please disabled these to prevent the display of these developers\' debug messages.',
+			esc_html__( 'You see the following because','easy-table-of-contents' ) . ' <a href="%1$s"><code>WP_DEBUG</code></a> ' . esc_html__('and','easy-table-of-contents') . ' <a href="%1$s"><code>WP_DEBUG_DISPLAY</code></a> ' . esc_html__('are enabled on this site. Please disabled these to prevent the display of these developers\' debug messages.','easy-table-of-contents'),
 			'https://codex.wordpress.org/WP_DEBUG'
 		);
 

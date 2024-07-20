@@ -43,7 +43,7 @@ function get_ez_toc_list( $post = null, $apply_content_filter = true ) {
  * @param bool         $apply_content_filter Whether or not to apply `the_content` filter when processing post for headings.
  */
 function ez_toc_list( $post = null, $apply_content_filter = true ) {
-
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 	echo get_ez_toc_list( $post, $apply_content_filter );
 }
 
@@ -87,7 +87,7 @@ function get_ez_toc_block( $post = null, $apply_content_filter = true ) {
  * @param bool         $apply_content_filter Whether or not to apply `the_content` filter when processing post for headings.
  */
 function ez_toc_block( $post = null, $apply_content_filter = true ) {
-
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 	echo get_ez_toc_block( $post, $apply_content_filter );
 }
 // Non amp checker
@@ -114,16 +114,16 @@ if ( ! function_exists('ez_toc_non_amp') ) {
 
         $non_amp = true;
 
-        if( function_exists('ampforwp_is_amp_endpoint') && @ampforwp_is_amp_endpoint() ) {                
+        if( function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint() ) {                
             $non_amp = false;                       
         }     
-        if( function_exists('is_amp_endpoint') && @is_amp_endpoint() ){
+        if( function_exists('is_amp_endpoint') && is_amp_endpoint() ){
             $non_amp = false;           
         }
-        if( function_exists('is_better_amp') && @is_better_amp() ){       
+        if( function_exists('is_better_amp') && is_better_amp() ){       
             $non_amp = false;           
         }
-        if( function_exists('is_amp_wp') && @is_amp_wp() ){       
+        if( function_exists('is_amp_wp') && is_amp_wp() ){       
             $non_amp = false;           
         }
 
@@ -193,7 +193,7 @@ function ez_toc_export_all_settings()
     if(!empty($export_settings_data)){
         header('Content-type: application/json');
         header('Content-disposition: attachment; filename=ez_toc_settings_backup.json');
-        echo json_encode($export_settings_data);   
+        echo wp_json_encode($export_settings_data);   
     }                             
     wp_die();
 }
@@ -216,6 +216,7 @@ add_action('shutdown', function() {
         for ($i = 0; $i < $levels; $i++) {
             $final .= ob_get_clean();
         }
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : This if final output buffer
         echo apply_filters('eztoc_wordpress_final_output', $final);
     }
  
@@ -260,7 +261,7 @@ add_filter('eztoc_wordpress_final_output', function($content){
         if ( $heading ) {
             $heading = apply_filters( 'ez_toc_url_anchor_target_before', $heading );
             $return = html_entity_decode( $heading, ENT_QUOTES, get_option( 'blog_charset' ) );
-            $return = trim( strip_tags( $return ) );
+            $return = trim( wp_strip_all_tags( $return ) );
             $return = remove_accents( $return );
             $return = str_replace( array( "\r", "\n", "\n\r", "\r\n" ), ' ', $return );
             $return = htmlentities2( $return );
@@ -346,66 +347,85 @@ function ez_toc_auto_device_target_status(){
  * Check for the enable support of sticky toc/toggle
  * @since 2.0.60
  */
-function ez_toc_stikcy_enable_support_status() {
+function ez_toc_stikcy_enable_support_status(){
 
     $status = false;
 
-    // Check sticky post types condition
     $stickyPostTypes = apply_filters('ez_toc_sticky_post_types', ezTOC_Option::get('sticky-post-types'));
-    if (!empty($stickyPostTypes) && is_singular()) {
-        $postType = get_post_type();
-        if (in_array($postType, $stickyPostTypes)) {
+
+    if(!empty($stickyPostTypes)){
+        if(is_singular() && !is_front_page()){
+            $postType = get_post_type();
+            if(in_array($postType,$stickyPostTypes)){
+                $status = true;
+            }
+        }										
+    }
+
+    if(ezTOC_Option::get('sticky_include_homepage')){
+        if ( is_front_page() || is_home() ) {
             $status = true;
         }
     }
 
-    // Homepage condition
-    if ((is_front_page() || is_home() ) && !ezTOC_Option::get('sticky_include_homepage')) {
-        $status = false;
-    }
-
-    // Category condition
-    if (is_category() && ezTOC_Option::get('sticky_include_category')) {
-        $status = true;
-    }
-
-    // Tag condition
-    if (is_tag() && ezTOC_Option::get('sticky_include_tag')) {
-        $status = true;
-    }
-
-    // Product category condition
-    if (is_tax('product_cat') && ezTOC_Option::get('sticky_include_product_category')) {
-        $status = true;
-    }
-
-    // Custom taxonomy condition
-    if (is_tax() && ezTOC_Option::get('sticky_include_custom_tax')) {
-        $status = true;
-    }
-
-    // Device eligibility
-    if (function_exists('wp_is_mobile')) {
-        if (ezTOC_Option::get('sticky_device_target') == 'mobile') {
-            $status = wp_is_mobile();
-        } elseif (ezTOC_Option::get('sticky_device_target') == 'desktop') {
-            $status = !wp_is_mobile();
+    if(ezTOC_Option::get('sticky_include_category')){
+        if ( is_category() ) {
+            $status = true;
         }
     }
 
-    // URL restriction condition
-    $restrictedUrls = ezTOC_Option::get('sticky_restrict_url_text');
-    if ($restrictedUrls) {
-        $urlsArr = array_map('trim', explode(PHP_EOL, nl2br($restrictedUrls, false)));
-        foreach ($urlsArr as $url) {
-            if (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], $url) !== false) {
-                $status = false;
-                break;
+    if(ezTOC_Option::get('sticky_include_tag')){
+        if ( is_tag() ) {
+            $status = true;
+        }
+    }
+    
+    if(ezTOC_Option::get('sticky_include_product_category')){
+        if ( is_tax( 'product_cat' ) ) {
+            $status = true;
+        }
+    }
+
+    if(ezTOC_Option::get('sticky_include_custom_tax')){
+        if ( is_tax() ) {
+            $status = true;
+        }
+    }
+
+    //Device Eligibility
+    //@since 2.0.60
+    if(ezTOC_Option::get( 'sticky_device_target' ) == 'mobile'){
+        if(function_exists('wp_is_mobile') && wp_is_mobile()){
+            $status = true;
+        }else{
+            $status = false;
+        }
+    }
+
+    if(ezTOC_Option::get( 'sticky_device_target' ) == 'desktop'){
+        if(function_exists('wp_is_mobile') && wp_is_mobile()){
+            $status = false;
+        }else{
+            $status = true;
+        }
+    }
+
+    if( ezTOC_Option::get( 'sticky_restrict_url_text' ) && ezTOC_Option::get( 'sticky_restrict_url_text' ) != '' ){
+        $all_urls = nl2br(ezTOC_Option::get( 'sticky_restrict_url_text' ));
+        $all_urls = str_replace('<br />', '', $all_urls);
+        $urls_arr = explode(PHP_EOL, $all_urls);
+        if(is_array($urls_arr)){
+            foreach ($urls_arr as $url_arr) {
+                if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( $_SERVER['REQUEST_URI'], trim($url_arr) ) ) {
+                    $status = false;
+                    break;
+                }
             }
         }
     }
-
+    
     return apply_filters('ez_toc_sticky_enable_support', $status);
+
 }
 
 
@@ -538,4 +558,38 @@ function eztoc_shortcode_html_no_heading_text($html){
 		}
     }
     return $html;
+}
+
+/**
+ * Added [no-ez-toc] to disbale TOC on specific page/post
+ * @since 2.0.56
+ */
+add_shortcode( 'no-ez-toc', 'ez_toc_noeztoc_callback' );
+function ez_toc_noeztoc_callback( $atts, $content = "" ) {
+	add_filter(
+		'ez_toc_maybe_apply_the_content_filter',	function( $apply ) {
+			return false;
+		}
+		,999
+	);
+	//  condition when  `the_content` filter is not used by the theme
+	add_filter(
+		'ez_toc_modify_process_page_content',	function( $apply ) {
+			return '';
+		}
+		,999
+	);
+	return $content;
+}
+
+add_action( 'admin_init' , 'ez_toc_redirect' );
+function ez_toc_redirect( ) {
+    if ( get_option( 'ez_toc_do_activation_redirect' , false ) ) {
+        delete_option( 'ez_toc_do_activation_redirect' );
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: Nonce not required here
+        if( !isset( $_GET['activate-multi'] ) )
+        {
+            wp_safe_redirect( "options-general.php?page=table-of-contents#welcome" );
+        }
+    }
 }
