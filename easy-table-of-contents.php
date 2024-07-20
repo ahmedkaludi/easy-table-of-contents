@@ -164,10 +164,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_option( 'ez-toc-post-content-core-level', false );
 			}
 						
-			if ( ezTOC_Option::get( 'exclude_css' ) && 'css' == ezTOC_Option::get( 'toc_loading' ) ) {
-				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScriptsforExcludeCSS' ) );
-			}
-				
+			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScriptsforExcludeCSS' ) );
+			
 			if( !self::checkBeaverBuilderPluginActive() ) {
 				add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
 				/*
@@ -244,11 +242,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 	 */
         public static function enqueueScriptsforExcludeCSS()
         {
+			if ( ezTOC_Option::get( 'exclude_css' ) && 'css' == ezTOC_Option::get( 'toc_loading' ) ) {
                                 
-            $cssChecked = '#ez-toc-container input[type="checkbox"]:checked + nav, #ez-toc-widget-container input[type="checkbox"]:checked + nav {opacity: 0;max-height: 0;border: none;display: none;}';
-            wp_register_style( 'ez-toc-exclude-toggle-css', '', array(), ezTOC::VERSION );
-            wp_enqueue_style( 'ez-toc-exclude-toggle-css', '', array(), ezTOC::VERSION );
-            wp_add_inline_style( 'ez-toc-exclude-toggle-css', $cssChecked );
+				$cssChecked = '#ez-toc-container input[type="checkbox"]:checked + nav, #ez-toc-widget-container input[type="checkbox"]:checked + nav {opacity: 0;max-height: 0;border: none;display: none;}';
+				wp_register_style( 'ez-toc-exclude-toggle-css', '', array(), ezTOC::VERSION );
+				wp_enqueue_style( 'ez-toc-exclude-toggle-css', '', array(), ezTOC::VERSION );
+				wp_add_inline_style( 'ez-toc-exclude-toggle-css', $cssChecked );
+			}
         }
         
 		/**
@@ -1712,7 +1712,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					?>
 					<div class="ez-toc-sticky">
 						<div class="ez-toc-sticky-fixed <?php echo esc_attr($toggleClass); ?> <?php echo esc_attr($themeClass); ?>">
-							<div class='ez-toc-sidebar'><?php echo wp_kses_post($stickyToggleTOC); ?></div>
+							<div class='ez-toc-sidebar'><?php echo $stickyToggleTOC; //phpcs:ignore  ?></div>
 						</div>
 						<a class='ez-toc-open-icon' href='#' onclick='ezTOC_showBar(event)' <?php echo esc_attr($linkZindex); ?>>
 							<span class="arrow"><?php echo esc_html($arrowSide); ?></span>
