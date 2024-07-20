@@ -620,7 +620,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'id' => 'include_homepage',
 							'name' => esc_html__( 'Homepage', 'easy-table-of-contents' ),
 							'desc' => sprintf(/* translators: %s: URL to the documentation */
-								      esc_html__( 'Show the table of contents for qualifying items on the homepage. <a target="_blank" href="%s">Learn More</a>', 'easy-table-of-contents' ), 'https://tocwp.com/docs/knowledge-base/how-to-add-a-table-of-content-on-the-homepage/'
+								      esc_html__( 'Show the table of contents for qualifying items on the homepage.', 'easy-table-of-contents' ).'<a target="_blank" href="%s">'.esc_html__( 'Learn More', 'easy-table-of-contents' ).'</a>', 'https://tocwp.com/docs/knowledge-base/how-to-add-a-table-of-content-on-the-homepage/'
 								      ),
 							'type' => 'checkbox',
 							'default' => false,
