@@ -131,6 +131,9 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.68.1 21/07/2024 =
+* Fix: Fatal error when inline css is enbaled in  version 2.0.68
+
 = 2.0.68 20/07/2024 =
 * Fix: Stored XSS Security Vulnerability disclosed by Cleantalk (Dmitrii Ignatyev)
 * Compatibility: Tested with WordPress version 6.6  #780
