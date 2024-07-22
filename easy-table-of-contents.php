@@ -158,7 +158,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			add_action('admin_head', array( __CLASS__, 'addEditorButton' ));
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
-			add_action( 'wp_head', array( __CLASS__, 'ez_toc_inline_styles' ) );
+			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'ez_toc_inline_styles' ) );
 			add_action( 'wp_head', array( __CLASS__, 'ez_toc_schema_sitenav_creator' ) );			
 
 			if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
@@ -246,8 +246,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if ( ezTOC_Option::get( 'exclude_css' ) && 'css' == ezTOC_Option::get( 'toc_loading' ) ) {
                                 
 				$cssChecked = '#ez-toc-container input[type="checkbox"]:checked + nav, #ez-toc-widget-container input[type="checkbox"]:checked + nav {opacity: 0;max-height: 0;border: none;display: none;}';
-				wp_register_style( 'ez-toc-exclude-toggle-css', '', array(), ezTOC::VERSION );
-				wp_enqueue_style( 'ez-toc-exclude-toggle-css', '', array(), ezTOC::VERSION );
+				wp_register_style( 'ez-toc-exclude-toggle-css', false, array(), ezTOC::VERSION );
+				wp_enqueue_style( 'ez-toc-exclude-toggle-css', false, array(), ezTOC::VERSION );
 				wp_add_inline_style( 'ez-toc-exclude-toggle-css', $cssChecked );
 			}
         }
@@ -319,14 +319,14 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				if ( self::is_enqueue_scripts_eligible() && function_exists('eztoc_read_file_contents') ) {
 					
-					$screen_css_escaped = eztoc_read_file_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );
-					$screen_css_escaped .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
-					$screen_css_escaped .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
-					$screen_css_escaped .= self::inlineCSS();
+					$inline_css  = eztoc_read_file_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );
+					$inline_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
+					$inline_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
+					$inline_css .= self::inlineCSS();
 
-					echo '<style id="ez-toc-inline-css">';					
-					echo $screen_css_escaped;//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- loading static css and all dyanamic values are already esacped
-					echo '</style>';
+					wp_register_style( 'ez-toc-style', false, array(), ezTOC::VERSION );
+					wp_enqueue_style( 'ez-toc-style', false, array(), ezTOC::VERSION );
+					wp_add_inline_style( 'ez-toc-style', $inline_css );
 
 				}
 				
