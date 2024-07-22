@@ -317,13 +317,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( ezTOC_Option::get( 'inline_css' ) ) {
 
-				if ( self::is_enqueue_scripts_eligible() && function_exists('eztoc_read_file_contents')) {
+				if ( self::is_enqueue_scripts_eligible() && function_exists('eztoc_read_file_contents') ) {
 					
-					$screen_css = eztoc_read_file_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );				
-					$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
-					$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
-					$screen_css .= self::inlineCSS();
-					echo '<style id="ez-toc-inline-css">'.esc_html($screen_css).'</style>';
+					$screen_css_escaped = eztoc_read_file_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );
+					$screen_css_escaped .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
+					$screen_css_escaped .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
+					$screen_css_escaped .= self::inlineCSS();
+
+					echo '<style id="ez-toc-inline-css">';					
+					echo $screen_css_escaped;//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- loading static css and all dyanamic values are already esacped
+					echo '</style>';
 
 				}
 				
