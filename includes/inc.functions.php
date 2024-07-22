@@ -347,16 +347,18 @@ function ez_toc_auto_device_target_status(){
  * Check for the enable support of sticky toc/toggle
  * @since 2.0.60
  */
-function ez_toc_stikcy_enable_support_status(){
+function ez_toc_stikcy_enable_support_status() {
 
     $status = false;
 
-    $stickyPostTypes = apply_filters('ez_toc_sticky_post_types', ezTOC_Option::get('sticky-post-types'));
+    if ( ezTOC_Option::get('sticky-toggle') ) {
 
-    if(!empty($stickyPostTypes)){
+    $sticky_post_types = apply_filters('ez_toc_sticky_post_types', ezTOC_Option::get('sticky-post-types'));
+
+    if(!empty($sticky_post_types)){
         if(is_singular() && !is_front_page()){
             $postType = get_post_type();
-            if(in_array($postType,$stickyPostTypes)){
+            if(in_array($postType,$sticky_post_types)){
                 $status = true;
             }
         }										
@@ -423,8 +425,10 @@ function ez_toc_stikcy_enable_support_status(){
             }
         }
     }
+
+    }
     
-    return apply_filters('ez_toc_sticky_enable_support', $status);
+    return apply_filters( 'ez_toc_sticky_enable_support', $status );
 
 }
 

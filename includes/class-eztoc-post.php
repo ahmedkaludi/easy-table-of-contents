@@ -1313,7 +1313,7 @@ class ezTOC_Post {
 	 * @since  2.0.32
 	 *
 	 */
-	public function getStickyToggleTOC() {
+	public function get_sticky_toggle_toc() {
 		$classSticky = array( 'ez-toc-sticky-v' . str_replace( '.', '_', ezTOC::VERSION ) );
 		$htmlSticky  = '';
 		if ( $this->hasTOCItems() ) {
@@ -1599,7 +1599,7 @@ class ezTOC_Post {
 	}
 	if ( $show_toggle_view ) {
 								
-		$icon = ezTOC::getTOCToggleIcon();
+		$icon = ezTOC::get_toc_toggle_icon();
 		if( function_exists( 'ez_toc_pro_activation_link' ) ) {
 				$icon = apply_filters('ez_toc_modify_icon',$icon);
 				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html, $read_time);
@@ -1687,7 +1687,7 @@ class ezTOC_Post {
 			if( $options !== null && !empty( $options ) && is_array( $options ) && key_exists( 'visibility_hide_by_default', $options ) && false == $options['visibility_hide_by_default'] ) {
 				$toggle_view= '';
 		    }
-			$toc_icon = ezTOC::getTOCToggleIcon();
+			$toc_icon = ezTOC::get_toc_toggle_icon();
 		    $label_below_html = '';
 		    $read_time = array();
 		    if(isset($options['read_time']) && $options['read_time'] != ''){

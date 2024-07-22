@@ -156,7 +156,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		private static function hooks() {
 
-			add_action( 'admin_head', array( __CLASS__, 'addEditorButton' ) );
+			add_action( 'admin_head', array( __CLASS__, 'add_editor_button' ) );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'ez_toc_inline_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'ez_toc_inline_sticky_styles' ) );
@@ -168,13 +168,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 						
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts_for_exclude_css' ) );
 			
-			if( !self::check_beaver_builder_plugin_active() ) {
+			if ( !self::check_beaver_builder_plugin_active() ) {
+
 				add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
 				/*
-				* Fix for toc not showing / links not working for StoreHub theme custom post types
-				* https://github.com/ahmedkaludi/Easy-Table-of-Contents/issues/760
+				* Fix for toc not showing / links not working for StoreHub theme custom post types				
 				*/
-				add_filter('ilj_get_the_content',array( __CLASS__, 'the_content_storehub' ), 100 ); 
+				add_filter( 'ilj_get_the_content', array( __CLASS__, 'the_content_storehub' ), 100 ); 
 				
 				if( defined('EASY_TOC_AMP_VERSION') ){
 					add_filter( 'ampforwp_modify_the_content', array( __CLASS__, 'the_content' ) );
@@ -184,7 +184,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );                                    
 				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
 				add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
-				add_action('wp_footer', array(__CLASS__, 'stickyToggleContent'));
+				add_action( 'wp_footer', array(__CLASS__, 'sticky_toggle_content' ) );
 
 			}
 		}
@@ -232,7 +232,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			}
 			
-			return apply_filters('ez_toc_sidebar_has_toc_filter', $status);
+			return apply_filters( 'ez_toc_sidebar_has_toc_filter', $status );
 		}
                 
         /**
@@ -318,9 +318,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( ezTOC_Option::get( 'inline_css' ) ) {
 
-				if ( self::is_enqueue_scripts_eligible() && function_exists('eztoc_read_file_contents') ) {
-					
-					$inline_css  = eztoc_read_file_contents( EZ_TOC_PATH . '/assets/css/ez-toc-sticky.min.css' );
+				if ( self::is_enqueue_scripts_sticky_eligible() && function_exists('eztoc_read_file_contents') ) {
+
+					$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';				
+
+					$inline_css  = eztoc_read_file_contents( EZ_TOC_PATH . "/assets/css/ez-toc-sticky{$min}.css" );					
 					$inline_css .= self::inline_counting_css( ezTOC_Option::get( 'heading-text-direction', 'ltr' ), 'ez-toc-sticky-toggle-direction', 'ez-toc-sticky-toggle-counter', 'counter', 'ez-toc-sticky-container' );
 					$inline_css .= self::inline_sticky_toggle_css();
 
@@ -338,8 +340,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if ( ezTOC_Option::get( 'inline_css' ) ) {
 
 				if ( self::is_enqueue_scripts_eligible() && function_exists('eztoc_read_file_contents') ) {
-					
-					$inline_css  = eztoc_read_file_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );
+
+					$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+					$inline_css  = eztoc_read_file_contents( EZ_TOC_PATH . "/assets/css/screen{$min}.css" );
 					$inline_css .= self::inline_counting_css( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
 					$inline_css .= self::inline_counting_css( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );
 					$inline_css .= self::inline_css();
@@ -514,7 +518,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}
 
 				if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
-					$icon = ezTOC::getTOCToggleIcon();
+					$icon = ezTOC::get_toc_toggle_icon();
 					if( function_exists( 'ez_toc_pro_activation_link' ) ) {
 							$icon = apply_filters('ez_toc_modify_icon',$icon);
 					}
@@ -1742,17 +1746,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		/**
-		 * stickyToggleContent Method
+		 * sticky_toggle_content Method
 		 * Call back for the `wp_footer` action.
 		 *
 		 * @since  2.0.32
 		 * @static
 		 */
-		public static function stickyToggleContent() {
-
-			if(ezTOC_Option::get('sticky-toggle')){
-			  
-			  if(ez_toc_stikcy_enable_support_status()){
+		public static function sticky_toggle_content() {
+					  
+			  if( self::is_enqueue_scripts_sticky_eligible() ){
 
 				if( function_exists( 'post_password_required' ) ) {
 					if(post_password_required() ) {
@@ -1767,7 +1769,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				if ( null !== $post) {
 
-					$stickyToggleTOC = $post->getStickyToggleTOC();
+					$stickyToggleTOC = $post->get_sticky_toggle_toc();
 
 					if(!empty($stickyToggleTOC)){
 						$openButtonText = esc_html__( 'Index', 'easy-table-of-contents' );
@@ -1801,7 +1803,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					}
 				}
 			  }
-			}			
+				
 		}
 
 		/**
@@ -1813,7 +1815,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since  1.0
 		 * @static
 		 */
-		public static function addEditorButton() {
+		public static function add_editor_button() {
 			
             if ( !current_user_can( 'edit_posts' ) &&  !current_user_can( 'edit_pages' ) ) {
                        return;
@@ -1859,13 +1861,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		/**
-         * getTOCToggleIcon Method
+         * get_toc_toggle_icon Method
          * @access public
    		 * @since  2.0.35
    		 * @static
 		 * @return string
 		 */
-		public static function getTOCToggleIcon( $type = '' )
+		public static function get_toc_toggle_icon( $type = '' )
 		{
 			$iconColor = '#000000';
 			if( ezTOC_Option::get( 'custom_title_colour' ) )
