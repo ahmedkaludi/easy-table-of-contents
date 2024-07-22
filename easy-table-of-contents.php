@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.68
+ * Version: 2.0.68.1
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -28,7 +28,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.68
+ * @version  2.0.68.1
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.68';
+		const VERSION = '2.0.68.1';
 
 		/**
 		 * Stores the instance of this class.
@@ -127,6 +127,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		private static function includes() {
 
 			require_once( EZ_TOC_PATH . '/includes/class-eztoc-option.php' );
+			require_once(EZ_TOC_PATH. "/includes/public-helper-function.php" );
 
 			if ( is_admin() ) {
 
@@ -137,7 +138,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 
 			require_once( EZ_TOC_PATH . '/includes/class-eztoc-post.php' );
-                        require_once( EZ_TOC_PATH . '/includes/class-eztoc-widget.php' );
+            require_once( EZ_TOC_PATH . '/includes/class-eztoc-widget.php' );
 			require_once( EZ_TOC_PATH . '/includes/class-eztoc-widgetsticky.php' );
 			require_once( EZ_TOC_PATH . '/includes/class-debug.php' );
 			require_once( EZ_TOC_PATH . '/includes/inc.functions.php' );
@@ -316,7 +317,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( ezTOC_Option::get( 'inline_css' ) ) {
 
-				if ( self::is_enqueue_scripts_eligible() ) {
+				if ( self::is_enqueue_scripts_eligible() && function_exists('eztoc_read_file_contents')) {
 					
 					$screen_css = eztoc_read_file_contents( EZ_TOC_PATH . '/assets/css/screen.min.css' );				
 					$screen_css .= self::InlineCountingCSS( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
