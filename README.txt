@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.6
 Requires PHP: 5.6.20
-Stable tag: 2.0.68
+Stable tag: 2.0.68.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -131,8 +131,12 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.68.1 21/07/2024 =
+* Fix: Fatal error when inline css is enabled in  version 2.0.68
+
 = 2.0.68 20/07/2024 =
 * Fix: Stored XSS Security Vulnerability disclosed by Cleantalk (Dmitrii Ignatyev)
+* Compatibility: Tested with WordPress version 6.6  #780
 
 = 2.0.67.1 19/06/2024 =
 * Bug: Plugin Does Not Save Changes in recent version 2.0.67 #771
