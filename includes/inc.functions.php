@@ -353,78 +353,89 @@ function ez_toc_stikcy_enable_support_status() {
 
     if ( ezTOC_Option::get('sticky-toggle') ) {
 
-    $sticky_post_types = apply_filters('ez_toc_sticky_post_types', ezTOC_Option::get('sticky-post-types'));
+    $sticky_post_types = apply_filters( 'ez_toc_sticky_post_types', ezTOC_Option::get( 'sticky-post-types' ) );
 
-    if(!empty($sticky_post_types)){
-        if(is_singular() && !is_front_page()){
+    if ( ! empty( $sticky_post_types ) ){
+
+        if ( is_singular() && !is_front_page() ) {
+
             $postType = get_post_type();
-            if(in_array($postType,$sticky_post_types)){
+
+            if ( in_array($postType,$sticky_post_types) ) {
+
                 $status = true;
+
             }
         }										
     }
 
-    if(ezTOC_Option::get('sticky_include_homepage')){
+    if ( ezTOC_Option::get( 'sticky_include_homepage' ) ) {
+
         if ( is_front_page() || is_home() ) {
             $status = true;
         }
     }
 
-    if(ezTOC_Option::get('sticky_include_category')){
+    if ( ezTOC_Option::get( 'sticky_include_category' ) ) {
         if ( is_category() ) {
             $status = true;
         }
     }
 
-    if(ezTOC_Option::get('sticky_include_tag')){
+    if ( ezTOC_Option::get( 'sticky_include_tag' ) ) {
         if ( is_tag() ) {
             $status = true;
         }
     }
     
-    if(ezTOC_Option::get('sticky_include_product_category')){
+    if ( ezTOC_Option::get( 'sticky_include_product_category' ) ) {
         if ( is_tax( 'product_cat' ) ) {
             $status = true;
         }
     }
 
-    if(ezTOC_Option::get('sticky_include_custom_tax')){
+    if ( ezTOC_Option::get( 'sticky_include_custom_tax' ) ) {
         if ( is_tax() ) {
             $status = true;
         }
     }
+    
+    if ( ezTOC_Option::get( 'sticky_restrict_url_text' ) && ezTOC_Option::get( 'sticky_restrict_url_text' ) != '' ){
+        $all_urls = nl2br( ezTOC_Option::get( 'sticky_restrict_url_text' ) );
+        $all_urls = str_replace( '<br />', '', $all_urls );
+        $urls_arr = explode( PHP_EOL, $all_urls );
 
-    //Device Eligibility
-    //@since 2.0.60
-    if(ezTOC_Option::get( 'sticky_device_target' ) == 'mobile'){
-        if(function_exists('wp_is_mobile') && wp_is_mobile()){
-            $status = true;
-        }else{
-            $status = false;
-        }
-    }
+        if ( is_array($urls_arr) ) {
 
-    if(ezTOC_Option::get( 'sticky_device_target' ) == 'desktop'){
-        if(function_exists('wp_is_mobile') && wp_is_mobile()){
-            $status = false;
-        }else{
-            $status = true;
-        }
-    }
-
-    if( ezTOC_Option::get( 'sticky_restrict_url_text' ) && ezTOC_Option::get( 'sticky_restrict_url_text' ) != '' ){
-        $all_urls = nl2br(ezTOC_Option::get( 'sticky_restrict_url_text' ));
-        $all_urls = str_replace('<br />', '', $all_urls);
-        $urls_arr = explode(PHP_EOL, $all_urls);
-        if(is_array($urls_arr)){
-            foreach ($urls_arr as $url_arr) {
-                if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( $_SERVER['REQUEST_URI'], trim($url_arr) ) ) {
+            foreach ( $urls_arr as $url_arr ) {
+                if ( isset( $_SERVER['REQUEST_URI'] ) && false !== strpos( $_SERVER['REQUEST_URI'], trim( $url_arr ) ) ) {
                     $status = false;
                     break;
                 }
             }
         }
     }
+
+    if ( $status ) {
+        //Device Eligibility
+        //@since 2.0.60
+        if ( ezTOC_Option::get( 'sticky_device_target' ) == 'mobile' ) {
+            if ( function_exists( 'wp_is_mobile' ) && wp_is_mobile() ) {
+                $status = true;
+            }else{
+                $status = false;
+            }
+        }
+
+        if ( ezTOC_Option::get( 'sticky_device_target' ) == 'desktop' ) {
+            if( function_exists( 'wp_is_mobile' ) && wp_is_mobile() ) {
+                $status = false;
+            }else{
+                $status = true;
+            }
+        }
+
+      }    
 
     }
     
