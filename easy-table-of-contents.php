@@ -357,33 +357,53 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 		}
 
-		public static function ez_toc_schema_sitenav_creator(){
+		public static function ez_toc_schema_sitenav_creator() {
+
 			global $eztoc_disable_the_content;
-			if(ezTOC_Option::get( 'schema_sitenav_checkbox' ) == true){
-				$eztoc_disable_the_content = true;
-				$post = ezTOC::get( get_the_ID() );
-				if($post){
-					$items = $post->getTocTitleId();
-					if(!empty($items)){
-						$output_array = array();
-						foreach($items as $item){
-							$output_array[] = array(
-								"@context" => "https://schema.org",
-								"@type"    => "SiteNavigationElement",
-								'@id'      => '#ez-toc',
-								"name"     => wp_strip_all_tags($item['title']),
-								"url"      => get_permalink() ."#". $item['id'],
-							);
+
+			if ( ezTOC_Option::get( 'schema_sitenav_checkbox' ) == true ){
+
+				if ( self::is_enqueue_scripts_eligible() || self::is_enqueue_scripts_sticky_eligible() ) {
+
+					$eztoc_disable_the_content = true;
+
+					$post = ezTOC::get( get_the_ID() );
+
+					if ( $post ) {
+
+						$items = $post->getTocTitleId();
+
+						if ( ! empty( $items ) ) {
+
+							$output_array = array();
+
+							foreach ( $items as $item ) {
+
+								$output_array[] = array(
+									"@context" => "https://schema.org",
+									"@type"    => "SiteNavigationElement",
+									'@id'      => '#ez-toc',
+									"name"     => wp_strip_all_tags( $item['title'] ),
+									"url"      => get_permalink() ."#". $item['id'],
+								);
+
+							}
+							
+							if ( ! empty($output_array) ) {
+
+								$schema_opt = array();	
+								$schema_opt['@context'] = "https://schema.org"; 
+								$schema_opt['@graph']   = $output_array; 
+								echo '<script type="application/ld+json" class="ez-toc-schema-markup-output">';
+								echo wp_json_encode( $schema_opt );
+								echo '</script>';
+
+							}
+							
 						}
-						if(!empty($output_array)){
-							$schema_opt = array();	
-							$schema_opt['@context'] = "https://schema.org"; 
-							$schema_opt['@graph']   = $output_array; 
-							echo '<script type="application/ld+json" class="ez-toc-schema-markup-output">'.wp_json_encode( $schema_opt ).'</script>';
-						}
-						
-					}
-				}							
+					}	
+				}
+										
 			}			
 		}
 		
@@ -1264,7 +1284,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
          *
          * @return string
          */
-        public static function ez_toc_widget_sticky_shortcode( $atts, $content, $tag ) {             global $wp_widget_factory;
+        public static function ez_toc_widget_sticky_shortcode( $atts, $content, $tag ) {
+			             
+			global $wp_widget_factory;
 
             if ( 'ez-toc-widget-sticky' == $tag ) {
     
