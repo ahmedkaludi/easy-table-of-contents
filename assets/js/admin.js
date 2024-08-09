@@ -172,9 +172,143 @@ jQuery(document).ready(function ($) {
     });
 
     
-    
+    /* Newletters js starts here */      
+        
+ if(cn_toc_admin_data.do_tour){
+                
+    var  content = '<h3>'+cn_toc_admin_data.translable_txt.using_eztoc+'</h3>';
+         content += '<p>'+cn_toc_admin_data.translable_txt.do_you_want+' <b>'+cn_toc_admin_data.translable_txt.sd_update+'</b> '+cn_toc_admin_data.translable_txt.before_others+'</p>';
+         content += '<style type="text/css">';
+         content += '.wp-pointer-buttons{ padding:0; overflow: hidden; }';
+         content += '.wp-pointer-content .button-secondary{  left: -25px;background: transparent;top: 5px; border: 0;position: relative; padding: 0; box-shadow: none;margin: 0;color: #0085ba;} .wp-pointer-content .button-primary{ display:none}  #eztoc_mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }';
+         content += '</style>';                        
+         content += '<div id="eztoc_mc_embed_signup">';
+         content += '<form method="POST" accept-charset="utf-8" id="eztoc-news-letter-form">';
+         content += '<div id="eztoc_mc_embed_signup_scroll">';
+         content += '<div class="eztoc-mc-field-group" style="    margin-left: 15px;    width: 195px;    float: left;">';
+         content += '<input type="text" name="eztoc_subscriber_name" class="form-control" placeholder="Name" hidden value="'+cn_toc_admin_data.current_user_name+'" style="display:none">';
+         content += '<input type="text" value="'+cn_toc_admin_data.current_user_email+'" name="eztoc_subscriber_email" class="form-control" placeholder="Email*"  style="      width: 180px;    padding: 6px 5px;">';                        
+         content += '<input type="text" name="eztoc_subscriber_website" class="form-control" placeholder="Website" hidden style=" display:none; width: 168px; padding: 6px 5px;" value="'+cn_toc_admin_data.get_home_url+'">';
+         content += '<input type="hidden" name="ml-submit" value="1" />';
+         content += '</div>';
+         content += '<div id="mce-responses">';                                                
+         content += '</div>';
+         content += '<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a631df13442f19caede5a5baf_c9a71edce6" tabindex="-1" value=""></div>';
+         content += '<input type="submit" value="Subscribe" name="subscribe" id="pointer-close" class="button mc-newsletter-sent" style=" background: #0085ba; border-color: #006799; padding: 0px 16px; text-shadow: 0 -1px 1px #006799,1px 0 1px #006799,0 1px 1px #006799,-1px 0 1px #006799; height: 30px; margin-top: 1px; color: #fff; box-shadow: 0 1px 0 #006799;">';
+         content += '<p id="eztoc-news-letter-status"></p>';
+         content += '</div>';
+         content += '</form>';
+         content += '</div>';
 
-    
+         jQuery(document).on("submit", "#eztoc-news-letter-form", function(e){
+           e.preventDefault();            
+           var $form = jQuery(this),
+           name = $form.find('input[name="eztoc_subscriber_name"]').val(),
+           email = $form.find('input[name="eztoc_subscriber_email"]').val();
+           website = $form.find('input[name="eztoc_subscriber_website"]').val();                          
+           
+           jQuery.post(cn_toc_admin_data.ajax_url,
+                      {action:'eztoc_subscribe_newsletter',
+                        eztoc_security_nonce:cn_toc_admin_data.eztoc_security_nonce,
+                      name:name, email:email, website:website },
+             function(data) {
+                               
+                 if(data)
+                 {
+                   if(data.response == "Some fields are missing.")
+                   {
+                    jQuery("#eztoc-news-letter-status").text("");
+                    jQuery("#eztoc-news-letter-status").css("color", "red");
+                   }
+                   else if(data.response == "Invalid email address.")
+                   {
+                    jQuery("#eztoc-news-letter-status").text("");
+                    jQuery("#eztoc-news-letter-status").css("color", "red");
+                   }
+                   else if(data.response == "Invalid list ID.")
+                   {
+                    jQuery("#eztoc-news-letter-status").text("");
+                    jQuery("#eztoc-news-letter-status").css("color", "red");
+                   }
+                   else if(data.response == "Already subscribed.")
+                   {
+                    jQuery("#eztoc-news-letter-status").text("");
+                    jQuery("#eztoc-news-letter-status").css("color", "red");
+                   }
+                   else
+                   {                    
+                    jQuery("#eztoc-news-letter-status").text("You're subscribed!");
+                    jQuery("#eztoc-news-letter-status").css("color", "green");
+                   }
+                 }
+                 else
+                 {
+                   alert("Sorry, unable to subscribe. Please try again later!");
+                 }
+             }
+           ,'json');
+         });      
+ 
+         
+ var setup;                
+ var wp_pointers_tour_opts = {
+     content:content,
+     position:{
+         edge:"top",
+         align:"left"
+     }
+ };
+                 
+ wp_pointers_tour_opts = $.extend (wp_pointers_tour_opts, {
+         buttons: function (event, t) {
+                 button= $ ('<a id="pointer-close" class="button-secondary">' + cn_toc_admin_data.button1 + '</a>');
+                 button_2= $ ('#pointer-close.button');
+                 button.bind ('click.pointer', function () {
+                         t.element.pointer ('close');
+                 });
+                 button_2.on('click', function() {
+                   setTimeout(function(){ 
+                       t.element.pointer ('close');
+                  }, 3000);
+                       
+                 } );
+                 return button;
+         },
+         close: function () {
+                 $.post (cn_toc_admin_data.ajax_url, {
+                         pointer: 'eztoc_subscribe_pointer',
+                         action: 'dismiss-wp-pointer'
+                 });
+         },
+         show: function(event, t){
+          t.pointer.css({'left':'170px', 'top':'160px'});
+       }                                               
+ });
+ setup = function () {
+         $(cn_toc_admin_data.displayID).pointer(wp_pointers_tour_opts).pointer('open');
+          if (cn_toc_admin_data.button2) {
+            $ ('#pointer-close').after ('<a id="pointer-primary" class="button-primary">' + cn_toc_admin_data.button2+ '</a>');
+            $ ('#pointer-primary').click (function () {
+                         cn_toc_admin_data.function_name;
+                 });
+            $ ('#pointer-close').click (function () {
+                         $.post (cn_toc_admin_data.ajax_url, {
+                                 pointer: 'eztoc_subscribe_pointer',
+                                 action: 'dismiss-wp-pointer'
+                         });
+                 });
+          }
+ };
+ if (wp_pointers_tour_opts.position && wp_pointers_tour_opts.position.defer_loading) {
+         $(window).bind('load.wp-pointers', setup);
+ }
+ else {
+         setup ();
+ }
+
+}
+ 
+/* Newletters js ends here */ 
 
 });
 
@@ -416,147 +550,6 @@ jQuery(document).on("change", "input[name='ez-toc-settings[no_heading_text]']", 
     no_heading_text();
 });
 no_heading_text();
-
-
- /* Newletters js starts here */      
-        
- if(cn_toc_admin_data.do_tour){
-                
-    var  content = '<h3>'+cn_toc_admin_data.translable_txt.using_eztoc+'</h3>';
-         content += '<p>'+cn_toc_admin_data.translable_txt.do_you_want+' <b>'+cn_toc_admin_data.translable_txt.sd_update+'</b> '+cn_toc_admin_data.translable_txt.before_others+'</p>';
-         content += '<style type="text/css">';
-         content += '.wp-pointer-buttons{ padding:0; overflow: hidden; }';
-         content += '.wp-pointer-content .button-secondary{  left: -25px;background: transparent;top: 5px; border: 0;position: relative; padding: 0; box-shadow: none;margin: 0;color: #0085ba;} .wp-pointer-content .button-primary{ display:none}  #saswp_mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }';
-         content += '</style>';                        
-         content += '<div id="saswp_mc_embed_signup">';
-         content += '<form method="POST" accept-charset="utf-8" id="eztoc-news-letter-form">';
-         content += '<div id="saswp_mc_embed_signup_scroll">';
-         content += '<div class="eztoc-mc-field-group" style="    margin-left: 15px;    width: 195px;    float: left;">';
-         content += '<input type="text" name="eztoc_subscriber_name" class="form-control" placeholder="Name" hidden value="'+cn_toc_admin_data.current_user_name+'" style="display:none">';
-         content += '<input type="text" value="'+cn_toc_admin_data.current_user_email+'" name="eztoc_subscriber_email" class="form-control" placeholder="Email*"  style="      width: 180px;    padding: 6px 5px;">';                        
-         content += '<input type="text" name="eztoc_subscriber_website" class="form-control" placeholder="Website" hidden style=" display:none; width: 168px; padding: 6px 5px;" value="'+cn_toc_admin_data.get_home_url+'">';
-         content += '<input type="hidden" name="ml-submit" value="1" />';
-         content += '</div>';
-         content += '<div id="mce-responses">';                                                
-         content += '</div>';
-         content += '<div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a631df13442f19caede5a5baf_c9a71edce6" tabindex="-1" value=""></div>';
-         content += '<input type="submit" value="Subscribe" name="subscribe" id="pointer-close" class="button mc-newsletter-sent" style=" background: #0085ba; border-color: #006799; padding: 0px 16px; text-shadow: 0 -1px 1px #006799,1px 0 1px #006799,0 1px 1px #006799,-1px 0 1px #006799; height: 30px; margin-top: 1px; color: #fff; box-shadow: 0 1px 0 #006799;">';
-         content += '<p id="eztoc-news-letter-status"></p>';
-         content += '</div>';
-         content += '</form>';
-         content += '</div>';
-
-         jQuery(document).on("submit", "#eztoc-news-letter-form", function(e){
-           e.preventDefault(); 
-           
-           var $form = jQuery(this),
-           name = $form.find('input[name="eztoc_subscriber_name"]').val(),
-           email = $form.find('input[name="eztoc_subscriber_email"]').val();
-           website = $form.find('input[name="eztoc_subscriber_website"]').val();                          
-           
-           jQuery.post(cn_toc_admin_data.ajax_url,
-                      {action:'eztoc_subscribe_newsletter',
-                        eztoc_security_nonce:cn_toc_admin_data.eztoc_security_nonce,
-                      name:name, email:email, website:website },
-             function(data) {
-               
-                 if(data)
-                 {
-                   if(data=="Some fields are missing.")
-                   {
-                    jQuery("#eztoc-news-letter-status").text("");
-                    jQuery("#eztoc-news-letter-status").css("color", "red");
-                   }
-                   else if(data=="Invalid email address.")
-                   {
-                    jQuery("#eztoc-news-letter-status").text("");
-                    jQuery("#eztoc-news-letter-status").css("color", "red");
-                   }
-                   else if(data=="Invalid list ID.")
-                   {
-                    jQuery("#eztoc-news-letter-status").text("");
-                    jQuery("#eztoc-news-letter-status").css("color", "red");
-                   }
-                   else if(data=="Already subscribed.")
-                   {
-                    jQuery("#eztoc-news-letter-status").text("");
-                    jQuery("#eztoc-news-letter-status").css("color", "red");
-                   }
-                   else
-                   {
-                    jQuery("#eztoc-news-letter-status").text("You're subscribed!");
-                    jQuery("#eztoc-news-letter-status").css("color", "green");
-                   }
-                 }
-                 else
-                 {
-                   alert("Sorry, unable to subscribe. Please try again later!");
-                 }
-             }
-           );
-         });      
- 
-
-         (function ($) {
- var setup;                
- var wp_pointers_tour_opts = {
-     content:content,
-     position:{
-         edge:"top",
-         align:"left"
-     }
- };
-                 
- wp_pointers_tour_opts = $.extend (wp_pointers_tour_opts, {
-         buttons: function (event, t) {
-                 button= $ ('<a id="pointer-close" class="button-secondary">' + cn_toc_admin_data.button1 + '</a>');
-                 button_2= $ ('#pointer-close.button');
-                 button.bind ('click.pointer', function () {
-                         t.element.pointer ('close');
-                 });
-                 button_2.on('click', function() {
-                   setTimeout(function(){ 
-                       t.element.pointer ('close');
-                  }, 3000);
-                       
-                 } );
-                 return button;
-         },
-         close: function () {
-                 $.post (cn_toc_admin_data.ajax_url, {
-                         pointer: 'eztoc_subscribe_pointer',
-                         action: 'dismiss-wp-pointer'
-                 });
-         },
-         show: function(event, t){
-          t.pointer.css({'left':'170px', 'top':'160px'});
-       }                                               
- });
- setup = function () {
-         $(cn_toc_admin_data.displayID).pointer(wp_pointers_tour_opts).pointer('open');
-          if (cn_toc_admin_data.button2) {
-            $ ('#pointer-close').after ('<a id="pointer-primary" class="button-primary">' + cn_toc_admin_data.button2+ '</a>');
-            $ ('#pointer-primary').click (function () {
-                         cn_toc_admin_data.function_name;
-                 });
-            $ ('#pointer-close').click (function () {
-                         $.post (cn_toc_admin_data.ajax_url, {
-                                 pointer: 'eztoc_subscribe_pointer',
-                                 action: 'dismiss-wp-pointer'
-                         });
-                 });
-          }
- };
- if (wp_pointers_tour_opts.position && wp_pointers_tour_opts.position.defer_loading) {
-         $(window).bind('load.wp-pointers', setup);
- }
- else {
-         setup ();
- }
-}) (jQuery);
-}
- 
-/* Newletters js ends here */ 
 
 jQuery(function($) {
 
