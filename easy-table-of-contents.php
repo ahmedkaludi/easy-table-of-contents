@@ -160,12 +160,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'ez_toc_inline_styles' ) );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'ez_toc_inline_sticky_styles' ) );
-			add_action( 'wp_head', array( __CLASS__, 'ez_toc_schema_sitenav_creator' ) );			
-
-			if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
-				add_option( 'ez-toc-post-content-core-level', false );
-			}
-						
+			add_action( 'wp_head', array( __CLASS__, 'ez_toc_schema_sitenav_creator' ) );												
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts_for_exclude_css' ) );
 			
 			if ( !self::check_beaver_builder_plugin_active() ) {
@@ -1503,16 +1498,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 */
 		public static function the_content( $content ) {
 				                    
-				if( function_exists( 'post_password_required' ) ) {
-					if( post_password_required() ) return Debug::log()->appendTo( $content );
-				}
-			
-				$maybeApplyFilter = self::maybe_apply_the_content_filter();													
-				$content = apply_filters('eztoc_modify_the_content',$content);
-				
-				if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
-					update_option( 'ez-toc-post-content-core-level', $content );
+			if ( function_exists( 'post_password_required' ) ) {
+				if ( post_password_required() ) return Debug::log()->appendTo( $content );
 			}
+			
+			$maybeApplyFilter = self::maybe_apply_the_content_filter();													
+			$content = apply_filters( 'eztoc_modify_the_content', $content );
+								
 			Debug::log( 'the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter );
 
 			if ( ! $maybeApplyFilter ) {
