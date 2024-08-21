@@ -1180,6 +1180,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$enabled = in_array( $type, ezTOC_Option::get( 'enabled_post_types', array() ), true );
 			$insert  = in_array( $type, ezTOC_Option::get( 'auto_insert_post_types', array() ), true );
 
+			$is_product_category_enabled = ezTOC_Option::get( 'include_product_category', false );
+			if( $is_product_category_enabled && function_exists('is_product_category') && is_product_category() ){
+				$insert = true;
+			}
+
 			Debug::log( 'is_supported_post_type', 'Is supported post type?', $enabled );
 			Debug::log( 'is_auto_insert_post_type', 'Is auto insert for post types?', $insert );
 
