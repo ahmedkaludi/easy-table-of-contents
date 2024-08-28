@@ -1,5 +1,16 @@
 == Changelog ==
 
+= 2.0.69 28/08/2024 =
+* Fix: Php warning. #788
+* Bug: Sticky ETOC CSS automatically added in homepage #777
+* Fix: Latest Version 2.0.68.1 causing functionality of "Inline CSS" Option in ETOC. #787
+* Fix: SiteNavigation markup issue with Easy TOC #764
+* Bug: The Sticky toggle appears on the homepage If the device target is set as desktop and its apparency is disabled on the Homepage #789
+* Bug: Generate related keyphrase and Keyphrase synonyms are not appearing if the plugin is active #791
+* Tweak: Clean the autoloaded data "ez-toc-post-content-core-level from the database. #793
+* Fix: Auto TOC not getting insert in Product Category Description #797
+* Fix: Copy Shortcode buttons are not working #798
+
 = 2.0.68.1 21/07/2024 =
 * Fix: Fatal error when inline css is enabled in  version 2.0.68
 

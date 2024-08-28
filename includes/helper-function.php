@@ -115,8 +115,9 @@ add_action( 'wp_ajax_eztoc_send_feedback', 'eztoc_send_feedback' );
 function eztoc_enqueue_makebetter_email_js() {
 
     if ( is_admin() && eztoc_is_plugins_page() ) {
-        wp_enqueue_script( 'eztoc-make-better-js', EZ_TOC_URL . 'includes/feedback.js', array( 'jquery' ),  ezTOC::VERSION, true );
-        wp_enqueue_style( 'eztoc-make-better-css', EZ_TOC_URL . 'includes/feedback.css', false,  ezTOC::VERSION );
+        $min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+        wp_enqueue_script( 'eztoc-make-better-js', EZ_TOC_URL . "assets/js/feedback{$min}.js", array( 'jquery' ),  ezTOC::VERSION, true );
+        wp_enqueue_style( 'eztoc-make-better-css', EZ_TOC_URL . "assets/css/feedback{$min}.css", false,  ezTOC::VERSION );
     }
     
 }

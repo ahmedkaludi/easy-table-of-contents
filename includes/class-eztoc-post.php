@@ -360,20 +360,23 @@ class ezTOC_Post {
 		}		
 
 		if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-			$eztoc_post_id=get_the_ID();
-			$eztoc_post_meta = get_option( 'ez-toc-post-meta-content',false);
-			if(!empty($eztoc_post_meta) && !empty($eztoc_post_id) && isset($eztoc_post_meta[$eztoc_post_id])){
+
+			$eztoc_post_id   = get_the_ID();
+			$eztoc_post_meta = get_option( 'ez-toc-post-meta-content', false );
+
+			if ( ! empty( $eztoc_post_meta ) && ! empty( $eztoc_post_id ) && isset( $eztoc_post_meta[$eztoc_post_id] ) ) {
+
 				if ( empty( $content ) ) {
+
 					$content = $eztoc_post_meta[$eztoc_post_id];
+
 				} else {
+
 					$content .= $eztoc_post_meta[$eztoc_post_id];
+
 				}
-		}
-		} else if ( ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) && false != get_option( 'ez-toc-post-content-core-level' ) ) {
-                    $content = get_option( 'ez-toc-post-content-core-level' );
-		} else {
-                       
-                }
+			}
+		} 
 
 		$pages = array();
 
@@ -381,8 +384,8 @@ class ezTOC_Post {
 
 		$page = $first_page = 1;
 		$totalHeadings = [];
-		if ( is_array( $split ) ) {
 
+		if ( is_array( $split ) ) {
 
 			foreach ( $split as $content ) {
 
@@ -1313,7 +1316,7 @@ class ezTOC_Post {
 	 * @since  2.0.32
 	 *
 	 */
-	public function getStickyToggleTOC() {
+	public function get_sticky_toggle_toc() {
 		$classSticky = array( 'ez-toc-sticky-v' . str_replace( '.', '_', ezTOC::VERSION ) );
 		$htmlSticky  = '';
 		if ( $this->hasTOCItems() ) {
@@ -1599,7 +1602,7 @@ class ezTOC_Post {
 	}
 	if ( $show_toggle_view ) {
 								
-		$icon = ezTOC::getTOCToggleIcon();
+		$icon = ezTOC::get_toc_toggle_icon();
 		if( function_exists( 'ez_toc_pro_activation_link' ) ) {
 				$icon = apply_filters('ez_toc_modify_icon',$icon);
 				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html, $read_time);
@@ -1687,7 +1690,7 @@ class ezTOC_Post {
 			if( $options !== null && !empty( $options ) && is_array( $options ) && key_exists( 'visibility_hide_by_default', $options ) && false == $options['visibility_hide_by_default'] ) {
 				$toggle_view= '';
 		    }
-			$toc_icon = ezTOC::getTOCToggleIcon();
+			$toc_icon = ezTOC::get_toc_toggle_icon();
 		    $label_below_html = '';
 		    $read_time = array();
 		    if(isset($options['read_time']) && $options['read_time'] != ''){
