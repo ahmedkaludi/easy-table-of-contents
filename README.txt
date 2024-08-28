@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.6
 Requires PHP: 5.6.20
-Stable tag: 2.0.68.1
+Stable tag: 2.0.69
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -131,6 +131,17 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.69 28/08/2024 =
+* Fix: Php warning. #788
+* Bug: Sticky ETOC CSS automatically added in homepage #777
+* Fix: Latest Version 2.0.68.1 causing functionality of "Inline CSS" Option in ETOC. #787
+* Fix: SiteNavigation markup issue with Easy TOC #764
+* Bug: The Sticky toggle appears on the homepage If the device target is set as desktop and its apparency is disabled on the Homepage #789
+* Bug: Generate related keyphrase and Keyphrase synonyms are not appearing if the plugin is active #791
+* Tweak: Clean the autoloaded data "ez-toc-post-content-core-level from the database. #793
+* Fix: Auto TOC not getting insert in Product Category Description #797
+* Fix: Copy Shortcode buttons are not working #798
+
 = 2.0.68.1 21/07/2024 =
 * Fix: Fatal error when inline css is enabled in  version 2.0.68
 
@@ -239,23 +250,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * Bug: A sticky toggle appears on the Author pages and it contains the headings of the latest post published by them. #640
 * Bug: Heading are not working if the plugin Molongui Authorship is activated ad if the heading contains "..." in it #642
 
-= 2.0.59 29/11/2023 =
-* New: An option to show TOC on Tag #489
-* New: Toc support for custom taxonomy description #512
-* New: Apply default anchor prefix in the Japanese language #528
-* New: An option to restrict the toc if any part of url match with saved limit path #560
-* New: An option to use the TOC without anchor links in the URL. #587
-* New: An option which Preserve Line Breaks in TOC. #591
-* New: Collapsable sub heading #622
-* New: Enable support attributes inside shortcode #624
-* New: Filter to hide and show metabox #645
-* Bug: The WP Bakery image gallery is getting braked on first reload #627
-* Bug: Warning in debug log #636
-* Bug: When we set the counter as a disc while using the viewMore option, then TOC CSS is not working fine. #638
-* Bug: Fix CSS Style Placement for Easy-Table-of-Contents WordPress Plugin #639
-* Bug: Fatal error while activating pro version #644
-* Bug: Conflict issue with the Smooth Scroll Offset option #646
-* Bug: Critical Error with READ TIME Option when Set to "0"(Zero) #648
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)
 
