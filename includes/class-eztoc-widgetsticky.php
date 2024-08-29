@@ -430,7 +430,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 wp_register_style ( 'ez-toc-widget-sticky', EZ_TOC_URL . "assets/css/ez-toc-widget-sticky$min.css", array(), $widgetCSSVersion );
                 wp_enqueue_style ( 'ez-toc-widget-sticky', EZ_TOC_URL . "assets/css/ez-toc-widget-sticky$min.css", array(), $widgetCSSVersion );
 
-                wp_add_inline_style ( 'ez-toc-widget-sticky', ezTOC::InlineCountingCSS ( ezTOC_Option::get ( 'heading-text-direction', 'ltr' ), 'ez-toc-widget-sticky-direction', 'ez-toc-widget-sticky-container', 'counter', 'ez-toc-widget-sticky-container' ) );
+                wp_add_inline_style ( 'ez-toc-widget-sticky', ezTOC::inline_counting_css ( ezTOC_Option::get ( 'heading-text-direction', 'ltr' ), 'ez-toc-widget-sticky-direction', 'ez-toc-widget-sticky-container', 'counter', 'ez-toc-widget-sticky-container' ) );
 
                 $widgetJSVersion = ezTOC::VERSION . '-' . filemtime ( EZ_TOC_PATH . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "js" . DIRECTORY_SEPARATOR . "ez-toc-widget-sticky$min.js" );
                 wp_register_script ( 'ez-toc-widget-stickyjs', EZ_TOC_URL . "assets/js/ez-toc-widget-sticky$min.js", array( 'jquery' ), $widgetJSVersion , true);
