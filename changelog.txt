@@ -1,5 +1,8 @@
 == Changelog ==
 
+= 2.0.69.1 05/09/2024 =
+* Fix: Fatal error #803
+
 = 2.0.69 28/08/2024 =
 * Fix: Php warning. #788
 * Bug: Sticky ETOC CSS automatically added in homepage #777
