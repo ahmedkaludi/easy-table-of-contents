@@ -127,24 +127,25 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		private static function includes() {
 
 			require_once( EZ_TOC_PATH . '/includes/class-eztoc-option.php' );
-			require_once(EZ_TOC_PATH. "/includes/public-helper-function.php" );
+			require_once( EZ_TOC_PATH. '/includes/public-helper-function.php' );
 
 			if ( is_admin() ) {
 
 				// This must be included after `class.options.php` because it depends on it methods.
 				require_once( EZ_TOC_PATH . '/includes/class-eztoc-admin.php' );
-				require_once(EZ_TOC_PATH. "/includes/helper-function.php" );
+				require_once( EZ_TOC_PATH. '/includes/helper-function.php' );
 				require_once( EZ_TOC_PATH . '/includes/class-eztoc-pointers.php' );
+
 			}
 
+			require_once( EZ_TOC_PATH . '/includes/inc.functions.php' );
 			require_once( EZ_TOC_PATH . '/includes/class-eztoc-post.php' );
             require_once( EZ_TOC_PATH . '/includes/class-eztoc-widget.php' );
 			require_once( EZ_TOC_PATH . '/includes/class-eztoc-widgetsticky.php' );
-			require_once( EZ_TOC_PATH . '/includes/class-debug.php' );
-			require_once( EZ_TOC_PATH . '/includes/inc.functions.php' );
+			require_once( EZ_TOC_PATH . '/includes/class-debug.php' );			
 			require_once( EZ_TOC_PATH . '/includes/inc.cord-functions.php' );
-
 			require_once( EZ_TOC_PATH . '/includes/inc.plugin-compatibility.php' );
+			
 		}
 
 		/**

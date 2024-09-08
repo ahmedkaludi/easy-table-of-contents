@@ -1810,7 +1810,7 @@ class ezTOC_Post {
 				if(!ezTOC_Option::get( 'prsrv_line_brk' )){
 					$title = br2( $title, ' ' );
 				}
-				$title = wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
+				$title = ez_toc_wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ) );
 
 				$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
 
@@ -1853,7 +1853,7 @@ class ezTOC_Post {
 					foreach ( $matches as $i => $match ) {
 						$count = $i + 1;
 						$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
-						$title = wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
+						$title = ez_toc_wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ) );
 						if($count <= $no_of_headings){
 							$html .= "<li class='{$prefix}-page-" . $page . "'>";
 							$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
@@ -1882,7 +1882,7 @@ class ezTOC_Post {
 					foreach ( $matches as $i => $match ) {
 						$count = $i + 1;
 						$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
-						$title = wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ), apply_filters( 'ez_toc_title_allowable_tags', '' ) );
+						$title = ez_toc_wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ) );
 						$html .= "<li class='{$prefix}-page-" . $page . "'>";
 						$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
 						$html .= '</li>';
