@@ -1303,12 +1303,21 @@ if ( ! class_exists( 'ezTOC' ) ) {
                     'navigation_scroll_bar' => 'on',
                     'scroll_max_height' => 'auto',
                     'scroll_max_height_size_unit' => 'none',
+					'title_font_size' => '120',
+					'title_font_size_unit' => '%',
+					'title_font_weight' => '600',
+					'title_font_color' => '',
+					'text_font_size' => '100',
+					'text_font_size_unit' => '%',
+					'text_font_weight' => '400',
+					'text_font_color' => '',
                     'ez_toc_widget_sticky_before_widget_container' => '',
                     'ez_toc_widget_sticky_before_widget' => '',
                     'ez_toc_widget_sticky_before' => '',
                     'ez_toc_widget_sticky_after' => '',
                     'ez_toc_widget_sticky_after_widget' => '',
                     'ez_toc_widget_sticky_after_widget_container' => '',
+					'show_toggle'=> 'true'
                 ), $atts ) );
 
                 $widget_name = esc_html( 'ezTOC_WidgetSticky' );
@@ -1326,6 +1335,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
                     'navigation_scroll_bar' => ( ! empty ( $navigation_scroll_bar ) ) ? $navigation_scroll_bar : 'on',
                     'scroll_max_height' => ( ! empty ( $scroll_max_height ) ) ? ( 'auto' == $scroll_max_height ) ? $scroll_max_height : ( int ) wp_strip_all_tags ( $scroll_max_height ) : 'auto',
                     'scroll_max_height_size_unit' => ( ! empty ( $scroll_max_height_size_unit ) ) ? $scroll_max_height_size_unit : 'none',
+					'sidebar_sticky_title_size' => ( ! empty ( $title_font_size ) ) ? ( 'auto' == $title_font_size ) ? $title_font_size : ( int ) wp_strip_all_tags ( $title_font_size ) : '120',
+					'sidebar_sticky_title_size_unit' => ( ! empty ( $title_font_size_unit ) ) ? $title_font_size_unit : '%',
+					'sidebar_sticky_title_weight' => ( ! empty ( $title_font_weight ) ) ? $title_font_weight : '600',
+					'sidebar_sticky_title_color' => ( ! empty ( $title_font_color ) ) ? $title_font_color : '',
+					'sidebar_sticky_size' => ( ! empty ( $text_font_size ) ) ? ( 'auto' == $text_font_size ) ? $text_font_size : ( int ) wp_strip_all_tags ( $text_font_size ) : '100',
+					'sidebar_sticky_size_unit' => ( ! empty ( $text_font_size_unit ) ) ? $text_font_size_unit : '%',
+					'sidebar_sticky_weight' => ( ! empty ( $text_font_weight ) ) ? $text_font_weight : '400',
+					'sidebar_sticky_color' => ( ! empty ( $text_font_color ) ) ? $text_font_color : '',
+					'show_toggle' => ( ! empty ( $show_toggle ) ) ? $show_toggle : ''
                 );
                 
                 if ( !is_a( $wp_widget_factory->widgets[ $widget_name ], 'WP_Widget' ) ):
