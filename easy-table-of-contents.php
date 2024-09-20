@@ -1539,7 +1539,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$ez_toc_current_post_id = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();
 
 			// Bail if post not eligible and widget is not active.
-			if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child'){
+			if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child' || class_exists( 'Timber' ) ){
 				$isEligible = self::is_eligible( get_post($ez_toc_current_post_id) );
 			}else{
 				$isEligible = self::is_eligible( get_post() );
@@ -1577,7 +1577,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return Debug::log()->appendTo( $content );
 			}
 			
-			if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child'){
+			if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child'  || class_exists( 'Timber' ) ){
 				$post = self::get( $ez_toc_current_post_id );
 			}else{
 				$post = self::get( get_the_ID());
