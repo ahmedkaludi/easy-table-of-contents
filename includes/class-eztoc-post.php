@@ -1348,21 +1348,7 @@ class ezTOC_Post {
 					$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 				}
 					$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
-					
-				switch($toc_title_tag){
-					case 'div':
-						$htmlSticky .= '<div class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</div>' . PHP_EOL;
-					break;
-					case 'label':
-						$htmlSticky .= '<label class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</label>' . PHP_EOL;
-					break;
-					case 'span':
-						$htmlSticky .= '<span class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</span>' . PHP_EOL;
-					break;
-					default:
-						$htmlSticky .= '<p class="ez-toc-sticky-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )) . '</p>' . PHP_EOL;
-					break;
-				}	
+					$htmlSticky .= $this->get_toc_title_tag( $toc_title_tag,  $toc_title,  'sticky' );
 					$htmlSticky .= '<a class="ez-toc-close-icon" href="#" onclick="ezTOC_hideBar(event)" aria-label="×"><span aria-hidden="true">×</span></a>' . PHP_EOL;
 					$htmlSticky .= '</div>' . PHP_EOL;
 			} else {
@@ -1566,28 +1552,8 @@ class ezTOC_Post {
 		if(isset($options['header_label'])){
 			$toc_title = $options['header_label'];
 		}
-		$headerTextToggleClass = '';
-		$headerTextToggleStyle = '';
-		
-		if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {
-			$headerTextToggleClass = 'ez-toc-toggle';
-			$headerTextToggleStyle = 'style="cursor: pointer"';
-		}
-		switch($toc_title_tag){
-		
-			case 'div':
-				$header_label = '<div class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</div>' . PHP_EOL;
-			break;
-			case 'label':
-				$header_label = '<label class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</label>' . PHP_EOL;
-			break;
-			case 'span':
-				$header_label = '<span class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</span>' . PHP_EOL;
-			break;
-			default:
-				$header_label = '<p class="ez-toc-title ' . $headerTextToggleClass .'" ' . $headerTextToggleStyle . '>' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</p>' . PHP_EOL;
-			break;}
-	
+
+		$html .= $this->get_toc_title_tag( $toc_title_tag ,  $toc_title ,  'js' ,  $options );
 		$html .= $header_label;
 													
 	} 
@@ -1645,20 +1611,7 @@ class ezTOC_Post {
 		if(isset($options['header_label'])){
 			$toc_title = $options['header_label'];
 		}
-		switch($toc_title_tag){
-			case 'div':
-				$header_label = '<div class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</div>' . PHP_EOL;
-			break;
-			case 'label':
-				$header_label = '<label class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</label>' . PHP_EOL;
-			break;
-			case 'span':
-				$header_label = '<span class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</span>' . PHP_EOL;
-			break;
-			default:
-				$header_label = '<p class="ez-toc-title">' . sprintf( '%s', htmlentities( $toc_title, ENT_COMPAT, 'UTF-8' )). '</p>' . PHP_EOL;
-			break;
-		}
+		$header_label = $this->get_toc_title_tag( $toc_title_tag ,  $toc_title ,  'css' ,  $options );
 		if (!ezTOC_Option::get( 'visibility' ) ) {
 			$html .='<div class="ez-toc-title-container">'.$header_label.'</div>';
 		}															
@@ -1994,4 +1947,42 @@ class ezTOC_Post {
 		}
 		return $content;
 	}
+
+	/**
+	 * Get the TOC Title Tag content.
+	 *
+	 * @since  2.0.70
+	 *
+	 * @param string Title tag.
+	 * @param string Title content.
+	 * @param string TOC type.
+	 * @param array Options.
+	 *
+	 * @return string The TOC Title Tag content.
+	 */
+	private function get_toc_title_tag( $title_tag = 'p' , $toc_title = 'Table of Contents' , $toc_type = 'js', $options = [] ) {
+		$tag_classes = 'ez-toc-title';
+		$header_text_toggle_style = 'cursor:inherit';
+		$allowed_tags = array( 'div', 'label', 'span', 'p' );
+
+		
+		if( $toc_type == 'sticky' ){
+			$tag_classes = 'ez-toc-sticky-title';
+		}
+		if( $toc_type == 'js' ){
+			
+			if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {
+				$tag_classes .= ' ez-toc-toggle';
+				$header_text_toggle_style = 'cursor:pointer';
+			}
+		}
+	
+		if ( in_array( $title_tag, $allowed_tags ) ) {
+
+			return '<'. esc_attr( $title_tag ) .' class="' . esc_attr( $tag_classes ) . '" style="'. esc_attr( $header_text_toggle_style ) .'">' . esc_html( $toc_title ) . '</'. esc_attr( $title_tag ) .'>' . PHP_EOL;
+		}
+
+		return '<p class="ez-toc-title">' . esc_html( $toc_title ) . '</p>' . PHP_EOL;
+	}
+
 }
