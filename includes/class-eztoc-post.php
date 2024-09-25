@@ -1963,7 +1963,7 @@ class ezTOC_Post {
 	private function get_toc_title_tag( $title_tag = 'p' , $toc_title = 'Table of Contents' , $toc_type = 'js', $options = [] ) {
 		$tag_classes = 'ez-toc-title';
 		$header_text_toggle_style = 'cursor:inherit';
-		$allowed_tags = array( 'div', 'label', 'span', 'p' );
+		$tag_html = '';
 
 		
 		if( $toc_type == 'sticky' ){
@@ -1976,13 +1976,25 @@ class ezTOC_Post {
 				$header_text_toggle_style = 'cursor:pointer';
 			}
 		}
-	
-		if ( in_array( $title_tag, $allowed_tags ) ) {
-
-			return '<'. esc_attr( $title_tag ) .' class="' . esc_attr( $tag_classes ) . '" style="'. esc_attr( $header_text_toggle_style ) .'">' . esc_html( $toc_title ) . '</'. esc_attr( $title_tag ) .'>' . PHP_EOL;
+				
+		switch($title_tag){
+			case 'div':
+				$tag_html = '<div class="' . esc_attr( $tag_classes ) . '" style="'. esc_attr( $header_text_toggle_style ) .'">' . esc_html( $toc_title ) . '</div>' . PHP_EOL;
+			break;
+			case 'label':
+				$tag_html = '<label class="' . esc_attr( $tag_classes ) . '" style="'. esc_attr( $header_text_toggle_style ) .'">' . esc_html( $toc_title ) . '</label>' . PHP_EOL;
+			break;
+			case 'span':
+				$tag_html = '<span class="' . esc_attr( $tag_classes ) . '" style="'. esc_attr( $header_text_toggle_style ) .'">' . esc_html( $toc_title ) . '</span>' . PHP_EOL;
+			break;
+			default:
+				$tag_html = '<p class="' . esc_attr( $tag_classes ) . '" style="'. esc_attr( $header_text_toggle_style ) .'">' . esc_html( $toc_title )  . '</p>' . PHP_EOL;
+			break;
 		}
 
-		return '<p class="ez-toc-title">' . esc_html( $toc_title ) . '</p>' . PHP_EOL;
+		return $tag_html;
 	}
 
 }
+
+// create a function to conver  ti uuper case
