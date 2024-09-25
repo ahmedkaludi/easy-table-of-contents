@@ -1996,5 +1996,3 @@ class ezTOC_Post {
 	}
 
 }
-
-// create a function to conver  ti uuper case
