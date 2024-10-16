@@ -1338,17 +1338,8 @@ class ezTOC_Post {
             $ezTocStickyToggleDirection = 'ez-toc-sticky-toggle-direction';
 
 			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
-				$toc_title = apply_filters('ez_toc_sticky_title', ezTOC_Option::get( 'heading_text' ));
-				$toc_title_tag = ezTOC_Option::get( 'heading_text_tag' );
-				$toc_title_tag = $toc_title_tag?$toc_title_tag:'p';
-				if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
-					$toc_title = str_replace( '%PAGE_TITLE%', get_the_title(), $toc_title );
-				}
-				if ( strpos( $toc_title, '%PAGE_NAME%' ) !== false ) {
-					$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
-				}
 					$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
-					$htmlSticky .= $this->get_toc_title_tag( $toc_title_tag,  $toc_title,  'sticky' );
+					$htmlSticky .= $this->get_toc_title_tag(  'sticky' );
 					$htmlSticky .= '<a class="ez-toc-close-icon" href="#" onclick="ezTOC_hideBar(event)" aria-label="×"><span aria-hidden="true">×</span></a>' . PHP_EOL;
 					$htmlSticky .= '</div>' . PHP_EOL;
 			} else {
@@ -1531,29 +1522,7 @@ class ezTOC_Post {
 		}
 	if ( $show_header_text ) {
 
-		$toc_title = get_post_meta( get_the_ID(), '_ez-toc-header-label', true );
-
-		if ( !$toc_title || empty( $toc_title ) ) {
-			$toc_title = ezTOC_Option::get( 'heading_text' );
-		}
-
-		$toc_title_tag = ezTOC_Option::get( 'heading_text_tag' );
-		$toc_title_tag = $toc_title_tag?$toc_title_tag:'p';
-
-		if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
-
-			$toc_title = str_replace( '%PAGE_TITLE%', get_the_title(), $toc_title );
-		}
-
-		if ( strpos( $toc_title, '%PAGE_NAME%' ) !== false ) {
-
-			$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
-		}
-		if(isset($options['header_label'])){
-			$toc_title = $options['header_label'];
-		}
-
-		$html .= $this->get_toc_title_tag( $toc_title_tag ,  $toc_title ,  'js' ,  $options );
+		$html .= $this->get_toc_title_tag(  'js' ,  $options );
 		$html .= $header_label;
 													
 	} 
@@ -1595,23 +1564,7 @@ class ezTOC_Post {
 		}
 	if ( $show_header_text && ezTOC_Option::get( 'show_heading_text' ) ) {
 
-		$toc_title = ezTOC_Option::get( 'heading_text' );
-		$toc_title_tag = ezTOC_Option::get( 'heading_text_tag' );
-		$toc_title_tag = $toc_title_tag?$toc_title_tag:'p';
-		if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
-
-			$toc_title = str_replace( '%PAGE_TITLE%', get_the_title(), $toc_title );
-		}
-
-		if ( strpos( $toc_title, '%PAGE_NAME%' ) !== false ) {
-
-			$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
-		}
-					
-		if(isset($options['header_label'])){
-			$toc_title = $options['header_label'];
-		}
-		$header_label = $this->get_toc_title_tag( $toc_title_tag ,  $toc_title ,  'css' ,  $options );
+		$header_label = $this->get_toc_title_tag(  'css' ,  $options );
 		if (!ezTOC_Option::get( 'visibility' ) ) {
 			$html .='<div class="ez-toc-title-container">'.$header_label.'</div>';
 		}															
@@ -1960,7 +1913,24 @@ class ezTOC_Post {
 	 *
 	 * @return string The TOC Title Tag content.
 	 */
-	private function get_toc_title_tag( $title_tag = 'p' , $toc_title = 'Table of Contents' , $toc_type = 'js', $options = [] ) {
+	private function get_toc_title_tag( $toc_type = 'js', $options = [] ) {
+		$toc_title = ezTOC_Option::get( 'heading_text' );
+		$toc_title_tag = ezTOC_Option::get( 'heading_text_tag' );
+		$toc_title_tag = $toc_title_tag?$toc_title_tag:'p';
+		if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
+
+			$toc_title = str_replace( '%PAGE_TITLE%', get_the_title(), $toc_title );
+		}
+
+		if ( strpos( $toc_title, '%PAGE_NAME%' ) !== false ) {
+
+			$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
+		}
+					
+		if(isset($options['header_label'])){
+			$toc_title = $options['header_label'];
+		}
+
 		$tag_classes = 'ez-toc-title';
 		$header_text_toggle_style = 'cursor:inherit';
 		$tag_html = '';
@@ -1977,7 +1947,7 @@ class ezTOC_Post {
 			}
 		}
 				
-		switch($title_tag){
+		switch($toc_title_tag){
 			case 'div':
 				$tag_html = '<div class="' . esc_attr( $tag_classes ) . '" style="'. esc_attr( $header_text_toggle_style ) .'">' . esc_html( $toc_title ) . '</div>' . PHP_EOL;
 			break;
