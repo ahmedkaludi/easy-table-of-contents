@@ -469,18 +469,6 @@ function ez_toc_para_blockquote_replace($blockquotes, $content, $step){
 }
 
 /**
- * Helps allow line breaks
- * @since 2.0.59
- */
-add_filter('ez_toc_title_allowable_tags', 'ez_toc_link_allow_br_tag');
-function ez_toc_link_allow_br_tag($tags){
-    if(ezTOC_Option::get( 'prsrv_line_brk' )){
-        $tags = '<br>';
-    }
-    return $tags;
-}
-
-/**
  * Check the status of shortcode enable support which is defined in shortcode attributes
  * @since 2.0.59
  */
@@ -597,6 +585,28 @@ function ez_toc_noeztoc_callback( $atts, $content = "" ) {
 	return $content;
 }
 
+/**
+ * Added [no-toc] to support migrated shortcode from TOC+
+ * @since 2.0.70
+ */
+add_shortcode( 'no-toc', 'ez_toc_notoc_callback' );
+function ez_toc_notoc_callback( $atts, $content = "" ) {
+	add_filter(
+		'ez_toc_maybe_apply_the_content_filter',	function( $apply ) {
+			return false;
+		}
+		,999
+	);
+	//  condition when  `the_content` filter is not used by the theme
+	add_filter(
+		'ez_toc_modify_process_page_content',	function( $apply ) {
+			return '';
+		}
+		,999
+	);
+	return $content;
+}
+
 add_action( 'admin_init' , 'ez_toc_redirect' );
 function ez_toc_redirect( ) {
     if ( get_option( 'ez_toc_do_activation_redirect' , false ) ) {
@@ -607,4 +617,71 @@ function ez_toc_redirect( ) {
             wp_safe_redirect( "options-general.php?page=table-of-contents#welcome" );
         }
     }
+}
+
+/**
+ * ez_toc_wp_strip_all_tags method inspired by WordPress actual wp_strip_all_tags
+ * to strip all tags from the given text
+ * Access Public
+ * @since 2.0.70
+ * @param $text, $remove_breaks
+ * @return string
+*/
+
+function ez_toc_wp_strip_all_tags( $text, $remove_breaks = false ) {
+    
+	if ( is_null( $text ) ) {
+		return '';
+	}
+
+	if ( ! is_scalar( $text ) ) {
+		/*
+		 * To maintain consistency with pre-PHP 8 error levels,
+		 * wp_trigger_error() is used to trigger an E_USER_WARNING,
+		 * rather than _doing_it_wrong(), which triggers an E_USER_NOTICE.
+		 */
+		wp_trigger_error(
+			'',
+			sprintf(
+				/* translators: 1: The function name, 2: The argument number, 3: The argument name, 4: The expected type, 5: The provided type. */
+				__( 'Warning: %1$s expects parameter %2$s (%3$s) to be a %4$s, %5$s given.' ),
+				__FUNCTION__,
+				'#1',
+				'$text',
+				'string',
+				gettype( $text )
+			),
+			E_USER_WARNING
+		);
+
+		return '';
+	}
+
+	$text = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $text );
+	$text = strip_tags( $text, apply_filters( 'ez_toc_allowable_tags', '' ) );
+
+	if ( $remove_breaks ) {
+		$text = preg_replace( '/[\r\n\t ]+/', ' ', $text );
+	}
+
+	return trim( $text );
+}
+
+/**
+ * Helps allow line breaks
+ * @since 2.0.59
+ */
+
+add_filter( 'ez_toc_allowable_tags', 'ez_toc_link_allow_br_tag' );
+
+function ez_toc_link_allow_br_tag( $tags ) {
+
+    if ( ezTOC_Option::get( 'prsrv_line_brk' ) ) {
+
+        $tags = '<br>';
+
+    }
+
+    return $tags;
+    
 }

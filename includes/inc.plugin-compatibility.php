@@ -1072,3 +1072,37 @@ add_filter(
 	}
 
 );
+
+/**
+ * To fix icon issue in TOC for the woo category page description
+ * @param mixed $allowed_tags
+ * @return mixed
+ */
+function eztoc_woo_category_toc_fix($allowed_tags) {
+    
+    if( function_exists('is_product_category') && is_product_category() && true == ezTOC_Option::get( 'include_product_category', false)) {
+    $allowed_tags['svg'] = array(
+        'width' => true,
+        'height' => true,
+        'viewbox' => true,
+        'xmlns' => true,
+        'fill' => true,
+        'stroke' => true,
+        'style' => true,
+        'class'=> true
+    );
+    
+    $allowed_tags['path'] =   array(
+        'd' => true,
+        'fill' => true,
+        'stroke' => true,
+    );
+    
+     $allowed_tags['span']['style'] = true;
+        
+        
+    }
+
+    return $allowed_tags;
+}
+add_filter('wp_kses_allowed_html', 'eztoc_woo_category_toc_fix', 10, 2);

@@ -413,3 +413,13 @@ label.cssiconcheckbox {
     background-color: yellow;
     padding-left: 10px;
 }
+.eztoc-hide{
+    display: none;
+}
+.term-description .ez-toc-title-container p:nth-child(2){
+	width:50px;
+	float:right;
+	margin:0;
+}
+
+

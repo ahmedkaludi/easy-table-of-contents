@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.69
+ * Version: 2.0.69.1
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -28,7 +28,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.69
+ * @version  2.0.69.1
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.69';
+		const VERSION = '2.0.69.1';
 
 		/**
 		 * Stores the instance of this class.
@@ -127,24 +127,25 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		private static function includes() {
 
 			require_once( EZ_TOC_PATH . '/includes/class-eztoc-option.php' );
-			require_once(EZ_TOC_PATH. "/includes/public-helper-function.php" );
+			require_once( EZ_TOC_PATH. '/includes/public-helper-function.php' );
 
 			if ( is_admin() ) {
 
 				// This must be included after `class.options.php` because it depends on it methods.
 				require_once( EZ_TOC_PATH . '/includes/class-eztoc-admin.php' );
-				require_once(EZ_TOC_PATH. "/includes/helper-function.php" );
+				require_once( EZ_TOC_PATH. '/includes/helper-function.php' );
 				require_once( EZ_TOC_PATH . '/includes/class-eztoc-pointers.php' );
+
 			}
 
+			require_once( EZ_TOC_PATH . '/includes/inc.functions.php' );
 			require_once( EZ_TOC_PATH . '/includes/class-eztoc-post.php' );
             require_once( EZ_TOC_PATH . '/includes/class-eztoc-widget.php' );
 			require_once( EZ_TOC_PATH . '/includes/class-eztoc-widgetsticky.php' );
-			require_once( EZ_TOC_PATH . '/includes/class-debug.php' );
-			require_once( EZ_TOC_PATH . '/includes/inc.functions.php' );
+			require_once( EZ_TOC_PATH . '/includes/class-debug.php' );			
 			require_once( EZ_TOC_PATH . '/includes/inc.cord-functions.php' );
-
 			require_once( EZ_TOC_PATH . '/includes/inc.plugin-compatibility.php' );
+			
 		}
 
 		/**
@@ -1302,12 +1303,21 @@ if ( ! class_exists( 'ezTOC' ) ) {
                     'navigation_scroll_bar' => 'on',
                     'scroll_max_height' => 'auto',
                     'scroll_max_height_size_unit' => 'none',
+					'title_font_size' => '120',
+					'title_font_size_unit' => '%',
+					'title_font_weight' => '600',
+					'title_font_color' => '',
+					'text_font_size' => '100',
+					'text_font_size_unit' => '%',
+					'text_font_weight' => '400',
+					'text_font_color' => '',
                     'ez_toc_widget_sticky_before_widget_container' => '',
                     'ez_toc_widget_sticky_before_widget' => '',
                     'ez_toc_widget_sticky_before' => '',
                     'ez_toc_widget_sticky_after' => '',
                     'ez_toc_widget_sticky_after_widget' => '',
                     'ez_toc_widget_sticky_after_widget_container' => '',
+					'show_toggle'=> 'true'
                 ), $atts ) );
 
                 $widget_name = esc_html( 'ezTOC_WidgetSticky' );
@@ -1325,6 +1335,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
                     'navigation_scroll_bar' => ( ! empty ( $navigation_scroll_bar ) ) ? $navigation_scroll_bar : 'on',
                     'scroll_max_height' => ( ! empty ( $scroll_max_height ) ) ? ( 'auto' == $scroll_max_height ) ? $scroll_max_height : ( int ) wp_strip_all_tags ( $scroll_max_height ) : 'auto',
                     'scroll_max_height_size_unit' => ( ! empty ( $scroll_max_height_size_unit ) ) ? $scroll_max_height_size_unit : 'none',
+					'sidebar_sticky_title_size' => ( ! empty ( $title_font_size ) ) ? ( 'auto' == $title_font_size ) ? $title_font_size : ( int ) wp_strip_all_tags ( $title_font_size ) : '120',
+					'sidebar_sticky_title_size_unit' => ( ! empty ( $title_font_size_unit ) ) ? $title_font_size_unit : '%',
+					'sidebar_sticky_title_weight' => ( ! empty ( $title_font_weight ) ) ? $title_font_weight : '600',
+					'sidebar_sticky_title_color' => ( ! empty ( $title_font_color ) ) ? $title_font_color : '',
+					'sidebar_sticky_size' => ( ! empty ( $text_font_size ) ) ? ( 'auto' == $text_font_size ) ? $text_font_size : ( int ) wp_strip_all_tags ( $text_font_size ) : '100',
+					'sidebar_sticky_size_unit' => ( ! empty ( $text_font_size_unit ) ) ? $text_font_size_unit : '%',
+					'sidebar_sticky_weight' => ( ! empty ( $text_font_weight ) ) ? $text_font_weight : '400',
+					'sidebar_sticky_color' => ( ! empty ( $text_font_color ) ) ? $text_font_color : '',
+					'show_toggle' => ( ! empty ( $show_toggle ) ) ? $show_toggle : ''
                 );
                 
                 if ( !is_a( $wp_widget_factory->widgets[ $widget_name ], 'WP_Widget' ) ):
@@ -1520,7 +1539,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$ez_toc_current_post_id = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();
 
 			// Bail if post not eligible and widget is not active.
-			if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child'){
+			if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child' || class_exists( 'Timber' ) ){
 				$isEligible = self::is_eligible( get_post($ez_toc_current_post_id) );
 			}else{
 				$isEligible = self::is_eligible( get_post() );
@@ -1558,7 +1577,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				return Debug::log()->appendTo( $content );
 			}
 			
-			if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child'){
+			if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child'  || class_exists( 'Timber' ) ){
 				$post = self::get( $ez_toc_current_post_id );
 			}else{
 				$post = self::get( get_the_ID());
@@ -1636,7 +1655,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					break;
 				case 'afterpara':
 					$exc_blkqt  = get_post_meta( get_the_ID(), '_ez-toc-s_blockqoute_checkbox', true );
-					if ($exc_blkqt) {
+					if ( empty( $exc_blkqt ) ) {
 						$exc_blkqt = ezTOC_Option::get( 'blockqoute_checkbox' );
 					}
 					//blockqoute

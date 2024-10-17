@@ -41,6 +41,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			add_filter( 'plugin_action_links_' . EZ_TOC_BASE_NAME, array( $this, 'pluginActionLinks' ), 10, 2 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'load_scripts' ) );
 			add_action('wp_ajax_eztoc_send_query_message', array( $this, 'eztoc_send_query_message'));
+			add_action('wp_ajax_eztoc_migrate_tocplus',  array( $this, 'eztoc_migrate_tocplus'));
 		}
 
         /**
@@ -865,6 +866,259 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		public function eztoc_dequeue_scripts() {						
 				wp_dequeue_script( 'chats-js' ); 
 				wp_dequeue_script( 'custom_wp_admin_js' );						            
+		}
+
+		/**
+		 * migrate tocplus to eztoc
+		 * @return void
+		 */
+		public function eztoc_migrate_tocplus(){
+
+			if (!current_user_can('manage_options')) {
+				wp_send_json_error(esc_html__('You do not have sufficient permissions to perform this action.', 'easy-table-of-contents'));
+				wp_die();
+			}
+		
+			check_ajax_referer('eztoc_ajax_check_nonce', 'nonce');
+
+			if (!class_exists('TOC_Plus')) {
+				wp_send_json_error(esc_html__('TOCPlus plugin is not installed.', 'easy-table-of-contents'));
+				wp_die();
+			}
+
+			$options_to_update = get_option('ez-toc-settings') ? get_option('ez-toc-settings') : array();
+			// tocplus default options
+			$defaults = [  
+				'fragment_prefix'                    => 'i',
+				'position'                           => 1,
+				'start'                              => 4,
+				'show_heading_text'                  => true,
+				'heading_text'                       => 'Contents',
+				'auto_insert_post_types'             => [ 'page' ],
+				'show_heirarchy'                     => true,
+				'ordered_list'                       => true,
+				'smooth_scroll'                      => false,
+				'smooth_scroll_offset'               => 30,
+				'visibility'                         => true,
+				'visibility_show'                    => 'show',
+				'visibility_hide'                    => 'hide',
+				'visibility_hide_by_default'         => false,
+				'width'                              => 'Auto',
+				'width_custom'                       => '275',
+				'width_custom_units'                 => 'px',
+				'wrapping'                           => 0,
+				'font_size'                          => '95',
+				'font_size_units'                    => '%',
+				'theme'                              => 1,
+				'custom_background_colour'           => '#f9f9f9',
+				'custom_border_colour'               => '#aaaaaa',
+				'custom_title_colour'                => '#',
+				'custom_links_colour'                => '#',
+				'custom_links_hover_colour'          => '#',
+				'custom_links_visited_colour'        => '#',
+				'lowercase'                          => false,
+				'hyphenate'                          => false,
+				'bullet_spacing'                     => false,
+				'include_homepage'                   => false,
+				'exclude_css'                        => false,
+				'exclude'                            => '',
+				'heading_levels'                     => [ 1, 2, 3, 4, 5, 6 ],
+				'restrict_path'                      => '',
+				'css_container_class'                => '',
+				'sitemap_show_page_listing'          => true,
+				'sitemap_show_category_listing'      => true,
+				'sitemap_heading_type'               => 3,
+				'sitemap_pages'                      => 'Pages',
+				'sitemap_categories'                 => 'Categories',
+				'show_toc_in_widget_only'            => false,
+				'show_toc_in_widget_only_post_types' => [ 'page' ],
+				'rest_toc_output'                    => false,
+			];
+			
+			$options       = get_option( 'toc-options', false );
+
+			
+
+			$options       = wp_parse_args( $options, $defaults );
+
+			if( !$options ){
+				wp_send_json_error(esc_html__('No data found to migrate.', 'easy-table-of-contents'));
+				wp_die();
+			}
+
+			if( isset( $options['fragment_prefix'] )){
+				$options_to_update['fragment_prefix'] = $options['fragment_prefix'];
+			}
+
+			if( isset( $options['position'] )){
+
+				if($options['position'] == 1 ){
+					$options_to_update['position'] = 'after';
+				}
+				if($options['position'] == 2 ){
+					$options_to_update['position'] = 'top';
+				}
+				if($options['position'] == 3 ){
+					$options_to_update['position'] = 'bottom';
+				}
+				if($options['position'] == 4 ){
+					$options_to_update['position'] = 'before';
+				}
+				
+			}
+
+			if( isset( $options['start'] )){
+				$options_to_update['start'] = $options['start'];
+			}
+
+			if( isset( $options['show_heading_text'] )){
+				$options_to_update['show_heading_text'] = $options['show_heading_text'];
+			}
+
+			if( isset( $options['heading_text'] )){
+				$options_to_update['heading_text'] = $options['heading_text'];
+			}
+
+			if( isset( $options['auto_insert_post_types'] )){
+				$options_to_update['auto_insert_post_types'] = $options['auto_insert_post_types'];
+				$options_to_update['enabled_post_types'] = $options['auto_insert_post_types'];
+			}
+
+			if( isset( $options['show_heirarchy'] )){
+				$options_to_update['show_hierarchy'] = $options['show_heirarchy'];
+			}
+
+			if( isset( $options['ordered_list'] )){
+				$options_to_update['counter'] = 'numeric';
+			}
+
+			if( isset( $options['smooth_scroll'] )){
+				$options_to_update['smooth_scroll'] = $options['smooth_scroll'];
+			}
+
+			if( isset( $options['smooth_scroll_offset'] )){
+				$options_to_update['smooth_scroll_offset'] = $options['smooth_scroll_offset'];
+			}
+
+			if( isset( $options['visibility'] )){
+				$options_to_update['visibility'] = $options['visibility'];
+			}
+
+			if( isset( $options['visibility_hide_by_default'] )){
+				$options_to_update['visibility_hide_by_default'] = $options['visibility_hide_by_default'];
+			}
+
+			if( isset( $options['width'] )){
+				$options_to_update['width'] = $options['width'];
+			}
+
+			if( isset( $options['width_custom'] )){
+				$options_to_update['width_custom'] = $options['width_custom'];
+			}
+
+			if( isset( $options['width_custom_units'] )){
+				$options_to_update['width_custom_units'] = $options['width_custom_units'];
+			}
+
+			if( isset( $options['wrapping'] )){
+				$options_to_update['wrapping'] = $options['wrapping'];
+			}
+
+			if( isset( $options['font_size'] )){
+				$options_to_update['font_size'] = $options['font_size'];
+			}
+
+			if( isset( $options['font_size_units'] )){
+				$options_to_update['font_size_units'] = $options['font_size_units'];
+			}
+
+			if( isset( $options['theme'] )){
+				if($options['theme'] == 1){
+					$options_to_update['theme'] = 'grey';
+				}
+				if($options['theme'] == 2){
+					$options_to_update['theme'] = 'light-blue';
+				}
+				if($options['theme'] == 3){
+					$options_to_update['theme'] = 'white';
+				}
+				if($options['theme'] == 4){
+					$options_to_update['theme'] = 'black';
+				}
+				if($options['theme'] == 99){
+					$options_to_update['theme'] = 'transparent';
+				}
+				if($options['theme'] == 100){
+					$options_to_update['theme'] = 'custom';
+				}
+			}
+
+			if( isset( $options['custom_background_colour'] )){
+				$options_to_update['custom_background_colour'] = $options['custom_background_colour'];
+			}
+
+			if( isset( $options['custom_border_colour'] )){
+				$options_to_update['custom_border_colour'] = $options['custom_border_colour'];
+			}
+
+			if( isset( $options['custom_title_colour'] )){
+				$options_to_update['custom_title_colour'] = $options['custom_title_colour'];
+			}
+
+			if( isset( $options['custom_links_colour'] )){
+				$options_to_update['custom_link_colour'] = $options['custom_links_colour'];
+			}
+
+			if( isset( $options['custom_links_hover_colour'] )){
+				$options_to_update['custom_link_hover_colour'] = $options['custom_links_hover_colour'];
+			}
+
+			if( isset( $options['custom_links_visited_colour'] )){
+				$options_to_update['custom_link_visited_colour'] = $options['custom_links_visited_colour'];
+			}
+
+			if( isset( $options['lowercase'] )){
+				$options_to_update['lowercase'] = $options['lowercase'];
+			}
+
+			if( isset( $options['hyphenate'] )){
+				$options_to_update['hyphenate'] = $options['hyphenate'];
+			}
+
+
+			if( isset( $options['include_homepage'] )){
+				$options_to_update['include_homepage'] = $options['include_homepage'];
+			}
+
+			if( isset( $options['exclude_css'] )){
+				$options_to_update['exclude_css'] = $options['exclude_css'];
+			}
+
+			if( isset( $options['exclude'] )){
+				$options_to_update['exclude'] = $options['exclude'];
+			}
+
+			if( isset( $options['heading_levels'] )){
+				$options_to_update['heading_levels'] = $options['heading_levels'];
+			}
+
+			if( isset( $options['restrict_path'] )){
+				$options_to_update['restrict_path'] = $options['restrict_path'];
+			}
+
+			if( isset( $options['css_container_class'] )){
+				$options_to_update['css_container_class'] = $options['css_container_class'];
+			}
+
+			if( isset( $options['rest_toc_output'] )){
+				$options_to_update['disable_in_restapi'] = $options['rest_toc_output'] ? false : true;
+			}
+			
+			if(!empty($options_to_update)){
+				update_option('ez-toc-settings', $options_to_update);
+				wp_send_json_success(esc_html__('Migration done successfully.', 'easy-table-of-contents'));
+			}
+
 		}
 	}
 
