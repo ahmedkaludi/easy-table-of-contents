@@ -1914,7 +1914,12 @@ class ezTOC_Post {
 	 * @return string The TOC Title Tag content.
 	 */
 	private function get_toc_title_tag( $toc_type = 'js', $options = [] ) {
-		$toc_title = ezTOC_Option::get( 'heading_text' );
+		if($toc_type == 'sticky'){
+			$toc_title = apply_filters('ez_toc_sticky_title', ezTOC_Option::get( 'heading_text' ));
+		}else{
+			$toc_title = ezTOC_Option::get( 'heading_text' );
+		}
+
 		$toc_title_tag = ezTOC_Option::get( 'heading_text_tag' );
 		$toc_title_tag = $toc_title_tag?$toc_title_tag:'p';
 		if ( strpos( $toc_title, '%PAGE_TITLE%' ) !== false ) {
