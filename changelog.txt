@@ -1,5 +1,12 @@
 == Changelog ==
 
+= 2.0.70 17/10/2024 =
+* New: One click migration for Table of Contents plus plugin #826
+* New: Add missing parameters in sticky widget shortcode #812
+* Bug: Timber theme TOC links not working on all pages and When ACF compatibility is on homepage gives 500 error #814
+* Bug: Incorrect Symbols Displaying When Adding %PAGE_NAME% as Header Label #816
+* Fix: Preserve-Linebreaks is broken. #806
+
 = 2.0.69.1 05/09/2024 =
 * Fix: Fatal error #803
 

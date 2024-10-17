@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.6
 Requires PHP: 5.6.20
-Stable tag: 2.0.69.1
+Stable tag: 2.0.70
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,7 @@ A user friendly, featured focused [Easy Table of Contents](https://tocwp.com/) p
 [Home](https://tocwp.com/) | [Help & Tech Support](https://tocwp.com/contact/) | [Documentation](https://tocwp.com/docs/)  | [Pro version Features](https://tocwp.com/pricing/)
 
 ### Features 
+* <strong>NEW </strong>: Migration Tool to import all the settings from other plugins like Table of Content Plus & more
 * Automatically generate a table of contents for your posts, pages and custom post types by parsing its contents for headers.
 * Supports the `<!--nextpage-->` tag.
 * Supports the Rank Math plugin.
@@ -130,6 +131,13 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.70 17/10/2024 =
+* New: One click migration for Table of Contents plus plugin #826
+* New: Add missing parameters in sticky widget shortcode #812
+* Bug: Timber theme TOC links not working on all pages and When ACF compatibility is on homepage gives 500 error #814
+* Bug: Incorrect Symbols Displaying When Adding %PAGE_NAME% as Header Label #816
+* Fix: Preserve-Linebreaks is broken. #806
 
 = 2.0.69.1 05/09/2024 =
 * Fix: Fatal error #803
