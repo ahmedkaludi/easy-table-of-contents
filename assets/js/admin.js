@@ -664,5 +664,40 @@ jQuery(function($) {
     });
 
     /* Admin Initial View js ends here */
+
+      // Import functionality
+      jQuery('#eztoc_migrate_toc').on('click', function(e) {
+        e.preventDefault();
+        // show a comfirmation dialog
+        if (!confirm('Migration will overwrite the current Easy TOC settings.')) {
+            return;
+        }
+        jQuery('#eztoc-importer-loader').show();
+
+        const formData = new FormData();
+        formData.append('action', 'eztoc_migrate_tocplus');
+        formData.append('nonce', eztoc_admin_data.eztoc_security_nonce);
+
+        jQuery.ajax({
+            url: eztoc_admin_data.ajax_url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false, 
+            success: function(response) {
+                jQuery('#eztoc-importer-loader').hide();
+                if (response.success) {
+                    alert(response.data);
+                    window.location.reload(); 
+                } else {
+                    alert(response.data); 
+                }
+            },
+            error: function() {
+                jQuery('#eztoc-importer-loader').hide();
+                alert('An error occurred while importing the settings.');
+            }
+        });
+    });
     
     

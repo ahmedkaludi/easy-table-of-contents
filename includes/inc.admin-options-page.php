@@ -210,7 +210,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                         <input type="file" name="eztoc_import_backup" id="eztoc-import-backup">
                                         <label> <br><?php esc_html_e('Upload json settings file to import', 'easy-table-of-contents'); ?></label>
                                     </td>
-                                </tr>                       
+                                </tr> 
+
+                                <tr>
+                                    <th scope="row"><?php esc_html_e( 'Migrate  from TOC+', 'easy-table-of-contents' ) ?></th>
+                                    <td>
+                                    <?php $toc_plus_enbaled = class_exists('TOC_Plus') ? true : false; ?>
+                                        <button type="button" name="eztoc_migrate_toc" id="eztoc_migrate_toc" class="button-primary" <?php if( ! $toc_plus_enbaled ){ echo esc_attr('disabled');}?> title="<?php echo !$toc_plus_enbaled ? esc_attr('Activate TOC+ to continue'):'';?>"><?php esc_html_e('Migrate Settings', 'easy-table-of-contents'); ?></button>
+                                        <div id="eztoc-importer-loader" style="display: none;"><?php echo esc_html__('Migrating. Please wait...', 'easy-table-of-contents'); ?></div>
+                                        <label> <br><?php esc_html_e('Migrate Settings from TOC+. Make sure TOC+ plus is active while migrating', 'easy-table-of-contents'); ?></label>
+                                    </td>
+                                </tr>  
+                                                
                             </tbody>
                         </table>
 
