@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.69.1
+ * Version: 2.0.70
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -1406,9 +1406,38 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				self::inline_main_counting_css();		
 				$pid = (function_exists('get_queried_object_id') && class_exists('Storyhub'))?get_queried_object_id():get_the_ID();		
 
-				$post_id = isset( $atts['post_id'] ) ? (int) $atts['post_id'] : $pid;																					
+				$post_id = isset( $atts['post_id'] ) ? (int) $atts['post_id'] : $pid;
+				
+				$post_exclude = get_post_meta( $post_id, '_ez-toc-exclude', true );
+				$heading_levels = get_post_meta( $post_id, '_ez-toc-heading-levels', true );
+				
+				/* Update post meta if exclude and heading levels are set in shortcode temporarily
+				* so that  self::get( $post_id ); takes the values and then remove them after
+				* the post object is created.
+				*/
+
+				// Updating post meta for exclude and heading levels	
+
+				if ( isset ( $atts['exclude'] ) && $atts['exclude'] != '' ) {
+					update_post_meta( $post_id, '_ez-toc-exclude', $atts['exclude'] );	
+				}
+
+				if (isset($atts["heading_levels"]) && $atts["heading_levels"] != '') {
+					$headings = explode(',', $atts["heading_levels"]);
+					update_post_meta( $post_id, '_ez-toc-heading-levels', $headings );
+				}
 																				
 				$post = self::get( $post_id );
+
+				// setting original post meta for exclude and heading levels	
+				
+				if ( isset ( $atts['exclude'] ) && $atts['exclude'] != '' ) {
+					update_post_meta( $post_id, '_ez-toc-exclude', $post_exclude );		
+				}
+
+				if (isset($atts["heading_levels"]) && $atts["heading_levels"] != '') {
+					update_post_meta( $post_id, '_ez-toc-heading-levels', $heading_levels );
+				}
 
 				if ( ! $post instanceof ezTOC_Post ) {
 
@@ -1418,10 +1447,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}
 									
 				$options =  array();
+				if (isset($atts["label"])) {
+					$options['header_label'] = $atts["label"];
+				}
 				if (isset($atts["header_label"])) {
 					$options['header_label'] = $atts["header_label"];
 				}
 				if (isset($atts["display_header_label"]) && $atts["display_header_label"] == "no") {
+					$options['no_label'] = true;
+				}
+				if(isset($atts["no_label"]) && $atts["no_label"] == "true") {
 					$options['no_label'] = true;
 				}
 				if (isset($atts["toggle_view"]) && $atts["toggle_view"] == "no") {
@@ -1439,8 +1474,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if (isset($atts["view_more"]) && $atts["view_more"] > 0) {
 					$options['view_more'] = $atts["view_more"];
 				}
-				$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();			
+				if (isset($atts["class"]) && $atts["class"] != '') {
+					$options['class'] = $atts["class"];
+				}
 				
+				if(isset($atts["wrapping"]) && $atts["wrapping"] != ''){
+					$options['wrapping'] = $atts["wrapping"];
+				}
+				$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();	
+			
 				return apply_filters( 'eztoc_shortcode_final_toc_html', $html );
 		}
 
