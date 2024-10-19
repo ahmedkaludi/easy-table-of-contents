@@ -227,6 +227,13 @@ add_action(
 				10,
 				1
 			);
+			add_filter(
+				'ez_toc_apply_filter_status_manually',
+				'__return_false' ,
+				10,
+				1
+			);
+
 		}
 	},
 	11
