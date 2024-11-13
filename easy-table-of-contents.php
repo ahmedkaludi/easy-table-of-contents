@@ -1860,7 +1860,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 							$isTOCOpen = ezTOC_Option::get( 'sticky-toggle-open' );
 							if($isTOCOpen){
 								$toggleClass="show";
-								$linkZindex="style='z-index:-1;'";
+								$linkZindex="z-index:-1;";
 							}
 						}
 						
@@ -1874,7 +1874,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 						<div class="ez-toc-sticky-fixed <?php echo esc_attr($toggleClass); ?> <?php echo esc_attr($themeClass); ?>">
 							<div class='ez-toc-sidebar'><?php echo $stickyToggleTOC; //phpcs:ignore  ?></div>
 						</div>
-						<a class='ez-toc-open-icon' href='#' onclick='ezTOC_showBar(event)' <?php echo esc_attr($linkZindex); ?>>
+						<a class='ez-toc-open-icon' href='#' onclick='ezTOC_showBar(event)' <?php echo $linkZindex ?"style='".esc_attr($linkZindex)."'":''; ?>>
 							<span class="arrow"><?php echo esc_html($arrowSide); ?></span>
 							<span class="text"><?php echo esc_html($openButtonText); ?></span>
 						</a>
