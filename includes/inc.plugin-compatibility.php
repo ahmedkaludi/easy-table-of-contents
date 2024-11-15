@@ -2,6 +2,7 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use function Easy_Plugins\Table_Of_Contents\Cord\mb_find_replace;
 /**
  * Filter to add plugins to the TOC list.
  *
@@ -1113,3 +1114,137 @@ function eztoc_woo_category_toc_fix($allowed_tags) {
     return $allowed_tags;
 }
 add_filter('wp_kses_allowed_html', 'eztoc_woo_category_toc_fix', 10, 2);
+
+/*
+*Compatibility for Customize Post Categories for WPBakery Page Builder plugin 
+*@see https://github.com/ahmedkaludi/easy-table-of-contents/issues/843
+*/
+
+/**
+ * Custom post categories for  Customize Post Categories for WPBakery Page Builder plugin
+ * @param string $content
+ * @return string
+ */
+add_filter('ez_toc_modify_process_page_content', 'ez_toc_post_categories_for_wpbakery_page_builder', 10, 1);
+
+function ez_toc_post_categories_for_wpbakery_page_builder($content) {
+    if (function_exists('Vc_Manager')  && function_exists('POST_CATEGORY_WPBAKERY_PAGE_BUILDER\\plugin_init') && is_category( ) ) {
+        global $wpdb;
+        $template_id =  ez_toc_wpbakery_get_template_id();
+		if($template_id){
+			$content = get_post_field('post_content', $template_id);
+		}
+    }
+    return $content;
+}
+
+/**
+ * Start buffer for Customize Post Categories for WPBakery Page Builder plugin
+ */
+add_action('template_redirect', 'ez_toc_start_buffer_for_wpbakery_category');
+function ez_toc_start_buffer_for_wpbakery_category() {
+	if (function_exists('Vc_Manager')  && is_category() && function_exists('POST_CATEGORY_WPBAKERY_PAGE_BUILDER\\plugin_init')) {
+        ob_start('ez_toc_modify_wpbakery_category_template');
+    }
+}
+
+
+
+/**
+ * Modify the category template for WPBakery Page Builder with Post Categories plugin
+ * @param string $buffer
+ * @return string
+ */
+function ez_toc_modify_wpbakery_category_template($buffer) {
+	$template_id =ez_toc_wpbakery_get_template_id();
+	if($template_id){
+		$post = ezTOC::get( $template_id );
+		if($post){
+			$find    = $post->getHeadings();
+			$replace = $post->getHeadingsWithAnchors();
+			if (  !empty( $find ) && !empty( $replace ) && !empty( $buffer ) ){
+				return mb_find_replace($find, $replace, $buffer);
+			}
+		}  
+	}
+
+    return $buffer;
+}
+
+/**
+ * Get template id for Customize Post Categories for WPBakery Page Builder plugin
+ * @return mixed
+ */
+function ez_toc_wpbakery_get_template_id(){
+	
+	global $wpdb;
+	$template_id = false ;
+	$category_id = get_queried_object_id();
+	 $template_id = get_term_meta($category_id, 'mst_post_cat_template', true);
+	 if( $template_id && $template_id != 'active'){
+		 return $template_id;
+	}else{
+		$template_id = $wpdb->get_var("
+		SELECT p.ID 
+		FROM {$wpdb->posts} p
+		INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
+		WHERE p.post_type = 'category_wpb'
+		  AND p.post_status = 'publish'
+		  AND pm.meta_key = 'mst_active'
+		  AND pm.meta_value = '1'
+		LIMIT 1
+	");
+
+	}
+
+	return $template_id;
+}
+
+/**
+ * Add js backup fix for Customize Post Categories for WPBakery Page Builder plugin
+ */
+add_action('wp_footer', 'ez_toc_js_to_footer_for_wpbakery_category');	
+function ez_toc_js_to_footer_for_wpbakery_category() {
+	if (function_exists('Vc_Manager')  && is_category() && function_exists('POST_CATEGORY_WPBAKERY_PAGE_BUILDER\\plugin_init')) {
+		$js_fallback_fix = false;
+		$template_id =ez_toc_wpbakery_get_template_id();
+		if($template_id){
+			$post = ezTOC::get( $template_id );
+			if($post){
+				$find    = $post->getHeadings();
+				$replace = $post->getHeadingsWithAnchors();
+				if(!empty($find) && !empty($find)){
+					$js_fallback_fix = 'document.addEventListener("DOMContentLoaded", function () {
+						function eztocfindAndReplaceContent(findArray, replaceArray) {
+							if (!Array.isArray(findArray) || !Array.isArray(replaceArray) || findArray.length !== replaceArray.length) {
+								console.error("The find and replace arrays must be of the same length.");
+								return;
+							}
+	
+							let bodyContent = document.body.innerHTML;
+							findArray.forEach((findText, index) => {
+								const replaceText = replaceArray[index];
+								const regex = new RegExp(findText, "g");
+								bodyContent = bodyContent.replace(regex, replaceText);
+							});
+					
+							document.body.innerHTML = bodyContent;
+						}
+					
+						// Example usage
+						const findArray = '.wp_json_encode($find).'; 
+						const replaceArray = '.wp_json_encode($replace).'; 
+						eztocfindAndReplaceContent(findArray, replaceArray);
+					});
+					';
+			}  
+		}
+		}
+	
+		if($js_fallback_fix){?>
+		<script id="eztoc-wpbakery-link-fix-fallback">
+			<?php echo $js_fallback_fix; //phpcs:ignore - Already escaped above ?>
+		</script>
+		<?php }
+	}
+}
