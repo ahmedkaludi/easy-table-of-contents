@@ -938,11 +938,45 @@ if(function_exists('wp_get_theme')){
  * @since 2.0.57
  */
 add_filter('eztoc_modify_the_content','eztoc_mediavine_trellis_content_improver');
-function eztoc_mediavine_trellis_content_improver($content){
-	if(class_exists('Mediavine\Trellis\Custom_Content') && ezTOC_Option::get('mediavine-create') == 1 ){
-		$content = mb_convert_encoding( html_entity_decode($content), 'HTML-ENTITIES', 'UTF-8' );
-	}
-	return $content;
+function eztoc_mediavine_trellis_content_improver($content) {
+    if (class_exists('Mediavine\Trellis\Custom_Content') && ezTOC_Option::get('mediavine-create') == 1) {
+        $pattern = '/<script type="application\/ld\+json">(.*?)<\/script>/s';
+        preg_match_all($pattern, $content, $matches);
+        $jsonLdContents = $matches[1];
+        $content = preg_replace_callback($pattern, function ($match) {
+            static $index = 0;
+            return '<!-- JSON-LD-PLACEHOLDER-' . $index++ . ' -->';
+        }, $content);
+
+        $content = mb_convert_encoding(html_entity_decode($content), 'HTML-ENTITIES', 'UTF-8');
+        
+        if (!empty($jsonLdContents)) {
+            foreach ($jsonLdContents as $index => $jsoncontent) {
+                // Decode JSON content to an array
+                $decodedJson = json_decode($jsoncontent, true);
+
+                // Check if decoding was successful
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    // Apply htmlspecialchars to name and description if they exist
+                    if (isset($decodedJson['name'])) {
+                        $decodedJson['name'] = htmlspecialchars($decodedJson['name'], ENT_QUOTES | ENT_HTML5);
+                    }
+                    if (isset($decodedJson['description'])) {
+                        $decodedJson['description'] = htmlspecialchars($decodedJson['description'], ENT_QUOTES | ENT_HTML5);
+                    }
+
+                    // Re-encode the JSON content
+                    $jsoncontent = json_encode($decodedJson, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                }
+
+                // Replace the placeholder with the modified script tag
+                $placeholder = '<!-- JSON-LD-PLACEHOLDER-' . $index . ' -->';
+                $scriptTag = '<script type="application/ld+json">' . $jsoncontent . '</script>';
+                $content = str_replace($placeholder, $scriptTag, $content);
+            }
+        }
+    }
+    return $content;
 }
 
 //Perfmatters Compatibility
