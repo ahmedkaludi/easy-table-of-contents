@@ -1237,48 +1237,91 @@ function ez_toc_wpbakery_get_template_id(){
 /**
  * Add js backup fix for Customize Post Categories for WPBakery Page Builder plugin
  */
-add_action('wp_footer', 'ez_toc_js_to_footer_for_wpbakery_category');	
+add_action('wp_footer', 'ez_toc_js_to_footer_for_wpbakery_category');
 function ez_toc_js_to_footer_for_wpbakery_category() {
-	if (function_exists('Vc_Manager')  && is_category() && function_exists('POST_CATEGORY_WPBAKERY_PAGE_BUILDER\\plugin_init')) {
-		$js_fallback_fix = false;
-		$template_id =ez_toc_wpbakery_get_template_id();
-		if($template_id){
-			$post = ezTOC::get( $template_id );
-			if($post){
-				$find    = $post->getHeadings();
-				$replace = $post->getHeadingsWithAnchors();
-				if(!empty($find) && !empty($find)){
-					$js_fallback_fix = 'document.addEventListener("DOMContentLoaded", function () {
-						function eztocfindAndReplaceContent(findArray, replaceArray) {
-							if (!Array.isArray(findArray) || !Array.isArray(replaceArray) || findArray.length !== replaceArray.length) {
-								console.error("The find and replace arrays must be of the same length.");
-								return;
-							}
-	
-							let bodyContent = document.body.innerHTML;
-							findArray.forEach((findText, index) => {
-								const replaceText = replaceArray[index];
-								const regex = new RegExp(findText, "g");
-								bodyContent = bodyContent.replace(regex, replaceText);
-							});
-					
-							document.body.innerHTML = bodyContent;
-						}
-					
-						// Example usage
-						const findArray = '.wp_json_encode($find).'; 
-						const replaceArray = '.wp_json_encode($replace).'; 
-						eztocfindAndReplaceContent(findArray, replaceArray);
+    $js_fallback_fix = false;
+
+    if (function_exists('Vc_Manager') && is_category() && function_exists('POST_CATEGORY_WPBAKERY_PAGE_BUILDER\\plugin_init')) {
+        $template_id = ez_toc_wpbakery_get_template_id();
+        if ($template_id) {
+            $post = ezTOC::get($template_id);
+            if ($post) {
+                $find = $post->getHeadings();
+                $replace = $post->getHeadingsWithAnchors();
+                if (!empty($find) && !empty($replace)) {
+                    $js_fallback_fix = '
+                        document.addEventListener("DOMContentLoaded", function () {
+                            function eztocfindAndReplaceContent(findArray, replaceArray) {
+                                if (!Array.isArray(findArray) || !Array.isArray(replaceArray) || findArray.length !== replaceArray.length) {
+                                    console.error("The find and replace arrays must be of the same length.");
+                                    return;
+                                }
+
+                                let bodyContent = document.body.innerHTML;
+                                findArray.forEach((findText, index) => {
+                                    const replaceText = replaceArray[index];
+                                    const regex = new RegExp(findText, "g");
+                                    bodyContent = bodyContent.replace(regex, replaceText);
+                                });
+
+                                document.body.innerHTML = bodyContent;
+                            }
+
+                            const findArray = ' . wp_json_encode($find) . ';
+                            const replaceArray = ' . wp_json_encode($replace) . ';
+                            eztocfindAndReplaceContent(findArray, replaceArray);
+                        });
+                    ';
+                }
+            }
+        }
+    } elseif (class_exists('Publisher') && is_singular()) {
+        $post = ezTOC::get(get_the_ID());
+        if ($post) {
+            $find = $post->getHeadings();
+            $replace = $post->getHeadingsWithAnchors();
+            if (!empty($find)) {
+				$js_fallback_fix = '
+				document.addEventListener("DOMContentLoaded", function () {
+
+					function eztocExtractHeadingTexts(inputArray) {
+					return inputArray.map((input) => {
+					if (input.length <= 6) {
+						return "";
+					}
+					return input.substring(1, input.length - 5);
 					});
-					';
-			}  
-		}
-		}
-	
-		if($js_fallback_fix){?>
-		<script id="eztoc-wpbakery-link-fix-fallback">
-			<?php echo $js_fallback_fix; //phpcs:ignore - Already escaped above ?>
-		</script>
-		<?php }
-	}
+				}
+				function eztocStripTags(input) {
+					return input.replace(/<[^>]*>.*?<\/[^>]*>/gis, \'\');
+				}
+
+					const findArray = eztocExtractHeadingTexts(' . wp_json_encode($find) . ');
+					const replaceArray = eztocExtractHeadingTexts(' . wp_json_encode($replace) . ');
+					const elements = document.querySelectorAll(\'h1:not(:has(span.ez-toc-section)), h2:not(:has(span.ez-toc-section)), h3:not(:has(span.ez-toc-section)), h4:not(:has(span.ez-toc-section)), h5:not(:has(span.ez-toc-section)), h6:not(:has(span.ez-toc-section))\');
+					if(elements.length){
+						elements.forEach(function(item, index){
+							let heading_inner =  item.innerHTML;
+							let heading_txt =  eztocStripTags(heading_inner);
+							const find_index = findArray.indexOf(heading_txt.trim());
+							if (find_index !== -1){
+								heading_inner = heading_inner.replace(findArray[find_index],replaceArray[find_index]);
+								item.innerHTML = heading_inner;
+							}
+						});
+					}
+
+				});
+';
+            }
+        }
+    }
+
+    if ($js_fallback_fix) {
+        ?>
+        <script id="eztoc-wpbakery-link-fix-fallback">
+            <?php echo $js_fallback_fix; //phpcs:ignore - Already escaped above ?>
+        </script>
+        <?php
+    }
 }
