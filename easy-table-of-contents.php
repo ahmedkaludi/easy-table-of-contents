@@ -1864,7 +1864,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 								$linkZindex="z-index:-1;";
 							}
 						}
-						
+						if( !empty( ezTOC_Option::get( 'sticky-design' )) ) {
+							$toggleClass="show";
+						}
 					$designClass = apply_filters( 'eztoc_sticky_design_class', "" );
 					$arrowSide = ( 'right' == ezTOC_Option::get( 'sticky-toggle-position', 'left') )?"&#8592;":"&#8594;"; 
 					
