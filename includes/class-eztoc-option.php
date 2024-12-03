@@ -856,6 +856,37 @@ text
 							'default' => 'No heading found',
 							'class'=>'js_v'
 						),
+						'truncate_headings' => array(
+							'id' => 'truncate_headings',
+							'name' => esc_html__( 'Truncate Heading', 'easy-table-of-contents' ),
+							'type' => 'select',
+							'options' => array(
+								'' => esc_html__( 'Disabled (default)', 'easy-table-of-contents' ),
+								'words' => esc_html__( 'Show only few words', 'easy-table-of-contents' ),
+								'special' => esc_html__( 'Show heading upto special character', 'easy-table-of-contents' ),
+								 
+							),
+							'default' => '',
+						),
+						'truncate_headings_words' => array(
+							'id' => 'truncate_headings_words',
+							'name' => esc_html__( 'Words to Show', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . esc_html__( 'This will show only selected words with ellipsis(...)', 'easy-table-of-contents' ),
+							'type' => 'text',
+							'default' => '5',
+							'size'=>'medium',
+							'class'=>'eztoc_thw'
+						),
+						'truncate_headings_special' => array(
+							'id' => 'truncate_headings_special',
+							'name' => esc_html__( 'Special Character', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . esc_html__( 'This will show text upto the given special character', 'easy-table-of-contents' ),
+							'type' => 'text',
+							'default' => ':',
+							'size'=>'medium',
+							'class'=>'eztoc_thw'
+
+						),
 					)
 				),
                 'shortcode' => apply_filters(
