@@ -76,6 +76,9 @@ Below are the attibutes we support and could be useful in configuring the table 
 [post_not_in="1,2"] – ID's of the posts|pages seperated by ,(comma)
 [device_target="desktop"] – mobile or desktop device support for the table of contents
 [view_more="5"] – 5, is the number of headings loads on first view, before user interaction (PRO)
+[class="custom_toc"] – add your own class to the TOC
+[exclude="Test"] – exclude heading from TOC which contain text "Test"
+[heading_levels="2,3"] - Show only heading h2 and h3 
 
 ### Support
 
