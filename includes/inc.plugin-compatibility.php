@@ -1218,16 +1218,21 @@ function ez_toc_wpbakery_get_template_id(){
 	 if( $template_id && $template_id != 'active'){
 		 return $template_id;
 	}else{
-		$template_id = $wpdb->get_var("
-		SELECT p.ID 
-		FROM {$wpdb->posts} p
-		INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
-		WHERE p.post_type = 'category_wpb'
-		  AND p.post_status = 'publish'
-		  AND pm.meta_key = 'mst_active'
-		  AND pm.meta_value = '1'
-		LIMIT 1
-	");
+		$template_id = $wpdb->get_var( $wpdb->prepare("
+			SELECT p.ID 
+			FROM {$wpdb->posts} p
+			INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
+			WHERE p.post_type = %s
+			  AND p.post_status = %s
+			  AND pm.meta_key = %s
+			  AND pm.meta_value = %s
+			LIMIT 1
+			",
+			'category_wpb', 
+			'publish',
+			'mst_active',
+			'1'
+		));
 
 	}
 

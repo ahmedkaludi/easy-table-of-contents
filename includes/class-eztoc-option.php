@@ -871,7 +871,7 @@ text
 						'truncate_headings_words' => array(
 							'id' => 'truncate_headings_words',
 							'name' => esc_html__( 'Words', 'easy-table-of-contents' ),
-							'desc' => '<br/>' . esc_html__( 'This will show text upto the given number of word ending with ellipsis(...)', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . esc_html__( 'This will show text from begining upto the given number of words', 'easy-table-of-contents' ),
 							'type' => 'text',
 							'default' => '5',
 							'size'=>'medium',
