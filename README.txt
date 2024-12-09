@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.7
 Requires PHP: 5.6.20
-Stable tag: 2.0.70
+Stable tag: 2.0.71
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,21 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.71 09/12/2024 =
+* New: Support for more attributes in shortcode #828
+* New: Automatically short the title in ETOC #830
+* New: Floating layout for Sticky ETOC #844
+* Bug: cookie "ezTOC_hidetoc-0" does not have an appropriate "SameSite" attribute value #822
+* Bug: TOC Short code causing 500 error on Uncode theme #831
+* Bug: The Sticky Toc title does not shift to the right in the option Heading Text Direction selected as Right to Left is selected #833
+* Bug: 'Header Label' Option Not Updating in post individually #837
+* Fix: Issue with "TOC open on load" option in Sticky TOC feature. #815
+* Fix: TOC conflict with Avada Builder plugin and Custom Child Theme #775
+* Fix: Undefined Array Key 'navigation_scroll_bar' in class-eztoc-widgetsticky.php #842
+* Fix: Error in Google search console when enabling Create by Mediavine #841
+* Fix: Compatibility with Customize Post Categories for WPBakery Page Builder plugin & Publisher Theme #843
+* Compatibility: Tested with Wordpress 6.7 #836
 
 = 2.0.70 17/10/2024 =
 * New: One click migration for Table of Contents plus plugin #826
