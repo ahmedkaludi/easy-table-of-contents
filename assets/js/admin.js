@@ -700,4 +700,23 @@ jQuery(function($) {
         });
     });
     
+    function eztoc_truncate_headings(params) {
+        let  truncate_sel = jQuery("select[name='ez-toc-settings[truncate_headings]']").val();
+        if(truncate_sel == "words") {
+            jQuery("input[name='ez-toc-settings[truncate_headings_special]']").parents('tr').hide(200);
+            jQuery("input[name='ez-toc-settings[truncate_headings_words]']").parents('tr').show(200);
+            
+        } else if(truncate_sel == "special") {
+            jQuery("input[name='ez-toc-settings[truncate_headings_words]']").parents('tr').hide(200);
+            jQuery("input[name='ez-toc-settings[truncate_headings_special]']").parents('tr').show(200);
+        }else{
+            jQuery("input[name='ez-toc-settings[truncate_headings_words]']").parents('tr').hide(200);
+            jQuery("input[name='ez-toc-settings[truncate_headings_special]']").parents('tr').hide(200);
+
+        }
+    }
+    jQuery(document).on("change", "select[name='ez-toc-settings[truncate_headings]']", function() {
+        eztoc_truncate_headings();
+    });
+    eztoc_truncate_headings();
     

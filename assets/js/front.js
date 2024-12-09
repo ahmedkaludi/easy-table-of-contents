@@ -111,9 +111,9 @@ jQuery( function( $ ) {
                                                 if ( Cookies ) {
 
                                                         if ( invert )
-                                                                Cookies.set( 'ezTOC_hidetoc-' + i, null, { path: '/' } );
+                                                                Cookies.set( 'ezTOC_hidetoc-' + i, null, { path: '/', sameSite: 'Strict' } );
                                                         else
-                                                                Cookies.set( 'ezTOC_hidetoc-' + i, '1', { expires: 30, path: '/' } );
+                                                                Cookies.set( 'ezTOC_hidetoc-' + i, '1', { expires: 30, path: '/', sameSite: 'Strict' } );
                                                 }
                                             }
 
@@ -126,9 +126,9 @@ jQuery( function( $ ) {
                                                 if ( Cookies ) {
 
                                                         if ( invert )
-                                                                Cookies.set( 'ezTOC_hidetoc-' + i, '1', { expires: 30, path: '/' } );
+                                                                Cookies.set( 'ezTOC_hidetoc-' + i, '1', { expires: 30, path: '/', sameSite: 'Strict' } );
                                                         else
-                                                                Cookies.set( 'ezTOC_hidetoc-' + i, null, { path: '/' } );
+                                                                Cookies.set( 'ezTOC_hidetoc-' + i, null, { path: '/', sameSite: 'Strict' } );
                                                 }
                                             }
 

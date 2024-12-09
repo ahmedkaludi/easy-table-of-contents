@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.69.1
+ * Version: 2.0.71
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -28,7 +28,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.69.1
+ * @version  2.0.71
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.69.1';
+		const VERSION = '2.0.71';
 
 		/**
 		 * Stores the instance of this class.
@@ -1062,6 +1062,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
                     $topMarginStickyContainer = '90px';
                 }
             }
+			
 			$stickyToggleAlignTop="8%";
 			$stickyToggleAlignChk = ezTOC_Option::get( 'sticky-toggle-alignment' ); 
 			if ( !empty($stickyToggleAlignChk) ) {
@@ -1083,9 +1084,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$stickyHeadTxtSize =18;
 		
 			$stickyAddlCss = apply_filters('ez_toc_sticky_pro_css', $stickyAddlCss );
-		
-            $inline_sticky_css = ".ez-toc-sticky-fixed{position: fixed;top: 0;left: 0;z-index: 999999;width: auto;max-width: 100%;} .ez-toc-sticky-fixed .ez-toc-sidebar {position: relative;top: auto;{$custom_width};box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);box-sizing: border-box;padding: 20px 30px;background: {$stickyBgColor};margin-left: 0 !important; {$custom_height} overflow-y: auto;overflow-x: hidden;} .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { padding: 0px;border: none;margin-bottom: 0;margin-top: {$topMarginStickyContainer};} #ez-toc-sticky-container a { color: #000;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {border-bottom-color: #EEEEEE;background-color: {$stickyHeadBgColor};padding:15px;border-bottom: 1px solid #e5e5e5;width: 100%;position: absolute;height: auto;top: 0;left: 0;z-index: 99999999;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title {font-weight: {$stickyHeadTxtWeight};font-size: {$stickyHeadTxtSize}px;color: {$stickyHeadTxtColor};} .ez-toc-sticky-fixed .ez-toc-close-icon {-webkit-appearance: none;padding: 0;cursor: pointer;background: 0 0;border: 0;float: right;font-size: 30px;font-weight: 600;line-height: 1;position: relative;color: {$stickyHeadTxtColor};top: -2px;text-decoration: none;} .ez-toc-open-icon {position: fixed;left: 0px;top:{$stickyToggleAlignTop};text-decoration: none;font-weight: bold;padding: 5px 10px 15px 10px;box-shadow: 1px -5px 10px 5px rgb(0 0 0 / 10%);background-color: {$stickyHeadBgColor};color:{$stickyHeadTxtColor};display: inline-grid;line-height: 1.4;border-radius: 0px 10px 10px 0px;z-index: 999999;} .ez-toc-sticky-fixed.hide {-webkit-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-ms-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-o-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);left: -100%;} .ez-toc-sticky-fixed.show {-webkit-transition: left 0.3s linear, left 0.3s easy-out;-moz-transition: left 0.3s linear;-o-transition: left 0.3s linear;transition: left 0.3s linear;left: 0;} .ez-toc-open-icon span.arrow { font-size: 18px; } .ez-toc-open-icon span.text {font-size: 13px;writing-mode: vertical-rl;text-orientation: mixed;} @media screen  and (max-device-width: 640px) {.ez-toc-sticky-fixed .ez-toc-sidebar {min-width: auto;} .ez-toc-sticky-fixed .ez-toc-sidebar.show { padding-top: 35px; } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { min-width: 100%; } }{$stickyAddlCss}";
 
+            $inline_sticky_css = ".ez-toc-sticky-fixed{position: fixed;top: 0;left: 0;z-index: 999999;width: auto;max-width: 100%;} .ez-toc-sticky-fixed .ez-toc-sidebar {position: relative;top: auto;{$custom_width};box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);box-sizing: border-box;padding: 20px 30px;background: {$stickyBgColor};margin-left: 0 !important; {$custom_height} overflow-y: auto;overflow-x: hidden;} .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { padding: 0px;border: none;margin-bottom: 0;margin-top: {$topMarginStickyContainer};} #ez-toc-sticky-container a { color: #000;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {border-bottom-color: #EEEEEE;background-color: {$stickyHeadBgColor};padding:15px;border-bottom: 1px solid #e5e5e5;width: 100%;position: absolute;height: auto;top: 0;left: 0;z-index: 99999999;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title {font-weight: {$stickyHeadTxtWeight};font-size: {$stickyHeadTxtSize}px;color: {$stickyHeadTxtColor};} .ez-toc-sticky-fixed .ez-toc-close-icon {-webkit-appearance: none;padding: 0;cursor: pointer;background: 0 0;border: 0;float: right;font-size: 30px;font-weight: 600;line-height: 1;position: relative;color: {$stickyHeadTxtColor};top: -2px;text-decoration: none;} .ez-toc-open-icon {position: fixed;left: 0px;top:{$stickyToggleAlignTop};text-decoration: none;font-weight: bold;padding: 5px 10px 15px 10px;box-shadow: 1px -5px 10px 5px rgb(0 0 0 / 10%);background-color: {$stickyHeadBgColor};color:{$stickyHeadTxtColor};display: inline-grid;line-height: 1.4;border-radius: 0px 10px 10px 0px;z-index: 999999;} .ez-toc-sticky-fixed.hide {-webkit-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-ms-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-o-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);left: -100%;} .ez-toc-sticky-fixed.show {-webkit-transition: left 0.3s linear, left 0.3s easy-out;-moz-transition: left 0.3s linear;-o-transition: left 0.3s linear;transition: left 0.3s linear;left: 0;} .ez-toc-open-icon span.arrow { font-size: 18px; } .ez-toc-open-icon span.text {font-size: 13px;writing-mode: vertical-rl;text-orientation: mixed;} @media screen  and (max-device-width: 640px) {.ez-toc-sticky-fixed .ez-toc-sidebar {min-width: auto;} .ez-toc-sticky-fixed .ez-toc-sidebar.show { padding-top: 35px; } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { min-width: 100%; } }{$stickyAddlCss}";
+			
 			if( 'right' == ezTOC_Option::get( 'sticky-toggle-position', 'left') ) {
 				$inline_sticky_css = ".ez-toc-sticky-fixed { position: fixed;top: 0;right: 0;z-index: 999999;width: auto;max-width: 100%;} .ez-toc-sticky-fixed .ez-toc-sidebar { position: relative;top: auto;width: auto !important;height: 100%;box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);box-sizing: border-box;padding: 20px 30px;background: {$stickyBgColor};margin-left: 0 !important;height: auto;overflow-y: auto;overflow-x: hidden; {$custom_height} } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { {$custom_width};padding: 0px;border: none;margin-bottom: 0;margin-top: {$topMarginStickyContainer};} #ez-toc-sticky-container a { color: #000; } .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {border-bottom-color: #EEEEEE;background-color: {$stickyHeadBgColor};padding:15px;border-bottom: 1px solid #e5e5e5;width: 100%;position: absolute;height: auto;top: 0;left: 0;z-index: 99999999;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title { font-weight: {$stickyHeadTxtWeight}; font-size: {$stickyHeadTxtSize}px; color: {$stickyHeadTxtColor}; } .ez-toc-sticky-fixed .ez-toc-close-icon{-webkit-appearance:none;padding:0;cursor:pointer;background:0 0;border:0;float:right;font-size:30px;font-weight:600;line-height:1;position:relative;color:{$stickyHeadTxtColor};top:-2px;text-decoration:none}.ez-toc-open-icon{position:fixed;right:0;top:{$stickyToggleAlignTop};text-decoration:none;font-weight:700;padding:5px 10px 15px;box-shadow:1px -5px 10px 5px rgb(0 0 0 / 10%);background-color:{$stickyHeadBgColor};color:{$stickyHeadTxtColor};display:inline-grid;line-height:1.4;border-radius:10px 0 0 10px;z-index:999999}.ez-toc-sticky-fixed.hide{-webkit-transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);-ms-transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);-o-transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);transition:opacity .3s linear,right .3s cubic-bezier(.4, 0, 1, 1);right:-100%}.ez-toc-sticky-fixed.show{-moz-transition:right .3s linear;-o-transition:right .3s linear;transition:right .3s linear;right:0}.ez-toc-open-icon span.arrow{font-size:18px}.ez-toc-open-icon span.text{font-size:13px;writing-mode:vertical-lr;text-orientation:mixed;-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);-ms-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg)}@media screen and (max-device-width:640px){.ez-toc-sticky-fixed .ez-toc-sidebar{min-width:auto}.ez-toc-sticky-fixed .ez-toc-sidebar.show{padding-top:35px}.ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container{min-width:100%}}{$stickyAddlCss}";
 			}
@@ -1406,9 +1407,38 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				self::inline_main_counting_css();		
 				$pid = (function_exists('get_queried_object_id') && class_exists('Storyhub'))?get_queried_object_id():get_the_ID();		
 
-				$post_id = isset( $atts['post_id'] ) ? (int) $atts['post_id'] : $pid;																					
+				$post_id = isset( $atts['post_id'] ) ? (int) $atts['post_id'] : $pid;
+				
+				$post_exclude = get_post_meta( $post_id, '_ez-toc-exclude', true );
+				$heading_levels = get_post_meta( $post_id, '_ez-toc-heading-levels', true );
+				
+				/* Update post meta if exclude and heading levels are set in shortcode temporarily
+				* so that  self::get( $post_id ); takes the values and then remove them after
+				* the post object is created.
+				*/
+
+				// Updating post meta for exclude and heading levels	
+
+				if ( isset ( $atts['exclude'] ) && $atts['exclude'] != '' ) {
+					update_post_meta( $post_id, '_ez-toc-exclude', $atts['exclude'] );	
+				}
+
+				if (isset($atts["heading_levels"]) && $atts["heading_levels"] != '') {
+					$headings = explode(',', $atts["heading_levels"]);
+					update_post_meta( $post_id, '_ez-toc-heading-levels', $headings );
+				}
 																				
 				$post = self::get( $post_id );
+
+				// setting original post meta for exclude and heading levels	
+				
+				if ( isset ( $atts['exclude'] ) && $atts['exclude'] != '' ) {
+					update_post_meta( $post_id, '_ez-toc-exclude', $post_exclude );		
+				}
+
+				if (isset($atts["heading_levels"]) && $atts["heading_levels"] != '') {
+					update_post_meta( $post_id, '_ez-toc-heading-levels', $heading_levels );
+				}
 
 				if ( ! $post instanceof ezTOC_Post ) {
 
@@ -1418,10 +1448,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}
 									
 				$options =  array();
+				if (isset($atts["label"])) {
+					$options['header_label'] = $atts["label"];
+				}
 				if (isset($atts["header_label"])) {
 					$options['header_label'] = $atts["header_label"];
 				}
 				if (isset($atts["display_header_label"]) && $atts["display_header_label"] == "no") {
+					$options['no_label'] = true;
+				}
+				if(isset($atts["no_label"]) && $atts["no_label"] == "true") {
 					$options['no_label'] = true;
 				}
 				if (isset($atts["toggle_view"]) && $atts["toggle_view"] == "no") {
@@ -1439,8 +1475,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if (isset($atts["view_more"]) && $atts["view_more"] > 0) {
 					$options['view_more'] = $atts["view_more"];
 				}
-				$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();			
+				if (isset($atts["class"]) && $atts["class"] != '') {
+					$options['class'] = $atts["class"];
+				}
 				
+				if(isset($atts["wrapping"]) && $atts["wrapping"] != ''){
+					$options['wrapping'] = $atts["wrapping"];
+				}
+				$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();	
+			
 				return apply_filters( 'eztoc_shortcode_final_toc_html', $html );
 		}
 
@@ -1818,21 +1861,24 @@ if ( ! class_exists( 'ezTOC' ) ) {
 							$isTOCOpen = ezTOC_Option::get( 'sticky-toggle-open' );
 							if($isTOCOpen){
 								$toggleClass="show";
-								$linkZindex="style='z-index:-1;'";
+								$linkZindex="z-index:-1;";
 							}
 						}
-						
+						if( !empty( ezTOC_Option::get( 'sticky-design' )) ) {
+							$toggleClass="show";
+						}
 
+					$designClass = apply_filters( 'eztoc_sticky_design_class', "" );
 					$arrowSide = ( 'right' == ezTOC_Option::get( 'sticky-toggle-position', 'left') )?"&#8592;":"&#8594;"; 
 					
 					$themeClass = 'ez-toc-sticky-'.ezTOC_Option::get( 'sticky_theme', 'grey' );
 										
 					?>
-					<div class="ez-toc-sticky">
+					<div class="ez-toc-sticky <?php echo esc_attr($designClass);?>">
 						<div class="ez-toc-sticky-fixed <?php echo esc_attr($toggleClass); ?> <?php echo esc_attr($themeClass); ?>">
 							<div class='ez-toc-sidebar'><?php echo $stickyToggleTOC; //phpcs:ignore  ?></div>
 						</div>
-						<a class='ez-toc-open-icon' href='#' onclick='ezTOC_showBar(event)' <?php echo esc_attr($linkZindex); ?>>
+						<a class='ez-toc-open-icon' href='#' onclick='ezTOC_showBar(event)' <?php echo $linkZindex ?"style='".esc_attr($linkZindex)."'":''; ?>>
 							<span class="arrow"><?php echo esc_html($arrowSide); ?></span>
 							<span class="text"><?php echo esc_html($openButtonText); ?></span>
 						</a>

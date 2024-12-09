@@ -685,3 +685,29 @@ function ez_toc_link_allow_br_tag( $tags ) {
     return $tags;
     
 }
+
+/**
+ * Truncate headings as per settings
+ * @since 2.0.71
+ * @param $heading
+ * @return string
+ */
+add_filter( 'ez_toc_title', function( $heading ) {
+    $truncate_headings = ezTOC_Option::get( 'truncate_headings' );
+    $truncate_headings_words = ezTOC_Option::get( 'truncate_headings_words' );
+    $truncate_headings_special = ezTOC_Option::get( 'truncate_headings_special' );
+    if ( $truncate_headings ) {
+        if ( $truncate_headings == 'words' && $truncate_headings_words ) {
+            $heading = wp_trim_words( $heading, intval($truncate_headings_words));
+        }else if ( $truncate_headings == 'special' && $truncate_headings_special ) {
+            if ( strpos( $heading, $truncate_headings_special ) !== false ) {
+                $parts = explode( $truncate_headings_special, $heading, 2 );
+                if ( isset( $parts[0] ) && strlen( $parts[0] ) > 0 ) {
+                    $heading = trim( $parts[0] );
+                }
+            }
+        } 
+        
+    }
+    return $heading;
+} );

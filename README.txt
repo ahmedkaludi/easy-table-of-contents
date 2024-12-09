@@ -3,9 +3,9 @@ Contributors: magazine3
 Donate link: https://tocwp.com/
 Tags: table of contents, toc
 Requires at least: 5.0
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 5.6.20
-Stable tag: 2.0.70
+Stable tag: 2.0.71
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,9 @@ Below are the attibutes we support and could be useful in configuring the table 
 [post_not_in="1,2"] – ID's of the posts|pages seperated by ,(comma)
 [device_target="desktop"] – mobile or desktop device support for the table of contents
 [view_more="5"] – 5, is the number of headings loads on first view, before user interaction (PRO)
+[class="custom_toc"] – add your own class to the TOC
+[exclude="Test"] – exclude heading from TOC which contain text "Test"
+[heading_levels="2,3"] - Show only heading h2 and h3 
 
 ### Support
 
@@ -131,6 +134,21 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+
+= 2.0.71 09/12/2024 =
+* New: Support for more attributes in shortcode #828
+* New: Automatically short the title in ETOC #830
+* New: Floating layout for Sticky ETOC #844
+* Bug: cookie "ezTOC_hidetoc-0" does not have an appropriate "SameSite" attribute value #822
+* Bug: TOC Short code causing 500 error on Uncode theme #831
+* Bug: The Sticky Toc title does not shift to the right in the option Heading Text Direction selected as Right to Left is selected #833
+* Bug: 'Header Label' Option Not Updating in post individually #837
+* Fix: Issue with "TOC open on load" option in Sticky TOC feature. #815
+* Fix: TOC conflict with Avada Builder plugin and Custom Child Theme #775
+* Fix: Undefined Array Key 'navigation_scroll_bar' in class-eztoc-widgetsticky.php #842
+* Fix: Error in Google search console when enabling Create by Mediavine #841
+* Fix: Compatibility with Customize Post Categories for WPBakery Page Builder plugin & Publisher Theme #843
+* Compatibility: Tested with Wordpress 6.7 #836
 
 = 2.0.70 17/10/2024 =
 * New: One click migration for Table of Contents plus plugin #826
@@ -249,17 +267,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * Bug: Target device functionality is not working in sticky toc #664
 * Bug: PHP Warning in TOC Plugin: Undefined Array Key 'desc' in class.options.php (Line 1776) #665
 * Bug: Sticky TOC on Password-Protected Pages Before Entry #667
-
-= 2.0.60 05/12/2023 =
-* New: Alignment of TOC to the center on selected posts/pages #314
-* New: An option to show the TOC content after the first image #336
-* New: An option where users can show or hide the TOC on mobile devices and desktops. #362
-* New: A feature to change a header label for specific post or page. #472
-* New: An option to exclude/include heading via shortcode #566
-* New: An option to load js in footer or header #586
-* New: Add shortcode attribute to Hide/show counters in toc #649
-* Bug: A sticky toggle appears on the Author pages and it contains the headings of the latest post published by them. #640
-* Bug: Heading are not working if the plugin Molongui Authorship is activated ad if the heading contains "..." in it #642
 
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)

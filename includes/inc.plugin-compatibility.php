@@ -2,6 +2,7 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use function Easy_Plugins\Table_Of_Contents\Cord\mb_find_replace;
 /**
  * Filter to add plugins to the TOC list.
  *
@@ -227,6 +228,13 @@ add_action(
 				10,
 				1
 			);
+			add_filter(
+				'ez_toc_apply_filter_status_manually',
+				'__return_false' ,
+				10,
+				1
+			);
+
 		}
 	},
 	11
@@ -930,11 +938,45 @@ if(function_exists('wp_get_theme')){
  * @since 2.0.57
  */
 add_filter('eztoc_modify_the_content','eztoc_mediavine_trellis_content_improver');
-function eztoc_mediavine_trellis_content_improver($content){
-	if(class_exists('Mediavine\Trellis\Custom_Content') && ezTOC_Option::get('mediavine-create') == 1 ){
-		$content = mb_convert_encoding( html_entity_decode($content), 'HTML-ENTITIES', 'UTF-8' );
-	}
-	return $content;
+function eztoc_mediavine_trellis_content_improver($content) {
+    if (class_exists('Mediavine\Trellis\Custom_Content') && ezTOC_Option::get('mediavine-create') == 1) {
+        $pattern = '/<script type="application\/ld\+json">(.*?)<\/script>/s';
+        preg_match_all($pattern, $content, $matches);
+        $jsonLdContents = $matches[1];
+        $content = preg_replace_callback($pattern, function ($match) {
+            static $index = 0;
+            return '<!-- JSON-LD-PLACEHOLDER-' . $index++ . ' -->';
+        }, $content);
+
+        $content = mb_convert_encoding(html_entity_decode($content), 'HTML-ENTITIES', 'UTF-8');
+        
+        if (!empty($jsonLdContents)) {
+            foreach ($jsonLdContents as $index => $jsoncontent) {
+                // Decode JSON content to an array
+                $decodedJson = json_decode($jsoncontent, true);
+
+                // Check if decoding was successful
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    // Apply htmlspecialchars to name and description if they exist
+                    if (isset($decodedJson['name'])) {
+                        $decodedJson['name'] = htmlspecialchars($decodedJson['name'], ENT_QUOTES | ENT_HTML5);
+                    }
+                    if (isset($decodedJson['description'])) {
+                        $decodedJson['description'] = htmlspecialchars($decodedJson['description'], ENT_QUOTES | ENT_HTML5);
+                    }
+
+                    // Re-encode the JSON content
+                    $jsoncontent = json_encode($decodedJson, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                }
+
+                // Replace the placeholder with the modified script tag
+                $placeholder = '<!-- JSON-LD-PLACEHOLDER-' . $index . ' -->';
+                $scriptTag = '<script type="application/ld+json">' . $jsoncontent . '</script>';
+                $content = str_replace($placeholder, $scriptTag, $content);
+            }
+        }
+    }
+    return $content;
 }
 
 //Perfmatters Compatibility
@@ -1106,3 +1148,196 @@ function eztoc_woo_category_toc_fix($allowed_tags) {
     return $allowed_tags;
 }
 add_filter('wp_kses_allowed_html', 'eztoc_woo_category_toc_fix', 10, 2);
+
+/*
+*Compatibility for Customize Post Categories for WPBakery Page Builder plugin 
+*@see https://github.com/ahmedkaludi/easy-table-of-contents/issues/843
+*/
+
+/**
+ * Custom post categories for  Customize Post Categories for WPBakery Page Builder plugin
+ * @param string $content
+ * @return string
+ */
+add_filter('ez_toc_modify_process_page_content', 'ez_toc_post_categories_for_wpbakery_page_builder', 10, 1);
+
+function ez_toc_post_categories_for_wpbakery_page_builder($content) {
+    if (function_exists('Vc_Manager')  && function_exists('POST_CATEGORY_WPBAKERY_PAGE_BUILDER\\plugin_init') && is_category( ) ) {
+        global $wpdb;
+        $template_id =  ez_toc_wpbakery_get_template_id();
+		if($template_id){
+			$content = get_post_field('post_content', $template_id);
+		}
+    }
+    return $content;
+}
+
+/**
+ * Start buffer for Customize Post Categories for WPBakery Page Builder plugin
+ */
+add_action('template_redirect', 'ez_toc_start_buffer_for_wpbakery_category');
+function ez_toc_start_buffer_for_wpbakery_category() {
+	if (function_exists('Vc_Manager')  && is_category() && function_exists('POST_CATEGORY_WPBAKERY_PAGE_BUILDER\\plugin_init')) {
+        ob_start('ez_toc_modify_wpbakery_category_template');
+    }
+}
+
+
+
+/**
+ * Modify the category template for WPBakery Page Builder with Post Categories plugin
+ * @param string $buffer
+ * @return string
+ */
+function ez_toc_modify_wpbakery_category_template($buffer) {
+	$template_id =ez_toc_wpbakery_get_template_id();
+	if($template_id){
+		$post = ezTOC::get( $template_id );
+		if($post){
+			$find    = $post->getHeadings();
+			$replace = $post->getHeadingsWithAnchors();
+			if (  !empty( $find ) && !empty( $replace ) && !empty( $buffer ) ){
+				return mb_find_replace($find, $replace, $buffer);
+			}
+		}  
+	}
+
+    return $buffer;
+}
+
+/**
+ * Get template id for Customize Post Categories for WPBakery Page Builder plugin
+ * @return mixed
+ */
+function ez_toc_wpbakery_get_template_id(){
+	
+	global $wpdb;
+	$template_id = false ;
+	$category_id = get_queried_object_id();
+	 $template_id = get_term_meta($category_id, 'mst_post_cat_template', true);
+	 if( $template_id && $template_id != 'active'){
+		 return $template_id;
+	}else{
+		$template_id = $wpdb->get_var( $wpdb->prepare("
+			SELECT p.ID 
+			FROM {$wpdb->posts} p
+			INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
+			WHERE p.post_type = %s
+			  AND p.post_status = %s
+			  AND pm.meta_key = %s
+			  AND pm.meta_value = %s
+			LIMIT 1
+			",
+			'category_wpb', 
+			'publish',
+			'mst_active',
+			'1'
+		));
+
+	}
+
+	return $template_id;
+}
+
+/**
+ * Add js backup fix for Customize Post Categories for WPBakery Page Builder plugin
+ */
+add_action('wp_footer', 'ez_toc_js_to_footer_for_wpbakery_category');
+function ez_toc_js_to_footer_for_wpbakery_category() {
+    $js_fallback_fix = false;
+
+    if (function_exists('Vc_Manager') && is_category() && function_exists('POST_CATEGORY_WPBAKERY_PAGE_BUILDER\\plugin_init')) {
+        $template_id = ez_toc_wpbakery_get_template_id();
+        if ($template_id) {
+            $post = ezTOC::get($template_id);
+            if ($post) {
+                $find = $post->getHeadings();
+                $replace = $post->getHeadingsWithAnchors();
+                if (!empty($find) && !empty($replace)) {
+                    $js_fallback_fix = '
+                        document.addEventListener("DOMContentLoaded", function () {
+                            function eztocfindAndReplaceContent(findArray, replaceArray) {
+                                if (!Array.isArray(findArray) || !Array.isArray(replaceArray) || findArray.length !== replaceArray.length) {
+                                    console.error("The find and replace arrays must be of the same length.");
+                                    return;
+                                }
+
+                                let bodyContent = document.body.innerHTML;
+                                findArray.forEach((findText, index) => {
+                                    const replaceText = replaceArray[index];
+                                    const regex = new RegExp(findText, "g");
+                                    bodyContent = bodyContent.replace(regex, replaceText);
+                                });
+
+                                document.body.innerHTML = bodyContent;
+                            }
+
+                            const findArray = ' . wp_json_encode($find) . ';
+                            const replaceArray = ' . wp_json_encode($replace) . ';
+                            eztocfindAndReplaceContent(findArray, replaceArray);
+                        });
+                    ';
+                }
+            }
+        }
+    } elseif (class_exists('Publisher') && is_singular()) {
+        $post = ezTOC::get(get_the_ID());
+        if ($post) {
+            $find = $post->getHeadings();
+            $replace = $post->getHeadingsWithAnchors();
+            if (!empty($find)) {
+				$js_fallback_fix = '
+				document.addEventListener("DOMContentLoaded", function () {
+
+					function eztocExtractHeadingTexts(inputArray) {
+					return inputArray.map((input) => {
+					if (input.length <= 6) {
+						return "";
+					}
+					return input.substring(1, input.length - 5);
+					});
+				}
+				function eztocStripTags(input) {
+					return input.replace(/<[^>]*>.*?<\/[^>]*>/gis, \'\');
+				}
+
+					const findArray = eztocExtractHeadingTexts(' . wp_json_encode($find) . ');
+					const replaceArray = eztocExtractHeadingTexts(' . wp_json_encode($replace) . ');
+					const elements = document.querySelectorAll(\'h1:not(:has(span.ez-toc-section)), h2:not(:has(span.ez-toc-section)), h3:not(:has(span.ez-toc-section)), h4:not(:has(span.ez-toc-section)), h5:not(:has(span.ez-toc-section)), h6:not(:has(span.ez-toc-section))\');
+					if(elements.length){
+						elements.forEach(function(item, index){
+							let heading_inner =  item.innerHTML;
+							let heading_txt =  eztocStripTags(heading_inner);
+							const find_index = findArray.indexOf(heading_txt.trim());
+							if (find_index !== -1){
+								heading_inner = heading_inner.replace(findArray[find_index],replaceArray[find_index]);
+								item.innerHTML = heading_inner;
+							}
+						});
+					}
+
+				});
+';
+            }
+        }
+    }
+
+    if ($js_fallback_fix) {
+        ?>
+        <script id="eztoc-wpbakery-link-fix-fallback">
+            <?php echo $js_fallback_fix; //phpcs:ignore - Already escaped above ?>
+        </script>
+        <?php
+    }
+}
+
+/**
+ * Compatibility for the theme "Cheap Energy 24"
+ */
+add_filter( 'ez_toc_apply_filter_status_manually', function( $default ) {
+    
+    if ( apply_filters( 'current_theme', get_option( 'current_theme' ) ) == "cheapenergy24" && function_exists('fusion_builder_activate') ) {
+        return true;
+    }
+    return $default;
+} );

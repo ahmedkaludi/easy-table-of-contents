@@ -856,6 +856,37 @@ text
 							'default' => 'No heading found',
 							'class'=>'js_v'
 						),
+						'truncate_headings' => array(
+							'id' => 'truncate_headings',
+							'name' => esc_html__( 'Shorten Heading', 'easy-table-of-contents' ),
+							'type' => 'select',
+							'options' => array(
+								'' => esc_html__( 'Disabled (default)', 'easy-table-of-contents' ),
+								'words' => esc_html__( 'By words', 'easy-table-of-contents' ),
+								'special' => esc_html__( 'By special character', 'easy-table-of-contents' ),
+								 
+							),
+							'default' => '',
+						),
+						'truncate_headings_words' => array(
+							'id' => 'truncate_headings_words',
+							'name' => esc_html__( 'Words', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . esc_html__( 'This will show text from begining upto the given number of words', 'easy-table-of-contents' ),
+							'type' => 'text',
+							'default' => '5',
+							'size'=>'medium',
+							'class'=>'eztoc_thw'
+						),
+						'truncate_headings_special' => array(
+							'id' => 'truncate_headings_special',
+							'name' => esc_html__( 'Special Character', 'easy-table-of-contents' ),
+							'desc' => '<br/>' . esc_html__( 'This will show text from begining upto the given special character', 'easy-table-of-contents' ),
+							'type' => 'text',
+							'default' => ':',
+							'size'=>'medium',
+							'class'=>'eztoc_thw'
+
+						),
 					)
 				),
                 'shortcode' => apply_filters(
@@ -929,7 +960,7 @@ text
                             'id'   => 'shortcode-second-paragraph',
                             'name' => esc_html__( 'Supported Attributes', 'easy-table-of-contents' ),
                             'desc' => sprintf(
-                            			wp_kses_post( '<p><code>[header_label="Title"]</code> – title for the table of contents</p><p><code>[display_header_label="no"]</code> – no title for the table of contents</p><p><code>[toggle_view="no"]</code> – no toggle for the table of contents</p><p><code>[initial_view="hide"]</code> – initially hide the table of contents</p><p><code>[initial_view="show"]</code> – initially show the table of contents</p><p><code>[display_counter="no"]</code> – no counter for the table of contents</p><p><code>[post_types="post,page"]</code> – post types seperated by ,(comma)</p><p><code>[post_in="1,2"]</code> – ID’s of the posts|pages seperated by ,(comma)</p><p><code>[device_target="desktop"]</code> – mobile or desktop device support for the table of contents</p><p><code>[view_more="5"]</code> – 5, is the number of headings loads on first view, before user interaction (PRO)</p>', 'easy-table-of-contents' )
+                            			wp_kses_post( '<p><code>[header_label="Title"]</code> – title for the table of contents</p><p><code>[display_header_label="no"]</code> – no title for the table of contents</p><p><code>[toggle_view="no"]</code> – no toggle for the table of contents</p><p><code>[initial_view="hide"]</code> – initially hide the table of contents</p><p><code>[initial_view="show"]</code> – initially show the table of contents</p><p><code>[display_counter="no"]</code> – no counter for the table of contents</p><p><code>[post_types="post,page"]</code> – post types seperated by ,(comma)</p><p><code>[post_in="1,2"]</code> – ID’s of the posts|pages seperated by ,(comma)</p><p><code>[device_target="desktop"]</code> – mobile or desktop device support for the table of contents</p><p><code>[view_more="5"]</code> – 5, is the number of headings loads on first view, before user interaction (PRO)</p><p><code>[class="custom_toc"]</code> – add your own class to the TOC</p><p><code>[exclude="Test"]</code> – exclude heading from TOC which contain text "Test"</p><p><code>[heading_levels="2,3"]</code> - Show only heading h2 and h3 </p>', 'easy-table-of-contents' )
                             		),
                             'type' => 'descriptive_text',
                         ),

@@ -1373,6 +1373,7 @@ class ezTOC_Post {
 		$class = array( 'ez-toc-v' . str_replace( '.', '_', ezTOC::VERSION ) );
 		$html  = '';
 
+
 		if ( $this->hasTOCItems() ) {
 			$wrapping_class_add = "";
 			if(ezTOC_Option::get( 'toc_wrapping' )){
@@ -1384,6 +1385,9 @@ class ezTOC_Post {
 			if ( !$toc_align || empty( $toc_align ) || $toc_align == 'none' ) {
 				$toc_align = ezTOC_Option::get( 'wrapping' );
 			}
+			if( isset( $options['wrapping'] ) ){
+				$toc_align = $options['wrapping'];
+			}	
 
 			// wrapping css classes
 			switch ( $toc_align ) {
@@ -1401,6 +1405,12 @@ class ezTOC_Post {
 				case 'none':					
 				default:
 					// do nothing
+			}
+
+			if( isset($options['class']) && !empty($options['class']) )
+			{
+				$class_from_attr = explode(' ', $options['class']);
+				$class = array_merge($class, $class_from_attr);
 			}
 
 	        $show_counter = (isset($options['no_counter']) && $options['no_counter'] == true ) ? false : true;
@@ -1934,6 +1944,11 @@ class ezTOC_Post {
 					
 		if(isset($options['header_label'])){
 			$toc_title = $options['header_label'];
+		}
+		// Allow the TOC Title to be overridden on a per-post basis if set.
+		$post_heading_label = get_post_meta( get_the_ID(), '_ez-toc-header-label', true );
+		if ( !empty( $post_heading_label ) ) {
+			$toc_title = $post_heading_label;
 		}
 
 		$tag_classes = 'ez-toc-title';

@@ -255,7 +255,8 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                         $js_vars[ 'fixed_top_position' ] = $instance[ 'fixed_top_position' ];
 
                     $js_vars[ 'fixed_top_position_size_unit' ] = $instance[ 'fixed_top_position_size_unit' ];
-                    $js_vars[ 'navigation_scroll_bar' ] = $instance[ 'navigation_scroll_bar' ];
+
+                    $js_vars[ 'navigation_scroll_bar' ] = isset( $instance[ 'navigation_scroll_bar' ]) ? $instance[ 'navigation_scroll_bar' ] : 'on';
 
                     if ( empty ( $instance[ 'scroll_max_height' ] ) || ( ! empty ( $instance[ 'scroll_max_height' ] ) && ! is_int ( $instance[ 'scroll_max_height' ] ) && 'auto' != $instance[ 'scroll_max_height' ] ) )
                         $js_vars[ 'scroll_max_height' ] = 'auto';
