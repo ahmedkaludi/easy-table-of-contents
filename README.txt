@@ -268,17 +268,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * Bug: PHP Warning in TOC Plugin: Undefined Array Key 'desc' in class.options.php (Line 1776) #665
 * Bug: Sticky TOC on Password-Protected Pages Before Entry #667
 
-= 2.0.60 05/12/2023 =
-* New: Alignment of TOC to the center on selected posts/pages #314
-* New: An option to show the TOC content after the first image #336
-* New: An option where users can show or hide the TOC on mobile devices and desktops. #362
-* New: A feature to change a header label for specific post or page. #472
-* New: An option to exclude/include heading via shortcode #566
-* New: An option to load js in footer or header #586
-* New: Add shortcode attribute to Hide/show counters in toc #649
-* Bug: A sticky toggle appears on the Author pages and it contains the headings of the latest post published by them. #640
-* Bug: Heading are not working if the plugin Molongui Authorship is activated ad if the heading contains "..." in it #642
-
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)
 
