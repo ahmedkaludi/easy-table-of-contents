@@ -1330,3 +1330,14 @@ function ez_toc_js_to_footer_for_wpbakery_category() {
         <?php
     }
 }
+
+/**
+ * Compatibility for the theme "Cheap Energy 24"
+ */
+add_filter( 'ez_toc_apply_filter_status_manually', function( $default ) {
+    
+    if ( apply_filters( 'current_theme', get_option( 'current_theme' ) ) == "cheapenergy24" && function_exists('fusion_builder_activate') ) {
+        return true;
+    }
+    return $default;
+} );
