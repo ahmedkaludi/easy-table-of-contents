@@ -1942,15 +1942,16 @@ class ezTOC_Post {
 			$toc_title = str_replace( '%PAGE_NAME%', get_the_title(), $toc_title );
 		}
 					
-		if(isset($options['header_label'])){
-			$toc_title = $options['header_label'];
-		}
 		// Allow the TOC Title to be overridden on a per-post basis if set.
 		$post_heading_label = get_post_meta( get_the_ID(), '_ez-toc-header-label', true );
 		if ( !empty( $post_heading_label ) ) {
 			$toc_title = $post_heading_label;
 		}
 
+		if(isset($options['header_label'])){
+			$toc_title = $options['header_label'];
+		}
+		
 		$tag_classes = 'ez-toc-title';
 		$header_text_toggle_style = 'cursor:inherit';
 		$tag_html = '';
