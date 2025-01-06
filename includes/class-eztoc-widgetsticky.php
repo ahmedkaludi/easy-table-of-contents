@@ -11,7 +11,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
      */
     class ezTOC_WidgetSticky extends WP_Widget
     {
-
+        private $allowed_tags = ['h2', 'h3', 'h4', 'h5', 'h6','span','div','p'];
         /**
          * Setup and register the table of contents widget.
          *
@@ -342,7 +342,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                  */
                 if ( 0 < strlen ( $title ) )
                 {
-                    if( isset($instance[ 'heading_label_tag' ]) && $instance[ 'heading_label_tag' ] != 'default' ){
+                    if( isset($instance[ 'heading_label_tag' ]) && $instance[ 'heading_label_tag' ] != 'default' && in_array($instance[ 'heading_label_tag' ], $this->allowed_tags) ){
                         echo '<'.esc_attr($instance[ 'heading_label_tag' ]).' class="widget-title">';
                     }else{
                         echo $before_title;  //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
@@ -425,7 +425,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                     </span>
 
                     <?php 
-                        if( isset($instance[ 'heading_label_tag' ]) && $instance[ 'heading_label_tag' ] != 'default' ){
+                        if( isset($instance[ 'heading_label_tag' ]) && $instance[ 'heading_label_tag' ] != 'default' && in_array($instance[ 'heading_label_tag' ], $this->allowed_tags) ){
                             echo '</'.esc_attr($instance[ 'heading_label_tag' ]).'>';
                         }else{
                             echo $after_title;  //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
