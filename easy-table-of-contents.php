@@ -181,6 +181,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
 				add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
 				add_action( 'wp_footer', array(__CLASS__, 'sticky_toggle_content' ) );
+				add_filter( 'wpseo_schema_graph', array( __CLASS__, 'ez_toc_schema_sitenav_yoast_compat'), 10, 1 );
 
 			}
 		}
@@ -356,10 +357,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		public static function ez_toc_schema_sitenav_creator() {
 
 			global $eztoc_disable_the_content;
-
-			if ( ezTOC_Option::get( 'schema_sitenav_checkbox' ) == true ){
-
-				if ( self::is_enqueue_scripts_eligible() || self::is_enqueue_scripts_sticky_eligible() ) {
+			if ( ezTOC_Option::get( 'schema_sitenav_checkbox' ) == true  &&  ! ezTOC_Option::get( 'schema_sitenav_yoast_compat' , false ) ) {
+				if ( ( self::is_enqueue_scripts_eligible() || self::is_enqueue_scripts_sticky_eligible() ) ) {
 
 					$eztoc_disable_the_content = true;
 
@@ -402,6 +401,79 @@ if ( ! class_exists( 'ezTOC' ) ) {
 										
 			}			
 		}
+
+		public static function ez_toc_schema_sitenav_yoast_compat( $graph ) {
+		
+			// Check if the TOC schema is enabled in your plugin options.
+			if ( ! ezTOC_Option::get( 'schema_sitenav_checkbox' ) || ! ezTOC_Option::get( 'schema_sitenav_yoast_compat', false ) ) {
+				return $graph;
+			}
+			if ( ( !self::is_enqueue_scripts_eligible() && !self::is_enqueue_scripts_sticky_eligible() ) ) {
+				return $graph;
+			}
+
+			// Get the TOC for the current post.
+			$post = ezTOC::get( get_the_ID() );
+			if ( ! $post ) {
+				return $graph;
+			}
+
+			$items = $post->getTocTitleId();
+			if ( empty( $items ) ) {
+				return $graph;
+			}
+
+			  foreach ( $graph as &$piece ) {
+				if ( isset( $piece['@type'] ) ) {
+					
+						$position = 1;
+					 // Create the top-level TOC as a SiteNavigationElement
+					 $top_level_navigation = [
+						'@type' => 'SiteNavigationElement',
+						'name'  => 'Table of Contents',
+						'url'   => get_permalink() . '#ez-toc',
+						'position' => $position,
+						'hasPart' => []
+					];
+					// Add TOC items as child elements (nested if necessary)
+					foreach ( $items as $item ) {
+						$position++;
+						// Check if this item has nested sub-items (e.g., subsections)
+						if ( isset( $item['subitems'] ) && ! empty( $item['subitems'] ) ) {
+							$top_level_navigation['hasPart'][] = [
+								'@type' => 'SiteNavigationElement',
+								'name'  => wp_strip_all_tags( $item['title'] ),
+								'url'   => get_permalink() . '#' . $item['id'],
+								'position' => $position,
+								'hasPart' => array_map( function( $sub_item ) use ( &$position ) {
+									return [
+										'@type' => 'SiteNavigationElement',
+										'name'  => wp_strip_all_tags( $sub_item['title'] ),
+										'url'   => get_permalink() . '#' . $sub_item['id'],
+										'position' => $position, 
+									];
+								}, $item['subitems'] )
+							];
+						} else {
+							// If no sub-items, just add the main TOC item
+							$top_level_navigation['hasPart'][] = [
+								'@type' => 'SiteNavigationElement',
+								'name'  => wp_strip_all_tags( $item['title'] ),
+								'url'   => get_permalink() . '#' . $item['id'],
+								'position' => $position, 
+							];
+						}
+					}
+	
+					// Add the full navigation structure to the WebPage schema
+					$piece['hasPart'][] = $top_level_navigation;
+					break;
+				}
+			}
+
+			return $graph;
+		}
+
 		
 		/**
 		 * Call back for the `wp_enqueue_scripts` action.

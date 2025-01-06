@@ -719,4 +719,16 @@ jQuery(function($) {
         eztoc_truncate_headings();
     });
     eztoc_truncate_headings();
+
+    function eztoc_schema_sitenav_yoast_compat() {
+        if(jQuery("input[name='ez-toc-settings[schema_sitenav_checkbox]']").prop('checked') == true) {
+            jQuery("input[name='ez-toc-settings[schema_sitenav_yoast_compat]']").parents('tr').show(200);
+        } else {
+            jQuery("input[name='ez-toc-settings[schema_sitenav_yoast_compat]']").parents('tr').hide(200);
+        }
+    }
+    jQuery(document).on("click", "input[name='ez-toc-settings[schema_sitenav_checkbox]']", function() {
+        eztoc_schema_sitenav_yoast_compat();
+    });
+    eztoc_schema_sitenav_yoast_compat();
     

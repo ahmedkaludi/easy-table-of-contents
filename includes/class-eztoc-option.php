@@ -728,6 +728,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'schema_sitenav_yoast_compat' => array(
+							'id' => 'schema_sitenav_yoast_compat',
+							'name' => esc_html__( 'Merge with Yoast Schema', 'easy-table-of-contents' ),
+							'desc' => esc_html__( 'Merge SiteNavigation Schema with Yoast Schema', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'smooth_scroll_offset' => array(
 							'id' => 'smooth_scroll_offset',
 							'name' => esc_html__( 'Smooth Scroll Offset', 'easy-table-of-contents' ),

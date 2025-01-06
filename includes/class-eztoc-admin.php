@@ -933,6 +933,9 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 				'show_toc_in_widget_only'            => false,
 				'show_toc_in_widget_only_post_types' => [ 'page' ],
 				'rest_toc_output'                    => false,
+				'schema_sitenav_checkbox'			 => false,
+				'eztoc_schema_sitenav_yoast_compat'  => false,
+
 			];
 			
 			$options       = get_option( 'toc-options', false );
