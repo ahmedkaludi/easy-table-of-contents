@@ -1835,7 +1835,7 @@ class ezTOC_Post {
 
 		if(ezTOC_Option::get( 'disable_toc_links' ,false ) ){
 			return sprintf(
-				'<a class=" ez-toc-heading-' . $count . '" role="text" title="%1$s">%2$s</a>',
+				'<a class=" ez-toc-heading-' . $count . '" role="button" title="%1$s">%2$s</a>',
 				esc_attr( wp_strip_all_tags( $title ) ),
 				$title
 			);
