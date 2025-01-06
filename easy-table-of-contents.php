@@ -1640,7 +1640,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if ( function_exists( 'post_password_required' ) ) {
 				if ( post_password_required() ) return Debug::log()->appendTo( $content );
 			}
-			
+			if( ezTOC_Option::get( 'disable_toc_links' ,false ) ){
+				return Debug::log()->appendTo( $content );
+			}
 			$maybeApplyFilter = self::maybe_apply_the_content_filter();													
 			$content = apply_filters( 'eztoc_modify_the_content', $content );
 								

@@ -894,6 +894,13 @@ text
 							'class'=>'eztoc_thw'
 
 						),
+						'disable_toc_links' => array(
+							'id' => 'disable_toc_links',
+							'name' => esc_html__( 'Remove TOC links', 'easy-table-of-contents' ),
+							'desc' => esc_html__( 'This will remove anchor link present in TOC heading', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 					)
 				),
                 'shortcode' => apply_filters(
