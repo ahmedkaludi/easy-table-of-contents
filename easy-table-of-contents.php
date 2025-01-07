@@ -182,6 +182,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
 				add_action( 'wp_footer', array(__CLASS__, 'sticky_toggle_content' ) );
 				add_filter( 'wpseo_schema_graph', array( __CLASS__, 'ez_toc_schema_sitenav_yoast_compat'), 10, 1 );
+				add_filter( 'get_the_archive_description', array( __CLASS__, 'toc_get_the_archive_description' ), 10,1);
 
 			}
 		}
@@ -2133,6 +2134,23 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 		return mb_find_replace( $find, $replace, $content );
 		
+		}
+
+		/**
+		 * Add TOC in product category description when using Kadence theme
+		 * @param mixed $description
+		 * @return mixed
+		 */
+		public static function toc_get_the_archive_description( $description ) {
+			$current_theme = wp_get_theme();
+			if (  ( $current_theme->get( 'Name' ) === 'Kadence' || $current_theme->get( 'Template' ) === 'kadence' ) && function_exists('is_product_category') && is_product_category() ) {
+				if( true == ezTOC_Option::get( 'include_product_category', false) ) {
+					if(!is_admin() && !empty($description)){
+						return self::the_content($description);
+					}
+				}
+			}
+			return $description;
 		}
 
 
