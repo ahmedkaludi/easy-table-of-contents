@@ -647,20 +647,50 @@ jQuery(function($) {
         let $generalSettings = $('#eztoc-general');
         let visibility = $generalSettings.find("input[name='ez-toc-settings[visibility]']");
         let visibilityHideByDefault = $generalSettings.find("input[name='ez-toc-settings[visibility_hide_by_default]']");
-    
+        let visibilityHideByDevice = $generalSettings.find("input[name='ez-toc-settings[visibility_hide_by_device][mobile]']");
+        let visibilityHideByDeviceD = $generalSettings.find("input[name='ez-toc-settings[visibility_hide_by_device][desktop]']");
         function toggleVisibility() {
             if (visibility.prop('checked')) {
                 visibilityHideByDefault.parents('tr').show(500);
+                if (visibilityHideByDefault.prop('checked')) {
+                    visibilityHideByDevice.parents('tr').show(500);
+                }
+                if ( ! visibilityHideByDevice.prop('checked') && ! visibilityHideByDeviceD.prop('checked')) {
+                    visibilityHideByDeviceD.prop('checked',true);
+                    visibilityHideByDevice.prop('checked',true);
+
+                }
+
             } else {
                 visibilityHideByDefault.parents('tr').hide(500);
+                visibilityHideByDevice.parents('tr').hide(500);
+            }
+        }
+
+        function toggleVisibilityDevice() {
+            if (visibilityHideByDefault.prop('checked')) {
+                visibilityHideByDevice.parents('tr').show(500);
+            } else {
+                visibilityHideByDevice.parents('tr').hide(500);
+            }
+        }
+
+        function checkforDeviceVisibilty(){
+            if ( ! visibilityHideByDevice.prop('checked') && ! visibilityHideByDeviceD.prop('checked')) {
+                visibilityHideByDefault.prop('checked',false);
+                visibilityHideByDevice.parents('tr').hide(500);
             }
         }
     
         // Initial check on page load
         toggleVisibility();
+        toggleVisibilityDevice();
     
         // Event listener for changes
         $(document).on('change click', "input[name='ez-toc-settings[visibility]']", toggleVisibility);
+        $(document).on('change click', "input[name='ez-toc-settings[visibility_hide_by_default]']", toggleVisibilityDevice);
+        $(document).on('change click', "input[name='ez-toc-settings[visibility_hide_by_device][mobile]']", checkforDeviceVisibilty);
+        $(document).on('change click', "input[name='ez-toc-settings[visibility_hide_by_device][desktop]']", checkforDeviceVisibilty);
     });
 
     /* Admin Initial View js ends here */

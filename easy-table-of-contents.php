@@ -626,6 +626,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$js_vars['visibility_hide_by_default'] = false;
 				}
 
+				if(isset($js_vars['visibility_hide_by_default']) && $js_vars['visibility_hide_by_default'] == true){
+					$visibility_hide_by_device = ezTOC_Option::get( 'visibility_hide_by_device' ,['mobile','desktop']);
+						if( function_exists('wp_is_mobile') &&  wp_is_mobile() ){
+							$visiblity = (in_array('mobile', $visibility_hide_by_device)) ? "1" : "0";
+						}else{
+							$visiblity = (in_array('desktop', $visibility_hide_by_device)) ? "1" : "0";
+						}		
+					$js_vars['visibility_hide_by_device'] =$visiblity;
+
+				}
 				/** 
 				 * If Chamomile theme is active then remove hamburger div from content
 				 * @since 2.0.53

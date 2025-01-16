@@ -207,6 +207,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			$exclude       = get_post_meta( $post->ID, '_ez-toc-exclude', true );
 			$altText       = get_post_meta( $post->ID, '_ez-toc-alttext', true );
 			$initial_view  = get_post_meta( $post->ID, '_ez-toc-visibility_hide_by_default', true );
+			$initial_view_device  = get_post_meta( $post->ID, '_ez-toc-visibility_hide_by_device', true );
 			$hide_counter  = get_post_meta( $post->ID, '_ez-toc-hide_counter', true );
 
 			$position  = get_post_meta( $post->ID, '_ez-toc-position-specific', true );			

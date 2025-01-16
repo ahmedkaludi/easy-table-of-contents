@@ -1286,6 +1286,10 @@ class ezTOC_Post {
 			
 			$html = $this->createTOCParent($prefix, $toc_more);
 			$visiblityClass = '';
+			$visibilty_by_device = ezTOC_Option::get( 'visibility_hide_by_device' , ['mobile', 'desktop']);
+			if(get_post_meta( $this->post->ID, '_ez-toc-visibility_hide_by_device', true )){
+				$visibilty_by_device =  get_post_meta( $this->post->ID, '_ez-toc-visibility_hide_by_device', true );
+			}
 			if( ezTOC_Option::get( 'visibility_hide_by_default' ) && 'js' == ezTOC_Option::get( 'toc_loading' ) &&  ezTOC_Option::get( 'visibility' ))
 			{
 				$visiblityClass = "eztoc-toggle-hide-by-default";
@@ -1301,6 +1305,15 @@ class ezTOC_Post {
 			}elseif(is_array($options) && key_exists( 'visibility_hide_by_default', $options ) && $options['visibility_hide_by_default'] == false){
 				$visiblityClass = "";
 			}
+
+			if("eztoc-toggle-hide-by-default" == $visiblityClass){
+				if( function_exists('wp_is_mobile') &&  wp_is_mobile() ){
+					$visiblityClass = (in_array('mobile', $visibilty_by_device)) ? "eztoc-toggle-hide-by-default" : "";
+				}else{
+					$visiblityClass = (in_array('desktop', $visibilty_by_device)) ? "eztoc-toggle-hide-by-default" : "";
+				}
+			}
+			
 			$html  = apply_filters('ez_toc_add_custom_links',$html);
 			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1 $visiblityClass' >" . $html . "</ul>";
 		}
