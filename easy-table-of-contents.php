@@ -2188,6 +2188,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 }
 
 register_activation_hook(__FILE__, 'ez_toc_activate');
-function ez_toc_activate() {
-    add_option('ez_toc_do_activation_redirect', true);
+function ez_toc_activate($network_wide) {
+	if ( !( is_multisite() && $network_wide ) ) {
+    	add_option('ez_toc_do_activation_redirect', true);
+	}
 }
