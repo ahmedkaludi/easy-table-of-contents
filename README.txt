@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.7
 Requires PHP: 5.6.20
-Stable tag: 2.0.71
+Stable tag: 2.0.72
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -135,6 +135,19 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.72 27/01/2025 =
+* New: Expand/Collapse Option for Device Target in TOC for Improved Usability #824
+* New: Easy TOC Integration with Yoast SEO Schema #821
+* New: Generate TOC without Links #796
+* Bug: Conflict issue with customization settings #840
+* Bug: Headings issue with the Kadence Child theme in the product category. #820
+* Bug: 'Header Label‘ Option Not Updating in CATEGORY, TAG individually #852
+* Bug: The Read Time option's label field is not visible #853
+* Fix: Customisation of widget title tag  #855
+* Bug: On multisite, When plugin activated, It goes to not found page #802
+* Fix: Need an option for Translating the 'Toggle Table of Content' aria-label' #860
+* Compatibility: We need to make compatibility with YOOtheme. #856
+
 = 2.0.71 09/12/2024 =
 * New: Support for more attributes in shortcode #828
 * New: Automatically short the title in ETOC #830
@@ -248,25 +261,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * Bug: Conflict issue with device target feature #678
 * Bug: YASR schema markup got disappeared when enabling plugin #679
 * Bug: Add compatibility with Current Year, Symbols and IP Shortcode plugin #681
-
-= 2.0.61 13/12/2023 =
-* New: checkbox selection should work on label clicks #473
-* New: Should be able to change the sticky toggle header label for each post individually #625
-* New: TOC plugin is not working with AJAX #634
-* New: Need to add a feature to customize the View More/Less label #637
-* New: To make the Sticky Toggle heading highlight while scrolling through the content #647
-* New: The option font size is only working for the Sticky Toggle title Label but not for the headings #661
-* New: Meta field to turn off sticky individually on post/pages. #666
-* Bug: Put documents links #510
-* Bug: Recent TOC Update 2.0.56.1 Causing W3C Validation Error #611
-* Bug: The size of headings not increasing individually as per setting. #623
-* Bug: Checklist #658
-* Bug: The option "Width" is not getting saved for the option Sticky Toggle. #660
-* Bug: The feature "Fixed TOC" is not working #662
-* Bug: The H4, H5, and H6 headings are not changing the font size if customized in the Settings #663
-* Bug: Target device functionality is not working in sticky toc #664
-* Bug: PHP Warning in TOC Plugin: Undefined Array Key 'desc' in class.options.php (Line 1776) #665
-* Bug: Sticky TOC on Password-Protected Pages Before Entry #667
 
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)

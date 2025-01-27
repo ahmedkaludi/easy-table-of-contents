@@ -1,5 +1,18 @@
 == Changelog ==
 
+= 2.0.72 27/01/2025 =
+* New: Expand/Collapse Option for Device Target in TOC for Improved Usability #824
+* New: Easy TOC Integration with Yoast SEO Schema #821
+* New: Generate TOC without Links #796
+* Bug: Conflict issue with customization settings #840
+* Bug: Headings issue with the Kadence Child theme in the product category. #820
+* Bug: 'Header Label‘ Option Not Updating in CATEGORY, TAG individually #852
+* Bug: The Read Time option's label field is not visible #853
+* Fix: Customisation of widget title tag  #855
+* Bug: On multisite, When plugin activated, It goes to not found page #802
+* Fix: Need an option for Translating the 'Toggle Table of Content' aria-label' #860
+* Compatibility: We need to make compatibility with YOOtheme. #856
+
 = 2.0.71 09/12/2024 =
 * New: Support for more attributes in shortcode #828
 * New: Automatically short the title in ETOC #830

@@ -317,7 +317,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 						),
 						'visibility_hide_by_device' => array(
 							'id' => 'visibility_hide_by_device',
-							'name' => esc_html__( 'Collapse TOC on ', 'easy-table-of-contents' ),
+							'name' => esc_html__( 'Initial View on Device', 'easy-table-of-contents' ),
 							'type' => 'inlinecheckboxes',
 							'options' => array('mobile'=>'Mobile','desktop'=>'Desktop'),
 							'default' => array('mobile','desktop'),
