@@ -1353,11 +1353,11 @@ class ezTOC_Post {
 			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
 					$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
 					$htmlSticky .= $this->get_toc_title_tag(  'sticky' );
-					$htmlSticky .= '<a class="ez-toc-close-icon" href="#" onclick="ezTOC_hideBar(event)" aria-label="×"><span aria-hidden="true">×</span></a>' . PHP_EOL;
+					$htmlSticky .= '<a class="ez-toc-close-icon" href="#" onclick="ezTOC_hideBar(event)" aria-label="'.esc_attr__('×','easy-table-of-contents').'"><span aria-hidden="true">×</span></a>' . PHP_EOL;
 					$htmlSticky .= '</div>' . PHP_EOL;
 			} else {
 				$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
-				$htmlSticky .= '<a class="ez-toc-close-icon" href="#" onclick="ezTOC_hideBar(event)" aria-label="Close"><span aria-hidden="true">×</span></a>' . PHP_EOL;
+				$htmlSticky .= '<a class="ez-toc-close-icon" href="#" onclick="ezTOC_hideBar(event)" aria-label="'.esc_attr__('Close','easy-table-of-contents').'"><span aria-hidden="true">×</span></a>' . PHP_EOL;
 				$htmlSticky .= '</div>' . PHP_EOL;
 			}
 			$htmlSticky  .= '<div id="ez-toc-sticky-container" class="ez-toc-sticky-container ' . implode( ' ', $classSticky ) . '">' . PHP_EOL;
@@ -1565,7 +1565,7 @@ class ezTOC_Post {
 				$icon = apply_filters('ez_toc_modify_icon',$icon);
 				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html, $read_time);
 		}							   
-		$html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Toggle Table of Content"><span class="ez-toc-js-icon-con">'.$icon.'</span></a>';
+		$html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="'.esc_attr__('Toggle Table of Content','easy-table-of-contents').'"><span class="ez-toc-js-icon-con">'.$icon.'</span></a>';
 		 
 	}
 			$html .= '</span>';
@@ -1633,9 +1633,9 @@ class ezTOC_Post {
 				$html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-cssicon-toggle-label">' .$header_label. $toc_icon . '</label>'.$label_below_html.'<input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' />';
 			}else{
 				if(function_exists('ez_toc_pro_inline_css_func')){
-					$html .= '<div class="ez-toc-cssicon-toggle-label">'.$header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '">' . $toc_icon . '</label></div>'.$label_below_html.'<input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' aria-label="Toggle" />';
+					$html .= '<div class="ez-toc-cssicon-toggle-label">'.$header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '">' . $toc_icon . '</label></div>'.$label_below_html.'<input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' aria-label="'.esc_attr__('Toggle','easy-table-of-contents').'" />';
 				}else{
-					$html .= $header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-cssicon-toggle-label">' . $toc_icon . '</label>'.$label_below_html.'<input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' aria-label="Toggle" />';
+					$html .= $header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-cssicon-toggle-label">' . $toc_icon . '</label>'.$label_below_html.'<input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' aria-label="'.esc_attr__('Toggle','easy-table-of-contents').'" />';
 				}
 				
 				

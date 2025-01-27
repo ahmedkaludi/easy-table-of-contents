@@ -392,7 +392,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                                 if ( ( ! empty($instance[ 'show_toggle' ] ) && $instance[ 'show_toggle' ] == 'true' ) || ( empty( $instance[ 'show_toggle' ] ) && ezTOC_Option::get ( 'visibility' ) ) )
                                 {
 
-                                    echo '<a href="#" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle" aria-label="Widget Easy TOC toggle icon"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::get_toc_toggle_icon () . '</a>'; //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped.
+                                    echo '<a href="#" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle" aria-label="'.esc_attr__('Widget Easy TOC toggle icon','easy-table-of-contents').'"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::get_toc_toggle_icon () . '</a>'; //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped.
                                 }
                                 ?>
 
