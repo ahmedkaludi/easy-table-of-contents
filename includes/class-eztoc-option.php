@@ -315,6 +315,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'visibility_hide_by_device' => array(
+							'id' => 'visibility_hide_by_device',
+							'name' => esc_html__( 'Initial View on Device', 'easy-table-of-contents' ),
+							'type' => 'inlinecheckboxes',
+							'options' => array('mobile'=>'Mobile','desktop'=>'Desktop'),
+							'default' => array('mobile','desktop'),
+						),
 						'show_hierarchy' => array(
 							'id' => 'show_hierarchy',
 							'name' => esc_html__( 'Show as Hierarchy', 'easy-table-of-contents' ),
@@ -728,6 +735,13 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'schema_sitenav_yoast_compat' => array(
+							'id' => 'schema_sitenav_yoast_compat',
+							'name' => esc_html__( 'Merge with Yoast Schema', 'easy-table-of-contents' ),
+							'desc' => esc_html__( 'Merge SiteNavigation Schema with Yoast Schema', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'smooth_scroll_offset' => array(
 							'id' => 'smooth_scroll_offset',
 							'name' => esc_html__( 'Smooth Scroll Offset', 'easy-table-of-contents' ),
@@ -886,6 +900,13 @@ text
 							'size'=>'medium',
 							'class'=>'eztoc_thw'
 
+						),
+						'disable_toc_links' => array(
+							'id' => 'disable_toc_links',
+							'name' => esc_html__( 'Remove TOC links', 'easy-table-of-contents' ),
+							'desc' => esc_html__( 'This will remove anchor link present in TOC heading', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
 						),
 					)
 				),
@@ -1381,6 +1402,7 @@ text
 				'avoid_anch_jump'                    => false,
 				'remove_special_chars_from_title'    => false,
 				'visibility_hide_by_default'         => false,
+				'visibility_hide_by_device '         => array('mobile','desktop'),
 				'width'                              => 'auto',
 				'width_custom'                       => 275,
 				'width_custom_units'                 => 'px',
@@ -1855,6 +1877,46 @@ text
 				<?php } 
 			}
 		}
+
+		/**
+ * Inline Checkbox Callback
+ *
+ * Renders inline checkboxes with specific values (e.g., "mobile" and "desktop").
+ *
+ * @access public
+ * @since  1.0
+ * @static
+ *
+ * @param array $args Arguments passed by the setting.
+ * @param null  $value Current value of the setting.
+ */
+public static function inlinecheckboxes( $args, $value = null ) {
+
+    if ( is_null( $value ) ) {
+        $value = self::get( $args['id'], $args['default'] );
+    }
+
+    if ( ! empty( $args['options'] ) ) {
+        foreach ( $args['options'] as $key => $option ): ?>
+            <label for="ez-toc-settings[<?php echo esc_attr( $args['id'] ); ?>][<?php echo esc_attr( $key ); ?>]" style="margin-right: 15px;">
+                <input name="ez-toc-settings[<?php echo esc_attr( $args['id'] ); ?>][<?php echo esc_attr( $key); ?>]"
+                    id="ez-toc-settings[<?php echo esc_attr( $args['id'] ); ?>][<?php echo esc_attr( $key ); ?>]"
+                    type="checkbox"
+                    value="<?php echo esc_attr( $key ); ?>"
+                    <?php echo checked( in_array( $key, (array) $value, true ), true, false ); ?>
+                />
+                <?php echo esc_html( $option ); ?>
+            </label>
+        <?php endforeach;
+
+        if ( isset( $args['desc'] ) && strlen( $args['desc'] ) > 0 ) { ?>
+            <p class="description">
+                <?php echo wp_kses_post( $args['desc'] ); ?>
+            </p>
+        <?php }
+    }
+}
+
 
 		/**
 		 * Radio Callback

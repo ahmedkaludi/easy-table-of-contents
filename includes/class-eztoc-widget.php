@@ -9,6 +9,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 	 */
 	class ezTOC_Widget extends WP_Widget {
 
+		private $allowed_tags = ['h2', 'h3', 'h4', 'h5', 'h6','span','div','p'];
 		/**
 		 * Setup and register the table of contents widget.
 		 *
@@ -240,8 +241,12 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 
 					?>
 
-					<?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
-					echo $before_title; ?>
+					<?php 
+					if( isset($instance[ 'heading_label_tag' ]) && $instance[ 'heading_label_tag' ] != 'default' && in_array($instance[ 'heading_label_tag' ], $this->allowed_tags)){
+                        echo '<'.esc_attr($instance[ 'heading_label_tag' ]).' class="widget-title">';
+                    }else{
+                        echo $before_title;  //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
+                    } ?>
                                         <span class="ez-toc-title-container">
                                         <style>
                                     		#<?php echo esc_attr($this->id) ?> .ez-toc-title{
@@ -283,7 +288,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 													echo $header_label;
                                                     if ( ezTOC_Option::get( 'visibility' ) ) {
 
-														echo '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="Widget Easy TOC toggle icon"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::get_toc_toggle_icon() . '</a>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
+														echo '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="'.esc_attr__('Widget Easy TOC toggle icon','easy-table-of-contents').'"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::get_toc_toggle_icon() . '</a>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
                                                     }
                                                     ?>
 
@@ -315,8 +320,12 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
                                             </span>
                                         </span>
 
-					<?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
-					echo $after_title; ?>
+					<?php
+					if( isset($instance[ 'heading_label_tag' ]) && $instance[ 'heading_label_tag' ] != 'default' && in_array($instance[ 'heading_label_tag' ], $this->allowed_tags) ){
+						echo '</'.esc_attr($instance[ 'heading_label_tag' ]).'>';
+					}else{
+						echo $after_title;  //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
+					} ?>
                                         <?php if ( 'css' == ezTOC_Option::get( 'toc_loading' ) ): ?>
                                             <label for="ez-toc-cssicon-toggle-item-count-<?php $cssIconID ?>" class="cssiconcheckbox">1</label><input type="checkbox" id="ez-toc-cssicon-toggle-item-<?php $cssIconID ?>" <?php $toggle_view?> style="display:none" />
                                         <?php endif; ?>
@@ -377,6 +386,8 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 			$instance[ 'sidebar_text_color' ] = wp_strip_all_tags ( $new_instance[ 'sidebar_text_color' ] );
 
 			$instance[ 'eztoc_appearance' ] = 'on';
+
+			$instance['heading_label_tag'] = wp_strip_all_tags( $new_instance['heading_label_tag'] );
 			
 			}else{
 
@@ -397,6 +408,8 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 			$instance[ 'sidebar_text_color' ] = '#000';
 
 			$instance[ 'eztoc_appearance' ] = '';
+
+			$instance['heading_label_tag'] = 'default';
 
             }
 
@@ -430,6 +443,9 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				'sidebar_text_size_unit' => '%',
 				'sidebar_text_weight' => '400',
 				'sidebar_text_color' => '#000',
+				'hide_inline' => '0',
+				'heading_label_tag' => 'default',
+
 			);
 
 			$instance = wp_parse_args( (array) $instance, $defaults );
@@ -526,6 +542,24 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
     	            	<label for="<?php echo esc_attr($this->get_field_id('highlight_color')); ?>" style="margin-right: 12px;"><?php esc_html_e( 'Active Section Highlight Color:', 'easy-table-of-contents' ); ?></label><br>
     	            	<input type="text" name="<?php echo esc_attr($this->get_field_name('highlight_color')); ?>" class="color-picker" id="<?php echo esc_attr($this->get_field_id('highlight_color')); ?>" value="<?php echo esc_attr($highlight_color); ?>" data-default-color="<?php echo esc_attr($defaults['highlight_color']); ?>" />
     	            </p>
+
+					<div class="ez-toc-widget-form-group">
+                        <label for="<?php echo esc_attr($this -> get_field_id ( 'heading_label_tag' )); ?>"><?php esc_html_e ( 'Heading Label Tag', 'easy-table-of-contents' ); ?>:</label>
+
+                        <select id="<?php echo esc_attr($this -> get_field_id ( 'heading_label_tag' )); ?>" name="<?php echo esc_attr($this -> get_field_name ( 'heading_label_tag' )); ?>" style=" width: 100px; ">
+                        <option value="default" <?php echo ( '800' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?>><?php esc_html_e ( 'Default', 'easy-table-of-contents' ); ?></option>
+                            <option value="h2" <?php echo ( 'h2' == $instance[ 'heading_label_tag' ] ) ? 'selected' : ''; ?>><?php esc_html_e ( 'h2', 'easy-table-of-contents' ); ?></option>
+                            <option value="h3" <?php echo ( 'h3' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?> ><?php esc_html_e ( 'h3', 'easy-table-of-contents' ); ?></option>
+                            <option value="h4" <?php echo ( 'h4' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?>><?php esc_html_e ( 'h4', 'easy-table-of-contents' ); ?></option>
+                            <option value="h5" <?php echo ( 'h5' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?>><?php esc_html_e ( 'h5', 'easy-table-of-contents' ); ?></option>
+                            <option value="h6" <?php echo ( 'h6' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?>><?php esc_html_e ( 'h6', 'easy-table-of-contents' ); ?></option>
+                            <option value="p" <?php echo ( 'p' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?>><?php esc_html_e ( 'p', 'easy-table-of-contents' ); ?></option>
+                            <option value="span" <?php echo ( 'span' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?>><?php esc_html_e ( 'span', 'easy-table-of-contents' ); ?></option>
+                            <option value="div" <?php echo ( 'div' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?>><?php esc_html_e ( 'div', 'easy-table-of-contents' ); ?></option>
+                            
+                        </select>
+                    </div>
+
 
 			    </div>
 

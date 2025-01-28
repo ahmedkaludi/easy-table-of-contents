@@ -11,7 +11,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
      */
     class ezTOC_WidgetSticky extends WP_Widget
     {
-
+        private $allowed_tags = ['h2', 'h3', 'h4', 'h5', 'h6','span','div','p'];
         /**
          * Setup and register the table of contents widget.
          *
@@ -197,6 +197,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 $js_vars[ 'navigation_scroll_bar' ] = 'on';
                 $js_vars[ 'scroll_max_height' ] = 'auto';
                 $js_vars[ 'scroll_max_height_size_unit' ] = 'none';
+                $js_vars[ 'heading_label_tag' ] = 'default';
 
                 if ( (isset($instance[ 'appearance_options' ]) && 'on' == $instance[ 'appearance_options' ] ) || 'on' == $instance[ 'advanced_options' ] || $js_vars[ 'scroll_fixed_position' ] != $instance[ 'scroll_fixed_position' ] ||
                         $js_vars[ 'scroll_fixed_position' ] != $instance[ 'scroll_fixed_position' ] ||
@@ -210,7 +211,8 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                         $js_vars[ 'fixed_top_position_size_unit' ] != $instance[ 'fixed_top_position_size_unit' ] ||
                         $js_vars[ 'navigation_scroll_bar' ] != $instance[ 'navigation_scroll_bar' ] ||
                         $js_vars[ 'scroll_max_height' ] != $instance[ 'scroll_max_height' ] ||
-                        $js_vars[ 'scroll_max_height_size_unit' ] != $instance[ 'scroll_max_height_size_unit' ]
+                        $js_vars[ 'scroll_max_height_size_unit' ] != $instance[ 'scroll_max_height_size_unit' ] ||
+                        $js_vars[ 'heading_label_tag' ] != $instance[ 'heading_label_tag' ]
                 )
                 {
                     $js_vars[ 'appearance_options' ] = isset($instance[ 'appearance_options' ]) ? $instance[ 'appearance_options' ] : '';
@@ -264,6 +266,11 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                         $js_vars[ 'scroll_max_height' ] = $instance[ 'scroll_max_height' ];
 
                     $js_vars[ 'scroll_max_height_size_unit' ] = $instance[ 'scroll_max_height_size_unit' ];
+
+                    if ( empty ( $instance[ 'heading_label_tag' ] ) || ( ! empty ( $instance[ 'heading_label_tag' ] ) ) )
+                        $js_vars[ 'heading_label_tag' ] = $instance[ 'heading_label_tag' ];
+                    else
+                        $js_vars[ 'heading_label_tag' ] = 'default';
                 }
 
                 $class = array(
@@ -335,8 +342,12 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                  */
                 if ( 0 < strlen ( $title ) )
                 {
-                    //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
-                    echo $before_title; ?>
+                    if( isset($instance[ 'heading_label_tag' ]) && $instance[ 'heading_label_tag' ] != 'default' && in_array($instance[ 'heading_label_tag' ], $this->allowed_tags) ){
+                        echo '<'.esc_attr($instance[ 'heading_label_tag' ]).' class="widget-title">';
+                    }else{
+                        echo $before_title;  //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
+                    }
+                    ?>
 
                     <?php if(isset($instance[ 'sidebar_sticky_title_size' ]) && isset($instance[ 'sidebar_sticky_title_size_unit' ])){
                             $title_font_size = $instance[ 'sidebar_sticky_title_size' ].$instance[ 'sidebar_sticky_title_size_unit' ];
@@ -381,7 +392,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                                 if ( ( ! empty($instance[ 'show_toggle' ] ) && $instance[ 'show_toggle' ] == 'true' ) || ( empty( $instance[ 'show_toggle' ] ) && ezTOC_Option::get ( 'visibility' ) ) )
                                 {
 
-                                    echo '<a href="#" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle" aria-label="Widget Easy TOC toggle icon"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::get_toc_toggle_icon () . '</a>'; //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped.
+                                    echo '<a href="#" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle" aria-label="'.esc_attr__('Widget Easy TOC toggle icon','easy-table-of-contents').'"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::get_toc_toggle_icon () . '</a>'; //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped.
                                 }
                                 ?>
 
@@ -414,8 +425,11 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                     </span>
 
                     <?php 
-                        //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
-                        echo $after_title; ?>
+                        if( isset($instance[ 'heading_label_tag' ]) && $instance[ 'heading_label_tag' ] != 'default' && in_array($instance[ 'heading_label_tag' ], $this->allowed_tags) ){
+                            echo '</'.esc_attr($instance[ 'heading_label_tag' ]).'>';
+                        }else{
+                            echo $after_title;  //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
+                        }?>
                     <?php if ( 'css' == ezTOC_Option::get ( 'toc_loading' ) ): ?>
                         <label for="ez-toc-widget-sticky-cssicon-toggle-item-count-<?php echo esc_attr($cssIconID) ?>" class="cssiconcheckbox">1</label><input type="checkbox" id="ez-toc-widget-sticky-cssicon-toggle-item-<?php echo esc_attr($cssIconID) ?>" <?php esc_attr($toggle_view) ?> style="display:none" />
                     <?php endif; ?>
@@ -482,6 +496,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 $instance[ 'sidebar_sticky_size_unit' ] = wp_strip_all_tags ( $new_instance[ 'sidebar_sticky_size_unit' ] );
                 $instance[ 'sidebar_sticky_weight' ] = wp_strip_all_tags ( $new_instance[ 'sidebar_sticky_weight' ] );
                 $instance[ 'sidebar_sticky_color' ] = wp_strip_all_tags ( $new_instance[ 'sidebar_sticky_color' ] );
+                $instance[ 'heading_label_tag' ] = wp_strip_all_tags ( $new_instance[ 'heading_label_tag' ] );
             } else
             {
                 $instance[ 'appearance_options' ] = '';
@@ -493,6 +508,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 $instance[ 'sidebar_sticky_size_unit' ] = '%';
                 $instance[ 'sidebar_sticky_weight' ] = '400';
                 $instance[ 'sidebar_sticky_color' ] = 'inherit';
+                $instance[ 'heading_label_tag' ] = 'default';
             }
 
             if ( isset ( $new_instance[ 'advanced_options' ] ) && $new_instance[ 'advanced_options' ] == 'on' )
@@ -558,6 +574,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 'navigation_scroll_bar' => 'on',
                 'scroll_max_height' => 'auto',
                 'scroll_max_height_size_unit' => 'none',
+                'heading_label_tag' => 'default',
                 
             );
 
@@ -647,6 +664,23 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                         <label for="<?php echo esc_attr($this -> get_field_id ( 'highlight_color' )); ?>" style="margin-right: 12px;"><?php esc_html_e ( 'Active Section Highlight Color:', 'easy-table-of-contents' ); ?></label><br>
                         <input type="text" name="<?php echo esc_attr($this -> get_field_name ( 'highlight_color' )); ?>" class="color-picker" id="<?php echo esc_attr($this -> get_field_id ( 'highlight_color' )); ?>" value="<?php echo esc_attr($highlight_color); ?>" data-default-color="<?php echo esc_attr($defaults[ 'highlight_color' ]); ?>" />
                     </p>
+
+                    <div class="ez-toc-widget-form-group">
+                        <label for="<?php echo esc_attr($this -> get_field_id ( 'heading_label_tag' )); ?>"><?php esc_html_e ( 'Heading Label Tag', 'easy-table-of-contents' ); ?>:</label>
+
+                        <select id="<?php echo esc_attr($this -> get_field_id ( 'heading_label_tag' )); ?>" name="<?php echo esc_attr($this -> get_field_name ( 'heading_label_tag' )); ?>" style=" width: 100px; ">
+                        <option value="default" <?php echo ( '800' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?>><?php esc_html_e ( 'Default', 'easy-table-of-contents' ); ?></option>
+                            <option value="h2" <?php echo ( 'h2' == $instance[ 'heading_label_tag' ] ) ? 'selected' : ''; ?>><?php esc_html_e ( 'h2', 'easy-table-of-contents' ); ?></option>
+                            <option value="h3" <?php echo ( 'h3' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?> ><?php esc_html_e ( 'h3', 'easy-table-of-contents' ); ?></option>
+                            <option value="h4" <?php echo ( 'h4' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?>><?php esc_html_e ( 'h4', 'easy-table-of-contents' ); ?></option>
+                            <option value="h5" <?php echo ( 'h5' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?>><?php esc_html_e ( 'h5', 'easy-table-of-contents' ); ?></option>
+                            <option value="h6" <?php echo ( 'h6' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?>><?php esc_html_e ( 'h6', 'easy-table-of-contents' ); ?></option>
+                            <option value="p" <?php echo ( 'p' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?>><?php esc_html_e ( 'p', 'easy-table-of-contents' ); ?></option>
+                            <option value="span" <?php echo ( 'span' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?>><?php esc_html_e ( 'span', 'easy-table-of-contents' ); ?></option>
+                            <option value="div" <?php echo ( 'div' == $instance[ 'heading_label_tag' ] ) ? 'selected=' : ''; ?>><?php esc_html_e ( 'div', 'easy-table-of-contents' ); ?></option>
+                            
+                        </select>
+                    </div>
                 </div>
             </div>
 

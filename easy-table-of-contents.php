@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.71
+ * Version: 2.0.72
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -28,7 +28,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.71
+ * @version  2.0.72
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.71';
+		const VERSION = '2.0.72';
 
 		/**
 		 * Stores the instance of this class.
@@ -181,6 +181,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
 				add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
 				add_action( 'wp_footer', array(__CLASS__, 'sticky_toggle_content' ) );
+				add_filter( 'wpseo_schema_graph', array( __CLASS__, 'ez_toc_schema_sitenav_yoast_compat'), 10, 1 );
+				add_filter( 'get_the_archive_description', array( __CLASS__, 'toc_get_the_archive_description' ), 10,1);
 
 			}
 		}
@@ -356,10 +358,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		public static function ez_toc_schema_sitenav_creator() {
 
 			global $eztoc_disable_the_content;
-
-			if ( ezTOC_Option::get( 'schema_sitenav_checkbox' ) == true ){
-
-				if ( self::is_enqueue_scripts_eligible() || self::is_enqueue_scripts_sticky_eligible() ) {
+			if ( ezTOC_Option::get( 'schema_sitenav_checkbox' ) == true  &&  ! ezTOC_Option::get( 'schema_sitenav_yoast_compat' , false ) ) {
+				if ( ( self::is_enqueue_scripts_eligible() || self::is_enqueue_scripts_sticky_eligible() ) ) {
 
 					$eztoc_disable_the_content = true;
 
@@ -402,6 +402,79 @@ if ( ! class_exists( 'ezTOC' ) ) {
 										
 			}			
 		}
+
+		public static function ez_toc_schema_sitenav_yoast_compat( $graph ) {
+		
+			// Check if the TOC schema is enabled in your plugin options.
+			if ( ! ezTOC_Option::get( 'schema_sitenav_checkbox' ) || ! ezTOC_Option::get( 'schema_sitenav_yoast_compat', false ) ) {
+				return $graph;
+			}
+			if ( ( !self::is_enqueue_scripts_eligible() && !self::is_enqueue_scripts_sticky_eligible() ) ) {
+				return $graph;
+			}
+
+			// Get the TOC for the current post.
+			$post = ezTOC::get( get_the_ID() );
+			if ( ! $post ) {
+				return $graph;
+			}
+
+			$items = $post->getTocTitleId();
+			if ( empty( $items ) ) {
+				return $graph;
+			}
+
+			  foreach ( $graph as &$piece ) {
+				if ( isset( $piece['@type'] ) ) {
+					
+						$position = 1;
+					 // Create the top-level TOC as a SiteNavigationElement
+					 $top_level_navigation = [
+						'@type' => 'SiteNavigationElement',
+						'name'  => 'Table of Contents',
+						'url'   => get_permalink() . '#ez-toc',
+						'position' => $position,
+						'hasPart' => []
+					];
+					// Add TOC items as child elements (nested if necessary)
+					foreach ( $items as $item ) {
+						$position++;
+						// Check if this item has nested sub-items (e.g., subsections)
+						if ( isset( $item['subitems'] ) && ! empty( $item['subitems'] ) ) {
+							$top_level_navigation['hasPart'][] = [
+								'@type' => 'SiteNavigationElement',
+								'name'  => wp_strip_all_tags( $item['title'] ),
+								'url'   => get_permalink() . '#' . $item['id'],
+								'position' => $position,
+								'hasPart' => array_map( function( $sub_item ) use ( &$position ) {
+									return [
+										'@type' => 'SiteNavigationElement',
+										'name'  => wp_strip_all_tags( $sub_item['title'] ),
+										'url'   => get_permalink() . '#' . $sub_item['id'],
+										'position' => $position, 
+									];
+								}, $item['subitems'] )
+							];
+						} else {
+							// If no sub-items, just add the main TOC item
+							$top_level_navigation['hasPart'][] = [
+								'@type' => 'SiteNavigationElement',
+								'name'  => wp_strip_all_tags( $item['title'] ),
+								'url'   => get_permalink() . '#' . $item['id'],
+								'position' => $position, 
+							];
+						}
+					}
+	
+					// Add the full navigation structure to the WebPage schema
+					$piece['hasPart'][] = $top_level_navigation;
+					break;
+				}
+			}
+
+			return $graph;
+		}
+
 		
 		/**
 		 * Call back for the `wp_enqueue_scripts` action.
@@ -553,6 +626,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$js_vars['visibility_hide_by_default'] = false;
 				}
 
+				if(isset($js_vars['visibility_hide_by_default']) && $js_vars['visibility_hide_by_default'] == true){
+					$visibility_hide_by_device = ezTOC_Option::get( 'visibility_hide_by_device' ,['mobile','desktop']);
+						if( function_exists('wp_is_mobile') &&  wp_is_mobile() ){
+							$visiblity = (in_array('mobile', $visibility_hide_by_device)) ? "1" : "0";
+						}else{
+							$visiblity = (in_array('desktop', $visibility_hide_by_device)) ? "1" : "0";
+						}		
+					$js_vars['visibility_hide_by_device'] =$visiblity;
+
+				}
 				/** 
 				 * If Chamomile theme is active then remove hamburger div from content
 				 * @since 2.0.53
@@ -1568,7 +1651,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if ( function_exists( 'post_password_required' ) ) {
 				if ( post_password_required() ) return Debug::log()->appendTo( $content );
 			}
-			
+			if( ezTOC_Option::get( 'disable_toc_links' ,false ) ){
+				return Debug::log()->appendTo( $content );
+			}
 			$maybeApplyFilter = self::maybe_apply_the_content_filter();													
 			$content = apply_filters( 'eztoc_modify_the_content', $content );
 								
@@ -2061,6 +2146,23 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		
 		}
 
+		/**
+		 * Add TOC in product category description when using Kadence theme
+		 * @param mixed $description
+		 * @return mixed
+		 */
+		public static function toc_get_the_archive_description( $description ) {
+			$current_theme = wp_get_theme();
+			if (  ( $current_theme->get( 'Name' ) === 'Kadence' || $current_theme->get( 'Template' ) === 'kadence' ) && function_exists('is_product_category') && is_product_category() ) {
+				if( true == ezTOC_Option::get( 'include_product_category', false) ) {
+					if(!is_admin() && !empty($description)){
+						return self::the_content($description);
+					}
+				}
+			}
+			return $description;
+		}
+
 
 	}
 
@@ -2086,6 +2188,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 }
 
 register_activation_hook(__FILE__, 'ez_toc_activate');
-function ez_toc_activate() {
-    add_option('ez_toc_do_activation_redirect', true);
+function ez_toc_activate($network_wide) {
+	if ( !( is_multisite() && $network_wide ) ) {
+    	add_option('ez_toc_do_activation_redirect', true);
+	}
 }

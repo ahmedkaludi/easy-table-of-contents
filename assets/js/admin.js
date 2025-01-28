@@ -647,20 +647,50 @@ jQuery(function($) {
         let $generalSettings = $('#eztoc-general');
         let visibility = $generalSettings.find("input[name='ez-toc-settings[visibility]']");
         let visibilityHideByDefault = $generalSettings.find("input[name='ez-toc-settings[visibility_hide_by_default]']");
-    
+        let visibilityHideByDevice = $generalSettings.find("input[name='ez-toc-settings[visibility_hide_by_device][mobile]']");
+        let visibilityHideByDeviceD = $generalSettings.find("input[name='ez-toc-settings[visibility_hide_by_device][desktop]']");
         function toggleVisibility() {
             if (visibility.prop('checked')) {
                 visibilityHideByDefault.parents('tr').show(500);
+                if (visibilityHideByDefault.prop('checked')) {
+                    visibilityHideByDevice.parents('tr').show(500);
+                }
+                if ( ! visibilityHideByDevice.prop('checked') && ! visibilityHideByDeviceD.prop('checked')) {
+                    visibilityHideByDeviceD.prop('checked',true);
+                    visibilityHideByDevice.prop('checked',true);
+
+                }
+
             } else {
                 visibilityHideByDefault.parents('tr').hide(500);
+                visibilityHideByDevice.parents('tr').hide(500);
+            }
+        }
+
+        function toggleVisibilityDevice() {
+            if (visibilityHideByDefault.prop('checked')) {
+                visibilityHideByDevice.parents('tr').show(500);
+            } else {
+                visibilityHideByDevice.parents('tr').hide(500);
+            }
+        }
+
+        function checkforDeviceVisibilty(){
+            if ( ! visibilityHideByDevice.prop('checked') && ! visibilityHideByDeviceD.prop('checked')) {
+                visibilityHideByDefault.prop('checked',false);
+                visibilityHideByDevice.parents('tr').hide(500);
             }
         }
     
         // Initial check on page load
         toggleVisibility();
+        toggleVisibilityDevice();
     
         // Event listener for changes
         $(document).on('change click', "input[name='ez-toc-settings[visibility]']", toggleVisibility);
+        $(document).on('change click', "input[name='ez-toc-settings[visibility_hide_by_default]']", toggleVisibilityDevice);
+        $(document).on('change click', "input[name='ez-toc-settings[visibility_hide_by_device][mobile]']", checkforDeviceVisibilty);
+        $(document).on('change click', "input[name='ez-toc-settings[visibility_hide_by_device][desktop]']", checkforDeviceVisibilty);
     });
 
     /* Admin Initial View js ends here */
@@ -719,4 +749,16 @@ jQuery(function($) {
         eztoc_truncate_headings();
     });
     eztoc_truncate_headings();
+
+    function eztoc_schema_sitenav_yoast_compat() {
+        if(jQuery("input[name='ez-toc-settings[schema_sitenav_checkbox]']").prop('checked') == true) {
+            jQuery("input[name='ez-toc-settings[schema_sitenav_yoast_compat]']").parents('tr').show(200);
+        } else {
+            jQuery("input[name='ez-toc-settings[schema_sitenav_yoast_compat]']").parents('tr').hide(200);
+        }
+    }
+    jQuery(document).on("click", "input[name='ez-toc-settings[schema_sitenav_checkbox]']", function() {
+        eztoc_schema_sitenav_yoast_compat();
+    });
+    eztoc_schema_sitenav_yoast_compat();
     
