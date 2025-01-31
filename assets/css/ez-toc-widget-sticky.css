@@ -267,3 +267,7 @@ label.cssicon .ez-toc-widget-sticky-glyphicon:empty {
 label.cssiconcheckbox {
     display: none;
 }
+.ez-toc-widget-sticky-container nav{
+    max-height: 70vh;
+    overflow: auto;
+}
