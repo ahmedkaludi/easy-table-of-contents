@@ -1245,6 +1245,17 @@ text
 				'prosettings' => apply_filters(
 					'ez_toc_settings_prosettings', array()
 				),
+				'import_export' => apply_filters(
+					'ez_toc_settings_import_export', array(
+						'delete-data-on-uninstall' => array(
+							'id' 		=> 'delete-data-on-uninstall',
+							'name' 		=> esc_html__( 'Delete data on uninstall', 'easy-table-of-contents' ),
+							'desc' 		=> 'This will remove all of its data when the plugin is deleted.',
+							'type' 		=> 'checkbox',
+							'default' 	=> false,
+						)	
+					)
+				),
 			);
 
 			return apply_filters( 'ez_toc_registered_settings', $options );
@@ -1460,6 +1471,7 @@ text
 				'sticky_include_custom_tax'           => false,
 				'generate_toc_link_ids'               => false,
 				'enable_memory_fix'					  => false,
+				'delete-data-on-uninstall'			  => false,
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );
