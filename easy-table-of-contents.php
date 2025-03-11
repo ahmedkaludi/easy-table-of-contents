@@ -145,6 +145,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			require_once( EZ_TOC_PATH . '/includes/class-debug.php' );			
 			require_once( EZ_TOC_PATH . '/includes/inc.cord-functions.php' );
 			require_once( EZ_TOC_PATH . '/includes/inc.plugin-compatibility.php' );
+			require_once( EZ_TOC_PATH . '/includes/class-eztoc-sitemap.php' );
 			
 		}
 
