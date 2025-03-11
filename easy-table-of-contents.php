@@ -653,6 +653,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$js_scroll = array();
 					$js_scroll['scroll_offset'] = esc_js( $offset );					
 					$js_scroll['add_request_uri'] = ezTOC_Option::get( 'add_request_uri' ) ? true : false;
+					$js_scroll['add_self_reference_link'] = ezTOC_Option::get( 'add_self_reference_link' ) ? true : false;
 					
 					if(ezTOC_Option::get( 'smooth_scroll' ) && ezTOC_Option::get( 'avoid_anch_jump' )){
 						$js_scroll['JumpJsLinks'] = true;

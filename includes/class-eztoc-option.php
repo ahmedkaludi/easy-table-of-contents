@@ -807,6 +807,13 @@ text
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'add_self_reference_link' => array(
+							'id' => 'add_self_reference_link',
+							'name' => esc_html__( 'Add Self Reference Link', 'easy-table-of-contents' ),
+							'desc' => esc_html__( 'Add self reference URI before anchor link. ', 'easy-table-of-contents' ) . esc_html__( 'Eg: href="https://domain/post/id#xxxx"', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'remove_special_chars_from_title' => array(
 							'id' => 'remove_special_chars_from_title',
 							'name' => esc_html__( 'Remove \':\' from TOC Title', 'easy-table-of-contents' ),
@@ -1457,6 +1464,7 @@ text
 				'sticky-toggle-position'              => 'left',
 				'sticky-toggle-alignment'             => 'top',
 				'add_request_uri'                     => false,
+				'add_self_reference_link'             => false,
 				'mediavine-create'                    => 0,
 				'molongui-authorship'                 => false,
 				'custom_para_number'                  => 1,
