@@ -439,6 +439,16 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'none',
 						),
+						'heading-text-direction' => array(
+                            'id' => 'heading-text-direction',
+                            'name' => esc_html__( 'Heading Text Direction', 'easy-table-of-contents' ),
+                            'type' => 'radio',
+                            'options' => array(
+                                'ltr' => esc_html__( 'Left to Right (LTR)', 'easy-table-of-contents' ),
+                                'rtl' => esc_html__( 'Right to Left (RTL)', 'easy-table-of-contents' ),
+                            ),
+                            'default' => 'ltr',
+                        ),
 						'toc_wrapping'  => array(
 							'id'      => 'toc_wrapping',
 							'name'    => esc_html__( 'Enable Wrapping', 'easy-table-of-contents' ),
@@ -594,16 +604,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'color',
 							'default' => '#428bca',
 						),
-						'heading-text-direction' => array(
-                            'id' => 'heading-text-direction',
-                            'name' => esc_html__( 'Heading Text Direction', 'easy-table-of-contents' ),
-                            'type' => 'radio',
-                            'options' => array(
-                                'ltr' => esc_html__( 'Left to Right (LTR)', 'easy-table-of-contents' ),
-                                'rtl' => esc_html__( 'Right to Left (RTL)', 'easy-table-of-contents' ),
-                            ),
-                            'default' => 'ltr',
-                        ),
 					)
 				),
 				'advanced' => apply_filters(
