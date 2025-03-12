@@ -17,10 +17,10 @@ class ezTOC_Sitemap {
      * */
     public function __construct() {
         
-        add_shortcode( 'ez_toc_sitemap', [ $this, 'ez_toc_shortcode_sitemap' ] );
-        add_shortcode( 'ez_toc_sitemap_pages', [ $this, 'ez_toc_shortcode_sitemap_pages' ] );
-        add_shortcode( 'ez_toc_sitemap_categories', [ $this, 'ez_toc_shortcode_sitemap_categories' ] );
-        add_shortcode( 'ez_toc_sitemap_posts', [ $this, 'ez_toc_shortcode_sitemap_posts' ] );
+        add_shortcode( 'ez-toc-sitemap', [ $this, 'ez_toc_shortcode_sitemap' ] );
+        add_shortcode( 'ez-toc-sitemap_pages', [ $this, 'ez_toc_shortcode_sitemap_pages' ] );
+        add_shortcode( 'ez-toc-sitemap_categories', [ $this, 'ez_toc_shortcode_sitemap_categories' ] );
+        add_shortcode( 'ez-toc-sitemap_posts', [ $this, 'ez_toc_shortcode_sitemap_posts' ] );
 
         // Migrate TOC plug plugin shortocde
         add_shortcode( 'sitemap', [ $this, 'ez_toc_shortcode_sitemap' ] );
