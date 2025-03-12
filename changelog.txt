@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 2.0.73 12/03/2025 =
+* New: Added a Sitemap Feature #835
+* Tweak: Some TOC Headings Not Working When Added with Elementor Plugin #857
+* Tweak: Improvement done in the Appearance Section of the Easy TOC Plugin #858
+* New: Added an Option to Add Self-Referencing Links with Domain Anchors in Easy TOC #859
+* New: Delete All Data When Uninstalling the Plugin #863
+* Compatibility: Added compatibility with the theme Divi Child #864
+* Bug: Code improvement in widget toc shortcode #870
+
 = 2.0.72 27/01/2025 =
 * New: Expand/Collapse Option for Device Target in TOC for Improved Usability #824
 * New: Easy TOC Integration with Yoast SEO Schema #821
