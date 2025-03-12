@@ -9,7 +9,7 @@ jQuery(document).ready((function() {
         let dhref = jQuery(this).attr("data-href");
         let ahref = jQuery(this).attr("href");
 
-        if(1 === parseInt(eztoc_smooth_local.add_request_uri)){
+        if(1 === parseInt(eztoc_smooth_local.add_request_uri) || 1 === parseInt(eztoc_smooth_local.add_self_reference_link)){
             if(jQuery(this).attr("data-href")){
                 let dsplit = jQuery(this).attr("data-href").split("#");                    
                 if(dsplit && dsplit.length > 1){

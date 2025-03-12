@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.72
+ * Version: 2.0.73
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -28,7 +28,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.72
+ * @version  2.0.73
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.72';
+		const VERSION = '2.0.73';
 
 		/**
 		 * Stores the instance of this class.
@@ -145,6 +145,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			require_once( EZ_TOC_PATH . '/includes/class-debug.php' );			
 			require_once( EZ_TOC_PATH . '/includes/inc.cord-functions.php' );
 			require_once( EZ_TOC_PATH . '/includes/inc.plugin-compatibility.php' );
+			require_once( EZ_TOC_PATH . '/includes/class-eztoc-sitemap.php' );
 			
 		}
 
@@ -652,6 +653,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$js_scroll = array();
 					$js_scroll['scroll_offset'] = esc_js( $offset );					
 					$js_scroll['add_request_uri'] = ezTOC_Option::get( 'add_request_uri' ) ? true : false;
+					$js_scroll['add_self_reference_link'] = ezTOC_Option::get( 'add_self_reference_link' ) ? true : false;
 					
 					if(ezTOC_Option::get( 'smooth_scroll' ) && ezTOC_Option::get( 'avoid_anch_jump' )){
 						$js_scroll['JumpJsLinks'] = true;

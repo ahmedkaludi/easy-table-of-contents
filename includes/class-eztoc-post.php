@@ -1885,6 +1885,13 @@ class ezTOC_Post {
 
 		if ( $page === $current_page && $current_post ) {
 
+			/** 
+			 * Check if self reference link option is enabled if yes then append full url in href
+			 * @since 	2.0.73
+			*/
+			if ( ezTOC_Option::get( 'add_self_reference_link' ) ) { 
+				return trailingslashit( $anch_url ) . '#' . $id;
+			}
 			return (ezTOC_Option::get( 'add_request_uri' ) ? $_SERVER['REQUEST_URI'] : '') . '#' . $id;
 
 		} elseif ( 1 === $page ) {

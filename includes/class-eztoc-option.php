@@ -439,6 +439,16 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => 'none',
 						),
+						'heading-text-direction' => array(
+                            'id' => 'heading-text-direction',
+                            'name' => esc_html__( 'Heading Text Direction', 'easy-table-of-contents' ),
+                            'type' => 'radio',
+                            'options' => array(
+                                'ltr' => esc_html__( 'Left to Right (LTR)', 'easy-table-of-contents' ),
+                                'rtl' => esc_html__( 'Right to Left (RTL)', 'easy-table-of-contents' ),
+                            ),
+                            'default' => 'ltr',
+                        ),
 						'toc_wrapping'  => array(
 							'id'      => 'toc_wrapping',
 							'name'    => esc_html__( 'Enable Wrapping', 'easy-table-of-contents' ),
@@ -594,16 +604,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'color',
 							'default' => '#428bca',
 						),
-						'heading-text-direction' => array(
-                            'id' => 'heading-text-direction',
-                            'name' => esc_html__( 'Heading Text Direction', 'easy-table-of-contents' ),
-                            'type' => 'radio',
-                            'options' => array(
-                                'ltr' => esc_html__( 'Left to Right (LTR)', 'easy-table-of-contents' ),
-                                'rtl' => esc_html__( 'Right to Left (RTL)', 'easy-table-of-contents' ),
-                            ),
-                            'default' => 'ltr',
-                        ),
 					)
 				),
 				'advanced' => apply_filters(
@@ -804,6 +804,13 @@ text
 							'id' => 'add_request_uri',
 							'name' => esc_html__( 'Add Request URI', 'easy-table-of-contents' ),
 							'desc' => esc_html__( 'Add request URI before anchor link. ', 'easy-table-of-contents' ) . esc_html__( 'Eg: href="/post/id#xxxx"', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
+						'add_self_reference_link' => array(
+							'id' => 'add_self_reference_link',
+							'name' => esc_html__( 'Add Self Reference Link', 'easy-table-of-contents' ),
+							'desc' => esc_html__( 'Add self reference URI before anchor link. ', 'easy-table-of-contents' ) . esc_html__( 'Eg: href="https://domain/post/id#xxxx"', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => false,
 						),
@@ -1056,6 +1063,298 @@ text
                             'desc' => esc_html__( 'You can add `Easy Table of Contents` without using shortcode from `Auto Insert` option in General Setting so then there is no need to add shortcode while post, page or any post type editing.', 'easy-table-of-contents' ),
                             'type' => 'paragraph',
                         ),
+                        'shortcode-fifth-paragraph'      => array(
+                            'id'   => 'shortcode-fifth-paragraph',
+                            'name' => esc_html__( 'Manual Adding sitemap shortcode', 'easy-table-of-contents' ),
+                            'desc' => sprintf(/* translators: %s: URL to the documentation */
+										wp_kses( 'You can use the following sitemap shortcode into a page that will automatically create a sitemap of all pages and categories <a target="_blank" href="%s">Learn More</a><br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc-sitemap]" disabled />&nbsp;<span class="ez-toc-tooltip ez-toc-sitemap-tooltip"><button type="button" class="button" onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode</button></span>',
+										array('a' => array(
+											'href' => true,
+											'class' => true,
+										),
+										'div' => array(
+											'class' => true,
+											'style' => true,
+										),
+										'span'=> array(
+											'class' => true,
+											'id' => true,
+										),
+										'input' => array(
+											'type' => true,
+											'id' => true,
+											'value' => true,
+											'readonly' => true,
+											'disabled' => true,
+											'class' => true,
+										),
+										'button' => array(
+											'type' => true,
+											'onclick' => true,
+											'onmouseout' => true,
+											'id' => true,
+											'class' => true,
+										),
+										'br' => array()
+										)
+									 ), 'https://tocwp.com/docs/'
+                            		),
+                            'type' => 'paragraph',
+                            'allowedHtml' => array(
+								'br' => array(),
+								'a' => array(
+								    'target' => array(),
+								    'href' => array()
+								),
+								'input' => array(
+					               'type' => true,
+					               'id' => true,
+					               'value' => true,
+					               'readonly' => true,
+					               'disabled' => true,
+					               'class' => true,
+					           ),
+					           '&nbsp;' => array(),
+					           'span' => array(
+					               'class' => true,
+					               'id' => true,
+					           ),
+					           'button' => array(
+					               'type' => true,
+					               'onclick' => true,
+					               'onmouseout' => true,
+					               'id' => true,
+					               'class' => true,
+					           ),
+				           ),
+                        ),
+                        'shortcode-sixth-paragraph'      => array(
+                            'id'   => 'shortcode-sixth-paragraph',
+                            'name' => esc_html__( 'Supported Attributes', 'easy-table-of-contents' ),
+                            'desc' => sprintf(
+                            			wp_kses_post( '<p><code>[page_heading="Pages"]</code> – heading label for the pages list</p><p><code>[category_heading="Categories"]</code> – heading label for the categories list </p><p><code>[heading="3"]</code> – uses h3 to display label of page_heading & category_heading attributes </p><p><code>[no_label="false"]</code> – hides the heading from a page listing and category listing</p>', 'easy-table-of-contents' )
+                            		),
+                            'type' => 'descriptive_text',
+                        ),
+                        'shortcode-seventh-paragraph'      => array(
+                            'id'   => 'shortcode-seventh-paragraph',
+                            'name' => esc_html__( 'Manual Adding sitemap pages shortcode', 'easy-table-of-contents' ),
+                            'desc' => sprintf(/* translators: %s: URL to the documentation */
+										wp_kses( 'You can use the following sitemap shortcode into a page that will automatically create a sitemap of all pages <a target="_blank" href="%s">Learn More</a><br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc-sitemap-pages]" disabled />&nbsp;<span class="ez-toc-tooltip ez-toc-sitemap-pages-tooltip"><button type="button" class="button" onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode</button></span>',
+										array('a' => array(
+											'href' => true,
+											'class' => true,
+										),
+										'div' => array(
+											'class' => true,
+											'style' => true,
+										),
+										'span'=> array(
+											'class' => true,
+											'id' => true,
+										),
+										'input' => array(
+											'type' => true,
+											'id' => true,
+											'value' => true,
+											'readonly' => true,
+											'disabled' => true,
+											'class' => true,
+										),
+										'button' => array(
+											'type' => true,
+											'onclick' => true,
+											'onmouseout' => true,
+											'id' => true,
+											'class' => true,
+										),
+										'br' => array()
+										)
+									 ), 'https://tocwp.com/docs/'
+                            		),
+                            'type' => 'paragraph',
+                            'allowedHtml' => array(
+								'br' => array(),
+								'a' => array(
+								    'target' => array(),
+								    'href' => array()
+								),
+								'input' => array(
+					               'type' => true,
+					               'id' => true,
+					               'value' => true,
+					               'readonly' => true,
+					               'disabled' => true,
+					               'class' => true,
+					           ),
+					           '&nbsp;' => array(),
+					           'span' => array(
+					               'class' => true,
+					               'id' => true,
+					           ),
+					           'button' => array(
+					               'type' => true,
+					               'onclick' => true,
+					               'onmouseout' => true,
+					               'id' => true,
+					               'class' => true,
+					           ),
+				           ),
+                        ),
+                        'shortcode-eighth-paragraph'      => array(
+                            'id'   => 'shortcode-eighth-paragraph',
+                            'name' => esc_html__( 'Supported Attributes', 'easy-table-of-contents' ),
+                            'desc' => sprintf(
+                            			wp_kses_post( '<p><code>[heading="3"]</code> – uses h3 to display label</p><p><code>[label="Pages"]</code> – heading label for the pages list </p><p><code>[no_label="false"]</code> – hides the heading from a page listing </p><p><code>[exclude="1,2"]</code> – comma-separated list of page IDs to exclude</p><p><code>[exclude_tree="1,2"]</code> – comma-separated string or array of page IDs to exclude</p><p><code>[child_of="1"]</code> – page ID to return child and grandchild pages of</p>', 'easy-table-of-contents' )
+                            		),
+                            'type' => 'descriptive_text',
+                        ),
+                        'shortcode-ninth-paragraph'      => array(
+                            'id'   => 'shortcode-ninth-paragraph',
+                            'name' => esc_html__( 'Manual Adding sitemap categories shortcode', 'easy-table-of-contents' ),
+                            'desc' => sprintf(/* translators: %s: URL to the documentation */
+										wp_kses( 'You can use the following sitemap shortcode into a page that will automatically create a sitemap of all categories <a target="_blank" href="%s">Learn More</a><br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc-sitemap-categories]" disabled />&nbsp;<span class="ez-toc-tooltip ez-toc-sitemap-categories-tooltip"><button type="button" class="button" onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode</button></span>',
+										array('a' => array(
+											'href' => true,
+											'class' => true,
+										),
+										'div' => array(
+											'class' => true,
+											'style' => true,
+										),
+										'span'=> array(
+											'class' => true,
+											'id' => true,
+										),
+										'input' => array(
+											'type' => true,
+											'id' => true,
+											'value' => true,
+											'readonly' => true,
+											'disabled' => true,
+											'class' => true,
+										),
+										'button' => array(
+											'type' => true,
+											'onclick' => true,
+											'onmouseout' => true,
+											'id' => true,
+											'class' => true,
+										),
+										'br' => array()
+										)
+									 ), 'https://tocwp.com/docs/'
+                            		),
+                            'type' => 'paragraph',
+                            'allowedHtml' => array(
+								'br' => array(),
+								'a' => array(
+								    'target' => array(),
+								    'href' => array()
+								),
+								'input' => array(
+					               'type' => true,
+					               'id' => true,
+					               'value' => true,
+					               'readonly' => true,
+					               'disabled' => true,
+					               'class' => true,
+					           ),
+					           '&nbsp;' => array(),
+					           'span' => array(
+					               'class' => true,
+					               'id' => true,
+					           ),
+					           'button' => array(
+					               'type' => true,
+					               'onclick' => true,
+					               'onmouseout' => true,
+					               'id' => true,
+					               'class' => true,
+					           ),
+				           ),
+                        ),
+                        'shortcode-tenth-paragraph'      => array(
+                            'id'   => 'shortcode-tenth-paragraph',
+                            'name' => esc_html__( 'Supported Attributes', 'easy-table-of-contents' ),
+                            'desc' => sprintf(
+                            			wp_kses_post( '<p><code>[heading="3"]</code> – uses h3 to display label</p><p><code>[label="Pages"]</code> – heading label for the pages list </p><p><code>[no_label="false"]</code> – hides the heading from a category listing </p><p><code>[exclude="1,2"]</code> – comma/space-separated string of term IDs to exclude</p><p><code>[exclude_tree="1,2"]</code> – comma/space-separated string of term IDs to exclude, along with their descendants</p>', 'easy-table-of-contents' )
+                            		),
+                            'type' => 'descriptive_text',
+                        ),
+                        'shortcode-eleventh-paragraph'      => array(
+                            'id'   => 'shortcode-eleventh-paragraph',
+                            'name' => esc_html__( 'Manual Adding sitemap posts shortcode', 'easy-table-of-contents' ),
+                            'desc' => sprintf(/* translators: %s: URL to the documentation */
+										wp_kses( 'You can use the following sitemap shortcode into a page that will automatically create a sitemap of all posts <a target="_blank" href="%s">Learn More</a><br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc-sitemap-posts]" disabled />&nbsp;<span class="ez-toc-tooltip ez-toc-sitemap-posts-tooltip"><button type="button" class="button" onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode</button></span>',
+										array('a' => array(
+											'href' => true,
+											'class' => true,
+										),
+										'div' => array(
+											'class' => true,
+											'style' => true,
+										),
+										'span'=> array(
+											'class' => true,
+											'id' => true,
+										),
+										'input' => array(
+											'type' => true,
+											'id' => true,
+											'value' => true,
+											'readonly' => true,
+											'disabled' => true,
+											'class' => true,
+										),
+										'button' => array(
+											'type' => true,
+											'onclick' => true,
+											'onmouseout' => true,
+											'id' => true,
+											'class' => true,
+										),
+										'br' => array()
+										)
+									 ), 'https://tocwp.com/docs/'
+                            		),
+                            'type' => 'paragraph',
+                            'allowedHtml' => array(
+								'br' => array(),
+								'a' => array(
+								    'target' => array(),
+								    'href' => array()
+								),
+								'input' => array(
+					               'type' => true,
+					               'id' => true,
+					               'value' => true,
+					               'readonly' => true,
+					               'disabled' => true,
+					               'class' => true,
+					           ),
+					           '&nbsp;' => array(),
+					           'span' => array(
+					               'class' => true,
+					               'id' => true,
+					           ),
+					           'button' => array(
+					               'type' => true,
+					               'onclick' => true,
+					               'onmouseout' => true,
+					               'id' => true,
+					               'class' => true,
+					           ),
+				           ),
+                        ),
+                        'shortcode-twelveth-paragraph'      => array(
+                            'id'   => 'shortcode-twelveth-paragraph',
+                            'name' => esc_html__( 'Supported Attributes', 'easy-table-of-contents' ),
+                            'desc' => sprintf(
+                            			wp_kses_post( '<p><code>[order="ASC"]</code> – list the posts in ascending order</p><p><code>[orderby="title"]</code> – order the posts by title, popular options include "title", "date", "ID", and "rand" </p><p><code>[separate="true"]</code> – separate the lists by first letter </p>', 'easy-table-of-contents' )
+                            		),
+                            'type' => 'descriptive_text',
+                        ),
                     )
                 ),
 				'sticky' => apply_filters(
@@ -1244,6 +1543,17 @@ text
                 ),
 				'prosettings' => apply_filters(
 					'ez_toc_settings_prosettings', array()
+				),
+				'import_export' => apply_filters(
+					'ez_toc_settings_import_export', array(
+						'delete-data-on-uninstall' => array(
+							'id' 		=> 'delete-data-on-uninstall',
+							'name' 		=> esc_html__( 'Delete data on uninstall', 'easy-table-of-contents' ),
+							'desc' 		=> 'This will remove all of its data when the plugin is deleted.',
+							'type' 		=> 'checkbox',
+							'default' 	=> false,
+						)	
+					)
 				),
 			);
 
@@ -1446,6 +1756,7 @@ text
 				'sticky-toggle-position'              => 'left',
 				'sticky-toggle-alignment'             => 'top',
 				'add_request_uri'                     => false,
+				'add_self_reference_link'             => false,
 				'mediavine-create'                    => 0,
 				'molongui-authorship'                 => false,
 				'custom_para_number'                  => 1,
@@ -1460,6 +1771,7 @@ text
 				'sticky_include_custom_tax'           => false,
 				'generate_toc_link_ids'               => false,
 				'enable_memory_fix'					  => false,
+				'delete-data-on-uninstall'			  => false,
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );

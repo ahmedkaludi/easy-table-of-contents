@@ -213,6 +213,23 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                 </tr> 
 
                                 <tr>
+                                    <th scope="row"><?php echo esc_html__( 'Delete data on uninstall', 'easy-table-of-contents' ) ?></th>
+                                    <td>
+                                        <?php
+                                        $ddou_value = ezTOC_Option::get( 'delete-data-on-uninstall', false ); 
+                                        ezTOC_Option::checkbox(
+                                            array(
+                                                'id'      => 'delete-data-on-uninstall',
+                                                'desc'    => esc_html__( 'This will remove all of its data when the plugin is deleted.', 'easy-table-of-contents' ),
+                                                'default' => false,
+                                            ),
+                                            $ddou_value
+                                        );
+                                        ?>
+                                    </td>
+                                </tr>
+
+                                <tr>
                                     <th scope="row"><?php esc_html_e( 'Migrate Table of Contents Plus', 'easy-table-of-contents' ) ?></th>
                                     <td>
                                     <?php $toc_plus_enbaled = class_exists('TOC_Plus') ? true : false; ?>
