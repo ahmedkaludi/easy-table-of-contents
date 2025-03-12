@@ -1063,6 +1063,298 @@ text
                             'desc' => esc_html__( 'You can add `Easy Table of Contents` without using shortcode from `Auto Insert` option in General Setting so then there is no need to add shortcode while post, page or any post type editing.', 'easy-table-of-contents' ),
                             'type' => 'paragraph',
                         ),
+                        'shortcode-fifth-paragraph'      => array(
+                            'id'   => 'shortcode-fifth-paragraph',
+                            'name' => esc_html__( 'Manual Adding sitemap shortcode', 'easy-table-of-contents' ),
+                            'desc' => sprintf(/* translators: %s: URL to the documentation */
+										wp_kses( 'You can use the following sitemap shortcode into a page that will automatically create a sitemap of all pages and categories <a target="_blank" href="%s">Learn More</a><br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc-sitemap]" disabled />&nbsp;<span class="ez-toc-tooltip ez-toc-sitemap-tooltip"><button type="button" class="button" onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode</button></span>',
+										array('a' => array(
+											'href' => true,
+											'class' => true,
+										),
+										'div' => array(
+											'class' => true,
+											'style' => true,
+										),
+										'span'=> array(
+											'class' => true,
+											'id' => true,
+										),
+										'input' => array(
+											'type' => true,
+											'id' => true,
+											'value' => true,
+											'readonly' => true,
+											'disabled' => true,
+											'class' => true,
+										),
+										'button' => array(
+											'type' => true,
+											'onclick' => true,
+											'onmouseout' => true,
+											'id' => true,
+											'class' => true,
+										),
+										'br' => array()
+										)
+									 ), 'https://tocwp.com/docs/'
+                            		),
+                            'type' => 'paragraph',
+                            'allowedHtml' => array(
+								'br' => array(),
+								'a' => array(
+								    'target' => array(),
+								    'href' => array()
+								),
+								'input' => array(
+					               'type' => true,
+					               'id' => true,
+					               'value' => true,
+					               'readonly' => true,
+					               'disabled' => true,
+					               'class' => true,
+					           ),
+					           '&nbsp;' => array(),
+					           'span' => array(
+					               'class' => true,
+					               'id' => true,
+					           ),
+					           'button' => array(
+					               'type' => true,
+					               'onclick' => true,
+					               'onmouseout' => true,
+					               'id' => true,
+					               'class' => true,
+					           ),
+				           ),
+                        ),
+                        'shortcode-sixth-paragraph'      => array(
+                            'id'   => 'shortcode-sixth-paragraph',
+                            'name' => esc_html__( 'Supported Attributes', 'easy-table-of-contents' ),
+                            'desc' => sprintf(
+                            			wp_kses_post( '<p><code>[page_heading="Pages"]</code> – heading label for the pages list</p><p><code>[category_heading="Categories"]</code> – heading label for the categories list </p><p><code>[heading="3"]</code> – uses h3 to display label of page_heading & category_heading attributes </p><p><code>[no_label="false"]</code> – hides the heading from a page listing and category listing</p>', 'easy-table-of-contents' )
+                            		),
+                            'type' => 'descriptive_text',
+                        ),
+                        'shortcode-seventh-paragraph'      => array(
+                            'id'   => 'shortcode-seventh-paragraph',
+                            'name' => esc_html__( 'Manual Adding sitemap pages shortcode', 'easy-table-of-contents' ),
+                            'desc' => sprintf(/* translators: %s: URL to the documentation */
+										wp_kses( 'You can use the following sitemap shortcode into a page that will automatically create a sitemap of all pages <a target="_blank" href="%s">Learn More</a><br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc-sitemap-pages]" disabled />&nbsp;<span class="ez-toc-tooltip ez-toc-sitemap-pages-tooltip"><button type="button" class="button" onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode</button></span>',
+										array('a' => array(
+											'href' => true,
+											'class' => true,
+										),
+										'div' => array(
+											'class' => true,
+											'style' => true,
+										),
+										'span'=> array(
+											'class' => true,
+											'id' => true,
+										),
+										'input' => array(
+											'type' => true,
+											'id' => true,
+											'value' => true,
+											'readonly' => true,
+											'disabled' => true,
+											'class' => true,
+										),
+										'button' => array(
+											'type' => true,
+											'onclick' => true,
+											'onmouseout' => true,
+											'id' => true,
+											'class' => true,
+										),
+										'br' => array()
+										)
+									 ), 'https://tocwp.com/docs/'
+                            		),
+                            'type' => 'paragraph',
+                            'allowedHtml' => array(
+								'br' => array(),
+								'a' => array(
+								    'target' => array(),
+								    'href' => array()
+								),
+								'input' => array(
+					               'type' => true,
+					               'id' => true,
+					               'value' => true,
+					               'readonly' => true,
+					               'disabled' => true,
+					               'class' => true,
+					           ),
+					           '&nbsp;' => array(),
+					           'span' => array(
+					               'class' => true,
+					               'id' => true,
+					           ),
+					           'button' => array(
+					               'type' => true,
+					               'onclick' => true,
+					               'onmouseout' => true,
+					               'id' => true,
+					               'class' => true,
+					           ),
+				           ),
+                        ),
+                        'shortcode-eighth-paragraph'      => array(
+                            'id'   => 'shortcode-eighth-paragraph',
+                            'name' => esc_html__( 'Supported Attributes', 'easy-table-of-contents' ),
+                            'desc' => sprintf(
+                            			wp_kses_post( '<p><code>[heading="3"]</code> – uses h3 to display label</p><p><code>[label="Pages"]</code> – heading label for the pages list </p><p><code>[no_label="false"]</code> – hides the heading from a page listing </p><p><code>[exclude="1,2"]</code> – comma-separated list of page IDs to exclude</p><p><code>[exclude_tree="1,2"]</code> – comma-separated string or array of page IDs to exclude</p><p><code>[child_of="1"]</code> – page ID to return child and grandchild pages of</p>', 'easy-table-of-contents' )
+                            		),
+                            'type' => 'descriptive_text',
+                        ),
+                        'shortcode-ninth-paragraph'      => array(
+                            'id'   => 'shortcode-ninth-paragraph',
+                            'name' => esc_html__( 'Manual Adding sitemap categories shortcode', 'easy-table-of-contents' ),
+                            'desc' => sprintf(/* translators: %s: URL to the documentation */
+										wp_kses( 'You can use the following sitemap shortcode into a page that will automatically create a sitemap of all categories <a target="_blank" href="%s">Learn More</a><br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc-sitemap-categories]" disabled />&nbsp;<span class="ez-toc-tooltip ez-toc-sitemap-categories-tooltip"><button type="button" class="button" onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode</button></span>',
+										array('a' => array(
+											'href' => true,
+											'class' => true,
+										),
+										'div' => array(
+											'class' => true,
+											'style' => true,
+										),
+										'span'=> array(
+											'class' => true,
+											'id' => true,
+										),
+										'input' => array(
+											'type' => true,
+											'id' => true,
+											'value' => true,
+											'readonly' => true,
+											'disabled' => true,
+											'class' => true,
+										),
+										'button' => array(
+											'type' => true,
+											'onclick' => true,
+											'onmouseout' => true,
+											'id' => true,
+											'class' => true,
+										),
+										'br' => array()
+										)
+									 ), 'https://tocwp.com/docs/'
+                            		),
+                            'type' => 'paragraph',
+                            'allowedHtml' => array(
+								'br' => array(),
+								'a' => array(
+								    'target' => array(),
+								    'href' => array()
+								),
+								'input' => array(
+					               'type' => true,
+					               'id' => true,
+					               'value' => true,
+					               'readonly' => true,
+					               'disabled' => true,
+					               'class' => true,
+					           ),
+					           '&nbsp;' => array(),
+					           'span' => array(
+					               'class' => true,
+					               'id' => true,
+					           ),
+					           'button' => array(
+					               'type' => true,
+					               'onclick' => true,
+					               'onmouseout' => true,
+					               'id' => true,
+					               'class' => true,
+					           ),
+				           ),
+                        ),
+                        'shortcode-tenth-paragraph'      => array(
+                            'id'   => 'shortcode-tenth-paragraph',
+                            'name' => esc_html__( 'Supported Attributes', 'easy-table-of-contents' ),
+                            'desc' => sprintf(
+                            			wp_kses_post( '<p><code>[heading="3"]</code> – uses h3 to display label</p><p><code>[label="Pages"]</code> – heading label for the pages list </p><p><code>[no_label="false"]</code> – hides the heading from a category listing </p><p><code>[exclude="1,2"]</code> – comma/space-separated string of term IDs to exclude</p><p><code>[exclude_tree="1,2"]</code> – comma/space-separated string of term IDs to exclude, along with their descendants</p>', 'easy-table-of-contents' )
+                            		),
+                            'type' => 'descriptive_text',
+                        ),
+                        'shortcode-eleventh-paragraph'      => array(
+                            'id'   => 'shortcode-eleventh-paragraph',
+                            'name' => esc_html__( 'Manual Adding sitemap posts shortcode', 'easy-table-of-contents' ),
+                            'desc' => sprintf(/* translators: %s: URL to the documentation */
+										wp_kses( 'You can use the following sitemap shortcode into a page that will automatically create a sitemap of all posts <a target="_blank" href="%s">Learn More</a><br/><input type="text" id="ez-toc-clipboard-apply" value="[ez-toc-sitemap-posts]" disabled />&nbsp;<span class="ez-toc-tooltip ez-toc-sitemap-posts-tooltip"><button type="button" class="button" onclick="ez_toc_clipboard(\'ez-toc-clipboard-apply\', \'ez-toc-myTooltip\', this, event)" onmouseout="ez_toc_outFunc(\'ez-toc-myTooltip\', this, event)"><span class="ez-toc-tooltiptext ez-toc-myTooltip">Copy to clipboard</span>Copy shortcode</button></span>',
+										array('a' => array(
+											'href' => true,
+											'class' => true,
+										),
+										'div' => array(
+											'class' => true,
+											'style' => true,
+										),
+										'span'=> array(
+											'class' => true,
+											'id' => true,
+										),
+										'input' => array(
+											'type' => true,
+											'id' => true,
+											'value' => true,
+											'readonly' => true,
+											'disabled' => true,
+											'class' => true,
+										),
+										'button' => array(
+											'type' => true,
+											'onclick' => true,
+											'onmouseout' => true,
+											'id' => true,
+											'class' => true,
+										),
+										'br' => array()
+										)
+									 ), 'https://tocwp.com/docs/'
+                            		),
+                            'type' => 'paragraph',
+                            'allowedHtml' => array(
+								'br' => array(),
+								'a' => array(
+								    'target' => array(),
+								    'href' => array()
+								),
+								'input' => array(
+					               'type' => true,
+					               'id' => true,
+					               'value' => true,
+					               'readonly' => true,
+					               'disabled' => true,
+					               'class' => true,
+					           ),
+					           '&nbsp;' => array(),
+					           'span' => array(
+					               'class' => true,
+					               'id' => true,
+					           ),
+					           'button' => array(
+					               'type' => true,
+					               'onclick' => true,
+					               'onmouseout' => true,
+					               'id' => true,
+					               'class' => true,
+					           ),
+				           ),
+                        ),
+                        'shortcode-twelveth-paragraph'      => array(
+                            'id'   => 'shortcode-twelveth-paragraph',
+                            'name' => esc_html__( 'Supported Attributes', 'easy-table-of-contents' ),
+                            'desc' => sprintf(
+                            			wp_kses_post( '<p><code>[order="ASC"]</code> – list the posts in ascending order</p><p><code>[orderby="title"]</code> – order the posts by title, popular options include "title", "date", "ID", and "rand" </p><p><code>[separate="true"]</code> – separate the lists by first letter </p>', 'easy-table-of-contents' )
+                            		),
+                            'type' => 'descriptive_text',
+                        ),
                     )
                 ),
 				'sticky' => apply_filters(
