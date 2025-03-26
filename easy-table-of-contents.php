@@ -1403,7 +1403,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
                     'ez_toc_widget_sticky_after' => '',
                     'ez_toc_widget_sticky_after_widget' => '',
                     'ez_toc_widget_sticky_after_widget_container' => '',
-					'show_toggle'=> 'true'
+					'show_toggle'=> 'true',
+					'device_target'=> ''
                 ), $atts ) );
 
                 $widget_name = esc_html( 'ezTOC_WidgetSticky' );
@@ -1429,7 +1430,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					'sidebar_sticky_size_unit' => ( ! empty ( $text_font_size_unit ) ) ? $text_font_size_unit : '%',
 					'sidebar_sticky_weight' => ( ! empty ( $text_font_weight ) ) ? $text_font_weight : '400',
 					'sidebar_sticky_color' => ( ! empty ( $text_font_color ) ) ? $text_font_color : '',
-					'show_toggle' => ( ! empty ( $show_toggle ) ) ? $show_toggle : ''
+					'show_toggle' => ( ! empty ( $show_toggle ) ) ? $show_toggle : '',
+					'device_target' => ( ! empty ( $device_target ) ) ? $device_target : ''
                 );
                 
                 if ( !is_a( $wp_widget_factory->widgets[ $widget_name ], 'WP_Widget' ) ):

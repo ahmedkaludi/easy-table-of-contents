@@ -268,6 +268,6 @@ label.cssiconcheckbox {
     display: none;
 }
 .ez-toc-widget-sticky-container nav{
-    max-height: 70vh;
+    max-height: 60vh;
     overflow: auto;
 }
