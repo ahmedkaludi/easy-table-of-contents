@@ -15,24 +15,32 @@ window.addEventListener('DOMContentLoaded', () => {
     function createObserver() {
         observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
                     const id = entry.target.getAttribute('id');
+                    if( id ){
                     const link = document.querySelector(`.ez-toc-widget-sticky nav li a[href="#${id}"]`);
-
-                    if (lastActive && lastActive !== link.parentElement) {
-                        lastActive.classList.remove('active');
-                    }
-                    link.parentElement.classList.add('active');
-                    lastActive = link.parentElement;
-
-
-                    if (!isElementFullyVisible(link.parentElement, tocContainer)) {
-                        link.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    const all_links = document.querySelectorAll('.ez-toc-widget-sticky nav li.active')
+                  
+                    if (link) {
+                        if (all_links.length > 0) {
+                            all_links.forEach(linkk => {
+                                linkk.classList.remove('active');
+                            });
+                        }
+                        link.parentElement.classList.add('active');
+                        lastActive = link.parentElement;
+        
+                        if (!isElementFullyVisible(link.parentElement, tocContainer)) {
+                            link.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
                     }
                 }
             });
-        }, { threshold: 0.5 });
+        }, { 
+            threshold: [0, 0.5], 
+            rootMargin: '0px 0px -40% 0px' // Adjust the bottom margin to extend the "active" zone
+        });
     }
+    
 
     // Initialize the observer and start observing all sections.
     createObserver();
