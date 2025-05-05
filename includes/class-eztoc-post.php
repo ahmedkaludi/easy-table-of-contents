@@ -1848,15 +1848,13 @@ class ezTOC_Post {
 
 		if(ezTOC_Option::get( 'disable_toc_links' ,false ) ){
 			return sprintf(
-				'<a class=" ez-toc-heading-' . $count . '" role="button" title="%1$s">%2$s</a>',
-				esc_attr( wp_strip_all_tags( $title ) ),
+				'<a class=" ez-toc-heading-' . $count . '" role="button" >%2$s</a>',
 				$title
 			);
 		}
 		return sprintf(
-			'<a class="ez-toc-link ez-toc-heading-' . $count . '" '.$anch_name.'="%1$s" title="%2$s">%3$s</a>',
+			'<a class="ez-toc-link ez-toc-heading-' . $count . '" '.$anch_name.'="%1$s" >%2$s</a>',
 			esc_url( $this->createTOCItemURL( $id, $page ) ),
-			esc_attr( wp_strip_all_tags( $title ) ),
 			$title
 		);
 	}

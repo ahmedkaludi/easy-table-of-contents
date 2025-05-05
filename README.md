@@ -3,9 +3,9 @@ Contributors: magazine3
 Donate link: https://tocwp.com/  
 Tags: table of contents, toc  
 Requires at least: 5.0  
-Tested up to: 6.7  
+Tested up to: 6.8  
 Requires PHP: 5.6.20  
-Stable tag: 2.0.73  
+Stable tag: 2.0.74  
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 

@@ -1548,7 +1548,7 @@ text
 					'ez_toc_settings_import_export', array(
 						'delete-data-on-uninstall' => array(
 							'id' 		=> 'delete-data-on-uninstall',
-							'name' 		=> esc_html__( 'Delete data on uninstall', 'easy-table-of-contents' ),
+							'name' 		=> esc_html__( 'Delete Data on Uninstall', 'easy-table-of-contents' ),
 							'desc' 		=> 'This will remove all of its data when the plugin is deleted.',
 							'type' 		=> 'checkbox',
 							'default' 	=> false,

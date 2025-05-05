@@ -50,6 +50,7 @@ add_filter(
 			'connections_qtip',
 			'cn_thumb',
 			'cn_thumbr',
+			'pmpro_member_profile_edit',
 		);
 
 		$tags_to_remove = array_merge( $tags_to_remove, $shortcodes );

@@ -1,5 +1,15 @@
 == Changelog ==
 
+= 2.0.74 05/05/2025 =
+* Bug: Accordion TOC disappears when clicking at the + / - icon #880
+* Bug: The post content is scrolled to the top while using Sticky Widget #879
+* Bug: Generatepress Elements not working #867
+* Compatibility: PMPRO - File deleted after upload when TOC plugin is activated #877
+* Compatibility: Blocksy child theme Compatibility #875
+* Improvement: Redundant Title Text in TOC Causing Accessibility Warning #868
+* New: Option to show/disable TOC on mobile/desktop on specific post/page #845
+* Test: Need to test with WordPress 6.8 #882
+
 = 2.0.73 12/03/2025 =
 * New: Added a Sitemap Feature #835
 * Tweak: Some TOC Headings Not Working When Added with Elementor Plugin #857

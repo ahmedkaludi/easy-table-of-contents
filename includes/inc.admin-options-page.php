@@ -213,7 +213,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                 </tr> 
 
                                 <tr>
-                                    <th scope="row"><?php echo esc_html__( 'Delete data on uninstall', 'easy-table-of-contents' ) ?></th>
+                                    <th scope="row"><?php echo esc_html__( 'Delete Data on Uninstall', 'easy-table-of-contents' ) ?></th>
                                     <td>
                                         <?php
                                         $ddou_value = ezTOC_Option::get( 'delete-data-on-uninstall', false ); 

@@ -326,15 +326,19 @@ add_filter('eztoc_wordpress_final_output', function($content){
    //Device Eligibility
   //@since 2.0.60
 function ez_toc_auto_device_target_status(){
-        $status = true;      
-        if(ezTOC_Option::get( 'device_target' ) == 'mobile'){
+        global $post;
+        $status = true;
+        $global_target = ezTOC_Option::get( 'device_target' );
+        $post_target = get_post_meta( $post->ID, '_ez-toc-device-target', true );
+        $target = $post_target ? $post_target : $global_target;   
+        if($target == 'mobile'){
             if(function_exists('wp_is_mobile') && wp_is_mobile()){                
                 $status = true;      
             }else{                
                 $status = false;      
             }
         }
-        if(ezTOC_Option::get( 'device_target' ) == 'desktop'){
+        if($target == 'desktop'){
             if(function_exists('wp_is_mobile') && wp_is_mobile()){                
                 $status = false;      			
             }else{                

@@ -3,9 +3,9 @@ Contributors: magazine3
 Donate link: https://tocwp.com/
 Tags: table of contents, toc
 Requires at least: 5.0
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 5.6.20
-Stable tag: 2.0.73
+Stable tag: 2.0.74
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -135,6 +135,16 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.74 05/05/2025 =
+* Bug: Accordion TOC disappears when clicking at the + / - icon #880
+* Bug: The post content is scrolled to the top while using Sticky Widget #879
+* Bug: Generatepress Elements not working #867
+* Compatibility: PMPRO - File deleted after upload when TOC plugin is activated #877
+* Compatibility: Blocksy child theme Compatibility #875
+* Improvement: Redundant Title Text in TOC Causing Accessibility Warning #868
+* New: Option to show/disable TOC on mobile/desktop on specific post/page #845
+* Test: Need to test with WordPress 6.8 #882
+
 = 2.0.73 12/03/2025 =
 * New: Added a Sitemap Feature #835
 * Tweak: Some TOC Headings Not Working When Added with Elementor Plugin #857
@@ -245,16 +255,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * Bug: Double invoice showing when sitenavigation schema option enabled #720
 * Compatibility: Tested with Wordpress 6.5 #723
 
-= 2.0.63 02/03/2024 =
-* TWEAK: Remove extra spaces added by the users to the option Exclude feature #687
-* TWEAK: HTML Validator Parse Error: Font-Size Issue #691
-* TWEAK: Proper enqueue method for sticky toc js. #696
-* Bug: Easy TOC conflicts with the Popular Post plugin. #680
-* Bug: A warning is appearing after the recent update #686
-* Bug: TOC not showing on MicrojobEngine theme #694
-* Bug: Warning appears in product widget sidebar #705
-* Bug: Function wp_specialchars is deprecated since version 2.8.0! #709
-* Bug: Add compatibility with pressbook theme #710
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)
 
