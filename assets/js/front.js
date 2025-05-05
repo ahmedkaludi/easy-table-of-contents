@@ -311,12 +311,3 @@ jQuery( function( $ ) {
     }
 
 } );
-document.addEventListener('DOMContentLoaded', function(){
-    const tocs = document.querySelectorAll('#ez-toc-container');
-    if (tocs.length > 1) {
-      const [first, second] = tocs;
-      if ( first.nextElementSibling === second ) {
-        second.remove();
-      }
-    }
-  });
