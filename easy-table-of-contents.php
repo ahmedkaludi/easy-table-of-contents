@@ -1996,9 +1996,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			   
 		
            if ( 'true' == get_user_option( 'rich_editing' ) ) {
-               add_filter( 'mce_external_plugins', array( __CLASS__, 'toc_add_tinymce_plugin'));
-               add_filter( 'mce_buttons', array( __CLASS__, 'toc_register_mce_button' ));
+			   $show_mce_button = true;
+			   if ( ! ezTOC_Option::get( 'show-toc-toolbar-classic', true ) ) {
+				   $show_mce_button = false;
+			   }
+			   if ( $show_mce_button ) {			
+				add_filter( 'mce_external_plugins', array( __CLASS__, 'toc_add_tinymce_plugin'));
+				add_filter( 'mce_buttons', array( __CLASS__, 'toc_register_mce_button' ));
                }
+			}
 			
 		}
 		
