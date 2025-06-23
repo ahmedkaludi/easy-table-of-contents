@@ -111,7 +111,8 @@ class ezTOC_Post {
                 'social-pug/index.php',
 				'fusion-builder/fusion-builder.php',
 				'modern-footnotes/modern-footnotes.php',
-				'yet-another-stars-rating-premium/yet-another-stars-rating.php'
+				'yet-another-stars-rating-premium/yet-another-stars-rating.php',
+				'tasty-recipes/tasty-recipes.php'
             )
         );
 
@@ -1848,7 +1849,7 @@ class ezTOC_Post {
 
 		if(ezTOC_Option::get( 'disable_toc_links' ,false ) ){
 			return sprintf(
-				'<a class=" ez-toc-heading-' . $count . '" role="button" >%2$s</a>',
+				'<a class=" ez-toc-heading-' . $count . '" role="button" >%1$s</a>',
 				$title
 			);
 		}
