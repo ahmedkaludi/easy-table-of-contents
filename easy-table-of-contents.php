@@ -1700,7 +1700,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
 			$return_only_an = false; 
-			if(!$isEligible && (self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || ezTOC_Option::get('sticky-toggle') )){
+			$post_type = get_post_type( $ez_toc_current_post_id );
+			$sticky_enabled_on_post = in_array( $post_type, ezTOC_Option::get( 'sticky-post-types', array() ), true );
+			if(!$isEligible && (self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || ( ezTOC_Option::get('sticky-toggle') && $sticky_enabled_on_post ) )){
 				$isEligible = true;
 				$return_only_an = true;
 			}
