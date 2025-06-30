@@ -648,7 +648,7 @@ function ez_toc_wp_strip_all_tags( $text, $remove_breaks = false ) {
 			'',
 			sprintf(
 				/* translators: 1: The function name, 2: The argument number, 3: The argument name, 4: The expected type, 5: The provided type. */
-				__( 'Warning: %1$s expects parameter %2$s (%3$s) to be a %4$s, %5$s given.' ),
+				__( 'Warning: %1$s expects parameter %2$s (%3$s) to be a %4$s, %5$s given.', 'easy-table-of-contents' ),
 				__FUNCTION__,
 				'#1',
 				'$text',

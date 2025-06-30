@@ -591,7 +591,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                        style="width:100%;"/>
             </p>
             <div class="ez-toc-widget-appearance-title">
-                <input type="checkbox" class="ez_toc_widget_appearance_options" id="<?php echo esc_attr($this->get_field_id( 'appearance_options' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'appearance_options' )); ?>"  data-check="<?php echo $instance[ 'appearance_options' ];?>" <?php if( 'on' === $instance[ 'appearance_options' ] ) { ?> checked="checked" <?php  } ?> value="on"/>
+                <input type="checkbox" class="ez_toc_widget_appearance_options" id="<?php echo esc_attr($this->get_field_id( 'appearance_options' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'appearance_options' )); ?>"  data-check="<?php echo esc_attr( $instance[ 'appearance_options' ] );?>" <?php if( 'on' === $instance[ 'appearance_options' ] ) { ?> checked="checked" <?php  } ?> value="on"/>
                 <label for="<?php echo esc_attr($this->get_field_id( 'appearance_options' )); ?>"><?php esc_html_e ( 'Appearance', 'easy-table-of-contents' ); ?></label>
                 <div id="ez-toc-widget-options-container" class="ez-toc-widget-appearance-options-container">
                     <div class="ez-toc-widget-form-group">
