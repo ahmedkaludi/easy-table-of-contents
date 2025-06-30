@@ -915,6 +915,13 @@ text
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'show-toc-toolbar-classic' => array(
+							'id' => 'show-toc-toolbar-classic',
+							'name' => esc_html__( 'Shortcode Button in TinyMCE', 'easy-table-of-contents' ),
+							'desc' => esc_html__( 'This will display the TOC shortcode button in toolbar of classic editor.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => true,
+						),
 					)
 				),
                 'shortcode' => apply_filters(
@@ -1772,6 +1779,7 @@ text
 				'generate_toc_link_ids'               => false,
 				'enable_memory_fix'					  => false,
 				'delete-data-on-uninstall'			  => false,
+				'show-toc-toolbar-classic'            => true,
 			);
 
 			return apply_filters( 'ez_toc_get_default_options', $defaults );

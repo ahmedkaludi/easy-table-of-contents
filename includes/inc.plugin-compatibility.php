@@ -1326,7 +1326,7 @@ function ez_toc_js_to_footer_for_wpbakery_category() {
     if ($js_fallback_fix) {
         ?>
         <script id="eztoc-wpbakery-link-fix-fallback">
-            <?php echo $js_fallback_fix; //phpcs:ignore - Already escaped above ?>
+            <?php echo $js_fallback_fix; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Safe variable already escaped ?>
         </script>
         <?php
     }

@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 5.6.20
-Stable tag: 2.0.74
+Stable tag: 2.0.75
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -135,6 +135,14 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 
+= 2.0.75 30/06/2025 =
+* Bug: TOC is not working on ACF fields #878
+* Bug: Sticky TOC incorrectly adds 'ez-toc-section' span on Pages even when disabled for Page post type #884
+* Bug: Issue with Tasty recipe plugin #891
+* Bug : Error in recent update #886
+* Compatibility: Easy TOC not picking up heading in ACF flexible headings components #896
+* Improvement: option to hide the 'TOC' feature in the Classic Editor. #888
+
 = 2.0.74 05/05/2025 =
 * Bug: Accordion TOC disappears when clicking at the + / - icon #880
 * Bug: The post content is scrolled to the top while using Sticky Widget #879
@@ -242,18 +250,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * TWEAK: Warning: Undefined array key "s_blockqoute_checkbox" #728
 * TWEAK: Write plugin name in subject of feedback form #731
 * New: Added to exclude heading from query loop feature #730
-
-= 2.0.64 28/03/2024 =
-* TWEAK: When clicked on copy shortcode, Page is shaking #695
-* TWEAK: Uncaught ReferenceError #693
-* TWEAK: Need to correct [initial_view='no'] shortcode in TOC #715
-* New: Exclude By Matching Url/String Option is not working for Sticky TOC #688
-* New: Added a new feature to set different positions on specific posts/pages #697
-* New: Added a new feature to Filter/Hook for Adding Custom Links Before and After Toc plugin-generated Links #718
-* Bug: Fatal Error: [ez-toc-widget-sticky] Shortcode and also Conflict with 'Internal Link Juicer (Pro)'. #704
-* Bug: Sidebar’s PHP Error Notices in TOC version 2.0.63 #716
-* Bug: Double invoice showing when sitenavigation schema option enabled #720
-* Compatibility: Tested with Wordpress 6.5 #723
 
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)

@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.74
+ * Version: 2.0.75
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -28,7 +28,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.74
+ * @version  2.0.75
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.74';
+		const VERSION = '2.0.75';
 
 		/**
 		 * Stores the instance of this class.
@@ -1700,7 +1700,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			Debug::log( 'post_eligible', 'Post eligible.', $isEligible );
 			$return_only_an = false; 
-			if(!$isEligible && (self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || ezTOC_Option::get('sticky-toggle') )){
+			$post_type = get_post_type( $ez_toc_current_post_id );
+			$sticky_enabled_on_post = in_array( $post_type, ezTOC_Option::get( 'sticky-post-types', array() ), true );
+			if(!$isEligible && (self::is_sidebar_hastoc() || is_active_widget( false, false, 'ezw_tco' ) || is_active_widget( false, false, 'ez_toc_widget_sticky' ) || ( ezTOC_Option::get('sticky-toggle') && $sticky_enabled_on_post ) )){
 				$isEligible = true;
 				$return_only_an = true;
 			}
@@ -1996,9 +1998,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			   
 		
            if ( 'true' == get_user_option( 'rich_editing' ) ) {
-               add_filter( 'mce_external_plugins', array( __CLASS__, 'toc_add_tinymce_plugin'));
-               add_filter( 'mce_buttons', array( __CLASS__, 'toc_register_mce_button' ));
+			   $show_mce_button = true;
+			   if ( ! ezTOC_Option::get( 'show-toc-toolbar-classic', true ) ) {
+				   $show_mce_button = false;
+			   }
+			   if ( $show_mce_button ) {			
+				add_filter( 'mce_external_plugins', array( __CLASS__, 'toc_add_tinymce_plugin'));
+				add_filter( 'mce_buttons', array( __CLASS__, 'toc_register_mce_button' ));
                }
+			}
 			
 		}
 		
