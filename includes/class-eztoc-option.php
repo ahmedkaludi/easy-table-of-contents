@@ -917,8 +917,8 @@ text
 						),
 						'show-toc-toolbar-classic' => array(
 							'id' => 'show-toc-toolbar-classic',
-							'name' => esc_html__( 'Show TOC in Toolbar of Classic Editor', 'easy-table-of-contents' ),
-							'desc' => esc_html__( 'This will display the TOC toolbar in the classic editor.', 'easy-table-of-contents' ),
+							'name' => esc_html__( 'Shortcode Button in TinyMCE', 'easy-table-of-contents' ),
+							'desc' => esc_html__( 'This will display the TOC shortcode button in toolbar of classic editor.', 'easy-table-of-contents' ),
 							'type' => 'checkbox',
 							'default' => true,
 						),
