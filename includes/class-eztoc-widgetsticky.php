@@ -199,7 +199,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 $js_vars[ 'scroll_max_height_size_unit' ] = 'none';
                 $js_vars[ 'heading_label_tag' ] = 'default';
 
-                if ( (isset($instance[ 'appearance_options' ]) && 'on' == $instance[ 'appearance_options' ] ) || 'on' == $instance[ 'advanced_options' ] || $js_vars[ 'scroll_fixed_position' ] != $instance[ 'scroll_fixed_position' ] ||
+                if ( (isset($instance[ 'appearance_options' ]) && 'on' == $instance[ 'appearance_options' ] ) ||  ( isset($instance[ 'advanced_options' ]) && 'on' == $instance[ 'advanced_options' ] ) || $js_vars[ 'scroll_fixed_position' ] != $instance[ 'scroll_fixed_position' ] ||
                         $js_vars[ 'scroll_fixed_position' ] != $instance[ 'scroll_fixed_position' ] ||
                         $js_vars[ 'sidebar_sticky_title_size' ] != $instance[ 'sidebar_sticky_title_size' ] ||
                         $js_vars[ 'sidebar_sticky_title_size_unit' ] != $instance[ 'sidebar_sticky_title_size_unit' ] ||
@@ -217,7 +217,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 {
                     $js_vars[ 'appearance_options' ] = isset($instance[ 'appearance_options' ]) ? $instance[ 'appearance_options' ] : '';
 
-                    $js_vars[ 'advanced_options' ] = $instance[ 'advanced_options' ];
+                    $js_vars[ 'advanced_options' ] = isset( $instance[ 'advanced_options' ] ) ? $instance[ 'advanced_options' ] : '';
 
                     if ( empty ( $instance[ 'scroll_fixed_position' ] ) || ( ! empty ( $instance[ 'scroll_fixed_position' ] ) && ! is_int ( $instance[ 'scroll_fixed_position' ] ) && 'auto' != $instance[ 'scroll_fixed_position' ] ) )
                         $js_vars[ 'scroll_fixed_position' ] = '30';
@@ -371,7 +371,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
 			                                    color: <?php echo esc_attr ( $instance[ 'sidebar_sticky_color' ] ); } ?>;
 
 							}
-                            #<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-container ul.ez-toc-widget-sticky-list li.active , .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> ul.ez-toc-widget-sticky-list li.active{
+                            #<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-container ul.ez-toc-widget-sticky-list li.active > a, .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> ul.ez-toc-widget-sticky-list li.active > a{
                                 background-color: <?php echo esc_attr ( isset($instance[ 'highlight_color' ]) ? $instance[ 'highlight_color' ] : '' ); ?>;
                             }
                         </style>
@@ -454,9 +454,12 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
 
                 wp_add_inline_style ( 'ez-toc-widget-sticky', ezTOC::inline_counting_css ( ezTOC_Option::get ( 'heading-text-direction', 'ltr' ), 'ez-toc-widget-sticky-direction', 'ez-toc-widget-sticky-container', 'counter', 'ez-toc-widget-sticky-container' ) );
 
+                // Enqueue sticky-kit library
+                wp_enqueue_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit{$min}.js", array( 'jquery' ), '1.9.2', true );
+                
                 $widgetJSVersion = ezTOC::VERSION . '-' . filemtime ( EZ_TOC_PATH . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "js" . DIRECTORY_SEPARATOR . "ez-toc-widget-sticky$min.js" );
-                wp_register_script ( 'ez-toc-widget-stickyjs', EZ_TOC_URL . "assets/js/ez-toc-widget-sticky$min.js", array( 'jquery' ), $widgetJSVersion , true);
-                wp_enqueue_script ( 'ez-toc-widget-stickyjs', EZ_TOC_URL . "assets/js/ez-toc-widget-sticky$min.js", array( 'jquery' ), $widgetJSVersion , true);
+                wp_register_script ( 'ez-toc-widget-stickyjs', EZ_TOC_URL . "assets/js/ez-toc-widget-sticky$min.js", array( 'jquery', 'ez-toc-jquery-sticky-kit' ), $widgetJSVersion , true);
+                wp_enqueue_script ( 'ez-toc-widget-stickyjs', EZ_TOC_URL . "assets/js/ez-toc-widget-sticky$min.js", array( 'jquery', 'ez-toc-jquery-sticky-kit' ), $widgetJSVersion , true);
                 if ( 0 < count ( $js_vars ) )
                 {
                     wp_localize_script ( 'ez-toc-widget-stickyjs', 'ezTocWidgetSticky', $js_vars );
