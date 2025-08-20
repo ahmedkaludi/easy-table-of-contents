@@ -1,23 +1,18 @@
 // Prevent multiple initializations
 if (window.ezTocWidgetStickyInitialized) {
-    console.log('EZ TOC Widget Sticky: Already initialized');
 } else {
     window.ezTocWidgetStickyInitialized = true;
-    console.log('EZ TOC Widget Sticky: Starting initialization...');
 
     // Wait for DOM to be ready
     function ready(fn) {
         if (document.readyState !== 'loading') {
-            console.log('EZ TOC Widget Sticky: DOM already ready, executing immediately');
             fn();
         } else {
-            console.log('EZ TOC Widget Sticky: Waiting for DOM to be ready...');
             document.addEventListener('DOMContentLoaded', fn);
         }
     }
 
 ready(() => {
-    console.log('EZ TOC Widget Sticky: DOM ready, starting main logic...');
     
     let lastActive = null;
     let observer;
@@ -28,26 +23,15 @@ ready(() => {
     const tocContainer = document.querySelector('.ez-toc-widget-sticky nav');
     const stickyContainer = document.querySelector('.ez-toc-widget-sticky-container');
 
-    console.log('EZ TOC Widget Sticky: Found elements:', {
-        tocContainer: !!tocContainer,
-        stickyContainer: !!stickyContainer,
-        tocContainerSelector: '.ez-toc-widget-sticky nav',
-        stickyContainerSelector: '.ez-toc-widget-sticky-container'
-    });
+
 
     // Check if elements exist
     if (!tocContainer || !stickyContainer) {
-        console.error('EZ TOC Widget Sticky: Required elements not found');
-        console.log('EZ TOC Widget Sticky: Available elements with similar classes:');
-        document.querySelectorAll('[class*="ez-toc"]').forEach(el => {
-            console.log('- Element:', el.tagName, 'Classes:', el.className);
-        });
         return;
     }
 
     // Function to find the article or post-content container
     function findArticleContainer() {
-        console.log('EZ TOC Widget Sticky: Searching for article container...');
         
         // Look for common article containers
         const selectors = [
@@ -67,23 +51,13 @@ ready(() => {
         ];
         
         for (const selector of selectors) {
-            console.log('EZ TOC Widget Sticky: Trying selector:', selector);
             const container = document.querySelector(selector);
             if (container) {
-                console.log('EZ TOC Widget Sticky: Found container with selector:', selector);
                 // Check if the container is visible and has content
                 const rect = container.getBoundingClientRect();
-                console.log('EZ TOC Widget Sticky: Container dimensions:', {
-                    width: rect.width,
-                    height: rect.height,
-                    top: rect.top,
-                    left: rect.left
-                });
                 if (rect.width > 0 && rect.height > 0) {
-                    console.log('EZ TOC Widget Sticky: Using container:', selector);
                     return container;
                 } else {
-                    console.log('EZ TOC Widget Sticky: Container has no dimensions, skipping');
                 }
             } else {
                 console.log('EZ TOC Widget Sticky: No element found for selector:', selector);
@@ -91,7 +65,6 @@ ready(() => {
         }
         
         // Fallback to body if no suitable container found
-        console.log('EZ TOC Widget Sticky: No article container found, using body');
         return document.body;
     }
 
@@ -99,23 +72,15 @@ ready(() => {
     function isMobileDevice() {
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
                window.innerWidth <= 768;
-        console.log('EZ TOC Widget Sticky: Device check:', {
-            userAgent: navigator.userAgent,
-            windowWidth: window.innerWidth,
-            isMobile: isMobile
-        });
         return isMobile;
     }
     
     // Function to initialize mobile toggle functionality
     function initializeMobileToggle() {
-        console.log('EZ TOC Widget Sticky: Initializing mobile toggle...');
         if (mobileToggleInitialized || !isMobileDevice()) {
-            console.log('EZ TOC Widget Sticky: Mobile toggle already initialized or not mobile device');
             return;
         }
 
-        console.log('EZ TOC Widget Sticky: Creating mobile toggle button...');
         // Create mobile toggle button
         const mobileToggleBtn = document.createElement('div');
         mobileToggleBtn.className = 'ez-toc-mobile-toggle-btn';
@@ -256,7 +221,6 @@ ready(() => {
         
         document.head.appendChild(mobileToggleStyles);
         document.body.appendChild(mobileToggleBtn);
-        console.log('EZ TOC Widget Sticky: Mobile toggle button added to DOM');
         
         // Wrap the sticky container content for mobile overlay
         const originalContent = stickyContainer.innerHTML;
@@ -266,11 +230,9 @@ ready(() => {
                 ${originalContent}
             </div>
         `;
-        console.log('EZ TOC Widget Sticky: Mobile overlay content wrapped');
         
         // Add event listeners
         mobileToggleBtn.addEventListener('click', function() {
-            console.log('EZ TOC Widget Sticky: Mobile toggle button clicked');
             stickyContainer.classList.add('mobile-overlay', 'show');
             document.body.style.overflow = 'hidden'; // Prevent background scrolling
         });
@@ -278,7 +240,6 @@ ready(() => {
         const closeBtn = stickyContainer.querySelector('.ez-toc-mobile-close-btn');
         if (closeBtn) {
             closeBtn.addEventListener('click', function() {
-                console.log('EZ TOC Widget Sticky: Mobile close button clicked');
                 closeMobileOverlay();
             });
         }
@@ -286,7 +247,6 @@ ready(() => {
         // Close overlay when clicking outside the content
         stickyContainer.addEventListener('click', function(e) {
             if (e.target === stickyContainer) {
-                console.log('EZ TOC Widget Sticky: Clicked outside mobile overlay content');
                 closeMobileOverlay();
             }
         });
@@ -294,7 +254,6 @@ ready(() => {
         // Close overlay when pressing Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && stickyContainer.classList.contains('mobile-overlay')) {
-                console.log('EZ TOC Widget Sticky: Escape key pressed, closing mobile overlay');
                 closeMobileOverlay();
             }
         });
@@ -303,7 +262,6 @@ ready(() => {
         stickyContainer.addEventListener('click', function(e) {
             const link = e.target.closest('a');
             if (link && isMobileDevice()) {
-                console.log('EZ TOC Widget Sticky: Link clicked in mobile overlay, closing');
                 // Close the overlay immediately when any link is clicked
                 stickyContainer.classList.remove('show');
                 stickyContainer.classList.remove('mobile-overlay');
@@ -312,7 +270,6 @@ ready(() => {
         });
         
         function closeMobileOverlay() {
-            console.log('EZ TOC Widget Sticky: Closing mobile overlay');
             stickyContainer.classList.remove('show');
             setTimeout(() => {
                 stickyContainer.classList.remove('mobile-overlay');
@@ -321,36 +278,24 @@ ready(() => {
         }
         
         mobileToggleInitialized = true;
-        console.log('EZ TOC Widget Sticky: Mobile toggle initialized successfully');
+
     }
     
     // Function to initialize sticky functionality
     function initializeSticky() {
-        console.log('EZ TOC Widget Sticky: Initializing sticky functionality...');
         if (stickyInitialized || !stickyContainer) {
-            console.log('EZ TOC Widget Sticky: Sticky already initialized or container not found');
             return;
         }
 
         // Don't initialize sticky on mobile devices
         if (isMobileDevice()) {
-            console.log('EZ TOC Widget Sticky: Skipping sticky initialization on mobile device');
             return;
         }
 
         // Find the article container
         const articleContainer = findArticleContainer();
-        console.log('EZ TOC Widget Sticky: Article container found:', {
-            tagName: articleContainer.tagName,
-            className: articleContainer.className,
-            id: articleContainer.id
-        });
         
         // Check if sticky-kit is available
-        console.log('EZ TOC Widget Sticky: Checking for jQuery and sticky-kit...');
-        console.log('EZ TOC Widget Sticky: jQuery available:', typeof jQuery !== 'undefined');
-        console.log('EZ TOC Widget Sticky: sticky-kit available:', typeof jQuery !== 'undefined' && jQuery.fn.stick_in_parent);
-        
         if (typeof jQuery !== 'undefined' && jQuery.fn.stick_in_parent) {
             const $ = jQuery;
             
@@ -360,11 +305,7 @@ ready(() => {
                     ? parseInt(ezTocWidgetSticky.fixed_top_position) 
                     : 30;
                 
-                console.log('EZ TOC Widget Sticky: Using offset top:', offsetTop);
-                console.log('EZ TOC Widget Sticky: ezTocWidgetSticky object:', ezTocWidgetSticky);
-                
                 // Initialize sticky with body as parent but respect article boundaries
-                console.log('EZ TOC Widget Sticky: Calling stick_in_parent with body parent...');
                 $(stickyContainer).stick_in_parent({
                     inner_scrolling: false,
                     offset_top: offsetTop,
@@ -373,7 +314,6 @@ ready(() => {
                 });
                 
                 stickyInitialized = true;
-                console.log('EZ TOC Widget Sticky: Sticky initialized successfully with body parent');
                 
                 // Add custom logic to respect article boundaries
                 let isSticky = false;
@@ -394,7 +334,6 @@ ready(() => {
                         // Position the sticky element at the bottom of the article
                         const maxTop = containerBottom - stickyHeight - offsetTop;
                         stickyContainer.style.top = Math.max(offsetTop, maxTop) + 'px';
-                        console.log('EZ TOC Widget Sticky: Respecting article bottom boundary');
                     } else {
                         // Normal sticky behavior
                         stickyContainer.style.top = offsetTop + 'px';
@@ -403,18 +342,15 @@ ready(() => {
                 
                 // Handle window resize
                 $(window).on('resize', function() {
-                    console.log('EZ TOC Widget Sticky: Window resized');
                     // Don't recalculate on mobile
                     if (isMobileDevice()) {
                         if ($(stickyContainer).hasClass('is_stuck')) {
-                            console.log('EZ TOC Widget Sticky: Recalculating sticky on mobile resize');
                             $(stickyContainer).trigger('sticky_kit:recalc');
                         }
                         return;
                     }
                     
                     if ($(stickyContainer).hasClass('is_stuck')) {
-                        console.log('EZ TOC Widget Sticky: Recalculating sticky on resize');
                         $(stickyContainer).trigger('sticky_kit:recalc');
                         handleArticleBoundaries();
                     }
@@ -436,33 +372,26 @@ ready(() => {
     }
 
     // Initialize based on device type
-    console.log('EZ TOC Widget Sticky: Determining device type and initializing...');
     if (isMobileDevice()) {
-        console.log('EZ TOC Widget Sticky: Mobile device detected, initializing mobile toggle');
         initializeMobileToggle();
     } else {
-        console.log('EZ TOC Widget Sticky: Desktop device detected, initializing sticky');
         initializeSticky();
     }
 
     // Handle device type changes on resize
     let currentDeviceType = isMobileDevice();
-    console.log('EZ TOC Widget Sticky: Initial device type:', currentDeviceType ? 'mobile' : 'desktop');
     
     window.addEventListener('resize', function() {
         const newDeviceType = isMobileDevice();
         if (newDeviceType !== currentDeviceType) {
-            console.log('EZ TOC Widget Sticky: Device type changed from', currentDeviceType ? 'mobile' : 'desktop', 'to', newDeviceType ? 'mobile' : 'desktop');
             currentDeviceType = newDeviceType;
             
             if (newDeviceType) {
                 // Switch to mobile mode
-                console.log('EZ TOC Widget Sticky: Switching to mobile mode');
-                if (stickyInitialized) {
+                    if (stickyInitialized) {
                     // Detach sticky functionality
                     if (typeof jQuery !== 'undefined' && jQuery.fn.stick_in_parent) {
                         const $ = jQuery;
-                        console.log('EZ TOC Widget Sticky: Detaching sticky functionality');
                         $(stickyContainer).trigger('sticky_kit:detach');
                     }
                     stickyInitialized = false;
@@ -470,12 +399,10 @@ ready(() => {
                 initializeMobileToggle();
             } else {
                 // Switch to desktop mode
-                console.log('EZ TOC Widget Sticky: Switching to desktop mode');
                 if (mobileToggleInitialized) {
                     // Remove mobile toggle button
                     const mobileToggleBtn = document.querySelector('.ez-toc-mobile-toggle-btn');
                     if (mobileToggleBtn) {
-                        console.log('EZ TOC Widget Sticky: Removing mobile toggle button');
                         mobileToggleBtn.remove();
                     }
                     mobileToggleInitialized = false;
@@ -487,9 +414,7 @@ ready(() => {
 
     // If not initialized, try again with a timeout
     if (!stickyInitialized && !isMobileDevice()) {
-        console.log('EZ TOC Widget Sticky: Sticky not initialized, trying again in 1 second...');
         setTimeout(() => {
-            console.log('EZ TOC Widget Sticky: Retrying sticky initialization...');
             initializeSticky();
         }, 1000); // Wait 1 second
     }
@@ -497,35 +422,28 @@ ready(() => {
     // Try again after a longer timeout as fallback
     setTimeout(() => {
         if (!stickyInitialized && !isMobileDevice()) {
-            console.log('EZ TOC Widget Sticky: Sticky still not initialized, trying again in 3 seconds...');
             initializeSticky();
         }
     }, 3000); // Wait 3 seconds
 
     // Final attempt after page is fully loaded
     window.addEventListener('load', () => {
-        console.log('EZ TOC Widget Sticky: Page fully loaded, final initialization attempt...');
         if (!stickyInitialized && !isMobileDevice()) {
-            console.log('EZ TOC Widget Sticky: Final sticky initialization attempt');
             initializeSticky();
         }
         if (!mobileToggleInitialized && isMobileDevice()) {
-            console.log('EZ TOC Widget Sticky: Final mobile toggle initialization attempt');
             initializeMobileToggle();
         }
     });
 
     // Fallback sticky functionality without sticky-kit
     function initializeFallbackSticky() {
-        console.log('EZ TOC Widget Sticky: Initializing fallback sticky functionality...');
         if (stickyInitialized || !stickyContainer) {
-            console.log('EZ TOC Widget Sticky: Fallback sticky already initialized or container not found');
             return;
         }
 
         // Don't initialize fallback sticky on mobile devices
         if (isMobileDevice()) {
-            console.log('EZ TOC Widget Sticky: Skipping fallback sticky initialization on mobile device');
             return;
         }
 
@@ -535,22 +453,10 @@ ready(() => {
                 ? parseInt(ezTocWidgetSticky.fixed_top_position) 
                 : 30;
 
-            console.log('EZ TOC Widget Sticky: Fallback sticky settings:', {
-                offsetTop: offsetTop,
-                articleContainer: articleContainer.tagName,
-                stickyContainer: stickyContainer.tagName
-            });
-
             let isSticky = false;
             const originalTop = stickyContainer.offsetTop;
             const originalPosition = stickyContainer.style.position;
             const containerRect = articleContainer.getBoundingClientRect();
-
-            console.log('EZ TOC Widget Sticky: Fallback sticky initial positions:', {
-                originalTop: originalTop,
-                originalPosition: originalPosition,
-                containerRect: containerRect
-            });
 
             function handleScroll() {
                 // Don't handle sticky on mobile
@@ -562,18 +468,9 @@ ready(() => {
                 const containerTop = articleContainer.offsetTop;
                 const containerBottom = containerTop + articleContainer.offsetHeight;
                 const stickyHeight = stickyContainer.offsetHeight;
-                
-                console.log('EZ TOC Widget Sticky: Fallback scroll handling:', {
-                    scrollTop: scrollTop,
-                    containerTop: containerTop,
-                    containerBottom: containerBottom,
-                    stickyHeight: stickyHeight,
-                    isSticky: isSticky
-                });
-                
+
                 // Check if we should make it sticky
                 if (scrollTop > originalTop - offsetTop && !isSticky) {
-                    console.log('EZ TOC Widget Sticky: Making element sticky');
                     stickyContainer.style.position = 'fixed';
                     stickyContainer.style.top = offsetTop + 'px';
                     stickyContainer.style.zIndex = '9999';
@@ -582,7 +479,6 @@ ready(() => {
                 } 
                 // Check if we should unstick it (when reaching container bottom)
                 else if ((scrollTop + stickyHeight + offsetTop > containerBottom) && isSticky) {
-                    console.log('EZ TOC Widget Sticky: Reaching container bottom, adjusting position');
                     stickyContainer.style.position = 'absolute';
                     stickyContainer.style.top = (containerBottom - stickyHeight - offsetTop) + 'px';
                     stickyContainer.style.zIndex = '9999';
@@ -590,7 +486,6 @@ ready(() => {
                 }
                 // Check if we should return to normal position
                 else if (scrollTop <= originalTop - offsetTop && isSticky) {
-                    console.log('EZ TOC Widget Sticky: Returning to normal position');
                     stickyContainer.style.position = originalPosition;
                     stickyContainer.style.top = '';
                     stickyContainer.style.zIndex = '';
@@ -603,7 +498,6 @@ ready(() => {
             window.addEventListener('resize', handleScroll);
             
             stickyInitialized = true;
-            console.log('EZ TOC Widget Sticky: Fallback sticky initialized successfully with article container');
         } catch (error) {
             console.error('EZ TOC Widget Sticky: Error initializing fallback sticky:', error);
         }
@@ -612,7 +506,6 @@ ready(() => {
     // Try fallback if sticky-kit fails after 5 seconds
     setTimeout(() => {
         if (!stickyInitialized && !isMobileDevice()) {
-            console.log('EZ TOC Widget Sticky: Sticky-kit failed, trying fallback sticky...');
             initializeFallbackSticky();
         }
     }, 5000);
@@ -624,7 +517,6 @@ ready(() => {
     }
 
     function highlightHeading(headingId) {
-        console.log('EZ TOC Widget Sticky: Highlighting heading:', headingId);
         const allTocLinks = document.querySelectorAll('.ez-toc-widget-sticky nav li a');
         const all_active_items = document.querySelectorAll('.ez-toc-widget-sticky nav li.active');
         
