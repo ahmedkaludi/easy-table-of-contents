@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 5.6.20
-Stable tag: 2.0.75
+Stable tag: 2.0.76
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,11 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.76 20/08/2025 =
+* Bug: Heading not highlighting when using shortcode #900
+* Bug: Conflict issue with GP Premium 2.4.1 Version. #901
+* Bug: Youtube video not visible on frontend #893
+* Improvement: TOC sticky widget improvements #904
 
 = 2.0.75 30/06/2025 =
 * Bug: TOC is not working on ACF fields #878
@@ -245,11 +250,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * New: Option for showing promt if no headings available #654
 * New: Option or shortcode like [initial_view="Show"] for specific pages/post. #732
 * Fix: Patched Stored XSS Vulnerability disclosed by Dmitrii Ignatyev from cleantalk.org
-
-= 2.0.65 10/04/2024 =
-* TWEAK: Warning: Undefined array key "s_blockqoute_checkbox" #728
-* TWEAK: Write plugin name in subject of feedback form #731
-* New: Added to exclude heading from query loop feature #730
 
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)

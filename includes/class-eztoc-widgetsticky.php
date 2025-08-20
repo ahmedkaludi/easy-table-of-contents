@@ -199,7 +199,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 $js_vars[ 'scroll_max_height_size_unit' ] = 'none';
                 $js_vars[ 'heading_label_tag' ] = 'default';
 
-                if ( (isset($instance[ 'appearance_options' ]) && 'on' == $instance[ 'appearance_options' ] ) || 'on' == $instance[ 'advanced_options' ] || $js_vars[ 'scroll_fixed_position' ] != $instance[ 'scroll_fixed_position' ] ||
+                if ( (isset($instance[ 'appearance_options' ]) && 'on' == $instance[ 'appearance_options' ] ) ||  ( isset($instance[ 'advanced_options' ]) && 'on' == $instance[ 'advanced_options' ] ) || $js_vars[ 'scroll_fixed_position' ] != $instance[ 'scroll_fixed_position' ] ||
                         $js_vars[ 'scroll_fixed_position' ] != $instance[ 'scroll_fixed_position' ] ||
                         $js_vars[ 'sidebar_sticky_title_size' ] != $instance[ 'sidebar_sticky_title_size' ] ||
                         $js_vars[ 'sidebar_sticky_title_size_unit' ] != $instance[ 'sidebar_sticky_title_size_unit' ] ||
@@ -217,7 +217,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 {
                     $js_vars[ 'appearance_options' ] = isset($instance[ 'appearance_options' ]) ? $instance[ 'appearance_options' ] : '';
 
-                    $js_vars[ 'advanced_options' ] = $instance[ 'advanced_options' ];
+                    $js_vars[ 'advanced_options' ] = isset( $instance[ 'advanced_options' ] ) ? $instance[ 'advanced_options' ] : '';
 
                     if ( empty ( $instance[ 'scroll_fixed_position' ] ) || ( ! empty ( $instance[ 'scroll_fixed_position' ] ) && ! is_int ( $instance[ 'scroll_fixed_position' ] ) && 'auto' != $instance[ 'scroll_fixed_position' ] ) )
                         $js_vars[ 'scroll_fixed_position' ] = '30';
@@ -371,8 +371,9 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
 			                                    color: <?php echo esc_attr ( $instance[ 'sidebar_sticky_color' ] ); } ?>;
 
 							}
-                            #<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-container ul.ez-toc-widget-sticky-list li.active , .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> ul.ez-toc-widget-sticky-list li.active{
+                            #<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-container ul.ez-toc-widget-sticky-list li.active > a, .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> ul.ez-toc-widget-sticky-list li.active > a{
                                 background-color: <?php echo esc_attr ( isset($instance[ 'highlight_color' ]) ? $instance[ 'highlight_color' ] : '' ); ?>;
+                                color: <?php echo esc_attr ( isset($instance[ 'active_section_text_color' ]) ? $instance[ 'active_section_text_color' ] : '' ); ?>;
                             }
                         </style>
                         <?php
@@ -453,7 +454,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 wp_enqueue_style ( 'ez-toc-widget-sticky', EZ_TOC_URL . "assets/css/ez-toc-widget-sticky$min.css", array(), $widgetCSSVersion );
 
                 wp_add_inline_style ( 'ez-toc-widget-sticky', ezTOC::inline_counting_css ( ezTOC_Option::get ( 'heading-text-direction', 'ltr' ), 'ez-toc-widget-sticky-direction', 'ez-toc-widget-sticky-container', 'counter', 'ez-toc-widget-sticky-container' ) );
-
+                
                 $widgetJSVersion = ezTOC::VERSION . '-' . filemtime ( EZ_TOC_PATH . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "js" . DIRECTORY_SEPARATOR . "ez-toc-widget-sticky$min.js" );
                 wp_register_script ( 'ez-toc-widget-stickyjs', EZ_TOC_URL . "assets/js/ez-toc-widget-sticky$min.js", array( 'jquery' ), $widgetJSVersion , true);
                 wp_enqueue_script ( 'ez-toc-widget-stickyjs', EZ_TOC_URL . "assets/js/ez-toc-widget-sticky$min.js", array( 'jquery' ), $widgetJSVersion , true);
@@ -482,6 +483,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
             $instance[ 'title' ] = wp_strip_all_tags ( $new_instance[ 'title' ] );
 
             $instance[ 'highlight_color' ] = wp_strip_all_tags ( $new_instance[ 'highlight_color' ] );
+            $instance[ 'active_section_text_color' ] = wp_strip_all_tags ( $new_instance[ 'active_section_text_color' ] );
 
             $instance[ 'hide_inline' ] = array_key_exists ( 'hide_inline', $new_instance ) ? $new_instance[ 'hide_inline' ] : '0';
 
@@ -555,6 +557,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
 
             $defaults = array(
                 'highlight_color' => '#ededed',
+                'active_section_text_color' => '#000000',
                 'title' => 'Table of Contents',
                 'appearance_options' => '',
                 'advanced_options' => '',
@@ -581,6 +584,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
             $instance = wp_parse_args ( ( array ) $instance, $defaults );
 
             $highlight_color = esc_attr ( $instance[ 'highlight_color' ] );
+            $active_section_text_color = esc_attr ( $instance[ 'active_section_text_color' ] );
             $title_color = esc_attr ( $instance[ 'sidebar_sticky_title_color' ] );
             $text_color = esc_attr ( $instance[ 'sidebar_sticky_color' ] );
             ?>
@@ -663,6 +667,11 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                     <p class="ez-toc-widget-form-group" style="margin: 0;margin-top: 7px;">
                         <label for="<?php echo esc_attr($this->get_field_id( 'highlight_color' )); ?>" style="margin-right: 12px;"><?php esc_html_e ( 'Active Section Highlight Color:', 'easy-table-of-contents' ); ?></label><br>
                         <input type="text" name="<?php echo esc_attr($this->get_field_name( 'highlight_color' )); ?>" class="color-picker" id="<?php echo esc_attr($this->get_field_id( 'highlight_color' )); ?>" value="<?php echo esc_attr($highlight_color); ?>" data-default-color="<?php echo esc_attr($defaults[ 'highlight_color' ]); ?>" />
+                    </p>
+
+                    <p class="ez-toc-widget-form-group" style="margin: 0;margin-top: 7px;">
+                        <label for="<?php echo esc_attr($this->get_field_id( 'active_section_text_color' )); ?>" style="margin-right: 12px;"><?php esc_html_e ( 'Active Section Text Color:', 'easy-table-of-contents' ); ?></label><br>
+                        <input type="text" name="<?php echo esc_attr($this->get_field_name( 'active_section_text_color' )); ?>" class="color-picker" id="<?php echo esc_attr($this->get_field_id( 'active_section_text_color' )); ?>" value="<?php echo esc_attr($active_section_text_color); ?>" data-default-color="<?php echo esc_attr($defaults[ 'active_section_text_color' ]); ?>" />
                     </p>
 
                     <div class="ez-toc-widget-form-group">

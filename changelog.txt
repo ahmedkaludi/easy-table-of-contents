@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 2.0.76 20/08/2025 =
+* Bug: Heading not highlighting when using shortcode #900
+* Bug: Conflict issue with GP Premium 2.4.1 Version. #901
+* Bug: Youtube video not visible on frontend #893
+* Improvement: TOC sticky widget improvements #904
+
 = 2.0.75 30/06/2025 =
 * Bug: TOC is not working on ACF fields #878
 * Bug: Sticky TOC incorrectly adds 'ez-toc-section' span on Pages even when disabled for Page post type #884
