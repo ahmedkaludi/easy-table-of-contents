@@ -345,18 +345,26 @@ class ezTOC_Post {
 			}
 		}
 
-		if(is_tax() || is_tag()){
+		if ( is_tax() || is_tag() ) {
+
 			global $wp_query;
 			$tax = $wp_query->get_queried_object();
-			if(is_object($tax)){
-				$content = apply_filters('ez_toc_modify_taxonomy_content',$tax->description,$tax->term_id);
+
+			if ( is_object( $tax ) ) {
+
+				$content = apply_filters( 'ez_toc_modify_taxonomy_content', $tax->description, $tax->term_id );
+
 			}
 		}
 
-		if(function_exists('is_product_category') && is_product_category()){
+		if ( function_exists( 'is_product_category' ) && is_product_category() ) {
+
 			$term_object = get_queried_object();			
-			if(!empty($term_object->description)){
-				$content     = $term_object->description;
+
+			if ( ! empty( $term_object->description ) ) {
+
+				$content = apply_filters( 'ez_toc_modify_product_category_content', $term_object->description );
+
 			}						
 		}		
 
