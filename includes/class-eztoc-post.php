@@ -1324,7 +1324,12 @@ class ezTOC_Post {
 			}
 			
 			$html  = apply_filters('ez_toc_add_custom_links',$html);
-			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1 $visiblityClass' >" . $html . "</ul>";
+			
+			// Get column setting - check shortcode options first, then global setting
+			$columns = isset($options['columns']) ? $options['columns'] : ezTOC_Option::get('toc_columns', 1);
+			$column_class = $columns > 1 ? " ez-toc-columns-{$columns}" : "";
+			
+			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1{$column_class} $visiblityClass' >" . $html . "</ul>";
 		}
 
 		return $html;

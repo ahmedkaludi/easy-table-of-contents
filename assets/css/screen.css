@@ -422,4 +422,40 @@ label.cssiconcheckbox {
 	margin:0;
 }
 
+/* TOC Column Layout - Balanced Columns */
+.ez-toc-list.ez-toc-columns-2 {
+	column-count: 2;
+	column-gap: 20px;
+	column-fill: balance;
+}
+
+.ez-toc-list.ez-toc-columns-3 {
+	column-count: 3;
+	column-gap: 20px;
+	column-fill: balance;
+}
+
+.ez-toc-list.ez-toc-columns-4 {
+	column-count: 4;
+	column-gap: 20px;
+	column-fill: balance;
+}
+
+
+/* Responsive behavior - stack columns on mobile/tablet */
+@media (max-width: 768px) {
+	.ez-toc-list.ez-toc-columns-2,
+	.ez-toc-list.ez-toc-columns-3,
+	.ez-toc-list.ez-toc-columns-4 {
+		column-count: 1;
+		column-gap: 0;
+	}
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+	.ez-toc-list.ez-toc-columns-4 {
+		column-count: 2;
+	}
+}
+
 

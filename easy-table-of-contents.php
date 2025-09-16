@@ -1569,6 +1569,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if(isset($atts["wrapping"]) && $atts["wrapping"] != ''){
 					$options['wrapping'] = $atts["wrapping"];
 				}
+				if(isset($atts["columns"]) && $atts["columns"] != ''){
+					$options['columns'] = $atts["columns"];
+				}
 				$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();	
 			
 				return apply_filters( 'eztoc_shortcode_final_toc_html', $html );

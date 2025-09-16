@@ -455,6 +455,19 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type'    => 'checkbox',
 							'default' => false,
 						),
+						'toc_columns' => array(
+							'id' => 'toc_columns',
+							'name' => esc_html__( 'TOC Columns', 'easy-table-of-contents' ),
+							'desc' => '<br>'.esc_html__( 'Display table of contents links in multiple columns. Columns will stack on mobile/tablet screens.', 'easy-table-of-contents' ),
+							'type' => 'select',
+							'options' => array(
+								'1' => esc_html__( '1 Column (Default)', 'easy-table-of-contents' ),
+								'2' => esc_html__( '2 Columns', 'easy-table-of-contents' ),
+								'3' => esc_html__( '3 Columns', 'easy-table-of-contents' ),
+								'4' => esc_html__( '4 Columns', 'easy-table-of-contents' ),
+							),
+							'default' => '1',
+						),
 						'headings-padding'                   => array(
 							'id'      => 'headings-padding',
 							'name'    => esc_html__( 'Headings Padding', 'easy-table-of-contents' ),
@@ -1725,6 +1738,7 @@ text
 				'width_custom_units'                 => 'px',
 				'wrapping'                           => 'none',
 				'toc_wrapping'                       => false,
+				'toc_columns'                        => 1,
 				'headings-padding'                   => false,
 				'headings-padding-top'               => 0,
 				'headings-padding-bottom'            => 0,
