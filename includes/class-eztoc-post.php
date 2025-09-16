@@ -1402,6 +1402,33 @@ class ezTOC_Post {
 
 
 		if ( $this->hasTOCItems() ) {
+			
+			// Check word count limit
+			$word_count_limit = 0;
+			
+			// Check shortcode options first
+			if ( isset( $options['word_count_limit'] ) && $options['word_count_limit'] > 0 ) {
+				$word_count_limit = intval( $options['word_count_limit'] );
+			}
+			// Check post meta
+			elseif ( get_post_meta( get_the_ID(), '_ez-toc-word_count_limit', true ) > 0 ) {
+				$word_count_limit = intval( get_post_meta( get_the_ID(), '_ez-toc-word_count_limit', true ) );
+			}
+			// Check global setting
+			elseif ( ezTOC_Option::get( 'word_count_limit', 0 ) > 0 ) {
+				$word_count_limit = intval( ezTOC_Option::get( 'word_count_limit', 0 ) );
+			}
+			
+			// If word count limit is set, check if post meets the requirement
+			if ( $word_count_limit > 0 ) {
+				$post_content = get_post_field( 'post_content', get_the_ID() );
+				$word_count = str_word_count( strip_tags( $post_content ) );
+				
+				if ( $word_count < $word_count_limit ) {
+					return $html; // Return empty HTML if word count is below limit
+				}
+			}
+			
 			$wrapping_class_add = "";
 			if(ezTOC_Option::get( 'toc_wrapping' )){
 				$wrapping_class_add='-text';

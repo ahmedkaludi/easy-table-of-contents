@@ -219,6 +219,8 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 
 			$custom_img_number  = get_post_meta( $post->ID, '_ez-toc-s_custom_img_number', true );
 
+			$word_count_limit  = get_post_meta( $post->ID, '_ez-toc-word_count_limit', true );
+
 			if ( ! is_array( $headings ) ) {
 
 				$headings = array();
@@ -348,6 +350,27 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 								'default' => false,
 							),
 								$blockqoute_checkbox
+							);
+						?>
+					</td>
+				</tr>
+
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Word Count Limit', 'easy-table-of-contents' ); ?></th>
+					<td>
+						<?php
+							ezTOC_Option::number(
+								array(
+									'id' => 'word_count_limit',
+									'name' =>esc_html__( 'Word Count Limit', 'easy-table-of-contents' ),
+									'desc' =>esc_html__( 'Minimum word count to display TOC. Set to 0 for unlimited words (default).', 'easy-table-of-contents' ),
+									'type' => 'number',
+									'size' => 'small',
+									'min' => 0,
+									'step' => 100,
+									'default' => $word_count_limit,
+							),
+								$word_count_limit
 							);
 						?>
 					</td>
@@ -710,6 +733,16 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 				} else {
 
 					update_post_meta( $post_id, '_ez-toc-exclude', '' );
+				}
+
+				if ( isset( $_REQUEST['ez-toc-settings']['word_count_limit'] ) && ! empty( $_REQUEST['ez-toc-settings']['word_count_limit'] ) ) {
+
+					$word_count_limit = absint( $_REQUEST['ez-toc-settings']['word_count_limit'] );
+					update_post_meta( $post_id, '_ez-toc-word_count_limit', $word_count_limit );
+
+				} else {
+
+					update_post_meta( $post_id, '_ez-toc-word_count_limit', 0 );
 				}
 
 				if ( isset( $_REQUEST['ez-toc-settings']['position-specific'] ) ) {

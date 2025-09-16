@@ -1572,6 +1572,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if(isset($atts["columns"]) && $atts["columns"] != ''){
 					$options['columns'] = $atts["columns"];
 				}
+				if(isset($atts["word_count_limit"]) && $atts["word_count_limit"] != ''){
+					$options['word_count_limit'] = $atts["word_count_limit"];
+				}
 				$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();	
 			
 				return apply_filters( 'eztoc_shortcode_final_toc_html', $html );

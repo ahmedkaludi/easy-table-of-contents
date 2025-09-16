@@ -277,9 +277,46 @@ jQuery( function( $ ) {
 		// Start EZ TOC on page load.
 		ezTOCInit();
 
+        // Reorder TOC items for vertical column filling
+        function reorderTOCColumns() {
+            $('.ez-toc-list[class*="ez-toc-columns-"]').each(function() {
+                var $list = $(this);
+                var columnClass = $list.attr('class').match(/ez-toc-columns-(\d+)/);
+                if (!columnClass) return;
+                
+                var columns = parseInt(columnClass[1]);
+                if (columns <= 1) return;
+                
+                var $items = $list.children('li');
+                var totalItems = $items.length;
+                var itemsPerColumn = Math.ceil(totalItems / columns);
+                
+                // Create new order: fill first column, then second, etc.
+                var reorderedItems = [];
+                for (var col = 0; col < columns; col++) {
+                    for (var row = 0; row < itemsPerColumn; row++) {
+                        var index = col + (row * columns);
+                        if (index < totalItems) {
+                            reorderedItems.push($items.eq(index));
+                        }
+                    }
+                }
+                
+                // Reorder the DOM elements
+                $list.empty();
+                reorderedItems.forEach(function($item) {
+                    $list.append($item);
+                });
+            });
+        }
+
+        // Run column reordering after TOC is initialized
+        setTimeout(reorderTOCColumns, 100);
+
         if ( typeof ezTOC.ajax_toggle != 'undefined' && parseInt( ezTOC.ajax_toggle ) === 1 ) {
             $( document ).ajaxComplete(function() {
                 ezTOCInit();
+                setTimeout(reorderTOCColumns, 100);
             });
         }
         

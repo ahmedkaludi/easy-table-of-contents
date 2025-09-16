@@ -422,23 +422,44 @@ label.cssiconcheckbox {
 	margin:0;
 }
 
-/* TOC Column Layout - Balanced Columns */
+/* TOC Column Layout - Vertical Fill with Balance */
 .ez-toc-list.ez-toc-columns-2 {
-	column-count: 2;
-	column-gap: 20px;
-	column-fill: balance;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	max-height: 300px;
+}
+
+.ez-toc-list.ez-toc-columns-2 > li {
+	width: calc(50% - 10px);
+	margin-right: 20px;
+	margin-bottom: 5px;
 }
 
 .ez-toc-list.ez-toc-columns-3 {
-	column-count: 3;
-	column-gap: 20px;
-	column-fill: balance;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	max-height: 200px;
+}
+
+.ez-toc-list.ez-toc-columns-3 > li {
+	width: calc(33.333% - 14px);
+	margin-right: 20px;
+	margin-bottom: 5px;
 }
 
 .ez-toc-list.ez-toc-columns-4 {
-	column-count: 4;
-	column-gap: 20px;
-	column-fill: balance;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	max-height: 150px;
+}
+
+.ez-toc-list.ez-toc-columns-4 > li {
+	width: calc(25% - 15px);
+	margin-right: 20px;
+	margin-bottom: 5px;
 }
 
 

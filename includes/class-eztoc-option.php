@@ -268,6 +268,15 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'options' => array_combine( range( 1, 10 ), range( 1, 10 ) ),
 							'default' => 2,
 						),
+						'word_count_limit' => array(
+							'id' => 'word_count_limit',
+							'name' => esc_html__( 'Word Count Limit', 'easy-table-of-contents' ),
+							'desc' => '<br>'.esc_html__( 'Minimum word count to display TOC. Set to 0 for unlimited words (default).', 'easy-table-of-contents' ),
+							'type' => 'number',
+							'default' => 0,
+							'min' => 0,
+							'step' => 100,
+						),
 						'show_heading_text' => array(
 							'id' => 'show_heading_text',
 							'name' => esc_html__( 'Display Header Label', 'easy-table-of-contents' ),
@@ -1715,6 +1724,7 @@ text
 				'fragment_prefix'                    => 'i',
 				'position'                           => 'before',
 				'start'                              => 2,
+				'word_count_limit'                   => 0,
 				'show_heading_text'                  => true,
 				'heading_text'                       => 'Table of Contents',
 				'heading_text_tag'                   => 'p',
