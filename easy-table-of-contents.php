@@ -866,7 +866,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					
 				}
 
-				// List prefix color (works with any theme)
+				// List Style Color (works with any theme)
 				$list_prefix_colour = ezTOC_Option::get( 'list_prefix_colour', '' );
 				if ( ! empty( $list_prefix_colour ) ) {
 					$css .= '.ez-toc-counter nav ul li a::before {color: ' . esc_attr( $list_prefix_colour ) . ';}';

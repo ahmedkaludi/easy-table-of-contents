@@ -484,13 +484,6 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							),
 							'default' => '1',
 						),
-						'list_prefix_colour' => array(
-							'id' => 'list_prefix_colour',
-							'name' => esc_html__( 'List Prefix Color', 'easy-table-of-contents' ),
-							'desc' => '<br>'.esc_html__( 'Color for the numbers or bullets before each TOC item. Leave empty for default color.', 'easy-table-of-contents' ),
-							'type' => 'color',
-							'default' => '',
-						),
 						'headings-padding'                   => array(
 							'id'      => 'headings-padding',
 							'name'    => esc_html__( 'Headings Padding', 'easy-table-of-contents' ),
@@ -640,12 +633,12 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 							'type' => 'color',
 							'default' => '#428bca',
 						),
-						'custom_list_prefix_colour' => array(
-							'id' => 'custom_list_prefix_colour',
-							'name' => esc_html__( 'List Prefix Color', 'easy-table-of-contents' ),
-							'desc' => '<br>'.esc_html__( 'Color for the numbers or bullets before each TOC item.', 'easy-table-of-contents' ),
+						'list_prefix_colour' => array(
+							'id' => 'list_prefix_colour',
+							'name' => esc_html__( 'List Style Color', 'easy-table-of-contents' ),
+							'desc' => '<br>'.esc_html__( 'Color for the numbers or bullets before each TOC item. Leave empty for default color.', 'easy-table-of-contents' ),
 							'type' => 'color',
-							'default' => '#428bca',
+							'default' => '',
 						),
 					)
 				),
