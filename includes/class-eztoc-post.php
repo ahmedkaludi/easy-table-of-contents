@@ -1571,7 +1571,11 @@ class ezTOC_Post {
 
 	private function get_js_based_toc_heading($options){
 
-		$html = '';						
+		$html = '';
+		
+		// Add box title if set
+		$html .= $this->get_box_title_tag( $options );
+						
 		$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
 		$header_label = '';
 		$show_header_text = ezTOC_Option::get( 'show_heading_text' );
@@ -1620,7 +1624,11 @@ class ezTOC_Post {
 	//css based heaing function
 	private function get_css_based_toc_heading($options){
 
-		$html = '';	
+		$html = '';
+		
+		// Add box title if set
+		$html .= $this->get_box_title_tag( $options );
+		
 		$header_label = '';
 		$show_header_text = true;
 		if(isset($options['no_label']) && $options['no_label'] == true){
@@ -2050,6 +2058,34 @@ class ezTOC_Post {
 		}
 
 		return $tag_html;
+	}
+
+	/**
+	 * Get the box title element (legend text above TOC).
+	 *
+	 * @access private
+	 * @since  2.0
+	 * @param array Options.
+	 *
+	 * @return string The box title HTML.
+	 */
+	private function get_box_title_tag( $options = [] ) {
+		// Check for box title (shortcode options, then global setting)
+		$box_title = '';
+		if ( isset( $options['box_title'] ) && ! empty( $options['box_title'] ) ) {
+			$box_title = $options['box_title'];
+		} else {
+			$box_title = ezTOC_Option::get( 'box_title', '' );
+		}
+		
+		if ( empty( $box_title ) ) {
+			return '';
+		}
+		
+		// Generate box title HTML
+		$box_title_html = '<div class="ez-toc-box-title">' . esc_html( $box_title ) . '</div>' . PHP_EOL;
+		
+		return $box_title_html;
 	}
 
 }

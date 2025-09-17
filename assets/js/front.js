@@ -89,6 +89,22 @@ jQuery( function( $ ) {
                             if ( ! $(toggle).data( 'visible' ) ) {
 
                                     toc.hide();
+                                    // Set initial box title state when TOC is hidden by default
+                                    const main = document.querySelector("#ez-toc-container");
+                                    if(main){
+                                            const boxTitle = main.querySelector('.ez-toc-box-title');
+                                            if(boxTitle){
+                                                    boxTitle.classList.add("toc-closed");
+                                            }
+                                    } else {
+                                            const side = document.querySelector(".ez-toc-widget-container,.ez-toc-widget-sticky-container");
+                                            if(side){
+                                                    const boxTitle = side.querySelector('.ez-toc-box-title');
+                                                    if(boxTitle){
+                                                            boxTitle.classList.add("toc-closed");
+                                                    }
+                                            }
+                                    }
                             }
 
                             $(toggle).on( 'click', function( event ) {
@@ -98,11 +114,21 @@ jQuery( function( $ ) {
                                     const main = document.querySelector("#ez-toc-container");
                                     if(main){
                                             main.classList.toggle("toc_close");
+                                            // Handle box title positioning
+                                            const boxTitle = main.querySelector('.ez-toc-box-title');
+                                            if(boxTitle){
+                                                    boxTitle.classList.toggle("toc-closed");
+                                            }
                                     }
                                     else
                                     {
                                             const side = document.querySelector(".ez-toc-widget-container,.ez-toc-widget-sticky-container");
-                                            side.classList.toggle("toc_close");					
+                                            side.classList.toggle("toc_close");
+                                            // Handle box title positioning for side widgets
+                                            const boxTitle = side.querySelector('.ez-toc-box-title');
+                                            if(boxTitle){
+                                                    boxTitle.classList.toggle("toc-closed");
+                                            }
                                     }
 
                                     if ( $( this ).data( 'visible' ) ) {
@@ -291,11 +317,11 @@ jQuery( function( $ ) {
                 var totalItems = $items.length;
                 var itemsPerColumn = Math.ceil(totalItems / columns);
                 
-                // Create new order: fill first column, then second, etc.
+                // Create new order: fill first column completely, then second column
                 var reorderedItems = [];
                 for (var col = 0; col < columns; col++) {
                     for (var row = 0; row < itemsPerColumn; row++) {
-                        var index = col + (row * columns);
+                        var index = col * itemsPerColumn + row;
                         if (index < totalItems) {
                             reorderedItems.push($items.eq(index));
                         }

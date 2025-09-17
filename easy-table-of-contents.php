@@ -862,8 +862,19 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$css .= 'div#ez-toc-container ul.ez-toc-list a {color: ' . esc_attr( ezTOC_Option::get( 'custom_link_colour' ) ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:hover {color: ' . esc_attr( ezTOC_Option::get( 'custom_link_hover_colour' ) ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:visited {color: ' . esc_attr( ezTOC_Option::get( 'custom_link_visited_colour' ) ) . ';}';
+					$css .= '.ez-toc-counter nav ul li a::before {color: ' . esc_attr( ezTOC_Option::get( 'custom_list_prefix_colour' ) ) . ';}';
 					
 				}
+
+				// List prefix color (works with any theme)
+				$list_prefix_colour = ezTOC_Option::get( 'list_prefix_colour', '' );
+				if ( ! empty( $list_prefix_colour ) ) {
+					$css .= '.ez-toc-counter nav ul li a::before {color: ' . esc_attr( $list_prefix_colour ) . ';}';
+				}
+
+				// Box title styling
+				$css .= '.ez-toc-box-title {font-weight: bold; margin-bottom: 10px; text-align: center; text-transform: uppercase; letter-spacing: 1px; color: #666; padding-bottom: 5px;position:absolute;top:-4%;left:5%;background-color: inherit;transition: top 0.3s ease;}';
+				$css .= '.ez-toc-box-title.toc-closed {top:-25%;}';
 
 				if(ezTOC_Option::get( 'headings-padding' )){
 					$css .= self::inline_headings_padding_css();	
@@ -1574,6 +1585,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}
 				if(isset($atts["word_count_limit"]) && $atts["word_count_limit"] != ''){
 					$options['word_count_limit'] = $atts["word_count_limit"];
+				}
+				if(isset($atts["box_title"]) && $atts["box_title"] != ''){
+					$options['box_title'] = $atts["box_title"];
 				}
 				$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();	
 			
