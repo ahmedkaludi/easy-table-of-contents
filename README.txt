@@ -100,7 +100,7 @@ Bug reports for Easy Table of Contents are [welcomed on GitHub](https://github.c
 
 Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://wordpress.org/plugins/table-of-contents-plus/) plugin by [Michael Tran](http://dublue.com/plugins/toc/).
 
-### Screenshots 
+== Screenshots ==
 
 1. The General section of the settings.
 2. The Appearance section of the settings.
