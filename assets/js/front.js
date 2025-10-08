@@ -303,8 +303,8 @@ jQuery( function( $ ) {
 		// Start EZ TOC on page load.
 		ezTOCInit();
 
-        // Reorder TOC items for vertical column filling
-        function reorderTOCColumns() {
+        // Ensure proper column layout for TOC
+        function optimizeTOCColumns() {
             $('.ez-toc-list[class*="ez-toc-columns-"]').each(function() {
                 var $list = $(this);
                 var columnClass = $list.attr('class').match(/ez-toc-columns-(\d+)/);
@@ -313,36 +313,29 @@ jQuery( function( $ ) {
                 var columns = parseInt(columnClass[1]);
                 if (columns <= 1) return;
                 
-                var $items = $list.children('li');
-                var totalItems = $items.length;
-                var itemsPerColumn = Math.ceil(totalItems / columns);
+                // Add CSS class for better column balancing
+                $list.addClass('ez-toc-columns-optimized');
                 
-                // Create new order: fill first column completely, then second column
-                var reorderedItems = [];
-                for (var col = 0; col < columns; col++) {
-                    for (var row = 0; row < itemsPerColumn; row++) {
-                        var index = col * itemsPerColumn + row;
-                        if (index < totalItems) {
-                            reorderedItems.push($items.eq(index));
-                        }
+                // Ensure items don't break across columns inappropriately
+                $list.find('li').each(function() {
+                    var $item = $(this);
+                    var itemHeight = $item.outerHeight();
+                    
+                    // If item is too tall, prevent it from breaking
+                    if (itemHeight > 50) {
+                        $item.css('break-inside', 'avoid');
                     }
-                }
-                
-                // Reorder the DOM elements
-                $list.empty();
-                reorderedItems.forEach(function($item) {
-                    $list.append($item);
                 });
             });
         }
 
-        // Run column reordering after TOC is initialized
-        setTimeout(reorderTOCColumns, 100);
+        // Run column optimization after TOC is initialized
+        setTimeout(optimizeTOCColumns, 100);
 
         if ( typeof ezTOC.ajax_toggle != 'undefined' && parseInt( ezTOC.ajax_toggle ) === 1 ) {
             $( document ).ajaxComplete(function() {
                 ezTOCInit();
-                setTimeout(reorderTOCColumns, 100);
+                setTimeout(optimizeTOCColumns, 100);
             });
         }
         
