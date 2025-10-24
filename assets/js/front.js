@@ -71,7 +71,23 @@ jQuery( function( $ ) {
                             if (typeof Cookies !== "undefined") {
                                 if ( Cookies ) {
 
-                                        Cookies.get( 'ezTOC_hidetoc-' + i ) == 1 ? $(toggle).data( 'visible', false ) : $(toggle).data( 'visible', true );
+                                        if ( Cookies.get( 'ezTOC_hidetoc-' + i ) == 1 ) {
+                                            $(toggle).data( 'visible', false );
+                                            // Add toc_close class when cookie indicates TOC should be hidden
+                                            const main = document.querySelector("#ez-toc-container");
+                                            if(main){
+                                                    main.classList.add("toc_close");
+                                            }
+                                            else
+                                            {
+                                                    const side = document.querySelector(".ez-toc-widget-container,.ez-toc-widget-sticky-container");
+                                                    if(side) {
+                                                        side.classList.add("toc_close");
+                                                    }
+                                            }
+                                        } else {
+                                            $(toggle).data( 'visible', true );
+                                        }
                                         Cookies.remove('ezTOC_hidetoc-' + i)
 
                                 } else {
