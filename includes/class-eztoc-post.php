@@ -1422,7 +1422,17 @@ class ezTOC_Post {
 			// If word count limit is set, check if post meets the requirement
 			if ( $word_count_limit > 0 ) {
 				$post_content = get_post_field( 'post_content', get_the_ID() );
-				$word_count = str_word_count( strip_tags( $post_content ) );
+
+				$post_content = do_shortcode($post_content);
+				$clean_content = preg_replace( '/<style[^>]*>.*?<\/style>/is', '', $post_content );
+				$clean_content = preg_replace( '/<script[^>]*>.*?<\/script>/is', '', $clean_content );
+		
+				$clean_content = strip_tags( $clean_content );
+				
+				$clean_content = html_entity_decode( $clean_content, ENT_QUOTES, 'UTF-8' );
+				$clean_content = preg_replace( '/\s+/', ' ', trim( $clean_content ) );
+				
+				$word_count = str_word_count( $clean_content );
 				
 				if ( $word_count < $word_count_limit ) {
 					return $html; // Return empty HTML if word count is below limit
