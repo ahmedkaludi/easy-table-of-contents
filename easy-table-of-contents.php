@@ -184,9 +184,17 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_action( 'wp_footer', array(__CLASS__, 'sticky_toggle_content' ) );
 				add_filter( 'wpseo_schema_graph', array( __CLASS__, 'ez_toc_schema_sitenav_yoast_compat'), 10, 1 );
 				add_filter( 'get_the_archive_description', array( __CLASS__, 'toc_get_the_archive_description' ), 10,1);
+				/*
+				* Fix for toc not links not working if the page template created with SeedProd Pro builder		
+				*/				
+				if ( ezTOC_Option::get( 'seedprod-pro' ) ) {				    
+				    add_action( 'template_redirect', array( __CLASS__, 'ez_toc_buffer_start' ), 1 );				    
+				    remove_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
+				}
 
 			}
-		}
+
+		}		
 	
 		/**
 		 * is_sidebar_hastoc function
@@ -2176,6 +2184,43 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 		return mb_find_replace( $find, $replace, $content );
 		
+		}
+
+
+		/**
+		 * Start output buffering to catch final HTML.
+		 * SeedProd bypasses the_content, so we must filter later.
+		 */
+		public static function ez_toc_buffer_start() {
+			// Only run if the post is eligible
+			if ( self::is_eligible( get_post() ) && !is_admin() ) {
+				ob_start( array( __CLASS__, 'ez_toc_buffer_end' ) );
+			}
+		}
+
+		/**
+		 * Process the final HTML output buffer.
+		 * This is where we inject the spans.
+		 */
+		public static function ez_toc_buffer_end( $buffer ) {
+			
+			// Get the post object for the current page
+			$post_obj = self::get( get_the_ID() );
+
+			if ( ! $post_obj instanceof ezTOC_Post || ! $post_obj->hasTOCItems() || ezTOC_Option::get( 'disable_toc_links' ,false ) ) {
+				return $buffer; // No items or disabled, return original HTML
+			}
+
+			// Get headings to find and headings with anchors to replace
+			$find    = $post_obj->getHeadings();
+			$replace = $post_obj->getHeadingsWithAnchors();
+
+			if ( empty($find) || empty($replace) ) {
+				return $buffer;
+			}
+
+			// Use mb_find_replace to inject spans into the final HTML buffer
+			return mb_find_replace( $find, $replace, $buffer );
 		}
 
 		/**

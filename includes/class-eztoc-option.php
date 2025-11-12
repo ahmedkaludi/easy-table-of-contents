@@ -1582,6 +1582,13 @@ text
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'seedprod-pro' => array(
+							'id' => 'seedprod-pro',
+							'name' => esc_html__( 'SeedProd Pro', 'easy-table-of-contents' ),
+							'desc' => esc_html__( 'It enable to compatibility if the page template is created with SeedProd Pro.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
                     )
                 ),
 				'prosettings' => apply_filters(
@@ -1807,6 +1814,7 @@ text
 				'add_self_reference_link'             => false,
 				'mediavine-create'                    => 0,
 				'molongui-authorship'                 => false,
+				'seedprod-pro'         			      => false,
 				'custom_para_number'                  => 1,
 				'blockqoute_checkbox'                  => false,
 				'disable_in_restapi'                  => false,
