@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.76
+ * Version: 2.0.77
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -28,7 +28,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.76
+ * @version  2.0.77
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.76';
+		const VERSION = '2.0.77';
 
 		/**
 		 * Stores the instance of this class.
@@ -184,9 +184,17 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_action( 'wp_footer', array(__CLASS__, 'sticky_toggle_content' ) );
 				add_filter( 'wpseo_schema_graph', array( __CLASS__, 'ez_toc_schema_sitenav_yoast_compat'), 10, 1 );
 				add_filter( 'get_the_archive_description', array( __CLASS__, 'toc_get_the_archive_description' ), 10,1);
+				/*
+				* Fix for toc not links not working if the page template created with SeedProd Pro builder		
+				*/				
+				if ( ezTOC_Option::get( 'seedprod-pro' ) ) {				    
+				    add_action( 'template_redirect', array( __CLASS__, 'ez_toc_buffer_start' ), 1 );				    
+				    remove_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
+				}
 
 			}
-		}
+
+		}		
 	
 		/**
 		 * is_sidebar_hastoc function
@@ -862,8 +870,19 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$css .= 'div#ez-toc-container ul.ez-toc-list a {color: ' . esc_attr( ezTOC_Option::get( 'custom_link_colour' ) ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:hover {color: ' . esc_attr( ezTOC_Option::get( 'custom_link_hover_colour' ) ) . ';}';
 					$css .= 'div#ez-toc-container ul.ez-toc-list a:visited {color: ' . esc_attr( ezTOC_Option::get( 'custom_link_visited_colour' ) ) . ';}';
+					$css .= '.ez-toc-counter nav ul li a::before {color: ' . esc_attr( ezTOC_Option::get( 'custom_list_prefix_colour' ) ) . ';}';
 					
 				}
+
+				// List Style Color (works with any theme)
+				$list_prefix_colour = ezTOC_Option::get( 'list_prefix_colour', '' );
+				if ( ! empty( $list_prefix_colour ) ) {
+					$css .= '.ez-toc-counter nav ul li a::before {color: ' . esc_attr( $list_prefix_colour ) . ';}';
+				}
+
+				// Box title styling
+				$css .= '.ez-toc-box-title {font-weight: bold; margin-bottom: 10px; text-align: center; text-transform: uppercase; letter-spacing: 1px; color: #666; padding-bottom: 5px;position:absolute;top:-4%;left:5%;background-color: inherit;transition: top 0.3s ease;}';
+				$css .= '.ez-toc-box-title.toc-closed {top:-25%;}';
 
 				if(ezTOC_Option::get( 'headings-padding' )){
 					$css .= self::inline_headings_padding_css();	
@@ -1569,6 +1588,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if(isset($atts["wrapping"]) && $atts["wrapping"] != ''){
 					$options['wrapping'] = $atts["wrapping"];
 				}
+				if(isset($atts["columns"]) && $atts["columns"] != ''){
+					$options['columns'] = $atts["columns"];
+				}
+				if(isset($atts["word_count_limit"]) && $atts["word_count_limit"] != ''){
+					$options['word_count_limit'] = $atts["word_count_limit"];
+				}
+				if(isset($atts["box_title"]) && $atts["box_title"] != ''){
+					$options['box_title'] = $atts["box_title"];
+				}
 				$html = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();	
 			
 				return apply_filters( 'eztoc_shortcode_final_toc_html', $html );
@@ -2156,6 +2184,43 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 		return mb_find_replace( $find, $replace, $content );
 		
+		}
+
+
+		/**
+		 * Start output buffering to catch final HTML.
+		 * SeedProd bypasses the_content, so we must filter later.
+		 */
+		public static function ez_toc_buffer_start() {
+			// Only run if the post is eligible
+			if ( self::is_eligible( get_post() ) && !is_admin() ) {
+				ob_start( array( __CLASS__, 'ez_toc_buffer_end' ) );
+			}
+		}
+
+		/**
+		 * Process the final HTML output buffer.
+		 * This is where we inject the spans.
+		 */
+		public static function ez_toc_buffer_end( $buffer ) {
+			
+			// Get the post object for the current page
+			$post_obj = self::get( get_the_ID() );
+
+			if ( ! $post_obj instanceof ezTOC_Post || ! $post_obj->hasTOCItems() || ezTOC_Option::get( 'disable_toc_links' ,false ) ) {
+				return $buffer; // No items or disabled, return original HTML
+			}
+
+			// Get headings to find and headings with anchors to replace
+			$find    = $post_obj->getHeadings();
+			$replace = $post_obj->getHeadingsWithAnchors();
+
+			if ( empty($find) || empty($replace) ) {
+				return $buffer;
+			}
+
+			// Use mb_find_replace to inject spans into the final HTML buffer
+			return mb_find_replace( $find, $replace, $buffer );
 		}
 
 		/**

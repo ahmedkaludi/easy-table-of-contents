@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 5.6.20
-Stable tag: 2.0.76
+Stable tag: 2.0.77
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,7 +100,7 @@ Bug reports for Easy Table of Contents are [welcomed on GitHub](https://github.c
 
 Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://wordpress.org/plugins/table-of-contents-plus/) plugin by [Michael Tran](http://dublue.com/plugins/toc/).
 
-### Screenshots 
+== Screenshots ==
 
 1. The General section of the settings.
 2. The Appearance section of the settings.
@@ -134,6 +134,13 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.77 15/11/2025 =
+* Improvement: Added hook/filter to modify product_category HTML content before rendering #911
+* Improvement: Make two/three responsive columns easy table of contents #670
+* Feature: Option to show TOC only when certain word count is present #912
+* Feature: Create box title or legend for toc container #913
+* Compatibility: Need to make a compatible with the SeedProd builder. #922
+
 = 2.0.76 20/08/2025 =
 * Bug: Heading not highlighting when using shortcode #900
 * Bug: Conflict issue with GP Premium 2.4.1 Version. #901

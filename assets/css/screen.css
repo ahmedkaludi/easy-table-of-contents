@@ -422,4 +422,78 @@ label.cssiconcheckbox {
 	margin:0;
 }
 
+/* TOC Column Layout - Balanced Columns */
+.ez-toc-list.ez-toc-columns-2 {
+	column-count: 2;
+	column-gap: 20px;
+	column-fill: balance;
+}
+
+.ez-toc-list.ez-toc-columns-2 > li {
+	display: block;
+	break-inside: avoid;
+	margin-bottom: 8px;
+	page-break-inside: avoid;
+}
+
+.ez-toc-list.ez-toc-columns-3 {
+	column-count: 3;
+	column-gap: 20px;
+	column-fill: balance;
+}
+
+.ez-toc-list.ez-toc-columns-3 > li {
+	display: block;
+	break-inside: avoid;
+	margin-bottom: 8px;
+	page-break-inside: avoid;
+}
+
+.ez-toc-list.ez-toc-columns-4 {
+	column-count: 4;
+	column-gap: 20px;
+	column-fill: balance;
+}
+
+.ez-toc-list.ez-toc-columns-4 > li {
+	display: block;
+	break-inside: avoid;
+	margin-bottom: 8px;
+	page-break-inside: avoid;
+}
+
+/* Additional optimization for balanced columns */
+.ez-toc-list.ez-toc-columns-optimized {
+	column-fill: balance;
+	orphans: 2;
+	widows: 2;
+}
+
+.ez-toc-list.ez-toc-columns-optimized > li {
+	display: block;
+	break-inside: avoid;
+	page-break-inside: avoid;
+}
+
+
+/* Responsive behavior - stack columns on mobile/tablet */
+@media (max-width: 768px) {
+	.ez-toc-list.ez-toc-columns-2,
+	.ez-toc-list.ez-toc-columns-3,
+	.ez-toc-list.ez-toc-columns-4 {
+		column-count: 1;
+		column-gap: 0;
+	}
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+	.ez-toc-list.ez-toc-columns-4 {
+		column-count: 2;
+	}
+	
+	.ez-toc-list.ez-toc-columns-3 {
+		column-count: 2;
+	}
+}
+
 

@@ -105,6 +105,22 @@ jQuery( function( $ ) {
                             if ( ! $(toggle).data( 'visible' ) ) {
 
                                     toc.hide();
+                                    // Set initial box title state when TOC is hidden by default
+                                    const main = document.querySelector("#ez-toc-container");
+                                    if(main){
+                                            const boxTitle = main.querySelector('.ez-toc-box-title');
+                                            if(boxTitle){
+                                                    boxTitle.classList.add("toc-closed");
+                                            }
+                                    } else {
+                                            const side = document.querySelector(".ez-toc-widget-container,.ez-toc-widget-sticky-container");
+                                            if(side){
+                                                    const boxTitle = side.querySelector('.ez-toc-box-title');
+                                                    if(boxTitle){
+                                                            boxTitle.classList.add("toc-closed");
+                                                    }
+                                            }
+                                    }
                             }
 
                             $(toggle).on( 'click', function( event ) {
@@ -114,11 +130,21 @@ jQuery( function( $ ) {
                                     const main = document.querySelector("#ez-toc-container");
                                     if(main){
                                             main.classList.toggle("toc_close");
+                                            // Handle box title positioning
+                                            const boxTitle = main.querySelector('.ez-toc-box-title');
+                                            if(boxTitle){
+                                                    boxTitle.classList.toggle("toc-closed");
+                                            }
                                     }
                                     else
                                     {
                                             const side = document.querySelector(".ez-toc-widget-container,.ez-toc-widget-sticky-container");
-                                            side.classList.toggle("toc_close");					
+                                            side.classList.toggle("toc_close");
+                                            // Handle box title positioning for side widgets
+                                            const boxTitle = side.querySelector('.ez-toc-box-title');
+                                            if(boxTitle){
+                                                    boxTitle.classList.toggle("toc-closed");
+                                            }
                                     }
 
                                     if ( $( this ).data( 'visible' ) ) {
@@ -293,9 +319,39 @@ jQuery( function( $ ) {
 		// Start EZ TOC on page load.
 		ezTOCInit();
 
+        // Ensure proper column layout for TOC
+        function optimizeTOCColumns() {
+            $('.ez-toc-list[class*="ez-toc-columns-"]').each(function() {
+                var $list = $(this);
+                var columnClass = $list.attr('class').match(/ez-toc-columns-(\d+)/);
+                if (!columnClass) return;
+                
+                var columns = parseInt(columnClass[1]);
+                if (columns <= 1) return;
+                
+                // Add CSS class for better column balancing
+                $list.addClass('ez-toc-columns-optimized');
+                
+                // Ensure items don't break across columns inappropriately
+                $list.find('li').each(function() {
+                    var $item = $(this);
+                    var itemHeight = $item.outerHeight();
+                    
+                    // If item is too tall, prevent it from breaking
+                    if (itemHeight > 50) {
+                        $item.css('break-inside', 'avoid');
+                    }
+                });
+            });
+        }
+
+        // Run column optimization after TOC is initialized
+        setTimeout(optimizeTOCColumns, 100);
+
         if ( typeof ezTOC.ajax_toggle != 'undefined' && parseInt( ezTOC.ajax_toggle ) === 1 ) {
             $( document ).ajaxComplete(function() {
                 ezTOCInit();
+                setTimeout(optimizeTOCColumns, 100);
             });
         }
         

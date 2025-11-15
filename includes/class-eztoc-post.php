@@ -128,7 +128,7 @@ class ezTOC_Post {
 			$apply_content_filter = false;
 			$eztoc_disable_the_content = false;
 	    }
-        return $apply_content_filter;
+        return apply_filters('ez_toc_apply_filter_status_final', $apply_content_filter);
     }
 
 	/**
@@ -345,18 +345,26 @@ class ezTOC_Post {
 			}
 		}
 
-		if(is_tax() || is_tag()){
+		if ( is_tax() || is_tag() ) {
+
 			global $wp_query;
 			$tax = $wp_query->get_queried_object();
-			if(is_object($tax)){
-				$content = apply_filters('ez_toc_modify_taxonomy_content',$tax->description,$tax->term_id);
+
+			if ( is_object( $tax ) ) {
+
+				$content = apply_filters( 'ez_toc_modify_taxonomy_content', $tax->description, $tax->term_id );
+
 			}
 		}
 
-		if(function_exists('is_product_category') && is_product_category()){
+		if ( function_exists( 'is_product_category' ) && is_product_category() ) {
+
 			$term_object = get_queried_object();			
-			if(!empty($term_object->description)){
-				$content     = $term_object->description;
+
+			if ( ! empty( $term_object->description ) ) {
+
+				$content = apply_filters( 'ez_toc_modify_product_category_content', $term_object->description );
+
 			}						
 		}		
 
@@ -1316,7 +1324,12 @@ class ezTOC_Post {
 			}
 			
 			$html  = apply_filters('ez_toc_add_custom_links',$html);
-			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1 $visiblityClass' >" . $html . "</ul>";
+			
+			// Get column setting - check shortcode options first, then global setting
+			$columns = isset($options['columns']) ? $options['columns'] : ezTOC_Option::get('toc_columns', 1);
+			$column_class = $columns > 1 ? " ez-toc-columns-{$columns}" : "";
+			
+			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1{$column_class} $visiblityClass' >" . $html . "</ul>";
 		}
 
 		return $html;
@@ -1389,6 +1402,43 @@ class ezTOC_Post {
 
 
 		if ( $this->hasTOCItems() ) {
+			
+			// Check word count limit
+			$word_count_limit = 0;
+			
+			// Check shortcode options first
+			if ( isset( $options['word_count_limit'] ) && $options['word_count_limit'] > 0 ) {
+				$word_count_limit = intval( $options['word_count_limit'] );
+			}
+			// Check post meta
+			elseif ( get_post_meta( get_the_ID(), '_ez-toc-word_count_limit', true ) > 0 ) {
+				$word_count_limit = intval( get_post_meta( get_the_ID(), '_ez-toc-word_count_limit', true ) );
+			}
+			// Check global setting
+			elseif ( ezTOC_Option::get( 'word_count_limit', 0 ) > 0 ) {
+				$word_count_limit = intval( ezTOC_Option::get( 'word_count_limit', 0 ) );
+			}
+			
+			// If word count limit is set, check if post meets the requirement
+			if ( $word_count_limit > 0 ) {
+				$post_content = get_post_field( 'post_content', get_the_ID() );
+
+				$post_content = do_shortcode($post_content);
+				$clean_content = preg_replace( '/<style[^>]*>.*?<\/style>/is', '', $post_content );
+				$clean_content = preg_replace( '/<script[^>]*>.*?<\/script>/is', '', $clean_content );
+		
+				$clean_content = strip_tags( $clean_content );
+				
+				$clean_content = html_entity_decode( $clean_content, ENT_QUOTES, 'UTF-8' );
+				$clean_content = preg_replace( '/\s+/', ' ', trim( $clean_content ) );
+				
+				$word_count = str_word_count( $clean_content );
+				
+				if ( $word_count < $word_count_limit ) {
+					return $html; // Return empty HTML if word count is below limit
+				}
+			}
+			
 			$wrapping_class_add = "";
 			if(ezTOC_Option::get( 'toc_wrapping' )){
 				$wrapping_class_add='-text';
@@ -1531,7 +1581,11 @@ class ezTOC_Post {
 
 	private function get_js_based_toc_heading($options){
 
-		$html = '';						
+		$html = '';
+		
+		// Add box title if set
+		$html .= $this->get_box_title_tag( $options );
+						
 		$html .= '<div class="ez-toc-title-container">' . PHP_EOL;
 		$header_label = '';
 		$show_header_text = ezTOC_Option::get( 'show_heading_text' );
@@ -1580,7 +1634,11 @@ class ezTOC_Post {
 	//css based heaing function
 	private function get_css_based_toc_heading($options){
 
-		$html = '';	
+		$html = '';
+		
+		// Add box title if set
+		$html .= $this->get_box_title_tag( $options );
+		
 		$header_label = '';
 		$show_header_text = true;
 		if(isset($options['no_label']) && $options['no_label'] == true){
@@ -2010,6 +2068,34 @@ class ezTOC_Post {
 		}
 
 		return $tag_html;
+	}
+
+	/**
+	 * Get the box title element (legend text above TOC).
+	 *
+	 * @access private
+	 * @since  2.0
+	 * @param array Options.
+	 *
+	 * @return string The box title HTML.
+	 */
+	private function get_box_title_tag( $options = [] ) {
+		// Check for box title (shortcode options, then global setting)
+		$box_title = '';
+		if ( isset( $options['box_title'] ) && ! empty( $options['box_title'] ) ) {
+			$box_title = $options['box_title'];
+		} else {
+			$box_title = ezTOC_Option::get( 'box_title', '' );
+		}
+		
+		if ( empty( $box_title ) ) {
+			return '';
+		}
+		
+		// Generate box title HTML
+		$box_title_html = '<div class="ez-toc-box-title">' . esc_html( $box_title ) . '</div>' . PHP_EOL;
+		
+		return $box_title_html;
 	}
 
 }

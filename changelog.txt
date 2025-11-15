@@ -1,5 +1,12 @@
 == Changelog ==
 
+= 2.0.77 15/11/2025 =
+* Improvement: Added hook/filter to modify product_category HTML content before rendering #911
+* Improvement: Make two/three responsive columns easy table of contents #670
+* Feature: Option to show TOC only when certain word count is present #912
+* Feature: Create box title or legend for toc container #913
+* Compatibility: Need to make a compatible with the SeedProd builder. #922
+
 = 2.0.76 20/08/2025 =
 * Bug: Heading not highlighting when using shortcode #900
 * Bug: Conflict issue with GP Premium 2.4.1 Version. #901
