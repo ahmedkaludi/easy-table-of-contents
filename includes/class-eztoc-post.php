@@ -496,7 +496,7 @@ class ezTOC_Post {
                     $content = apply_filters( 'ez_toc_extract_headings_content', wptexturize( $content ) );
                 }
 
-        //anchor not working if seedpro-pr heading has hyphen
+        //anchor not working if seedprod-pro heading has hyphen
         if ( ezTOC_Option::get( 'seedprod-pro' ) ) {
             $content = str_replace( array( '&#8211;', '&#8212;', '–', '—' ), '-', $content );
         }
