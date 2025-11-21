@@ -185,12 +185,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_filter( 'wpseo_schema_graph', array( __CLASS__, 'ez_toc_schema_sitenav_yoast_compat'), 10, 1 );
 				add_filter( 'get_the_archive_description', array( __CLASS__, 'toc_get_the_archive_description' ), 10,1);
 				/*
-				* Fix for toc not links not working if the page template created with SeedProd Pro builder		
+				* Fix for toc not links not working if the page template created with SeedProd Pro builder & beaver builder	
 				*/				
-				if ( ezTOC_Option::get( 'seedprod-pro' ) ) {				    
+				if ( ezTOC_Option::get( 'seedprod-pro' ) || ezTOC_Option::get( 'beaver-builder' ) ) {				    
 				    add_action( 'template_redirect', array( __CLASS__, 'ez_toc_buffer_start' ), 1 );				    
 				    remove_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
-				}
+				}				
 
 			}
 

@@ -1589,6 +1589,13 @@ text
 							'type' => 'checkbox',
 							'default' => false,
 						),
+						'beaver-builder' => array(
+							'id' => 'beaver-builder',
+							'name' => esc_html__( 'Beaver Builder', 'easy-table-of-contents' ),
+							'desc' => esc_html__( 'It enable to compatibility if the page template is created with Beaver Builder.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
                     )
                 ),
 				'prosettings' => apply_filters(
@@ -1815,6 +1822,7 @@ text
 				'mediavine-create'                    => 0,
 				'molongui-authorship'                 => false,
 				'seedprod-pro'         			      => false,
+				'beaver-builder'         			      => false,
 				'custom_para_number'                  => 1,
 				'blockqoute_checkbox'                  => false,
 				'disable_in_restapi'                  => false,
