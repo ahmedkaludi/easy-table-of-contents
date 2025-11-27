@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 2.0.78 27/11/2025 =
+* Added: Promotion Banner BFCM #926
+* Compatibility Added: Need to make a compatible with the SeedProd builder. #922
+* Improvement: ETOC not working with Beaver theme #920
+
 = 2.0.77 15/11/2025 =
 * Improvement: Added hook/filter to modify product_category HTML content before rendering #911
 * Improvement: Make two/three responsive columns easy table of contents #670

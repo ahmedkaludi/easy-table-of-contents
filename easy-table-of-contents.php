@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.77
+ * Version: 2.0.78
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -28,7 +28,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.77
+ * @version  2.0.78
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.77';
+		const VERSION = '2.0.78';
 
 		/**
 		 * Stores the instance of this class.
@@ -2271,48 +2271,3 @@ function ez_toc_activate($network_wide) {
 	}
 }
 
-
-/* * BFCM Banner Integration
- * Loads assets from assets/css and assets/js
- */
-add_action('admin_enqueue_scripts', 'etoc_enqueue_bfcm_assets');
-
-function etoc_enqueue_bfcm_assets($hook) { 
- 
-    
-    if ( $hook !== 'settings_page_table-of-contents') {
-        return;
-    }
-
-    // 2. define settings
-    $expiry_date_str = '2025-12-25 23:59:59'; 
-    $offer_link      = 'https://tocwp.com/bfcm-25/';
-
-    // 3. Expiry Check (Server Side)
-    if ( current_time('timestamp') > strtotime($expiry_date_str) ) {
-        return; 
-    }
-
-    // 4. Register & Enqueue CSS    
-    wp_enqueue_style(
-        'etoc-bfcm-style', 
-        plugin_dir_url(__FILE__) . 'assets/css/bfcm-style.css', 
-        array(), 
-        '1.0'
-    );
-
-    // 5. Register & Enqueue JS
-    wp_enqueue_script(
-        'etoc-bfcm-script', 
-        plugin_dir_url(__FILE__) . 'assets/js/bfcm-script.js', 
-        array('jquery'), // jQuery dependency
-        '1.0', 
-        true 
-    );
-
-    // 6. Data Pass (PHP to JS)
-    wp_localize_script('etoc-bfcm-script', 'bfcmData', array(
-        'targetDate' => $expiry_date_str,
-        'offerLink'  => $offer_link
-    ));
-}
