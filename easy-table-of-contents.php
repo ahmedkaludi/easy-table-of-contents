@@ -2270,3 +2270,49 @@ function ez_toc_activate($network_wide) {
     	add_option('ez_toc_do_activation_redirect', true);
 	}
 }
+
+
+/* * BFCM Banner Integration
+ * Loads assets from assets/css and assets/js
+ */
+add_action('admin_enqueue_scripts', 'etoc_enqueue_bfcm_assets');
+
+function etoc_enqueue_bfcm_assets($hook) { 
+ 
+    
+    if ( $hook !== 'settings_page_table-of-contents') {
+        return;
+    }
+
+    // 2. define settings
+    $expiry_date_str = '2025-12-25 23:59:59'; 
+    $offer_link      = 'https://tocwp.com/bfcm-25/';
+
+    // 3. Expiry Check (Server Side)
+    if ( current_time('timestamp') > strtotime($expiry_date_str) ) {
+        return; 
+    }
+
+    // 4. Register & Enqueue CSS    
+    wp_enqueue_style(
+        'etoc-bfcm-style', 
+        plugin_dir_url(__FILE__) . 'assets/css/bfcm-style.css', 
+        array(), 
+        '1.0'
+    );
+
+    // 5. Register & Enqueue JS
+    wp_enqueue_script(
+        'etoc-bfcm-script', 
+        plugin_dir_url(__FILE__) . 'assets/js/bfcm-script.js', 
+        array('jquery'), // jQuery dependency
+        '1.0', 
+        true 
+    );
+
+    // 6. Data Pass (PHP to JS)
+    wp_localize_script('etoc-bfcm-script', 'bfcmData', array(
+        'targetDate' => $expiry_date_str,
+        'offerLink'  => $offer_link
+    ));
+}
