@@ -496,6 +496,11 @@ class ezTOC_Post {
                     $content = apply_filters( 'ez_toc_extract_headings_content', wptexturize( $content ) );
                 }
 
+        //anchor not working if seedprod-pro/beaver-builder heading has hyphen
+        if ( ezTOC_Option::get( 'seedprod-pro' ) || ezTOC_Option::get( 'beaver-builder' ) ) {
+		    $content = str_replace( array( '&#8211;', '&#8212;', '–', '—' ), '-', $content );
+		}
+
                 /**
                 * Lasso Product Compatibility
                 * @since 2.0.46

@@ -3,9 +3,9 @@ Contributors: magazine3
 Donate link: https://tocwp.com/
 Tags: table of contents, toc
 Requires at least: 5.0
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 5.6.20
-Stable tag: 2.0.77
+Stable tag: 2.0.78
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,11 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.78 27/11/2025 =
+* Added: Promotion Banner BFCM #926
+* Compatibility Added: Need to make a compatible with the SeedProd builder. #922
+* Improvement: ETOC not working with Beaver theme #920
+
 = 2.0.77 15/11/2025 =
 * Improvement: Added hook/filter to modify product_category HTML content before rendering #911
 * Improvement: Make two/three responsive columns easy table of contents #670

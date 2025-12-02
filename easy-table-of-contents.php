@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.77
+ * Version: 2.0.78
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -28,7 +28,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.77
+ * @version  2.0.78
  */
 
 use Easy_Plugins\Table_Of_Contents\Debug;
@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.77';
+		const VERSION = '2.0.78';
 
 		/**
 		 * Stores the instance of this class.
@@ -185,12 +185,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				add_filter( 'wpseo_schema_graph', array( __CLASS__, 'ez_toc_schema_sitenav_yoast_compat'), 10, 1 );
 				add_filter( 'get_the_archive_description', array( __CLASS__, 'toc_get_the_archive_description' ), 10,1);
 				/*
-				* Fix for toc not links not working if the page template created with SeedProd Pro builder		
+				* Fix for toc not links not working if the page template created with SeedProd Pro builder & beaver builder	
 				*/				
-				if ( ezTOC_Option::get( 'seedprod-pro' ) ) {				    
+				if ( ezTOC_Option::get( 'seedprod-pro' ) || ezTOC_Option::get( 'beaver-builder' ) ) {				    
 				    add_action( 'template_redirect', array( __CLASS__, 'ez_toc_buffer_start' ), 1 );				    
 				    remove_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
-				}
+				}				
 
 			}
 
@@ -2270,3 +2270,4 @@ function ez_toc_activate($network_wide) {
     	add_option('ez_toc_do_activation_redirect', true);
 	}
 }
+
