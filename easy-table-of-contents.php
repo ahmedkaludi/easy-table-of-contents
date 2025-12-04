@@ -1589,7 +1589,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$options['wrapping'] = $atts["wrapping"];
 				}
 				if(isset($atts["columns"]) && $atts["columns"] != ''){
-					$options['columns'] = $atts["columns"];
+					$options['columns'] = absint( $atts["columns"] );
 				}
 				if(isset($atts["word_count_limit"]) && $atts["word_count_limit"] != ''){
 					$options['word_count_limit'] = $atts["word_count_limit"];
