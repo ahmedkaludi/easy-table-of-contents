@@ -1261,7 +1261,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$urls_arr = explode(PHP_EOL, $all_urls);
 				if(is_array($urls_arr)){
 					foreach ($urls_arr as $url_arr) {
-						if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( $_SERVER['REQUEST_URI'], trim($url_arr) ) ) {
+						if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), trim($url_arr) ) ) {
 							Debug::log( 'is_restricted_path', 'In restricted path, post not eligible.', ezTOC_Option::get( 'restrict_path' ) );
 							return false;
 						}
@@ -1301,7 +1301,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					/**
 					 * @link https://wordpress.org/support/topic/restrict-path-logic-does-not-work-correctly?
 					 */
-					if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( ezTOC_Option::get( 'restrict_path' ), $_SERVER['REQUEST_URI'] ) ) {
+					if ( isset($_SERVER['REQUEST_URI']) && false !== strpos( ezTOC_Option::get( 'restrict_path' ), sanitize_text_field(wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) ) {
 
 						Debug::log( 'is_restricted_path', 'In restricted path, post not eligible.', ezTOC_Option::get( 'restrict_path' ) );
 						return false;

@@ -128,9 +128,9 @@ add_action( 'admin_enqueue_scripts', 'eztoc_enqueue_makebetter_email_js' );
 /* * BFCM Banner Integration
  * Loads assets from assets/css and assets/js
  */
-add_action('admin_enqueue_scripts', 'etoc_enqueue_bfcm_assets');
+add_action('admin_enqueue_scripts', 'eztoc_enqueue_bfcm_assets');
 
-function etoc_enqueue_bfcm_assets($hook) { 
+function eztoc_enqueue_bfcm_assets($hook) { 
  
     
     if ( $hook !== 'settings_page_table-of-contents') {

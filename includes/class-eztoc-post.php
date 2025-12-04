@@ -291,7 +291,7 @@ class ezTOC_Post {
 			//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason : Nonce verification is not required here.
 		} elseif ( isset( $_REQUEST[ 'page' ] ) ) {
 			//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason : Nonce verification is not required here.
-			return $_REQUEST[ 'page' ];
+			return absint( wp_unslash( $_REQUEST[ 'page' ] ) );
 		}
 
 		// Finally, return the $default if it was supplied.
@@ -1432,7 +1432,7 @@ class ezTOC_Post {
 				$clean_content = preg_replace( '/<style[^>]*>.*?<\/style>/is', '', $post_content );
 				$clean_content = preg_replace( '/<script[^>]*>.*?<\/script>/is', '', $clean_content );
 		
-				$clean_content = strip_tags( $clean_content );
+				$clean_content = wp_strip_all_tags( $clean_content );
 				
 				$clean_content = html_entity_decode( $clean_content, ENT_QUOTES, 'UTF-8' );
 				$clean_content = preg_replace( '/\s+/', ' ', trim( $clean_content ) );
@@ -1942,7 +1942,7 @@ class ezTOC_Post {
 		//Ajax Load more 
 		//@since 2.0.61
 		if(ezTOC_Option::get( 'ajax_load_more' ) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'){
-			$anch_url = $_SERVER['HTTP_REFERER'];
+			$anch_url = isset( $_SERVER['HTTP_REFERER'] ) ? wp_unslash( $_SERVER['HTTP_REFERER'] ) : '';
 		}
 
 		if ( $page === $current_page && $current_post ) {

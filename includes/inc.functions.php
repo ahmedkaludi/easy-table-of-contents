@@ -662,7 +662,7 @@ function ez_toc_wp_strip_all_tags( $text, $remove_breaks = false ) {
 	}
 
 	$text = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $text );
-	$text = strip_tags( $text, apply_filters( 'ez_toc_allowable_tags', '' ) );
+	$text = wp_strip_all_tags( $text, apply_filters( 'ez_toc_allowable_tags', '' ) );
 
 	if ( $remove_breaks ) {
 		$text = preg_replace( '/[\r\n\t ]+/', ' ', $text );

@@ -136,7 +136,7 @@ final class Debug extends WP_Error {
 		foreach ( (array) $this->errors as $code => $messages ) {
 
 			$data = $this->get_error_data( $code );
-			$data = is_string( $data ) ? $data : '<code>' . var_export( $data, true ) . '</code>';
+			$data = is_string( $data ) ? $data : '<code>' . wp_json_encode( $data, JSON_PRETTY_PRINT ) . '</code>';
 			$data = "\t\t<li class=\"ez-toc-debug-message-data\">{$data}</li>" . PHP_EOL;
 
 			array_push(
