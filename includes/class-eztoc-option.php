@@ -2663,8 +2663,8 @@ public static function child_font_size( $args ) {
 
 }
 
-add_filter("ez_toc_settings_sticky", "ez_toc_settings_sticky_func_nonpro");
-function ez_toc_settings_sticky_func_nonpro($settings)
+add_filter("ez_toc_settings_sticky", "eztoc_settings_sticky_func_nonpro");
+function eztoc_settings_sticky_func_nonpro($settings)
 {
 	if(function_exists('is_plugin_active') && !is_plugin_active('easy-table-of-contents-pro/easy-table-of-contents-pro.php')){
 			$sticky_pro_settings = array(

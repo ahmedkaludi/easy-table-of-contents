@@ -106,7 +106,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
             $data = array(
                 'ajax_url'      		       => admin_url( 'admin-ajax.php' ),
                 'eztoc_security_nonce'         => wp_create_nonce('eztoc_ajax_check_nonce'),
-				'is_amp_activated'			   => (function_exists('ez_toc_is_amp_activated') && ez_toc_is_amp_activated())?1:0
+				'is_amp_activated'			   => (function_exists('eztoc_is_amp_activated') && eztoc_is_amp_activated())?1:0
             );
 
             $data = apply_filters( 'eztoc_localize_filter', $data, 'eztoc_admin_data' );

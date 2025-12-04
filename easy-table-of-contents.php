@@ -578,7 +578,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
          *
          */
 		public static function localize_scripts(){
-				global $ez_toc_shortcode_attr;				
+				global $eztoc_shortcode_attr;				
 			    $eztoc_post_id = get_the_ID();
 				$js_vars = array();
 
@@ -631,7 +631,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$js_vars['ajax_toggle'] = true;
 				}
 
-				if(isset($ez_toc_shortcode_attr['initial_view']) && $ez_toc_shortcode_attr['initial_view'] == 'show'){
+				if(isset($eztoc_shortcode_attr['initial_view']) && $eztoc_shortcode_attr['initial_view'] == 'show'){
 					$js_vars['visibility_hide_by_default'] = false;
 				}
 
@@ -1200,7 +1200,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				
 		public static function is_enqueue_scripts_sticky_eligible() {
 
-			return ez_toc_stikcy_enable_support_status();
+			return eztoc_stikcy_enable_support_status();
 
 		}
 		public static function is_enqueue_scripts_eligible() {
@@ -1208,7 +1208,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$isEligible = self::is_eligible( get_post() );
 
 			if($isEligible){
-				if(!ez_toc_auto_device_target_status()){
+				if(!eztoc_auto_device_target_status()){
 					$isEligible = false;
 				}
 			}
@@ -1246,7 +1246,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			 * Easy TOC Run On Amp Pages Check
 			 * @since 2.0.46
 			 */
-			if ( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ) {
+			if ( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !eztoc_non_amp() ) {
 				Debug::log( 'non_amp', 'Is frontpage, TOC is not enabled.', false );
 				return false;                            
 			}
@@ -1497,14 +1497,14 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @return string
 		 */
 		public static function shortcode( $atts, $content, $tag ) {
-				global $ez_toc_shortcode_attr;
-				$ez_toc_shortcode_attr = $atts;
+				global $eztoc_shortcode_attr;
+				$eztoc_shortcode_attr = $atts;
 				$html = '';
 				
 				if(!ez_toc_shortcode_enable_support_status($atts)){
 					return $html;
 				}
-				if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !ez_toc_non_amp() ){
+				if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !eztoc_non_amp() ){
 					return $html;
 				}
 				//Enqueue css and styles if that has not been added by wp_enqueue_scripts			
@@ -1721,7 +1721,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 
 			if($isEligible){
-				if(!ez_toc_auto_device_target_status()){
+				if(!eztoc_auto_device_target_status()){
 					$isEligible = false;
 				}
 			}
@@ -1825,13 +1825,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					if($exc_blkqt == true){
 						preg_match_all("/<blockquote(.*?)>(.*?)<\/blockquote>/s", $content, $blockquotes);
 						if(!empty($blockquotes)){
-					    	$content = ez_toc_para_blockquote_replace($blockquotes, $content, 1);
+					    	$content = eztoc_para_blockquote_replace($blockquotes, $content, 1);
 					   	}
 					}
 					$content = insertElementByPTag( mb_find_replace( $find, $replace, $content ), $toc );
 					//add blockqoute back
 					if($exc_blkqt == true && !empty($blockquotes)){
-					    $content = ez_toc_para_blockquote_replace($blockquotes, $content, 2);
+					    $content = eztoc_para_blockquote_replace($blockquotes, $content, 2);
 				    }
 					break;
 				case 'aftercustompara':
@@ -1844,7 +1844,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					if($exc_blkqt == true){
 						preg_match_all("/<blockquote(.*?)>(.*?)<\/blockquote>/s", $content, $blockquotes);
 						if(!empty($blockquotes)){
-					    	$content = ez_toc_para_blockquote_replace($blockquotes, $content, 1);
+					    	$content = eztoc_para_blockquote_replace($blockquotes, $content, 1);
 					   	}
 					}
 					$paragraph_index  = get_post_meta( get_the_ID(), '_ez-toc-s_custom_para_number', true );
@@ -1877,7 +1877,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					}
 					//add blockqoute back
 					if($exc_blkqt == true && !empty($blockquotes)){
-					    $content = ez_toc_para_blockquote_replace($blockquotes, $content, 2);
+					    $content = eztoc_para_blockquote_replace($blockquotes, $content, 2);
 				    }
 					break;	
 				case 'aftercustomimg':
@@ -2151,7 +2151,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 		
 		if($isEligible){
-			if(!ez_toc_auto_device_target_status()){
+			if(!eztoc_auto_device_target_status()){
 				$isEligible = false;
 			}
 		}
@@ -2264,8 +2264,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 	add_action( 'plugins_loaded', 'ezTOC' );
 }
 
-register_activation_hook(__FILE__, 'ez_toc_activate');
-function ez_toc_activate($network_wide) {
+register_activation_hook(__FILE__, 'eztoc_activate');
+function eztoc_activate($network_wide) {
 	if ( !( is_multisite() && $network_wide ) ) {
     	add_option('ez_toc_do_activation_redirect', true);
 	}

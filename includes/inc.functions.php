@@ -42,7 +42,7 @@ function get_ez_toc_list( $post = null, $apply_content_filter = true ) {
  * @param null|WP_Post $post                 An instance of WP_Post
  * @param bool         $apply_content_filter Whether or not to apply `the_content` filter when processing post for headings.
  */
-function ez_toc_list( $post = null, $apply_content_filter = true ) {
+function eztoc_list( $post = null, $apply_content_filter = true ) {
     // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 	echo get_ez_toc_list( $post, $apply_content_filter );
 }
@@ -86,14 +86,14 @@ function get_ez_toc_block( $post = null, $apply_content_filter = true ) {
  * @param null|WP_Post $post                 An instance of WP_Post
  * @param bool         $apply_content_filter Whether or not to apply `the_content` filter when processing post for headings.
  */
-function ez_toc_block( $post = null, $apply_content_filter = true ) {
+function eztoc_block( $post = null, $apply_content_filter = true ) {
     // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 	echo get_ez_toc_block( $post, $apply_content_filter );
 }
 // Non amp checker
-if ( ! function_exists('ez_toc_is_amp_activated') ){
+if ( ! function_exists('eztoc_is_amp_activated') ){
     
-    function ez_toc_is_amp_activated() {
+    function eztoc_is_amp_activated() {
         $result = false;
         if (is_plugin_active('accelerated-mobile-pages/accelerated-moblie-pages.php') || is_plugin_active('amp/amp.php')  ||
                 is_plugin_active('better-amp/better-amp.php')  ||
@@ -108,9 +108,9 @@ if ( ! function_exists('ez_toc_is_amp_activated') ){
 }
 
 // Non amp checker
-if ( ! function_exists('ez_toc_non_amp') ) {
+if ( ! function_exists('eztoc_non_amp') ) {
     
-    function ez_toc_non_amp() {
+    function eztoc_non_amp() {
 
         $non_amp = true;
 
@@ -139,10 +139,10 @@ if ( ! function_exists('ez_toc_non_amp') ) {
  * @since 2.0.47
  */
 if ( function_exists('extension_loaded') && extension_loaded('mbstring') == false ) {
-    function ez_toc_admin_notice_for_mbstring_extension() {
+    function eztoc_admin_notice_for_mbstring_extension() {
         echo '<div class="notice notice-error is-not-dismissible"><p>' . esc_html__( 'PHP MBString Extension is not enabled in your php setup, please enabled to work perfectly', 'easy-table-of-contents' ) . ' <strong>' . esc_html__( 'Easy Table of Contents', 'easy-table-of-contents' ) . '</strong>. ' . esc_html__( 'Check official doc:', 'easy-table-of-contents' ). ' <a href="https://www.php.net/manual/en/mbstring.installation.php" target="_blank">' . esc_html__( 'PHP Manual', 'easy-table-of-contents' ) .'</a></p></div>';
     }
-    add_action('admin_notices', 'ez_toc_admin_notice_for_mbstring_extension');
+    add_action('admin_notices', 'eztoc_admin_notice_for_mbstring_extension');
 }
 
 
@@ -325,7 +325,7 @@ add_filter('eztoc_wordpress_final_output', function($content){
     }
    //Device Eligibility
   //@since 2.0.60
-function ez_toc_auto_device_target_status(){
+function eztoc_auto_device_target_status(){
         global $post;
         $status = true;
         $global_target = ezTOC_Option::get( 'device_target' );
@@ -351,7 +351,7 @@ function ez_toc_auto_device_target_status(){
  * Check for the enable support of sticky toc/toggle
  * @since 2.0.60
  */
-function ez_toc_stikcy_enable_support_status() {
+function eztoc_stikcy_enable_support_status() {
 
     $status = false;
 
@@ -452,8 +452,8 @@ function ez_toc_stikcy_enable_support_status() {
  * Helps exclude blockquote
  * @since 2.0.58
  */
-if(!function_exists('ez_toc_para_blockquote_replace')){
-function ez_toc_para_blockquote_replace($blockquotes, $content, $step){
+if(!function_exists('eztoc_para_blockquote_replace')){
+function eztoc_para_blockquote_replace($blockquotes, $content, $step){
     $bId = 0;
     if($step == 1){    
         foreach($blockquotes[0] as $blockquote){
@@ -593,8 +593,8 @@ function ez_toc_noeztoc_callback( $atts, $content = "" ) {
  * Added [no-toc] to support migrated shortcode from TOC+
  * @since 2.0.70
  */
-add_shortcode( 'no-toc', 'ez_toc_notoc_callback' );
-function ez_toc_notoc_callback( $atts, $content = "" ) {
+add_shortcode( 'no-toc', 'eztoc_notoc_callback' );
+function eztoc_notoc_callback( $atts, $content = "" ) {
 	add_filter(
 		'ez_toc_maybe_apply_the_content_filter',	function( $apply ) {
 			return false;
@@ -611,8 +611,8 @@ function ez_toc_notoc_callback( $atts, $content = "" ) {
 	return $content;
 }
 
-add_action( 'admin_init' , 'ez_toc_redirect' );
-function ez_toc_redirect( ) {
+add_action( 'admin_init' , 'eztoc_redirect' );
+function eztoc_redirect( ) {
     if ( get_option( 'ez_toc_do_activation_redirect' , false ) ) {
         delete_option( 'ez_toc_do_activation_redirect' );
 		//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: Nonce not required here
@@ -624,7 +624,7 @@ function ez_toc_redirect( ) {
 }
 
 /**
- * ez_toc_wp_strip_all_tags method inspired by WordPress actual wp_strip_all_tags
+ * eztoc_wp_strip_all_tags method inspired by WordPress actual wp_strip_all_tags
  * to strip all tags from the given text
  * Access Public
  * @since 2.0.70
@@ -632,7 +632,7 @@ function ez_toc_redirect( ) {
  * @return string
 */
 
-function ez_toc_wp_strip_all_tags( $text, $remove_breaks = false ) {
+function eztoc_wp_strip_all_tags( $text, $remove_breaks = false ) {
     
 	if ( is_null( $text ) ) {
 		return '';
@@ -676,9 +676,9 @@ function ez_toc_wp_strip_all_tags( $text, $remove_breaks = false ) {
  * @since 2.0.59
  */
 
-add_filter( 'ez_toc_allowable_tags', 'ez_toc_link_allow_br_tag' );
+add_filter( 'ez_toc_allowable_tags', 'eztoc_link_allow_br_tag' );
 
-function ez_toc_link_allow_br_tag( $tags ) {
+function eztoc_link_allow_br_tag( $tags ) {
 
     if ( ezTOC_Option::get( 'prsrv_line_brk' ) ) {
 
