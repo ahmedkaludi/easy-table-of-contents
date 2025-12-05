@@ -317,6 +317,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			} else {
 
 				// Load the default language files
+				// phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFoundation
 				load_plugin_textdomain( $domain, false, $languagesDirectory );
 			}
 		}
@@ -1501,7 +1502,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$eztoc_shortcode_attr = $atts;
 				$html = '';
 				
-				if(!ez_toc_shortcode_enable_support_status($atts)){
+				if(!eztoc_shortcode_enable_support_status($atts)){
 					return $html;
 				}
 				if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !eztoc_non_amp() ){

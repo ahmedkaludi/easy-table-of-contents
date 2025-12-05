@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * @return string
  */
-function get_ez_toc_list( $post = null, $apply_content_filter = true ) {
+function eztoc_get_toc_list( $post = null, $apply_content_filter = true ) {
 
 	if ( ! $post instanceof WP_Post ) {
 
@@ -44,7 +44,7 @@ function get_ez_toc_list( $post = null, $apply_content_filter = true ) {
  */
 function eztoc_list( $post = null, $apply_content_filter = true ) {
     // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
-	echo get_ez_toc_list( $post, $apply_content_filter );
+	echo eztoc_get_toc_list( $post, $apply_content_filter );
 }
 
 /**
@@ -58,7 +58,7 @@ function eztoc_list( $post = null, $apply_content_filter = true ) {
  *
  * @return string
  */
-function get_ez_toc_block( $post = null, $apply_content_filter = true ) {
+function eztoc_get_toc_block( $post = null, $apply_content_filter = true ) {
 
 	if ( ! $post instanceof WP_Post ) {
 
@@ -88,7 +88,7 @@ function get_ez_toc_block( $post = null, $apply_content_filter = true ) {
  */
 function eztoc_block( $post = null, $apply_content_filter = true ) {
     // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
-	echo get_ez_toc_block( $post, $apply_content_filter );
+	echo eztoc_get_toc_block( $post, $apply_content_filter );
 }
 // Non amp checker
 if ( ! function_exists('eztoc_is_amp_activated') ){
@@ -143,33 +143,6 @@ if ( function_exists('extension_loaded') && extension_loaded('mbstring') == fals
         echo '<div class="notice notice-error is-not-dismissible"><p>' . esc_html__( 'PHP MBString Extension is not enabled in your php setup, please enabled to work perfectly', 'easy-table-of-contents' ) . ' <strong>' . esc_html__( 'Easy Table of Contents', 'easy-table-of-contents' ) . '</strong>. ' . esc_html__( 'Check official doc:', 'easy-table-of-contents' ). ' <a href="https://www.php.net/manual/en/mbstring.installation.php" target="_blank">' . esc_html__( 'PHP Manual', 'easy-table-of-contents' ) .'</a></p></div>';
     }
     add_action('admin_notices', 'eztoc_admin_notice_for_mbstring_extension');
-}
-
-
-/**
- * EzPrintR method
- * to print_r content with pre tags
- * @since 2.0.34
- * @param $content
- * @return void
-*/
-function EzPrintR($content){
-	echo "<pre>";
-    print_r($content);
-    echo "</pre>";
-}
-
-/**
- * EzDumper method
- * to var_dump content with pre tags
- * @since 2.0.34
- * @param $content
- * @return void
-*/
-function EzDumper($content){
-	echo "<pre>";
-    var_dump($content);
-    echo "</pre>";
 }
 
 /**
@@ -476,7 +449,7 @@ function eztoc_para_blockquote_replace($blockquotes, $content, $step){
  * Check the status of shortcode enable support which is defined in shortcode attributes
  * @since 2.0.59
  */
-function ez_toc_shortcode_enable_support_status($atts){
+function eztoc_shortcode_enable_support_status($atts){
     
     $status = true;
 
@@ -571,8 +544,8 @@ function eztoc_shortcode_html_no_heading_text($html){
  * Added [no-ez-toc] to disbale TOC on specific page/post
  * @since 2.0.56
  */
-add_shortcode( 'no-ez-toc', 'ez_toc_noeztoc_callback' );
-function ez_toc_noeztoc_callback( $atts, $content = "" ) {
+add_shortcode( 'no-ez-toc', 'eztoc_noeztoc_callback' );
+function eztoc_noeztoc_callback( $atts, $content = "" ) {
 	add_filter(
 		'ez_toc_maybe_apply_the_content_filter',	function( $apply ) {
 			return false;

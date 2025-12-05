@@ -493,11 +493,11 @@ add_filter(
  */
 add_filter(
 	'fl_builder_layout_data',
-	'ez_toc_flbuilder_layout_data',
+	'eztoc_flbuilder_layout_data',
 	12,
 	1
 );
-function ez_toc_flbuilder_layout_data( $data ) {
+function eztoc_flbuilder_layout_data( $data ) {
 	if( has_action( 'the_content' ) ) {
 		if(!empty($data)){
 			foreach( $data as $nodeKey => $node ){		
