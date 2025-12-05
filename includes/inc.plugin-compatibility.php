@@ -864,6 +864,7 @@ if(function_exists('rest_get_url_prefix') && ezTOC_Option::get('disable_in_resta
 			return $content;
 		}
 		$rest_prefix         = trailingslashit( rest_get_url_prefix() );
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Resone: We are not saving this variable, just checking its value.
 		if(strpos( $_SERVER['REQUEST_URI'], $rest_prefix ) !== false){
 			return '';
 		}
@@ -1210,34 +1211,54 @@ function eztoc_modify_wpbakery_category_template($buffer) {
  * Get template id for Customize Post Categories for WPBakery Page Builder plugin
  * @return mixed
  */
-function eztoc_wpbakery_get_template_id(){
-	
-	global $wpdb;
-	$template_id = false ;
-	$category_id = get_queried_object_id();
-	 $template_id = get_term_meta($category_id, 'mst_post_cat_template', true);
-	 if( $template_id && $template_id != 'active'){
-		 return $template_id;
-	}else{
-		$template_id = $wpdb->get_var( $wpdb->prepare("
-			SELECT p.ID 
-			FROM {$wpdb->posts} p
-			INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
-			WHERE p.post_type = %s
-			  AND p.post_status = %s
-			  AND pm.meta_key = %s
-			  AND pm.meta_value = %s
-			LIMIT 1
-			",
-			'category_wpb', 
-			'publish',
-			'mst_active',
-			'1'
-		));
+function eztoc_wpbakery_get_template_id() {
 
-	}
+    global $wpdb;
 
-	return $template_id;
+    $category_id = get_queried_object_id();
+
+    // Unique cache key per category
+    $cache_key = 'eztoc_template_id_' . $category_id;
+    $cache_group = 'eztoc';
+
+    // Check cache
+    $template_id = wp_cache_get( $cache_key, $cache_group );
+
+    if ( false !== $template_id ) {
+        return $template_id;
+    }
+
+    // No cache found → run original logic
+    $template_id = false;
+    $meta_template = get_term_meta($category_id, 'mst_post_cat_template', true);
+
+    if ( $meta_template && $meta_template != 'active' ) {
+
+        $template_id = $meta_template;
+
+    } else {
+
+        $template_id = $wpdb->get_var( $wpdb->prepare("
+            SELECT p.ID 
+            FROM {$wpdb->posts} p
+            INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
+            WHERE p.post_type = %s
+              AND p.post_status = %s
+              AND pm.meta_key = %s
+              AND pm.meta_value = %s
+            LIMIT 1
+            ",
+            'category_wpb',
+            'publish',
+            'mst_active',
+            '1'
+        ));
+    }
+
+    // Store in cache
+    wp_cache_set( $cache_key, $template_id, $cache_group );
+
+    return $template_id;
 }
 
 /**

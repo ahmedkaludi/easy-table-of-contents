@@ -61,7 +61,7 @@ function eztoc_send_feedback() {
 //phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Since form is serialised nonce is verified after parsing the recieved data.
     if( isset( $_POST['data'] ) ) {
         //phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Since form is serialised nonce is verified after parsing the recieved data.
-        parse_str( $_POST['data'], $form );
+        parse_str( wp_unslash( $_POST['data'] ), $form );
     }
     
     if( !isset( $form['eztoc_security_nonce'] ) || isset( $form['eztoc_security_nonce'] ) && !wp_verify_nonce( sanitize_text_field( $form['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) ) {

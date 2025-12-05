@@ -176,8 +176,8 @@ function EzDumper($content){
  * Since version 2.0.52
  * Export all settings to json file
  */
-add_action( 'wp_ajax_ez_toc_export_all_settings', 'ez_toc_export_all_settings'); 
-function ez_toc_export_all_settings()
+add_action( 'wp_ajax_ez_toc_export_all_settings', 'eztoc_export_all_settings'); 
+function eztoc_export_all_settings()
 {
     if ( !current_user_can( 'manage_options' ) ) {
         die('-1');
@@ -247,8 +247,8 @@ add_filter('eztoc_wordpress_final_output', function($content){
 }, 10, 1);
 
     
-    add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_page_content_include_page_title', 10, 1 );
-    function ez_toc_page_content_include_page_title( $content ) {
+    add_filter( 'ez_toc_modify_process_page_content', 'eztoc_page_content_include_page_title', 10, 1 );
+    function eztoc_page_content_include_page_title( $content ) {
         if(ezTOC_Option::get('show_title_in_toc') == 1 && !is_admin()){ 
             $title = get_the_title();
             $added_page_title= '<h1 class="entry-title">'.wp_kses_post($title).'</h1>';

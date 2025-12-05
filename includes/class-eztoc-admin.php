@@ -985,6 +985,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 				'bullet_spacing'                     => false,
 				'include_homepage'                   => false,
 				'exclude_css'                        => false,
+				//phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 				'exclude'                            => '',
 				'heading_levels'                     => [ 1, 2, 3, 4, 5, 6 ],
 				'restrict_path'                      => '',
@@ -1162,6 +1163,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 			}
 
 			if( isset( $options['exclude'] )){
+				//phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 				$options_to_update['exclude'] = $options['exclude'];
 			}
 

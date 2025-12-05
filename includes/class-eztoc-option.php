@@ -2644,7 +2644,7 @@ public static function child_font_size( $args ) {
          * @return bool|string
         */
         public static function eztoc_reset_options_to_default() {
-            if( !wp_verify_nonce( sanitize_text_field( $_POST['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) )
+            if( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['eztoc_security_nonce'] ) ), 'eztoc_ajax_check_nonce' ) )
             {
                 return esc_html__('Security Alert: nonce not verified!', 'easy-table-of-contents' );
             }

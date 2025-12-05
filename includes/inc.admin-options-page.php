@@ -31,10 +31,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <?php
 
         if (function_exists('ez_toc_pro_activation_link')) {
-            $license_info = get_option("easytoc_pro_upgrade_license");
-            $license_exp = null;
-            if( !empty( $license_info['pro']['license_key_expires'] ) ) {
-                $license_exp = gmdate( 'Y-m-d', strtotime($license_info['pro']['license_key_expires'] ) );
+            $eztoc_license_info = get_option("easytoc_pro_upgrade_license");
+            $eztoc_license_exp = null;
+            if( !empty( $eztoc_license_info['pro']['license_key_expires'] ) ) {
+                $eztoc_license_exp = gmdate( 'Y-m-d', strtotime($eztoc_license_info['pro']['license_key_expires'] ) );
             }
 
             ?>
@@ -44,15 +44,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </a>
             <?php
 
-            $today = gmdate('Y-m-d');
-            $exp_date = $license_exp;
-            $date1 = date_create($today);
-            if($exp_date){
-                $date2 = date_create($exp_date);
-                $diff = date_diff($date1, $date2);
-                $days = $diff->format("%a");
-                $days = intval($days);
-                if ($days < 30) {
+            $eztoc_today = gmdate('Y-m-d');
+            $eztoc_exp_date = $eztoc_license_exp;
+            $eztoc_date1 = date_create($eztoc_today);
+            if($eztoc_exp_date){
+                $eztoc_date2 = date_create($eztoc_exp_date);
+                $eztoc_diff = date_diff($eztoc_date1, $eztoc_date2);
+                $eztoc_days = $eztoc_diff->format("%a");
+                $eztoc_days = intval($eztoc_days);
+                if ($eztoc_days < 30) {
                     ?>
                     <span class="dashicons dashicons-warning" style="color: #ffb229;position: relative;top:
                     15px;left: -10px;"></span>
@@ -197,10 +197,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <table class="form-table">
                             <tbody>
                                 <tr>
-                                    <?php $url = wp_nonce_url(admin_url('admin-ajax.php?action=ez_toc_export_all_settings'), '_wpnonce'); ?>
+                                    
                                     <th scope="row"><?php esc_html_e( 'Export Settings', 'easy-table-of-contents' ) ?></th>
                                     <td>
-                                        <button type="button"><a href="<?php echo esc_url($url); ?>" style="text-decoration:none; color: black;"><?php esc_html_e('Export', 'easy-table-of-contents'); ?></a></button>
+                                        <button type="button"><a href="<?php echo esc_url( wp_nonce_url(admin_url('admin-ajax.php?action=eztoc_export_all_settings'), '_wpnonce') ); ?>" style="text-decoration:none; color: black;"><?php esc_html_e('Export', 'easy-table-of-contents'); ?></a></button>
                                         <label> <br><?php esc_html_e('Export all ETOC settings to json file', 'easy-table-of-contents'); ?></label>
                                     </td>
                                 </tr> 
@@ -216,14 +216,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                     <th scope="row"><?php echo esc_html__( 'Delete Data on Uninstall', 'easy-table-of-contents' ) ?></th>
                                     <td>
                                         <?php
-                                        $ddou_value = ezTOC_Option::get( 'delete-data-on-uninstall', false ); 
+                                        $eztoc_ddou_value = ezTOC_Option::get( 'delete-data-on-uninstall', false ); 
                                         ezTOC_Option::checkbox(
                                             array(
                                                 'id'      => 'delete-data-on-uninstall',
                                                 'desc'    => esc_html__( 'This will remove all of its data when the plugin is deleted.', 'easy-table-of-contents' ),
                                                 'default' => false,
                                             ),
-                                            $ddou_value
+                                            $eztoc_ddou_value
                                         );
                                         ?>
                                     </td>
@@ -232,8 +232,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                 <tr>
                                     <th scope="row"><?php esc_html_e( 'Migrate Table of Contents Plus', 'easy-table-of-contents' ) ?></th>
                                     <td>
-                                    <?php $toc_plus_enbaled = class_exists('TOC_Plus') ? true : false; ?>
-                                        <button type="button" name="eztoc_migrate_toc" id="eztoc_migrate_toc" class="button-primary" <?php if( ! $toc_plus_enbaled ){ echo esc_attr('disabled');}?> title="<?php echo !$toc_plus_enbaled ? esc_attr('Activate TOC+ to continue'):'';?>"><?php esc_html_e('Migrate Settings', 'easy-table-of-contents'); ?></button>
+                                    <?php $eztoc_toc_plus_enbaled = class_exists('TOC_Plus') ? true : false; ?>
+                                        <button type="button" name="eztoc_migrate_toc" id="eztoc_migrate_toc" class="button-primary" <?php if( ! $eztoc_toc_plus_enbaled ){ echo esc_attr('disabled');}?> title="<?php echo !$eztoc_toc_plus_enbaled ? esc_attr('Activate TOC+ to continue'):'';?>"><?php esc_html_e('Migrate Settings', 'easy-table-of-contents'); ?></button>
                                         <div id="eztoc-importer-loader" style="display: none;"><?php echo esc_html__('Migrating. Please wait...', 'easy-table-of-contents'); ?></div>
                                         <label> <br><?php esc_html_e('Migrate Settings from Table of Contents Plus. Make sure Table of Contents Plus is active while migrating', 'easy-table-of-contents'); ?><a href="https://tocwp.com/docs/knowledge-base/how-to-migrate-from-other-table-of-contents-plugins-to-easy-table-of-contents/" target="_blank"> <?php echo esc_html__('Learn More', 'easy-table-of-contents');?></a></label>
                                     </td>
