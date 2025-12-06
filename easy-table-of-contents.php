@@ -178,8 +178,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}
 				add_filter( 'term_description',  array( __CLASS__, 'toc_term_content_filter' ), 99,2);
 				add_filter( 'woocommerce_taxonomy_archive_description_raw',  array( __CLASS__, 'toc_category_content_filter_woocommerce' ), 99,2);
-				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );                                    
-				add_shortcode( apply_filters( 'ez_toc_shortcode', 'toc' ), array( __CLASS__, 'shortcode' ) );
+				add_shortcode( 'ez-toc', array( __CLASS__, 'shortcode' ) );  
+				//This is legacy hook,it will be removed in future versions.  
+				$eztoc_shortcode =  apply_filters( 'ez_toc_shortcode', 'toc' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+				//This is the new hook , it should be used instead of the legacy one.
+				$eztoc_shortcode =  apply_filters( 'eztoc_shortcode', 'toc' );
+				add_shortcode( $eztoc_shortcode, array( __CLASS__, 'shortcode' ) );
 				add_shortcode( 'ez-toc-widget-sticky', array( __CLASS__, 'ez_toc_widget_sticky_shortcode' ) );
 				add_action( 'wp_footer', array(__CLASS__, 'sticky_toggle_content' ) );
 				add_filter( 'wpseo_schema_graph', array( __CLASS__, 'ez_toc_schema_sitenav_yoast_compat'), 10, 1 );
@@ -238,8 +242,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}
 
 			}
-			
-			return apply_filters( 'ez_toc_sidebar_has_toc_filter', $status );
+			//This is legacy hook,it will be removed in future versions.
+			$eztoc_sidebar_has_toc_filter =  apply_filters( 'ez_toc_sidebar_has_toc_filter', $status ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			//This is the new hook , it should be used instead of the legacy one.
+			$eztoc_sidebar_has_toc_filter =  apply_filters( 'eztoc_sidebar_has_toc_filter', $status );
+
+			return $eztoc_sidebar_has_toc_filter;
 		}
                 
         /**
@@ -294,10 +302,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$domain = 'easy-table-of-contents';
 
 			// Set filter for plugin's languages directory
-			$languagesDirectory = apply_filters( "ez_{$domain}_languages_directory", EZ_TOC_DIR_NAME . '/languages/' );
+			//This is legacy hook,it will be removed in future versions.
+			$languagesDirectory = apply_filters( "ez_{$domain}_languages_directory", EZ_TOC_DIR_NAME . '/languages/' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			//This is the new hook , it should be used instead of the legacy one.
+			$languagesDirectory = apply_filters( "eztoc_{$domain}_languages_directory", EZ_TOC_DIR_NAME . '/languages/' );
 
 			// Traditional WordPress plugin locale filter
-			$locale   = apply_filters( 'plugin_locale', get_locale(), $domain );
+			$locale   = apply_filters( 'plugin_locale', get_locale(), $domain ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using WP Core hook
 			$fileName = sprintf( '%1$s-%2$s.mo', $domain, $locale );
 
 			// Setup paths to current locale file
@@ -501,7 +512,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
 				$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';				
 
-				if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {					
+				if ( eztoc_is_plugin_active( 'js_composer_salient/js_composer.php') ) {					
 					$postMetaContent = get_post_meta( $eztoc_post_id, '_nectar_portfolio_extra_content',true );
 					if( !empty( $postMetaContent ) ){
 						update_option( 'ez-toc-post-meta-content', array( $eztoc_post_id => do_shortcode( $postMetaContent ) ) );
@@ -521,14 +532,18 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				wp_register_script( 'ez-toc-js-cookie', EZ_TOC_URL . "vendor/js-cookie/js.cookie{$min}.js", array(), '2.2.1', $in_footer );
 				wp_register_script( 'ez-toc-jquery-sticky-kit', EZ_TOC_URL . "vendor/sticky-kit/jquery.sticky-kit{$min}.js", array( 'jquery' ), '1.9.2', $in_footer );                        			
 				wp_register_script( 'ez-toc-js', EZ_TOC_URL . "assets/js/front{$min}.js", array( 'jquery', 'ez-toc-js-cookie', 'ez-toc-jquery-sticky-kit' ), ezTOC::VERSION . '-' . filemtime( EZ_TOC_PATH . "/assets/js/front{$min}.js" ), $in_footer );
-				wp_register_script( 'ez-toc-scroll-scriptjs', apply_filters('ez_toc_smscroll_jsfile_filter',EZ_TOC_URL . "assets/js/smooth_scroll{$min}.js"), array( 'jquery' ), ezTOC::VERSION, $in_footer );
+				//This is legacy hook,it will be removed in future versions.
+				$eztoc_smscroll_jsfile_filter =  apply_filters('ez_toc_smscroll_jsfile_filter',EZ_TOC_URL . "assets/js/smooth_scroll{$min}.js"); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+				//This is the new hook , it should be used instead of the legacy one.
+				$eztoc_smscroll_jsfile_filter =  apply_filters('eztoc_smscroll_jsfile_filter',EZ_TOC_URL . "assets/js/smooth_scroll{$min}.js");
+				wp_register_script( 'ez-toc-scroll-scriptjs', $eztoc_smscroll_jsfile_filter, array( 'jquery' ), ezTOC::VERSION, $in_footer );
 				self::localize_scripts();
 																													
 				if ( self::is_enqueue_scripts_eligible() ) {
 					self::enqueue_registered_script();	
 					self::enqueue_registered_style();	
 					self::inline_main_counting_css();
-					if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+					if ( eztoc_is_plugin_active( 'js_composer/js_composer.php') ) {
 						self::inline_wp_bakery_js();
 					}												
 				}											
@@ -539,6 +554,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					self::inline_main_counting_sticky_css();					
 				}
 				
+				$eztoc_current_theme = get_the_theme();
 
 				/**
 				 * Foodie Pro Theme Compatibility
@@ -546,7 +562,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				 * in right way
 				 * @since 2.0.39
 				 */
-				if ( 'Foodie Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+				if ( 'Foodie Pro' == $eztoc_current_theme->get( 'Name' ) ) {
 
 					wp_register_style( 'ez-toc-foodie-pro', EZ_TOC_URL . "assets/css/foodie-pro{$min}.css",array(), ezTOC::VERSION );
 					wp_enqueue_style( 'ez-toc-foodie-pro' );
@@ -559,7 +575,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				 * on links of our Easy TOC container
 				 * @since 2.0.38
 				 */
-				if ( 'Thrive Theme Builder' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+				if ( 'Thrive Theme Builder' == $eztoc_current_theme->get( 'Name' ) ) {
 
 					wp_register_style( 'ez-toc-thrive-theme-builder', EZ_TOC_URL . "assets/css/thrive-theme-builder{$min}.css",array(), ezTOC::VERSION );
 					wp_enqueue_style( 'ez-toc-thrive-theme-builder' );
@@ -582,7 +598,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				global $eztoc_shortcode_attr;				
 			    $eztoc_post_id = get_the_ID();
 				$js_vars = array();
-
+				$eztoc_current_theme = get_the_theme();
 				if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
 					$js_vars['smooth_scroll'] = true;
 				}else{
@@ -619,7 +635,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if (ezTOC_Option::get( 'toc_loading' ) != 'css') {
 					$icon = ezTOC::get_toc_toggle_icon();
 					if( function_exists( 'ez_toc_pro_activation_link' ) ) {
-							$icon = apply_filters('ez_toc_modify_icon',$icon);
+						//This is legacy hook,it will be removed in future versions.
+						$icon = apply_filters('ez_toc_modify_icon',$icon); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+						//This is the new hook , it should be used instead of the legacy one.
+						$icon = apply_filters('eztoc_modify_icon',$icon);
 					}
 					$js_vars['fallbackIcon'] = $icon;
 				}
@@ -650,7 +669,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				 * If Chamomile theme is active then remove hamburger div from content
 				 * @since 2.0.53
 				 * */
-				if ( 'Chamomile' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+				if ( 'Chamomile' == $eztoc_current_theme->get( 'Name' ) ) {
 					$js_vars['chamomile_theme_is_on'] = true;
 				}else{
 					$js_vars['chamomile_theme_is_on'] = false;
@@ -820,8 +839,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		public static function inline_css() {
 
 			$css = '';
-
-			if('Chamomile' == apply_filters( 'current_theme', get_option( 'current_theme' ) )){
+			$eztoc_current_theme = get_the_theme();
+			if('Chamomile' == $eztoc_current_theme->get( 'Name' )){
 				$css .= '@media screen and (max-width: 1000px) {
 				          #ez-toc-container nav{
 				            display: block;        
@@ -890,8 +909,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}
                                 
 			}
-
-			return apply_filters('ez_toc_pro_inline_css',$css);
+			//This is legacy hook,it will be removed in future versions.
+			$eztoc_pro_inline_css =  apply_filters('ez_toc_pro_inline_css',$css); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			//This is the new hook , it should be used instead of the legacy one.
+			$eztoc_pro_inline_css =  apply_filters('eztoc_pro_inline_css',$css);
+			return $eztoc_pro_inline_css;
 			
 		}
 
@@ -962,9 +984,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$marginCSS = 'margin-left: .2em;';
 					$floatPosition = 'float: right;';
 				}
-		
+				$eztoc_current_theme = get_the_theme();
 				$importantItem = '';
-				if ( 'Edition Child' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+				if ( 'Edition Child' == $eztoc_current_theme->get( 'Name' ) ) {
 					$importantItem = ' !important';
 				}
 		
@@ -1187,8 +1209,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$stickyAddlCss="";
 			$stickyHeadTxtWeight =600;
 			$stickyHeadTxtSize =18;
-		
-			$stickyAddlCss = apply_filters('ez_toc_sticky_pro_css', $stickyAddlCss );
+			
+			//This is legacy hook,it will be removed in future versions.
+			$stickyAddlCss = apply_filters('ez_toc_sticky_pro_css', $stickyAddlCss ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			//This is the new hook , it should be used instead of the legacy one.
+			$stickyAddlCss = apply_filters('eztoc_sticky_pro_css', $stickyAddlCss );
 
             $inline_sticky_css = ".ez-toc-sticky-fixed{position: fixed;top: 0;left: 0;z-index: 999999;width: auto;max-width: 100%;} .ez-toc-sticky-fixed .ez-toc-sidebar {position: relative;top: auto;{$custom_width};box-shadow: 1px 1px 10px 3px rgb(0 0 0 / 20%);box-sizing: border-box;padding: 20px 30px;background: {$stickyBgColor};margin-left: 0 !important; {$custom_height} overflow-y: auto;overflow-x: hidden;} .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { padding: 0px;border: none;margin-bottom: 0;margin-top: {$topMarginStickyContainer};} #ez-toc-sticky-container a { color: #000;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container {border-bottom-color: #EEEEEE;background-color: {$stickyHeadBgColor};padding:15px;border-bottom: 1px solid #e5e5e5;width: 100%;position: absolute;height: auto;top: 0;left: 0;z-index: 99999999;} .ez-toc-sticky-fixed .ez-toc-sidebar .ez-toc-sticky-title-container .ez-toc-sticky-title {font-weight: {$stickyHeadTxtWeight};font-size: {$stickyHeadTxtSize}px;color: {$stickyHeadTxtColor};} .ez-toc-sticky-fixed .ez-toc-close-icon {-webkit-appearance: none;padding: 0;cursor: pointer;background: 0 0;border: 0;float: right;font-size: 30px;font-weight: 600;line-height: 1;position: relative;color: {$stickyHeadTxtColor};top: -2px;text-decoration: none;} .ez-toc-open-icon {position: fixed;left: 0px;top:{$stickyToggleAlignTop};text-decoration: none;font-weight: bold;padding: 5px 10px 15px 10px;box-shadow: 1px -5px 10px 5px rgb(0 0 0 / 10%);background-color: {$stickyHeadBgColor};color:{$stickyHeadTxtColor};display: inline-grid;line-height: 1.4;border-radius: 0px 10px 10px 0px;z-index: 999999;} .ez-toc-sticky-fixed.hide {-webkit-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-ms-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);-o-transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);transition: opacity 0.3s linear, left 0.3s cubic-bezier(0.4, 0, 1, 1);left: -100%;} .ez-toc-sticky-fixed.show {-webkit-transition: left 0.3s linear, left 0.3s easy-out;-moz-transition: left 0.3s linear;-o-transition: left 0.3s linear;transition: left 0.3s linear;left: 0;} .ez-toc-open-icon span.arrow { font-size: 18px; } .ez-toc-open-icon span.text {font-size: 13px;writing-mode: vertical-rl;text-orientation: mixed;} @media screen  and (max-device-width: 640px) {.ez-toc-sticky-fixed .ez-toc-sidebar {min-width: auto;} .ez-toc-sticky-fixed .ez-toc-sidebar.show { padding-top: 35px; } .ez-toc-sticky-fixed .ez-toc-sidebar #ez-toc-sticky-container { min-width: 100%; } }{$stickyAddlCss}";
 			
@@ -1269,8 +1294,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					}
 				}
 			}
-						
-			if ( has_shortcode( $post->post_content, apply_filters( 'ez_toc_shortcode', 'toc' ) ) || has_shortcode( $post->post_content, 'ez-toc' ) ) {
+			//This is legacy hook,it will be removed in future versions.
+			$eztoc_shortcode = apply_filters( 'ez_toc_shortcode', 'toc' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			//This is the new hook , it should be used instead of the legacy one.
+			$eztoc_shortcode = apply_filters( 'eztoc_shortcode', 'toc' );			
+			if ( has_shortcode( $post->post_content, $eztoc_shortcode ) || has_shortcode( $post->post_content, 'ez-toc' ) ) {
 				Debug::log( 'has_ez_toc_shortcode', 'Has instance of shortcode.', true );
 				return true;
 			}
@@ -1360,7 +1388,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			$post = null;
 
-			if ( isset( self::$store[ $id ] ) && self::$store[ $id ] instanceof ezTOC_Post && !in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			if ( isset( self::$store[ $id ] ) && self::$store[ $id ] instanceof ezTOC_Post && !eztoc_is_plugin_active( 'js_composer_salient/js_composer.php' ) ) {
 
 				$post = self::$store[ $id ];
 			} else {
@@ -1663,8 +1691,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			 * @since 2.0
 			 *
 			 * @param bool $apply
-			 */			
-			return apply_filters( 'ez_toc_maybe_apply_the_content_filter', $apply );
+			 */
+			//This is legacy hook,it will be removed in future versions.
+			$eztoc_maybe_apply_the_content_filter = apply_filters( 'ez_toc_maybe_apply_the_content_filter', $apply ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			//This is the new hook , it should be used instead of the legacy one.
+			$eztoc_maybe_apply_the_content_filter = apply_filters( 'eztoc_maybe_apply_the_content_filter', $apply );	 		
+			return $eztoc_maybe_apply_the_content_filter;
 		}
 
 		/**
@@ -1698,9 +1730,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 			// Fix for getting current page id when sub-queries are used on the page
 			$ez_toc_current_post_id = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();
-
+			$eztoc_current_theme = get_the_theme();
 			// Bail if post not eligible and widget is not active.
-			if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child' || class_exists( 'Timber' ) ){
+			if('MicrojobEngine Child' == $eztoc_current_theme->get( 'Name' ) || class_exists( 'Timber' ) ){
 				$isEligible = self::is_eligible( get_post($ez_toc_current_post_id) );
 			}else{
 				$isEligible = self::is_eligible( get_post() );
@@ -1739,8 +1771,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if ( ! $isEligible ) {
 				return Debug::log()->appendTo( $content );
 			}
-			
-			if(apply_filters( 'current_theme', get_option( 'current_theme' ) ) == 'MicrojobEngine Child'  || class_exists( 'Timber' ) ){
+			$eztoc_current_theme = get_the_theme();
+			if($eztoc_current_theme->get('Name') == 'MicrojobEngine Child'  || class_exists( 'Timber' ) ){
 				$post = self::get( $ez_toc_current_post_id );
 			}else{
 				$post = self::get( get_the_ID());
@@ -2230,8 +2262,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @return mixed
 		 */
 		public static function toc_get_the_archive_description( $description ) {
-			$current_theme = wp_get_theme();
-			if (  ( $current_theme->get( 'Name' ) === 'Kadence' || $current_theme->get( 'Template' ) === 'kadence' ) && function_exists('is_product_category') && is_product_category() ) {
+			$eztoc_current_theme = get_the_theme();
+			if (  ( $eztoc_current_theme->get( 'Name' ) === 'Kadence' || $eztoc_current_theme->get( 'Template' ) === 'kadence' ) && function_exists('is_product_category') && is_product_category() ) {
 				if( true == ezTOC_Option::get( 'include_product_category', false) ) {
 					if(!is_admin() && !empty($description)){
 						return self::the_content($description);
@@ -2271,4 +2303,3 @@ function eztoc_activate($network_wide) {
     	add_option('ez_toc_do_activation_redirect', true);
 	}
 }
-

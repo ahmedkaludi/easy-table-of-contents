@@ -24,3 +24,18 @@ function eztoc_read_file_contents($file_path) {
 
     return false;
 }
+/*
+ * Check if a plugin is active.
+ * Since: 2.0.79
+ * @param string $plugin_slug The plugin slug (e.g., 'plugin-folder/plugin-file.php').
+ * @return bool True if the plugin is active, false otherwise.
+ */
+function eztoc_is_plugin_active( $plugin_slug ) {
+    if ( empty( $plugin_slug ) ) {
+        return false;
+    }
+    if ( ! function_exists( 'is_plugin_active' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+	return is_plugin_active( $plugin_slug );
+}

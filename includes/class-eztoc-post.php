@@ -103,8 +103,22 @@ class ezTOC_Post {
 		 * in easy toc plugin
 		 * @since 2.0.51
 		 */
+		//This is legacy hook,it will be removed in future versions.
         $plugins = apply_filters(
-            'ez_toc_apply_filter_status',
+            'ez_toc_apply_filter_status',  //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+            array(
+                'booster-extension/booster-extension.php',
+                'divi-bodycommerce/divi-bodyshop-woocommerce.php',
+                'social-pug/index.php',
+				'fusion-builder/fusion-builder.php',
+				'modern-footnotes/modern-footnotes.php',
+				'yet-another-stars-rating-premium/yet-another-stars-rating.php',
+				'tasty-recipes/tasty-recipes.php'
+            )
+        );
+		//This is the new hook , it should be used instead of the legacy one.
+		$plugins = apply_filters(
+            'eztoc_apply_filter_status',
             array(
                 'booster-extension/booster-extension.php',
                 'divi-bodycommerce/divi-bodyshop-woocommerce.php',
@@ -117,18 +131,24 @@ class ezTOC_Post {
         );
 
         foreach ( $plugins as $value ) {
-            if ( in_array( $value, apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+            if ( eztoc_is_plugin_active( $value) ) {
                 $apply_content_filter = false;
             }
         }
-
-		$apply_content_filter = apply_filters('ez_toc_apply_filter_status_manually', $apply_content_filter);
+		//This is legacy hook,it will be removed in future versions
+		$apply_content_filter = apply_filters('ez_toc_apply_filter_status_manually', $apply_content_filter); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+		//This is the new hook , it should be used instead of the legacy one.
+		$apply_content_filter = apply_filters('eztoc_apply_filter_status_manually', $apply_content_filter);
 		global $eztoc_disable_the_content;
 	    if($eztoc_disable_the_content){
 			$apply_content_filter = false;
 			$eztoc_disable_the_content = false;
 	    }
-        return apply_filters('ez_toc_apply_filter_status_final', $apply_content_filter);
+		//This is legacy hook,it will be removed in future versions.
+		$eztoc_apply_filter_status_final =  apply_filters('ez_toc_apply_filter_status_final', $apply_content_filter); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+		//This is the new hook , it should be used instead of the legacy one.
+		$eztoc_apply_filter_status_final =  apply_filters('eztoc_apply_filter_status_final', $apply_content_filter);
+        return $eztoc_apply_filter_status_final;
     }
 
 	/**
@@ -212,7 +232,7 @@ class ezTOC_Post {
 		
 		}
 
-		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) );
+		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using WP code hook
 
 		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
 
@@ -241,12 +261,25 @@ class ezTOC_Post {
 		 * Ensure the ezTOC shortcodes are not processed when applying `the_content` filter
 		 * otherwise an infinite loop may occur.
 		 */
+		//This is legacy hook,it will be removed in future versions.
+		
 		$tags_to_remove = apply_filters(
-			'ez_toc_strip_shortcodes_tagnames',
+			'ez_toc_strip_shortcodes_tagnames',  //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
 			array(
 				'ez-toc',
 				'ez-toc-widget-sticky',
-				apply_filters( 'ez_toc_shortcode', 'toc' ),
+				apply_filters( 'ez_toc_shortcode', 'toc' ),  //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			),
+			$content
+		);
+
+		//This is the new hook , it should be used instead of the legacy one.
+		$tags_to_remove = apply_filters(
+			'eztoc_strip_shortcodes_tagnames',
+			array(
+				'ez-toc',
+				'ez-toc-widget-sticky',
+				apply_filters( 'eztoc_shortcode', 'toc' ),
 			),
 			$content
 		);
@@ -332,7 +365,10 @@ class ezTOC_Post {
 	 */
 	private function processPages() {
 
-		$content = apply_filters( 'ez_toc_modify_process_page_content', $this->post->post_content );
+		//This is legacy hook,it will be removed in future versions.
+		$content = apply_filters( 'ez_toc_modify_process_page_content', $this->post->post_content ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+		//This is the new hook , it should be used instead of the legacy one.
+		$content = apply_filters( 'eztoc_modify_process_page_content', $this->post->post_content );
 		
 		// Fix for wordpress category pages showing wrong toc if they have description
 		if(is_category()){
@@ -351,8 +387,10 @@ class ezTOC_Post {
 			$tax = $wp_query->get_queried_object();
 
 			if ( is_object( $tax ) ) {
-
-				$content = apply_filters( 'ez_toc_modify_taxonomy_content', $tax->description, $tax->term_id );
+				//This is legacy hook,it will be removed in future versions.
+				$content = apply_filters( 'ez_toc_modify_taxonomy_content', $tax->description, $tax->term_id ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+				//This is the new hook , it should be used instead of the legacy one.
+				$content = apply_filters( 'eztoc_modify_taxonomy_content', $tax->description, $tax->term_id );
 
 			}
 		}
@@ -362,13 +400,15 @@ class ezTOC_Post {
 			$term_object = get_queried_object();			
 
 			if ( ! empty( $term_object->description ) ) {
-
-				$content = apply_filters( 'ez_toc_modify_product_category_content', $term_object->description );
+				//This is legacy hook,it will be removed in future versions.
+				$content = apply_filters( 'ez_toc_modify_product_category_content', $term_object->description ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+				//This is the new hook , it should be used instead of the legacy one.
+				$content = apply_filters( 'eztoc_modify_product_category_content', $term_object->description );
 
 			}						
 		}		
 
-		if ( in_array( 'js_composer_salient/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		if ( eztoc_is_plugin_active( 'js_composer_salient/js_composer.php' ) ) {
 
 			$eztoc_post_id   = get_the_ID();
 			$eztoc_post_meta = get_option( 'ez-toc-post-meta-content', false );
@@ -458,7 +498,10 @@ class ezTOC_Post {
 		 * @param $selectors array  Array of classes/id selector to exclude from TOC.
 		 * @param $content   string Post content.
 		 */
-		$selectors = apply_filters( 'ez_toc_exclude_by_selector', array( '.ez-toc-exclude-headings' ), $content );
+		//This is legacy hook,it will be removed in future versions
+		$selectors = apply_filters( 'ez_toc_exclude_by_selector', array( '.ez-toc-exclude-headings' ), $content ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+		//This is the new hook , it should be used instead of the legacy one.
+		$selectors = apply_filters( 'eztoc_exclude_by_selector', array( '.ez-toc-exclude-headings' ), $content );
 		$selectors = ! is_array( $selectors ) ? [] : $selectors; // In case we get string instead of array
 		$nodes = $html->Find( implode( ',', $selectors ) );
 		if(isset($nodes['ids'])){
@@ -489,12 +532,19 @@ class ezTOC_Post {
 	private function extractHeadings( $content, $page = 1 ) {
 
 		$matches = array();
+		$eztoc_current_theme = get_the_theme();
 
-		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) || function_exists( 'koyfin_setup' )) {
-                    $content = apply_filters( 'ez_toc_extract_headings_content', $content );           
-                } else {
-                    $content = apply_filters( 'ez_toc_extract_headings_content', wptexturize( $content ) );
-                }
+		if ( eztoc_is_plugin_active( 'elementor/elementor.php' ) || eztoc_is_plugin_active( 'divi-machine/divi-machine.php') || 'Fortunato Pro' == $eztoc_current_theme->get( 'Name' ) || function_exists( 'koyfin_setup' )) {
+			//This is legacy hook,it will be removed in future versions.
+			$content = apply_filters( 'ez_toc_extract_headings_content', $content ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			//This is the new hook , it should be used instead of the legacy one.
+			$content = apply_filters( 'eztoc_extract_headings_content', $content );     
+		} else {
+			//This is legacy hook,it will be removed in future versions.
+			$content = apply_filters( 'ez_toc_extract_headings_content', wptexturize( $content ) ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			//This is the new hook , it should be used instead of the legacy one.
+			$content = apply_filters( 'eztoc_extract_headings_content', wptexturize( $content ) );
+		}
 
         //anchor not working if seedprod-pro/beaver-builder heading has hyphen
         if ( ezTOC_Option::get( 'seedprod-pro' ) || ezTOC_Option::get( 'beaver-builder' ) ) {
@@ -505,7 +555,10 @@ class ezTOC_Post {
                 * Lasso Product Compatibility
                 * @since 2.0.46
                 */
-                $regEx = apply_filters( 'ez_toc_regex_filteration', '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuU' );
+				//This is legacy hook,it will be removed in future versions.
+                $regEx = apply_filters( 'ez_toc_regex_filteration', '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuU' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+				//This is the new hook , it should be used instead of the legacy one.
+				$regEx = apply_filters( 'eztoc_regex_filteration', '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuU' );
                 
 		// get all headings
 		// the html spec allows for a maximum of 6 heading depths
@@ -590,8 +643,10 @@ class ezTOC_Post {
 	private function removeHeadingsFromExcludedNodes( &$matches ) {
 
 		foreach ( $matches as $i => $match ) {
-			
-			$match[3] = apply_filters( 'ez_toc_filter_headings_from_exclude_nodes', $match[3]);
+			//This is legacy hook,it will be removed in future versions.
+			$match[3] = apply_filters( 'ez_toc_filter_headings_from_exclude_nodes', $match[3]); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			//This is the new hook , it should be used instead of the legacy one.
+			$match[3] = apply_filters( 'eztoc_filter_headings_from_exclude_nodes', $match[3]);
 
 			if ( $this->inExcludedNode( "{$match[3]}</h$match[2]>" ) ) {
 
@@ -711,7 +766,7 @@ class ezTOC_Post {
 					$found = false;
 
 					$against = html_entity_decode(
-                                                ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) ? wp_strip_all_tags( str_replace( array( "\r", "\n" ), ' ', $matches[ $i ][0] ) ) : wptexturize(wp_strip_all_tags( str_replace( array( "\r", "\n" ), ' ', $matches[ $i ][0] ) ) ),
+                                                ( eztoc_is_plugin_active( 'divi-machine/divi-machine.php' ) || 'Fortunato Pro' == $eztoc_current_theme->get( 'Name' ) ) ? wp_strip_all_tags( str_replace( array( "\r", "\n" ), ' ', $matches[ $i ][0] ) ) : wptexturize(wp_strip_all_tags( str_replace( array( "\r", "\n" ), ' ', $matches[ $i ][0] ) ) ),
 						ENT_NOQUOTES,
 						get_option( 'blog_charset' )
 					);
@@ -721,7 +776,7 @@ class ezTOC_Post {
 						// Since WP manipulates the post content it is required that the excluded header and
 						// the actual header be manipulated similarly so a match can be made.
 						$pattern = html_entity_decode(
-							( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) ? $excluded_headings[ $j ] : wptexturize($excluded_headings[ $j ]),
+							( eztoc_is_plugin_active( 'divi-machine/divi-machine.php' ) || 'Fortunato Pro' == $eztoc_current_theme->get( 'Name' ) ) ? $excluded_headings[ $j ] : wptexturize($excluded_headings[ $j ]),
 							ENT_NOQUOTES,
 							get_option( 'blog_charset' )
 						);
@@ -819,7 +874,7 @@ class ezTOC_Post {
 				foreach ( $alt_headings as $original_heading => $alt_heading ) {
 
 					// Cleanup and texturize so alt heading can match heading in post content.
-                                        if ( in_array( 'divi-machine/divi-machine.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'Fortunato Pro' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+                                        if ( eztoc_is_plugin_active( 'divi-machine/divi-machine.php' ) || 'Fortunato Pro' == $eztoc_current_theme->get( 'Name' ) ) {
                                             $original_heading = trim( $original_heading );
                                         }else {
                                             $original_heading = wptexturize( trim( $original_heading ) );
@@ -899,7 +954,10 @@ class ezTOC_Post {
 		$return = false;
 
 		if ( $heading ) {
-			$heading = apply_filters( 'ez_toc_url_anchor_target_before', $heading );
+			//This is legacy hook,it will be removed in future versions.
+			$heading = apply_filters( 'ez_toc_url_anchor_target_before', $heading ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			//This is the new hook , it should be used instead of the legacy one.
+			$heading = apply_filters( 'eztoc_url_anchor_target_before', $heading );
 			// WP entity encodes the post content.
 			$return = html_entity_decode( $heading, ENT_QUOTES, get_option( 'blog_charset' ) );
 			$return = br2( $return, ' ' );
@@ -923,7 +981,10 @@ class ezTOC_Post {
 			$return = preg_replace( '/[\x00-\x1F\x7F]*/u', '', $return );
 
 			//for procesing shortcode in headings
-			$return = apply_filters('ez_toc_table_heading_title_anchor',$return);
+			//This is legacy hook,it will be removed in future versions.
+			$return = apply_filters('ez_toc_table_heading_title_anchor',$return); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			//This is the new hook , it should be used instead of the legacy one.
+			$return = apply_filters('eztoc_table_heading_title_anchor',$return);
 			// Reserved Characters.
 			// * ' ( ) ; : @ & = + $ , / ? # [ ]
 			$return = str_replace(
@@ -1028,8 +1089,11 @@ class ezTOC_Post {
 
 			$this->collision_collector[ $return ] = 1;
 		}
-
-		return apply_filters( 'ez_toc_url_anchor_target', $return, $heading );
+		//This is legacy hook,it will be removed in future versions.
+		$eztoc_url_anchor_target =  apply_filters( 'ez_toc_url_anchor_target', $return, $heading ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+		//This is the new hook , it should be used instead of the legacy one.
+		$eztoc_url_anchor_target =  apply_filters( 'eztoc_url_anchor_target', $return, $heading );
+		return $eztoc_url_anchor_target;
 	}
 
 	/**
@@ -1098,7 +1162,10 @@ class ezTOC_Post {
 			$matches = $this->getHeadingsfromPageContents( $page );
 
 			foreach ( $matches as $i => $match ) {
-
+				//This is legacy hook,it will be removed in future versions.
+				$eztoc_content_heading_title =  apply_filters('ez_toc_content_heading_title',$matches[ $i ][0]); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+				//This is the new hook , it should be used instead of the legacy one.
+				$eztoc_content_heading_title =  apply_filters('eztoc_content_heading_title',$matches[ $i ][0]);
                 $headings[] = str_replace(
                     array(
                         $matches[ $i ][1],                // start of heading
@@ -1108,7 +1175,7 @@ class ezTOC_Post {
                         '>',
                         '</h' . $matches[ $i ][2] . '>'
                     ),
-                   apply_filters('ez_toc_content_heading_title',$matches[ $i ][0])
+                   $eztoc_content_heading_title
                 );
 
 			}
@@ -1166,7 +1233,10 @@ class ezTOC_Post {
 			foreach ( $matches as $i => $match ) {
 
 				$anchor     = $matches[ $i ]['id'];
-
+				//This is legacy hook,it will be removed in future versions.
+				$eztoc_content_heading_title_anchor =  apply_filters('ez_toc_content_heading_title_anchor',$matches[ $i ][0]); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+				//This is the new hook , it should be used instead of the legacy one
+				$eztoc_content_heading_title_anchor =  apply_filters('eztoc_content_heading_title_anchor',$matches[ $i ][0]);
 				$headings[] = str_replace(
 					array(
 						$matches[ $i ][1],                // start of heading
@@ -1176,7 +1246,7 @@ class ezTOC_Post {
 						'><span class="ez-toc-section" id="' . $anchor . '"></span>',
 						'<span class="ez-toc-section-end"></span></h' . $matches[ $i ][2] . '>'
 					),
-					apply_filters('ez_toc_content_heading_title_anchor',$matches[ $i ][0])
+					$eztoc_content_heading_title_anchor
 				);
 			}
 		}
@@ -1327,8 +1397,11 @@ class ezTOC_Post {
 					$visiblityClass = (in_array('desktop', $visibilty_by_device)) ? "eztoc-toggle-hide-by-default" : "";
 				}
 			}
+			//This is legacy hook,it will be removed in future version
+			$html  = apply_filters('ez_toc_add_custom_links',$html); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			//This is the new hook , it should be used instead of the legacy one.
+			$html  = apply_filters('eztoc_add_custom_links',$html);
 			
-			$html  = apply_filters('ez_toc_add_custom_links',$html);
 			
 			// Get column setting - check shortcode options first, then global setting
 			$columns = isset($options['columns']) ? $options['columns'] : absint( ezTOC_Option::get('toc_columns', 1) );
@@ -1381,11 +1454,19 @@ class ezTOC_Post {
 			}
 			$htmlSticky  .= '<div id="ez-toc-sticky-container" class="ez-toc-sticky-container ' . implode( ' ', $classSticky ) . '">' . PHP_EOL;
 			ob_start();
-			do_action( 'ez_toc_sticky_toggle_before' );
+			//This is legacy action hook,it will be removed in future versions.
+			do_action( 'ez_toc_sticky_toggle_before' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+
+			//This is the new action hook , it should be used instead of the legacy one.
+			do_action( 'eztoc_sticky_toggle_before' );
 			$htmlSticky .= ob_get_clean();
 			$htmlSticky .= "<nav class='$ezTocStickyToggleDirection'>" . $this->getTOCList( "ez-toc-sticky" ) . "</nav>";
 			ob_start();
-			do_action( 'ez_toc_sticky_toggle_after' );
+			//This is legacy action hook,it will be removed in future versions.
+			do_action( 'ez_toc_sticky_toggle_after' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+
+			//This is the new action hook , it should be used instead of the legacy one.
+			do_action( 'eztoc_sticky_toggle_after' );
 			$htmlSticky .= ob_get_clean();
 			$htmlSticky .= '</div>' . PHP_EOL;						
 		}
@@ -1547,7 +1628,10 @@ class ezTOC_Post {
 			if ( 0 < strlen( $custom_classes ) ) {
 
 				$custom_classes = explode( ' ', $custom_classes );
-				$custom_classes = apply_filters( 'ez_toc_container_class', $custom_classes, $this );
+				//This is legacy hook,it will be removed in future versions.
+				$custom_classes = apply_filters( 'ez_toc_container_class', $custom_classes, $this ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+				//This is the new hook , it should be used instead of the legacy one.
+				$custom_classes = apply_filters( 'eztoc_container_class', $custom_classes, $this );
 
 				if ( is_array( $custom_classes ) ) {
 
@@ -1568,13 +1652,21 @@ class ezTOC_Post {
 			}            
 
 			ob_start();
-			do_action( 'ez_toc_before' );
+			//This is legacy action hook,it will be removed in future versions.
+			do_action( 'ez_toc_before' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+
+			//This is the new action hook , it should be used instead of the legacy one.
+			do_action( 'eztoc_before' );
 			$html .= ob_get_clean();
 
 			$html .= '<nav>' . $this->getTOCList('ez-toc', $options) . '</nav>';
 
 			ob_start();
-			do_action( 'ez_toc_after' );
+			//This is legacy action hook,it will be removed in future versions.
+			do_action( 'ez_toc_after' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+
+			//This is the new action hook , it should be used instead of the legacy one.
+			do_action( 'eztoc_after' );
 			$html .= ob_get_clean();
 
 			$html .= '</div>' . PHP_EOL;
@@ -1622,8 +1714,12 @@ class ezTOC_Post {
 								
 		$icon = ezTOC::get_toc_toggle_icon();
 		if( function_exists( 'ez_toc_pro_activation_link' ) ) {
-				$icon = apply_filters('ez_toc_modify_icon',$icon);
-				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html, $read_time);
+				//This is legacy hook,it will be removed in future versions.
+				$icon = apply_filters('ez_toc_modify_icon',$icon); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html, $read_time); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+				//This is the new hook , it should be used instead of the legacy one.
+				$icon = apply_filters('eztoc_modify_icon',$icon);
+				$label_below_html = apply_filters('eztoc_label_below_html',$label_below_html, $read_time);
 		}							   
 		$html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="'.esc_attr__('Toggle Table of Content','easy-table-of-contents').'"><span class="ez-toc-js-icon-con">'.$icon.'</span></a>';
 		 
@@ -1690,8 +1786,12 @@ class ezTOC_Post {
 		    	$read_time['read_time'] = $options['read_time'];
 		    }
 			if( function_exists( 'ez_toc_pro_activation_link' ) ) {
-				$toc_icon = apply_filters('ez_toc_modify_icon',$toc_icon);
-				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html, $read_time);
+				//This is legacy hook,it will be removed in future versions.
+				$toc_icon = apply_filters('ez_toc_modify_icon',$toc_icon); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html, $read_time); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+				//This is the new hook , it should be used instead of the legacy one.
+				$toc_icon = apply_filters('eztoc_modify_icon',$toc_icon);
+				$label_below_html = apply_filters('eztoc_label_below_html',$label_below_html, $read_time);
 		     }				
 			if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {		
 				$html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-cssicon-toggle-label">' .$header_label. $toc_icon . '</label>'.$label_below_html.'<input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' />';
@@ -1792,7 +1892,10 @@ class ezTOC_Post {
 						//Hide Level 4 Headings
 						$sub_active = '';
 						if($level > 3){
-							$sub_active = apply_filters('ez_toc_hierarchy_js_add_attr', $sub_active, $collapse_status);
+							//This is legacy hook,it will be removed in future versions.
+							$sub_active = apply_filters('ez_toc_hierarchy_js_add_attr', $sub_active, $collapse_status); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+							//This is the new hook , it should be used instead of the legacy one.
+							$sub_active = apply_filters('eztoc_hierarchy_js_add_attr', $sub_active, $collapse_status);
 						}
 						$html .= "<ul class='{$prefix}-list-level-" . $level . "' ".$sub_active."><li class='{$prefix}-heading-level-" . $level . "'>";
 					}
@@ -1803,7 +1906,12 @@ class ezTOC_Post {
 				if(!ezTOC_Option::get( 'prsrv_line_brk' )){
 					$title = br2( $title, ' ' );
 				}
-				$title = eztoc_wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ) );
+				//This is legacy hook,it will be removed in future versions.
+				$title = apply_filters( 'ez_toc_title', $title ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+				//This is the new hook , it should be used instead of the legacy one.
+				$title = apply_filters( 'eztoc_title', $title );
+				
+				$title = eztoc_wp_strip_all_tags( $title  );
 
 				$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
 
@@ -1846,7 +1954,10 @@ class ezTOC_Post {
 					foreach ( $matches as $i => $match ) {
 						$count = $i + 1;
 						$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
-						$title = eztoc_wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ) );
+						//This is legacy hook,it will be removed in future versions.
+						$title = eztoc_wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ) ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+						//This is the new hook , it should be used instead of the legacy one.
+						$title = eztoc_wp_strip_all_tags( apply_filters( 'eztoc_title', $title ) );
 						if($count <= $no_of_headings){
 							$html .= "<li class='{$prefix}-page-" . $page . "'>";
 							$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
@@ -1875,7 +1986,11 @@ class ezTOC_Post {
 					foreach ( $matches as $i => $match ) {
 						$count = $i + 1;
 						$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
-						$title = eztoc_wp_strip_all_tags( apply_filters( 'ez_toc_title', $title ) );
+						//This is legacy hook,it will be removed in future versions.
+						$title = apply_filters( 'ez_toc_title', $title ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+						//This is the new hook , it should be used instead of the legacy one.
+						$title = apply_filters( 'eztoc_title', $title );
+						$title = eztoc_wp_strip_all_tags(  $title );
 						$html .= "<li class='{$prefix}-page-" . $page . "'>";
 						$html .= $this->createTOCItemAnchor( $matches[ $i ]['page'], $matches[ $i ]['id'], $title, $count );
 						$html .= '</li>';
@@ -1883,8 +1998,10 @@ class ezTOC_Post {
 				}
 			}
 		}
-
-		$html = apply_filters('ez_toc_pro_html_modifier', $html, $toc_more, $count_matches, $toc_type);
+		//This is legacy hook,it will be removed in future versions.
+		$html = apply_filters('ez_toc_pro_html_modifier', $html, $toc_more, $count_matches, $toc_type); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+		//This is the new hook , it should be used instead of the legacy one.
+		$html = apply_filters('eztoc_pro_html_modifier', $html, $toc_more, $count_matches, $toc_type);
 
 		return do_shortcode($html);
 	}
@@ -1942,7 +2059,7 @@ class ezTOC_Post {
 		//Ajax Load more 
 		//@since 2.0.61
 		if(ezTOC_Option::get( 'ajax_load_more' ) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'){
-			$anch_url = isset( $_SERVER['HTTP_REFERER'] ) ? wp_unslash( $_SERVER['HTTP_REFERER'] ) : '';
+			$anch_url = isset( $_SERVER['HTTP_REFERER'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '';
 		}
 
 		if ( $page === $current_page && $current_post ) {
@@ -1954,7 +2071,8 @@ class ezTOC_Post {
 			if ( ezTOC_Option::get( 'add_self_reference_link' ) ) { 
 				return trailingslashit( $anch_url ) . '#' . $id;
 			}
-			return (ezTOC_Option::get( 'add_request_uri' ) ? $_SERVER['REQUEST_URI'] : '') . '#' . $id;
+			$request_uri = isset($_SERVER['REQUEST_URI']) ? esc_url_raw( wp_unslash($_SERVER['REQUEST_URI']) ) : '';
+			return (ezTOC_Option::get( 'add_request_uri' ) ? $request_uri : '') . '#' . $id;
 
 		} elseif ( 1 === $page ) {
 			// Fix for wrong links on TOC on Wordpress category page
@@ -1980,7 +2098,10 @@ class ezTOC_Post {
 	 */
 	private function stripShortcodesButKeepContent($content) {
 		// Regex pattern to match the specific shortcodes
-		$shortcodes = apply_filters('ez_toc_strip_shortcodes_with_inner_content',[]);
+		//This is legacy hook,it will be removed in future versions.
+		$shortcodes = apply_filters('ez_toc_strip_shortcodes_with_inner_content',[]); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name
+		//This is the new hook , it should be used instead of the legacy one.
+		$shortcodes = apply_filters('eztoc_strip_shortcodes_with_inner_content',[]);
 		if(!empty($shortcodes) && is_array($shortcodes)){
 			
 		$pattern = '/\[('.implode('|',$shortcodes).')(?:\s[^\]]*)?\](.*?)\[\/\1\]|\[('.implode('|',$shortcodes).')(?:\s[^\]]*)?\/?\]/s';
@@ -2014,7 +2135,10 @@ class ezTOC_Post {
 	 */
 	private function get_toc_title_tag( $toc_type = 'js', $options = [] ) {
 		if($toc_type == 'sticky'){
-			$toc_title = apply_filters('ez_toc_sticky_title', ezTOC_Option::get( 'heading_text' ));
+			//This is legacy action hook,it will be removed in future versions.
+			$toc_title = apply_filters('ez_toc_sticky_title', ezTOC_Option::get( 'heading_text' )); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			//This is the new action hook , it should be used instead of the legacy one.
+			$toc_title = apply_filters('eztoc_sticky_title', ezTOC_Option::get( 'heading_text' ));
 		}else{
 			$toc_title = ezTOC_Option::get( 'heading_text' );
 		}

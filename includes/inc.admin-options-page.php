@@ -529,21 +529,15 @@ function addCustomSpan()
                     <p class="eztoc-p"><?php esc_html_e("We strive to provide the best TOC in the world.", 'easy-table-of-contents') ?></p>
                     <section class="eztoc_dev-bio">
                         <div class="ezoc-bio-wrap">
-                            <img width="50px" height="50px"
+                            <img width="60px" height="60px"
                                  src="<?php echo esc_url(plugins_url('assets/img/ahmed-kaludi.jpg', dirname(__FILE__)))
                                  ?>" alt="ahmed-kaludi"/>
                             <p><?php esc_html_e('Lead Dev', 'easy-table-of-contents'); ?></p>
                         </div>
                         <div class="ezoc-bio-wrap">
-                            <img width="50px" height="50px"
+                            <img width="60px" height="60px"
                                  src="<?php echo esc_url(plugins_url('assets/img/Mohammed-kaludi.jpeg', dirname(__FILE__))) 
                                  ?>" alt="Mohammed-kaludi"/>
-                            <p><?php esc_html_e('Developer', 'easy-table-of-contents'); ?></p>
-                        </div>
-                        <div class="ezoc-bio-wrap">
-                            <img width="50px" height="50px"
-                                 src="<?php echo esc_url(plugins_url('assets/img/sanjeev.jpg', dirname(__FILE__))) ?>"
-                                 alt="Sanjeev"/>
                             <p><?php esc_html_e('Developer', 'easy-table-of-contents'); ?></p>
                         </div>
                     </section>

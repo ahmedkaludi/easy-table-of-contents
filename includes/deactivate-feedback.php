@@ -36,9 +36,9 @@ shuffle($eztoc_reasons);
 	    <h3><strong><?php esc_html_e('If you have a moment, please let us know why you are deactivating:', 'easy-table-of-contents'); ?></strong></h3>
 	    <ul>
                 <?php 
-                foreach ($eztoc_reasons as $reason_escaped){
+                foreach ($eztoc_reasons as $eztoc_reason){
 					//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
-                    echo $reason_escaped;
+                    echo $eztoc_reason;
                 }
                 ?>
 	    </ul>

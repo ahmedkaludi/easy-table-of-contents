@@ -160,7 +160,12 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 * @static
 		 */
 		public function registerMetaboxes() {
-			if(apply_filters('ez_toc_register_metaboxes_flag', true)){
+			//This is legacy hook,it will be removed in future versions.
+			$eztoc_register_metaboxes_flag = apply_filters('ez_toc_register_metaboxes_flag', true); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			//This is the new hook , it should be used instead of the legacy one.
+			$eztoc_register_metaboxes_flag = apply_filters('eztoc_register_metaboxes_flag', true);
+
+			if($eztoc_register_metaboxes_flag){
 			foreach ( get_post_types() as $type ) {
 
 				if ( in_array( $type, ezTOC_Option::get( 'enabled_post_types', array() ) ) ) {
@@ -670,13 +675,12 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 					update_post_meta( $post_id, '_ez-toc-heading-levels', array() );
 				}
 
-				if ( isset( $_REQUEST['ez-toc-settings']['alttext'] ) && ! empty( wp_unslash( $_REQUEST['ez-toc-settings']['alttext'] ) ) ) {
+				if ( isset( $_REQUEST['ez-toc-settings']['alttext'] ) && ! empty( sanitize_text_field( wp_unslash( $_REQUEST['ez-toc-settings']['alttext'] ) ) ) ) {
 
 					$alttext = '';
-					
-					if ( is_string( wp_unslash( $_REQUEST['ez-toc-settings']['alttext'] ) ) ) {
-						$alttext = trim( wp_unslash( $_REQUEST['ez-toc-settings']['alttext'] ) );
-
+					$alttext_setting = sanitize_text_field( wp_unslash( $_REQUEST['ez-toc-settings']['alttext'] ) );
+					if ( is_string( $alttext_setting ) ) {
+						$alttext = trim(  $alttext_setting );
 							/*
 						* This is basically `esc_html()` but does not encode quotes.
 						* This is to allow angle brackets and such which `wp_kses_post` would strip as "evil" scripts.
@@ -714,9 +718,10 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 				if ( isset( $_REQUEST['ez-toc-settings']['exclude'] ) && ! empty( $_REQUEST['ez-toc-settings']['exclude'] ) ) {
 
 					$exclude = '';
-					if ( is_string( wp_unslash( $_REQUEST['ez-toc-settings']['exclude'] ) ) ) {
+					$exclude_request = sanitize_text_field( wp_unslash( $_REQUEST['ez-toc-settings']['exclude'] ) );
+					if ( is_string( $exclude_request ) ) {
 
-						$exclude = trim( wp_unslash( $_REQUEST['ez-toc-settings']['exclude'] ) );
+						$exclude = trim( $exclude_request );
 
 							/*
 						* This is basically `esc_html()` but does not encode quotes.
@@ -755,7 +760,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 						'top',
 						'bottom',
 					);
-				    $position = sanitize_text_field( $_REQUEST['ez-toc-settings']['position-specific'] );					
+				    $position = sanitize_text_field( wp_unslash( $_REQUEST['ez-toc-settings']['position-specific'] ) );					
 				    if( in_array( $position, $align_values ) ) {
 				        update_post_meta( $post_id, '_ez-toc-position-specific', $position );
 				    }
@@ -771,14 +776,14 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 
 				    if($position == 'aftercustompara' ) {	
 						if (isset($_REQUEST['ez-toc-settings']['s_custom_para_number'])) {	
-						$s_custom_para_number = sanitize_text_field( $_REQUEST['ez-toc-settings']['s_custom_para_number'] );			
+						$s_custom_para_number = sanitize_text_field( wp_unslash( $_REQUEST['ez-toc-settings']['s_custom_para_number'] ) );			
 				        update_post_meta( $post_id, '_ez-toc-s_custom_para_number', $s_custom_para_number );
 						}
 				    }
 
 				    if($position == 'aftercustomimg' ) {
 						if (isset($_REQUEST['ez-toc-settings']['s_custom_img_number'])) {	
-						$s_custom_img_number = sanitize_text_field( $_REQUEST['ez-toc-settings']['s_custom_img_number'] );					
+						$s_custom_img_number = sanitize_text_field( wp_unslash( $_REQUEST['ez-toc-settings']['s_custom_img_number'] ) );					
 				        update_post_meta( $post_id, '_ez-toc-s_custom_img_number', $s_custom_img_number );
 						}
 				    }
@@ -826,14 +831,14 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		        if ( ! isset( $_POST['eztoc_security_nonce'] ) ){
 		           return; 
 		        }
-		        if ( !wp_verify_nonce( $_POST['eztoc_security_nonce'], 'eztoc_ajax_check_nonce' ) ){
+		        if ( !wp_verify_nonce( wp_unslash( $_POST['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) ){ //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		           return;  
 		        }   
 				if ( !current_user_can( 'manage_options' ) ) {
 					return;  					
 				}
-		        $message        = $this->eztoc_sanitize_textarea_field($_POST['message']); 
-		        $email          = sanitize_email($_POST['email']);
+		        $message        = isset($_POST['message']) ? $this->eztoc_sanitize_textarea_field(wp_unslash( $_POST['message'] )) : ''; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		        $email          = isset($_POST['email']) ? sanitize_email(wp_unslash( $_POST['email'])) : '';
 		                                
 		        if(function_exists('wp_get_current_user')){
 

@@ -158,7 +158,7 @@ function eztoc_export_all_settings()
     if(!isset($_GET['_wpnonce'])){
         die('-1');
     }
-    if( !wp_verify_nonce(  $_GET['_wpnonce'] , '_wpnonce' ) ){
+    if( !wp_verify_nonce(  wp_unslash( $_GET['_wpnonce'] ) , '_wpnonce' ) ){  //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized --Nonce is validated
         die('-1');
     }
 
@@ -232,7 +232,10 @@ add_filter('eztoc_wordpress_final_output', function($content){
      function ezTOCGenerateHeadingIDFromTitle( $heading ) {
         $return = false;
         if ( $heading ) {
-            $heading = apply_filters( 'ez_toc_url_anchor_target_before', $heading );
+            //This is legacy filter, will be removed in future updates.
+            $heading = apply_filters( 'ez_toc_url_anchor_target_before', $heading ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+            //This is new filter, please use this for future compatibility
+            $heading = apply_filters( 'eztoc_url_anchor_target_before', $heading );
             $return = html_entity_decode( $heading, ENT_QUOTES, get_option( 'blog_charset' ) );
             $return = trim( wp_strip_all_tags( $return ) );
             $return = remove_accents( $return );
@@ -294,7 +297,12 @@ add_filter('eztoc_wordpress_final_output', function($content){
                 $return = preg_replace( '/-+/', '-', $return );
             }
         }
-        return apply_filters( 'ez_toc_url_anchor_target', $return, $heading );
+        //This is legacy filter, will be removed in future updates.
+        $return = apply_filters( 'ez_toc_url_anchor_target', $return, $heading ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+        //This is new filter, please use this for future compatibility
+        $return = apply_filters( 'eztoc_url_anchor_target', $return, $heading );
+
+        return $return;
     }
    //Device Eligibility
   //@since 2.0.60
@@ -330,7 +338,10 @@ function eztoc_stikcy_enable_support_status() {
 
     if ( ezTOC_Option::get('sticky-toggle') ) {
 
-    $sticky_post_types = apply_filters( 'ez_toc_sticky_post_types', ezTOC_Option::get( 'sticky-post-types' ) );
+    //This is legacy filter, will be removed in future updates.
+    $sticky_post_types = apply_filters( 'ez_toc_sticky_post_types', ezTOC_Option::get( 'sticky-post-types' ) ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+    //This is new filter, please use this for future compatibility
+    $sticky_post_types = apply_filters( 'eztoc_sticky_post_types', ezTOC_Option::get( 'sticky-post-types' ) );
 
     if ( ! empty( $sticky_post_types ) ){
 
@@ -383,9 +394,9 @@ function eztoc_stikcy_enable_support_status() {
         $urls_arr = explode( PHP_EOL, $all_urls );
 
         if ( is_array($urls_arr) ) {
-
+            $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
             foreach ( $urls_arr as $url_arr ) {
-                if ( isset( $_SERVER['REQUEST_URI'] ) && false !== strpos( $_SERVER['REQUEST_URI'], trim( $url_arr ) ) ) {
+                if ( $request_uri && false !== strpos( $request_uri, trim( $url_arr ) ) ) {
                     $status = false;
                     break;
                 }
@@ -415,8 +426,12 @@ function eztoc_stikcy_enable_support_status() {
       }    
 
     }
-    
-    return apply_filters( 'ez_toc_sticky_enable_support', $status );
+    //This is legacy filter, will be removed in future updates.
+    $eztoc_sticky_enable_support = apply_filters( 'ez_toc_sticky_enable_support', $status ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+    //This is new filter, please use this for future compatibility
+    $eztoc_sticky_enable_support = apply_filters( 'eztoc_sticky_enable_support', $status );
+
+    return $eztoc_sticky_enable_support;
 
 }
 
@@ -635,7 +650,10 @@ function eztoc_wp_strip_all_tags( $text, $remove_breaks = false ) {
 	}
 
 	$text = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $text );
-	$text = wp_strip_all_tags( $text, apply_filters( 'ez_toc_allowable_tags', '' ) );
+    //This is legacy hook,  will be removed in future updates.
+	$text = wp_strip_all_tags( $text, apply_filters( 'ez_toc_allowable_tags', '' ) ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+    //This is new hook, please use this for future compatibility 
+    $text = wp_strip_all_tags( $text, apply_filters( 'eztoc_allowable_tags', '' ) );
 
 	if ( $remove_breaks ) {
 		$text = preg_replace( '/[\r\n\t ]+/', ' ', $text );

@@ -186,7 +186,11 @@ add_action(
 	function( $shortcodes ) {
 
 		$shortcodes[] = 'ez-toc';
-		$shortcodes[] = apply_filters( 'ez_toc_shortcode', 'toc' );
+		//This is legacy hook,it will be removed in future versions.
+		$filtered_shortcode = apply_filters( 'ez_toc_shortcode', 'toc' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+		//This is the new hook , it should be used instead of the legacy one.
+		$filtered_shortcode = apply_filters( 'eztoc_shortcode', 'toc' );
+		$shortcodes[] = $filtered_shortcode;
 
 		return $shortcodes;
 	}
@@ -457,7 +461,7 @@ add_filter(
 	'ez_toc_maybe_apply_the_content_filter',
 	function( $apply ) {
 
-		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins' ) );
+		$active_plugins = get_option( 'active_plugins' ) ;
 
 		// Just in case an array is not returned.
 		if ( ! is_array( $active_plugins ) ) {
@@ -514,7 +518,7 @@ function eztoc_flbuilder_layout_data( $data ) {
  * in faq sections
  * @since 2.0.38
  */
-if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && ( 'Kalium - Medical Theme' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) || 'Kalium' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) ) {
+if ( eztoc_is_plugin_active( 'js_composer/js_composer.php' ) && ( 'Kalium - Medical Theme' == $eztoc_current_theme->get( 'Name' ) || 'Kalium' == $eztoc_current_theme->get( 'Name' ) ) ) {
     add_shortcode( 'vc_toggle', 'eztoc_vc_toggle_modified' );
     function eztoc_vc_toggle_modified( $atts, $content, $tag ) {
         if ( 'vc_toggle' == $tag ) {
@@ -547,7 +551,7 @@ if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', g
              * @since 4.4
              */
             $elementClass = array(
-                'base' => apply_filters(VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, 'vc_toggle', 'vc_toggle', $atts),
+                'base' => apply_filters(VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, 'vc_toggle', 'vc_toggle', $atts), //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
                 // TODO: check this code, don't know how to get base class names from params
                 'style' => 'vc_toggle_' . $style,
                 'color' => ( $color ) ? 'vc_toggle_color_' . $color : '',
@@ -561,8 +565,8 @@ if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', g
 
             $class_to_filter = trim(implode(' ', $elementClass));
             $class_to_filter .= vc_shortcode_custom_css_class($css, ' ');
-            $css_class = apply_filters(VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, 'vc_toggle', $atts);
-
+            $css_class = apply_filters(VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, 'vc_toggle', $atts); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound - thirdparty hook
+			
             $heading_output = apply_filters('wpb_toggle_heading', $atts['title'], array(
                 'title' => $title,
                 'open' => $open,
@@ -580,7 +584,8 @@ if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', g
  * in header & footer sections
  * @since 2.0.46
  */
-if ( 'PokaTheme' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+$eztoc_current_theme = wp_get_theme();
+if ( 'PokaTheme' == $eztoc_current_theme->get( 'Name' ) ) {
     add_action( 'poka_before_main', 'eztoc_poka_before_main', 4, 0 );
     function eztoc_poka_before_main() {
         remove_action('poka_before_main', 'poka_before_content', 5, 0);
@@ -603,7 +608,7 @@ if ( 'PokaTheme' == apply_filters( 'current_theme', get_option( 'current_theme' 
     }
 }
 
-if ( 'MAKE9 Divi zh-tw Child' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
+if ( 'MAKE9 Divi zh-tw Child' == $eztoc_current_theme->get( 'Name' ) ) {
     add_filter('ez_toc_regex_filteration', 'eztoc_regex_filteration_for_divi_chinese');
     function eztoc_regex_filteration_for_divi_chinese( $regEx ) {
         $regEx = '/(<h([1-6]{1})(?:(?!\bclass="et_pb_slide_title")[^>])*>)(.*)<\/h\2>/msuU';
@@ -611,8 +616,7 @@ if ( 'MAKE9 Divi zh-tw Child' == apply_filters( 'current_theme', get_option( 'cu
         return $regEx;
     }
 }
-
-if ( in_array( 'lasso/affiliate-plugin.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+if ( eztoc_is_plugin_active( 'lasso/affiliate-plugin.php' ) ) {
     add_filter('ez_toc_regex_filteration', 'eztoc_regex_filteration_for_lasso_products');
     function eztoc_regex_filteration_for_lasso_products( $regEx ) {
         $regEx = '/(<(?:h|H){1}([1-6]{1})[^>]*>)(.*)<\/(?:h|H){1}\2>/msuU';
@@ -670,8 +674,7 @@ function eztoc_parse_gutenberg_reusable_block($content){
 add_filter('ez_toc_modify_process_page_content', 'eztoc_parse_mv_create_shortcode',10,1);
 
 function eztoc_parse_mv_create_shortcode($content){
-	
-	if ( in_array( 'mediavine-create/mediavine-create.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && ezTOC_Option::get('mediavine-create') == 1) {
+	if ( eztoc_is_plugin_active( 'mediavine-create/mediavine-create.php' ) && ezTOC_Option::get('mediavine-create') == 1) {
 		if ( has_shortcode( $content, 'mv_create' )) {
 			$content = do_shortcode($content);		
 		}		
@@ -913,8 +916,8 @@ add_filter( 'ez_toc_modify_process_page_content', 'eztoc_content_molongui_author
 * @since 2.0.56
 */
 if(function_exists('wp_get_theme')){
-    $theme_data = wp_get_theme();
-	if(!empty($theme_data) && $theme_data->get_template()== 'walker-news-template')
+    $eztoc_theme_data = wp_get_theme();
+	if(!empty($eztoc_theme_data) && $eztoc_theme_data->get_template()== 'walker-news-template')
     {
 		add_filter( 'ez_toc_sidebar_has_toc_filter', 'eztoc_walker_news_template_fix');
 
@@ -1045,8 +1048,7 @@ add_action('wp_enqueue_scripts', 'eztoc_woodmart_gallery_fix');
 add_filter('ez_toc_apply_filter_status_manually', 'eztoc_adinserter_block_has_toc_shortcode',10,1);
 
 function eztoc_adinserter_block_has_toc_shortcode($status){
-	
-	if ( in_array( 'ad-inserter/ad-inserter.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+	if ( eztoc_is_plugin_active( 'ad-inserter/ad-inserter.php' ) ) {
 		global $block_object;		
 		for ($block = 0; $block <= 96; $block ++) {
 			if(isset($block_object [$block])){
@@ -1077,8 +1079,7 @@ add_filter('ez_toc_content_heading_title', 'eztoc_parse_curreny_year_shortcode',
 add_filter('ez_toc_content_heading_title_anchor', 'eztoc_parse_curreny_year_shortcode',10,1);
 
 function eztoc_parse_curreny_year_shortcode($content){
-	
-	if ( in_array( 'current-year-shortcode/year-kgm.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )) {
+	if ( eztoc_is_plugin_active ('current-year-shortcode/year-kgm.php') ) {
 			$content = do_shortcode($content);			
 	}			
 	return $content;
@@ -1237,7 +1238,7 @@ function eztoc_wpbakery_get_template_id() {
         $template_id = $meta_template;
 
     } else {
-
+		//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Need to use direct query
         $template_id = $wpdb->get_var( $wpdb->prepare("
             SELECT p.ID 
             FROM {$wpdb->posts} p
@@ -1358,7 +1359,8 @@ function eztoc_js_to_footer_for_wpbakery_category() {
  */
 add_filter( 'ez_toc_apply_filter_status_manually', function( $default ) {
     
-    if ( apply_filters( 'current_theme', get_option( 'current_theme' ) ) == "cheapenergy24" && function_exists('fusion_builder_activate') ) {
+	 $theme = wp_get_theme();
+    if ( $theme->get( 'Name' ) == "cheapenergy24" && function_exists('fusion_builder_activate') ) {
         return true;
     }
     return $default;

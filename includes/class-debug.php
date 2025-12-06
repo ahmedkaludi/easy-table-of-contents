@@ -109,7 +109,7 @@ final class Debug extends WP_Error {
 		 * @param mixed      $data     Error data. Might be empty.
 		 * @param WP_Error   $wp_error The WP_Error object.
 		 */
-		do_action( 'wp_error_added', $code, $message, $data, $this );
+		do_action( 'wp_error_added', $code, $message, $data, $this ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WP Core Hook
 	}
 
 	/**
