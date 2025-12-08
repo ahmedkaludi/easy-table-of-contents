@@ -532,7 +532,7 @@ class ezTOC_Post {
 	private function extractHeadings( $content, $page = 1 ) {
 
 		$matches = array();
-		$eztoc_current_theme = get_the_theme();
+		$eztoc_current_theme = wp_get_theme();
 
 		if ( eztoc_is_plugin_active( 'elementor/elementor.php' ) || eztoc_is_plugin_active( 'divi-machine/divi-machine.php') || 'Fortunato Pro' == $eztoc_current_theme->get( 'Name' ) || function_exists( 'koyfin_setup' )) {
 			//This is legacy hook,it will be removed in future versions.

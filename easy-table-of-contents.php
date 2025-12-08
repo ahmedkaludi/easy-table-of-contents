@@ -554,7 +554,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					self::inline_main_counting_sticky_css();					
 				}
 				
-				$eztoc_current_theme = get_the_theme();
+				$eztoc_current_theme = wp_get_theme();
 
 				/**
 				 * Foodie Pro Theme Compatibility
@@ -598,7 +598,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				global $eztoc_shortcode_attr;				
 			    $eztoc_post_id = get_the_ID();
 				$js_vars = array();
-				$eztoc_current_theme = get_the_theme();
+				$eztoc_current_theme = wp_get_theme();
 				if ( ezTOC_Option::get( 'smooth_scroll' ) ) {
 					$js_vars['smooth_scroll'] = true;
 				}else{
@@ -839,7 +839,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		public static function inline_css() {
 
 			$css = '';
-			$eztoc_current_theme = get_the_theme();
+			$eztoc_current_theme = wp_get_theme();
 			if('Chamomile' == $eztoc_current_theme->get( 'Name' )){
 				$css .= '@media screen and (max-width: 1000px) {
 				          #ez-toc-container nav{
@@ -984,7 +984,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$marginCSS = 'margin-left: .2em;';
 					$floatPosition = 'float: right;';
 				}
-				$eztoc_current_theme = get_the_theme();
+				$eztoc_current_theme = wp_get_theme();
 				$importantItem = '';
 				if ( 'Edition Child' == $eztoc_current_theme->get( 'Name' ) ) {
 					$importantItem = ' !important';
@@ -1730,7 +1730,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 			// Fix for getting current page id when sub-queries are used on the page
 			$ez_toc_current_post_id = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();
-			$eztoc_current_theme = get_the_theme();
+			$eztoc_current_theme = wp_get_theme();
 			// Bail if post not eligible and widget is not active.
 			if('MicrojobEngine Child' == $eztoc_current_theme->get( 'Name' ) || class_exists( 'Timber' ) ){
 				$isEligible = self::is_eligible( get_post($ez_toc_current_post_id) );
@@ -1771,7 +1771,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			if ( ! $isEligible ) {
 				return Debug::log()->appendTo( $content );
 			}
-			$eztoc_current_theme = get_the_theme();
+			$eztoc_current_theme = wp_get_theme();
 			if($eztoc_current_theme->get('Name') == 'MicrojobEngine Child'  || class_exists( 'Timber' ) ){
 				$post = self::get( $ez_toc_current_post_id );
 			}else{
@@ -2262,7 +2262,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @return mixed
 		 */
 		public static function toc_get_the_archive_description( $description ) {
-			$eztoc_current_theme = get_the_theme();
+			$eztoc_current_theme = wp_get_theme();
 			if (  ( $eztoc_current_theme->get( 'Name' ) === 'Kadence' || $eztoc_current_theme->get( 'Template' ) === 'kadence' ) && function_exists('is_product_category') && is_product_category() ) {
 				if( true == ezTOC_Option::get( 'include_product_category', false) ) {
 					if(!is_admin() && !empty($description)){
