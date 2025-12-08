@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 5.6.20
-Stable tag: 2.0.78
+Stable tag: 2.0.79
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,9 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.79 08/12/2025 =
+* Improvement: Code Improvement #928
+
 = 2.0.78 27/11/2025 =
 * Added: Promotion Banner BFCM #926
 * Compatibility Added: Need to make a compatible with the SeedProd builder. #922
