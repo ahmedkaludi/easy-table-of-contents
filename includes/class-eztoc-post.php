@@ -1,6 +1,6 @@
 <?php
 
-use function Easy_Plugins\Table_Of_Contents\Cord\br2;
+use function Eztoc\Table_Of_Contents\Cord\br2;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;

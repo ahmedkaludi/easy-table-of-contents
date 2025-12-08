@@ -2,7 +2,7 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-use function Easy_Plugins\Table_Of_Contents\Cord\mb_find_replace;
+use function Eztoc\Table_Of_Contents\Cord\mb_find_replace;
 /**
  * Filter to add plugins to the TOC list.
  *
@@ -567,7 +567,7 @@ if ( eztoc_is_plugin_active( 'js_composer/js_composer.php' ) && ( 'Kalium - Medi
             $class_to_filter .= vc_shortcode_custom_css_class($css, ' ');
             $css_class = apply_filters(VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, 'vc_toggle', $atts); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound - thirdparty hook
 			
-            $heading_output = apply_filters('wpb_toggle_heading', $atts['title'], array(
+            $heading_output = apply_filters('wpb_toggle_heading', $atts['title'], array(  // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- using Thirdparty hook for compatibility
                 'title' => $title,
                 'open' => $open,
                     ));

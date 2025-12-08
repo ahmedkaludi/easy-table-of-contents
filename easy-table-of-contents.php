@@ -31,10 +31,10 @@
  * @version  2.0.78
  */
 
-use Easy_Plugins\Table_Of_Contents\Debug;
-use function Easy_Plugins\Table_Of_Contents\Cord\insertElementByPTag;
-use function Easy_Plugins\Table_Of_Contents\Cord\insertElementByImgTag;
-use function Easy_Plugins\Table_Of_Contents\Cord\mb_find_replace;
+use Eztoc\Table_Of_Contents\Debug;
+use function Eztoc\Table_Of_Contents\Cord\insertElementByPTag;
+use function Eztoc\Table_Of_Contents\Cord\insertElementByImgTag;
+use function Eztoc\Table_Of_Contents\Cord\mb_find_replace;
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -328,7 +328,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			} else {
 
 				// Load the default language files
-				// phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFoundation
+				// phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- Using for compatibility.
 				load_plugin_textdomain( $domain, false, $languagesDirectory );
 			}
 		}

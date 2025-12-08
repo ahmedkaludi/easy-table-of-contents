@@ -1,6 +1,6 @@
 <?php
 
-namespace Easy_Plugins\Table_Of_Contents;
+namespace Eztoc\Table_Of_Contents;
 
 use WP_Error;
 
@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Class Debug
  *
- * @package Easy_Plugins\Table_Of_Contents
+ * @package Eztoc\Table_Of_Contents
  */
 final class Debug extends WP_Error {
 
@@ -61,12 +61,12 @@ final class Debug extends WP_Error {
 			self::$instance = new self( $code, $message, $data );
 
 			self::$instance->display = apply_filters(
-				'Easy_Plugins/Table_Of_Contents/Debug/Display',
+				'Eztoc/Table_Of_Contents/Debug/Display',
 				defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY
 			);
 
 			self::$instance->enabled = apply_filters(
-				'Easy_Plugins/Table_Of_Contents/Debug/Enabled',
+				'Eztoc/Table_Of_Contents/Debug/Enabled',
 				( defined( 'WP_DEBUG' ) && WP_DEBUG ) && current_user_can( 'manage_options' )
 			);
 
