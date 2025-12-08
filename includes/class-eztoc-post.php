@@ -760,7 +760,7 @@ class ezTOC_Post {
 				}
 
 				$new_matches = array();
-
+				$eztoc_current_theme = wp_get_theme();
 				foreach ( $matches as $i => $match ) {
 
 					$found = false;
