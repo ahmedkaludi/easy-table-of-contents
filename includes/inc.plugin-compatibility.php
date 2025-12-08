@@ -2,7 +2,7 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-use function Easy_Plugins\Table_Of_Contents\Cord\mb_find_replace;
+use function Eztoc\Table_Of_Contents\Cord\mb_find_replace;
 /**
  * Filter to add plugins to the TOC list.
  *
@@ -186,7 +186,11 @@ add_action(
 	function( $shortcodes ) {
 
 		$shortcodes[] = 'ez-toc';
-		$shortcodes[] = apply_filters( 'ez_toc_shortcode', 'toc' );
+		//This is legacy hook,it will be removed in future versions.
+		$filtered_shortcode = apply_filters( 'ez_toc_shortcode', 'toc' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+		//This is the new hook , it should be used instead of the legacy one.
+		$filtered_shortcode = apply_filters( 'eztoc_shortcode', 'toc' );
+		$shortcodes[] = $filtered_shortcode;
 
 		return $shortcodes;
 	}
@@ -457,7 +461,7 @@ add_filter(
 	'ez_toc_maybe_apply_the_content_filter',
 	function( $apply ) {
 
-		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins' ) );
+		$active_plugins = get_option( 'active_plugins' ) ;
 
 		// Just in case an array is not returned.
 		if ( ! is_array( $active_plugins ) ) {
@@ -493,11 +497,11 @@ add_filter(
  */
 add_filter(
 	'fl_builder_layout_data',
-	'ez_toc_flbuilder_layout_data',
+	'eztoc_flbuilder_layout_data',
 	12,
 	1
 );
-function ez_toc_flbuilder_layout_data( $data ) {
+function eztoc_flbuilder_layout_data( $data ) {
 	if( has_action( 'the_content' ) ) {
 		if(!empty($data)){
 			foreach( $data as $nodeKey => $node ){		
@@ -514,7 +518,7 @@ function ez_toc_flbuilder_layout_data( $data ) {
  * in faq sections
  * @since 2.0.38
  */
-if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && ( 'Kalium - Medical Theme' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) || 'Kalium' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) ) {
+if ( eztoc_is_plugin_active( 'js_composer/js_composer.php' ) && ( 'Kalium - Medical Theme' == $eztoc_current_theme->get( 'Name' ) || 'Kalium' == $eztoc_current_theme->get( 'Name' ) ) ) {
     add_shortcode( 'vc_toggle', 'eztoc_vc_toggle_modified' );
     function eztoc_vc_toggle_modified( $atts, $content, $tag ) {
         if ( 'vc_toggle' == $tag ) {
@@ -547,7 +551,7 @@ if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', g
              * @since 4.4
              */
             $elementClass = array(
-                'base' => apply_filters(VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, 'vc_toggle', 'vc_toggle', $atts),
+                'base' => apply_filters(VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, 'vc_toggle', 'vc_toggle', $atts), //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
                 // TODO: check this code, don't know how to get base class names from params
                 'style' => 'vc_toggle_' . $style,
                 'color' => ( $color ) ? 'vc_toggle_color_' . $color : '',
@@ -561,9 +565,9 @@ if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', g
 
             $class_to_filter = trim(implode(' ', $elementClass));
             $class_to_filter .= vc_shortcode_custom_css_class($css, ' ');
-            $css_class = apply_filters(VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, 'vc_toggle', $atts);
-
-            $heading_output = apply_filters('wpb_toggle_heading', $atts['title'], array(
+            $css_class = apply_filters(VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $class_to_filter, 'vc_toggle', $atts); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound,WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound - thirdparty hook
+			
+            $heading_output = apply_filters('wpb_toggle_heading', $atts['title'], array(  // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- using Thirdparty hook for compatibility
                 'title' => $title,
                 'open' => $open,
                     ));
@@ -580,41 +584,41 @@ if ( in_array( 'js_composer/js_composer.php', apply_filters( 'active_plugins', g
  * in header & footer sections
  * @since 2.0.46
  */
-if ( 'PokaTheme' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
-    add_action( 'poka_before_main', 'ez_toc_poka_before_main', 4, 0 );
-    function ez_toc_poka_before_main() {
+$eztoc_current_theme = wp_get_theme();
+if ( 'PokaTheme' == $eztoc_current_theme->get( 'Name' ) ) {
+    add_action( 'poka_before_main', 'eztoc_poka_before_main', 4, 0 );
+    function eztoc_poka_before_main() {
         remove_action('poka_before_main', 'poka_before_content', 5, 0);
         remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
         add_action( 'poka_before_main', 'poka_before_content', 5, 0 );
     }
-    add_action( 'poka_before_main', 'ez_toc_poka_before_main_after', 6, 0 );
-    function ez_toc_poka_before_main_after() {
+    add_action( 'poka_before_main', 'eztoc_poka_before_main_after', 6, 0 );
+    function eztoc_poka_before_main_after() {
         add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
     }
-    add_action( 'poka_after_main', 'ez_toc_poka_after_main', 3, 0 );
-    function ez_toc_poka_after_main() {
+    add_action( 'poka_after_main', 'eztoc_poka_after_main', 3, 0 );
+    function eztoc_poka_after_main() {
         remove_action( 'poka_after_main', 'poka_banner_footer', 4, 0 );
         remove_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
         add_action( 'poka_after_main', 'poka_banner_footer', 4, 0 );
     }
-    add_action( 'poka_after_main', 'ez_toc_poka_after_main_after', 5, 0 );
-    function ez_toc_poka_after_main_after() {
+    add_action( 'poka_after_main', 'eztoc_poka_after_main_after', 5, 0 );
+    function eztoc_poka_after_main_after() {
         add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );
     }
 }
 
-if ( 'MAKE9 Divi zh-tw Child' == apply_filters( 'current_theme', get_option( 'current_theme' ) ) ) {
-    add_filter('ez_toc_regex_filteration', 'ez_toc_regex_filteration_for_divi_chinese');
-    function ez_toc_regex_filteration_for_divi_chinese( $regEx ) {
+if ( 'MAKE9 Divi zh-tw Child' == $eztoc_current_theme->get( 'Name' ) ) {
+    add_filter('ez_toc_regex_filteration', 'eztoc_regex_filteration_for_divi_chinese');
+    function eztoc_regex_filteration_for_divi_chinese( $regEx ) {
         $regEx = '/(<h([1-6]{1})(?:(?!\bclass="et_pb_slide_title")[^>])*>)(.*)<\/h\2>/msuU';
     
         return $regEx;
     }
 }
-
-if ( in_array( 'lasso/affiliate-plugin.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-    add_filter('ez_toc_regex_filteration', 'ez_toc_regex_filteration_for_lasso_products');
-    function ez_toc_regex_filteration_for_lasso_products( $regEx ) {
+if ( eztoc_is_plugin_active( 'lasso/affiliate-plugin.php' ) ) {
+    add_filter('ez_toc_regex_filteration', 'eztoc_regex_filteration_for_lasso_products');
+    function eztoc_regex_filteration_for_lasso_products( $regEx ) {
         $regEx = '/(<(?:h|H){1}([1-6]{1})[^>]*>)(.*)<\/(?:h|H){1}\2>/msuU';
 
         return $regEx;
@@ -626,9 +630,9 @@ if ( in_array( 'lasso/affiliate-plugin.php', apply_filters( 'active_plugins', ge
  * Anchors were not being generated for special char like inverted comma.
  * @since 2.0.52
  */
-add_filter('ez_toc_extract_headings_content', 'ez_toc_social_pro_by_mediavine_com',10,1);
+add_filter('ez_toc_extract_headings_content', 'eztoc_social_pro_by_mediavine_com',10,1);
 
-function ez_toc_social_pro_by_mediavine_com($content){
+function eztoc_social_pro_by_mediavine_com($content){
 	
 	if(class_exists( '\Mediavine\Grow\Shortcodes' ) && ezTOC_Option::get('mediavine-create') == 1){
 
@@ -646,9 +650,9 @@ function ez_toc_social_pro_by_mediavine_com($content){
  * Parse Gutenberg reusable block
  * @since 2.0.53
  */
-add_filter('ez_toc_modify_process_page_content', 'ez_toc_parse_gutenberg_reusable_block',10,1);
+add_filter('ez_toc_modify_process_page_content', 'eztoc_parse_gutenberg_reusable_block',10,1);
 
-function ez_toc_parse_gutenberg_reusable_block($content){
+function eztoc_parse_gutenberg_reusable_block($content){
 	
 	if(function_exists('do_blocks')){
 		if(has_block('easytoc/toc')){
@@ -667,11 +671,10 @@ function ez_toc_parse_gutenberg_reusable_block($content){
  * shortcode were not being parse for custom post type mv_create added by this plugin inside post content
  * @since 2.0.52
  */
-add_filter('ez_toc_modify_process_page_content', 'ez_toc_parse_mv_create_shortcode',10,1);
+add_filter('ez_toc_modify_process_page_content', 'eztoc_parse_mv_create_shortcode',10,1);
 
-function ez_toc_parse_mv_create_shortcode($content){
-	
-	if ( in_array( 'mediavine-create/mediavine-create.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && ezTOC_Option::get('mediavine-create') == 1) {
+function eztoc_parse_mv_create_shortcode($content){
+	if ( eztoc_is_plugin_active( 'mediavine-create/mediavine-create.php' ) && ezTOC_Option::get('mediavine-create') == 1) {
 		if ( has_shortcode( $content, 'mv_create' )) {
 			$content = do_shortcode($content);		
 		}		
@@ -702,9 +705,9 @@ add_filter(
  * @since 2.0.54
  */
 
- add_filter('ez_toc_sidebar_has_toc_filter', 'ez_toc_sidebar_has_toc_status_us_core', 10,1);
+ add_filter('ez_toc_sidebar_has_toc_filter', 'eztoc_sidebar_has_toc_status_us_core', 10,1);
 
- function ez_toc_sidebar_has_toc_status_us_core($status){
+ function eztoc_sidebar_has_toc_status_us_core($status){
  
 	if(function_exists('us_get_page_area_id')){
 		$content_template_id = us_get_page_area_id( 'content' );
@@ -727,9 +730,9 @@ add_filter(
  *
  */
 
-add_filter('ez_toc_sidebar_has_toc_filter', 'ez_toc_sidebar_has_toc_status_cfs', 10,1);
+add_filter('ez_toc_sidebar_has_toc_filter', 'eztoc_sidebar_has_toc_status_cfs', 10,1);
 
-function ez_toc_sidebar_has_toc_status_cfs($status){
+function eztoc_sidebar_has_toc_status_cfs($status){
 
 	global $post;
 	if(function_exists('CFS')){
@@ -752,10 +755,10 @@ function ez_toc_sidebar_has_toc_status_cfs($status){
  */
 
  if(function_exists('wp_is_block_theme') && wp_is_block_theme()){
-	add_filter('ez_toc_sidebar_has_toc_filter', 'ez_toc_guttenberg_has_toc', 10,1);
+	add_filter('ez_toc_sidebar_has_toc_filter', 'eztoc_guttenberg_has_toc', 10,1);
  }
 
- function ez_toc_guttenberg_has_toc($status){
+ function eztoc_guttenberg_has_toc($status){
 
 	$block_post_template = get_block_template(get_stylesheet() . '//' .'single');
 	$block_page_template = get_block_template(get_stylesheet() . '//' .'page');
@@ -773,9 +776,9 @@ function ez_toc_sidebar_has_toc_status_cfs($status){
  if(function_exists('init_goodlayers_core_system') && ezTOC_Option::get('goodlayers-core') == 1){
 
 	eztoc_enable_output_buffer_filter();
-	add_filter('eztoc_wordpress_final_output', 'ez_toc_gdlr_core_the_content', 10, 1);
+	add_filter('eztoc_wordpress_final_output', 'eztoc_gdlr_core_the_content', 10, 1);
 
-function ez_toc_gdlr_core_the_content($content){
+function eztoc_gdlr_core_the_content($content){
 	if(is_admin()){
 		return $content;
 	}
@@ -813,11 +816,11 @@ function ezTOC_gdlr_core()
 			
 			foreach($element['items'] as $inner_element){
 				if($inner_element['template'] === 'element'){
-					$content= $content . ez_toc_gdlr_core_fetch_content($inner_element);
+					$content= $content . eztoc_gdlr_core_fetch_content($inner_element);
 			    }else if(isset($inner_element['items'])){
 					foreach($inner_element['items'] as $level2_element){
 						if($level2_element['template'] === 'element'){
-							$content= $content . ez_toc_gdlr_core_fetch_content($level2_element);
+							$content= $content . eztoc_gdlr_core_fetch_content($level2_element);
 						}
 					}
 				}
@@ -825,14 +828,14 @@ function ezTOC_gdlr_core()
 	   }
 
 	   if(isset($element['template']) && $element['template'] === 'element'){
-		$content= $content . ez_toc_gdlr_core_fetch_content($element);
+		$content= $content . eztoc_gdlr_core_fetch_content($element);
    }
 }
 }
    return $content;
 } 
 
-function ez_toc_gdlr_core_fetch_content($element){
+function eztoc_gdlr_core_fetch_content($element){
 	if(isset($element['type']) && isset($element['value'])){
 		$type = $element['type'];
 		$element_class = 'gdlr_core_pb_element_'.$type;
@@ -843,8 +846,8 @@ function ez_toc_gdlr_core_fetch_content($element){
 	return '';
 }
 // Adding Goodlayers Content  to create combined toc
-add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_gdlr_core_process_page_content', 10, 1 );
-function ez_toc_gdlr_core_process_page_content( $content )
+add_filter( 'ez_toc_modify_process_page_content', 'eztoc_gdlr_core_process_page_content', 10, 1 );
+function eztoc_gdlr_core_process_page_content( $content )
 {
 
     if (function_exists( 'ezTOC_gdlr_core' ) )
@@ -858,12 +861,13 @@ function ez_toc_gdlr_core_process_page_content( $content )
 }
 
 if(function_exists('rest_get_url_prefix') && ezTOC_Option::get('disable_in_restapi') == 1){
-	add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_check_for_wp_json_request', 999, 1 );
-	function ez_toc_check_for_wp_json_request($content){
+	add_filter( 'ez_toc_modify_process_page_content', 'eztoc_check_for_wp_json_request', 999, 1 );
+	function eztoc_check_for_wp_json_request($content){
 		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
 			return $content;
 		}
 		$rest_prefix         = trailingslashit( rest_get_url_prefix() );
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Resone: We are not saving this variable, just checking its value.
 		if(strpos( $_SERVER['REQUEST_URI'], $rest_prefix ) !== false){
 			return '';
 		}
@@ -877,8 +881,8 @@ if(function_exists('rest_get_url_prefix') && ezTOC_Option::get('disable_in_resta
  * @since 2.0.56
  */
 if( function_exists( 'molongui_authorship_load_plugin_textdomain' ) && ezTOC_Option::get('molongui-authorship') == 1 ){
-add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_content_molongui_authorship');
-	function ez_toc_content_molongui_authorship($content){
+add_filter( 'ez_toc_modify_process_page_content', 'eztoc_content_molongui_authorship');
+	function eztoc_content_molongui_authorship($content){
 		if(!empty($content))
 		{
 			if(strpos($content, "m-a-box-container") !== false){
@@ -912,12 +916,12 @@ add_filter( 'ez_toc_modify_process_page_content', 'ez_toc_content_molongui_autho
 * @since 2.0.56
 */
 if(function_exists('wp_get_theme')){
-    $theme_data = wp_get_theme();
-	if(!empty($theme_data) && $theme_data->get_template()== 'walker-news-template')
+    $eztoc_theme_data = wp_get_theme();
+	if(!empty($eztoc_theme_data) && $eztoc_theme_data->get_template()== 'walker-news-template')
     {
-		add_filter( 'ez_toc_sidebar_has_toc_filter', 'ez_toc_walker_news_template_fix');
+		add_filter( 'ez_toc_sidebar_has_toc_filter', 'eztoc_walker_news_template_fix');
 
-		function ez_toc_walker_news_template_fix($status){
+		function eztoc_walker_news_template_fix($status){
 			
 				$content = get_the_content();
 				if(function_exists('do_blocks')){
@@ -981,8 +985,8 @@ function eztoc_mediavine_trellis_content_improver($content) {
 }
 
 //Perfmatters Compatibility
-add_filter('ez_toc_pro_inline_css','ez_toc_perfmatters_touch_css');
-function ez_toc_perfmatters_touch_css($css){
+add_filter('ez_toc_pro_inline_css','eztoc_perfmatters_touch_css');
+function eztoc_perfmatters_touch_css($css){
 	if('css' == ezTOC_Option::get( 'toc_loading' ) && class_exists('Perfmatters\Config') && !empty(Perfmatters\Config::$options['assets']['delay_js']) && !empty(Perfmatters\Config::$options['assets']['fastclick'])) {
 	 	$css .= 'label > * { pointer-events:none; }';
 	}
@@ -992,7 +996,7 @@ function ez_toc_perfmatters_touch_css($css){
  * Woodmart + WPbakery Gallery compatibility
  * @since 2.0.58
  */
-function ez_toc_woodmart_gallery_fix(){
+function eztoc_woodmart_gallery_fix(){
 	if(function_exists('woodmart_load_classes') && class_exists('Vc_Manager')){
 		
 		if(!wp_style_is('el-section-title')){
@@ -1032,7 +1036,7 @@ function ez_toc_woodmart_gallery_fix(){
 			
 	}	
 }
-add_action('wp_enqueue_scripts', 'ez_toc_woodmart_gallery_fix');
+add_action('wp_enqueue_scripts', 'eztoc_woodmart_gallery_fix');
 
 /**
  * Ad inserter plugin compatibility
@@ -1041,11 +1045,10 @@ add_action('wp_enqueue_scripts', 'ez_toc_woodmart_gallery_fix');
  * @since 2.0.62
  * return boolean
  */
-add_filter('ez_toc_apply_filter_status_manually', 'ez_toc_adinserter_block_has_toc_shortcode',10,1);
+add_filter('ez_toc_apply_filter_status_manually', 'eztoc_adinserter_block_has_toc_shortcode',10,1);
 
-function ez_toc_adinserter_block_has_toc_shortcode($status){
-	
-	if ( in_array( 'ad-inserter/ad-inserter.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+function eztoc_adinserter_block_has_toc_shortcode($status){
+	if ( eztoc_is_plugin_active( 'ad-inserter/ad-inserter.php' ) ) {
 		global $block_object;		
 		for ($block = 0; $block <= 96; $block ++) {
 			if(isset($block_object [$block])){
@@ -1071,13 +1074,12 @@ function ez_toc_adinserter_block_has_toc_shortcode($status){
  * plugin url : https://wordpress.org/plugins/current-year-shortcode/
  * @since 2.0.62
  */
-add_filter('ez_toc_table_heading_title_anchor', 'ez_toc_parse_curreny_year_shortcode',10,1);
-add_filter('ez_toc_content_heading_title', 'ez_toc_parse_curreny_year_shortcode',10,1);
-add_filter('ez_toc_content_heading_title_anchor', 'ez_toc_parse_curreny_year_shortcode',10,1);
+add_filter('ez_toc_table_heading_title_anchor', 'eztoc_parse_curreny_year_shortcode',10,1);
+add_filter('ez_toc_content_heading_title', 'eztoc_parse_curreny_year_shortcode',10,1);
+add_filter('ez_toc_content_heading_title_anchor', 'eztoc_parse_curreny_year_shortcode',10,1);
 
-function ez_toc_parse_curreny_year_shortcode($content){
-	
-	if ( in_array( 'current-year-shortcode/year-kgm.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )) {
+function eztoc_parse_curreny_year_shortcode($content){
+	if ( eztoc_is_plugin_active ('current-year-shortcode/year-kgm.php') ) {
 			$content = do_shortcode($content);			
 	}			
 	return $content;
@@ -1088,8 +1090,8 @@ function ez_toc_parse_curreny_year_shortcode($content){
  * @param bool $status The current status of applying the TOC filter.
  * @return bool The updated status of applying the TOC filter.
  */
-add_filter('ez_toc_apply_filter_status_manually', 'ez_toc_press_books_theme_compatibility',10,1);
-function ez_toc_press_books_theme_compatibility($status){
+add_filter('ez_toc_apply_filter_status_manually', 'eztoc_press_books_theme_compatibility',10,1);
+function eztoc_press_books_theme_compatibility($status){
   if(function_exists('wp_get_theme')){
     $active_theme = wp_get_theme();
     if(!empty($active_theme) && $active_theme->get( 'Name' ) == 'McLuhan'){
@@ -1160,12 +1162,12 @@ add_filter('wp_kses_allowed_html', 'eztoc_woo_category_toc_fix', 10, 2);
  * @param string $content
  * @return string
  */
-add_filter('ez_toc_modify_process_page_content', 'ez_toc_post_categories_for_wpbakery_page_builder', 10, 1);
+add_filter('ez_toc_modify_process_page_content', 'eztoc_post_categories_for_wpbakery_page_builder', 10, 1);
 
-function ez_toc_post_categories_for_wpbakery_page_builder($content) {
+function eztoc_post_categories_for_wpbakery_page_builder($content) {
     if (function_exists('Vc_Manager')  && function_exists('POST_CATEGORY_WPBAKERY_PAGE_BUILDER\\plugin_init') && is_category( ) ) {
         global $wpdb;
-        $template_id =  ez_toc_wpbakery_get_template_id();
+        $template_id =  eztoc_wpbakery_get_template_id();
 		if($template_id){
 			$content = get_post_field('post_content', $template_id);
 		}
@@ -1176,10 +1178,10 @@ function ez_toc_post_categories_for_wpbakery_page_builder($content) {
 /**
  * Start buffer for Customize Post Categories for WPBakery Page Builder plugin
  */
-add_action('template_redirect', 'ez_toc_start_buffer_for_wpbakery_category');
-function ez_toc_start_buffer_for_wpbakery_category() {
+add_action('template_redirect', 'eztoc_start_buffer_for_wpbakery_category');
+function eztoc_start_buffer_for_wpbakery_category() {
 	if (function_exists('Vc_Manager')  && is_category() && function_exists('POST_CATEGORY_WPBAKERY_PAGE_BUILDER\\plugin_init')) {
-        ob_start('ez_toc_modify_wpbakery_category_template');
+        ob_start('eztoc_modify_wpbakery_category_template');
     }
 }
 
@@ -1190,8 +1192,8 @@ function ez_toc_start_buffer_for_wpbakery_category() {
  * @param string $buffer
  * @return string
  */
-function ez_toc_modify_wpbakery_category_template($buffer) {
-	$template_id =ez_toc_wpbakery_get_template_id();
+function eztoc_modify_wpbakery_category_template($buffer) {
+	$template_id =eztoc_wpbakery_get_template_id();
 	if($template_id){
 		$post = ezTOC::get( $template_id );
 		if($post){
@@ -1210,45 +1212,65 @@ function ez_toc_modify_wpbakery_category_template($buffer) {
  * Get template id for Customize Post Categories for WPBakery Page Builder plugin
  * @return mixed
  */
-function ez_toc_wpbakery_get_template_id(){
-	
-	global $wpdb;
-	$template_id = false ;
-	$category_id = get_queried_object_id();
-	 $template_id = get_term_meta($category_id, 'mst_post_cat_template', true);
-	 if( $template_id && $template_id != 'active'){
-		 return $template_id;
-	}else{
-		$template_id = $wpdb->get_var( $wpdb->prepare("
-			SELECT p.ID 
-			FROM {$wpdb->posts} p
-			INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
-			WHERE p.post_type = %s
-			  AND p.post_status = %s
-			  AND pm.meta_key = %s
-			  AND pm.meta_value = %s
-			LIMIT 1
-			",
-			'category_wpb', 
-			'publish',
-			'mst_active',
-			'1'
-		));
+function eztoc_wpbakery_get_template_id() {
 
-	}
+    global $wpdb;
 
-	return $template_id;
+    $category_id = get_queried_object_id();
+
+    // Unique cache key per category
+    $cache_key = 'eztoc_template_id_' . $category_id;
+    $cache_group = 'eztoc';
+
+    // Check cache
+    $template_id = wp_cache_get( $cache_key, $cache_group );
+
+    if ( false !== $template_id ) {
+        return $template_id;
+    }
+
+    // No cache found → run original logic
+    $template_id = false;
+    $meta_template = get_term_meta($category_id, 'mst_post_cat_template', true);
+
+    if ( $meta_template && $meta_template != 'active' ) {
+
+        $template_id = $meta_template;
+
+    } else {
+		//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Need to use direct query
+        $template_id = $wpdb->get_var( $wpdb->prepare("
+            SELECT p.ID 
+            FROM {$wpdb->posts} p
+            INNER JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
+            WHERE p.post_type = %s
+              AND p.post_status = %s
+              AND pm.meta_key = %s
+              AND pm.meta_value = %s
+            LIMIT 1
+            ",
+            'category_wpb',
+            'publish',
+            'mst_active',
+            '1'
+        ));
+    }
+
+    // Store in cache
+    wp_cache_set( $cache_key, $template_id, $cache_group );
+
+    return $template_id;
 }
 
 /**
  * Add js backup fix for Customize Post Categories for WPBakery Page Builder plugin
  */
-add_action('wp_footer', 'ez_toc_js_to_footer_for_wpbakery_category');
-function ez_toc_js_to_footer_for_wpbakery_category() {
+add_action('wp_footer', 'eztoc_js_to_footer_for_wpbakery_category');
+function eztoc_js_to_footer_for_wpbakery_category() {
     $js_fallback_fix = false;
 
     if (function_exists('Vc_Manager') && is_category() && function_exists('POST_CATEGORY_WPBAKERY_PAGE_BUILDER\\plugin_init')) {
-        $template_id = ez_toc_wpbakery_get_template_id();
+        $template_id = eztoc_wpbakery_get_template_id();
         if ($template_id) {
             $post = ezTOC::get($template_id);
             if ($post) {
@@ -1337,7 +1359,8 @@ function ez_toc_js_to_footer_for_wpbakery_category() {
  */
 add_filter( 'ez_toc_apply_filter_status_manually', function( $default ) {
     
-    if ( apply_filters( 'current_theme', get_option( 'current_theme' ) ) == "cheapenergy24" && function_exists('fusion_builder_activate') ) {
+	 $theme = wp_get_theme();
+    if ( $theme->get( 'Name' ) == "cheapenergy24" && function_exists('fusion_builder_activate') ) {
         return true;
     }
     return $default;

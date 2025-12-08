@@ -313,7 +313,10 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 {
 
                     $custom_classes = explode ( ' ', $custom_classes );
-                    $custom_classes = apply_filters ( 'ez_toc_widget_sticky_container_class', $custom_classes, $this );
+                    //This is legacy filter hook,it will be removed in future versions.
+                    $custom_classes = apply_filters ( 'ez_toc_widget_sticky_container_class', $custom_classes, $this ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+                    //This is the new action hook , it should be used instead of the legacy one.
+                    $custom_classes = apply_filters ( 'eztoc_widget_sticky_container_class', $custom_classes, $this );
 
                     if ( is_array ( $custom_classes ) )
                     {
@@ -325,13 +328,21 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 $class = array_filter ( $class );
                 $class = array_map ( 'trim', $class );
                 $class = array_map ( 'sanitize_html_class', $class );
-                //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
+                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
                 echo $before_widget;
-                do_action ( 'ez_toc_widget_sticky_before_widget_container' );
+                //This is legacy action hook,it will be removed in future versions.
+                do_action ( 'ez_toc_widget_sticky_before_widget_container' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+
+                //This is the new action hook , it should be used instead of the legacy one.
+                do_action ( 'eztoc_widget_sticky_before_widget_container' );
 
                 echo '<div id="ez-toc-widget-sticky-container" class="ez-toc-widget-sticky-container ez-toc-widget-sticky-container-' .esc_attr($this->id). ' ' . esc_attr(implode ( ' ', $class )) . '">' . PHP_EOL;
 
-                do_action ( 'ez_toc_widget_sticky_before_widget' );
+                //This is legacy action hook,it will be removed in future versions.
+                do_action ( 'ez_toc_widget_sticky_before_widget' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+
+                //This is the new action hook , it should be used instead of the legacy one.
+                do_action ( 'eztoc_widget_sticky_before_widget' );
 
                 /**
                  * @todo Instead of inline style, use the shadow DOM.
@@ -345,7 +356,7 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                     if( isset($instance[ 'heading_label_tag' ]) && $instance[ 'heading_label_tag' ] != 'default' && in_array($instance[ 'heading_label_tag' ], $this->allowed_tags) ){
                         echo '<'.esc_attr($instance[ 'heading_label_tag' ]).' class="widget-title">';
                     }else{
-                        echo $before_title;  //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
+                        echo $before_title;  //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
                     }
                     ?>
 
@@ -388,12 +399,12 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
 
 
                                 <?php
-                                //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped.
+                                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped.
                                 echo $header_label;
                                 if ( ( ! empty($instance[ 'show_toggle' ] ) && $instance[ 'show_toggle' ] == 'true' ) || ( empty( $instance[ 'show_toggle' ] ) && ezTOC_Option::get ( 'visibility' ) ) )
                                 {
 
-                                    echo '<a href="#" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle" aria-label="'.esc_attr__('Widget Easy TOC toggle icon','easy-table-of-contents').'"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::get_toc_toggle_icon () . '</a>'; //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped.
+                                    echo '<a href="#" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle" aria-label="'.esc_attr__('Widget Easy TOC toggle icon','easy-table-of-contents').'"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . ezTOC::get_toc_toggle_icon () . '</a>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped.
                                 }
                                 ?>
 
@@ -414,11 +425,11 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                                 if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {
                                     $htmlCSSIcon = '<label for="ez-toc-widget-sticky-cssicon-toggle-item-' . esc_attr($cssIconID) . '" style="cursor:pointer">' . esc_html($header_label) . '<span class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . esc_html(ezTOC::get_toc_toggle_icon( 'widget-with-visibility_on_header_text' )) . '</span></label>';
                                 } else {
-                                    //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped.
+                                    //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped.
                                     echo $header_label;
                                     $htmlCSSIcon = '<label for="ez-toc-widget-sticky-cssicon-toggle-item-' . esc_attr($cssIconID) . '" class="ez-toc-widget-sticky-pull-right ez-toc-widget-sticky-btn ez-toc-widget-sticky-btn-xs ez-toc-widget-sticky-btn-default ez-toc-widget-sticky-toggle"><span style="border: 0;padding: 0;margin: 0;position: absolute !important;height: 1px;width: 1px;overflow: hidden;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);clip-path: inset(50%);white-space: nowrap;">Toggle Table of Content</span>' . esc_html(ezTOC::get_toc_toggle_icon( 'widget-with-visibility_on_header_text' )) . '</label>';
                                 }
-                                //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped.
+                                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped.
                                 echo $htmlCSSIcon;
                                 ?>
                             <?php endif; ?>
@@ -429,23 +440,39 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                         if( isset($instance[ 'heading_label_tag' ]) && $instance[ 'heading_label_tag' ] != 'default' && in_array($instance[ 'heading_label_tag' ], $this->allowed_tags) ){
                             echo '</'.esc_attr($instance[ 'heading_label_tag' ]).'>';
                         }else{
-                            echo $after_title;  //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
+                            echo $after_title;  //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
                         }?>
                     <?php if ( 'css' == ezTOC_Option::get ( 'toc_loading' ) ): ?>
                         <label for="ez-toc-widget-sticky-cssicon-toggle-item-count-<?php echo esc_attr($cssIconID) ?>" class="cssiconcheckbox">1</label><input type="checkbox" id="ez-toc-widget-sticky-cssicon-toggle-item-<?php echo esc_attr($cssIconID) ?>" <?php esc_attr($toggle_view) ?> style="display:none" />
                     <?php endif; ?>
                     <?php
                 }
-                do_action ( 'ez_toc_widget_sticky_before' );
-                //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : getTOCList output is escaped.
+                //This is legacy action hook,it will be removed in future versions.
+                do_action ( 'ez_toc_widget_sticky_before' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+
+                //This is the new action hook , it should be used instead of the legacy one.
+                do_action ( 'eztoc_widget_sticky_before' );
+                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : getTOCList output is escaped.
                 echo '<nav>' . PHP_EOL . $post->getTOCList( 'ez-toc-widget-sticky' ) . '</nav>' . PHP_EOL;
-                do_action ( 'ez_toc_widget_sticky_after' );
-                do_action ( 'ez_toc_widget_sticky_after_widget' );
+                //This is legacy action hook,it will be removed in future versions.
+                do_action ( 'ez_toc_widget_sticky_after' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+
+                //This is the new action hook , it should be used instead of the legacy one.
+                do_action ( 'eztoc_widget_sticky_after' );
+                //This is legacy action hook,it will be removed in future versions.
+                do_action ( 'ez_toc_widget_sticky_after_widget' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+
+                //This is the new action hook , it should be used instead of the legacy one.
+                do_action ( 'eztoc_widget_sticky_after_widget' );
 
                 echo '</div>' . PHP_EOL;
-                do_action ( 'ez_toc_widget_sticky_after_widget_container' );
+                //This is legacy action hook,it will be removed in future versions.
+                do_action ( 'ez_toc_widget_sticky_after_widget_container' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
 
-                //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
+                //This is the new action hook , it should be used instead of the legacy one.
+                do_action ( 'eztoc_widget_sticky_after_widget_container' );
+
+                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
                 echo $after_widget;
 
                 // Enqueue the script.

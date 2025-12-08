@@ -305,7 +305,7 @@ html {
 .ezoc-bio-wrap {
     float: left;
     text-align: center;
-    width: 33.33%;
+    width: 48%;
     text-transform: uppercase;
 }
 
@@ -408,8 +408,8 @@ html {
     }
 
     .ezoc-bio-wrap img {
-        width: 30px;
-        height: 30px;
+        width: 60px;
+        height: 60px;
     }
 
     .ezoc-bio-wrap p {

@@ -11,7 +11,7 @@ if( !defined( 'WP_UNINSTALL_PLUGIN' ) )
  * Delete data when delete data option is enabled
  * @since   2.0.73
  * */
-function ez_toc_delete_data_on_uninstall() {
+function eztoc_delete_data_on_uninstall() {
 
    $ez_toc_options  =  get_option( 'ez-toc-settings' );
    if ( is_array( $ez_toc_options ) && ! empty( $ez_toc_options['delete-data-on-uninstall'] ) ) {
@@ -24,4 +24,4 @@ function ez_toc_delete_data_on_uninstall() {
 
 }
 
-ez_toc_delete_data_on_uninstall();
+eztoc_delete_data_on_uninstall();

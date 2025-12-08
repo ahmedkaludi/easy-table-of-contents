@@ -17,16 +17,16 @@ class ezTOC_Sitemap {
      * */
     public function __construct() {
         
-        add_shortcode( 'ez-toc-sitemap', [ $this, 'ez_toc_shortcode_sitemap' ] );
-        add_shortcode( 'ez-toc-sitemap-pages', [ $this, 'ez_toc_shortcode_sitemap_pages' ] );
-        add_shortcode( 'ez-toc-sitemap-categories', [ $this, 'ez_toc_shortcode_sitemap_categories' ] );
-        add_shortcode( 'ez-toc-sitemap-posts', [ $this, 'ez_toc_shortcode_sitemap_posts' ] );
+        add_shortcode( 'ez-toc-sitemap', [ $this, 'eztoc_shortcode_sitemap' ] );
+        add_shortcode( 'ez-toc-sitemap-pages', [ $this, 'eztoc_shortcode_sitemap_pages' ] );
+        add_shortcode( 'ez-toc-sitemap-categories', [ $this, 'eztoc_shortcode_sitemap_categories' ] );
+        add_shortcode( 'ez-toc-sitemap-posts', [ $this, 'eztoc_shortcode_sitemap_posts' ] );
 
         // Migrate TOC plug plugin shortocde
-        add_shortcode( 'sitemap', [ $this, 'ez_toc_shortcode_sitemap' ] );
-        add_shortcode( 'sitemap_pages', [ $this, 'ez_toc_shortcode_sitemap_pages' ] );
-        add_shortcode( 'sitemap_categories', [ $this, 'ez_toc_shortcode_sitemap_categories' ] );
-        add_shortcode( 'sitemap_posts', [ $this, 'ez_toc_shortcode_sitemap_posts' ] );
+        add_shortcode( 'sitemap', [ $this, 'eztoc_shortcode_sitemap' ] );
+        add_shortcode( 'sitemap_pages', [ $this, 'eztoc_shortcode_sitemap_pages' ] );
+        add_shortcode( 'sitemap_categories', [ $this, 'eztoc_shortcode_sitemap_categories' ] );
+        add_shortcode( 'sitemap_posts', [ $this, 'eztoc_shortcode_sitemap_posts' ] );
 
     }
 
@@ -36,7 +36,7 @@ class ezTOC_Sitemap {
      * @return  $html   html string
      * @since   2.0.73
      * */
-    public function ez_toc_shortcode_sitemap( $attributes ) {
+    public function eztoc_shortcode_sitemap( $attributes ) {
         
         $atts = shortcode_atts(
             [
@@ -90,13 +90,14 @@ class ezTOC_Sitemap {
      * @return  $html   html string
      * @since   2.0.73
      * */
-    public function ez_toc_shortcode_sitemap_pages( $attributes ) {
+    public function eztoc_shortcode_sitemap_pages( $attributes ) {
         
         $atts = shortcode_atts(
             [
                 'heading'       => 3,
                 'label'         => 'Pages',
                 'no_label'      => false,
+                //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
                 'exclude'       => '',
                 'exclude_tree'  => '',
                 'child_of'      => 0,
@@ -126,6 +127,7 @@ class ezTOC_Sitemap {
                                 [
                                     'title_li'     => '',
                                     'echo'         => false,
+                                    //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
                                     'exclude'      => esc_attr( $atts['exclude'] ),
                                     'exclude_tree' => esc_attr( $atts['exclude_tree'] ),
                                     'hierarchical' => true,
@@ -145,13 +147,14 @@ class ezTOC_Sitemap {
      * @return  $html   html string
      * @since   2.0.73
      * */
-    public function ez_toc_shortcode_sitemap_categories( $attributes ) {
+    public function eztoc_shortcode_sitemap_categories( $attributes ) {
         
         $atts = shortcode_atts(
             [
                 'heading'      => 3,
                 'label'        => 'Categories',
                 'no_label'     => false,
+                //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
                 'exclude'      => '',
                 'exclude_tree' => '',
             ],
@@ -172,6 +175,7 @@ class ezTOC_Sitemap {
                                 [
                                     'title_li'     => '',
                                     'echo'         => false,
+                                    //phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
                                     'exclude'      => esc_attr( $atts['exclude'] ),
                                     'exclude_tree' => esc_attr( $atts['exclude_tree'] ),
                                 ]
@@ -189,7 +193,7 @@ class ezTOC_Sitemap {
      * @return  $html   html string
      * @since   2.0.73
      * */
-    public function ez_toc_shortcode_sitemap_posts( $attributes ) {
+    public function eztoc_shortcode_sitemap_posts( $attributes ) {
         
         $atts = shortcode_atts(
             [

@@ -31,10 +31,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
         <?php
 
         if (function_exists('ez_toc_pro_activation_link')) {
-            $license_info = get_option("easytoc_pro_upgrade_license");
-            $license_exp = null;
-            if( !empty( $license_info['pro']['license_key_expires'] ) ) {
-                $license_exp = gmdate( 'Y-m-d', strtotime($license_info['pro']['license_key_expires'] ) );
+            $eztoc_license_info = get_option("easytoc_pro_upgrade_license");
+            $eztoc_license_exp = null;
+            if( !empty( $eztoc_license_info['pro']['license_key_expires'] ) ) {
+                $eztoc_license_exp = gmdate( 'Y-m-d', strtotime($eztoc_license_info['pro']['license_key_expires'] ) );
             }
 
             ?>
@@ -44,15 +44,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             </a>
             <?php
 
-            $today = gmdate('Y-m-d');
-            $exp_date = $license_exp;
-            $date1 = date_create($today);
-            if($exp_date){
-                $date2 = date_create($exp_date);
-                $diff = date_diff($date1, $date2);
-                $days = $diff->format("%a");
-                $days = intval($days);
-                if ($days < 30) {
+            $eztoc_today = gmdate('Y-m-d');
+            $eztoc_exp_date = $eztoc_license_exp;
+            $eztoc_date1 = date_create($eztoc_today);
+            if($eztoc_exp_date){
+                $eztoc_date2 = date_create($eztoc_exp_date);
+                $eztoc_diff = date_diff($eztoc_date1, $eztoc_date2);
+                $eztoc_days = $eztoc_diff->format("%a");
+                $eztoc_days = intval($eztoc_days);
+                if ($eztoc_days < 30) {
                     ?>
                     <span class="dashicons dashicons-warning" style="color: #ffb229;position: relative;top:
                     15px;left: -10px;"></span>
@@ -197,10 +197,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <table class="form-table">
                             <tbody>
                                 <tr>
-                                    <?php $url = wp_nonce_url(admin_url('admin-ajax.php?action=ez_toc_export_all_settings'), '_wpnonce'); ?>
+                                    
                                     <th scope="row"><?php esc_html_e( 'Export Settings', 'easy-table-of-contents' ) ?></th>
                                     <td>
-                                        <button type="button"><a href="<?php echo esc_url($url); ?>" style="text-decoration:none; color: black;"><?php esc_html_e('Export', 'easy-table-of-contents'); ?></a></button>
+                                        <button type="button"><a href="<?php echo esc_url( wp_nonce_url(admin_url('admin-ajax.php?action=eztoc_export_all_settings'), '_wpnonce') ); ?>" style="text-decoration:none; color: black;"><?php esc_html_e('Export', 'easy-table-of-contents'); ?></a></button>
                                         <label> <br><?php esc_html_e('Export all ETOC settings to json file', 'easy-table-of-contents'); ?></label>
                                     </td>
                                 </tr> 
@@ -216,14 +216,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                     <th scope="row"><?php echo esc_html__( 'Delete Data on Uninstall', 'easy-table-of-contents' ) ?></th>
                                     <td>
                                         <?php
-                                        $ddou_value = ezTOC_Option::get( 'delete-data-on-uninstall', false ); 
+                                        $eztoc_ddou_value = ezTOC_Option::get( 'delete-data-on-uninstall', false ); 
                                         ezTOC_Option::checkbox(
                                             array(
                                                 'id'      => 'delete-data-on-uninstall',
                                                 'desc'    => esc_html__( 'This will remove all of its data when the plugin is deleted.', 'easy-table-of-contents' ),
                                                 'default' => false,
                                             ),
-                                            $ddou_value
+                                            $eztoc_ddou_value
                                         );
                                         ?>
                                     </td>
@@ -232,8 +232,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                                 <tr>
                                     <th scope="row"><?php esc_html_e( 'Migrate Table of Contents Plus', 'easy-table-of-contents' ) ?></th>
                                     <td>
-                                    <?php $toc_plus_enbaled = class_exists('TOC_Plus') ? true : false; ?>
-                                        <button type="button" name="eztoc_migrate_toc" id="eztoc_migrate_toc" class="button-primary" <?php if( ! $toc_plus_enbaled ){ echo esc_attr('disabled');}?> title="<?php echo !$toc_plus_enbaled ? esc_attr('Activate TOC+ to continue'):'';?>"><?php esc_html_e('Migrate Settings', 'easy-table-of-contents'); ?></button>
+                                    <?php $eztoc_toc_plus_enbaled = class_exists('TOC_Plus') ? true : false; ?>
+                                        <button type="button" name="eztoc_migrate_toc" id="eztoc_migrate_toc" class="button-primary" <?php if( ! $eztoc_toc_plus_enbaled ){ echo esc_attr('disabled');}?> title="<?php echo !$eztoc_toc_plus_enbaled ? esc_attr('Activate TOC+ to continue'):'';?>"><?php esc_html_e('Migrate Settings', 'easy-table-of-contents'); ?></button>
                                         <div id="eztoc-importer-loader" style="display: none;"><?php echo esc_html__('Migrating. Please wait...', 'easy-table-of-contents'); ?></div>
                                         <label> <br><?php esc_html_e('Migrate Settings from Table of Contents Plus. Make sure Table of Contents Plus is active while migrating', 'easy-table-of-contents'); ?><a href="https://tocwp.com/docs/knowledge-base/how-to-migrate-from-other-table-of-contents-plugins-to-easy-table-of-contents/" target="_blank"> <?php echo esc_html__('Learn More', 'easy-table-of-contents');?></a></label>
                                     </td>
@@ -256,7 +256,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <div class="inside">
 
                             <table class="form-table">
-                                <?php do_settings_fields('ez_toc_settings_prosettings', 'ez_toc_settings_prosettings'); ?>
+                                <?php do_settings_fields('eztoc_settings_prosettings', 'eztoc_settings_prosettings'); ?>
 
                             </table>
 
@@ -455,61 +455,33 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <h2><?php esc_html_e('Hooks', 'easy-table-of-contents') ?></h2>
                     <p><?php esc_html_e('Developer can use these below hooks for customization of this plugin:', 'easy-table-of-contents')
                         ?></p>
-                    <h4><?php esc_html_e('Actions:', 'easy-table-of-contents') ?></h4>
-                    <ul>
-                        <li><code><?php esc_html_e('ez_toc_before', 'easy-table-of-contents') ?></code>
-                        </li>
-                        <li><code><?php esc_html_e('ez_toc_after', 'easy-table-of-contents')
-                                ?></code></li>
-                        <li>
-                            <code><?php esc_html_e('ez_toc_sticky_toggle_before', 'easy-table-of-contents') ?></code>
-                        </li>
-                        <li>
-                            <code><?php esc_html_e('ez_toc_sticky_toggle_after', 'easy-table-of-contents')
-                                ?></code></li>
-                        <li>
-                            <code><?php esc_html_e('ez_toc_before_widget_container', 'easy-table-of-contents')
-                                ?></code></li>
-                        <li><code><?php esc_html_e('ez_toc_before_widget', 'easy-table-of-contents')
-                                ?></code></li>
-                        <li>
-                            <code><?php esc_html_e('ez_toc_after_widget_container', 'easy-table-of-contents') ?></code>
-                        </li>
-                        <li><code><?php esc_html_e('ez_toc_after_widget', 'easy-table-of-contents')
-                                ?></code></li>
-                        <li>
-                            <code><?php esc_html_e('ez_toc_title', 'easy-table-of-contents') ?></code>
-                        </li>
-                        <li>
-                            <code><?php esc_html_e('ez_toc_sticky_title', 'easy-table-of-contents') ?></code>
-                        </li>
-                        <li>
-                            <code><?php esc_html_e('ez_toc_container_class', 'easy-table-of-contents') ?></code>
-                        </li>
-                        <li>
-                            <code><?php esc_html_e('ez_toc_widget_sticky_container_class', 'easy-table-of-contents') ?></code>
-                        </li>
-                        <li>
-                            <code><?php esc_html_e('ez_toc_url_anchor_target', 'easy-table-of-contents') ?></code>
-                        </li>
-                        <li>
-                            <code><?php esc_html_e('ez_toc_sticky_enable_support', 'easy-table-of-contents') ?></code>
-                        </li>
-                        <li>
-                            <code><?php esc_html_e('ez_toc_sticky_post_types', 'easy-table-of-contents') ?></code>
-                        </li>
-                        <li>
-                            <code><?php esc_html_e('ez_toc_modify_icon', 'easy-table-of-contents') ?></code>
-                        </li>
-                        <li>
-                            <code><?php esc_html_e('ez_toc_label_below_html', 'easy-table-of-contents') ?></code>
-                        </li>
-                        <li>
-                            <code><?php esc_html_e('eztoc_wordpress_final_output', 'easy-table-of-contents') ?></code>
-                        </li>
-                    </ul>
-
-
+                    <p>
+                       <b> <?php esc_html_e('Note', 'easy-table-of-contents'); ?></b> <?php esc_html_e(' :Easy Table of Contents has updated its action hooks & filter hooks names from "ez_toc_" to "eztoc_" prefix for better naming convention. Below is the list of legacy action hooks with new action hooks names. Please update your custom code accordingly because these will be removed in future updates', 'easy-table-of-contents') ?>
+                    </p>
+                    <table>
+                        <tr><th align="left"><?php esc_html_e('Legacy Actions', 'easy-table-of-contents') ?></th><th align="left"><?php esc_html_e('New Action', 'easy-table-of-contents') ?></th></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_before', 'easy-table-of-contents') ?></code></td><td><code><?php esc_html_e('eztoc_before', 'easy-table-of-contents') ?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_after', 'easy-table-of-contents') ?></code></td><td><code><?php esc_html_e('eztoc_after', 'easy-table-of-contents') ?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_sticky_toggle_before', 'easy-table-of-contents') ?></code> </td><td><code><?php esc_html_e('eztoc_sticky_toggle_before', 'easy-table-of-contents')?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_sticky_toggle_after', 'easy-table-of-contents') ?></code> </td><td><code><?php esc_html_e('eztoc_sticky_toggle_after', 'easy-table-of-contents')?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_before_widget_container', 'easy-table-of-contents') ?></code> </td><td><code><?php esc_html_e('eztoc_before_widget_container', 'easy-table-of-contents')?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_before_widget', 'easy-table-of-contents') ?></code> </td><td><code><?php esc_html_e('eztoc_before_widget', 'easy-table-of-contents')?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_after_widget_container', 'easy-table-of-contents') ?></code> </td><td><code><?php esc_html_e('eztoc_after_widget_container', 'easy-table-of-contents')?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_after_widget', 'easy-table-of-contents') ?></code> </td><td><code><?php esc_html_e('eztoc_after_widget', 'easy-table-of-contents')?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_title', 'easy-table-of-contents') ?></code> </td><td><code><?php esc_html_e('eztoc_title', 'easy-table-of-contents')?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_sticky_title', 'easy-table-of-contents') ?></code> </td><td><code><?php esc_html_e('eztoc_sticky_title', 'easy-table-of-contents')?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_container_class', 'easy-table-of-contents') ?></code> </td><td><code><?php esc_html_e('eztoc_container_class', 'easy-table-of-contents')?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_widget_sticky_container_class', 'easy-table-of-contents') ?></code> </td><td><code><?php esc_html_e('eztoc_widget_sticky_container_class', 'easy-table-of-contents')?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_url_anchor_target', 'easy-table-of-contents') ?></code> </td><td><code><?php esc_html_e('eztoc_url_anchor_target', 'easy-table-of-contents')?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_sticky_enable_support', 'easy-table-of-contents') ?></code> </td><td><code><?php esc_html_e('eztoc_sticky_enable_support', 'easy-table-of-contents')?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_sticky_post_types', 'easy-table-of-contents') ?></code> </td><td><code><?php esc_html_e('eztoc_sticky_post_types', 'easy-table-of-contents')?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_modify_icon', 'easy-table-of-contents') ?></code> </td><td><code><?php esc_html_e('eztoc_modify_icon', 'easy-table-of-contents')?></code></td></tr>
+                        <tr><td><code><?php esc_html_e('ez_toc_label_below_html', 'easy-table-of-contents') ?></code> </td><td><code><?php esc_html_e('eztoc_label_below_html', 'easy-table-of-contents')?></code></td></tr>
+                        <tr><td> </td><td><code><?php esc_html_e('eztoc_wordpress_final_output', 'easy-table-of-contents')?></code></td></tr>
+                       
+                        
+                    </table>
+                   
                     <h4><?php esc_html_e('Example: adding a span tag before the `Easy Table of Contents`',
                             'easy-table-of-contents') ?></h4>
                     <p><?php esc_html_e("Get this following code and paste into your theme\'s function.php file:", 'easy-table-of-contents') ?></p>
@@ -529,21 +501,15 @@ function addCustomSpan()
                     <p class="eztoc-p"><?php esc_html_e("We strive to provide the best TOC in the world.", 'easy-table-of-contents') ?></p>
                     <section class="eztoc_dev-bio">
                         <div class="ezoc-bio-wrap">
-                            <img width="50px" height="50px"
+                            <img width="60px" height="60px"
                                  src="<?php echo esc_url(plugins_url('assets/img/ahmed-kaludi.jpg', dirname(__FILE__)))
                                  ?>" alt="ahmed-kaludi"/>
                             <p><?php esc_html_e('Lead Dev', 'easy-table-of-contents'); ?></p>
                         </div>
                         <div class="ezoc-bio-wrap">
-                            <img width="50px" height="50px"
+                            <img width="60px" height="60px"
                                  src="<?php echo esc_url(plugins_url('assets/img/Mohammed-kaludi.jpeg', dirname(__FILE__))) 
                                  ?>" alt="Mohammed-kaludi"/>
-                            <p><?php esc_html_e('Developer', 'easy-table-of-contents'); ?></p>
-                        </div>
-                        <div class="ezoc-bio-wrap">
-                            <img width="50px" height="50px"
-                                 src="<?php echo esc_url(plugins_url('assets/img/sanjeev.jpg', dirname(__FILE__))) ?>"
-                                 alt="Sanjeev"/>
                             <p><?php esc_html_e('Developer', 'easy-table-of-contents'); ?></p>
                         </div>
                     </section>
@@ -810,7 +776,7 @@ function addCustomSpan()
                             ?>" alt="toc-rating"/>
                             <h2><?php esc_html_e("Used by more than 5,00,000+ Users!", 'easy-table-of-contents'); ?></h2>
                             <p><?php esc_html_e("More than 500k Websites, Blogs &amp; E-Commerce shops are powered by our easy table of contents plugin making it the #1 Independent TOC plugin in WordPress.", 'easy-table-of-contents'); ?></p>
-                            <a href="https://wordpress.org/support/plugin/easy-table-of-contents/reviews/?filter=5"
+                            <a href="https://wordpress.org/support/plugin/easy-table-of-contents/reviews/"
                                target="_blank"><?php esc_html_e("Read The Reviews", 'easy-table-of-contents'); ?></a>
                         </div>
                     </div><!--/ .amp-upg -->
@@ -876,7 +842,10 @@ function addCustomSpan()
 
     <div id="license" class="eztoc_support_div eztoc-tabcontent">
         <?php
-        do_action("admin_upgrade_license_page");
+        //legacy action hook , will be removed in future updates
+        do_action("admin_upgrade_license_page"); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+        //new action hook for upgrade license page
+        do_action("eztoc_admin_upgrade_license_page");
         ?>
     </div>
     <!--<details id="eztoc-ocassional-pop-up-container" open>

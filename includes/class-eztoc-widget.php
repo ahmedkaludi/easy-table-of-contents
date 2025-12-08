@@ -204,7 +204,11 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				if ( 0 < strlen( $custom_classes ) ) {
 
 					$custom_classes = explode( ' ', $custom_classes );
-					$custom_classes = apply_filters( 'ez_toc_container_class', $custom_classes, $this );
+					//This is legacy action hook,it will be removed in future versions.
+					$custom_classes = apply_filters( 'ez_toc_container_class', $custom_classes, $this ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+					//This is the new action hook , it should be used instead of the legacy one.
+					$custom_classes = apply_filters( 'eztoc_container_class', $custom_classes, $this );
+
 
 					if ( is_array( $custom_classes ) ) {
 
@@ -216,12 +220,20 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 				$class = array_map( 'trim', $class );
 				$class = array_map( 'sanitize_html_class', $class );
 				//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
-				echo $before_widget;				
-				do_action( 'ez_toc_before_widget_container');
+				echo $before_widget;
+				//This is legacy action hook,it will be removed in future versions.
+				do_action( 'ez_toc_before_widget_container' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+
+				//This is the new action hook , it should be used instead of the legacy one.
+				do_action( 'eztoc_before_widget_container' );
 
 				echo '<div id="ez-toc-widget-container" class="ez-toc-widget-container ' . esc_attr(implode( ' ', $class )) . '">' . PHP_EOL;
 
-				do_action( 'ez_toc_before_widget' );
+				//This is legacy action hook,it will be removed in future versions.
+				do_action( 'ez_toc_before_widget' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+
+				//This is the new action hook , it should be used instead of the legacy one.
+				do_action( 'eztoc_before_widget' );
 
 				/**
 				 * @todo Instead of inline style, use the shadow DOM.
@@ -245,7 +257,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 					if( isset($instance[ 'heading_label_tag' ]) && $instance[ 'heading_label_tag' ] != 'default' && in_array($instance[ 'heading_label_tag' ], $this->allowed_tags)){
                         echo '<'.esc_attr($instance[ 'heading_label_tag' ]).' class="widget-title">';
                     }else{
-                        echo $before_title;  //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
+                        echo $before_title;  //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
                     } ?>
                                         <span class="ez-toc-title-container">
                                         <style>
@@ -324,7 +336,7 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 					if( isset($instance[ 'heading_label_tag' ]) && $instance[ 'heading_label_tag' ] != 'default' && in_array($instance[ 'heading_label_tag' ], $this->allowed_tags) ){
 						echo '</'.esc_attr($instance[ 'heading_label_tag' ]).'>';
 					}else{
-						echo $after_title;  //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
+						echo $after_title;  //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped in the core
 					} ?>
                                         <?php if ( 'css' == ezTOC_Option::get( 'toc_loading' ) ): ?>
                                             <label for="ez-toc-cssicon-toggle-item-count-<?php $cssIconID ?>" class="cssiconcheckbox">1</label><input type="checkbox" id="ez-toc-cssicon-toggle-item-<?php $cssIconID ?>" <?php $toggle_view?> style="display:none" />
@@ -332,14 +344,30 @@ if ( ! class_exists( 'ezTOC_Widget' ) ) {
 					<?php
                                         
 				}
-				do_action( 'ez_toc_before' );
+				//This is legacy action hook,it will be removed in future versions.
+				do_action( 'ez_toc_before' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+
+				//This is the new action hook , it should be used instead of the legacy one.
+				do_action( 'eztoc_before' );
 				//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 				echo '<nav>'. PHP_EOL . $post->getTOCList() . '</nav>' . PHP_EOL;
-				do_action( 'ez_toc_after' );
-				do_action( 'ez_toc_after_widget' );
+				//This is legacy action hook,it will be removed in future versions.
+				do_action( 'ez_toc_after' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+
+				//This is the new action hook , it should be used instead of the legacy one.
+				do_action( 'eztoc_after' );
+				//This is legacy action hook,it will be removed in future versions.
+				do_action( 'ez_toc_after_widget' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+
+				//This is the new action hook , it should be used instead of the legacy one.
+				do_action( 'eztoc_after_widget' );
 
 				echo '</div>' . PHP_EOL;
-				do_action( 'ez_toc_after_widget_container' );
+				//This is legacy action hook,it will be removed in future versions.
+				do_action( 'ez_toc_after_widget_container' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+
+				//This is the new action hook , it should be used instead of the legacy one.
+				do_action( 'eztoc_after_widget_container' );
 				//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason : Already escaped
 				echo $after_widget;
 								

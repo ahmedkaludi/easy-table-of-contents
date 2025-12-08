@@ -61,7 +61,7 @@ function eztoc_send_feedback() {
 //phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Since form is serialised nonce is verified after parsing the recieved data.
     if( isset( $_POST['data'] ) ) {
         //phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Since form is serialised nonce is verified after parsing the recieved data.
-        parse_str( $_POST['data'], $form );
+        parse_str( wp_unslash( $_POST['data'] ), $form ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Data is sanitized below.
     }
     
     if( !isset( $form['eztoc_security_nonce'] ) || isset( $form['eztoc_security_nonce'] ) && !wp_verify_nonce( sanitize_text_field( $form['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) ) {
@@ -128,9 +128,9 @@ add_action( 'admin_enqueue_scripts', 'eztoc_enqueue_makebetter_email_js' );
 /* * BFCM Banner Integration
  * Loads assets from assets/css and assets/js
  */
-add_action('admin_enqueue_scripts', 'etoc_enqueue_bfcm_assets');
+add_action('admin_enqueue_scripts', 'eztoc_enqueue_bfcm_assets');
 
-function etoc_enqueue_bfcm_assets($hook) { 
+function eztoc_enqueue_bfcm_assets($hook) { 
  
     
     if ( $hook !== 'settings_page_table-of-contents') {
