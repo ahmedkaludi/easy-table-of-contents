@@ -256,7 +256,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                         <div class="inside">
 
                             <table class="form-table">
-                                <?php do_settings_fields('ez_toc_settings_prosettings', 'ez_toc_settings_prosettings'); ?>
+                                <?php do_settings_fields('eztoc_settings_prosettings', 'eztoc_settings_prosettings'); ?>
 
                             </table>
 
