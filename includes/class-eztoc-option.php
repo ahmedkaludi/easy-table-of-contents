@@ -213,7 +213,11 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 		 * @return array
 		 */
 		private static function getRegistered() {
-												
+			//legacy pro settings will be removed in future versions.
+			$pro_settings = apply_filters('ez_toc_settings_prosettings',  array() ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+			//new pro settings hook
+			$pro_settings = apply_filters('eztoc_settings_prosettings',  array() );	
+
 			$options = array(
 				'general' => apply_filters(
 					//This is the new filter hook , it should be used instead of the legacy one.
@@ -1642,10 +1646,8 @@ text
                     )
 					)
                 ),
-				'prosettings' => apply_filters(
-					'ez_toc_settings_prosettings', //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Pro plugin hook for compatibility.
-					 array()  
-				),
+				'prosettings' => $pro_settings,
+				
 				'import_export' => apply_filters(
 					'ez_toc_settings_import_export', array(  //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Pro plugin hook for compatibility.
 						'delete-data-on-uninstall' => array(
