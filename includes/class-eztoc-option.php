@@ -1643,19 +1643,11 @@ text
 					)
                 ),
 				'prosettings' => apply_filters(
-					//This is the new filter hook , it should be used instead of the legacy one.
-					'eztoc_settings_prosettings',
-					apply_filters(
-						//This is legacy filter hook,it will be removed in future versions.
-						'ez_toc_settings_prosettings', array() //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
-					)
+					'ez_toc_settings_prosettings', //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Pro plugin hook for compatibility.
+					 array()  
 				),
 				'import_export' => apply_filters(
-					//This is the new filter hook , it should be used instead of the legacy one.
-					'eztoc_settings_import_export',
-					apply_filters(
-						//This is legacy filter hook,it will be removed in future versions.
-						'ez_toc_settings_import_export', array( //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+					'ez_toc_settings_import_export', array(  //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Pro plugin hook for compatibility.
 						'delete-data-on-uninstall' => array(
 							'id' 		=> 'delete-data-on-uninstall',
 							'name' 		=> esc_html__( 'Delete Data on Uninstall', 'easy-table-of-contents' ),
@@ -1664,15 +1656,15 @@ text
 							'default' 	=> false,
 						)	
 					)
-					)
 				),
 			);
 
 			//This is legacy filter hook,it will be removed in future versions.
 			$options = apply_filters( 'ez_toc_registered_settings', $options ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
-
 			//This is the new filter hook , it should be used instead of the legacy one.
-			return apply_filters( 'eztoc_registered_settings', $options );
+			$options = apply_filters( 'eztoc_registered_settings', $options );
+			
+			return $options;
 		}
 
         /**
