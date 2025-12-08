@@ -456,7 +456,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                     <p><?php esc_html_e('Developer can use these below hooks for customization of this plugin:', 'easy-table-of-contents')
                         ?></p>
                     <p>
-                       <b> <?php esc_html_e('Note', 'easy-table-of-contents'); ?></b> <?php esc_html_e(' :Easy Table of Contents has updated its action hooks & filter hooks names from "ez_toc_" to "eztoc_" prefix for better naming convention. Below is the list of legacy action hooks with new action hooks names. Please update your custom code accordingly.', 'easy-table-of-contents') ?>
+                       <b> <?php esc_html_e('Note', 'easy-table-of-contents'); ?></b> <?php esc_html_e(' :Easy Table of Contents has updated its action hooks & filter hooks names from "ez_toc_" to "eztoc_" prefix for better naming convention. Below is the list of legacy action hooks with new action hooks names. Please update your custom code accordingly because these will be removed in future updates', 'easy-table-of-contents') ?>
                     </p>
                     <table>
                         <tr><th align="left"><?php esc_html_e('Legacy Actions', 'easy-table-of-contents') ?></th><th align="left"><?php esc_html_e('New Action', 'easy-table-of-contents') ?></th></tr>
