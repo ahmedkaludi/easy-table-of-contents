@@ -864,7 +864,7 @@ class ezTOC_Post {
 	 * @return array
 	 */
 	private function alternateHeadings( &$matches ) {
-
+		$eztoc_current_theme = wp_get_theme();
 		$alt_headings = $this->getAlternateHeadings();
 
 		if ( 0 < count( $alt_headings ) ) {

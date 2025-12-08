@@ -3,6 +3,14 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 use function Eztoc\Table_Of_Contents\Cord\mb_find_replace;
+
+ $eztoc_current_theme = '';
+ if ( function_exists( 'wp_get_theme' ) ) {	
+	$eztoc_current_theme = wp_get_theme()->get( 'Name' );
+ }
+
+
+
 /**
  * Filter to add plugins to the TOC list.
  *
@@ -518,7 +526,8 @@ function eztoc_flbuilder_layout_data( $data ) {
  * in faq sections
  * @since 2.0.38
  */
-if ( eztoc_is_plugin_active( 'js_composer/js_composer.php' ) && ( 'Kalium - Medical Theme' == $eztoc_current_theme->get( 'Name' ) || 'Kalium' == $eztoc_current_theme->get( 'Name' ) ) ) {
+
+if ( eztoc_is_plugin_active( 'js_composer/js_composer.php' ) && ( 'Kalium - Medical Theme' == $eztoc_current_theme || 'Kalium' == $eztoc_current_theme ) ) {
     add_shortcode( 'vc_toggle', 'eztoc_vc_toggle_modified' );
     function eztoc_vc_toggle_modified( $atts, $content, $tag ) {
         if ( 'vc_toggle' == $tag ) {
@@ -584,8 +593,8 @@ if ( eztoc_is_plugin_active( 'js_composer/js_composer.php' ) && ( 'Kalium - Medi
  * in header & footer sections
  * @since 2.0.46
  */
-$eztoc_current_theme = wp_get_theme();
-if ( 'PokaTheme' == $eztoc_current_theme->get( 'Name' ) ) {
+
+if ( 'PokaTheme' == $eztoc_current_theme ) {
     add_action( 'poka_before_main', 'eztoc_poka_before_main', 4, 0 );
     function eztoc_poka_before_main() {
         remove_action('poka_before_main', 'poka_before_content', 5, 0);
@@ -608,7 +617,7 @@ if ( 'PokaTheme' == $eztoc_current_theme->get( 'Name' ) ) {
     }
 }
 
-if ( 'MAKE9 Divi zh-tw Child' == $eztoc_current_theme->get( 'Name' ) ) {
+if ( 'MAKE9 Divi zh-tw Child' == $eztoc_current_theme ) {
     add_filter('ez_toc_regex_filteration', 'eztoc_regex_filteration_for_divi_chinese');
     function eztoc_regex_filteration_for_divi_chinese( $regEx ) {
         $regEx = '/(<h([1-6]{1})(?:(?!\bclass="et_pb_slide_title")[^>])*>)(.*)<\/h\2>/msuU';
