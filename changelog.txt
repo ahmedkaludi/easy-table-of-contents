@@ -1,4 +1,7 @@
 == Changelog ==
+= 2.0.79.2 09/12/2025 =
+* Fixed: Pro settings are not visible #931
+
 = 2.0.79 08/12/2025 =
 * Fixed: Vulnerability Authenticated (Contributor+) Stored Cross-Site Scripting reported by Wordfence (Jack Taylor)
 * Improvement: Code Improvement #928

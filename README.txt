@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 5.6.20
-Stable tag: 2.0.79.1
+Stable tag: 2.0.79.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,9 +134,10 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.79.2 09/12/2025 =
+* Fixed: Pro settings are not visible #931
 
 = 2.0.79.1 09/12/2025 =
-
 * Fixed: Error in v2.0.79 - White Screen of Death #930
 
 = 2.0.79 08/12/2025 =
@@ -263,15 +264,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 = 2.0.66.1 15/05/2024 =
 * Bug: ETOC version 2.0.66 giving **Fatal error**: Uncaught TypeError: method_exists() #752
-
-= 2.0.66 15/05/2024 =
-* Bug: Multiple warnings showing when ACF support is enabled in TOC #738
-* Bug: Conflict issue with Avada child theme. #740
-* Bug: The editing/updating of the post/page is slowing down if the plugin is activated with Block based themes #741
-* Bug: Positions & Alignment is not being changed globally #743
-* New: Option for showing promt if no headings available #654
-* New: Option or shortcode like [initial_view="Show"] for specific pages/post. #732
-* Fix: Patched Stored XSS Vulnerability disclosed by Dmitrii Ignatyev from cleantalk.org
 
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)
