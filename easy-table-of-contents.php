@@ -909,10 +909,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}
                                 
 			}
-			//This is legacy hook,it will be removed in future versions.
-			$eztoc_pro_inline_css =  apply_filters('ez_toc_pro_inline_css',$css); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
-			//This is the new hook , it should be used instead of the legacy one.
-			$eztoc_pro_inline_css =  apply_filters('eztoc_pro_inline_css',$css);
+			// @todo: Remove ez_toc_pro_inline_css legacy hook in future versions.
+			$eztoc_pro_inline_css =  has_filter('eztoc_pro_inline_css') ? apply_filters('eztoc_pro_inline_css',$css) : apply_filters('ez_toc_pro_inline_css',$css) ; //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
 			return $eztoc_pro_inline_css;
 			
 		}
