@@ -1716,13 +1716,15 @@ class ezTOC_Post {
 		if( function_exists( 'ez_toc_pro_activation_link' ) ) {
 				//This is legacy hook,it will be removed in future versions.
 				$icon = apply_filters('ez_toc_modify_icon',$icon); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
-				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html, $read_time); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
 				//This is the new hook , it should be used instead of the legacy one.
 				$icon = apply_filters('eztoc_modify_icon',$icon);
 				$label_below_html = apply_filters('eztoc_label_below_html',$label_below_html, $read_time);
 		}							   
 		$html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="'.esc_attr__('Toggle Table of Content','easy-table-of-contents').'"><span class="ez-toc-js-icon-con">'.$icon.'</span></a>';
 		 
+	}else{
+				$label_below_html = apply_filters('eztoc_label_below_html',$label_below_html, $read_time);
+
 	}
 			$html .= '</span>';
 			$html .= '</div>' . PHP_EOL;
