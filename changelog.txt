@@ -1,4 +1,12 @@
 == Changelog ==
+= 2.0.80 31/12/2025 =
+* Fixed: Alternate heading option is not working #932
+* Fixed: View more is not working properly #933
+* Fixed: Headings not showing in TOC when using captial H2 #916
+* Fixed: Title is not redirecting correctly (user-specific issue) #934
+* Fixed: Read Time option is not working properly #935
+* Fixed: Export Setting option is not working as expected. #936
+
 = 2.0.79.2 09/12/2025 =
 * Fixed: Pro settings are not visible #931
 
