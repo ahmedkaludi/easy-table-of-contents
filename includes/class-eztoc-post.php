@@ -556,9 +556,9 @@ class ezTOC_Post {
                 * @since 2.0.46
                 */
 				//This is legacy hook,it will be removed in future versions.
-                $regEx = apply_filters( 'ez_toc_regex_filteration', '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuU' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+                $regEx = apply_filters( 'ez_toc_regex_filteration', '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuUi' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
 				//This is the new hook , it should be used instead of the legacy one.
-				$regEx = apply_filters( 'eztoc_regex_filteration', '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuU' );
+				$regEx = apply_filters( 'eztoc_regex_filteration', '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuUi' );
                 
 		// get all headings
 		// the html spec allows for a maximum of 6 heading depths
@@ -864,7 +864,7 @@ class ezTOC_Post {
 	 * @return array
 	 */
 	private function alternateHeadings( &$matches ) {
-
+		$eztoc_current_theme = wp_get_theme();
 		$alt_headings = $this->getAlternateHeadings();
 
 		if ( 0 < count( $alt_headings ) ) {
@@ -1716,13 +1716,15 @@ class ezTOC_Post {
 		if( function_exists( 'ez_toc_pro_activation_link' ) ) {
 				//This is legacy hook,it will be removed in future versions.
 				$icon = apply_filters('ez_toc_modify_icon',$icon); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
-				$label_below_html = apply_filters('ez_toc_label_below_html',$label_below_html, $read_time); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
 				//This is the new hook , it should be used instead of the legacy one.
 				$icon = apply_filters('eztoc_modify_icon',$icon);
 				$label_below_html = apply_filters('eztoc_label_below_html',$label_below_html, $read_time);
 		}							   
 		$html .= '<a href="#" class="ez-toc-pull-right ez-toc-btn ez-toc-btn-xs ez-toc-btn-default ez-toc-toggle" aria-label="'.esc_attr__('Toggle Table of Content','easy-table-of-contents').'"><span class="ez-toc-js-icon-con">'.$icon.'</span></a>';
 		 
+	}else{
+				$label_below_html = apply_filters('eztoc_label_below_html',$label_below_html, $read_time);
+
 	}
 			$html .= '</span>';
 			$html .= '</div>' . PHP_EOL;
@@ -1796,7 +1798,7 @@ class ezTOC_Post {
 			if ( ezTOC_Option::get( 'visibility_on_header_text' ) ) {		
 				$html .= '<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-cssicon-toggle-label">' .$header_label. $toc_icon . '</label>'.$label_below_html.'<input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' />';
 			}else{
-				if(function_exists('ez_toc_pro_inline_css_func')){
+				if(function_exists('eztoc_pro_inline_css_func')){
 					$html .= '<div class="ez-toc-cssicon-toggle-label">'.$header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '">' . $toc_icon . '</label></div>'.$label_below_html.'<input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' aria-label="'.esc_attr__('Toggle','easy-table-of-contents').'" />';
 				}else{
 					$html .= $header_label.'<label for="ez-toc-cssicon-toggle-item-' . $cssIconID . '" class="ez-toc-cssicon-toggle-label">' . $toc_icon . '</label>'.$label_below_html.'<input type="checkbox" ' . $inputCheckboxExludeStyle . ' id="ez-toc-cssicon-toggle-item-' . $cssIconID . '" '.$toggle_view.' aria-label="'.esc_attr__('Toggle','easy-table-of-contents').'" />';

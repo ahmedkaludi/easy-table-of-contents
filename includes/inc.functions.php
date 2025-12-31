@@ -149,7 +149,7 @@ if ( function_exists('extension_loaded') && extension_loaded('mbstring') == fals
  * Since version 2.0.52
  * Export all settings to json file
  */
-add_action( 'wp_ajax_ez_toc_export_all_settings', 'eztoc_export_all_settings'); 
+add_action( 'wp_ajax_eztoc_export_all_settings', 'eztoc_export_all_settings'); 
 function eztoc_export_all_settings()
 {
     if ( !current_user_can( 'manage_options' ) ) {
@@ -163,11 +163,13 @@ function eztoc_export_all_settings()
     }
 
     $export_settings_data = get_option('ez-toc-settings');
-    if(!empty($export_settings_data)){
-        header('Content-type: application/json');
-        header('Content-disposition: attachment; filename=ez_toc_settings_backup.json');
-        echo wp_json_encode($export_settings_data);   
-    }                             
+    if(empty($export_settings_data)){
+        $export_settings_data = array();
+    }
+    
+    header('Content-type: application/json');
+    header('Content-disposition: attachment; filename=ez_toc_settings_backup.json');
+    echo wp_json_encode($export_settings_data);   
     wp_die();
 }
 

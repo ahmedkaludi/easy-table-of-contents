@@ -675,20 +675,20 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 					update_post_meta( $post_id, '_ez-toc-heading-levels', array() );
 				}
 
-				if ( isset( $_REQUEST['ez-toc-settings']['alttext'] ) && ! empty( sanitize_text_field( wp_unslash( $_REQUEST['ez-toc-settings']['alttext'] ) ) ) ) {
+				if ( isset( $_REQUEST['ez-toc-settings']['alttext'] ) && '' !== trim( sanitize_text_field( wp_unslash( $_REQUEST['ez-toc-settings']['alttext'] ) ) ) ) {
 
 					$alttext = '';
-					$alttext_setting = sanitize_text_field( wp_unslash( $_REQUEST['ez-toc-settings']['alttext'] ) );
+					$alttext_setting = $this->eztoc_sanitize_textarea_field( wp_unslash( $_REQUEST['ez-toc-settings']['alttext'] ) ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitization done using custom function.
 					if ( is_string( $alttext_setting ) ) {
-						$alttext = trim(  $alttext_setting );
-							/*
+						$alttext = trim( $alttext_setting );
+						/*
 						* This is basically `esc_html()` but does not encode quotes.
 						* This is to allow angle brackets and such which `wp_kses_post` would strip as "evil" scripts.
 						*/
 						$alttext = wp_check_invalid_utf8( $alttext );
 						$alttext = _wp_specialchars( $alttext, ENT_NOQUOTES );
 
-					} 					
+					}
 
 					update_post_meta( $post_id, '_ez-toc-alttext', wp_kses_post( $alttext ) );
 

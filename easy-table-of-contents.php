@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.79
+ * Version: 2.0.80
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -28,7 +28,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.79
+ * @version  2.0.80
  */
 
 use Eztoc\Table_Of_Contents\Debug;
@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.79';
+		const VERSION = '2.0.80';
 
 		/**
 		 * Stores the instance of this class.
@@ -909,11 +909,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}
                                 
 			}
-			//This is legacy hook,it will be removed in future versions.
-			$eztoc_pro_inline_css =  apply_filters('ez_toc_pro_inline_css',$css); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
-			//This is the new hook , it should be used instead of the legacy one.
-			$eztoc_pro_inline_css =  apply_filters('eztoc_pro_inline_css',$css);
-			return $eztoc_pro_inline_css;
+			return apply_filters('eztoc_pro_inline_css',$css);
 			
 		}
 
