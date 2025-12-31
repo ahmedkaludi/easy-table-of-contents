@@ -1335,7 +1335,7 @@ function eztoc_js_to_footer_for_wpbakery_category() {
 
 					const findArray = eztocExtractHeadingTexts(' . wp_json_encode($find) . ');
 					const replaceArray = eztocExtractHeadingTexts(' . wp_json_encode($replace) . ');
-					const elements = document.querySelectorAll(\'h1:not(:has(span.ez-toc-section)), h2:not(:has(span.ez-toc-section)), h3:not(:has(span.ez-toc-section)), h4:not(:has(span.ez-toc-section)), h5:not(:has(span.ez-toc-section)), h6:not(:has(span.ez-toc-section))\');
+					const elements = document.querySelectorAll(\'h1:not(:has(span.ez-toc-section)), h2:not(:has(span.ez-toc-section)), h3:not(:has(span.ez-toc-section)), h4:not(:has(span.ez-toc-section)), h5:not(:has(span.ez-toc-section)), h6:not(:has(span.ez-toc-section)), H1:not(:has(span.ez-toc-section)), H2:not(:has(span.ez-toc-section)), H3:not(:has(span.ez-toc-section)), H4:not(:has(span.ez-toc-section)), H5:not(:has(span.ez-toc-section)), H6:not(:has(span.ez-toc-section))\');
 					if(elements.length){
 						elements.forEach(function(item, index){
 							let heading_inner =  item.innerHTML;

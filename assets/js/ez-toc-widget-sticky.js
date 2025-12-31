@@ -792,6 +792,7 @@ ready(() => {
         '.ez-toc-heading',
         '[id]'
     ];
+    headingSelectors.push('[id] H1, [id] H2, [id] H3, [id] H4, [id] H5, [id] H6', 'H1[id], H2[id], H3[id], H4[id], H5[id], H6[id]');
     
     let sectionsFound = false;
     
@@ -854,6 +855,7 @@ ready(() => {
                     '.ez-toc-heading',
                     '[id]'
                 ];
+                headingSelectors.push('[id] H1, [id] H2, [id] H3, [id] H4, [id] H5, [id] H6', 'H1[id], H2[id], H3[id], H4[id], H5[id], H6[id]');
                 
                 for (const selector of headingSelectors) {
                     const sections = document.querySelectorAll(selector);
