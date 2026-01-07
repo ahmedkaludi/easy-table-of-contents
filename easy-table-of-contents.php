@@ -1421,6 +1421,18 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
             if ( 'ez-toc-widget-sticky' == $tag ) {
     
+                // Check which attributes were actually provided before shortcode_atts sets defaults
+                $has_title = isset( $atts['title'] );
+                $has_title_font_size = isset( $atts['title_font_size'] );
+                $has_title_font_size_unit = isset( $atts['title_font_size_unit'] );
+                $has_title_font_weight = isset( $atts['title_font_weight'] );
+                $has_title_font_color = isset( $atts['title_font_color'] );
+                $has_text_font_size = isset( $atts['text_font_size'] );
+                $has_text_font_size_unit = isset( $atts['text_font_size_unit'] );
+                $has_text_font_weight = isset( $atts['text_font_weight'] );
+                $has_text_font_color = isset( $atts['text_font_color'] );
+                $has_scroll_fixed_position = isset( $atts['scroll_fixed_position'] );
+                
                 extract( shortcode_atts( array(
                     'highlight_color' => '#ededed',
                     'title' => 'Table of Contents',
@@ -1454,11 +1466,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
                 $widget_name = esc_html( 'ezTOC_WidgetSticky' );
                 
                 $instance = array(
-                    'title' => ( ! empty ( $title ) ) ? $title : '',
-					'sidebar_sticky_title' => ( ! empty ( $title ) ) ? $title : '',
+                    'title' => ( $has_title && ! empty ( $title ) ) ? $title : ezTOC_Option::get( 'heading_text', 'Table of Contents' ),
+					'sidebar_sticky_title' => ( $has_title && ! empty ( $title ) ) ? $title : ezTOC_Option::get( 'heading_text', 'Table of Contents' ),
                     'highlight_color' => ( ! empty ( $highlight_color ) ) ? $highlight_color : '#ededed',
                     'advanced_options' => ( ! empty ( $advanced_options ) ) ? $advanced_options : '',
-                    'scroll_fixed_position' => ( ! empty ( $scroll_fixed_position ) ) ? ( int ) $scroll_fixed_position : 30,
+                    'scroll_fixed_position' => ( $has_scroll_fixed_position && ! empty ( $scroll_fixed_position ) ) ? ( int ) $scroll_fixed_position : (int) ezTOC_Option::get( 'smooth_scroll_offset', 30 ),
                     'sidebar_width' => ( ! empty ( $sidebar_width ) ) ? ( 'auto' == $sidebar_width ) ? $sidebar_width : ( int ) wp_strip_all_tags ( $sidebar_width ) : 'auto',
                     'sidebar_width_size_unit' => ( ! empty ( $sidebar_width_size_unit ) ) ? $sidebar_width_size_unit : 'none',
                     'fixed_top_position' => ( ! empty ( $fixed_top_position ) ) ? ( 'auto' == $fixed_top_position ) ? $fixed_top_position : ( int ) wp_strip_all_tags ( $fixed_top_position ) : 30,
@@ -1466,14 +1478,14 @@ if ( ! class_exists( 'ezTOC' ) ) {
                     'navigation_scroll_bar' => ( ! empty ( $navigation_scroll_bar ) ) ? $navigation_scroll_bar : 'on',
                     'scroll_max_height' => ( ! empty ( $scroll_max_height ) ) ? ( 'auto' == $scroll_max_height ) ? $scroll_max_height : ( int ) wp_strip_all_tags ( $scroll_max_height ) : 'auto',
                     'scroll_max_height_size_unit' => ( ! empty ( $scroll_max_height_size_unit ) ) ? $scroll_max_height_size_unit : 'none',
-					'sidebar_sticky_title_size' => ( ! empty ( $title_font_size ) ) ? ( 'auto' == $title_font_size ) ? $title_font_size : ( int ) wp_strip_all_tags ( $title_font_size ) : '120',
-					'sidebar_sticky_title_size_unit' => ( ! empty ( $title_font_size_unit ) ) ? $title_font_size_unit : '%',
-					'sidebar_sticky_title_weight' => ( ! empty ( $title_font_weight ) ) ? $title_font_weight : '600',
-					'sidebar_sticky_title_color' => ( ! empty ( $title_font_color ) ) ? $title_font_color : '',
-					'sidebar_sticky_size' => ( ! empty ( $text_font_size ) ) ? ( 'auto' == $text_font_size ) ? $text_font_size : ( int ) wp_strip_all_tags ( $text_font_size ) : '100',
-					'sidebar_sticky_size_unit' => ( ! empty ( $text_font_size_unit ) ) ? $text_font_size_unit : '%',
-					'sidebar_sticky_weight' => ( ! empty ( $text_font_weight ) ) ? $text_font_weight : '400',
-					'sidebar_sticky_color' => ( ! empty ( $text_font_color ) ) ? $text_font_color : '',
+					'sidebar_sticky_title_size' => ( $has_title_font_size && ! empty ( $title_font_size ) ) ? ( 'auto' == $title_font_size ) ? $title_font_size : ( int ) wp_strip_all_tags ( $title_font_size ) : (int) ezTOC_Option::get( 'title_font_size', 120 ),
+					'sidebar_sticky_title_size_unit' => ( $has_title_font_size_unit && ! empty ( $title_font_size_unit ) ) ? $title_font_size_unit : ezTOC_Option::get( 'title_font_size_units', '%' ),
+					'sidebar_sticky_title_weight' => ( $has_title_font_weight && ! empty ( $title_font_weight ) ) ? $title_font_weight : ezTOC_Option::get( 'title_font_weight', '600' ),
+					'sidebar_sticky_title_color' => ( $has_title_font_color && ! empty ( $title_font_color ) ) ? $title_font_color : ezTOC_Option::get( 'custom_title_colour', '' ),
+					'sidebar_sticky_size' => ( $has_text_font_size && ! empty ( $text_font_size ) ) ? ( 'auto' == $text_font_size ) ? $text_font_size : ( int ) wp_strip_all_tags ( $text_font_size ) : (int) ezTOC_Option::get( 'font_size', 95 ),
+					'sidebar_sticky_size_unit' => ( $has_text_font_size_unit && ! empty ( $text_font_size_unit ) ) ? $text_font_size_unit : ezTOC_Option::get( 'font_size_units', '%' ),
+					'sidebar_sticky_weight' => ( $has_text_font_weight && ! empty ( $text_font_weight ) ) ? $text_font_weight : ezTOC_Option::get( 'font_weight', '400' ),
+					'sidebar_sticky_color' => ( $has_text_font_color && ! empty ( $text_font_color ) ) ? $text_font_color : ezTOC_Option::get( 'custom_link_colour', '' ),
 					'show_toggle' => ( ! empty ( $show_toggle ) ) ? $show_toggle : '',
 					'device_target' => ( ! empty ( $device_target ) ) ? $device_target : ''
                 );
