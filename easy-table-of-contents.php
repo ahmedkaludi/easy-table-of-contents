@@ -1432,6 +1432,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
                 $has_text_font_weight = isset( $atts['text_font_weight'] );
                 $has_text_font_color = isset( $atts['text_font_color'] );
                 $has_scroll_fixed_position = isset( $atts['scroll_fixed_position'] );
+                $has_toc_background_color = isset( $atts['toc_background_color'] );
+                $has_toc_title_background_color = isset( $atts['toc_title_background_color'] );
                 
                 extract( shortcode_atts( array(
                     'highlight_color' => '#ededed',
@@ -1453,6 +1455,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					'text_font_size_unit' => '%',
 					'text_font_weight' => '400',
 					'text_font_color' => '',
+                    'toc_background_color' => '',
+                    'toc_title_background_color' => '',
                     'ez_toc_widget_sticky_before_widget_container' => '',
                     'ez_toc_widget_sticky_before_widget' => '',
                     'ez_toc_widget_sticky_before' => '',
@@ -1486,6 +1490,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					'sidebar_sticky_size_unit' => ( $has_text_font_size_unit && ! empty ( $text_font_size_unit ) ) ? $text_font_size_unit : ezTOC_Option::get( 'font_size_units', '%' ),
 					'sidebar_sticky_weight' => ( $has_text_font_weight && ! empty ( $text_font_weight ) ) ? $text_font_weight : ezTOC_Option::get( 'font_weight', '400' ),
 					'sidebar_sticky_color' => ( $has_text_font_color && ! empty ( $text_font_color ) ) ? $text_font_color : ezTOC_Option::get( 'custom_link_colour', '' ),
+					'toc_background_color' => ( $has_toc_background_color && ! empty ( $toc_background_color ) ) ? $toc_background_color : ezTOC_Option::get( 'custom_background_colour', '' ),
+					'toc_title_background_color' => ( $has_toc_title_background_color && ! empty ( $toc_title_background_color ) ) ? $toc_title_background_color : ezTOC_Option::get( 'custom_title_background', '' ),
 					'show_toggle' => ( ! empty ( $show_toggle ) ) ? $show_toggle : '',
 					'device_target' => ( ! empty ( $device_target ) ) ? $device_target : ''
                 );

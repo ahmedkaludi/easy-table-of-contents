@@ -386,6 +386,14 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                                 background-color: <?php echo esc_attr ( isset($instance[ 'highlight_color' ]) ? $instance[ 'highlight_color' ] : '' ); ?>;
                                 color: <?php echo esc_attr ( isset($instance[ 'active_section_text_color' ]) ? $instance[ 'active_section_text_color' ] : '' ); ?>;
                             }
+                            <?php if (!empty($instance['toc_background_color'])): ?>
+                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> { background-color: <?php echo esc_attr($instance['toc_background_color']); ?> !important; }
+                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-sidebar { background-color: <?php echo esc_attr($instance['toc_background_color']); ?> !important; }
+                            <?php endif; ?>
+                            <?php if (!empty($instance['toc_title_background_color'])): ?>
+                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-title-container { background-color: <?php echo esc_attr($instance['toc_title_background_color']); ?> !important; }
+                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-sticky-title-container { background-color: <?php echo esc_attr($instance['toc_title_background_color']); ?> !important; }
+                            <?php endif; ?>
                         </style>
                         <?php
                         $toggle_enabled = ezTOC_Option::get( 'visibility_on_header_text' ) ? 'true' : 'false';
@@ -525,6 +533,8 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 $instance[ 'sidebar_sticky_size_unit' ] = wp_strip_all_tags ( $new_instance[ 'sidebar_sticky_size_unit' ] );
                 $instance[ 'sidebar_sticky_weight' ] = wp_strip_all_tags ( $new_instance[ 'sidebar_sticky_weight' ] );
                 $instance[ 'sidebar_sticky_color' ] = wp_strip_all_tags ( $new_instance[ 'sidebar_sticky_color' ] );
+                $instance[ 'toc_background_color' ] = wp_strip_all_tags ( $new_instance[ 'toc_background_color' ] );
+                $instance[ 'toc_title_background_color' ] = wp_strip_all_tags ( $new_instance[ 'toc_title_background_color' ] );
                 $instance[ 'heading_label_tag' ] = wp_strip_all_tags ( $new_instance[ 'heading_label_tag' ] );
             } else
             {
@@ -537,6 +547,8 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 $instance[ 'sidebar_sticky_size_unit' ] = '%';
                 $instance[ 'sidebar_sticky_weight' ] = '400';
                 $instance[ 'sidebar_sticky_color' ] = 'inherit';
+                $instance[ 'toc_background_color' ] = '';
+                $instance[ 'toc_title_background_color' ] = '';
                 $instance[ 'heading_label_tag' ] = 'default';
             }
 
@@ -597,6 +609,8 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                 'sidebar_sticky_size_unit' => '%',
                 'sidebar_sticky_weight' => '500',
                 'sidebar_sticky_color' => '',
+                'toc_background_color' => '',
+                'toc_title_background_color' => '',
                 'sidebar_width' => 'auto',
                 'sidebar_width_size_unit' => 'none',
                 'fixed_top_position' => 30,
@@ -614,6 +628,8 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
             $active_section_text_color = esc_attr ( $instance[ 'active_section_text_color' ] );
             $title_color = esc_attr ( $instance[ 'sidebar_sticky_title_color' ] );
             $text_color = esc_attr ( $instance[ 'sidebar_sticky_color' ] );
+            $toc_background_color = esc_attr ( $instance[ 'toc_background_color' ] );
+            $toc_title_background_color = esc_attr ( $instance[ 'toc_title_background_color' ] );
             ?>
             <p>
                 <label for="<?php echo esc_attr($this->get_field_id( 'title' )); ?>"><?php esc_html_e ( 'Title', 'easy-table-of-contents' ); ?>:</label>
@@ -699,6 +715,16 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                     <p class="ez-toc-widget-form-group" style="margin: 0;margin-top: 7px;">
                         <label for="<?php echo esc_attr($this->get_field_id( 'active_section_text_color' )); ?>" style="margin-right: 12px;"><?php esc_html_e ( 'Active Section Text Color:', 'easy-table-of-contents' ); ?></label><br>
                         <input type="text" name="<?php echo esc_attr($this->get_field_name( 'active_section_text_color' )); ?>" class="color-picker" id="<?php echo esc_attr($this->get_field_id( 'active_section_text_color' )); ?>" value="<?php echo esc_attr($active_section_text_color); ?>" data-default-color="<?php echo esc_attr($defaults[ 'active_section_text_color' ]); ?>" />
+                    </p>
+
+                    <p class="ez-toc-widget-form-group" style="margin: 0;margin-top: 7px;">
+                        <label for="<?php echo esc_attr($this->get_field_id( 'toc_background_color' )); ?>" style="margin-right: 12px;"><?php esc_html_e ( 'TOC Background Color:', 'easy-table-of-contents' ); ?></label><br>
+                        <input type="text" name="<?php echo esc_attr($this->get_field_name( 'toc_background_color' )); ?>" class="color-picker" id="<?php echo esc_attr($this->get_field_id( 'toc_background_color' )); ?>" value="<?php echo esc_attr($toc_background_color); ?>" data-default-color="<?php echo esc_attr($defaults[ 'toc_background_color' ]); ?>" />
+                    </p>
+
+                    <p class="ez-toc-widget-form-group" style="margin: 0;margin-top: 7px;">
+                        <label for="<?php echo esc_attr($this->get_field_id( 'toc_title_background_color' )); ?>" style="margin-right: 12px;"><?php esc_html_e ( 'TOC Title Background Color:', 'easy-table-of-contents' ); ?></label><br>
+                        <input type="text" name="<?php echo esc_attr($this->get_field_name( 'toc_title_background_color' )); ?>" class="color-picker" id="<?php echo esc_attr($this->get_field_id( 'toc_title_background_color' )); ?>" value="<?php echo esc_attr($toc_title_background_color); ?>" data-default-color="<?php echo esc_attr($defaults[ 'toc_title_background_color' ]); ?>" />
                     </p>
 
                     <div class="ez-toc-widget-form-group">
