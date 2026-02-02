@@ -368,7 +368,7 @@ class ezTOC_Post {
 		//This is legacy hook,it will be removed in future versions.
 		$content = apply_filters( 'ez_toc_modify_process_page_content', $this->post->post_content ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
 		//This is the new hook , it should be used instead of the legacy one.
-		$content = apply_filters( 'eztoc_modify_process_page_content', $this->post->post_content );
+		$content = apply_filters( 'eztoc_modify_process_page_content', $content );
 		
 		// Fix for wordpress category pages showing wrong toc if they have description
 		if(is_category()){
