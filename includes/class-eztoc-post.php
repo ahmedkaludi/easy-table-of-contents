@@ -501,7 +501,7 @@ class ezTOC_Post {
 		//This is legacy hook,it will be removed in future versions
 		$selectors = apply_filters( 'ez_toc_exclude_by_selector', array( '.ez-toc-exclude-headings' ), $content ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
 		//This is the new hook , it should be used instead of the legacy one.
-		$selectors = apply_filters( 'eztoc_exclude_by_selector', array( '.ez-toc-exclude-headings' ), $content );
+		$selectors = apply_filters( 'eztoc_exclude_by_selector', $selectors, $content );
 		$selectors = ! is_array( $selectors ) ? [] : $selectors; // In case we get string instead of array
 		$nodes = $html->Find( implode( ',', $selectors ) );
 		if(isset($nodes['ids'])){
