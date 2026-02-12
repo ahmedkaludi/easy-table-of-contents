@@ -615,20 +615,7 @@ class ezTOC_Post {
 	 */
 	private function inExcludedNode( $string ) {
 
-		foreach ( $this->excludedNodes as $node ) {
-
-			if ( empty( $node ) || empty( $string ) ) {
-
-				return false;
-			}
-
-			if ( false !== strpos( $node, $string ) ) {
-
-				return true;
-			}
-		}
-
-		return false;
+		return apply_filters('eztoc_pro_excluded_node_check', false , $this->excludedNodes, $string);
 	}
 
 	/**
