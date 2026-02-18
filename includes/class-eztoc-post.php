@@ -368,7 +368,7 @@ class ezTOC_Post {
 		//This is legacy hook,it will be removed in future versions.
 		$content = apply_filters( 'ez_toc_modify_process_page_content', $this->post->post_content ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
 		//This is the new hook , it should be used instead of the legacy one.
-		$content = apply_filters( 'eztoc_modify_process_page_content', $this->post->post_content );
+		$content = apply_filters( 'eztoc_modify_process_page_content', $content );
 		
 		// Fix for wordpress category pages showing wrong toc if they have description
 		if(is_category()){
@@ -501,7 +501,7 @@ class ezTOC_Post {
 		//This is legacy hook,it will be removed in future versions
 		$selectors = apply_filters( 'ez_toc_exclude_by_selector', array( '.ez-toc-exclude-headings' ), $content ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
 		//This is the new hook , it should be used instead of the legacy one.
-		$selectors = apply_filters( 'eztoc_exclude_by_selector', array( '.ez-toc-exclude-headings' ), $content );
+		$selectors = apply_filters( 'eztoc_exclude_by_selector', $selectors, $content );
 		$selectors = ! is_array( $selectors ) ? [] : $selectors; // In case we get string instead of array
 		$nodes = $html->Find( implode( ',', $selectors ) );
 		if(isset($nodes['ids'])){
@@ -615,20 +615,7 @@ class ezTOC_Post {
 	 */
 	private function inExcludedNode( $string ) {
 
-		foreach ( $this->excludedNodes as $node ) {
-
-			if ( empty( $node ) || empty( $string ) ) {
-
-				return false;
-			}
-
-			if ( false !== strpos( $node, $string ) ) {
-
-				return true;
-			}
-		}
-
-		return false;
+		return apply_filters('eztoc_pro_excluded_node_check', false , $this->excludedNodes, $string);
 	}
 
 	/**

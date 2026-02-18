@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 5.6.20
-Stable tag: 2.0.80
+Stable tag: 2.0.81
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,12 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.81 18/02/2026 =
+* Fixed: Make "Exclude Headings by Class" work if class is contained inside the heading #941
+* Fixed: CSRF vulnerabilty in <= 2.0.80  reported by Patchstack (Mike Montoya)
+* Fixed: Import not working #938
+* Compatibility: Compatibility with hubbub pro #939
+
 = 2.0.80 31/12/2025 =
 * Fixed: Alternate heading option is not working #932
 * Fixed: View more is not working properly #933
