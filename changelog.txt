@@ -1,4 +1,10 @@
 == Changelog ==
+= 2.0.81 18/02/2026 =
+* Fixed: Make "Exclude Headings by Class" work if class is contained inside the heading #941
+* Fixed: CSRF vulnerabilty in <= 2.0.80  reported by Patchstack (Mike Montoya)
+* Fixed: Import not working #938
+* Compatibility: Compatibility with hubbub pro #939
+
 = 2.0.80 31/12/2025 =
 * Fixed: Alternate heading option is not working #932
 * Fixed: View more is not working properly #933
