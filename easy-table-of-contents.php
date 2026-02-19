@@ -537,9 +537,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				//This is the new hook , it should be used instead of the legacy one.
 				$eztoc_smscroll_jsfile_filter =  apply_filters('eztoc_smscroll_jsfile_filter',EZ_TOC_URL . "assets/js/smooth_scroll{$min}.js");
 				wp_register_script( 'ez-toc-scroll-scriptjs', $eztoc_smscroll_jsfile_filter, array( 'jquery' ), ezTOC::VERSION, $in_footer );
+				wp_register_script( 'ez-toc-elementor-anchor-fix', EZ_TOC_URL . 'assets/js/elementor-toc-anchor-fix.js', array(), ezTOC::VERSION, $in_footer );
 				self::localize_scripts();
 																													
 				if ( self::is_enqueue_scripts_eligible() ) {
+					if ( eztoc_is_plugin_active( 'elementor/elementor.php' ) ) {
+						wp_enqueue_script( 'ez-toc-elementor-anchor-fix' );
+					}
 					self::enqueue_registered_script();	
 					self::enqueue_registered_style();	
 					self::inline_main_counting_css();
