@@ -73,7 +73,7 @@ function eztoc_send_feedback() {
     }
     
     $text = '';
-    if( isset( $form['eztoc_disable_text'] ) && !is_array($form['eztoc_disable_text']) ) {
+    if( isset( $form['eztoc_disable_text'] ) && is_array($form['eztoc_disable_text']) ) {
         $text = implode( "\n\r", $form['eztoc_disable_text'] );
     }
 
@@ -81,8 +81,8 @@ function eztoc_send_feedback() {
 
     $from = isset( $form['eztoc_disable_from'] ) ? $form['eztoc_disable_from'] : '';
     if( $from ) {
-        $headers[] = "From: $from";
-        $headers[] = "Reply-To: $from";
+        $headers[] = "From: " . sanitize_email( $from );
+        $headers[] = "Reply-To: " . sanitize_email( $from );
     }
 
     $subject = isset( $form['eztoc_disable_reason'] ) ? $form['eztoc_disable_reason'] : '(no reason given)';

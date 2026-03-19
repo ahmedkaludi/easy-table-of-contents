@@ -360,39 +360,42 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                     }
                     ?>
 
-                    <?php if(isset($instance[ 'sidebar_sticky_title_size' ]) && isset($instance[ 'sidebar_sticky_title_size_unit' ])){
-                            $title_font_size = $instance[ 'sidebar_sticky_title_size' ].$instance[ 'sidebar_sticky_title_size_unit' ];
-                        }else{
+                    <?php
+                        if ( isset( $instance['sidebar_sticky_title_size'] ) && isset( $instance['sidebar_sticky_title_size_unit'] ) ) {
+                            $title_unit = ezTOC::sanitize_css_unit( $instance['sidebar_sticky_title_size_unit'], array( '%', 'px', 'pt', 'em', 'rem', 'vw', 'vh' ), '%' );
+                            $title_font_size = (int) $instance['sidebar_sticky_title_size'] . $title_unit;
+                        } else {
                             $title_font_size = '120%';
-                        } ?>
+                        }
+                    ?>
 
                     <span class="ez-toc-widget-sticky-title-container">
                         <style>
                             #<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-title , .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-title {
                                 font-size: <?php echo esc_attr ( $title_font_size ); ?>;
                                 font-weight: <?php echo esc_attr ( isset($instance[ 'sidebar_sticky_title_weight' ]) ? $instance[ 'sidebar_sticky_title_weight' ] : '' ); ?>;
-                                color: <?php echo esc_attr (isset($instance[ 'sidebar_sticky_title_color' ]) ? $instance[ 'sidebar_sticky_title_color' ] : '' ); ?>;
+                                color: <?php echo esc_attr( isset( $instance['sidebar_sticky_title_color'] ) ? ezTOC::sanitize_css_color( $instance['sidebar_sticky_title_color'] ) : '' ); ?>;
                             }
                             #<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-list li a , .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-list li a{
 												<?php if( isset ( $instance[ 'sidebar_sticky_size' ] ) && isset($instance[ 'sidebar_sticky_size_unit' ]) ){ ?>
-			                                    font-size: <?php echo esc_attr ( $instance[ 'sidebar_sticky_size' ].$instance[ 'sidebar_sticky_size_unit' ] ); } ?>;
+			                                    font-size: <?php echo esc_attr( (int) $instance['sidebar_sticky_size'] . ezTOC::sanitize_css_unit( $instance['sidebar_sticky_size_unit'], array( '%', 'px', 'pt', 'em', 'rem', 'vw', 'vh' ), '%' ) ); } ?>;
 												<?php if( isset ( $instance[ 'sidebar_sticky_weight' ] ) && ! empty( $instance[ 'sidebar_sticky_weight' ] )){ ?>
 			                                    font-weight: <?php echo esc_attr ( $instance[ 'sidebar_sticky_weight' ] ); } ?>;
 												<?php if( isset ( $instance[ 'sidebar_sticky_color' ] ) && ! empty($instance[ 'sidebar_sticky_color' ])){ ?>
-			                                    color: <?php echo esc_attr ( $instance[ 'sidebar_sticky_color' ] ); } ?>;
+			                                    color: <?php echo esc_attr( ezTOC::sanitize_css_color( $instance['sidebar_sticky_color'] ) ); } ?>;
 
 							}
                             #<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-container ul.ez-toc-widget-sticky-list li.active > a, .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> ul.ez-toc-widget-sticky-list li.active > a{
-                                background-color: <?php echo esc_attr ( isset($instance[ 'highlight_color' ]) ? $instance[ 'highlight_color' ] : '' ); ?>;
-                                color: <?php echo esc_attr ( isset($instance[ 'active_section_text_color' ]) ? $instance[ 'active_section_text_color' ] : '' ); ?>;
+                                background-color: <?php echo esc_attr( isset( $instance['highlight_color'] ) ? ezTOC::sanitize_css_color( $instance['highlight_color'] ) : '' ); ?>;
+                                color: <?php echo esc_attr( isset( $instance['active_section_text_color'] ) ? ezTOC::sanitize_css_color( $instance['active_section_text_color'] ) : '' ); ?>;
                             }
                             <?php if (!empty($instance['toc_background_color'])): ?>
-                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> { background-color: <?php echo esc_attr($instance['toc_background_color']); ?> !important; }
-                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-sidebar { background-color: <?php echo esc_attr($instance['toc_background_color']); ?> !important; }
+                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> { background-color: <?php echo esc_attr( ezTOC::sanitize_css_color( $instance['toc_background_color'] ) ); ?> !important; }
+                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-sidebar { background-color: <?php echo esc_attr( ezTOC::sanitize_css_color( $instance['toc_background_color'] ) ); ?> !important; }
                             <?php endif; ?>
                             <?php if (!empty($instance['toc_title_background_color'])): ?>
-                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-title-container { background-color: <?php echo esc_attr($instance['toc_title_background_color']); ?> !important; }
-                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-sticky-title-container { background-color: <?php echo esc_attr($instance['toc_title_background_color']); ?> !important; }
+                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-title-container { background-color: <?php echo esc_attr( ezTOC::sanitize_css_color( $instance['toc_title_background_color'] ) ); ?> !important; }
+                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-sticky-title-container { background-color: <?php echo esc_attr( ezTOC::sanitize_css_color( $instance['toc_title_background_color'] ) ); ?> !important; }
                             <?php endif; ?>
                         </style>
                         <?php

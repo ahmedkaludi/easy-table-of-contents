@@ -829,13 +829,16 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		public function eztoc_send_query_message(){   
 		    
 		        if ( ! isset( $_POST['eztoc_security_nonce'] ) ){
-		           return; 
+		           echo wp_json_encode(array('status'=>'f'));
+				   return;   
 		        }
 		        if ( !wp_verify_nonce( wp_unslash( $_POST['eztoc_security_nonce'] ), 'eztoc_ajax_check_nonce' ) ){ //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		           return;  
+		          echo wp_json_encode(array('status'=>'f'));
+				  return;
 		        }   
 				if ( !current_user_can( 'manage_options' ) ) {
-					return;  					
+					echo wp_json_encode(array('status'=>'f'));
+					return;   					
 				}
 		        $message        = isset($_POST['message']) ? $this->eztoc_sanitize_textarea_field(wp_unslash( $_POST['message'] )) : ''; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		        $email          = isset($_POST['email']) ? sanitize_email(wp_unslash( $_POST['email'])) : '';
@@ -858,8 +861,8 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		            $subject   = "Easy Table of Content Query";
 		            
 		            $headers[] = 'Content-Type: text/html; charset=UTF-8';
-		            $headers[] = 'From: '. esc_attr($user_email);            
-		            $headers[] = 'Reply-To: ' . esc_attr($user_email);
+		            $headers[] = 'From: '. sanitize_email($user_email);            
+		            $headers[] = 'Reply-To: ' . sanitize_email($user_email);
 		            // Load WP components, no themes.   
 
 		            $sent = wp_mail($sendto, $subject, $message, $headers); 
