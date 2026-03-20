@@ -148,7 +148,7 @@ function eztoc_enqueue_bfcm_assets($hook) {
 
     // 4. Register & Enqueue CSS    
     wp_enqueue_style(
-        'etoc-bfcm-style', 
+        'eztoc-bfcm-style', 
         EZ_TOC_URL. 'assets/css/bfcm-style.css', 
         array(), 
         '1.0'
@@ -156,7 +156,7 @@ function eztoc_enqueue_bfcm_assets($hook) {
 
     // 5. Register & Enqueue JS
     wp_enqueue_script(
-        'etoc-bfcm-script', 
+        'eztoc-bfcm-script', 
         EZ_TOC_URL. 'assets/js/bfcm-script.js', 
         array('jquery'), // jQuery dependency
         '1.0', 
@@ -164,7 +164,7 @@ function eztoc_enqueue_bfcm_assets($hook) {
     );
 
     // 6. Data Pass (PHP to JS)
-    wp_localize_script('etoc-bfcm-script', 'bfcmData', array(
+    wp_localize_script('eztoc-bfcm-script', 'bfcmData', array(
         'targetDate' => $expiry_date_str,
         'offerLink'  => $offer_link
     ));

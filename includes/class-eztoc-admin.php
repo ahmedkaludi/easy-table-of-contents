@@ -99,10 +99,10 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 					wp_enqueue_script ( 'wp-pointer' );						
 			}	
 			$min = defined ( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-			wp_register_script( 'cn_toc_admin_script', EZ_TOC_URL . "assets/js/admin{$min}.js", array( 'jquery', 'wp-color-picker' ), ezTOC::VERSION, true );
-			wp_register_style( 'cn_toc_admin_style', EZ_TOC_URL . "assets/css/admin{$min}.css", array( 'wp-color-picker' ), ezTOC::VERSION );
+			wp_register_script( 'eztoc_admin_script', EZ_TOC_URL . "assets/js/admin{$min}.js", array( 'jquery', 'wp-color-picker' ), ezTOC::VERSION, true );
+			wp_register_style( 'eztoc_admin_style', EZ_TOC_URL . "assets/css/admin{$min}.css", array( 'wp-color-picker' ), ezTOC::VERSION );
 
-			wp_enqueue_script( 'cn_toc_admin_script' );
+			wp_enqueue_script( 'eztoc_admin_script' );
             $data = array(
                 'ajax_url'      		       => admin_url( 'admin-ajax.php' ),
                 'eztoc_security_nonce'         => wp_create_nonce('eztoc_ajax_check_nonce'),
@@ -111,7 +111,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 
             $data = apply_filters( 'eztoc_localize_filter', $data, 'eztoc_admin_data' );
 
-            wp_localize_script( 'cn_toc_admin_script', 'cn_toc_admin_data', $data );
+            wp_localize_script( 'eztoc_admin_script', 'eztoc_admin_data', $data );
 		}
 				                
 		/**
@@ -146,8 +146,8 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 */
 		public function enqueueScripts() {
 
-			wp_enqueue_script( 'cn_toc_admin_script' );
-			wp_enqueue_style( 'cn_toc_admin_style' );
+			wp_enqueue_script( 'eztoc_admin_script' );
+			wp_enqueue_style( 'eztoc_admin_style' );
 		}
 
 		/**
