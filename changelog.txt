@@ -1,4 +1,9 @@
 == Changelog ==
+= 2.0.82 20/03/2026 =
+* Fixed: Underlined Header Issue in elementor text editor #944
+* Fixed: 'Disable Sticky TOC' setting ignored (Pro filter result overwritten by free plugin) #940
+* Fixed: Authenticated (Contributor+) CSS Injection in <= 2.0.80  reported by Wordfence (type5afe)
+
 = 2.0.81 18/02/2026 =
 * Fixed: Make "Exclude Headings by Class" work if class is contained inside the heading #941
 * Fixed: CSRF vulnerabilty in <= 2.0.80  reported by Patchstack (Mike Montoya)

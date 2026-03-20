@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 5.6.20
-Stable tag: 2.0.81
+Stable tag: 2.0.82
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,11 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.82 20/03/2026 =
+* Fixed: Underlined Header Issue in elementor text editor #944
+* Fixed: 'Disable Sticky TOC' setting ignored (Pro filter result overwritten by free plugin) #940
+* Fixed: Authenticated (Contributor+) CSS Injection in <= 2.0.80  reported by Wordfence (type5afe)
+
 = 2.0.81 18/02/2026 =
 * Fixed: Make "Exclude Headings by Class" work if class is contained inside the heading #941
 * Fixed: CSRF vulnerabilty in <= 2.0.80  reported by Patchstack (Mike Montoya)
@@ -262,23 +267,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 = 2.0.67.1 19/06/2024 =
 * Bug: Plugin Does Not Save Changes in recent version 2.0.67 #771
-
-= 2.0.67 18/06/2024 =
-* New: Read Time in Minutes option for individual posts and set the translation for reading time. #763
-* New: Exclude heading by id option #768
-* New: Exclude TOC added using shortcode on specific pages/posts [post_not_in="1,2"] #758
-* Compatibility: Added compatibility with the theme StoreHub #760
-* Compatibility: Conflict issue with custom theme(user specific issue) #750
-* Compatibility: Conflict issue with DIVI theme #749
-* Bug: Highlight Heading colors are not getting customized #755
-* Bug: Sticky TOC appears on homepage without enabling option when front page is set #754
-* Bug: TOC is showing on homepage's post's excerpt Avada theme conflict #757
-* Fix: Passing null to parameter #1 ($string) of type string is deprecated #769
-* Fix: Patched Security Vulnerability disclosed by Dmitrii Ignatyev from cleantalk.org
-
-= 2.0.66.1 15/05/2024 =
-* Bug: ETOC version 2.0.66 giving **Fatal error**: Uncaught TypeError: method_exists() #752
-
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)
 

@@ -431,7 +431,7 @@ function eztoc_stikcy_enable_support_status() {
     //This is legacy filter, will be removed in future updates.
     $eztoc_sticky_enable_support = apply_filters( 'ez_toc_sticky_enable_support', $status ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
     //This is new filter, please use this for future compatibility
-    $eztoc_sticky_enable_support = apply_filters( 'eztoc_sticky_enable_support', $status );
+    $eztoc_sticky_enable_support = apply_filters( 'eztoc_sticky_enable_support', $eztoc_sticky_enable_support );
 
     return $eztoc_sticky_enable_support;
 

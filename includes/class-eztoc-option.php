@@ -101,7 +101,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			//phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Nonce is already verified in the settings page
 			if(isset($_FILES['eztoc_import_backup']) && !empty($_FILES['eztoc_import_backup']['name'])){
 				//phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Nonce is already verified in the settings page
-				$file_error = isset($_FILES['eztoc_import_backup']['error']) ? $_FILES['eztoc_import_backup']['error'] : UPLOAD_ERR_NO_FILE;
+				$file_error = isset($_FILES['eztoc_import_backup']['error']) ? sanitize_text_field($_FILES['eztoc_import_backup']['error']) : UPLOAD_ERR_NO_FILE;
 				
 				// Check for file upload errors
 				if($file_error !== UPLOAD_ERR_OK){
@@ -119,7 +119,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 					$import_error = true;
 				} else {
 					//phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Nonce is already verified in the settings page
-					$eztoc_import_backup_name_original = isset($_FILES['eztoc_import_backup']['name']) ? wp_unslash($_FILES["eztoc_import_backup"]["name"]) : '';
+					$eztoc_import_backup_name_original = isset($_FILES['eztoc_import_backup']['name']) ? sanitize_text_field(wp_unslash($_FILES["eztoc_import_backup"]["name"])) : '';
 					$eztoc_import_backup_name = sanitize_file_name($eztoc_import_backup_name_original);
 					
 					// Check file extension directly (more reliable than wp_check_filetype for JSON)
@@ -131,7 +131,7 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 					
 					// Check file extension
 					if (empty($file_extension) || $file_extension !== 'json') {
-						add_settings_error('ez-toc-settings', 'import_file_type', sprintf(esc_html__('Import failed: Please upload a valid JSON file. File extension must be .json (detected extension: %s)', 'easy-table-of-contents'), $file_extension ? $file_extension : esc_html__('none', 'easy-table-of-contents')), 'error');
+						add_settings_error('ez-toc-settings', 'import_file_type', sprintf(/* translators: %s: file extension */ esc_html__('Import failed: Please upload a valid JSON file. File extension must be .json (detected extension: %s)', 'easy-table-of-contents'), $file_extension ? $file_extension : esc_html__('none', 'easy-table-of-contents')), 'error');
 						$import_error = true;
 					} else {
 						//phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Nonce is already verified in the settings page

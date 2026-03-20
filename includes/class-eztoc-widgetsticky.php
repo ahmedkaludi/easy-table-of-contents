@@ -73,8 +73,8 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
             wp_enqueue_script ( 'underscore' );
 
             $widgetStickyAdminCSSVersion = ezTOC::VERSION . '-' . filemtime ( EZ_TOC_PATH . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "css" . DIRECTORY_SEPARATOR . "ez-toc-widget-sticky-admin$min.css" );
-            wp_register_style ( 'ez-toc-widget-sticky-admin', EZ_TOC_URL . "assets/css/ez-toc-widget-sticky-admin$min.css", array(), $widgetStickyAdminCSSVersion );
-            wp_enqueue_style ( 'ez-toc-widget-sticky-admin', EZ_TOC_URL . "assets/css/ez-toc-widget-sticky-admin$min.css", array(), $widgetStickyAdminCSSVersion );
+            wp_register_style ( 'eztoc-widget-sticky-admin', EZ_TOC_URL . "assets/css/ez-toc-widget-sticky-admin$min.css", array(), $widgetStickyAdminCSSVersion );
+            wp_enqueue_style ( 'eztoc-widget-sticky-admin', EZ_TOC_URL . "assets/css/ez-toc-widget-sticky-admin$min.css", array(), $widgetStickyAdminCSSVersion );
         }
 
         /**
@@ -360,39 +360,42 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
                     }
                     ?>
 
-                    <?php if(isset($instance[ 'sidebar_sticky_title_size' ]) && isset($instance[ 'sidebar_sticky_title_size_unit' ])){
-                            $title_font_size = $instance[ 'sidebar_sticky_title_size' ].$instance[ 'sidebar_sticky_title_size_unit' ];
-                        }else{
+                    <?php
+                        if ( isset( $instance['sidebar_sticky_title_size'] ) && isset( $instance['sidebar_sticky_title_size_unit'] ) ) {
+                            $title_unit = ezTOC::sanitize_css_unit( $instance['sidebar_sticky_title_size_unit'], array( '%', 'px', 'pt', 'em', 'rem', 'vw', 'vh' ), '%' );
+                            $title_font_size = (int) $instance['sidebar_sticky_title_size'] . $title_unit;
+                        } else {
                             $title_font_size = '120%';
-                        } ?>
+                        }
+                    ?>
 
                     <span class="ez-toc-widget-sticky-title-container">
                         <style>
                             #<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-title , .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-title {
                                 font-size: <?php echo esc_attr ( $title_font_size ); ?>;
                                 font-weight: <?php echo esc_attr ( isset($instance[ 'sidebar_sticky_title_weight' ]) ? $instance[ 'sidebar_sticky_title_weight' ] : '' ); ?>;
-                                color: <?php echo esc_attr (isset($instance[ 'sidebar_sticky_title_color' ]) ? $instance[ 'sidebar_sticky_title_color' ] : '' ); ?>;
+                                color: <?php echo esc_attr( isset( $instance['sidebar_sticky_title_color'] ) ? ezTOC::sanitize_css_color( $instance['sidebar_sticky_title_color'] ) : '' ); ?>;
                             }
                             #<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-list li a , .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-list li a{
 												<?php if( isset ( $instance[ 'sidebar_sticky_size' ] ) && isset($instance[ 'sidebar_sticky_size_unit' ]) ){ ?>
-			                                    font-size: <?php echo esc_attr ( $instance[ 'sidebar_sticky_size' ].$instance[ 'sidebar_sticky_size_unit' ] ); } ?>;
+			                                    font-size: <?php echo esc_attr( (int) $instance['sidebar_sticky_size'] . ezTOC::sanitize_css_unit( $instance['sidebar_sticky_size_unit'], array( '%', 'px', 'pt', 'em', 'rem', 'vw', 'vh' ), '%' ) ); } ?>;
 												<?php if( isset ( $instance[ 'sidebar_sticky_weight' ] ) && ! empty( $instance[ 'sidebar_sticky_weight' ] )){ ?>
 			                                    font-weight: <?php echo esc_attr ( $instance[ 'sidebar_sticky_weight' ] ); } ?>;
 												<?php if( isset ( $instance[ 'sidebar_sticky_color' ] ) && ! empty($instance[ 'sidebar_sticky_color' ])){ ?>
-			                                    color: <?php echo esc_attr ( $instance[ 'sidebar_sticky_color' ] ); } ?>;
+			                                    color: <?php echo esc_attr( ezTOC::sanitize_css_color( $instance['sidebar_sticky_color'] ) ); } ?>;
 
 							}
                             #<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-container ul.ez-toc-widget-sticky-list li.active > a, .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> ul.ez-toc-widget-sticky-list li.active > a{
-                                background-color: <?php echo esc_attr ( isset($instance[ 'highlight_color' ]) ? $instance[ 'highlight_color' ] : '' ); ?>;
-                                color: <?php echo esc_attr ( isset($instance[ 'active_section_text_color' ]) ? $instance[ 'active_section_text_color' ] : '' ); ?>;
+                                background-color: <?php echo esc_attr( isset( $instance['highlight_color'] ) ? ezTOC::sanitize_css_color( $instance['highlight_color'] ) : '' ); ?>;
+                                color: <?php echo esc_attr( isset( $instance['active_section_text_color'] ) ? ezTOC::sanitize_css_color( $instance['active_section_text_color'] ) : '' ); ?>;
                             }
                             <?php if (!empty($instance['toc_background_color'])): ?>
-                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> { background-color: <?php echo esc_attr($instance['toc_background_color']); ?> !important; }
-                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-sidebar { background-color: <?php echo esc_attr($instance['toc_background_color']); ?> !important; }
+                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> { background-color: <?php echo esc_attr( ezTOC::sanitize_css_color( $instance['toc_background_color'] ) ); ?> !important; }
+                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-sidebar { background-color: <?php echo esc_attr( ezTOC::sanitize_css_color( $instance['toc_background_color'] ) ); ?> !important; }
                             <?php endif; ?>
                             <?php if (!empty($instance['toc_title_background_color'])): ?>
-                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-title-container { background-color: <?php echo esc_attr($instance['toc_title_background_color']); ?> !important; }
-                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-sticky-title-container { background-color: <?php echo esc_attr($instance['toc_title_background_color']); ?> !important; }
+                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-widget-sticky-title-container { background-color: <?php echo esc_attr( ezTOC::sanitize_css_color( $instance['toc_title_background_color'] ) ); ?> !important; }
+                            .ez-toc-widget-sticky-container-<?php echo esc_attr($this->id) ?> .ez-toc-sticky-title-container { background-color: <?php echo esc_attr( ezTOC::sanitize_css_color( $instance['toc_title_background_color'] ) ); ?> !important; }
                             <?php endif; ?>
                         </style>
                         <?php
@@ -485,17 +488,17 @@ if ( ! class_exists ( 'ezTOC_WidgetSticky' ) )
 
                 // Enqueue the script.
                 $widgetCSSVersion = ezTOC::VERSION . '-' . filemtime ( EZ_TOC_PATH . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "css" . DIRECTORY_SEPARATOR . "ez-toc-widget-sticky$min.css" );
-                wp_register_style ( 'ez-toc-widget-sticky', EZ_TOC_URL . "assets/css/ez-toc-widget-sticky$min.css", array(), $widgetCSSVersion );
-                wp_enqueue_style ( 'ez-toc-widget-sticky', EZ_TOC_URL . "assets/css/ez-toc-widget-sticky$min.css", array(), $widgetCSSVersion );
+                wp_register_style ( 'eztoc-widget-sticky', EZ_TOC_URL . "assets/css/ez-toc-widget-sticky$min.css", array(), $widgetCSSVersion );
+                wp_enqueue_style ( 'eztoc-widget-sticky', EZ_TOC_URL . "assets/css/ez-toc-widget-sticky$min.css", array(), $widgetCSSVersion );
 
-                wp_add_inline_style ( 'ez-toc-widget-sticky', ezTOC::inline_counting_css ( ezTOC_Option::get ( 'heading-text-direction', 'ltr' ), 'ez-toc-widget-sticky-direction', 'ez-toc-widget-sticky-container', 'counter', 'ez-toc-widget-sticky-container' ) );
+                wp_add_inline_style ( 'eztoc-widget-sticky', ezTOC::inline_counting_css ( ezTOC_Option::get ( 'heading-text-direction', 'ltr' ), 'eztoc-widget-sticky-direction', 'eztoc-widget-sticky-container', 'counter', 'eztoc-widget-sticky-container' ) );
                 
                 $widgetJSVersion = ezTOC::VERSION . '-' . filemtime ( EZ_TOC_PATH . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "js" . DIRECTORY_SEPARATOR . "ez-toc-widget-sticky$min.js" );
-                wp_register_script ( 'ez-toc-widget-stickyjs', EZ_TOC_URL . "assets/js/ez-toc-widget-sticky$min.js", array( 'jquery' ), $widgetJSVersion , true);
-                wp_enqueue_script ( 'ez-toc-widget-stickyjs', EZ_TOC_URL . "assets/js/ez-toc-widget-sticky$min.js", array( 'jquery' ), $widgetJSVersion , true);
+                wp_register_script ( 'eztoc-widget-stickyjs', EZ_TOC_URL . "assets/js/ez-toc-widget-sticky$min.js", array( 'jquery' ), $widgetJSVersion , true);
+                wp_enqueue_script ( 'eztoc-widget-stickyjs', EZ_TOC_URL . "assets/js/ez-toc-widget-sticky$min.js", array( 'jquery' ), $widgetJSVersion , true);
                 if ( 0 < count ( $js_vars ) )
                 {
-                    wp_localize_script ( 'ez-toc-widget-stickyjs', 'ezTocWidgetSticky', $js_vars );
+                    wp_localize_script ( 'eztoc-widget-stickyjs', 'ezTocWidgetSticky', $js_vars );
                 }
             }
         }
