@@ -930,7 +930,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if ( ! ezTOC_Option::get( 'inline_css' ) ) {
 					$css = '';
 					$css = self::inline_counting_css( ezTOC_Option::get( 'heading-text-direction', 'ltr' ), 'ez-toc-sticky-toggle-direction', 'ez-toc-sticky-toggle-counter', 'counter', 'ez-toc-sticky-container' ); 
-					wp_add_inline_style( 'ez-toc-sticky', $css );
+					wp_add_inline_style( 'eztoc-sticky', $css );
 				}
 			}            	                                               
 
@@ -950,7 +950,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$css = '';
 					$css .= self::inline_counting_css( ezTOC_Option::get( 'heading-text-direction', 'ltr' ) );
 					$css .= self::inline_counting_css( ezTOC_Option::get( 'heading-text-direction', 'ltr' ),'ez-toc-widget-direction','ez-toc-widget-container', 'counter', 'ez-toc-widget-container' );            		
-					wp_add_inline_style( 'ez-toc', $css );
+					wp_add_inline_style( 'eztoc', $css );
 				}
 			}
                         
