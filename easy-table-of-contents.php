@@ -780,7 +780,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
          */
 		public static function enqueue_registered_sticky_script(){
 
-			wp_enqueue_script( 'ez-toc-sticky');
+			wp_enqueue_script( 'eztoc-sticky');
 
 		}
                         
