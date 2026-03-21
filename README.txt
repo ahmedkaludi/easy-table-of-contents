@@ -136,6 +136,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 == Changelog ==
 = 2.0.82.1 21/03/2026 =
 * Fixed: Sticky TOC does not open after the latest update (version 2.0.82). #949
+* Fixed: Table Numbers and Sticky TOC Not Rendering (Counter & Sticky Function Failure) #948
 
 = 2.0.82 20/03/2026 =
 * Fixed: Underlined Header Issue in elementor text editor #944
