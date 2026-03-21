@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 5.6.20
-Stable tag: 2.0.82
+Stable tag: 2.0.82.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,9 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.82.1 21/03/2026 =
+* Fixed: Sticky TOC does not open after the latest update (version 2.0.82). #949
+
 = 2.0.82 20/03/2026 =
 * Fixed: Underlined Header Issue in elementor text editor #944
 * Fixed: 'Disable Sticky TOC' setting ignored (Pro filter result overwritten by free plugin) #940
@@ -265,8 +268,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * Fix: Stored XSS Security Vulnerability disclosed by Cleantalk (Dmitrii Ignatyev)
 * Compatibility: Tested with WordPress version 6.6  #780
 
-= 2.0.67.1 19/06/2024 =
-* Bug: Plugin Does Not Save Changes in recent version 2.0.67 #771
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)
 
