@@ -1,4 +1,8 @@
 == Changelog ==
+= 2.0.82.2 26/03/2026 =
+* Fixed: Missing null check for global $post causing PHP warnings in REST API post creation #951
+* Fixed: cn_toc_admin_data is not defined ReferenceError: #950
+
 = 2.0.82.1 21/03/2026 =
 * Fixed: Sticky TOC does not open after the latest update (version 2.0.82). #949
 * Fixed: Table Numbers and Sticky TOC Not Rendering (Counter & Sticky Function Failure) #948

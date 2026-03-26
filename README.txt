@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 5.6.20
-Stable tag: 2.0.82.1
+Stable tag: 2.0.82.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,10 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.82.2 26/03/2026 =
+* Fixed: Missing null check for global $post causing PHP warnings in REST API post creation #951
+* Fixed: cn_toc_admin_data is not defined ReferenceError: #950
+
 = 2.0.82.1 21/03/2026 =
 * Fixed: Sticky TOC does not open after the latest update (version 2.0.82). #949
 * Fixed: Table Numbers and Sticky TOC Not Rendering (Counter & Sticky Function Failure) #948
@@ -264,10 +268,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 = 2.0.68.1 21/07/2024 =
 * Fix: Fatal error when inline css is enabled in  version 2.0.68
-
-= 2.0.68 20/07/2024 =
-* Fix: Stored XSS Security Vulnerability disclosed by Cleantalk (Dmitrii Ignatyev)
-* Compatibility: Tested with WordPress version 6.6  #780
 
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)
