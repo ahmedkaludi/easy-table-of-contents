@@ -744,6 +744,9 @@ add_filter('ez_toc_sidebar_has_toc_filter', 'eztoc_sidebar_has_toc_status_cfs', 
 function eztoc_sidebar_has_toc_status_cfs($status){
 
 	global $post;
+	if ( ! ( $post instanceof WP_Post ) || empty( $post->ID ) ) {
+        return $status;
+    }
 	if(function_exists('CFS')){
 		$fields = CFS()->get(false, $post->ID);
 		if(isset($fields['use_ez_toc']) &&  $fields['use_ez_toc'] == true){
