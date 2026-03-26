@@ -25,7 +25,7 @@ jQuery(document).ready(function ($) {
     $("#reset-options-to-default-button").click(function() {
         let text = "Do you want reset settings to default options?";
         if (confirm(text) == true) {
-            $.post(ajaxurl, { action: 'eztoc_reset_options_to_default', eztoc_security_nonce: cn_toc_admin_data.eztoc_security_nonce },
+            $.post(ajaxurl, { action: 'eztoc_reset_options_to_default', eztoc_security_nonce: eztoc_admin_data.eztoc_security_nonce },
                     function (data) {
                         alert('Default Options Reset Now!');
                         window.location.reload();
@@ -41,7 +41,7 @@ jQuery(document).ready(function ($) {
         var name = $form.find('input[name="name"]').val();
         var email = $form.find('input[name="email"]').val();
         var website = $form.find('input[name="company"]').val();
-        $.post(ajaxurl, {action: 'eztoc_subscribe_newsletter', name: name, email: email, website: website, eztoc_security_nonce: cn_toc_admin_data.eztoc_security_nonce},
+        $.post(ajaxurl, {action: 'eztoc_subscribe_newsletter', name: name, email: email, website: website, eztoc_security_nonce: eztoc_admin_data.eztoc_security_nonce},
                 function (data) {
                     if(data === 'security_nonce_not_verified' ){
                         alert('Security nonce not verified');
@@ -174,10 +174,10 @@ jQuery(document).ready(function ($) {
     
     /* Newletters js starts here */      
         
- if(cn_toc_admin_data.do_tour){
+ if(eztoc_admin_data.do_tour){
                 
-    var  content = '<h3>'+cn_toc_admin_data.translable_txt.using_eztoc+'</h3>';
-         content += '<p>'+cn_toc_admin_data.translable_txt.do_you_want+' <b>'+cn_toc_admin_data.translable_txt.sd_update+'</b> '+cn_toc_admin_data.translable_txt.before_others+'</p>';
+    var  content = '<h3>'+eztoc_admin_data.translable_txt.using_eztoc+'</h3>';
+         content += '<p>'+eztoc_admin_data.translable_txt.do_you_want+' <b>'+eztoc_admin_data.translable_txt.sd_update+'</b> '+eztoc_admin_data.translable_txt.before_others+'</p>';
          content += '<style type="text/css">';
          content += '.wp-pointer-buttons{ padding:0; overflow: hidden; }';
          content += '.wp-pointer-content .button-secondary{  left: -25px;background: transparent;top: 5px; border: 0;position: relative; padding: 0; box-shadow: none;margin: 0;color: #0085ba;} .wp-pointer-content .button-primary{ display:none}  #eztoc_mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }';
@@ -186,9 +186,9 @@ jQuery(document).ready(function ($) {
          content += '<form method="POST" accept-charset="utf-8" id="eztoc-news-letter-form">';
          content += '<div id="eztoc_mc_embed_signup_scroll">';
          content += '<div class="eztoc-mc-field-group" style="    margin-left: 15px;    width: 195px;    float: left;">';
-         content += '<input type="text" name="eztoc_subscriber_name" class="form-control" placeholder="Name" hidden value="'+cn_toc_admin_data.current_user_name+'" style="display:none">';
-         content += '<input type="text" value="'+cn_toc_admin_data.current_user_email+'" name="eztoc_subscriber_email" class="form-control" placeholder="Email*"  style="      width: 180px;    padding: 6px 5px;">';                        
-         content += '<input type="text" name="eztoc_subscriber_website" class="form-control" placeholder="Website" hidden style=" display:none; width: 168px; padding: 6px 5px;" value="'+cn_toc_admin_data.get_home_url+'">';
+         content += '<input type="text" name="eztoc_subscriber_name" class="form-control" placeholder="Name" hidden value="'+eztoc_admin_data.current_user_name+'" style="display:none">';
+         content += '<input type="text" value="'+eztoc_admin_data.current_user_email+'" name="eztoc_subscriber_email" class="form-control" placeholder="Email*"  style="      width: 180px;    padding: 6px 5px;">';                        
+         content += '<input type="text" name="eztoc_subscriber_website" class="form-control" placeholder="Website" hidden style=" display:none; width: 168px; padding: 6px 5px;" value="'+eztoc_admin_data.get_home_url+'">';
          content += '<input type="hidden" name="ml-submit" value="1" />';
          content += '</div>';
          content += '<div id="mce-responses">';                                                
@@ -207,9 +207,9 @@ jQuery(document).ready(function ($) {
            email = $form.find('input[name="eztoc_subscriber_email"]').val();
            website = $form.find('input[name="eztoc_subscriber_website"]').val();                          
            
-           jQuery.post(cn_toc_admin_data.ajax_url,
+           jQuery.post(eztoc_admin_data.ajax_url,
                       {action:'eztoc_subscribe_newsletter',
-                        eztoc_security_nonce:cn_toc_admin_data.eztoc_security_nonce,
+                        eztoc_security_nonce:eztoc_admin_data.eztoc_security_nonce,
                       name:name, email:email, website:website },
              function(data) {
                                
@@ -261,7 +261,7 @@ jQuery(document).ready(function ($) {
                  
  wp_pointers_tour_opts = $.extend (wp_pointers_tour_opts, {
          buttons: function (event, t) {
-                 button= $ ('<a id="pointer-close" class="button-secondary">' + cn_toc_admin_data.button1 + '</a>');
+                 button= $ ('<a id="pointer-close" class="button-secondary">' + eztoc_admin_data.button1 + '</a>');
                  button_2= $ ('#pointer-close.button');
                  button.bind ('click.pointer', function () {
                          t.element.pointer ('close');
@@ -275,7 +275,7 @@ jQuery(document).ready(function ($) {
                  return button;
          },
          close: function () {
-                 $.post (cn_toc_admin_data.ajax_url, {
+                 $.post (eztoc_admin_data.ajax_url, {
                          pointer: 'eztoc_subscribe_pointer',
                          action: 'dismiss-wp-pointer'
                  });
@@ -285,14 +285,14 @@ jQuery(document).ready(function ($) {
        }                                               
  });
  setup = function () {
-         $(cn_toc_admin_data.displayID).pointer(wp_pointers_tour_opts).pointer('open');
-          if (cn_toc_admin_data.button2) {
-            $ ('#pointer-close').after ('<a id="pointer-primary" class="button-primary">' + cn_toc_admin_data.button2+ '</a>');
+         $(eztoc_admin_data.displayID).pointer(wp_pointers_tour_opts).pointer('open');
+          if (eztoc_admin_data.button2) {
+            $ ('#pointer-close').after ('<a id="pointer-primary" class="button-primary">' + eztoc_admin_data.button2+ '</a>');
             $ ('#pointer-primary').click (function () {
-                         cn_toc_admin_data.function_name;
+                         eztoc_admin_data.function_name;
                  });
             $ ('#pointer-close').click (function () {
-                         $.post (cn_toc_admin_data.ajax_url, {
+                         $.post (eztoc_admin_data.ajax_url, {
                                  pointer: 'eztoc_subscribe_pointer',
                                  action: 'dismiss-wp-pointer'
                          });
@@ -554,7 +554,7 @@ no_heading_text();
 jQuery(function($) {
 
     /* AMP Support Option js starts here */
-    if( cn_toc_admin_data.is_amp_activated == 0 ){
+    if( eztoc_admin_data.is_amp_activated == 0 ){
     let tocAMPSupportOption = $('input[name="ez-toc-settings[toc-run-on-amp-pages]"]');
         if (tocAMPSupportOption.length > 0) {
             tocAMPSupportOption.attr('disabled', true);
