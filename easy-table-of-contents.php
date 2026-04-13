@@ -1681,6 +1681,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !eztoc_non_amp() ){
 					return $html;
 				}
+				// Do not render on category/archive/search when content runs in the loop; use eztoc_shortcode_allow_non_singular to override.
+				$explicit_post_id = isset( $atts['post_id'] ) ? absint( $atts['post_id'] ) : 0;
+				if ( ! apply_filters( 'eztoc_shortcode_allow_non_singular', false, $atts, $tag ) && ! $explicit_post_id && ! is_singular() ) {
+					return $html;
+				}
 				//Enqueue css and styles if that has not been added by wp_enqueue_scripts			
 				self::enqueue_registered_script();	
 				self::enqueue_registered_style();	
@@ -1805,7 +1810,20 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					$apply = false;
 				}
 			}
-			                        
+
+			/*
+			 * `[ez-toc]`  Skip any non-singular main-loop post content; term/woo description filters call
+			 * `the_content` directly and are not in the main post loop.
+			 *
+			 * Exception: `include_homepage` (see is_eligible()) must still allow TOC for qualifying posts on the
+			 * front page.
+			 */
+			if ( $apply && ! is_singular() && ( is_home() || ( in_the_loop() && is_main_query() ) ) ) {
+				if ( ! ( true == ezTOC_Option::get( 'include_homepage', false ) && is_front_page() ) ) {
+					$apply = false;
+				}
+			}
+
 			if( function_exists('get_current_screen') ) {
 				$my_current_screen = get_current_screen();
 				if ( isset( $my_current_screen->id )  ) {
