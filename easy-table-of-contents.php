@@ -1874,24 +1874,35 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 *
 		 * @return string
 		 */
-		public static function the_content( $content ) {
-				                    
-			if ( function_exists( 'post_password_required' ) ) {
-				if ( post_password_required() ) return Debug::log()->appendTo( $content );
-			}
-			if( ezTOC_Option::get( 'disable_toc_links' ,false ) ){
+	public static function the_content( $content ) {
+			
+		// Prevent infinite recursion
+		global $eztoc_processing_content;
+		if ( ! empty( $eztoc_processing_content ) ) {
+			return $content;
+		}
+		$eztoc_processing_content = true;
+			                    
+		if ( function_exists( 'post_password_required' ) ) {
+			if ( post_password_required() ) {
+				$eztoc_processing_content = false;
 				return Debug::log()->appendTo( $content );
 			}
-			$maybeApplyFilter = self::maybe_apply_the_content_filter();													
+		}
+		if( ezTOC_Option::get( 'disable_toc_links' ,false ) ){
+			$eztoc_processing_content = false;
+			return Debug::log()->appendTo( $content );
+		}
+		$maybeApplyFilter = self::maybe_apply_the_content_filter();
 			$content = apply_filters( 'eztoc_modify_the_content', $content );
 								
-			Debug::log( 'the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter );
+		Debug::log( 'the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter );
 
-			if ( ! $maybeApplyFilter ) {
-
-				return Debug::log()->appendTo( $content );
-			}
-			// Fix for getting current page id when sub-queries are used on the page
+		if ( ! $maybeApplyFilter ) {
+			$eztoc_processing_content = false;
+			return Debug::log()->appendTo( $content );
+		}
+		// Fix for getting current page id when sub-queries are used on the page
 			$ez_toc_current_post_id = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();
 			$eztoc_current_theme = wp_get_theme();
 			// Bail if post not eligible and widget is not active.
@@ -1937,25 +1948,25 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$eztoc_current_theme = wp_get_theme();
 			if($eztoc_current_theme->get('Name') == 'MicrojobEngine Child'  || class_exists( 'Timber' ) ){
 				$post = self::get( $ez_toc_current_post_id );
-			}else{
-				$post = self::get( get_the_ID());
-			}
-			
-			
-			if ( ! $post instanceof ezTOC_Post ) {
+		}else{
+			$post = self::get( get_the_ID());
+		}
+		
+		
+		if ( ! $post instanceof ezTOC_Post ) {
 
-				Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
-
-				return Debug::log()->appendTo( $content );
-			}
-			 //Bail if no headings found.
-			 if ( ! $post->hasTOCItems() && ezTOC_Option::get( 'no_heading_text' ) != 1) {
-
-			 	return Debug::log()->appendTo( $content );
-			 }
-			         
-			$find    = $post->getHeadings();
-			$replace = $post->getHeadingsWithAnchors();
+			Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
+			$eztoc_processing_content = false;
+			return Debug::log()->appendTo( $content );
+		}
+		 //Bail if no headings found.
+		 if ( ! $post->hasTOCItems() && ezTOC_Option::get( 'no_heading_text' ) != 1) {
+			$eztoc_processing_content = false;
+		 	return Debug::log()->appendTo( $content );
+		 }
+		         
+		$find    = $post->getHeadings();
+		$replace = $post->getHeadingsWithAnchors();
 			$toc 	 = count($options) > 0 ? $post->getTOC($options) : $post->getTOC();
 			$headings = implode( PHP_EOL, $find );
 			$anchors  = implode( PHP_EOL, $replace );
@@ -1978,17 +1989,18 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			);
 			
 
-			if ( $return_only_an ) {
-				Debug::log( 'side_bar_has shortcode', 'Shortcode found, add links to content.', true );
-				return mb_find_replace( $find, $replace, $content );
-			}
-			// If shortcode used or post not eligible, return content with anchored headings.
-			if ( strpos( $content, 'ez-toc-container' ) || ! $isEligible ) {
+		if ( $return_only_an ) {
+			Debug::log( 'side_bar_has shortcode', 'Shortcode found, add links to content.', true );
+			$eztoc_processing_content = false;
+			return mb_find_replace( $find, $replace, $content );
+		}
+		// If shortcode used or post not eligible, return content with anchored headings.
+		if ( strpos( $content, 'ez-toc-container' ) || ! $isEligible ) {
 
-				Debug::log( 'shortcode_found', 'Shortcode found, add links to content.', true );
-
-				return mb_find_replace( $find, $replace, $content );
-			}
+			Debug::log( 'shortcode_found', 'Shortcode found, add links to content.', true );
+			$eztoc_processing_content = false;
+			return mb_find_replace( $find, $replace, $content );
+		}
 			
 			$position  = get_post_meta( get_the_ID(), '_ez-toc-position-specific', true );
 			if (empty($position)) {
@@ -2136,10 +2148,11 @@ if ( ! class_exists( 'ezTOC' ) ) {
 						Debug::log( 'toc_insert_position_not_found', 'Insert TOC before first eligible heading not found.', $result );
 
 					}
-			}
-            
-			return Debug::log()->appendTo( $content );
 		}
+            
+		$eztoc_processing_content = false;
+		return Debug::log()->appendTo( $content );
+	}
 
 		/**
 		 * sticky_toggle_content Method
@@ -2358,6 +2371,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 		
 		if ( ! $isEligible ) {
+			$eztoc_processing_content = false;
 			return Debug::log()->appendTo( $content );
 		}
 		
