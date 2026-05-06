@@ -611,7 +611,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 				if ( ezTOC_Option::get( 'show_heading_text' ) && ezTOC_Option::get( 'visibility' ) ) {
 
-					$width = ezTOC_Option::get( 'width' ) !== 'custom' ? ezTOC_Option::get( 'width' ) : (wp_is_mobile() ? 'auto' : ezTOC_Option::get( 'width_custom' ) . ezTOC_Option::get( 'width_custom_units' ));
+					$width = ezTOC_Option::get( 'width' ) !== 'custom'
+						? ezTOC_Option::get( 'width' )
+						: ( ( ezTOC_Option::get( 'width_custom' ) !== '' )
+							? ezTOC_Option::get( 'width_custom' ) . ezTOC_Option::get( 'width_custom_units' )
+							: 'auto'
+						);
 					$js_vars['visibility_hide_by_default'] = ezTOC_Option::get( 'visibility_hide_by_default' ) ? true : false;
                                 
 					if( true == get_post_meta( $eztoc_post_id, '_ez-toc-visibility_hide_by_default', true ) ){
@@ -879,10 +884,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 						} else {
 
-							$css .= wp_is_mobile() ? 'auto' : ezTOC_Option::get( 'width_custom' ) . ezTOC_Option::get( 'width_custom_units' );
+							$css .= ( ezTOC_Option::get( 'width_custom' ) !== '' )
+								? ezTOC_Option::get( 'width_custom' ) . ezTOC_Option::get( 'width_custom_units' )
+								: 'auto';
 						}
 
 						$css .= ';';
+					}
+
+					if ( 'custom' === ezTOC_Option::get( 'width' ) && '%' !== ezTOC_Option::get( 'width_custom_units' ) ) {
+						$css .= 'max-width: 100%;';
 					}
 
 					$css .= '}';
