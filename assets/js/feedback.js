@@ -37,7 +37,7 @@ jQuery(document).ready(function ($) {
         // Send form data
         $.post(ajaxurl, {
             action: 'eztoc_send_feedback',
-            data: $('#eztoc-reloaded-feedback-content form').serialize() + "&eztoc_security_nonce=" + cn_toc_admin_data.eztoc_security_nonce
+            data: $('#eztoc-reloaded-feedback-content form').serialize() + "&eztoc_security_nonce=" + eztoc_admin_data.eztoc_security_nonce
         },
                 function (data) {
 

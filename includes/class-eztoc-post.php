@@ -232,7 +232,14 @@ class ezTOC_Post {
 		
 		}
 
-		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using WP code hook
+		// Prevent recursive content processing
+		global $eztoc_processing_content;
+		if ( empty( $eztoc_processing_content ) ) {
+			$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using WP code hook
+		} else {
+			// If already processing, just strip shortcodes without applying the_content filter
+			$this->post->post_content = strip_shortcodes( $this->post->post_content );
+		}
 
 		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
 

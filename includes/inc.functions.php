@@ -310,6 +310,9 @@ add_filter('eztoc_wordpress_final_output', function($content){
   //@since 2.0.60
 function eztoc_auto_device_target_status(){
         global $post;
+        if ( ! ( $post instanceof WP_Post ) || empty( $post->ID ) ) {
+            return true;
+        }
         $status = true;
         $global_target = ezTOC_Option::get( 'device_target' );
         $post_target = get_post_meta( $post->ID, '_ez-toc-device-target', true );

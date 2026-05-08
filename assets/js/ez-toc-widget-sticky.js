@@ -23,6 +23,22 @@ ready(() => {
     const tocContainer = document.querySelector('.ez-toc-widget-sticky nav');
     const stickyContainer = document.querySelector('.ez-toc-widget-sticky-container');
 
+    function getTocLinkHeadingId(linkEl) {
+        if (!linkEl) return null;
+
+        // When "Exclude href from url" is enabled, links may use data-href to avoid hash changes.
+        const raw = linkEl.getAttribute('data-href') || linkEl.getAttribute('href');
+        if (!raw) return null;
+
+        const hashIndex = raw.indexOf('#');
+        if (hashIndex === -1) return null;
+
+        const hash = raw.slice(hashIndex);
+        if (!hash || hash === '#') return null;
+
+        return decodeURIComponent(hash.slice(1));
+    }
+
 
 
     // Check if elements exist
@@ -235,6 +251,9 @@ ready(() => {
         mobileToggleBtn.addEventListener('click', function() {
             stickyContainer.classList.add('mobile-overlay', 'show');
             document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            // Ensure overlay remains interactive even if other logic hides/disables the container
+            stickyContainer.style.opacity = '1';
+            stickyContainer.style.pointerEvents = 'auto';
         });
         
         const closeBtn = stickyContainer.querySelector('.ez-toc-mobile-close-btn');
@@ -530,13 +549,8 @@ ready(() => {
         // Find the link that corresponds to the clicked heading
         let targetLink = null;
         allTocLinks.forEach(link => {
-            const href = link.getAttribute('href');
-            if (href && href.startsWith('#')) {
-                const id = href.substring(1);
-                if (id === headingId) {
-                    targetLink = link;
-                }
-            }
+            const id = getTocLinkHeadingId(link);
+            if (id && id === headingId) targetLink = link;
         });
         
         // Add active class to the specific list item containing the link
@@ -572,27 +586,26 @@ ready(() => {
         
         // Build map of all headings and their positions
         allTocLinks.forEach(link => {
-            const href = link.getAttribute('href');
-            if (href && href.startsWith('#')) {
-                const id = href.substring(1);
-                const element = document.getElementById(id);
-                if (element) {
-                    const rect = element.getBoundingClientRect();
-                    const top = rect.top + window.pageYOffset;
-                    const bottom = rect.bottom + window.pageYOffset;
-                    const center = top + (rect.height / 2);
-                    
-                    tocLinkMap.set(id, link);
-                    headingPositions.push({
-                        id: id,
-                        link: link,
-                        top: top,
-                        bottom: bottom,
-                        center: center,
-                        element: element
-                    });
-                }
-            }
+            const id = getTocLinkHeadingId(link);
+            if (!id) return;
+
+            const element = document.getElementById(id);
+            if (!element) return;
+
+            const rect = element.getBoundingClientRect();
+            const top = rect.top + window.pageYOffset;
+            const bottom = rect.bottom + window.pageYOffset;
+            const center = top + (rect.height / 2);
+
+            tocLinkMap.set(id, link);
+            headingPositions.push({
+                id: id,
+                link: link,
+                top: top,
+                bottom: bottom,
+                center: center,
+                element: element
+            });
         });
         
         // Sort headings by their position (top to bottom)
@@ -608,26 +621,24 @@ ready(() => {
             if (activeListItem) {
                 const activeLink = activeListItem.querySelector('a');
                 if (activeLink) {
-                    const activeHref = activeLink.getAttribute('href');
-                    if (activeHref && activeHref.startsWith('#')) {
-                        const activeId = activeHref.substring(1);
-                        const activeHeading = headingPositions.find(h => h.id === activeId);
-                        
-                        if (activeHeading) {
-                            // Only advance to next heading if we've scrolled significantly past the current heading's bottom
-                            const advanceThreshold = activeHeading.bottom + 100; // 100px buffer
-                            
-                            if (viewportTop >= advanceThreshold) {
-                                // Find the next heading
-                                const currentIndex = headingPositions.findIndex(h => h.id === activeId);
-                                if (currentIndex < headingPositions.length - 1) {
-                                    bestHeading = headingPositions[currentIndex + 1];
-                                } else {
-                                    bestHeading = activeHeading; // Stay on last heading
-                                }
+                    const activeId = getTocLinkHeadingId(activeLink);
+                    if (!activeId) return null;
+
+                    const activeHeading = headingPositions.find(h => h.id === activeId);
+                    if (activeHeading) {
+                        // Only advance to next heading if we've scrolled significantly past the current heading's bottom
+                        const advanceThreshold = activeHeading.bottom + 100; // 100px buffer
+
+                        if (viewportTop >= advanceThreshold) {
+                            // Find the next heading
+                            const currentIndex = headingPositions.findIndex(h => h.id === activeId);
+                            if (currentIndex < headingPositions.length - 1) {
+                                bestHeading = headingPositions[currentIndex + 1];
                             } else {
-                                bestHeading = activeHeading; // Keep current heading
+                                bestHeading = activeHeading; // Stay on last heading
                             }
+                        } else {
+                            bestHeading = activeHeading; // Keep current heading
                         }
                     }
                 }
@@ -689,11 +700,8 @@ ready(() => {
             const tocLinkMap = new Map();
             
             allTocLinks.forEach(link => {
-                const href = link.getAttribute('href');
-                if (href && href.startsWith('#')) {
-                    const id = href.substring(1);
-                    tocLinkMap.set(id, link);
-                }
+                const id = getTocLinkHeadingId(link);
+                if (id) tocLinkMap.set(id, link);
             });
             
             // Find the best heading to highlight by checking hierarchy
@@ -709,18 +717,15 @@ ready(() => {
                     const visibleChildIds = [];
                     
                     childLinks.forEach(childLink => {
-                        const childHref = childLink.getAttribute('href');
-                        if (childHref && childHref.startsWith('#')) {
-                            const childId = childHref.substring(1);
-                            const childElement = document.getElementById(childId);
-                            if (childElement) {
-                                const rect = childElement.getBoundingClientRect();
-                                const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-                                if (isVisible) {
-                                    visibleChildIds.push(childId);
-                                }
-                            }
-                        }
+                        const childId = getTocLinkHeadingId(childLink);
+                        if (!childId) return;
+
+                        const childElement = document.getElementById(childId);
+                        if (!childElement) return;
+
+                        const rect = childElement.getBoundingClientRect();
+                        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                        if (isVisible) visibleChildIds.push(childId);
                     });
                     
                     // If child headings are visible, check if any are at the top of viewport
@@ -820,13 +825,8 @@ ready(() => {
         const link = event.target.closest('a');
         if (link) {
             // Get the heading ID from the clicked link
-            const href = link.getAttribute('href');
-            if (href && href.startsWith('#')) {
-                const headingId = href.substring(1);
-                
-                // Immediately highlight the clicked heading
-                highlightHeading(headingId);
-            }
+            const headingId = getTocLinkHeadingId(link);
+            if (headingId) highlightHeading(headingId);
             
             // Close mobile overlay immediately if it's open
             if (isMobileDevice() && stickyContainer.classList.contains('mobile-overlay')) {
@@ -920,6 +920,13 @@ document.addEventListener("DOMContentLoaded", function () {
   
     function checkTOCInsideContent() {
       if (!tocContainer || !postContent) return;
+
+      // If the mobile overlay is open, never hide/disable it (prevents "stuck" scrolling lock).
+      if (tocContainer.classList.contains('mobile-overlay') || tocContainer.classList.contains('show')) {
+        tocContainer.style.opacity = "1";
+        tocContainer.style.pointerEvents = "auto";
+        return;
+      }
   
       const tocRect = tocContainer.getBoundingClientRect();
       const contentRect = postContent.getBoundingClientRect();
