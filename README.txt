@@ -3,9 +3,9 @@ Contributors: magazine3
 Donate link: https://tocwp.com/
 Tags: table of contents, toc
 Requires at least: 5.0
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.82.2
+Stable tag: 2.0.83
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,15 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.83 08/05/2026 =
+* Fixed: TOC menu hamburger gets stucked #945
+* Fixed: ETOC widget sticky shodecode not working properly. #921
+* Fixed: Bug while adding short code #953
+* Fixed: Smooth Scroll and exclude from url not working when using data-href option #956
+* Fixed: Divi 5 Compatibility Issue with Easy TOC Causing Fatal Error #955
+* Fixed: Mobile ignores custom width setting when “User Defined” is selected #958
+* Test: Tested upto WordPress 7.0
+
 = 2.0.82.2 26/03/2026 =
 * Fixed: Missing null check for global $post causing PHP warnings in REST API post creation #951
 * Fixed: cn_toc_admin_data is not defined ReferenceError: #950
@@ -254,20 +263,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 = 2.0.69.1 05/09/2024 =
 * Fix: Fatal error #803
-
-= 2.0.69 28/08/2024 =
-* Fix: Php warning. #788
-* Bug: Sticky ETOC CSS automatically added in homepage #777
-* Fix: Latest Version 2.0.68.1 causing functionality of "Inline CSS" Option in ETOC. #787
-* Fix: SiteNavigation markup issue with Easy TOC #764
-* Bug: The Sticky toggle appears on the homepage If the device target is set as desktop and its apparency is disabled on the Homepage #789
-* Bug: Generate related keyphrase and Keyphrase synonyms are not appearing if the plugin is active #791
-* Tweak: Clean the autoloaded data "ez-toc-post-content-core-level from the database. #793
-* Fix: Auto TOC not getting insert in Product Category Description #797
-* Fix: Copy Shortcode buttons are not working #798
-
-= 2.0.68.1 21/07/2024 =
-* Fix: Fatal error when inline css is enabled in  version 2.0.68
 
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)

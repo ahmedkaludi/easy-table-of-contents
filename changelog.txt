@@ -1,4 +1,13 @@
 == Changelog ==
+= 2.0.83 08/05/2026 =
+* Fixed: TOC menu hamburger gets stucked #945
+* Fixed: ETOC widget sticky shodecode not working properly. #921
+* Fixed: Bug while adding short code #953
+* Fixed: Smooth Scroll and exclude from url not working when using data-href option #956
+* Fixed: Divi 5 Compatibility Issue with Easy TOC Causing Fatal Error #955
+* Fixed: Mobile ignores custom width setting when “User Defined” is selected #958
+* Test: Tested upto WordPress 7.0
+
 = 2.0.82.2 26/03/2026 =
 * Fixed: Missing null check for global $post causing PHP warnings in REST API post creation #951
 * Fixed: cn_toc_admin_data is not defined ReferenceError: #950
