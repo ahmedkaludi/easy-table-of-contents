@@ -251,6 +251,9 @@ ready(() => {
         mobileToggleBtn.addEventListener('click', function() {
             stickyContainer.classList.add('mobile-overlay', 'show');
             document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            // Ensure overlay remains interactive even if other logic hides/disables the container
+            stickyContainer.style.opacity = '1';
+            stickyContainer.style.pointerEvents = 'auto';
         });
         
         const closeBtn = stickyContainer.querySelector('.ez-toc-mobile-close-btn');
@@ -917,6 +920,13 @@ document.addEventListener("DOMContentLoaded", function () {
   
     function checkTOCInsideContent() {
       if (!tocContainer || !postContent) return;
+
+      // If the mobile overlay is open, never hide/disable it (prevents "stuck" scrolling lock).
+      if (tocContainer.classList.contains('mobile-overlay') || tocContainer.classList.contains('show')) {
+        tocContainer.style.opacity = "1";
+        tocContainer.style.pointerEvents = "auto";
+        return;
+      }
   
       const tocRect = tocContainer.getBoundingClientRect();
       const contentRect = postContent.getBoundingClientRect();
