@@ -230,18 +230,13 @@ class ezTOC_Post {
 		*/
 		$this->post->post_content = $this->stripShortcodesButKeepContent($this->post->post_content);
 		
-		}
+	}
 
-		// Prevent recursive content processing
-		global $eztoc_processing_content;
-		if ( empty( $eztoc_processing_content ) ) {
-			$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using WP code hook
-		} else {
-			// If already processing, just strip shortcodes without applying the_content filter
-			$this->post->post_content = strip_shortcodes( $this->post->post_content );
-		}
+	// The ezTOC filter was removed above (line 220), so this is safe from infinite recursion
+	// Even if the_content triggers other filters, ezTOC::the_content won't be called again
+	$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using WP code hook
 
-		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
+	add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
 
 		remove_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ) );
 
@@ -2134,7 +2129,7 @@ class ezTOC_Post {
 			//This is legacy action hook,it will be removed in future versions.
 			$toc_title = apply_filters('ez_toc_sticky_title', ezTOC_Option::get( 'heading_text' )); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
 			//This is the new action hook , it should be used instead of the legacy one.
-			$toc_title = apply_filters('eztoc_sticky_title', ezTOC_Option::get( 'heading_text' ));
+			$toc_title = apply_filters('eztoc_sticky_title', $toc_title);
 		}else{
 			$toc_title = ezTOC_Option::get( 'heading_text' );
 		}
