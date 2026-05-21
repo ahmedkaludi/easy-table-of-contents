@@ -197,6 +197,18 @@ class ezTOC_Post {
 	private function applyContentFilter() {
 
 		/*
+		 * Ultimate FAQ overwrites the global $post while rendering blocks/shortcodes (see set_display_variables).
+		 * Restore it so TOC eligibility and heading extraction target the page being viewed, not the last FAQ.
+		 *
+		 * @since 2.0.83
+		 */
+		$saved_post = null;
+		if ( eztoc_is_plugin_active( 'ultimate-faqs/ultimate-faqs.php' ) ) {
+			global $post;
+			$saved_post = $post;
+		}
+
+		/*
 		 * Parses dynamic blocks out of post_content and re-renders them for gutenberg blocks.
 		 */		
 		if(function_exists('do_blocks')){
@@ -239,6 +251,11 @@ class ezTOC_Post {
 	add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
 
 		remove_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ) );
+
+		if ( null !== $saved_post ) {
+			global $post;
+			$post = $saved_post;
+		}
 
 		return $this;
 	}

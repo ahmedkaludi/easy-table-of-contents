@@ -72,6 +72,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		private static $store = array();
 
 		/**
+		 * Cached flag: main request is archive/search/blog listing (set at template_redirect).
+		 *
+		 * @since 2.0.83
+		 *
+		 * @var bool|null
+		 */
+		private static $eztoc_is_listing_request = null;
+
+		/**
 		 * A dummy constructor to prevent the class from being loaded more than once.
 		 *
 		 * @access public
@@ -164,7 +173,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'ez_toc_inline_sticky_styles' ) );
 			add_action( 'wp_head', array( __CLASS__, 'ez_toc_schema_sitenav_creator' ) );												
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts_for_exclude_css' ) );
-			
+			add_action( 'template_redirect', array( __CLASS__, 'capture_listing_context' ), 0 );
+
 			if ( !self::check_beaver_builder_plugin_active() ) {
 
 				add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
@@ -1793,6 +1803,58 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		/**
+		 * Cache listing context before themes alter query flags in the loop.
+		 *
+		 * @since 2.0.83
+		 */
+		public static function capture_listing_context() {
+
+			if ( null !== self::$eztoc_is_listing_request ) {
+				return;
+			}
+
+			global $wp_the_query;
+
+			self::$eztoc_is_listing_request = false;
+
+			if ( is_feed() ) {
+				return;
+			}
+
+			if ( ! empty( $wp_the_query ) ) {
+				self::$eztoc_is_listing_request = (
+					$wp_the_query->is_archive()
+					|| $wp_the_query->is_search()
+					|| ( $wp_the_query->is_home() && ! $wp_the_query->is_front_page() )
+				);
+			}
+
+			if ( ! self::$eztoc_is_listing_request ) {
+				self::$eztoc_is_listing_request = (
+					is_archive()
+					|| is_search()
+					|| ( is_home() && ! is_front_page() )
+				);
+			}
+		}
+
+		/**
+		 * Whether the main request is an archive/search/blog listing page.
+		 *
+		 * @since 2.0.83
+		 *
+		 * @return bool
+		 */
+		private static function is_listing_request() {
+
+			if ( null === self::$eztoc_is_listing_request ) {
+				self::capture_listing_context();
+			}
+
+			return (bool) self::$eztoc_is_listing_request;
+		}
+
+		/**
 		 * Whether or not apply `the_content` filter.
 		 *
 		 * @since 2.0
@@ -1833,6 +1895,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if ( ! ( true == ezTOC_Option::get( 'include_homepage', false ) && is_front_page() ) ) {
 					$apply = false;
 				}
+			}
+
+			/*
+			 * Some themes replace or mutate $wp_query in the loop so is_archive() becomes false per post.
+			 * Block auto-insert using listing context cached at template_redirect. Term description uses
+			 * the_content with in_the_loop() false.
+			 */
+			if ( $apply && in_the_loop() && self::is_listing_request() ) {
+				$apply = false;
 			}
 
 			if( function_exists('get_current_screen') ) {
