@@ -2182,33 +2182,10 @@ public static function the_content( $content ) {
 					break;	
 				case 'aftercustomimg':
 					$img_index  = get_post_meta( get_the_ID(), '_ez-toc-s_custom_img_number', true );
-					if (empty($img_index)) {
+					if ( empty( $img_index ) ) {
 						$img_index = ezTOC_Option::get( 'custom_img_number' );
 					}
-					if($img_index == 1){
-						$content = insertElementByImgTag( mb_find_replace( $find, $replace, $content ), $toc );
-					}else if($img_index > 1){
-						$closing_img = '</figure>';
-						$imgs = explode( $closing_img, $content );
-						if(!empty($imgs) && is_array($imgs) && $img_index <= count($imgs)){
-							$img_id = $img_index;
-							foreach ($imgs as $index => $img) {
-								if ( trim( $img ) ) {
-									$imgs[$index] .= $closing_img;
-								}
-								$pos = strpos($img, '<figure');
-								if ( $img_id == $index + 1 && $pos !== false ) {
-									$imgs[$index] .= $toc;
-								}
-							}
-							$content = implode( '', $imgs );
-							$content = mb_find_replace( $find, $replace, $content );
-						}else{
-							$content = insertElementByImgTag( mb_find_replace( $find, $replace, $content ), $toc );	
-						}
-					}else{
-						$content = insertElementByImgTag( mb_find_replace( $find, $replace, $content ), $toc );	
-					}
+					$content = insertElementByImgTag( mb_find_replace( $find, $replace, $content ), $toc, max( 1, (int) $img_index ) );
 					break;	
 				case 'before':
 				default:
