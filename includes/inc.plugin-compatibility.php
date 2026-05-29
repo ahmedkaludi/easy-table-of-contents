@@ -120,6 +120,78 @@ add_filter(
 );
 
 /**
+ * Ultimate FAQ Accordion Plugin compatibility.
+ *
+ * FAQ blocks render question/category headings that must not appear in the page TOC.
+ *
+ * @link https://wordpress.org/plugins/ultimate-faqs/
+ * @since 2.0.83
+ */
+add_filter(
+	'ez_toc_exclude_by_selector',
+	'eztoc_ultimate_faqs_exclude_by_selector'
+);
+add_filter(
+	'eztoc_exclude_by_selector',
+	'eztoc_ultimate_faqs_exclude_by_selector'
+);
+/**
+ * Exclude Ultimate FAQ nodes from eligible TOC headings.
+ *
+ * @param array $selectors Selector map passed to ezTOC heading extraction.
+ * @return array
+ */
+function eztoc_ultimate_faqs_exclude_by_selector( $selectors ) {
+
+	if ( ! eztoc_is_plugin_active( 'ultimate-faqs/ultimate-faqs.php' ) ) {
+		return $selectors;
+	}
+
+	$selectors['ultimate-faqs-list']       = '#ewd-ufaq-faq-list';
+	$selectors['ultimate-faqs-faqs']       = '.ewd-ufaq-faqs';
+	$selectors['ultimate-faqs-categories'] = '.ewd-ufaq-faq-categories';
+
+	return $selectors;
+}
+
+add_filter(
+	'ez_toc_strip_shortcodes_tagnames',
+	'eztoc_ultimate_faqs_strip_shortcodes_tagnames',
+	10,
+	2
+);
+add_filter(
+	'eztoc_strip_shortcodes_tagnames',
+	'eztoc_ultimate_faqs_strip_shortcodes_tagnames',
+	10,
+	2
+);
+/**
+ * Strip Ultimate FAQ shortcodes during TOC content processing (memory-fix path).
+ *
+ * @param array  $tags_to_remove Shortcode tags to strip.
+ * @param string $content        Post content being processed.
+ * @return array
+ */
+function eztoc_ultimate_faqs_strip_shortcodes_tagnames( $tags_to_remove, $content ) {
+
+	if ( ! eztoc_is_plugin_active( 'ultimate-faqs/ultimate-faqs.php' ) ) {
+		return $tags_to_remove;
+	}
+
+	$faq_shortcodes = array(
+		'ultimate-faqs',
+		'ultimate-faq-search',
+		'select-faq',
+		'popular-faqs',
+		'recent-faqs',
+		'submit-question',
+	);
+
+	return array_merge( $tags_to_remove, $faq_shortcodes );
+}
+
+/**
  * Do not allow `the_content` TOC callback to run when editing a page in Visual Composer.
  *
  * @link https://wordpress.org/support/topic/correct-method-to-determine-if-using-frontend-editor/#post-12404679

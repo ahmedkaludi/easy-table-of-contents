@@ -495,5 +495,8 @@ label.cssiconcheckbox {
 		column-count: 2;
 	}
 }
+.fusion-footer #ez-toc-container{
+    display: none;
+}
 
 

@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 7.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.83
+Stable tag: 2.0.84
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,13 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.84 29/05/2026 =
+* Fixed: EZ TOC includes rendered shortcode HTML when generating heading text and anchor IDs #961
+* Fixed: Auto Insert After 2nd+ Image Breaks WordPress Gallery Closing </figure> Tag #963
+* Fixed: Duplicate TOC Headings Generated on YOOtheme Builder Pages #964
+* Fixed: Auto-Generated TOC No Longer Works with Ultimate FAQ Accordion After Last Update of ETOC #962
+
+
 = 2.0.83 08/05/2026 =
 * Fixed: TOC menu hamburger gets stucked #945
 * Fixed: ETOC widget sticky shodecode not working properly. #921

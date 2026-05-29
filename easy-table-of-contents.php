@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.83
+ * Version: 2.0.84
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -28,7 +28,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.83
+ * @version  2.0.84
  */
 
 use Eztoc\Table_Of_Contents\Debug;
@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.83';
+		const VERSION = '2.0.84';
 
 		/**
 		 * Stores the instance of this class.
@@ -70,6 +70,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @var array
 		 */
 		private static $store = array();
+
+		/**
+		 * Cached flag: main request is archive/search/blog listing (set at template_redirect).
+		 *
+		 * @since 2.0.83
+		 *
+		 * @var bool|null
+		 */
+		private static $eztoc_is_listing_request = null;
 
 		/**
 		 * A dummy constructor to prevent the class from being loaded more than once.
@@ -164,7 +173,8 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'ez_toc_inline_sticky_styles' ) );
 			add_action( 'wp_head', array( __CLASS__, 'ez_toc_schema_sitenav_creator' ) );												
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts_for_exclude_css' ) );
-			
+			add_action( 'template_redirect', array( __CLASS__, 'capture_listing_context' ), 0 );
+
 			if ( !self::check_beaver_builder_plugin_active() ) {
 
 				add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
@@ -1694,6 +1704,23 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}
 				// Do not render on category/archive/search when content runs in the loop; use eztoc_shortcode_allow_non_singular to override.
 				$explicit_post_id = isset( $atts['post_id'] ) ? absint( $atts['post_id'] ) : 0;
+				/*
+				 * Builders can render full post content inside a "listing" element on a singular page (e.g. a Page
+				 * containing a posts loop). In that case `is_singular()` is true (for the Page), but the shortcode is
+				 * executed while rendering each loop post.
+				 *
+				 * When the current loop post is not the main queried object, do not render the TOC unless the
+				 * shortcode explicitly targets a post via `post_id`.
+				 */
+				if ( ! $explicit_post_id && in_the_loop() && function_exists( 'get_queried_object_id' ) ) {
+					$queried_id = (int) get_queried_object_id();
+					if ( $queried_id && isset( $GLOBALS['post'] ) && $GLOBALS['post'] instanceof WP_Post ) {
+						$current_id = (int) $GLOBALS['post']->ID;
+						if ( $current_id && $current_id !== $queried_id ) {
+							return $html;
+						}
+					}
+				}
 				if ( ! apply_filters( 'eztoc_shortcode_allow_non_singular', false, $atts, $tag ) && ! $explicit_post_id && ! is_singular() ) {
 					return $html;
 				}
@@ -1793,6 +1820,58 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		/**
+		 * Cache listing context before themes alter query flags in the loop.
+		 *
+		 * @since 2.0.83
+		 */
+		public static function capture_listing_context() {
+
+			if ( null !== self::$eztoc_is_listing_request ) {
+				return;
+			}
+
+			global $wp_the_query;
+
+			self::$eztoc_is_listing_request = false;
+
+			if ( is_feed() ) {
+				return;
+			}
+
+			if ( ! empty( $wp_the_query ) ) {
+				self::$eztoc_is_listing_request = (
+					$wp_the_query->is_archive()
+					|| $wp_the_query->is_search()
+					|| ( $wp_the_query->is_home() && ! $wp_the_query->is_front_page() )
+				);
+			}
+
+			if ( ! self::$eztoc_is_listing_request ) {
+				self::$eztoc_is_listing_request = (
+					is_archive()
+					|| is_search()
+					|| ( is_home() && ! is_front_page() )
+				);
+			}
+		}
+
+		/**
+		 * Whether the main request is an archive/search/blog listing page.
+		 *
+		 * @since 2.0.83
+		 *
+		 * @return bool
+		 */
+		private static function is_listing_request() {
+
+			if ( null === self::$eztoc_is_listing_request ) {
+				self::capture_listing_context();
+			}
+
+			return (bool) self::$eztoc_is_listing_request;
+		}
+
+		/**
 		 * Whether or not apply `the_content` filter.
 		 *
 		 * @since 2.0
@@ -1833,6 +1912,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if ( ! ( true == ezTOC_Option::get( 'include_homepage', false ) && is_front_page() ) ) {
 					$apply = false;
 				}
+			}
+
+			/*
+			 * Some themes replace or mutate $wp_query in the loop so is_archive() becomes false per post.
+			 * Block auto-insert using listing context cached at template_redirect. Term description uses
+			 * the_content with in_the_loop() false.
+			 */
+			if ( $apply && in_the_loop() && self::is_listing_request() ) {
+				$apply = false;
 			}
 
 			if( function_exists('get_current_screen') ) {
@@ -1885,34 +1973,70 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 *
 		 * @return string
 		 */
-	public static function the_content( $content ) {
-			
-		// Prevent infinite recursion
-		global $eztoc_processing_content;
-		if ( ! empty( $eztoc_processing_content ) ) {
-			return $content;
-		}
-		$eztoc_processing_content = true;
-			                    
-		if ( function_exists( 'post_password_required' ) ) {
-			if ( post_password_required() ) {
-				$eztoc_processing_content = false;
-				return Debug::log()->appendTo( $content );
-			}
-		}
-		if( ezTOC_Option::get( 'disable_toc_links' ,false ) ){
-			$eztoc_processing_content = false;
+public static function the_content( $content ) {
+		
+	// Prevent infinite recursion - track per post ID
+	// This is a safety net for edge cases where the_content might be called recursively
+	global $eztoc_processing_posts;
+	if ( ! isset( $eztoc_processing_posts ) ) {
+		$eztoc_processing_posts = array();
+	}
+	
+	$current_post_id = function_exists('get_queried_object_id') ? get_queried_object_id() : get_the_ID();
+	
+	// If we're already processing this specific post, bail to prevent recursion
+	if ( in_array( $current_post_id, $eztoc_processing_posts, true ) ) {
+		return $content;
+	}
+	
+	// Add post to processing array to prevent recursion
+	$eztoc_processing_posts[] = $current_post_id;
+
+	/*
+	 * Avada/Fusion and other builders can apply `the_content` filters to widget output (e.g. Fusion "Text"
+	 * widgets in footers). We must not auto-insert a TOC into widget content.
+	 *
+	 * Allow intentional TOC shortcodes in widgets by bailing only when no TOC shortcode/container is present.
+	 */
+	global $wp_current_filter;
+	$widget_context_filters = array(
+		'widget_text',
+		'widget_text_content',
+		'widget_block_content',
+		'widget_custom_html_content',
+		'dynamic_sidebar',
+		'the_widget',
+	);
+	if ( ! empty( $wp_current_filter ) && ! empty( array_intersect( (array) $wp_current_filter, $widget_context_filters ) ) ) {
+		$eztoc_shortcode_tag = apply_filters( 'eztoc_shortcode', 'toc' );
+		$has_toc_shortcode_or_container = ( false !== strpos( $content, 'ez-toc-container' ) )
+			|| has_shortcode( $content, 'ez-toc' )
+			|| has_shortcode( $content, $eztoc_shortcode_tag );
+		if ( ! $has_toc_shortcode_or_container ) {
+			self::cleanup_processing_post( $current_post_id );
 			return Debug::log()->appendTo( $content );
 		}
+	}
+			                    
+	if ( function_exists( 'post_password_required' ) ) {
+		if ( post_password_required() ) {
+			self::cleanup_processing_post( $current_post_id );
+			return Debug::log()->appendTo( $content );
+		}
+	}
+	if( ezTOC_Option::get( 'disable_toc_links' ,false ) ){
+		self::cleanup_processing_post( $current_post_id );
+		return Debug::log()->appendTo( $content );
+	}
 		$maybeApplyFilter = self::maybe_apply_the_content_filter();
 			$content = apply_filters( 'eztoc_modify_the_content', $content );
 								
 		Debug::log( 'the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter );
 
-		if ( ! $maybeApplyFilter ) {
-			$eztoc_processing_content = false;
-			return Debug::log()->appendTo( $content );
-		}
+	if ( ! $maybeApplyFilter ) {
+		self::cleanup_processing_post( $current_post_id );
+		return Debug::log()->appendTo( $content );
+	}
 		// Fix for getting current page id when sub-queries are used on the page
 			$ez_toc_current_post_id = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();
 			$eztoc_current_theme = wp_get_theme();
@@ -1964,17 +2088,17 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 		
 		
-		if ( ! $post instanceof ezTOC_Post ) {
+	if ( ! $post instanceof ezTOC_Post ) {
 
-			Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
-			$eztoc_processing_content = false;
-			return Debug::log()->appendTo( $content );
-		}
-		 //Bail if no headings found.
-		 if ( ! $post->hasTOCItems() && ezTOC_Option::get( 'no_heading_text' ) != 1) {
-			$eztoc_processing_content = false;
-		 	return Debug::log()->appendTo( $content );
-		 }
+		Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
+		self::cleanup_processing_post( $current_post_id );
+		return Debug::log()->appendTo( $content );
+	}
+	 //Bail if no headings found.
+	 if ( ! $post->hasTOCItems() && ezTOC_Option::get( 'no_heading_text' ) != 1) {
+		self::cleanup_processing_post( $current_post_id );
+	 	return Debug::log()->appendTo( $content );
+	 }
 		         
 		$find    = $post->getHeadings();
 		$replace = $post->getHeadingsWithAnchors();
@@ -2000,18 +2124,18 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			);
 			
 
-		if ( $return_only_an ) {
-			Debug::log( 'side_bar_has shortcode', 'Shortcode found, add links to content.', true );
-			$eztoc_processing_content = false;
-			return mb_find_replace( $find, $replace, $content );
-		}
-		// If shortcode used or post not eligible, return content with anchored headings.
-		if ( strpos( $content, 'ez-toc-container' ) || ! $isEligible ) {
+	if ( $return_only_an ) {
+		Debug::log( 'side_bar_has shortcode', 'Shortcode found, add links to content.', true );
+		self::cleanup_processing_post( $current_post_id );
+		return mb_find_replace( $find, $replace, $content );
+	}
+	// If shortcode used or post not eligible, return content with anchored headings.
+	if ( strpos( $content, 'ez-toc-container' ) || ! $isEligible ) {
 
-			Debug::log( 'shortcode_found', 'Shortcode found, add links to content.', true );
-			$eztoc_processing_content = false;
-			return mb_find_replace( $find, $replace, $content );
-		}
+		Debug::log( 'shortcode_found', 'Shortcode found, add links to content.', true );
+		self::cleanup_processing_post( $current_post_id );
+		return mb_find_replace( $find, $replace, $content );
+	}
 			
 			$position  = get_post_meta( get_the_ID(), '_ez-toc-position-specific', true );
 			if (empty($position)) {
@@ -2101,33 +2225,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					break;	
 				case 'aftercustomimg':
 					$img_index  = get_post_meta( get_the_ID(), '_ez-toc-s_custom_img_number', true );
-					if (empty($img_index)) {
+					if ( empty( $img_index ) ) {
 						$img_index = ezTOC_Option::get( 'custom_img_number' );
 					}
-					if($img_index == 1){
-						$content = insertElementByImgTag( mb_find_replace( $find, $replace, $content ), $toc );
-					}else if($img_index > 1){
-						$closing_img = '</figure>';
-						$imgs = explode( $closing_img, $content );
-						if(!empty($imgs) && is_array($imgs) && $img_index <= count($imgs)){
-							$img_id = $img_index;
-							foreach ($imgs as $index => $img) {
-								if ( trim( $img ) ) {
-									$imgs[$index] .= $closing_img;
-								}
-								$pos = strpos($img, '<figure');
-								if ( $img_id == $index + 1 && $pos !== false ) {
-									$imgs[$index] .= $toc;
-								}
-							}
-							$content = implode( '', $imgs );
-							$content = mb_find_replace( $find, $replace, $content );
-						}else{
-							$content = insertElementByImgTag( mb_find_replace( $find, $replace, $content ), $toc );	
-						}
-					}else{
-						$content = insertElementByImgTag( mb_find_replace( $find, $replace, $content ), $toc );	
-					}
+					$content = insertElementByImgTag( mb_find_replace( $find, $replace, $content ), $toc, max( 1, (int) $img_index ) );
 					break;	
 				case 'before':
 				default:
@@ -2158,20 +2259,40 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 						Debug::log( 'toc_insert_position_not_found', 'Insert TOC before first eligible heading not found.', $result );
 
-					}
-		}
+			}
+	}
             
-		$eztoc_processing_content = false;
-		return Debug::log()->appendTo( $content );
+	self::cleanup_processing_post( $current_post_id );
+	return Debug::log()->appendTo( $content );
+}
+
+	/**
+	 * Remove a post ID from the processing array to allow future processing
+	 * 
+	 * @since 2.0.84
+	 * @static
+	 * @param int $post_id The post ID to remove from processing
+	 */
+	private static function cleanup_processing_post( $post_id ) {
+		global $eztoc_processing_posts;
+		
+		if ( ! isset( $eztoc_processing_posts ) || ! is_array( $eztoc_processing_posts ) ) {
+			return;
+		}
+		
+		$key = array_search( $post_id, $eztoc_processing_posts, true );
+		if ( $key !== false ) {
+			unset( $eztoc_processing_posts[ $key ] );
+		}
 	}
 
-		/**
-		 * sticky_toggle_content Method
-		 * Call back for the `wp_footer` action.
-		 *
-		 * @since  2.0.32
-		 * @static
-		 */
+	/**
+	 * sticky_toggle_content Method
+	 * Call back for the `wp_footer` action.
+	 *
+	 * @since  2.0.32
+	 * @static
+	 */
 		public static function sticky_toggle_content() {
 					  
 			  if( self::is_enqueue_scripts_sticky_eligible() ){
@@ -2350,13 +2471,32 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @param string $content
 		 * @return string
 		 */
-		public static function the_content_storehub ( $content ) {
-				                    
-			if( function_exists( 'post_password_required' ) ) {
-				if( post_password_required() ) return Debug::log()->appendTo( $content );
-			}
-		
-			$maybeApplyFilter = self::maybe_apply_the_content_filter();													
+public static function the_content_storehub ( $content ) {
+	
+	// Prevent infinite recursion - track per post ID
+	global $eztoc_processing_posts;
+	if ( ! isset( $eztoc_processing_posts ) ) {
+		$eztoc_processing_posts = array();
+	}
+	
+	$current_post_id = get_the_ID();
+	
+	// If we're already processing this specific post, bail to prevent recursion
+	if ( in_array( $current_post_id, $eztoc_processing_posts, true ) ) {
+		return $content;
+	}
+	
+	// Add post to processing array
+	$eztoc_processing_posts[] = $current_post_id;
+		                    
+	if( function_exists( 'post_password_required' ) ) {
+		if( post_password_required() ) {
+			self::cleanup_processing_post( $current_post_id );
+			return Debug::log()->appendTo( $content );
+		}
+	}
+
+	$maybeApplyFilter = self::maybe_apply_the_content_filter();
 			$content = apply_filters('eztoc_modify_the_content',$content);
 			
 		Debug::log( 'the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter );
@@ -2381,31 +2521,32 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			$isEligible = true;
 		}
 		
-		if ( ! $isEligible ) {
-			$eztoc_processing_content = false;
-			return Debug::log()->appendTo( $content );
-		}
-		
-		$post = self::get( get_the_ID());
+	if ( ! $isEligible ) {
+		self::cleanup_processing_post( $current_post_id );
+		return Debug::log()->appendTo( $content );
+	}
+	
+	$post = self::get( get_the_ID());
 		
 		if ( ! $post instanceof ezTOC_Post ) {
 		
 			Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
 		
 			return Debug::log()->appendTo( $content );
-		}
-		 //Bail if no headings found.
-		 if ( ! $post->hasTOCItems() && ezTOC_Option::get( 'no_heading_text' ) != 1) {
-		
-			 return Debug::log()->appendTo( $content );
-		 }
-				 
-		$find    = $post->getHeadings();
-		$replace = $post->getHeadingsWithAnchors();
+	}
+	 //Bail if no headings found.
+	 if ( ! $post->hasTOCItems() && ezTOC_Option::get( 'no_heading_text' ) != 1) {
+		self::cleanup_processing_post( $current_post_id );
+		 return Debug::log()->appendTo( $content );
+	 }
+			 
+	$find    = $post->getHeadings();
+	$replace = $post->getHeadingsWithAnchors();
 
-		return mb_find_replace( $find, $replace, $content );
-		
-		}
+	self::cleanup_processing_post( $current_post_id );
+	return mb_find_replace( $find, $replace, $content );
+	
+	}
 
 
 		/**
