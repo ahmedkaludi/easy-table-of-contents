@@ -1704,6 +1704,23 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}
 				// Do not render on category/archive/search when content runs in the loop; use eztoc_shortcode_allow_non_singular to override.
 				$explicit_post_id = isset( $atts['post_id'] ) ? absint( $atts['post_id'] ) : 0;
+				/*
+				 * Builders can render full post content inside a "listing" element on a singular page (e.g. a Page
+				 * containing a posts loop). In that case `is_singular()` is true (for the Page), but the shortcode is
+				 * executed while rendering each loop post.
+				 *
+				 * When the current loop post is not the main queried object, do not render the TOC unless the
+				 * shortcode explicitly targets a post via `post_id`.
+				 */
+				if ( ! $explicit_post_id && in_the_loop() && function_exists( 'get_queried_object_id' ) ) {
+					$queried_id = (int) get_queried_object_id();
+					if ( $queried_id && isset( $GLOBALS['post'] ) && $GLOBALS['post'] instanceof WP_Post ) {
+						$current_id = (int) $GLOBALS['post']->ID;
+						if ( $current_id && $current_id !== $queried_id ) {
+							return $html;
+						}
+					}
+				}
 				if ( ! apply_filters( 'eztoc_shortcode_allow_non_singular', false, $atts, $tag ) && ! $explicit_post_id && ! is_singular() ) {
 					return $html;
 				}
@@ -1974,6 +1991,32 @@ public static function the_content( $content ) {
 	
 	// Add post to processing array to prevent recursion
 	$eztoc_processing_posts[] = $current_post_id;
+
+	/*
+	 * Avada/Fusion and other builders can apply `the_content` filters to widget output (e.g. Fusion "Text"
+	 * widgets in footers). We must not auto-insert a TOC into widget content.
+	 *
+	 * Allow intentional TOC shortcodes in widgets by bailing only when no TOC shortcode/container is present.
+	 */
+	global $wp_current_filter;
+	$widget_context_filters = array(
+		'widget_text',
+		'widget_text_content',
+		'widget_block_content',
+		'widget_custom_html_content',
+		'dynamic_sidebar',
+		'the_widget',
+	);
+	if ( ! empty( $wp_current_filter ) && ! empty( array_intersect( (array) $wp_current_filter, $widget_context_filters ) ) ) {
+		$eztoc_shortcode_tag = apply_filters( 'eztoc_shortcode', 'toc' );
+		$has_toc_shortcode_or_container = ( false !== strpos( $content, 'ez-toc-container' ) )
+			|| has_shortcode( $content, 'ez-toc' )
+			|| has_shortcode( $content, $eztoc_shortcode_tag );
+		if ( ! $has_toc_shortcode_or_container ) {
+			self::cleanup_processing_post( $current_post_id );
+			return Debug::log()->appendTo( $content );
+		}
+	}
 			                    
 	if ( function_exists( 'post_password_required' ) ) {
 		if ( post_password_required() ) {
