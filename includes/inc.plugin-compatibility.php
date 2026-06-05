@@ -150,8 +150,126 @@ function eztoc_ultimate_faqs_exclude_by_selector( $selectors ) {
 	$selectors['ultimate-faqs-list']       = '#ewd-ufaq-faq-list';
 	$selectors['ultimate-faqs-faqs']       = '.ewd-ufaq-faqs';
 	$selectors['ultimate-faqs-categories'] = '.ewd-ufaq-faq-categories';
+	$selectors['ultimate-faqs-faq-div']    = '.ewd-ufaq-faq-div';
+	$selectors['ultimate-faqs-faq-title']  = '.ewd-ufaq-faq-title';
 
 	return $selectors;
+}
+
+add_filter( 'ez_toc_extract_headings_content', 'eztoc_ultimate_faqs_strip_from_headings_content', 10, 1 );
+add_filter( 'eztoc_extract_headings_content', 'eztoc_ultimate_faqs_strip_from_headings_content', 10, 1 );
+
+/**
+ * Remove rendered Ultimate FAQ markup before heading extraction.
+ *
+ * FAQ question titles are often real h2–h6 elements and would otherwise duplicate
+ * or nest under the preceding page heading in the TOC.
+ *
+ * @param string $content Post content being scanned for headings.
+ * @return string
+ */
+function eztoc_ultimate_faqs_strip_from_headings_content( $content ) {
+
+	if ( ! eztoc_is_plugin_active( 'ultimate-faqs/ultimate-faqs.php' ) || false === strpos( $content, 'ewd-ufaq' ) ) {
+		return $content;
+	}
+
+	if ( ! class_exists( 'TagFilter' ) ) {
+		if ( phpversion() <= 5.6 ) {
+			require_once EZ_TOC_PATH . '/includes/vendor/ultimate-web-scraper/tag_filter56.php';
+		} else {
+			require_once EZ_TOC_PATH . '/includes/vendor/ultimate-web-scraper/tag_filter.php';
+		}
+	}
+
+	$tag_filter_options           = TagFilter::GetHTMLOptions();
+	$tag_filter_options['charset'] = get_option( 'blog_charset' );
+	$html                         = TagFilter::Explode( $content, $tag_filter_options );
+	$faq_selectors                = implode(
+		',',
+		array(
+			'#ewd-ufaq-faq-list',
+			'.ewd-ufaq-faqs',
+			'.ewd-ufaq-faq-categories',
+			'.ewd-ufaq-faq-div',
+		)
+	);
+	$nodes                        = $html->Find( $faq_selectors );
+
+	if ( empty( $nodes['success'] ) || empty( $nodes['ids'] ) ) {
+		return $content;
+	}
+
+	$ids_to_remove = eztoc_ultimate_faqs_get_top_level_node_ids( $html, $nodes['ids'] );
+
+	foreach ( $ids_to_remove as $id ) {
+		$html->Remove( $id );
+	}
+
+	return $html->Implode( 0, $tag_filter_options );
+}
+
+/**
+ * Keep only outermost FAQ nodes when multiple nested selectors match.
+ *
+ * @param TagFilterNodes $html TagFilter node tree.
+ * @param array          $ids  Matched node IDs.
+ * @return array
+ */
+function eztoc_ultimate_faqs_get_top_level_node_ids( $html, $ids ) {
+
+	$top_level = array();
+
+	foreach ( $ids as $id ) {
+		$is_nested = false;
+
+		foreach ( $ids as $other_id ) {
+			if ( (int) $id === (int) $other_id ) {
+				continue;
+			}
+
+			if ( eztoc_ultimate_faqs_node_is_descendant_of( $html, $id, $other_id ) ) {
+				$is_nested = true;
+				break;
+			}
+		}
+
+		if ( ! $is_nested ) {
+			$top_level[] = $id;
+		}
+	}
+
+	return $top_level;
+}
+
+/**
+ * Whether a FAQ node is nested inside another matched FAQ node.
+ *
+ * @param TagFilterNodes $html        TagFilter node tree.
+ * @param int            $node_id     Candidate node ID.
+ * @param int            $ancestor_id Potential ancestor node ID.
+ * @return bool
+ */
+function eztoc_ultimate_faqs_node_is_descendant_of( $html, $node_id, $ancestor_id ) {
+
+	$node_id     = (int) $node_id;
+	$ancestor_id = (int) $ancestor_id;
+
+	if ( ! isset( $html->nodes[ $node_id ] ) ) {
+		return false;
+	}
+
+	$parent = $html->nodes[ $node_id ]['parent'];
+
+	while ( false !== $parent && isset( $html->nodes[ $parent ] ) ) {
+		if ( (int) $parent === $ancestor_id ) {
+			return true;
+		}
+
+		$parent = $html->nodes[ $parent ]['parent'];
+	}
+
+	return false;
 }
 
 add_filter(

@@ -2039,6 +2039,7 @@ public static function the_content( $content ) {
 	}
 		// Fix for getting current page id when sub-queries are used on the page
 			$ez_toc_current_post_id = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();
+			self::eztoc_restore_post_for_ultimate_faq( $ez_toc_current_post_id );
 			$eztoc_current_theme = wp_get_theme();
 			// Bail if post not eligible and widget is not active.
 			if('MicrojobEngine Child' == $eztoc_current_theme->get( 'Name' ) || class_exists( 'Timber' ) ){
@@ -2280,6 +2281,25 @@ public static function the_content( $content ) {
 	}
 
 	/**
+	 * Restore global $post when Ultimate FAQ polluted it during shortcode/block rendering.
+	 *
+	 * @since 2.0.85
+	 * @param int $post_id Queried post ID for the current request.
+	 */
+	private static function eztoc_restore_post_for_ultimate_faq( $post_id ) {
+		if ( ! $post_id || ! eztoc_is_plugin_active( 'ultimate-faqs/ultimate-faqs.php' ) ) {
+			return;
+		}
+
+		global $post;
+		$queried_post = get_post( $post_id );
+
+		if ( $queried_post instanceof WP_Post ) {
+			$post = $queried_post;
+		}
+	}
+
+	/**
 	 * Remove a post ID from the processing array to allow future processing
 	 * 
 	 * @since 2.0.84
@@ -2517,6 +2537,9 @@ public static function the_content_storehub ( $content ) {
 			self::cleanup_processing_post( $current_post_id );
 			return Debug::log()->appendTo( $content );
 		}
+
+		$ez_toc_current_post_id = function_exists( 'get_queried_object_id' ) ? get_queried_object_id() : get_the_ID();
+		self::eztoc_restore_post_for_ultimate_faq( $ez_toc_current_post_id );
 		
 		$isEligible = self::is_eligible( get_post() );
 	
