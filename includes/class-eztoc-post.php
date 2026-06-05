@@ -1897,9 +1897,9 @@ class ezTOC_Post {
 					for ( $current_depth; $current_depth < (int) $matches[ $i ][2]; $current_depth++ ) {
 
 						$numbered_items[ $current_depth + 1 ] = 0;
-						//Hide Level 4 Headings
+						// Collapsible sub-headings (h3 under h2, h4+, etc.)
 						$sub_active = '';
-						if($level > 3){
+						if($level > 2){
 							//This is legacy hook,it will be removed in future versions.
 							$sub_active = apply_filters('ez_toc_hierarchy_js_add_attr', $sub_active, $collapse_status); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
 							//This is the new hook , it should be used instead of the legacy one.
