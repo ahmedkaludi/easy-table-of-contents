@@ -209,6 +209,19 @@ class ezTOC_Post {
 		}
 
 		/*
+		 * Strip Ultimate FAQ shortcodes/blocks before do_blocks() so a full FAQ listing is not
+		 * expanded while extracting headings (main FAQ pages can contain hundreds of entries).
+		 *
+		 * @since 2.0.86
+		 */
+		if ( eztoc_is_plugin_active( 'ultimate-faqs/ultimate-faqs.php' ) ) {
+			add_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ), 10, 2 );
+			$this->post->post_content = strip_shortcodes( $this->post->post_content );
+			remove_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ), 10 );
+			$this->post->post_content = eztoc_ultimate_faqs_strip_blocks_from_process_content( $this->post->post_content );
+		}
+
+		/*
 		 * Parses dynamic blocks out of post_content and re-renders them for gutenberg blocks.
 		 */		
 		if(function_exists('do_blocks')){

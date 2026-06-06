@@ -310,6 +310,70 @@ function eztoc_ultimate_faqs_strip_shortcodes_tagnames( $tags_to_remove, $conten
 }
 
 /**
+ * Whether `the_content` is running inside another `the_content` filter (e.g. per-FAQ answer).
+ *
+ * @since 2.0.86
+ * @return bool
+ */
+function eztoc_ultimate_faqs_is_nested_the_content() {
+
+	global $wp_current_filter;
+
+	if ( empty( $wp_current_filter ) ) {
+		return false;
+	}
+
+	$depth = 0;
+
+	foreach ( (array) $wp_current_filter as $filter ) {
+		if ( 'the_content' === $filter ) {
+			$depth++;
+		}
+	}
+
+	return $depth > 1;
+}
+
+/**
+ * Skip EZ TOC on nested Ultimate FAQ `the_content` calls to avoid OOM on FAQ listing pages.
+ *
+ * Ultimate FAQ runs apply_filters( 'the_content', ... ) on each FAQ answer while rendering
+ * the [ultimate-faqs] list, which would otherwise trigger full TOC processing hundreds of times.
+ *
+ * @since 2.0.86
+ * @return bool
+ */
+function eztoc_ultimate_faqs_should_skip_the_content() {
+
+	if ( ! eztoc_is_plugin_active( 'ultimate-faqs/ultimate-faqs.php' ) ) {
+		return false;
+	}
+
+	return eztoc_ultimate_faqs_is_nested_the_content();
+}
+
+/**
+ * Remove Ultimate FAQ Gutenberg blocks from raw post content before do_blocks().
+ *
+ * Prevents the full FAQ list from being expanded during EZ TOC heading extraction.
+ *
+ * @since 2.0.86
+ * @param string $content Raw post content.
+ * @return string
+ */
+function eztoc_ultimate_faqs_strip_blocks_from_process_content( $content ) {
+
+	if ( ! is_string( $content ) || '' === $content || false === strpos( $content, 'ewd-ultimate-faqs' ) ) {
+		return $content;
+	}
+
+	$content = preg_replace( '/<!-- wp:ewd-ultimate-faqs\/[\S]+ \/-->\s*/s', '', $content );
+	$content = preg_replace( '/<!-- wp:ewd-ultimate-faqs\/[\S]+[\s\S]*?<!-- \/wp:ewd-ultimate-faqs\/[\S]+ -->\s*/s', '', $content );
+
+	return $content;
+}
+
+/**
  * Do not allow `the_content` TOC callback to run when editing a page in Visual Composer.
  *
  * @link https://wordpress.org/support/topic/correct-method-to-determine-if-using-frontend-editor/#post-12404679

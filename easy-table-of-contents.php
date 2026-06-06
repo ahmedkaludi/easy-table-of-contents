@@ -1974,6 +1974,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @return string
 		 */
 public static function the_content( $content ) {
+
+	if ( self::eztoc_is_the_content_filter_context() && eztoc_ultimate_faqs_should_skip_the_content() ) {
+		return $content;
+	}
 		
 	// Prevent infinite recursion - track per post ID
 	// This is a safety net for edge cases where the_content might be called recursively
@@ -2358,7 +2362,7 @@ public static function the_content( $content ) {
 							}
 						}
 						if( !empty( ezTOC_Option::get( 'sticky-design' )) ) {
-							$toggleClass="show";
+							$toggleClass = apply_filters( 'eztoc_sticky_floating_toggle_class', 'show', $toggleClass );
 						}
 
 					$designClass = apply_filters( 'eztoc_sticky_design_class', "" );
@@ -2505,6 +2509,10 @@ public static function the_content( $content ) {
 		 * @return string
 		 */
 public static function the_content_storehub ( $content ) {
+
+	if ( self::eztoc_is_the_content_filter_context() && eztoc_ultimate_faqs_should_skip_the_content() ) {
+		return $content;
+	}
 	
 	// Prevent infinite recursion - track per post ID
 	global $eztoc_processing_posts;
