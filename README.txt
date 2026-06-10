@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 7.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.84
+Stable tag: 2.0.85
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,12 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.85 10/06/2026 =
+* Improvement : Collapsible Sub Headings not working for h3 under h2 #969
+* Improvement: New design for sticky toc  #968
+* Fixed: Easy TOC Conflict with Divi Builder with latest update 2.0.84 #967
+* Fixed: Easy TOC Conflict with Elementor Builder After latest update 2.0.84 #966
+
 = 2.0.84 29/05/2026 =
 * Fixed: EZ TOC includes rendered shortcode HTML when generating heading text and anchor IDs #961
 * Fixed: Auto Insert After 2nd+ Image Breaks WordPress Gallery Closing </figure> Tag #963

@@ -1,4 +1,10 @@
 == Changelog ==
+= 2.0.85 10/06/2026 =
+* Improvement : Collapsible Sub Headings not working for h3 under h2 #969
+* Improvement: New design for sticky toc  #968
+* Fixed: Easy TOC Conflict with Divi Builder with latest update 2.0.84 #967
+* Fixed: Easy TOC Conflict with Elementor Builder After latest update 2.0.84 #966
+
 = 2.0.84 29/05/2026 =
 * Fixed: EZ TOC includes rendered shortcode HTML when generating heading text and anchor IDs #961
 * Fixed: Auto Insert After 2nd+ Image Breaks WordPress Gallery Closing </figure> Tag #963

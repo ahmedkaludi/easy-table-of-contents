@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.84
+ * Version: 2.0.85
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -28,7 +28,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.84
+ * @version  2.0.85
  */
 
 use Eztoc\Table_Of_Contents\Debug;
@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.84';
+		const VERSION = '2.0.85';
 
 		/**
 		 * Stores the instance of this class.
@@ -1974,6 +1974,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @return string
 		 */
 public static function the_content( $content ) {
+
+	if ( self::eztoc_is_the_content_filter_context() && eztoc_ultimate_faqs_should_skip_the_content() ) {
+		return $content;
+	}
 		
 	// Prevent infinite recursion - track per post ID
 	// This is a safety net for edge cases where the_content might be called recursively
@@ -1984,13 +1988,13 @@ public static function the_content( $content ) {
 	
 	$current_post_id = function_exists('get_queried_object_id') ? get_queried_object_id() : get_the_ID();
 	
-	// If we're already processing this specific post, bail to prevent recursion
-	if ( in_array( $current_post_id, $eztoc_processing_posts, true ) ) {
-		return $content;
+	// Only guard re-entry on `the_content` (Divi uses `et_builder_render_layout` during nested rendering).
+	if ( self::eztoc_is_the_content_filter_context() ) {
+		if ( in_array( $current_post_id, $eztoc_processing_posts, true ) ) {
+			return $content;
+		}
+		$eztoc_processing_posts[] = $current_post_id;
 	}
-	
-	// Add post to processing array to prevent recursion
-	$eztoc_processing_posts[] = $current_post_id;
 
 	/*
 	 * Avada/Fusion and other builders can apply `the_content` filters to widget output (e.g. Fusion "Text"
@@ -2039,6 +2043,7 @@ public static function the_content( $content ) {
 	}
 		// Fix for getting current page id when sub-queries are used on the page
 			$ez_toc_current_post_id = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();
+			self::eztoc_restore_post_for_ultimate_faq( $ez_toc_current_post_id );
 			$eztoc_current_theme = wp_get_theme();
 			// Bail if post not eligible and widget is not active.
 			if('MicrojobEngine Child' == $eztoc_current_theme->get( 'Name' ) || class_exists( 'Timber' ) ){
@@ -2078,6 +2083,7 @@ public static function the_content( $content ) {
 			}
 			
 			if ( ! $isEligible ) {
+				self::cleanup_processing_post( $current_post_id );
 				return Debug::log()->appendTo( $content );
 			}
 			$eztoc_current_theme = wp_get_theme();
@@ -2262,9 +2268,40 @@ public static function the_content( $content ) {
 			}
 	}
             
-	self::cleanup_processing_post( $current_post_id );
+	if ( self::eztoc_is_the_content_filter_context() ) {
+		self::cleanup_processing_post( $current_post_id );
+	}
 	return Debug::log()->appendTo( $content );
 }
+
+	/**
+	 * Recursion guard applies only when hooked on `the_content`, not Divi `et_builder_render_layout`.
+	 *
+	 * @since 2.0.84
+	 * @return bool
+	 */
+	private static function eztoc_is_the_content_filter_context() {
+		return 'the_content' === current_filter();
+	}
+
+	/**
+	 * Restore global $post when Ultimate FAQ polluted it during shortcode/block rendering.
+	 *
+	 * @since 2.0.85
+	 * @param int $post_id Queried post ID for the current request.
+	 */
+	private static function eztoc_restore_post_for_ultimate_faq( $post_id ) {
+		if ( ! $post_id || ! eztoc_is_plugin_active( 'ultimate-faqs/ultimate-faqs.php' ) ) {
+			return;
+		}
+
+		global $post;
+		$queried_post = get_post( $post_id );
+
+		if ( $queried_post instanceof WP_Post ) {
+			$post = $queried_post;
+		}
+	}
 
 	/**
 	 * Remove a post ID from the processing array to allow future processing
@@ -2325,7 +2362,7 @@ public static function the_content( $content ) {
 							}
 						}
 						if( !empty( ezTOC_Option::get( 'sticky-design' )) ) {
-							$toggleClass="show";
+							$toggleClass = apply_filters( 'eztoc_sticky_floating_toggle_class', 'show', $toggleClass );
 						}
 
 					$designClass = apply_filters( 'eztoc_sticky_design_class', "" );
@@ -2472,6 +2509,10 @@ public static function the_content( $content ) {
 		 * @return string
 		 */
 public static function the_content_storehub ( $content ) {
+
+	if ( self::eztoc_is_the_content_filter_context() && eztoc_ultimate_faqs_should_skip_the_content() ) {
+		return $content;
+	}
 	
 	// Prevent infinite recursion - track per post ID
 	global $eztoc_processing_posts;
@@ -2481,13 +2522,12 @@ public static function the_content_storehub ( $content ) {
 	
 	$current_post_id = get_the_ID();
 	
-	// If we're already processing this specific post, bail to prevent recursion
-	if ( in_array( $current_post_id, $eztoc_processing_posts, true ) ) {
-		return $content;
+	if ( self::eztoc_is_the_content_filter_context() ) {
+		if ( in_array( $current_post_id, $eztoc_processing_posts, true ) ) {
+			return $content;
+		}
+		$eztoc_processing_posts[] = $current_post_id;
 	}
-	
-	// Add post to processing array
-	$eztoc_processing_posts[] = $current_post_id;
 		                    
 	if( function_exists( 'post_password_required' ) ) {
 		if( post_password_required() ) {
@@ -2502,9 +2542,12 @@ public static function the_content_storehub ( $content ) {
 		Debug::log( 'the_content_filter', 'The `the_content` filter applied.', $maybeApplyFilter );
 		
 		if ( ! $maybeApplyFilter ) {
-		
+			self::cleanup_processing_post( $current_post_id );
 			return Debug::log()->appendTo( $content );
 		}
+
+		$ez_toc_current_post_id = function_exists( 'get_queried_object_id' ) ? get_queried_object_id() : get_the_ID();
+		self::eztoc_restore_post_for_ultimate_faq( $ez_toc_current_post_id );
 		
 		$isEligible = self::is_eligible( get_post() );
 	
@@ -2529,9 +2572,8 @@ public static function the_content_storehub ( $content ) {
 	$post = self::get( get_the_ID());
 		
 		if ( ! $post instanceof ezTOC_Post ) {
-		
 			Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
-		
+			self::cleanup_processing_post( $current_post_id );
 			return Debug::log()->appendTo( $content );
 	}
 	 //Bail if no headings found.
@@ -2543,7 +2585,9 @@ public static function the_content_storehub ( $content ) {
 	$find    = $post->getHeadings();
 	$replace = $post->getHeadingsWithAnchors();
 
-	self::cleanup_processing_post( $current_post_id );
+	if ( self::eztoc_is_the_content_filter_context() ) {
+		self::cleanup_processing_post( $current_post_id );
+	}
 	return mb_find_replace( $find, $replace, $content );
 	
 	}
