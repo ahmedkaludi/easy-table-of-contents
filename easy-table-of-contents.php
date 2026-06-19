@@ -2041,6 +2041,23 @@ public static function the_content( $content ) {
 		self::cleanup_processing_post( $current_post_id );
 		return Debug::log()->appendTo( $content );
 	}
+
+		/*
+		 * Blog/Fusion builder: a Page with a posts/blog element is `is_singular()` for the
+		 * Page, but `the_content` runs while rendering each loop post. Skip auto-insert when the loop
+		 * post is not the main queried object (same guard as the `[ez-toc]` shortcode).
+		 */
+		if ( in_the_loop() && function_exists( 'get_queried_object_id' ) ) {
+			$queried_id = (int) get_queried_object_id();
+			if ( $queried_id && isset( $GLOBALS['post'] ) && $GLOBALS['post'] instanceof WP_Post ) {
+				$loop_post_id = (int) $GLOBALS['post']->ID;
+				if ( $loop_post_id && $loop_post_id !== $queried_id ) {
+					self::cleanup_processing_post( $current_post_id );
+					return Debug::log()->appendTo( $content );
+				}
+			}
+		}
+
 		// Fix for getting current page id when sub-queries are used on the page
 			$ez_toc_current_post_id = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();
 			self::eztoc_restore_post_for_ultimate_faq( $ez_toc_current_post_id );
