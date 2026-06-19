@@ -2391,13 +2391,13 @@ public static function the_content( $content ) {
 					$themeClass = 'ez-toc-sticky-'.ezTOC_Option::get( 'sticky_theme', 'grey' );
 										
 					?>
-					<div class="ez-toc-sticky <?php echo esc_attr($designClass);?>">
+					<div class="ez-toc-sticky <?php echo esc_attr($designClass);?>" role="navigation" aria-label="<?php echo esc_attr__( 'Table of Contents', 'easy-table-of-contents' ); ?>">
 						<div class="ez-toc-sticky-fixed <?php echo esc_attr($toggleClass); ?> <?php echo esc_attr($themeClass); ?>">
 							<div class='ez-toc-sidebar'><?php echo $stickyToggleTOC; //phpcs:ignore  ?></div>
 						</div>
-						<a class='ez-toc-open-icon' href='#' onclick='ezTOC_showBar(event)' <?php echo $linkZindex ?"style='".esc_attr($linkZindex)."'":''; ?>>
-							<span class="arrow"><?php echo esc_html($arrowSide); ?></span>
-							<span class="text"><?php echo esc_html($openButtonText); ?></span>
+						<a class='ez-toc-open-icon' href='#' role="button" onclick='ezTOC_showBar(event)' aria-label="<?php echo esc_attr__( 'Open table of contents', 'easy-table-of-contents' ); ?>" <?php echo $linkZindex ?"style='".esc_attr($linkZindex)."'":''; ?>>
+							<span class="arrow" aria-hidden="true"><?php echo esc_html($arrowSide); ?></span>
+							<span class="text" aria-hidden="true"><?php echo esc_html($openButtonText); ?></span>
 						</a>
 					</div>
 					<?php

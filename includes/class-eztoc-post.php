@@ -1464,11 +1464,11 @@ class ezTOC_Post {
 			if ( ezTOC_Option::get( 'show_heading_text' ) ) {
 					$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
 					$htmlSticky .= $this->get_toc_title_tag(  'sticky' );
-					$htmlSticky .= '<a class="ez-toc-close-icon" href="#" onclick="ezTOC_hideBar(event)" aria-label="'.esc_attr__('×','easy-table-of-contents').'"><span aria-hidden="true">×</span></a>' . PHP_EOL;
+					$htmlSticky .= '<a class="ez-toc-close-icon" href="#" role="button" onclick="ezTOC_hideBar(event)" aria-label="'.esc_attr__('Close table of contents','easy-table-of-contents').'"><span aria-hidden="true">×</span></a>' . PHP_EOL;
 					$htmlSticky .= '</div>' . PHP_EOL;
 			} else {
 				$htmlSticky .= '<div class="ez-toc-sticky-title-container">' . PHP_EOL;
-				$htmlSticky .= '<a class="ez-toc-close-icon" href="#" onclick="ezTOC_hideBar(event)" aria-label="'.esc_attr__('Close','easy-table-of-contents').'"><span aria-hidden="true">×</span></a>' . PHP_EOL;
+				$htmlSticky .= '<a class="ez-toc-close-icon" href="#" role="button" onclick="ezTOC_hideBar(event)" aria-label="'.esc_attr__('Close table of contents','easy-table-of-contents').'"><span aria-hidden="true">×</span></a>' . PHP_EOL;
 				$htmlSticky .= '</div>' . PHP_EOL;
 			}
 			$htmlSticky  .= '<div id="ez-toc-sticky-container" class="ez-toc-sticky-container ' . implode( ' ', $classSticky ) . '">' . PHP_EOL;
