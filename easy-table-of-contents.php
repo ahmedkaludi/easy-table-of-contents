@@ -715,6 +715,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					if( (( 1 == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) || '1' == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) || true == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) ) && wp_is_mobile()) ||  ( 1 == ezTOC_Option::get('sticky-toggle-close-on-desktop', 0) || '1' == ezTOC_Option::get('sticky-toggle-close-on-desktop', 0) || true == ezTOC_Option::get('sticky-toggle-close-on-desktop', 0) ) ) {
 						$js_sticky['close_on_link_click'] = true;
 					}
+					$js_sticky['device_target']         = eztoc_get_sticky_device_target();
+					$js_sticky['mobile_breakpoint']     = 768;
+					$js_sticky['tablet_max_breakpoint'] = 1024;
 					wp_localize_script( 'eztoc-sticky', 'eztoc_sticky_local', $js_sticky );
 				}
 

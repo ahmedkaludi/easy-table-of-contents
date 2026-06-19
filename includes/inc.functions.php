@@ -334,6 +334,61 @@ function eztoc_auto_device_target_status(){
         return $status;
 }
 /**
+ * Get normalized sticky TOC device target option.
+ *
+ * @since 2.0.80
+ *
+ * @return string
+ */
+function eztoc_get_sticky_device_target() {
+
+    $target = ezTOC_Option::get( 'sticky_device_target', '' );
+
+    if ( 'Select' === $target ) {
+        $target = '';
+    }
+
+    // Backward compatibility: desktop + legacy tablet checkbox.
+    if ( 'desktop' === $target && ezTOC_Option::get( 'sticky_enable_on_tablet' ) ) {
+        $target = 'desktop_tablet';
+    }
+
+    $allowed = array(
+        '',
+        'desktop',
+        'tablet',
+        'mobile',
+        'desktop_tablet',
+        'desktop_mobile',
+        'tablet_mobile',
+    );
+
+    if ( ! in_array( $target, $allowed, true ) ) {
+        return '';
+    }
+
+    return $target;
+}
+
+/**
+ * Check whether sticky TOC device targeting uses client-side viewport detection.
+ *
+ * @since 2.0.80
+ *
+ * @param string $target Optional normalized device target.
+ *
+ * @return bool
+ */
+function eztoc_sticky_device_target_uses_client_detection( $target = null ) {
+
+    if ( null === $target ) {
+        $target = eztoc_get_sticky_device_target();
+    }
+
+    return ! empty( $target );
+}
+
+/**
  * Check for the enable support of sticky toc/toggle
  * @since 2.0.60
  */
@@ -408,27 +463,6 @@ function eztoc_stikcy_enable_support_status() {
             }
         }
     }
-
-    if ( $status ) {
-        //Device Eligibility
-        //@since 2.0.60
-        if ( ezTOC_Option::get( 'sticky_device_target' ) == 'mobile' ) {
-            if ( function_exists( 'wp_is_mobile' ) && wp_is_mobile() ) {
-                $status = true;
-            }else{
-                $status = false;
-            }
-        }
-
-        if ( ezTOC_Option::get( 'sticky_device_target' ) == 'desktop' ) {
-            if( function_exists( 'wp_is_mobile' ) && wp_is_mobile() ) {
-                $status = false;
-            }else{
-                $status = true;
-            }
-        }
-
-      }    
 
     }
     //This is legacy filter, will be removed in future updates.
