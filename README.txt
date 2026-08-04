@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 7.0
 Requires PHP: 5.6.20
-Stable tag: 2.0.85
+Stable tag: 2.0.86
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,12 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.86 04/08/2026 =
+* Compatibility : Added compatibility with helpie faq #959
+* Improvement : Enable Sticky TOC on Tablet Independently When Disabled for Mobile #957
+* Accessibility: Missing ARIA roles and labels in Sticky TOC container and toggle button #899
+* Improvement : Plugin Check improvements
+
 = 2.0.85 10/06/2026 =
 * Improvement : Collapsible Sub Headings not working for h3 under h2 #969
 * Improvement: New design for sticky toc  #968
@@ -266,16 +272,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * Fix: Error in Google search console when enabling Create by Mediavine #841
 * Fix: Compatibility with Customize Post Categories for WPBakery Page Builder plugin & Publisher Theme #843
 * Compatibility: Tested with Wordpress 6.7 #836
-
-= 2.0.70 17/10/2024 =
-* New: One click migration for Table of Contents plus plugin #826
-* New: Add missing parameters in sticky widget shortcode #812
-* Bug: Timber theme TOC links not working on all pages and When ACF compatibility is on homepage gives 500 error #814
-* Bug: Incorrect Symbols Displaying When Adding %PAGE_NAME% as Header Label #816
-* Fix: Preserve-Linebreaks is broken. #806
-
-= 2.0.69.1 05/09/2024 =
-* Fix: Fatal error #803
 
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)
