@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.85
+ * Version: 2.0.86
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -28,7 +28,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.85
+ * @version  2.0.86
  */
 
 use Eztoc\Table_Of_Contents\Debug;
@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.85';
+		const VERSION = '2.0.86';
 
 		/**
 		 * Stores the instance of this class.
@@ -547,12 +547,12 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				//This is the new hook , it should be used instead of the legacy one.
 				$eztoc_smscroll_jsfile_filter =  apply_filters('eztoc_smscroll_jsfile_filter',EZ_TOC_URL . "assets/js/smooth_scroll{$min}.js");
 				wp_register_script( 'eztoc-scroll-scriptjs', $eztoc_smscroll_jsfile_filter, array( 'jquery' ), ezTOC::VERSION, $in_footer );
-				wp_register_script( 'eztoc-elementor-anchor-fix', EZ_TOC_URL . 'assets/js/elementor-toc-anchor-fix.js', array(), ezTOC::VERSION, $in_footer );
+				wp_register_script( 'eztoc-anchor-fix', EZ_TOC_URL . 'assets/js/toc-anchor-fix.js', array(), ezTOC::VERSION, $in_footer );
 				self::localize_scripts();
 																													
 				if ( self::is_enqueue_scripts_eligible() ) {
 					if ( eztoc_is_plugin_active( 'elementor/elementor.php' ) ) {
-						wp_enqueue_script( 'eztoc-elementor-anchor-fix' );
+						wp_enqueue_script( 'eztoc-anchor-fix' );
 					}
 					self::enqueue_registered_script();	
 					self::enqueue_registered_style();	
@@ -715,6 +715,9 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					if( (( 1 == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) || '1' == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) || true == ezTOC_Option::get('sticky-toggle-close-on-mobile', 0) ) && wp_is_mobile()) ||  ( 1 == ezTOC_Option::get('sticky-toggle-close-on-desktop', 0) || '1' == ezTOC_Option::get('sticky-toggle-close-on-desktop', 0) || true == ezTOC_Option::get('sticky-toggle-close-on-desktop', 0) ) ) {
 						$js_sticky['close_on_link_click'] = true;
 					}
+					$js_sticky['device_target']         = eztoc_get_sticky_device_target();
+					$js_sticky['mobile_breakpoint']     = 768;
+					$js_sticky['tablet_max_breakpoint'] = 1024;
 					wp_localize_script( 'eztoc-sticky', 'eztoc_sticky_local', $js_sticky );
 				}
 
@@ -2041,6 +2044,23 @@ public static function the_content( $content ) {
 		self::cleanup_processing_post( $current_post_id );
 		return Debug::log()->appendTo( $content );
 	}
+
+		/*
+		 * Blog/Fusion builder: a Page with a posts/blog element is `is_singular()` for the
+		 * Page, but `the_content` runs while rendering each loop post. Skip auto-insert when the loop
+		 * post is not the main queried object (same guard as the `[ez-toc]` shortcode).
+		 */
+		if ( in_the_loop() && function_exists( 'get_queried_object_id' ) ) {
+			$queried_id = (int) get_queried_object_id();
+			if ( $queried_id && isset( $GLOBALS['post'] ) && $GLOBALS['post'] instanceof WP_Post ) {
+				$loop_post_id = (int) $GLOBALS['post']->ID;
+				if ( $loop_post_id && $loop_post_id !== $queried_id ) {
+					self::cleanup_processing_post( $current_post_id );
+					return Debug::log()->appendTo( $content );
+				}
+			}
+		}
+
 		// Fix for getting current page id when sub-queries are used on the page
 			$ez_toc_current_post_id = function_exists('get_queried_object_id')?get_queried_object_id():get_the_ID();
 			self::eztoc_restore_post_for_ultimate_faq( $ez_toc_current_post_id );
@@ -2371,13 +2391,13 @@ public static function the_content( $content ) {
 					$themeClass = 'ez-toc-sticky-'.ezTOC_Option::get( 'sticky_theme', 'grey' );
 										
 					?>
-					<div class="ez-toc-sticky <?php echo esc_attr($designClass);?>">
+					<div class="ez-toc-sticky <?php echo esc_attr($designClass);?>" role="navigation" aria-label="<?php echo esc_attr__( 'Table of Contents', 'easy-table-of-contents' ); ?>">
 						<div class="ez-toc-sticky-fixed <?php echo esc_attr($toggleClass); ?> <?php echo esc_attr($themeClass); ?>">
 							<div class='ez-toc-sidebar'><?php echo $stickyToggleTOC; //phpcs:ignore  ?></div>
 						</div>
-						<a class='ez-toc-open-icon' href='#' onclick='ezTOC_showBar(event)' <?php echo $linkZindex ?"style='".esc_attr($linkZindex)."'":''; ?>>
-							<span class="arrow"><?php echo esc_html($arrowSide); ?></span>
-							<span class="text"><?php echo esc_html($openButtonText); ?></span>
+						<a class='ez-toc-open-icon' href='#' role="button" onclick='ezTOC_showBar(event)' aria-label="<?php echo esc_attr__( 'Open table of contents', 'easy-table-of-contents' ); ?>" <?php echo $linkZindex ?"style='".esc_attr($linkZindex)."'":''; ?>>
+							<span class="arrow" aria-hidden="true"><?php echo esc_html($arrowSide); ?></span>
+							<span class="text" aria-hidden="true"><?php echo esc_html($openButtonText); ?></span>
 						</a>
 					</div>
 					<?php

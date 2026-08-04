@@ -1575,12 +1575,15 @@ text
   							'name' => esc_html__( 'Device Target', 'easy-table-of-contents' ),
   							'type' => 'select',
   							'options' => array(
-  								'' => esc_html__( 'Select', 'easy-table-of-contents' ),
-  								'mobile' => esc_html__( 'Mobile', 'easy-table-of-contents' ),
-  								'desktop' => esc_html__( 'Desktop', 'easy-table-of-contents' ),
-  								 
+  								'' => esc_html__( 'All Devices', 'easy-table-of-contents' ),
+  								'desktop' => esc_html__( 'Desktop Only', 'easy-table-of-contents' ),
+  								'tablet' => esc_html__( 'Tablet Only', 'easy-table-of-contents' ),
+  								'mobile' => esc_html__( 'Mobile Only', 'easy-table-of-contents' ),
+  								'desktop_tablet' => esc_html__( 'Desktop + Tablet', 'easy-table-of-contents' ),
+  								'desktop_mobile' => esc_html__( 'Desktop + Mobile', 'easy-table-of-contents' ),
+  								'tablet_mobile' => esc_html__( 'Tablet + Mobile', 'easy-table-of-contents' ),
   							),
-  							'default' => 'Select',
+  							'default' => '',
   						),
 						'sticky-toggle-position'                   => array(
 							'id'      => 'sticky-toggle-position',

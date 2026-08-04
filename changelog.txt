@@ -1,4 +1,10 @@
 == Changelog ==
+= 2.0.86 04/08/2026 =
+* Compatibility : Added compatibility with helpie faq #959
+* Improvement : Enable Sticky TOC on Tablet Independently When Disabled for Mobile #957
+* Accessibility: Missing ARIA roles and labels in Sticky TOC container and toggle button #899
+* Improvement : Plugin Check improvements
+
 = 2.0.85 10/06/2026 =
 * Improvement : Collapsible Sub Headings not working for h3 under h2 #969
 * Improvement: New design for sticky toc  #968

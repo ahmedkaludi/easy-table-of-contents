@@ -335,21 +335,22 @@ function eztoc_ultimate_faqs_is_nested_the_content() {
 }
 
 /**
- * Skip EZ TOC on nested Ultimate FAQ `the_content` calls to avoid OOM on FAQ listing pages.
+ * Skip EZ TOC on nested FAQ plugin `the_content` calls to avoid OOM and duplicate TOC output.
  *
- * Ultimate FAQ runs apply_filters( 'the_content', ... ) on each FAQ answer while rendering
- * the [ultimate-faqs] list, which would otherwise trigger full TOC processing hundreds of times.
+ * Ultimate FAQ and Helpie FAQ run apply_filters( 'the_content', ... ) on each FAQ answer while
+ * rendering embedded FAQ lists, which would otherwise trigger full TOC processing per item.
  *
  * @since 2.0.86
  * @return bool
  */
 function eztoc_ultimate_faqs_should_skip_the_content() {
 
-	if ( ! eztoc_is_plugin_active( 'ultimate-faqs/ultimate-faqs.php' ) ) {
+	if ( ! eztoc_ultimate_faqs_is_nested_the_content() ) {
 		return false;
 	}
 
-	return eztoc_ultimate_faqs_is_nested_the_content();
+	return eztoc_is_plugin_active( 'ultimate-faqs/ultimate-faqs.php' )
+		|| eztoc_is_plugin_active( 'helpie-faq/helpie-faq.php' );
 }
 
 /**
@@ -371,6 +372,101 @@ function eztoc_ultimate_faqs_strip_blocks_from_process_content( $content ) {
 	$content = preg_replace( '/<!-- wp:ewd-ultimate-faqs\/[\S]+[\s\S]*?<!-- \/wp:ewd-ultimate-faqs\/[\S]+ -->\s*/s', '', $content );
 
 	return $content;
+}
+
+/**
+ * Helpie FAQ Plugin compatibility.
+ *
+ * FAQ blocks render question/category headings that must not appear in the page TOC.
+ *
+ * @link https://wordpress.org/plugins/helpie-faq/
+ * @since 2.0.87
+ */
+add_filter(
+	'ez_toc_exclude_by_selector',
+	'eztoc_helpie_faq_exclude_by_selector'
+);
+add_filter(
+	'eztoc_exclude_by_selector',
+	'eztoc_helpie_faq_exclude_by_selector'
+);
+add_filter(
+	'ez_toc_maybe_apply_the_content_filter',
+	'eztoc_helpie_faq_maybe_skip_nested_the_content'
+);
+add_filter(
+	'eztoc_maybe_apply_the_content_filter',
+	'eztoc_helpie_faq_maybe_skip_nested_the_content'
+);
+add_filter(
+	'ez_toc_strip_shortcodes_tagnames',
+	'eztoc_helpie_faq_strip_shortcodes_tagnames',
+	10,
+	2
+);
+add_filter(
+	'eztoc_strip_shortcodes_tagnames',
+	'eztoc_helpie_faq_strip_shortcodes_tagnames',
+	10,
+	2
+);
+
+/**
+ * Exclude Helpie FAQ nodes from eligible TOC headings.
+ *
+ * @param array $selectors Selector map passed to ezTOC heading extraction.
+ * @return array
+ */
+function eztoc_helpie_faq_exclude_by_selector( $selectors ) {
+
+	if ( ! eztoc_is_plugin_active( 'helpie-faq/helpie-faq.php' ) ) {
+		return $selectors;
+	}
+
+	$selectors['helpie-faq']           = '.helpie-faq';
+	$selectors['helpie-faq-group']   = '.helpie-faq-group';
+	$selectors['helpie-faq-accordian'] = '.helpie-faq-accordian';
+
+	return $selectors;
+}
+
+/**
+ * Skip EZ TOC auto-insert on nested Helpie FAQ `the_content` calls.
+ *
+ * @since 2.0.87
+ *
+ * @param bool $apply Whether to apply the `the_content` TOC callback.
+ * @return bool
+ */
+function eztoc_helpie_faq_maybe_skip_nested_the_content( $apply ) {
+
+	if ( ! $apply || ! eztoc_is_plugin_active( 'helpie-faq/helpie-faq.php' ) ) {
+		return $apply;
+	}
+
+	return eztoc_ultimate_faqs_is_nested_the_content() ? false : $apply;
+}
+
+/**
+ * Strip Helpie FAQ shortcodes during TOC content processing.
+ *
+ * @param array  $tags_to_remove Shortcode tags to strip.
+ * @param string $content        Post content being processed.
+ * @return array
+ */
+function eztoc_helpie_faq_strip_shortcodes_tagnames( $tags_to_remove, $content ) {
+
+	if ( ! eztoc_is_plugin_active( 'helpie-faq/helpie-faq.php' ) ) {
+		return $tags_to_remove;
+	}
+
+	if ( false === strpos( $content, 'helpie_faq' ) ) {
+		return $tags_to_remove;
+	}
+
+	$tags_to_remove[] = 'helpie_faq';
+
+	return $tags_to_remove;
 }
 
 /**
@@ -1026,8 +1122,8 @@ function eztoc_sidebar_has_toc_status_cfs($status){
 
  function eztoc_guttenberg_has_toc($status){
 
-	$block_post_template = get_block_template(get_stylesheet() . '//' .'single');
-	$block_page_template = get_block_template(get_stylesheet() . '//' .'page');
+	$block_post_template = function_exists('get_block_template') ? get_block_template(get_stylesheet() . '//' .'single') : null;
+	$block_page_template = function_exists('get_block_template') ? get_block_template(get_stylesheet() . '//' .'page') : null;
 	if(is_single() && is_object($block_post_template) && (has_shortcode($block_post_template->content,'toc') || has_shortcode($block_post_template->content,'ez-toc')))
 	{
 		$status=true;
@@ -1631,3 +1727,9 @@ add_filter( 'ez_toc_apply_filter_status_manually', function( $default ) {
     }
     return $default;
 } );
+
+add_action( 'wp_enqueue_scripts', function () {
+    if ( function_exists( 'fusion_builder_activate' ) ) {
+        wp_enqueue_script( 'eztoc-anchor-fix' );
+    }
+}, 20 );
