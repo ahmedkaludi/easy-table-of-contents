@@ -1122,8 +1122,8 @@ function eztoc_sidebar_has_toc_status_cfs($status){
 
  function eztoc_guttenberg_has_toc($status){
 
-	$block_post_template = get_block_template(get_stylesheet() . '//' .'single');
-	$block_page_template = get_block_template(get_stylesheet() . '//' .'page');
+	$block_post_template = function_exists('get_block_template') ? get_block_template(get_stylesheet() . '//' .'single') : null;
+	$block_page_template = function_exists('get_block_template') ? get_block_template(get_stylesheet() . '//' .'page') : null;
 	if(is_single() && is_object($block_post_template) && (has_shortcode($block_post_template->content,'toc') || has_shortcode($block_post_template->content,'ez-toc')))
 	{
 		$status=true;

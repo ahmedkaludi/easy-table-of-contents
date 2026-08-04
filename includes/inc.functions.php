@@ -668,22 +668,26 @@ function eztoc_wp_strip_all_tags( $text, $remove_breaks = false ) {
 	if ( ! is_scalar( $text ) ) {
 		/*
 		 * To maintain consistency with pre-PHP 8 error levels,
-		 * wp_trigger_error() is used to trigger an E_USER_WARNING,
-		 * rather than _doing_it_wrong(), which triggers an E_USER_NOTICE.
+		 * trigger an E_USER_WARNING rather than _doing_it_wrong(),
+		 * which triggers an E_USER_NOTICE.
+		 * Use trigger_error() for WP < 6.4 compatibility (min supported: 5.0).
 		 */
-		wp_trigger_error(
-			'',
-			sprintf(
-				/* translators: 1: The function name, 2: The argument number, 3: The argument name, 4: The expected type, 5: The provided type. */
-				__( 'Warning: %1$s expects parameter %2$s (%3$s) to be a %4$s, %5$s given.', 'easy-table-of-contents' ),
-				__FUNCTION__,
-				'#1',
-				'$text',
-				'string',
-				gettype( $text )
-			),
-			E_USER_WARNING
+		$message = sprintf(
+			/* translators: 1: The function name, 2: The argument number, 3: The argument name, 4: The expected type, 5: The provided type. */
+			__( 'Warning: %1$s expects parameter %2$s (%3$s) to be a %4$s, %5$s given.', 'easy-table-of-contents' ),
+			__FUNCTION__,
+			'#1',
+			'$text',
+			'string',
+			gettype( $text )
 		);
+
+		if ( function_exists( 'wp_trigger_error' ) ) {
+			wp_trigger_error( '', $message, E_USER_WARNING );
+		} else {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+			trigger_error( esc_html( $message ), E_USER_WARNING );
+		}
 
 		return '';
 	}
