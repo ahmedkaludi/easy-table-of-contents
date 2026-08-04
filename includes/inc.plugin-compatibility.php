@@ -1727,3 +1727,9 @@ add_filter( 'ez_toc_apply_filter_status_manually', function( $default ) {
     }
     return $default;
 } );
+
+add_action( 'wp_enqueue_scripts', function () {
+    if ( function_exists( 'fusion_builder_activate' ) ) {
+        wp_enqueue_script( 'eztoc-anchor-fix' );
+    }
+}, 20 );
