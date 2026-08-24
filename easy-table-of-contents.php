@@ -1705,6 +1705,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				if( ( ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) !== false && 0 == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || '0' == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) || false == ezTOC_Option::get( 'toc-run-on-amp-pages', 1 ) ) && !eztoc_non_amp() ){
 					return $html;
 				}
+				/*
+				 * Classic WooCommerce checkout embeds Terms page content via wc_terms_and_conditions_page_content().
+				 * [ez-toc] on that page then resolves get_the_ID() to the checkout page, re-runs
+				 * [woocommerce_checkout], and loops until memory is exhausted.
+				 *
+				 * @see https://github.com/ahmedkaludi/easy-table-of-contents/issues/905
+				 */
+				if ( function_exists( 'is_checkout' ) && is_checkout() && ( ! function_exists( 'is_order_received_page' ) || ! is_order_received_page() ) ) {
+					return $html;
+				}
 				// Do not render on category/archive/search when content runs in the loop; use eztoc_shortcode_allow_non_singular to override.
 				$explicit_post_id = isset( $atts['post_id'] ) ? absint( $atts['post_id'] ) : 0;
 				/*

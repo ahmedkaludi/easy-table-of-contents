@@ -301,6 +301,7 @@ class ezTOC_Post {
 				'ez-toc',
 				'ez-toc-widget-sticky',
 				apply_filters( 'ez_toc_shortcode', 'toc' ),  //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+				'woocommerce_checkout',
 			),
 			$content
 		);
@@ -312,6 +313,7 @@ class ezTOC_Post {
 				'ez-toc',
 				'ez-toc-widget-sticky',
 				apply_filters( 'eztoc_shortcode', 'toc' ),
+				'woocommerce_checkout',
 			),
 			$content
 		);
