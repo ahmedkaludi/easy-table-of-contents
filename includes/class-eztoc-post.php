@@ -1338,6 +1338,30 @@ class ezTOC_Post {
 	} 
 
 	/**
+	 * Flat list of headings used to build the in-content TOC.
+	 *
+	 * @since 2.0.87
+	 * @return array
+	 */
+	public function get_flat_toc_headings() {
+
+		$headings    = array();
+		$first_page  = 1;
+
+		if ( empty( $this->pages[ $first_page ] ) || ! is_array( $this->pages[ $first_page ] ) ) {
+			return $headings;
+		}
+
+		foreach ( $this->pages[ $first_page ] as $attribute ) {
+			if ( ! empty( $attribute['headings'] ) && is_array( $attribute['headings'] ) ) {
+				$headings = array_merge( $headings, $attribute['headings'] );
+			}
+		}
+
+		return $headings;
+	}
+
+	/**
 	 * createTOCParent function
 	 *
 	 * @param string $prefix
@@ -1346,16 +1370,16 @@ class ezTOC_Post {
 	private function createTOCParent( $prefix = "ez-toc", $toc_more = array() )
 	{
 		$html = ''; 
-		$first_page = 1;
-		$headings = array();
-		foreach ( $this->pages[ $first_page ] as $attribute )
-		{
-			$headings = array_merge( $headings, $attribute[ 'headings' ] );
+		$headings = $this->get_flat_toc_headings();
+
+		if ( isset( $toc_more['split_limit'] ) && (int) $toc_more['split_limit'] > 0 ) {
+			$offset   = isset( $toc_more['split_offset'] ) ? max( 0, (int) $toc_more['split_offset'] ) : 0;
+			$headings = array_slice( $headings, $offset, (int) $toc_more['split_limit'] );
 		}
 
 		if( !empty( $headings ) )
 		{
-			$html .= $this->createTOC( $first_page, $headings, $prefix, $toc_more );
+			$html .= $this->createTOC( 1, $headings, $prefix, $toc_more );
 		}
 
 		return $html;
@@ -1385,6 +1409,15 @@ class ezTOC_Post {
 			$toc_more['collapse_hd'] = true;
 		}elseif(isset($options['no_collapse_hd'])){
 			$toc_more['no_collapse_hd'] = true;
+		}
+
+		if ( isset( $options['split_limit'] ) ) {
+			$toc_more['split_limit']  = (int) $options['split_limit'];
+			$toc_more['split_offset'] = isset( $options['split_offset'] ) ? (int) $options['split_offset'] : 0;
+			// Flat list avoids broken nested markup when a chunk starts mid-hierarchy.
+			$toc_more['no_hierarchy'] = true;
+			unset( $toc_more['view_more'] );
+			unset( $toc_more['hierarchy'] );
 		}
 
 		if ( $this->hasTOCItems ) {
@@ -1427,8 +1460,14 @@ class ezTOC_Post {
 			// Get column setting - check shortcode options first, then global setting
 			$columns = isset($options['columns']) ? $options['columns'] : absint( ezTOC_Option::get('toc_columns', 1) );
 			$column_class = $columns > 1 ? " ez-toc-columns-{$columns}" : "";
+
+			// Continue serial numbers across split TOC sections (CSS counters).
+			$counter_attr = '';
+			if ( isset( $options['split_offset'] ) && (int) $options['split_offset'] > 0 ) {
+				$counter_attr = ' style="counter-reset: item ' . absint( $options['split_offset'] ) . ';"';
+			}
 			
-			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1{$column_class} $visiblityClass' >" . $html . "</ul>";
+			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1{$column_class} $visiblityClass'{$counter_attr} >" . $html . "</ul>";
 		}
 
 		return $html;
@@ -1592,6 +1631,12 @@ class ezTOC_Post {
 	        	$show_counter = false;
 	        }
 
+	        // Split chunks always use a flat list so page/TOC structure stays valid.
+	        if ( isset( $options['split_limit'] ) ) {
+	        	$options['no_hierarchy'] = true;
+	        	unset( $options['hierarchy'] );
+	        }
+
 	        if( $show_counter ){
 	        	$hierarchical = ezTOC_Option::get( 'show_hierarchy' );
 	        	if(isset($options['hierarchy'])){
@@ -1664,7 +1709,12 @@ class ezTOC_Post {
 			$class = array_map( 'trim', $class );
 			$class = array_map( 'sanitize_html_class', $class );
 
-			$html .= '<div id="ez-toc-container" class="' . implode( ' ', $class ) . '">' . PHP_EOL;
+			// Keep the primary TOC markup identical; only secondary split boxes use a unique id/class.
+			if ( ! empty( $options['split_index'] ) && (int) $options['split_index'] > 1 ) {
+				$html .= '<div id="ez-toc-container-' . absint( $options['split_index'] ) . '" class="ez-toc-split-section ' . implode( ' ', $class ) . '">' . PHP_EOL;
+			} else {
+				$html .= '<div id="ez-toc-container" class="' . implode( ' ', $class ) . '">' . PHP_EOL;
+			}
                         
             if( ezTOC_Option::get( 'toc_loading' ) == 'js' ){
 				$html .= $this->get_js_based_toc_heading($options);

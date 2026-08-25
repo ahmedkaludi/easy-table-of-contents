@@ -64,7 +64,7 @@ jQuery( function( $ ) {
                             
                             var toggle = $(this);
                             $(toggle).addClass('ez-toc-loaded'); // Attach loaded class.
-                            var toc = $( toggle ).parents('#ez-toc-container,#ez-toc-widget-container,#ez-toc-widget-sticky-container').find( 'ul.ez-toc-list,ul.ez-toc-widget-sticky-list' );
+                            var toc = $( toggle ).parents('#ez-toc-container,.ez-toc-split-section,#ez-toc-widget-container,#ez-toc-widget-sticky-container').find( 'ul.ez-toc-list,ul.ez-toc-widget-sticky-list' );
                             if($(toc).hasClass('eztoc-toggle-hide-by-default')){
                                 invert = 1;
                             }                                
@@ -74,7 +74,7 @@ jQuery( function( $ ) {
                                         if ( Cookies.get( 'ezTOC_hidetoc-' + i ) == 1 ) {
                                             $(toggle).data( 'visible', false );
                                             // Add toc_close class when cookie indicates TOC should be hidden
-                                            const main = document.querySelector("#ez-toc-container");
+                                            const main = toggle.closest('#ez-toc-container, .ez-toc-split-section').get(0) || document.querySelector("#ez-toc-container");
                                             if(main){
                                                     main.classList.add("toc_close");
                                             }
@@ -106,7 +106,7 @@ jQuery( function( $ ) {
 
                                     toc.hide();
                                     // Set initial box title state when TOC is hidden by default
-                                    const main = document.querySelector("#ez-toc-container");
+                                    const main = toggle.closest('#ez-toc-container, .ez-toc-split-section').get(0);
                                     if(main){
                                             const boxTitle = main.querySelector('.ez-toc-box-title');
                                             if(boxTitle){
@@ -127,7 +127,7 @@ jQuery( function( $ ) {
 
                                     event.preventDefault();
 
-                                    const main = document.querySelector("#ez-toc-container");
+                                    const main = this.closest('#ez-toc-container, .ez-toc-split-section');
                                     if(main){
                                             main.classList.toggle("toc_close");
                                             // Handle box title positioning
