@@ -3,7 +3,7 @@ Contributors: magazine3
 Donate link: https://tocwp.com/
 Tags: table of contents, toc
 Requires at least: 5.0
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 5.6.20
 Stable tag: 2.0.86
 License: GPLv2 or later
