@@ -354,7 +354,7 @@ function eztoc_ultimate_faqs_should_skip_the_content() {
 }
 
 /**
- * Remove Ultimate FAQ Gutenberg blocks from raw post content before do_blocks().
+ * Remove Ultimate FAQ Gutenberg blocks from raw post content before nested the_content / do_blocks.
  *
  * Prevents the full FAQ list from being expanded during EZ TOC heading extraction.
  *
@@ -1012,16 +1012,20 @@ function eztoc_social_pro_by_mediavine_com($content){
 add_filter('ez_toc_modify_process_page_content', 'eztoc_parse_gutenberg_reusable_block',10,1);
 
 function eztoc_parse_gutenberg_reusable_block($content){
-	
-	if(function_exists('do_blocks')){
-		if(has_block('easytoc/toc')){
-			$content =  str_replace( '<!-- wp:easytoc/toc /-->', 'eztoctempblock', $content );		
-			$content = do_blocks($content);
-			$content =  str_replace( 'eztoctempblock', '<!-- wp:easytoc/toc /-->', $content );				
-		}else{
-			$content = do_blocks($content);
-		}			
+
+	// Skip when content is already rendered HTML (no block comments left).
+	if ( ! function_exists( 'do_blocks' ) || ! function_exists( 'has_blocks' ) || ! has_blocks( $content ) ) {
+		return $content;
 	}
+
+	if ( has_block( 'easytoc/toc', $content ) ) {
+		$content = str_replace( '<!-- wp:easytoc/toc /-->', 'eztoctempblock', $content );
+		$content = do_blocks( $content );
+		$content = str_replace( 'eztoctempblock', '<!-- wp:easytoc/toc /-->', $content );
+	} else {
+		$content = do_blocks( $content );
+	}
+
 	return $content;
 }
 

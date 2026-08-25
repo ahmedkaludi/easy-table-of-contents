@@ -68,12 +68,20 @@ class ezTOC_Post {
 	 *
 	 * @param WP_Post $post
 	 * @param bool    $apply_content_filter Whether or not to apply the `the_content` filter on the post content.
+	 * @param bool    $content_already_filtered When true, `$post->post_content` is already filtered HTML
+	 *                                          (e.g. from `the_content` at priority 100). Skip nested
+	 *                                          `do_blocks()` / `the_content` re-processing.
 	 */
-	public function __construct( WP_Post $post, $apply_content_filter = true ) {
+	public function __construct( WP_Post $post, $apply_content_filter = true, $content_already_filtered = false ) {
 
 		$this->post            = $post;
 		$this->permalink       = get_permalink( $post );
 		$this->queriedObjectID = get_queried_object_id();
+
+		if ( $content_already_filtered ) {
+			$this->process();
+			return;
+		}
 
         $apply_content_filter  = $this->apply_filter_status( $apply_content_filter );
 
@@ -85,6 +93,26 @@ class ezTOC_Post {
             $this->process();
         }
     }
+
+	/**
+	 * Build a post machine from content that has already passed through `the_content`
+	 * (or an equivalent render filter such as Divi's layout output).
+	 *
+	 * Avoids re-running `do_blocks()` and a nested `the_content` pass on raw `post_content`.
+	 *
+	 * @since 2.0.87
+	 *
+	 * @param WP_Post $post             Original post object (not mutated).
+	 * @param string  $filtered_content Already-rendered HTML for heading extraction.
+	 * @return static
+	 */
+	public static function from_filtered_content( WP_Post $post, $filtered_content ) {
+
+		$clone               = clone $post;
+		$clone->post_content = $filtered_content;
+
+		return new static( $clone, false, true );
+	}
 
 	/**
 	 * apply_filter_status function
@@ -209,8 +237,8 @@ class ezTOC_Post {
 		}
 
 		/*
-		 * Strip Ultimate FAQ shortcodes/blocks before do_blocks() so a full FAQ listing is not
-		 * expanded while extracting headings (main FAQ pages can contain hundreds of entries).
+		 * Strip Ultimate FAQ shortcodes/blocks before nested the_content / do_blocks so a full FAQ
+		 * listing is not expanded while extracting headings (main FAQ pages can contain hundreds of entries).
 		 *
 		 * @since 2.0.86
 		 */
@@ -222,14 +250,10 @@ class ezTOC_Post {
 		}
 
 		/*
-		 * Parses dynamic blocks out of post_content and re-renders them for gutenberg blocks.
-		 */		
-		if(function_exists('do_blocks')){
-			$this->post->post_content = do_blocks($this->post->post_content);
-		}else{
-			$this->post->post_content = $this->post->post_content;
-		}
-		
+		 * Blocks are rendered by core's `do_blocks` on `the_content` (priority 9) below.
+		 * Do not call do_blocks() here — that would parse and render every block twice.
+		 */
+
 		if( defined('EASY_TOC_AMP_VERSION') && function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint() ){
 			$ampforwp_pagebuilder_enable = get_post_meta(get_the_ID(),'ampforwp_page_builder_enable', true);
 			if($ampforwp_pagebuilder_enable=='yes' && function_exists('ampforwp_eztoc_PageBuilder_content')){
@@ -2236,6 +2260,22 @@ class ezTOC_Post {
 
 		if(isset($options['header_label'])){
 			$toc_title = $options['header_label'];
+		}
+
+		// Split TOC: include part serial number in the title, e.g. "Table of Contents (Part 1 of 2)".
+		if (
+			'sticky' !== $toc_type
+			&& ! empty( $options['split_index'] )
+			&& ! empty( $options['split_count'] )
+			&& (int) $options['split_count'] > 1
+		) {
+			$toc_title = sprintf(
+				/* translators: 1: TOC heading text, 2: current part number, 3: total parts */
+				__( '%1$s (Part %2$d of %3$d)', 'easy-table-of-contents' ),
+				$toc_title,
+				(int) $options['split_index'],
+				(int) $options['split_count']
+			);
 		}
 
 		$tag_classes = 'ez-toc-title';

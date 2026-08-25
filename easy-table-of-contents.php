@@ -1404,11 +1404,13 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 *
 		 * @since 2.0
 		 *
-		 * @param int $id
+		 * @param int         $id
+		 * @param string|null $filtered_content Optional already-filtered HTML (e.g. from `the_content`).
+		 *                                      When provided and eligible, skips nested do_blocks / the_content.
 		 *
 		 * @return ezTOC_Post|null
 		 */
-		public static function get( $id ) {
+		public static function get( $id, $filtered_content = null ) {
 
 			$post = null;
 
@@ -1418,7 +1420,19 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			} else {
 				
 				$post_id = ! empty( $id ) ? $id : get_the_ID();
-				$post = ezTOC_Post::get( $post_id );
+				$wp_post = get_post( $post_id );
+
+				if (
+					null !== $filtered_content
+					&& is_string( $filtered_content )
+					&& '' !== $filtered_content
+					&& $wp_post instanceof WP_Post
+					&& self::should_reuse_filtered_content( $wp_post, $filtered_content )
+				) {
+					$post = ezTOC_Post::from_filtered_content( $wp_post, $filtered_content );
+				} else {
+					$post = ezTOC_Post::get( $post_id );
+				}
 
 				if ( $post instanceof ezTOC_Post ) {
 
@@ -1427,6 +1441,37 @@ if ( ! class_exists( 'ezTOC' ) ) {
 			}
 
 			return $post;
+		}
+
+		/**
+		 * Whether heading extraction may reuse already-filtered content instead of
+		 * re-running do_blocks() and a nested the_content pass on raw post_content.
+		 *
+		 * @since 2.0.87
+		 *
+		 * @param WP_Post $post
+		 * @param string  $filtered_content
+		 * @return bool
+		 */
+		private static function should_reuse_filtered_content( WP_Post $post, $filtered_content ) {
+
+			$reuse = true;
+
+			// Multipage posts still need a full post_content pass so the TOC can include all pages.
+			if ( false !== strpos( $post->post_content, '<!--nextpage-->' ) ) {
+				$reuse = false;
+			}
+
+			/**
+			 * Filter whether to reuse already-filtered content for TOC heading extraction.
+			 *
+			 * @since 2.0.87
+			 *
+			 * @param bool    $reuse
+			 * @param WP_Post $post
+			 * @param string  $filtered_content
+			 */
+			return (bool) apply_filters( 'eztoc_reuse_filtered_content', $reuse, $post, $filtered_content );
 		}
 
 		/**
@@ -2119,9 +2164,9 @@ public static function the_content( $content ) {
 			}
 			$eztoc_current_theme = wp_get_theme();
 			if($eztoc_current_theme->get('Name') == 'MicrojobEngine Child'  || class_exists( 'Timber' ) ){
-				$post = self::get( $ez_toc_current_post_id );
+				$post = self::get( $ez_toc_current_post_id, $content );
 		}else{
-			$post = self::get( get_the_ID());
+			$post = self::get( get_the_ID(), $content );
 		}
 		
 		
@@ -2605,7 +2650,7 @@ public static function the_content_storehub ( $content ) {
 		return Debug::log()->appendTo( $content );
 	}
 	
-	$post = self::get( get_the_ID());
+	$post = self::get( get_the_ID(), $content );
 		
 		if ( ! $post instanceof ezTOC_Post ) {
 			Debug::log( 'not_instance_of_post', 'Not an instance if `WP_Post`.', get_the_ID() );
