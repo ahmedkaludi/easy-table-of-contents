@@ -68,12 +68,20 @@ class ezTOC_Post {
 	 *
 	 * @param WP_Post $post
 	 * @param bool    $apply_content_filter Whether or not to apply the `the_content` filter on the post content.
+	 * @param bool    $content_already_filtered When true, `$post->post_content` is already filtered HTML
+	 *                                          (e.g. from `the_content` at priority 100). Skip nested
+	 *                                          `do_blocks()` / `the_content` re-processing.
 	 */
-	public function __construct( WP_Post $post, $apply_content_filter = true ) {
+	public function __construct( WP_Post $post, $apply_content_filter = true, $content_already_filtered = false ) {
 
 		$this->post            = $post;
 		$this->permalink       = get_permalink( $post );
 		$this->queriedObjectID = get_queried_object_id();
+
+		if ( $content_already_filtered ) {
+			$this->process();
+			return;
+		}
 
         $apply_content_filter  = $this->apply_filter_status( $apply_content_filter );
 
@@ -85,6 +93,26 @@ class ezTOC_Post {
             $this->process();
         }
     }
+
+	/**
+	 * Build a post machine from content that has already passed through `the_content`
+	 * (or an equivalent render filter such as Divi's layout output).
+	 *
+	 * Avoids re-running `do_blocks()` and a nested `the_content` pass on raw `post_content`.
+	 *
+	 * @since 2.0.87
+	 *
+	 * @param WP_Post $post             Original post object (not mutated).
+	 * @param string  $filtered_content Already-rendered HTML for heading extraction.
+	 * @return static
+	 */
+	public static function from_filtered_content( WP_Post $post, $filtered_content ) {
+
+		$clone               = clone $post;
+		$clone->post_content = $filtered_content;
+
+		return new static( $clone, false, true );
+	}
 
 	/**
 	 * apply_filter_status function
@@ -209,8 +237,8 @@ class ezTOC_Post {
 		}
 
 		/*
-		 * Strip Ultimate FAQ shortcodes/blocks before do_blocks() so a full FAQ listing is not
-		 * expanded while extracting headings (main FAQ pages can contain hundreds of entries).
+		 * Strip Ultimate FAQ shortcodes/blocks before nested the_content / do_blocks so a full FAQ
+		 * listing is not expanded while extracting headings (main FAQ pages can contain hundreds of entries).
 		 *
 		 * @since 2.0.86
 		 */
@@ -222,14 +250,10 @@ class ezTOC_Post {
 		}
 
 		/*
-		 * Parses dynamic blocks out of post_content and re-renders them for gutenberg blocks.
-		 */		
-		if(function_exists('do_blocks')){
-			$this->post->post_content = do_blocks($this->post->post_content);
-		}else{
-			$this->post->post_content = $this->post->post_content;
-		}
-		
+		 * Blocks are rendered by core's `do_blocks` on `the_content` (priority 9) below.
+		 * Do not call do_blocks() here — that would parse and render every block twice.
+		 */
+
 		if( defined('EASY_TOC_AMP_VERSION') && function_exists('ampforwp_is_amp_endpoint') && ampforwp_is_amp_endpoint() ){
 			$ampforwp_pagebuilder_enable = get_post_meta(get_the_ID(),'ampforwp_page_builder_enable', true);
 			if($ampforwp_pagebuilder_enable=='yes' && function_exists('ampforwp_eztoc_PageBuilder_content')){
@@ -301,6 +325,7 @@ class ezTOC_Post {
 				'ez-toc',
 				'ez-toc-widget-sticky',
 				apply_filters( 'ez_toc_shortcode', 'toc' ),  //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+				'woocommerce_checkout',
 			),
 			$content
 		);
@@ -312,6 +337,7 @@ class ezTOC_Post {
 				'ez-toc',
 				'ez-toc-widget-sticky',
 				apply_filters( 'eztoc_shortcode', 'toc' ),
+				'woocommerce_checkout',
 			),
 			$content
 		);
@@ -1336,6 +1362,30 @@ class ezTOC_Post {
 	} 
 
 	/**
+	 * Flat list of headings used to build the in-content TOC.
+	 *
+	 * @since 2.0.87
+	 * @return array
+	 */
+	public function get_flat_toc_headings() {
+
+		$headings    = array();
+		$first_page  = 1;
+
+		if ( empty( $this->pages[ $first_page ] ) || ! is_array( $this->pages[ $first_page ] ) ) {
+			return $headings;
+		}
+
+		foreach ( $this->pages[ $first_page ] as $attribute ) {
+			if ( ! empty( $attribute['headings'] ) && is_array( $attribute['headings'] ) ) {
+				$headings = array_merge( $headings, $attribute['headings'] );
+			}
+		}
+
+		return $headings;
+	}
+
+	/**
 	 * createTOCParent function
 	 *
 	 * @param string $prefix
@@ -1344,16 +1394,16 @@ class ezTOC_Post {
 	private function createTOCParent( $prefix = "ez-toc", $toc_more = array() )
 	{
 		$html = ''; 
-		$first_page = 1;
-		$headings = array();
-		foreach ( $this->pages[ $first_page ] as $attribute )
-		{
-			$headings = array_merge( $headings, $attribute[ 'headings' ] );
+		$headings = $this->get_flat_toc_headings();
+
+		if ( isset( $toc_more['split_limit'] ) && (int) $toc_more['split_limit'] > 0 ) {
+			$offset   = isset( $toc_more['split_offset'] ) ? max( 0, (int) $toc_more['split_offset'] ) : 0;
+			$headings = array_slice( $headings, $offset, (int) $toc_more['split_limit'] );
 		}
 
 		if( !empty( $headings ) )
 		{
-			$html .= $this->createTOC( $first_page, $headings, $prefix, $toc_more );
+			$html .= $this->createTOC( 1, $headings, $prefix, $toc_more );
 		}
 
 		return $html;
@@ -1383,6 +1433,15 @@ class ezTOC_Post {
 			$toc_more['collapse_hd'] = true;
 		}elseif(isset($options['no_collapse_hd'])){
 			$toc_more['no_collapse_hd'] = true;
+		}
+
+		if ( isset( $options['split_limit'] ) ) {
+			$toc_more['split_limit']  = (int) $options['split_limit'];
+			$toc_more['split_offset'] = isset( $options['split_offset'] ) ? (int) $options['split_offset'] : 0;
+			// Flat list avoids broken nested markup when a chunk starts mid-hierarchy.
+			$toc_more['no_hierarchy'] = true;
+			unset( $toc_more['view_more'] );
+			unset( $toc_more['hierarchy'] );
 		}
 
 		if ( $this->hasTOCItems ) {
@@ -1425,8 +1484,14 @@ class ezTOC_Post {
 			// Get column setting - check shortcode options first, then global setting
 			$columns = isset($options['columns']) ? $options['columns'] : absint( ezTOC_Option::get('toc_columns', 1) );
 			$column_class = $columns > 1 ? " ez-toc-columns-{$columns}" : "";
+
+			// Continue serial numbers across split TOC sections (CSS counters).
+			$counter_attr = '';
+			if ( isset( $options['split_offset'] ) && (int) $options['split_offset'] > 0 ) {
+				$counter_attr = ' style="counter-reset: item ' . absint( $options['split_offset'] ) . ';"';
+			}
 			
-			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1{$column_class} $visiblityClass' >" . $html . "</ul>";
+			$html  = "<ul class='{$prefix}-list {$prefix}-list-level-1{$column_class} $visiblityClass'{$counter_attr} >" . $html . "</ul>";
 		}
 
 		return $html;
@@ -1590,6 +1655,12 @@ class ezTOC_Post {
 	        	$show_counter = false;
 	        }
 
+	        // Split chunks always use a flat list so page/TOC structure stays valid.
+	        if ( isset( $options['split_limit'] ) ) {
+	        	$options['no_hierarchy'] = true;
+	        	unset( $options['hierarchy'] );
+	        }
+
 	        if( $show_counter ){
 	        	$hierarchical = ezTOC_Option::get( 'show_hierarchy' );
 	        	if(isset($options['hierarchy'])){
@@ -1662,7 +1733,12 @@ class ezTOC_Post {
 			$class = array_map( 'trim', $class );
 			$class = array_map( 'sanitize_html_class', $class );
 
-			$html .= '<div id="ez-toc-container" class="' . implode( ' ', $class ) . '">' . PHP_EOL;
+			// Keep the primary TOC markup identical; only secondary split boxes use a unique id/class.
+			if ( ! empty( $options['split_index'] ) && (int) $options['split_index'] > 1 ) {
+				$html .= '<div id="ez-toc-container-' . absint( $options['split_index'] ) . '" class="ez-toc-split-section ' . implode( ' ', $class ) . '">' . PHP_EOL;
+			} else {
+				$html .= '<div id="ez-toc-container" class="' . implode( ' ', $class ) . '">' . PHP_EOL;
+			}
                         
             if( ezTOC_Option::get( 'toc_loading' ) == 'js' ){
 				$html .= $this->get_js_based_toc_heading($options);
@@ -2184,6 +2260,22 @@ class ezTOC_Post {
 
 		if(isset($options['header_label'])){
 			$toc_title = $options['header_label'];
+		}
+
+		// Split TOC: include part serial number in the title, e.g. "Table of Contents (Part 1 of 2)".
+		if (
+			'sticky' !== $toc_type
+			&& ! empty( $options['split_index'] )
+			&& ! empty( $options['split_count'] )
+			&& (int) $options['split_count'] > 1
+		) {
+			$toc_title = sprintf(
+				/* translators: 1: TOC heading text, 2: current part number, 3: total parts */
+				__( '%1$s (Part %2$d of %3$d)', 'easy-table-of-contents' ),
+				$toc_title,
+				(int) $options['split_index'],
+				(int) $options['split_count']
+			);
 		}
 
 		$tag_classes = 'ez-toc-title';

@@ -3,7 +3,7 @@ Contributors: magazine3
 Donate link: https://tocwp.com/
 Tags: table of contents, toc
 Requires at least: 5.0
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 5.6.20
 Stable tag: 2.0.86
 License: GPLv2 or later
@@ -134,6 +134,13 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.87 27/08/2026 =
+* Added : Option To Track Table of Contents (TOC) Link Clicks #954
+* Added : Spilt TOC on page when it has large heading .#952
+* Fixed : WooCommerce Classic Checkout Crashes When [ez-toc] Shortcode Is Used on Terms and Conditions Page #905
+* Fixed : TOC content filter re-parses all blocks #910
+* Test  : Test with WordPress 7.1 and update readme.txt #976
+
 = 2.0.86 04/08/2026 =
 * Compatibility : Added compatibility with helpie faq #959
 * Improvement : Enable Sticky TOC on Tablet Independently When Disabled for Mobile #957
