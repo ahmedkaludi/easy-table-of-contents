@@ -1809,6 +1809,15 @@ if ( ! class_exists( 'ezTOC' ) ) {
 					update_post_meta( $post_id, '_ez-toc-heading-levels', $headings );
 				}
 																				
+				/*
+				 * self::$store may already hold this post, built with the global settings by an earlier
+				 * caller (e.g. the SiteNavigation schema output in wp_head on classic themes). That object
+				 * never saw the temporary post meta above, so drop it and rebuild.
+				 */
+				if ( ( isset( $atts['heading_levels'] ) && $atts['heading_levels'] != '' ) || ( isset( $atts['exclude'] ) && $atts['exclude'] != '' ) ) {
+					unset( self::$store[ $post_id ] );
+				}
+
 				$post = self::get( $post_id );
 
 				// setting original post meta for exclude and heading levels	
