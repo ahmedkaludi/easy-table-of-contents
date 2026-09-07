@@ -1,4 +1,7 @@
 == Changelog ==
+= 2.0.87.1 07/09/2026 =
+* Improvement : Optimize deactivation feedback form  #981
+
 = 2.0.87 27/08/2026 =
 * Added : Option To Track Table of Contents (TOC) Link Clicks #954
 * Added : Spilt TOC on page when it has large heading .#952
