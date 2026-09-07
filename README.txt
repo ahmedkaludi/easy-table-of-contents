@@ -135,7 +135,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 
 == Changelog ==
 = 2.0.87.1 07/09/2026 =
-* Improvement : Optimize deactivation feedback form  #981
+* Improvement : Optimized feedback form  #981
 
 = 2.0.87 27/08/2026 =
 * Added : Option To Track Table of Contents (TOC) Link Clicks #954
