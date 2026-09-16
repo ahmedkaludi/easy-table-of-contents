@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.87
+Stable tag: 2.0.88
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,14 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.88 16/09/2026 =
+* Fixed : [ez-toc] shortcode causes stray paragraphs and line breaks in content rendered after the article #982
+* Fixed : [ez-toc] shortcode ignores heading_levels and exclude when "SiteNavigation Schema" is enabled on a classic theme #979
+* Fixed : Recent Update version 2.0.87 Causing Underline Issue in Easy TOC #978
+
+= 2.0.87.1 07/09/2026 =
+* Improvement : Optimized feedback form  #981
+
 = 2.0.87 27/08/2026 =
 * Added : Option To Track Table of Contents (TOC) Link Clicks #954
 * Added : Spilt TOC on page when it has large heading .#952
@@ -264,21 +272,6 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 * Bug: On multisite, When plugin activated, It goes to not found page #802
 * Fix: Need an option for Translating the 'Toggle Table of Content' aria-label' #860
 * Compatibility: We need to make compatibility with YOOtheme. #856
-
-= 2.0.71 09/12/2024 =
-* New: Support for more attributes in shortcode #828
-* New: Automatically short the title in ETOC #830
-* New: Floating layout for Sticky ETOC #844
-* Bug: cookie "ezTOC_hidetoc-0" does not have an appropriate "SameSite" attribute value #822
-* Bug: TOC Short code causing 500 error on Uncode theme #831
-* Bug: The Sticky Toc title does not shift to the right in the option Heading Text Direction selected as Right to Left is selected #833
-* Bug: 'Header Label' Option Not Updating in post individually #837
-* Fix: Issue with "TOC open on load" option in Sticky TOC feature. #815
-* Fix: TOC conflict with Avada Builder plugin and Custom Child Theme #775
-* Fix: Undefined Array Key 'navigation_scroll_bar' in class-eztoc-widgetsticky.php #842
-* Fix: Error in Google search console when enabling Create by Mediavine #841
-* Fix: Compatibility with Customize Post Categories for WPBakery Page Builder plugin & Publisher Theme #843
-* Compatibility: Tested with Wordpress 6.7 #836
 
 
 Full changelog available at [changelog.txt](https://plugins.svn.wordpress.org/easy-table-of-contents/trunk/changelog.txt)

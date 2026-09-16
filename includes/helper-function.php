@@ -73,38 +73,34 @@ function eztoc_send_feedback() {
     }
     
     $text = '';
-    if( isset( $form['eztoc_disable_text'] ) && is_array($form['eztoc_disable_text']) ) {
-        $text = implode( "\n\r", $form['eztoc_disable_text'] );
+    if( isset( $form['eztoc_disable_text'] ) && is_array( $form['eztoc_disable_text'] ) ) {
+        $text = implode( "\n\r", array_map( 'sanitize_textarea_field', $form['eztoc_disable_text'] ) );
     }
 
-    $headers = array();
+    $subject = isset( $form['eztoc_disable_reason'] ) ? sanitize_text_field( $form['eztoc_disable_reason'] ) : '';
 
-    $from = isset( $form['eztoc_disable_from'] ) ? $form['eztoc_disable_from'] : '';
-    if( $from ) {
-        $headers[] = "From: " . sanitize_email( $from );
-        $headers[] = "Reply-To: " . sanitize_email( $from );
+    // Only email for actionable reasons when the detail text has at least 2 words.
+    $allowed_reasons = array( 'missing feature', 'technical issue', 'other' );
+    $word_count      = count( array_filter( preg_split( '/\s+/', trim( $text ) ) ) );
+
+    if ( in_array( $subject, $allowed_reasons, true ) && $word_count >= 2 ) {
+
+        $headers = array();
+
+        $from = isset( $form['eztoc_disable_from'] ) ? $form['eztoc_disable_from'] : '';
+        if ( $from ) {
+            $headers[] = "From: " . sanitize_email( $from );
+            $headers[] = "Reply-To: " . sanitize_email( $from );
+        }
+
+        if ( $subject === 'technical issue' ) {
+            $subject = 'Easy Table of Contents ' . $subject;
+            $text    = 'technical issue description: ' . trim( $text );
+        }
+
+        wp_mail( 'team@magazine3.in', $subject, $text, $headers );
     }
 
-    $subject = isset( $form['eztoc_disable_reason'] ) ? $form['eztoc_disable_reason'] : '(no reason given)';
-
-    if($subject == 'technical issue'){
-
-          $subject  = 'Easy Table of Contents '.$subject;
-          $text = trim($text);
-
-          if(!empty($text)){
-
-            $text = 'technical issue description: '.$text;
-
-          }else{
-
-            $text = 'no description: '.$text;
-          }
-      
-    }
-
-    wp_mail( 'team@magazine3.in', $subject, $text, $headers );
-    
     echo 'sent';
     wp_die();
 
