@@ -281,11 +281,37 @@ class ezTOC_Post {
 		
 	}
 
-	// The ezTOC filter was removed above (line 220), so this is safe from infinite recursion
-	// Even if the_content triggers other filters, ezTOC::the_content won't be called again
-	$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using WP code hook
+	/*
+	 * Guard against a WordPress core reentrancy problem in do_blocks() / _restore_wpautop_hook().
+	 *
+	 * When this nested `the_content` pass runs from inside an outer `the_content` pass (the [ez-toc]
+	 * shortcode runs at priority 11) and the outer post contains blocks, core's do_blocks() has already
+	 * removed wpautop and queued `_restore_wpautop_hook` at priority 11. The nested pass would execute
+	 * and remove that pending callback, but WP_Hook still invokes the outer pass's copy afterwards;
+	 * `_restore_wpautop_hook()` then computes `false - 1` and registers wpautop at priority -1 for the
+	 * rest of the request. Every later the_content() call (reusable block areas, widgets, form output)
+	 * is then autop'd twice: once on raw block markup and once on rendered block output.
+	 *
+	 * Park the pending callback while the nested pass runs and put it back at the same priority so the
+	 * outer pass finishes exactly as core expects. No-op when not nested inside `the_content`.
+	 */
+	$restore_wpautop_priority = doing_filter( 'the_content' ) ? has_filter( 'the_content', '_restore_wpautop_hook' ) : false;
 
-	add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
+	if ( false !== $restore_wpautop_priority ) {
+		remove_filter( 'the_content', '_restore_wpautop_hook', $restore_wpautop_priority );
+	}
+
+	try {
+		// The ezTOC filter was removed above (line 220), so this is safe from infinite recursion
+		// Even if the_content triggers other filters, ezTOC::the_content won't be called again
+		$this->post->post_content = apply_filters( 'the_content', strip_shortcodes( $this->post->post_content ) ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Using WP code hook
+	} finally {
+		if ( false !== $restore_wpautop_priority ) {
+			add_filter( 'the_content', '_restore_wpautop_hook', $restore_wpautop_priority );
+		}
+
+		add_filter( 'the_content', array( 'ezTOC', 'the_content' ), 100 );  // increased  priority to fix other plugin filter overwriting our changes
+	}
 
 		remove_filter( 'strip_shortcodes_tagnames', array( __CLASS__, 'stripShortcodes' ) );
 
