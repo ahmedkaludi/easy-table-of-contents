@@ -1,4 +1,9 @@
 == Changelog ==
+= 2.0.88 16/09/2026 =
+* Fixed : [ez-toc] shortcode causes stray paragraphs and line breaks in content rendered after the article #982
+* Fixed : [ez-toc] shortcode ignores heading_levels and exclude when "SiteNavigation Schema" is enabled on a classic theme #979
+* Fixed : Recent Update version 2.0.87 Causing Underline Issue in Easy TOC #978
+
 = 2.0.87.1 07/09/2026 =
 * Improvement : Optimized feedback form  #981
 
