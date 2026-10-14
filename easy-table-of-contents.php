@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.88';
+		const VERSION = '2.0.89';
 
 		/**
 		 * Stores the instance of this class.

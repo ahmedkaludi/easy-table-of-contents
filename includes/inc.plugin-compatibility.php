@@ -1359,50 +1359,73 @@ function eztoc_perfmatters_touch_css($css){
   	return $css;
 }
 /**
- * Woodmart + WPbakery Gallery compatibility
+ * Woodmart + WPbakery Gallery compatibility.
+ *
+ * Older WoodMart releases ship these parts as css/parts/*.min.css. WoodMart 8.6+
+ * ships plain *.css only, and lib-owl-carousel was removed when the theme moved
+ * from Owl Carousel to Swiper. Register a part only when that file exists.
+ *
  * @since 2.0.58
  */
-function eztoc_woodmart_gallery_fix(){
-	if(function_exists('woodmart_load_classes') && class_exists('Vc_Manager')){
-		
-		if(!wp_style_is('el-section-title')){
-			wp_register_style( 'el-section-title', WOODMART_THEME_DIR.'/css/parts/el-section-title.min.css', array() ,ezTOC::VERSION );
-			wp_enqueue_style( 'el-section-title' );
-		}
-		
-		if(!wp_style_is('wd-section-title-style-simple-and-brd')){
-		wp_register_style( 'wd-section-title-style-simple-and-brd', WOODMART_THEME_DIR.'/css/parts/el-section-title-style-simple-and-brd.min.css', array() ,ezTOC::VERSION);
-		wp_enqueue_style( 'wd-section-title-style-simple-and-brd' );
-		}
-		
-		if(!wp_style_is('wd-owl-carousel')){
-			wp_register_style( 'wd-owl-carousel', WOODMART_THEME_DIR.'/css/parts/lib-owl-carousel.min.css', array() ,ezTOC::VERSION);
-			wp_enqueue_style( 'wd-owl-carousel' );
-		}
-		
-		if(!wp_style_is('wd-image-gallery')){
-			wp_register_style( 'wd-image-gallery', WOODMART_THEME_DIR.'/css/parts/el-gallery.min.css', array() ,ezTOC::VERSION);
-			wp_enqueue_style( 'wd-image-gallery' );
+function eztoc_woodmart_gallery_fix() {
+	if ( ! function_exists( 'woodmart_load_classes' ) || ! class_exists( 'Vc_Manager' ) || ! defined( 'WOODMART_THEME_DIR' ) ) {
+		return;
+	}
+
+	$styles = array(
+		'el-section-title'                      => 'el-section-title',
+		'wd-section-title-style-simple-and-brd' => 'el-section-title-style-simple-and-brd',
+		'wd-owl-carousel'                       => 'lib-owl-carousel',
+		'wd-image-gallery'                      => 'el-gallery',
+		'wd-accordion'                          => 'el-accordion',
+		'wd-tabs'                               => 'el-tabs',
+		'wd-team-member'                        => 'el-team-member',
+	);
+
+	foreach ( $styles as $handle => $basename ) {
+		if ( wp_style_is( $handle, 'enqueued' ) ) {
+			continue;
 		}
 
-		if(!wp_style_is('wd-accordion')){
-			wp_register_style( 'wd-accordion', WOODMART_THEME_DIR.'/css/parts/el-accordion.min.css', array() ,ezTOC::VERSION);
-			wp_enqueue_style( 'wd-accordion' );
-		}
-		
-		if(!wp_style_is('wd-tabs')){
-			wp_register_style( 'wd-tabs', WOODMART_THEME_DIR.'/css/parts/el-tabs.min.css', array() ,ezTOC::VERSION);
-			wp_enqueue_style( 'wd-tabs' );
+		// Keep a URL the theme already registered instead of replacing it.
+		if ( ! wp_style_is( $handle, 'registered' ) ) {
+			$src = eztoc_woodmart_css_part_src( $basename );
+			if ( '' === $src ) {
+				continue;
+			}
+			wp_register_style( $handle, $src, array(), ezTOC::VERSION );
 		}
 
-		if(!wp_style_is('wd-team-member')){
-			wp_register_style( 'wd-team-member', WOODMART_THEME_DIR.'/css/parts/el-team-member.min.css', array() ,ezTOC::VERSION);
-			wp_enqueue_style( 'wd-team-member' );
-		}
-			
-	}	
+		wp_enqueue_style( $handle );
+	}
 }
-add_action('wp_enqueue_scripts', 'eztoc_woodmart_gallery_fix');
+add_action( 'wp_enqueue_scripts', 'eztoc_woodmart_gallery_fix' );
+
+/**
+ * URL for a WoodMart css/parts stylesheet, or an empty string when it is not shipped.
+ *
+ * Prefers the minified file used by older WoodMart releases, then the plain file
+ * shipped since WoodMart 8.6.
+ *
+ * @since 2.0.89
+ *
+ * @param string $basename File name without an extension.
+ * @return string
+ */
+function eztoc_woodmart_css_part_src( $basename ) {
+	$theme_path = defined( 'WOODMART_THEMEROOT' ) ? WOODMART_THEMEROOT : get_template_directory();
+	$relative   = '/css/parts/' . $basename;
+
+	if ( file_exists( $theme_path . $relative . '.min.css' ) ) {
+		return WOODMART_THEME_DIR . $relative . '.min.css';
+	}
+
+	if ( file_exists( $theme_path . $relative . '.css' ) ) {
+		return WOODMART_THEME_DIR . $relative . '.css';
+	}
+
+	return '';
+}
 
 /**
  * Ad inserter plugin compatibility
