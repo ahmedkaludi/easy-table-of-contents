@@ -561,6 +561,26 @@ class ezTOC_Post {
 	 */
 	private function extractExcludedNodes( $page, $content ) {
 
+		/**
+		 * @since 2.0
+		 *
+		 * @param $selectors array  Array of classes/id selector to exclude from TOC.
+		 * @param $content   string Post content.
+		 */
+		//This is legacy hook,it will be removed in future versions
+		$selectors = apply_filters( 'ez_toc_exclude_by_selector', array( '.ez-toc-exclude-headings' ), $content ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+		//This is the new hook , it should be used instead of the legacy one.
+		$selectors = apply_filters( 'eztoc_exclude_by_selector', $selectors, $content );
+		$selectors = ! is_array( $selectors ) ? array() : $selectors; // In case we get string instead of array
+
+		/*
+		 * TagFilter walks the entire document in PHP. On a long transcript that is
+		 * wasted work when no exclude selector is present in the markup.
+		 */
+		if ( ! $this->content_matches_exclude_selectors( $content, $selectors ) ) {
+			return;
+		}
+
 		if ( ! class_exists( 'TagFilter' ) ) {
 
                         if(phpversion() <= 5.6)
@@ -576,17 +596,6 @@ class ezTOC_Post {
 
 		$html = TagFilter::Explode( $content, $tagFilterOptions );
 
-		/**
-		 * @since 2.0
-		 *
-		 * @param $selectors array  Array of classes/id selector to exclude from TOC.
-		 * @param $content   string Post content.
-		 */
-		//This is legacy hook,it will be removed in future versions
-		$selectors = apply_filters( 'ez_toc_exclude_by_selector', array( '.ez-toc-exclude-headings' ), $content ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
-		//This is the new hook , it should be used instead of the legacy one.
-		$selectors = apply_filters( 'eztoc_exclude_by_selector', $selectors, $content );
-		$selectors = ! is_array( $selectors ) ? [] : $selectors; // In case we get string instead of array
 		$nodes = $html->Find( implode( ',', $selectors ) );
 		if(isset($nodes['ids'])){
 			foreach ( $nodes['ids'] as $id ) {
@@ -601,6 +610,57 @@ class ezTOC_Post {
 		 *
 		 * @see wpautop()
 		 */
+	}
+
+	/**
+	 * Whether any exclude selector can match this content.
+	 *
+	 * Class and id selectors are checked with strpos. A selector that is not a
+	 * class or id still forces a full parse so element selectors keep working.
+	 *
+	 * @since 2.0.90
+	 *
+	 * @param string $content
+	 * @param array  $selectors
+	 * @return bool
+	 */
+	private function content_matches_exclude_selectors( $content, $selectors ) {
+
+		if ( ! is_string( $content ) || '' === $content || empty( $selectors ) ) {
+			return false;
+		}
+
+		foreach ( $selectors as $selector ) {
+
+			if ( ! is_string( $selector ) ) {
+				return true;
+			}
+
+			$selector = trim( $selector );
+
+			if ( '' === $selector ) {
+				continue;
+			}
+
+			if ( ! preg_match_all( '/[.#]([A-Za-z_][A-Za-z0-9_-]*)/', $selector, $matches ) || empty( $matches[1] ) ) {
+				return true;
+			}
+
+			$present = true;
+
+			foreach ( $matches[1] as $token ) {
+				if ( false === strpos( $content, $token ) ) {
+					$present = false;
+					break;
+				}
+			}
+
+			if ( $present ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

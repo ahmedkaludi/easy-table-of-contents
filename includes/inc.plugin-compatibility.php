@@ -1013,6 +1013,14 @@ add_filter('ez_toc_modify_process_page_content', 'eztoc_parse_gutenberg_reusable
 
 function eztoc_parse_gutenberg_reusable_block($content){
 
+	/*
+	 * Core already ran do_blocks() at priority 9 on this same the_content pass.
+	 * Calling it again re-renders every block and times out on long posts.
+	 */
+	if ( doing_filter( 'the_content' ) ) {
+		return $content;
+	}
+
 	// Skip when content is already rendered HTML (no block comments left).
 	if ( ! function_exists( 'do_blocks' ) || ! function_exists( 'has_blocks' ) || ! has_blocks( $content ) ) {
 		return $content;

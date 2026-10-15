@@ -72,6 +72,14 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		private static $store = array();
 
 		/**
+		 * Rendered post HTML captured after do_blocks() and before do_shortcode().
+		 *
+		 * @since 2.0.90
+		 * @var array
+		 */
+		private static $rendered_content = array();
+
+		/**
 		 * Cached flag: main request is archive/search/blog listing (set at template_redirect).
 		 *
 		 * @since 2.0.83
@@ -177,6 +185,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			if ( !self::check_beaver_builder_plugin_active() ) {
 
+				add_filter( 'the_content', array( __CLASS__, 'capture_rendered_content' ), 10 );
 				add_filter( 'the_content', array( __CLASS__, 'the_content' ), 100 );
 				/*
 				* Fix for toc not showing / links not working for StoreHub theme custom post types				
@@ -1414,33 +1423,107 @@ if ( ! class_exists( 'ezTOC' ) ) {
 
 			$post = null;
 
-			if ( isset( self::$store[ $id ] ) && self::$store[ $id ] instanceof ezTOC_Post && !eztoc_is_plugin_active( 'js_composer_salient/js_composer.php' ) ) {
+			if ( isset( self::$store[ $id ] ) && self::$store[ $id ] instanceof ezTOC_Post && ! eztoc_is_plugin_active( 'js_composer_salient/js_composer.php' ) ) {
 
-				$post = self::$store[ $id ];
-			} else {
-				
-				$post_id = ! empty( $id ) ? $id : get_the_ID();
-				$wp_post = get_post( $post_id );
+				return self::$store[ $id ];
+			}
 
-				if (
-					null !== $filtered_content
-					&& is_string( $filtered_content )
-					&& '' !== $filtered_content
-					&& $wp_post instanceof WP_Post
-					&& self::should_reuse_filtered_content( $wp_post, $filtered_content )
-				) {
-					$post = ezTOC_Post::from_filtered_content( $wp_post, $filtered_content );
-				} else {
-					$post = ezTOC_Post::get( $post_id );
-				}
+			$post_id = ! empty( $id ) ? $id : get_the_ID();
 
-				if ( $post instanceof ezTOC_Post ) {
+			if ( ! is_string( $filtered_content ) || '' === $filtered_content ) {
 
-					self::$store[ $id ] = $post;
+				$filtered_content = null;
+
+				if ( self::the_content_depth() > 0 ) {
+
+					$captured_id = (int) $post_id;
+
+					if ( isset( self::$rendered_content[ $captured_id ] ) && is_string( self::$rendered_content[ $captured_id ] ) && '' !== self::$rendered_content[ $captured_id ] ) {
+						$filtered_content = self::$rendered_content[ $captured_id ];
+					}
 				}
 			}
 
+			$wp_post = get_post( $post_id );
+
+			$use_filtered = null !== $filtered_content
+				&& is_string( $filtered_content )
+				&& '' !== $filtered_content
+				&& $wp_post instanceof WP_Post
+				&& self::should_reuse_filtered_content( $wp_post, $filtered_content );
+
+			/*
+			 * Called during the_content before rendered HTML was captured (for example
+			 * from inside do_blocks). Parse the saved markup instead of nesting another
+			 * the_content pass, which would render every block again.
+			 */
+			if ( ! $use_filtered && self::the_content_depth() > 0 && $wp_post instanceof WP_Post && is_string( $wp_post->post_content ) && '' !== $wp_post->post_content && self::should_reuse_filtered_content( $wp_post, $wp_post->post_content ) ) {
+				$filtered_content = $wp_post->post_content;
+				$use_filtered     = true;
+			}
+
+			if ( $use_filtered ) {
+				$post = ezTOC_Post::from_filtered_content( $wp_post, $filtered_content );
+			} else {
+				$post = ezTOC_Post::get( $post_id );
+			}
+
+			if ( $post instanceof ezTOC_Post ) {
+
+				self::$store[ $id ] = $post;
+			}
+
 			return $post;
+		}
+
+		/**
+		 * Remember rendered HTML after blocks run and before shortcodes run.
+		 *
+		 * The [ez-toc] shortcode executes at priority 11. Reusing this HTML avoids a
+		 * second do_blocks() / the_content pass on the raw post.
+		 *
+		 * @since 2.0.90
+		 *
+		 * @param string $content
+		 * @return string
+		 */
+		public static function capture_rendered_content( $content ) {
+
+			if ( ! is_string( $content ) || '' === $content || self::the_content_depth() > 1 ) {
+				return $content;
+			}
+
+			$post_id = get_the_ID();
+
+			if ( $post_id ) {
+				self::$rendered_content[ (int) $post_id ] = $content;
+			}
+
+			return $content;
+		}
+
+		/**
+		 * How many the_content filters are currently on the stack.
+		 *
+		 * @since 2.0.90
+		 *
+		 * @return int
+		 */
+		private static function the_content_depth() {
+
+			global $wp_current_filter;
+
+			$depth = 0;
+
+			if ( is_array( $wp_current_filter ) ) {
+				foreach ( $wp_current_filter as $filter ) {
+					if ( 'the_content' === $filter ) {
+						$depth++;
+					}
+				}
+			}
+
+			return $depth;
 		}
 
 		/**
