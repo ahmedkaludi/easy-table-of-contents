@@ -134,7 +134,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
-= 2.0.89 14/10/2026 =
+= 2.0.89 15/10/2026 =
 * Fixed : Long single posts time out or fatal since 2.0.87 because the TOC rendered every block again during the content filter #988
 * Fixed : "Preserve Line Breaks" broken in v2.0.88 due to wp_strip_all_tags() refactor #989
 * Fixed : WoodMart + WPBakery gallery compatibility requested missing .min.css parts and the removed lib-owl-carousel stylesheet, causing 404s on every front-end page
