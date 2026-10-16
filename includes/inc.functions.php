@@ -693,10 +693,23 @@ function eztoc_wp_strip_all_tags( $text, $remove_breaks = false ) {
 	}
 
 	$text = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $text );
-    //This is legacy hook,  will be removed in future updates.
-	$text = wp_strip_all_tags( $text, apply_filters( 'ez_toc_allowable_tags', '' ) ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-    //This is new hook, please use this for future compatibility 
-    $text = wp_strip_all_tags( $text, apply_filters( 'eztoc_allowable_tags', '' ) );
+
+	/*
+	 * wp_strip_all_tags() does not accept an allow-list. Its second argument is
+	 * $remove_breaks, so a value such as '<br>' is cast to true and every tag,
+	 * including preserved line breaks, is removed.
+	 */
+	// This is a legacy hook and will be removed in future updates.
+	$allowable_tags = apply_filters( 'ez_toc_allowable_tags', '' ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name.
+	// This is the new hook. Use this for future compatibility.
+	$allowable_tags = apply_filters( 'eztoc_allowable_tags', $allowable_tags );
+
+	if ( is_string( $allowable_tags ) && '' !== $allowable_tags ) {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.strip_tags_strip_tags -- Allow-listed tags such as <br> must be kept. wp_strip_all_tags() cannot do that.
+		$text = strip_tags( $text, $allowable_tags );
+	} else {
+		$text = wp_strip_all_tags( $text );
+	}
 
 	if ( $remove_breaks ) {
 		$text = preg_replace( '/[\r\n\t ]+/', ' ', $text );
@@ -711,12 +724,19 @@ function eztoc_wp_strip_all_tags( $text, $remove_breaks = false ) {
  */
 
 add_filter( 'ez_toc_allowable_tags', 'eztoc_link_allow_br_tag' );
+add_filter( 'eztoc_allowable_tags', 'eztoc_link_allow_br_tag' );
 
 function eztoc_link_allow_br_tag( $tags ) {
 
     if ( ezTOC_Option::get( 'prsrv_line_brk' ) ) {
 
-        $tags = '<br>';
+        if ( ! is_string( $tags ) ) {
+            $tags = '';
+        }
+
+        if ( false === stripos( $tags, '<br>' ) ) {
+            $tags .= '<br>';
+        }
 
     }
 

@@ -245,17 +245,46 @@ function mb_substr_replace( $string, $replacement, $start, $length = null ) {
 		return array_map( __FUNCTION__, $string, $replacement, $start, $length );
 	}
 
-	preg_match_all( '/./us', (string) $string, $smatches );
-	preg_match_all( '/./us', (string) $replacement, $rmatches );
+	/*
+	 * Character-splitting the whole post with preg_match_all( '/./us' ) once per heading
+	 * exhausts the PHP time limit on long articles. mb_substr() keeps the same
+	 * character offsets mb_strpos() returns.
+	 */
+	$string      = (string) $string;
+	$replacement = (string) $replacement;
+	$strlen      = mb_strlen( $string );
 
-	if ( $length === null ) {
-
-		$length = mb_strlen( $string );
+	if ( ! is_int( $start ) ) {
+		$start = (int) $start;
 	}
 
-	array_splice( $smatches[0], $start, $length, $rmatches[0] );
+	if ( $start < 0 ) {
+		$start = max( 0, $strlen + $start );
+	} elseif ( $start > $strlen ) {
+		$start = $strlen;
+	}
 
-	return join( $smatches[0] );
+	if ( null === $length ) {
+		$length = $strlen - $start;
+	} else {
+		$length = (int) $length;
+		if ( $length < 0 ) {
+			$length = max( 0, $strlen - $start + $length );
+		}
+	}
+
+	$before = mb_substr( $string, 0, $start );
+	$after  = mb_substr( $string, $start + $length );
+
+	if ( false === $before ) {
+		$before = '';
+	}
+
+	if ( false === $after ) {
+		$after = '';
+	}
+
+	return $before . $replacement . $after;
 }
 endif;
 /**

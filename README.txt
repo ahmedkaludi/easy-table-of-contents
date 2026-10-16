@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.88
+Stable tag: 2.0.89
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,11 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.89 15/10/2026 =
+* Fixed : Long single posts time out or fatal since 2.0.87 because the TOC rendered every block again during the content filter #988
+* Fixed : "Preserve Line Breaks" broken in v2.0.88 due to wp_strip_all_tags() refactor #989
+* Fixed : WoodMart + WPBakery gallery compatibility requested missing .min.css parts and the removed lib-owl-carousel stylesheet, causing 404s on every front-end page
+
 = 2.0.88 16/09/2026 =
 * Fixed : [ez-toc] shortcode causes stray paragraphs and line breaks in content rendered after the article #982
 * Fixed : [ez-toc] shortcode ignores heading_levels and exclude when "SiteNavigation Schema" is enabled on a classic theme #979
