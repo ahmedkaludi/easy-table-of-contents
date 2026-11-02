@@ -438,7 +438,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
                             ?></li>
                     </ol>
                     <h3><?php esc_html_e('5. MORE DOCUMENTATION:', 'easy-table-of-contents'); ?></h3>
-                    <p><?php esc_html__('You can visit this link ', 'easy-table-of-contents') . '<a href="https://tocwp.com/docs/" target="_blank">' . esc_html__('More Documentation', 'easy-table-of-contents') . '</a>' . esc_html__(' for more documentation of `Easy Table of Contents`', 'easy-table-of-contents'); ?></p>
+                    <p><?php echo esc_html__('You can visit this link ', 'easy-table-of-contents') . '<a href="https://tocwp.com/docs/" target="_blank">' . esc_html__('More Documentation', 'easy-table-of-contents') . '</a>' . esc_html__(' for more documentation of `Easy Table of Contents`', 'easy-table-of-contents'); ?></p>
                 </div>
                 <div class="eztoc-tabcontent-technical" id="eztoc-technical-shortcode" style="display: none;">
                     <h1><?php esc_html_e('Shortcode', 'easy-table-of-contents'); ?></h1>
