@@ -1545,6 +1545,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$reuse = false;
 			}
 
+			/*
+			 * Avada Builder headings are Fusion shortcodes until do_shortcode() runs.
+			 * The priority-10 snapshot and raw post_content are still that markup when
+			 * [ez-toc] runs, so reusing them finds no headings. Parsing saved content
+			 * does not re-enter the_content while Fusion Builder is active.
+			 */
+			if ( function_exists( 'fusion_builder_activate' ) || eztoc_is_plugin_active( 'fusion-builder/fusion-builder.php' ) ) {
+				$reuse = false;
+			}
+
 			/**
 			 * Filter whether to reuse already-filtered content for TOC heading extraction.
 			 *
