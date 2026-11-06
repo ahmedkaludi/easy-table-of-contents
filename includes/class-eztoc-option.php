@@ -1048,6 +1048,13 @@ text
 							'class'=>'eztoc_thw'
 
 						),
+						'nofollow_toc_links' => array(
+							'id' => 'nofollow_toc_links',
+							'name' => esc_html__( 'Nofollow TOC Links', 'easy-table-of-contents' ),
+							'desc' => esc_html__( 'Add rel="nofollow" to table of contents links.', 'easy-table-of-contents' ),
+							'type' => 'checkbox',
+							'default' => false,
+						),
 						'disable_toc_links' => array(
 							'id' => 'disable_toc_links',
 							'name' => esc_html__( 'Remove TOC links', 'easy-table-of-contents' ),
@@ -1949,6 +1956,7 @@ text
 				'sticky-toggle-alignment'             => 'top',
 				'add_request_uri'                     => false,
 				'add_self_reference_link'             => false,
+				'nofollow_toc_links'                  => false,
 				'mediavine-create'                    => 0,
 				'molongui-authorship'                 => false,
 				'seedprod-pro'         			      => false,
