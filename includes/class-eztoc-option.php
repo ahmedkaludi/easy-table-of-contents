@@ -100,8 +100,8 @@ if ( ! class_exists( 'ezTOC_Option' ) ) {
 			
 			//phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Nonce is already verified in the settings page
 			if(isset($_FILES['eztoc_import_backup']) && !empty($_FILES['eztoc_import_backup']['name'])){
-				//phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Nonce is already verified in the settings page
 				// Keep this as an integer. sanitize_text_field() turns 0 into "0", and "0" !== UPLOAD_ERR_OK, so a successful upload was reported as an unknown error.
+				//phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason : Nonce is already verified in the settings page
 				$file_error = isset($_FILES['eztoc_import_backup']['error']) ? absint($_FILES['eztoc_import_backup']['error']) : UPLOAD_ERR_NO_FILE;
 				
 				// Check for file upload errors

@@ -1,4 +1,10 @@
 == Changelog ==
+= 2.0.90 11/11/2026 =
+* Added : Option to set rel="nofollow" on table of contents links #974
+* Fixed : TOC missing with Avada and [ez-toc] after updating to 2.0.89 #993
+* Fixed : Settings JSON import always failed with "Import failed: Unknown upload error" #994
+* Fixed : View more is not working when using toc shortcode #992
+
 = 2.0.89 15/10/2026 =
 * Fixed : Long single posts time out or fatal since 2.0.87 because the TOC rendered every block again during the content filter #988
 * Fixed : "Preserve Line Breaks" broken in v2.0.88 due to wp_strip_all_tags() refactor #989
