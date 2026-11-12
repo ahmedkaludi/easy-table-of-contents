@@ -20,19 +20,56 @@ function eztocIsEmail(email) {
 }
 
 
+function eztocOpenSettingsSection(hash) {
+    var allowed = {
+        '#eztoc-general': true,
+        '#eztoc-appearance': true,
+        '#eztoc-advanced': true,
+        '#eztoc-shortcode': true,
+        '#eztoc-sticky': true,
+        '#eztoc-compatibility': true,
+        '#eztoc-iesettings': true,
+        '#eztoc-prosettings': true
+    };
+
+    if (!allowed[hash]) {
+        return false;
+    }
+
+    var settingsTab = document.getElementById('eztoc-default');
+    if (settingsTab) {
+        settingsTab.click();
+    }
+
+    var target = document.querySelector(hash);
+    if (target) {
+        window.setTimeout(function () {
+            target.scrollIntoView();
+        }, 50);
+    }
+
+    return true;
+}
+
 //query form send starts here
 jQuery(document).ready(function ($) {
 
     var url = window.location.href;
-    if (url.indexOf('#technical-support') > -1) {
-        $("#eztoc-technical").click();
-    } else if (url.indexOf('#freevspro-support') > -1) {
-        $("#eztoc-freevspro").click();
-    } else if (url.indexOf('#welcome') > -1) {
-        $("#eztoc-welcome").click();
-    } else {
-        $("#eztoc-default").click();
+    if (!eztocOpenSettingsSection(window.location.hash)) {
+        if (url.indexOf('#technical-support') > -1) {
+            $("#eztoc-technical").click();
+        } else if (url.indexOf('#freevspro-support') > -1) {
+            $("#eztoc-freevspro").click();
+        } else if (url.indexOf('#welcome') > -1) {
+            $("#eztoc-welcome").click();
+        } else {
+            $("#eztoc-default").click();
+        }
     }
+
+    $(window).on('hashchange', function () {
+        eztocOpenSettingsSection(window.location.hash);
+    });
 
     $(".eztoc-send-query").on("click", function (e) {
         e.preventDefault();

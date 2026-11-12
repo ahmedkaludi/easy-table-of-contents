@@ -645,7 +645,7 @@ function eztoc_redirect( ) {
 		//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: Nonce not required here
         if( !isset( $_GET['activate-multi'] ) )
         {
-            wp_safe_redirect( "options-general.php?page=table-of-contents#welcome" );
+            wp_safe_redirect( admin_url( 'admin.php?page=table-of-contents' ) );
         }
     }
 }
