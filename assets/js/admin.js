@@ -533,8 +533,6 @@ function ezTocSettingsTabsFixed() {
                     ezTocGeneralTabsLinkProSettings.classList.add('active');
             }
         };
-    } else {
-        window.onscroll = function () {}
     }
 }
 ezTocSettingsTabsFixed();

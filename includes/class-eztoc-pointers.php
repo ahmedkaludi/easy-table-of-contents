@@ -53,7 +53,7 @@ class eztoc_pointers {
                         $object['get_home_url']       = get_home_url();                
                         $object['current_user_email'] = $current_user->user_email;                
                         $object['current_user_name']  = $current_user->display_name;        
-						$object['displayID']          = '.settings_page_table-of-contents';                        
+						$object['displayID']          = '.toplevel_page_table-of-contents';                        
                         $object['button1']            = esc_html__( 'No Thanks', 'easy-table-of-contents' );
                         $object['button2']            = false;
                         $object['function_name']      = '';  

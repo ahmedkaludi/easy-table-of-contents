@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
              srcset="<?php echo esc_url(plugins_url('assets/img/eztoc-logo.png', dirname(__FILE__))) ?> 1x, <?php echo esc_url(plugins_url('assets/img/eztoc-logo.png', dirname(__FILE__))) ?> 2x">
     </a>
     <h1 style="display:none;">&nbsp;</h1>
+    <?php settings_errors(); ?>
     <div class="toc-tab-panel">
         <a id="eztoc-welcome" class="eztoc-tablinks" data-href="no" href="#welcome"
            onclick="ezTocTabToggle(event, 'welcome')"><?php esc_html_e( 'Welcome', 'easy-table-of-contents' ) ?></a>
@@ -69,7 +70,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             <button class="button-toc" style="display: inline-block;font-size: 20px;">
                 <span><?php esc_html_e( 'YES! I want to Support by UPGRADING.', 'easy-table-of-contents' ) ?></span></button>
         </a>
-        <a href="<?php echo esc_url(add_query_arg('page', 'table-of-contents', admin_url('options-general.php'))); ?>"
+        <a href="<?php echo esc_url( admin_url( 'admin.php?page=table-of-contents' ) ); ?>"
            style="text-decoration: none;">
             <button class="button-toc1"
                     style="display: block;text-align: center;border: 0;margin: 0 auto;background: none;">

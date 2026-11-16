@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.89
+Stable tag: 2.0.90
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,6 +134,13 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.90 16/11/2026 =
+* Improvement : Create sidebar tabs for every section, for UI improvement #973
+* Added : Option to set rel="nofollow" on table of contents links #974
+* Fixed : TOC missing with Avada and [ez-toc] after updating to 2.0.89 #993
+* Fixed : Settings JSON import always failed with "Import failed: Unknown upload error" #994
+* Fixed : View more is not working when using toc shortcode #992
+
 = 2.0.89 15/10/2026 =
 * Fixed : Long single posts time out or fatal since 2.0.87 because the TOC rendered every block again during the content filter #988
 * Fixed : "Preserve Line Breaks" broken in v2.0.88 due to wp_strip_all_tags() refactor #989

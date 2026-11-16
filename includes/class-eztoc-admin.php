@@ -32,10 +32,12 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		private function hooks() {
             global $pagenow;
 			//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification not required here.
-            if($pagenow == 'options-general.php' && isset($_REQUEST['page']) && !empty($_REQUEST['page']) && $_REQUEST['page'] == 'table-of-contents') {
+            $eztoc_admin_page = isset( $_REQUEST['page'] ) ? sanitize_key( wp_unslash( $_REQUEST['page'] ) ) : '';
+            if ( 'admin.php' === $pagenow && self::isAdminPage( $eztoc_admin_page ) ) {
                 add_action( 'admin_head', array( $this,'_clean_other_plugins_stuff' ) );
             }
 			add_action( 'admin_init', array( $this, 'registerScripts' ) );
+			add_action( 'admin_init', array( $this, 'redirectLegacySettingsPage' ) );
 			add_action( 'admin_menu', array( $this, 'menu' ) );
 			add_action( 'init', array( $this, 'registerMetaboxes' ), 99 );
 			add_filter( 'plugin_action_links_' . EZ_TOC_BASE_NAME, array( $this, 'pluginActionLinks' ), 10, 2 );
@@ -60,7 +62,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
             remove_all_actions('user_admin_notices');
         }
 
-        /**
+		/**
 		 * Callback to add the Settings link to the plugin action links.
 		 *
 		 * @access private
@@ -74,7 +76,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 */
 		public  function pluginActionLinks( $links, $file ) {
 
-		    $url = add_query_arg( 'page', 'table-of-contents', self_admin_url( 'options-general.php' ) );
+		    $url = admin_url( 'admin.php?page=table-of-contents' );
 		    $setting_link = '<a href="' . esc_url( $url ) . '">' .esc_html__( 'Settings', 'easy-table-of-contents' ) . '</a> |';
 		 	$setting_link .= '<a href="https://tocwp.com/contact/" target="_blank">' .esc_html__( ' Support', 'easy-table-of-contents' ) . '</a> |';
 		 	$setting_link .= '<a href="https://tocwp.com/pricing/" target="_blank">' .esc_html__( ' Upgrade', 'easy-table-of-contents' ) . '</a> |';
@@ -115,7 +117,94 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		}
 				                
 		/**
-		 * Callback to add plugin as a submenu page of the Options page.
+		 * In-page section anchors shown as submenu links.
+		 *
+		 * These are not separate admin screens. Each item links back to the
+		 * settings page with a hash for that section.
+		 *
+		 * @since 2.0.90
+		 * @static
+		 *
+		 * @return array
+		 */
+		public static function getSectionLinks() {
+
+			$links = array(
+				'eztoc-general'       => esc_html__( 'General', 'easy-table-of-contents' ),
+				'eztoc-appearance'    => esc_html__( 'Appearance', 'easy-table-of-contents' ),
+				'eztoc-advanced'      => esc_html__( 'Advanced', 'easy-table-of-contents' ),
+				'eztoc-shortcode'     => esc_html__( 'Shortcode', 'easy-table-of-contents' ),
+				'eztoc-sticky'        => esc_html__( 'Sticky TOC', 'easy-table-of-contents' ),
+				'eztoc-compatibility' => esc_html__( 'Compatibility', 'easy-table-of-contents' ),
+				'eztoc-iesettings'    => esc_html__( 'Import/Export', 'easy-table-of-contents' ),
+			);
+
+			if ( function_exists( 'ez_toc_pro_activation_link' ) ) {
+				$links['eztoc-prosettings'] = esc_html__( 'PRO Settings', 'easy-table-of-contents' );
+			}
+
+			return $links;
+		}
+
+		/**
+		 * Whether a menu slug belongs to this plugin.
+		 *
+		 * @since 2.0.90
+		 * @static
+		 *
+		 * @param string $page Menu slug.
+		 *
+		 * @return bool
+		 */
+		public static function isAdminPage( $page ) {
+
+			return 'table-of-contents' === $page;
+		}
+
+		/**
+		 * Whether an admin_enqueue_scripts hook is the Table of Contents screen.
+		 *
+		 * @since 2.0.90
+		 * @static
+		 *
+		 * @param string $hook Hook suffix.
+		 *
+		 * @return bool
+		 */
+		public static function isAdminHook( $hook ) {
+
+			return 'toplevel_page_table-of-contents' === (string) $hook;
+		}
+
+		/**
+		 * Send bookmarks of the old Settings submenu to the top-level screen.
+		 *
+		 * @since 2.0.90
+		 *
+		 * @return void
+		 */
+		public function redirectLegacySettingsPage() {
+
+			global $pagenow;
+
+			//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Redirecting a legacy screen, not processing form data.
+			if ( 'options-general.php' !== $pagenow || empty( $_GET['page'] ) || 'table-of-contents' !== sanitize_key( wp_unslash( $_GET['page'] ) ) ) {
+				return;
+			}
+
+			$args = array( 'page' => 'table-of-contents' );
+
+			//phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Preserving the Settings API redirect flag.
+			if ( isset( $_GET['settings-updated'] ) ) {
+				$args['settings-updated'] = sanitize_text_field( wp_unslash( $_GET['settings-updated'] ) );
+			}
+
+			wp_safe_redirect( add_query_arg( $args, admin_url( 'admin.php' ) ) );
+			exit;
+		}
+
+		/**
+		 * Callback to add the top-level Table of Contents menu and its section submenus.
 		 *
 		 * This also adds the action to enqueue the scripts to be loaded on plugin's admin pages only.
 		 *
@@ -125,16 +214,34 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 		 */
 		public function menu() {
 
-			$page = add_submenu_page(
-				'options-general.php',
+			$hook = add_menu_page(
 				esc_html__( 'Table of Contents', 'easy-table-of-contents' ),
 				esc_html__( 'Table of Contents', 'easy-table-of-contents' ),
 				'manage_options',
 				'table-of-contents',
-				array( $this, 'page' )
+				array( $this, 'page' ),
+				'dashicons-editor-ol',
+				81
 			);
 
-			add_action( 'admin_print_styles-' . $page, array( $this, 'enqueueScripts' ) );
+			if ( $hook ) {
+				add_action( 'admin_print_styles-' . $hook, array( $this, 'enqueueScripts' ) );
+			}
+
+			// Full URLs are printed as the submenu href. They are not registered as admin screens,
+			// so each item only jumps to a section on the same settings page.
+			global $submenu;
+
+			$base = admin_url( 'admin.php?page=table-of-contents' );
+			$submenu['table-of-contents'] = array();
+
+			foreach ( self::getSectionLinks() as $hash => $label ) {
+				$submenu['table-of-contents'][] = array(
+					$label,
+					'manage_options',
+					$base . '#' . $hash,
+				);
+			}
 		}
 
 		/**
@@ -802,7 +909,7 @@ if ( ! class_exists( 'ezTOC_Admin' ) ) {
 	     */
 		public function load_scripts($pagenow){
 			
-			 if($pagenow == 'settings_page_table-of-contents'){
+			 if ( self::isAdminHook( $pagenow ) ) {
 			 	$min = defined ( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 				wp_enqueue_script( 'eztoc-admin-js', EZ_TOC_URL . "assets/js/eztoc-admin{$min}.js",array('jquery'), ezTOC::VERSION,true );
 

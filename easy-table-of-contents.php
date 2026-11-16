@@ -3,7 +3,7 @@
  * Plugin Name: Easy Table of Contents
  * Plugin URI: https://tocwp.com/
  * Description: Adds a user friendly and fully automatic way to create and display a table of contents generated from the page content.
- * Version: 2.0.88
+ * Version: 2.0.90
  * Author: Magazine3
  * Author URI: https://tocwp.com/
  * Text Domain: easy-table-of-contents
@@ -28,7 +28,7 @@
  * @package  Easy Table of Contents
  * @category Plugin
  * @author   Magazine3
- * @version  2.0.88
+ * @version  2.0.90
  */
 
 use Eztoc\Table_Of_Contents\Debug;
@@ -52,7 +52,7 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		 * @since 1.0
 		 * @var string
 		 */
-		const VERSION = '2.0.89';
+		const VERSION = '2.0.90';
 
 		/**
 		 * Stores the instance of this class.
@@ -1545,6 +1545,16 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				$reuse = false;
 			}
 
+			/*
+			 * Avada Builder headings are Fusion shortcodes until do_shortcode() runs.
+			 * The priority-10 snapshot and raw post_content are still that markup when
+			 * [ez-toc] runs, so reusing them finds no headings. Parsing saved content
+			 * does not re-enter the_content while Fusion Builder is active.
+			 */
+			if ( function_exists( 'fusion_builder_activate' ) || eztoc_is_plugin_active( 'fusion-builder/fusion-builder.php' ) ) {
+				$reuse = false;
+			}
+
 			/**
 			 * Filter whether to reuse already-filtered content for TOC heading extraction.
 			 *
@@ -1947,6 +1957,10 @@ if ( ! class_exists( 'ezTOC' ) ) {
 				}
 				if (isset($atts["view_more"]) && $atts["view_more"] > 0) {
 					$options['view_more'] = $atts["view_more"];
+				} else {
+					// [ez-toc] runs before auto-insert and then skips it, so the global
+					// View More setting has to be applied here or the shortcode ignores it.
+					$options = self::apply_view_more_option( $options, $post_id );
 				}
 				if (isset($atts["class"]) && $atts["class"] != '') {
 					$options['class'] = $atts["class"];
@@ -2113,6 +2127,47 @@ if ( ! class_exists( 'ezTOC' ) ) {
 		}
 
 		/**
+		 * Apply the global or per-post View More limit.
+		 *
+		 * Pro stores the per-post toggle as `_ez-toc-p_ctrl_headings`. Older builds
+		 * read `_ez-toc-p_ctrl_heading`, so both keys are checked.
+		 *
+		 * @since 2.0.91
+		 *
+		 * @param array $options TOC options passed to getTOC().
+		 * @param int   $post_id Post ID.
+		 *
+		 * @return array
+		 */
+		private static function apply_view_more_option( $options, $post_id ) {
+
+			if ( ! is_array( $options ) ) {
+				$options = array();
+			}
+
+			if ( ezTOC_Option::get( 'ctrl_headings' ) ) {
+				$options['view_more'] = ezTOC_Option::get( 'limit_headings_num' );
+			}
+
+			$post_id = (int) $post_id;
+			if ( $post_id < 1 ) {
+				return $options;
+			}
+
+			$post_ctrl_headings = get_post_meta( $post_id, '_ez-toc-p_ctrl_headings', true );
+			if ( ! $post_ctrl_headings ) {
+				$post_ctrl_headings = get_post_meta( $post_id, '_ez-toc-p_ctrl_heading', true );
+			}
+			$post_ctrl_headings_limit = get_post_meta( $post_id, '_ez-toc-p_limit_headings_num', true );
+
+			if ( $post_ctrl_headings && $post_ctrl_headings_limit > 0 ) {
+				$options['view_more'] = $post_ctrl_headings_limit;
+			}
+
+			return $options;
+		}
+
+		/**
 		 * Callback for the `the_content` filter.
 		 *
 		 * This will add the inline table of contents page anchors to the post content. It will also insert the
@@ -2222,16 +2277,7 @@ public static function the_content( $content ) {
 			
 			
 			//More button
-			$options =  array();
-			if (ezTOC_Option::get( 'ctrl_headings' ) == true) {
-				$options['view_more'] = ezTOC_Option::get( 'limit_headings_num' );
-			}
-			$post_ctrl_headings = get_post_meta( $ez_toc_current_post_id, '_ez-toc-p_ctrl_heading', true );
-			$post_ctrl_headings_limit = get_post_meta( $ez_toc_current_post_id, '_ez-toc-p_limit_headings_num', true );
-
-			if($post_ctrl_headings == true && $post_ctrl_headings_limit > 0){
-				$options['view_more'] = get_post_meta( $ez_toc_current_post_id, '_ez-toc-p_limit_headings_num', true );
-			}
+			$options = self::apply_view_more_option( array(), $ez_toc_current_post_id );
 
 			$isEligible = apply_filters('eztoc_do_shortcode',$isEligible);
 

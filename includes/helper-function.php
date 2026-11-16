@@ -129,7 +129,7 @@ add_action('admin_enqueue_scripts', 'eztoc_enqueue_bfcm_assets');
 function eztoc_enqueue_bfcm_assets($hook) { 
  
     
-    if ( $hook !== 'settings_page_table-of-contents') {
+    if ( ! ezTOC_Admin::isAdminHook( $hook ) ) {
         return;
     }
 

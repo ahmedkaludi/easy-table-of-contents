@@ -2216,10 +2216,15 @@ class ezTOC_Post {
 				$title
 			);
 		}
+		$rel = '';
+		if ( ezTOC_Option::get( 'nofollow_toc_links' ) ) {
+			$rel = ' rel="nofollow"';
+		}
 		return sprintf(
-			'<a class="ez-toc-link ez-toc-heading-' . $count . '" '.$anch_name.'="%1$s" >%2$s</a>',
+			'<a class="ez-toc-link ez-toc-heading-' . $count . '" '.$anch_name.'="%1$s"%3$s >%2$s</a>',
 			esc_url( $this->createTOCItemURL( $id, $page ) ),
-			$title
+			$title,
+			$rel
 		);
 	}
 
