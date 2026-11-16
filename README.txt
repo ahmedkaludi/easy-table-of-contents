@@ -134,7 +134,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
-= 2.0.90 11/11/2026 =
+= 2.0.90 16/11/2026 =
 * Added : Option to set rel="nofollow" on table of contents links #974
 * Fixed : TOC missing with Avada and [ez-toc] after updating to 2.0.89 #993
 * Fixed : Settings JSON import always failed with "Import failed: Unknown upload error" #994
