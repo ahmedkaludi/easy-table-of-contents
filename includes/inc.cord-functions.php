@@ -336,8 +336,6 @@ function mb_find_replace( &$find = false, &$replace = false, &$string = '' ) {
 						);
 					}
 
-					$needle = str_replace(array('’','“','”'), array('\'','"','"'), $needle);
-
                     $start = mb_strpos( $string, $needle );
 				}
 
