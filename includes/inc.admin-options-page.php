@@ -3,6 +3,11 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 ?>
 <div id='toc' class='wrap'>
+    <?php
+    if ( function_exists( 'eztoc_render_bfcm_banner' ) ) {
+        eztoc_render_bfcm_banner();
+    }
+    ?>
     <a href="https://tocwp.com/" target="_blank">
         <img src="<?php echo esc_url( plugins_url('assets/img/eztoc-logo.png', dirname(__FILE__))) ?>" alt="tocwp"
              srcset="<?php echo esc_url(plugins_url('assets/img/eztoc-logo.png', dirname(__FILE__))) ?> 1x, <?php echo esc_url(plugins_url('assets/img/eztoc-logo.png', dirname(__FILE__))) ?> 2x">
