@@ -204,10 +204,11 @@ class ezTOC_Sitemap {
             $attributes
         );
 
-        $order  =   strtoupper( sanitize_text_field( $atts['order'] ) );
-        if ( $order !== 'ASC' || $order !== 'DESC' ) {
-            $atts['order']  =   'ASC';   
+        $order = strtoupper( sanitize_text_field( $atts['order'] ) );
+        if ( 'ASC' !== $order && 'DESC' !== $order ) {
+            $order = 'ASC';
         }
+        $atts['order'] = $order;
 
         $articles = new WP_Query(
             [

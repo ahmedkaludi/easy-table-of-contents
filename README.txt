@@ -136,6 +136,7 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 == Changelog ==
 = 2.0.91 24/11/2026 =
 * Added : Added BFCM banner.
+* Fixed : DESC and ASC sorting in EZ TOC sitemap posts shortcode #996
 
 = 2.0.90 16/11/2026 =
 * Fixed : TOC missing when builder headings are still shortcodes at the time [ez-toc] runs
