@@ -5,7 +5,7 @@ Tags: table of contents, toc
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.90
+Stable tag: 2.0.91
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,7 +134,12 @@ Easy Table Contents is a fork of the excellent [Table of Contents Plus](https://
 4. Activate the plugin on the Plugins admin page.
 
 == Changelog ==
+= 2.0.91 24/11/2026 =
+* Added : Added BFCM banner.
+* Fixed : DESC and ASC sorting in EZ TOC sitemap posts shortcode #996
+
 = 2.0.90 16/11/2026 =
+* Fixed : TOC missing when builder headings are still shortcodes at the time [ez-toc] runs
 * Improvement : Create sidebar tabs for every section, for UI improvement #973
 * Added : Option to set rel="nofollow" on table of contents links #974
 * Fixed : TOC missing with Avada and [ez-toc] after updating to 2.0.89 #993

@@ -1,4 +1,8 @@
 == Changelog ==
+= 2.0.91 24/11/2026 =
+* Added : Added BFCM banner.
+* Fixed : DESC and ASC sorting in EZ TOC sitemap posts shortcode #996
+
 = 2.0.90 16/11/2026 =
 * Improvement : Create sidebar tabs for every section, for UI improvement #973
 * Added : Option to set rel="nofollow" on table of contents links #974
